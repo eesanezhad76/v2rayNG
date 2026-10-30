@@ -280,6 +280,46 @@ object CoreServiceManager {
     }
 
     /**
+     * Enables bounded passive observation of IP packets read from the active Xray TUN.
+     * This does not alter packet contents or routing. Returns false if the tap cannot start.
+     */
+    fun enableAlbionPacketTap(capacity: Int = 64): Boolean {
+        if (!isRunning()) return false
+        return try {
+            Libv2ray.enablePacketTap(capacity)
+        } catch (e: Exception) {
+            LogUtil.e(AppConfig.TAG, "Albion packet tap: failed to enable", e)
+            false
+        }
+    }
+
+    /** Returns one copied raw IP packet, or null when the observation queue is empty. */
+    fun readAlbionPacketTap(): ByteArray? {
+        if (!isRunning()) return null
+        return try {
+            Libv2ray.readPacketTap()
+        } catch (e: Exception) {
+            LogUtil.e(AppConfig.TAG, "Albion packet tap: failed to read", e)
+            null
+        }
+    }
+
+    fun getAlbionPacketTapDropped(): Long = try {
+        Libv2ray.packetTapDropped()
+    } catch (e: Exception) {
+        LogUtil.e(AppConfig.TAG, "Albion packet tap: failed to read drop counter", e)
+        0L
+    }
+
+    fun disableAlbionPacketTap() {
+        try {
+            Libv2ray.disablePacketTap()
+        } catch (e: Exception) {
+            LogUtil.e(AppConfig.TAG, "Albion packet tap: failed to disable", e)
+        }
+    }
+
+    /**
      * Queries and resets all outbound traffic counters in one core call.
      * Go side format: tag,direction,value;tag,direction,value;
      */
