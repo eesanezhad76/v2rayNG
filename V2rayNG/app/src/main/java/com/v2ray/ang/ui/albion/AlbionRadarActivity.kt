@@ -1,6 +1,6 @@
 package com.v2ray.ang.ui.albion
 
-import android.app.Activity
+import androidx.activity.ComponentActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
@@ -17,7 +17,7 @@ import kotlinx.coroutines.withContext
 import java.net.InetAddress
 
 /** Diagnostic screen for validating passive packet observation on Android TUN. */
-class AlbionRadarActivity : Activity() {
+class AlbionRadarActivity : ComponentActivity() {
     private lateinit var status: TextView
     private lateinit var summary: TextView
     private lateinit var packets: TextView
