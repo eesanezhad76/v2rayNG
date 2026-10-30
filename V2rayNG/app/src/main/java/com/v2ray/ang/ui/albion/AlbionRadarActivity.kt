@@ -14,8 +14,10 @@ import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import com.v2ray.ang.core.CoreServiceManager
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
@@ -38,6 +40,8 @@ class AlbionRadarActivity : ComponentActivity() {
     private lateinit var export: Button
     private lateinit var copyAll: Button
     private var pollJob: Job? = null
+    private val captureScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
+    private var stopping = false
     private var packetCount = 0L
     private var captureFile: File? = null
     private var captureOutput: DataOutputStream? = null
@@ -137,7 +141,7 @@ class AlbionRadarActivity : ComponentActivity() {
         export.isEnabled = false
         copyAll.isEnabled = true
         status.text = "Capturing all packets exposed by the passive TUN tap. No IP, port or protocol filters."
-        pollJob = lifecycleScope.launch {
+        pollJob = captureScope.launch {
             while (isActive && tapping) {
                 val batch = withContext(Dispatchers.IO) {
                     val result = ArrayList<ByteArray>()
@@ -191,35 +195,56 @@ class AlbionRadarActivity : ComponentActivity() {
     }
 
     private fun stopCapture() {
+        if (stopping || !tapping) return
         tapping = false
-        pollJob?.cancel()
-        pollJob = null
+        stopping = true
+        // Stop accepting new packets, but leave the native queue readable.
         CoreServiceManager.disableAlbionPacketTap()
-        // Disable observation first, then drain every packet already queued before closing files.
-        try {
-            while (true) {
-                val packet = CoreServiceManager.readAlbionPacketTap() ?: break
-                val out = captureOutput ?: break
-                val now = System.currentTimeMillis()
-                writePcapRecord(out, packet, now)
-                packetCount++
-                val description = describePacket(packet)
-                captureTextOutput?.apply { write(description); newLine() }
-                recent.addFirst(description)
-                while (recent.size > 40) recent.removeLast()
+        val finishingJob = pollJob
+        pollJob = null
+
+        val finalize = {
+            captureScope.launch {
+                try {
+                    withContext(Dispatchers.IO) {
+                        // The polling job has completed, so every packet it already removed
+                        // has been written. Drain the remaining native queue before closing.
+                        while (true) {
+                            val packet = CoreServiceManager.readAlbionPacketTap() ?: break
+                            val out = captureOutput ?: break
+                            val now = System.currentTimeMillis()
+                            writePcapRecord(out, packet, now)
+                            packetCount++
+                            val description = describePacket(packet)
+                            captureTextOutput?.apply { write(description); newLine() }
+                            recent.addFirst(description)
+                            while (recent.size > 40) recent.removeLast()
+                        }
+                        captureOutput?.flush()
+                        captureTextOutput?.flush()
+                    }
+                } catch (e: Exception) {
+                    status.text = "Final drain warning: ${e.message}"
+                } finally {
+                    closeCaptureFile()
+                    closeTextCaptureFile()
+                    toggle.text = "Start full capture"
+                    export.isEnabled = captureFile?.exists() == true
+                    copyAll.isEnabled = captureTextFile?.exists() == true
+                    status.text = "Capture stopped. Full raw IP packets are saved in the PCAP file and text list."
+                    summary.text = "Packets saved: $packetCount | dropped copies: " +
+                        CoreServiceManager.getAlbionPacketTapDropped() +
+                        " | file: " + (captureFile?.length() ?: 0L) / 1024 + " KB"
+                    stopping = false
+                }
             }
-        } catch (e: Exception) {
-            status.text = "Final drain warning: ${e.message}"
         }
-        closeCaptureFile()
-        closeTextCaptureFile()
-        toggle.text = "Start full capture"
-        export.isEnabled = captureFile?.exists() == true
-        copyAll.isEnabled = captureTextFile?.exists() == true
-        status.text = "Capture stopped. Full raw IP packets are saved in the PCAP file."
-        summary.text = "Packets saved: $packetCount | dropped copies: " +
-            CoreServiceManager.getAlbionPacketTapDropped() +
-            " | file: " + (captureFile?.length() ?: 0L) / 1024 + " KB"
+
+        if (finishingJob != null) {
+            finishingJob.invokeOnCompletion { finalize() }
+        } else {
+            finalize()
+        }
     }
 
     private fun closeTextCaptureFile() {
