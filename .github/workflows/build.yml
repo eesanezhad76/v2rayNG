@@ -9,6 +9,7 @@ on:
   push:
     branches:
       - master
+      - albion-radar
 
 permissions:
   contents: write
@@ -64,7 +65,38 @@ jobs:
       run: |
         cp -r ${{ github.workspace }}/libs ${{ github.workspace }}/V2rayNG/app
 
+    - name: Checkout passive-tap AndroidLibXrayLite
+      if: github.ref == 'refs/heads/albion-radar'
+      run: |
+        git -C AndroidLibXrayLite remote set-url origin https://github.com/eesanezhad76/AndroidLibXrayLite.git
+        git -C AndroidLibXrayLite fetch --depth=1 origin albion-passive-tap
+        git -C AndroidLibXrayLite checkout --detach FETCH_HEAD
+
+    - name: Setup Go for passive-tap library
+      if: github.ref == 'refs/heads/albion-radar'
+      uses: actions/setup-go@v6
+      with:
+        go-version-file: AndroidLibXrayLite/go.mod
+        cache: false
+
+    - name: Build passive-tap libv2ray AAR
+      if: github.ref == 'refs/heads/albion-radar'
+      working-directory: AndroidLibXrayLite
+      env:
+        ANDROID_NDK_HOME: ${{ env.NDK_HOME }}
+      run: |
+        set -euo pipefail
+        go install golang.org/x/mobile/cmd/gomobile@latest
+        export PATH="$PATH:$(go env GOPATH)/bin"
+        mkdir -p assets data
+        bash gen_assets.sh download
+        cp -v data/*.dat assets/
+        gomobile init
+        go mod tidy
+        gomobile bind -v -androidapi 24 -trimpath -ldflags='-s -w -buildid= -checklinkname=0' -o ../V2rayNG/app/libs/libv2ray.aar ./
+
     - name: Fetch AndroidLibXrayLite tag
+      if: github.ref != 'refs/heads/albion-radar'
       run: |
         pushd AndroidLibXrayLite
         CURRENT_TAG=$(git describe --tags --abbrev=0)
@@ -73,6 +105,7 @@ jobs:
         popd
 
     - name: Download libv2ray
+      if: github.ref != 'refs/heads/albion-radar'
       uses: robinraju/release-downloader@v1.13
       with:
         repository: '2dust/AndroidLibXrayLite'
