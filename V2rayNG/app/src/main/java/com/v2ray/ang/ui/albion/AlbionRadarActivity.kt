@@ -53,7 +53,7 @@ class AlbionRadarActivity : ComponentActivity() {
 
     companion object {
         private const val CREATE_PCAP_REQUEST = 7301
-        private const val TAP_CAPACITY = 2048
+        private const val TAP_CAPACITY = 4096
         private const val MAX_READ_BATCH = 8192
     }
 
@@ -139,7 +139,7 @@ class AlbionRadarActivity : ComponentActivity() {
         tapping = true
         toggle.text = "Stop capture"
         export.isEnabled = false
-        copyAll.isEnabled = true
+        copyAll.isEnabled = false
         status.text = "Capturing all packets exposed by the passive TUN tap. No IP, port or protocol filters."
         pollJob = captureScope.launch {
             while (isActive && tapping) {
