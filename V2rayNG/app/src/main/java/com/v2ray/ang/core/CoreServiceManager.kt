@@ -39,6 +39,7 @@ import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import libv2ray.CoreCallbackHandler
+import libv2ray.Libv2ray
 import libv2ray.CoreController
 import libv2ray.ProcessFinder
 import java.lang.ref.SoftReference
