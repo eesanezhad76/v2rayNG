@@ -2,6 +2,9 @@ package com.v2ray.ang.ui.albion
 
 import android.app.Activity
 import android.content.Intent
+import android.content.ClipboardManager
+import android.content.ClipData
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
@@ -18,6 +21,8 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.BufferedOutputStream
+import java.io.BufferedWriter
+import java.io.FileWriter
 import java.io.DataOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -31,17 +36,20 @@ class AlbionRadarActivity : ComponentActivity() {
     private lateinit var packets: TextView
     private lateinit var toggle: Button
     private lateinit var export: Button
+    private lateinit var copyAll: Button
     private var pollJob: Job? = null
     private var packetCount = 0L
     private var captureFile: File? = null
     private var captureOutput: DataOutputStream? = null
+    private var captureTextFile: File? = null
+    private var captureTextOutput: BufferedWriter? = null
     private val recent = ArrayDeque<String>()
     private val protocolCounts = linkedMapOf<String, Long>()
     private var tapping = false
 
     companion object {
         private const val CREATE_PCAP_REQUEST = 7301
-        private const val TAP_CAPACITY = 128
+        private const val TAP_CAPACITY = 2048
         private const val MAX_READ_BATCH = 8192
     }
 
@@ -69,6 +77,11 @@ class AlbionRadarActivity : ComponentActivity() {
             isEnabled = false
             setOnClickListener { exportCapture() }
         }
+        copyAll = Button(this).apply {
+            text = "Copy all packets"
+            isEnabled = false
+            setOnClickListener { copyAllPackets() }
+        }
         packets = TextView(this).apply {
             textSize = 13f
             typeface = android.graphics.Typeface.MONOSPACE
@@ -77,7 +90,12 @@ class AlbionRadarActivity : ComponentActivity() {
         root.addView(status, LinearLayout.LayoutParams(-1, -2))
         root.addView(summary, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 12 })
         root.addView(toggle, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 12 })
-        root.addView(export, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
+        val actions = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            addView(copyAll, LinearLayout.LayoutParams(0, -2, 1f))
+            addView(export, LinearLayout.LayoutParams(0, -2, 1f).apply { leftMargin = 8 })
+        }
+        root.addView(actions, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(
             ScrollView(this).apply { addView(packets) },
             LinearLayout.LayoutParams(-1, 0, 1f).apply { topMargin = 12 }
@@ -91,16 +109,21 @@ class AlbionRadarActivity : ComponentActivity() {
             return
         }
         try {
-            val file = File(cacheDir, "albion-capture-${System.currentTimeMillis()}.pcap")
+            val stamp = System.currentTimeMillis()
+            val file = File(cacheDir, "albion-capture-$stamp.pcap")
+            val textFile = File(cacheDir, "albion-capture-$stamp.txt")
             captureOutput = DataOutputStream(BufferedOutputStream(FileOutputStream(file, false), 256 * 1024))
             writePcapHeader(captureOutput!!)
+            captureTextOutput = BufferedWriter(FileWriter(textFile, false), 64 * 1024)
             captureFile = file
+            captureTextFile = textFile
             packetCount = 0L
             recent.clear()
             protocolCounts.clear()
         } catch (e: Exception) {
             status.text = "Could not create capture file: ${e.message}"
             closeCaptureFile()
+            closeTextCaptureFile()
             return
         }
 
@@ -112,6 +135,7 @@ class AlbionRadarActivity : ComponentActivity() {
         tapping = true
         toggle.text = "Stop capture"
         export.isEnabled = false
+        copyAll.isEnabled = true
         status.text = "Capturing all packets exposed by the passive TUN tap. No IP, port or protocol filters."
         pollJob = lifecycleScope.launch {
             while (isActive && tapping) {
@@ -132,12 +156,17 @@ class AlbionRadarActivity : ComponentActivity() {
                                 writePcapRecord(out, packet, now)
                                 packetCount++
                                 val description = describePacket(packet)
+                                captureTextOutput?.apply {
+                                    write(description)
+                                    newLine()
+                                }
                                 recent.addFirst(description)
                                 while (recent.size > 40) recent.removeLast()
                                 val protocol = description.substringBefore(' ')
                                 protocolCounts[protocol] = (protocolCounts[protocol] ?: 0L) + 1L
                             }
                             out.flush()
+                            captureTextOutput?.flush()
                         }
                     } catch (e: Exception) {
                         status.text = "File write error: ${e.message}. Capture stopped."
@@ -166,13 +195,61 @@ class AlbionRadarActivity : ComponentActivity() {
         pollJob?.cancel()
         pollJob = null
         CoreServiceManager.disableAlbionPacketTap()
+        // Disable observation first, then drain every packet already queued before closing files.
+        try {
+            while (true) {
+                val packet = CoreServiceManager.readAlbionPacketTap() ?: break
+                val out = captureOutput ?: break
+                val now = System.currentTimeMillis()
+                writePcapRecord(out, packet, now)
+                packetCount++
+                val description = describePacket(packet)
+                captureTextOutput?.apply { write(description); newLine() }
+                recent.addFirst(description)
+                while (recent.size > 40) recent.removeLast()
+            }
+        } catch (e: Exception) {
+            status.text = "Final drain warning: ${e.message}"
+        }
         closeCaptureFile()
+        closeTextCaptureFile()
         toggle.text = "Start full capture"
         export.isEnabled = captureFile?.exists() == true
+        copyAll.isEnabled = captureTextFile?.exists() == true
         status.text = "Capture stopped. Full raw IP packets are saved in the PCAP file."
         summary.text = "Packets saved: $packetCount | dropped copies: " +
             CoreServiceManager.getAlbionPacketTapDropped() +
             " | file: " + (captureFile?.length() ?: 0L) / 1024 + " KB"
+    }
+
+    private fun closeTextCaptureFile() {
+        try {
+            captureTextOutput?.flush()
+            captureTextOutput?.close()
+        } catch (_: Exception) {
+        }
+        captureTextOutput = null
+    }
+
+    private fun copyAllPackets() {
+        val file = captureTextFile
+        if (file == null || !file.exists()) {
+            status.text = "No packet text is available to copy."
+            return
+        }
+        lifecycleScope.launch {
+            try {
+                val text = withContext(Dispatchers.IO) {
+                    captureTextOutput?.flush()
+                    file.readText()
+                }
+                val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                clipboard.setPrimaryClip(ClipData.newPlainText("Albion captured packets", text))
+                status.text = "Copied ${text.lineSequence().count().coerceAtLeast(1) - 1} packet lines to clipboard."
+            } catch (e: Exception) {
+                status.text = "Copy failed: ${e.message}"
+            }
+        }
     }
 
     private fun closeCaptureFile() {
@@ -278,7 +355,7 @@ class AlbionRadarActivity : ComponentActivity() {
         ((p[offset].toInt() and 0xff) shl 8) or (p[offset + 1].toInt() and 0xff)
 
     override fun onDestroy() {
-        stopCapture()
+        if (isFinishing && tapping) stopCapture()
         super.onDestroy()
     }
 }
