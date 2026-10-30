@@ -7,6 +7,7 @@ import android.content.ClipData
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.os.SystemClock
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -39,6 +40,8 @@ class AlbionRadarActivity : ComponentActivity() {
     private lateinit var toggle: Button
     private lateinit var export: Button
     private lateinit var copyAll: Button
+    private lateinit var exportEvents: Button
+    private lateinit var eventButtons: LinearLayout
     private var pollJob: Job? = null
     private val captureScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var stopping = false
@@ -47,6 +50,9 @@ class AlbionRadarActivity : ComponentActivity() {
     private var captureOutput: DataOutputStream? = null
     private var captureTextFile: File? = null
     private var captureTextOutput: BufferedWriter? = null
+    private var eventLogFile: File? = null
+    private var eventLogOutput: BufferedWriter? = null
+    private var captureStartElapsedNs = 0L
     private val recent = ArrayDeque<String>()
     private val protocolCounts = linkedMapOf<String, Long>()
     private var tapping = false
@@ -86,6 +92,17 @@ class AlbionRadarActivity : ComponentActivity() {
             isEnabled = false
             setOnClickListener { copyAllPackets() }
         }
+        exportEvents = Button(this).apply {
+            text = "Export event timeline"
+            isEnabled = false
+            setOnClickListener { exportEvents() }
+        }
+        eventButtons = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            addView(eventRow("MOUNT", "DISMOUNT", "MINE_START"))
+            addView(eventRow("MINE_END", "MOB_START", "MOB_END"))
+            addView(eventRow("RED_PLAYER", "OTHER", "NOTE"))
+        }
         packets = TextView(this).apply {
             textSize = 13f
             typeface = android.graphics.Typeface.MONOSPACE
@@ -100,6 +117,8 @@ class AlbionRadarActivity : ComponentActivity() {
             addView(export, LinearLayout.LayoutParams(0, -2, 1f).apply { leftMargin = 8 })
         }
         root.addView(actions, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
+        root.addView(exportEvents, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
+        root.addView(eventButtons, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(
             ScrollView(this).apply { addView(packets) },
             LinearLayout.LayoutParams(-1, 0, 1f).apply { topMargin = 12 }
@@ -116,9 +135,14 @@ class AlbionRadarActivity : ComponentActivity() {
             val stamp = System.currentTimeMillis()
             val file = File(cacheDir, "albion-capture-$stamp.pcap")
             val textFile = File(cacheDir, "albion-capture-$stamp.txt")
+            val eventsFile = File(cacheDir, "albion-events-$stamp.csv")
             captureOutput = DataOutputStream(BufferedOutputStream(FileOutputStream(file, false), 256 * 1024))
             writePcapHeader(captureOutput!!)
             captureTextOutput = BufferedWriter(FileWriter(textFile, false), 64 * 1024)
+            eventLogOutput = BufferedWriter(FileWriter(eventsFile, false), 8 * 1024)
+            eventLogOutput?.apply { write("wall_time_ms,elapsed_realtime_ns,relative_ms,event"); newLine(); flush() }
+            eventLogFile = eventsFile
+            captureStartElapsedNs = SystemClock.elapsedRealtimeNanos()
             captureFile = file
             captureTextFile = textFile
             packetCount = 0L
@@ -140,7 +164,10 @@ class AlbionRadarActivity : ComponentActivity() {
         toggle.text = "Stop capture"
         export.isEnabled = false
         copyAll.isEnabled = false
-        status.text = "Capturing all packets exposed by the passive TUN tap. No IP, port or protocol filters."
+        exportEvents.isEnabled = false
+        eventButtons.isEnabled = true
+        setEventButtonsEnabled(true)
+        status.text = "Capturing packets. Tap event markers at each in-game action; packet times are dequeue timestamps."
         pollJob = captureScope.launch {
             while (isActive && tapping) {
                 val batch = withContext(Dispatchers.IO) {
@@ -155,9 +182,9 @@ class AlbionRadarActivity : ComponentActivity() {
                     try {
                         val out = captureOutput
                         if (out != null) {
-                            val now = System.currentTimeMillis()
                             batch.forEach { packet ->
-                                writePcapRecord(out, packet, now)
+                                val packetTime = System.currentTimeMillis()
+                                writePcapRecord(out, packet, packetTime)
                                 packetCount++
                                 val description = describePacket(packet)
                                 captureTextOutput?.apply {
@@ -212,8 +239,8 @@ class AlbionRadarActivity : ComponentActivity() {
                         while (true) {
                             val packet = CoreServiceManager.readAlbionPacketTap() ?: break
                             val out = captureOutput ?: break
-                            val now = System.currentTimeMillis()
-                            writePcapRecord(out, packet, now)
+                            val packetTime = System.currentTimeMillis()
+                            writePcapRecord(out, packet, packetTime)
                             packetCount++
                             val description = describePacket(packet)
                             captureTextOutput?.apply { write(description); newLine() }
@@ -228,10 +255,13 @@ class AlbionRadarActivity : ComponentActivity() {
                 } finally {
                     closeCaptureFile()
                     closeTextCaptureFile()
+                    closeEventLogFile()
                     toggle.text = "Start full capture"
                     export.isEnabled = captureFile?.exists() == true
                     copyAll.isEnabled = captureTextFile?.exists() == true
-                    status.text = "Capture stopped. Full raw IP packets are saved in the PCAP file and text list."
+                    exportEvents.isEnabled = eventLogFile?.exists() == true
+                    setEventButtonsEnabled(false)
+                    status.text = "Capture stopped. PCAP, packet list and event timeline are saved."
                     summary.text = "Packets saved: $packetCount | dropped copies: " +
                         CoreServiceManager.getAlbionPacketTapDropped() +
                         " | file: " + (captureFile?.length() ?: 0L) / 1024 + " KB"
@@ -245,6 +275,58 @@ class AlbionRadarActivity : ComponentActivity() {
         } else {
             finalize()
         }
+    }
+
+    private fun closeEventLogFile() {
+        try { eventLogOutput?.flush(); eventLogOutput?.close() } catch (_: Exception) {}
+        eventLogOutput = null
+    }
+
+    private fun eventRow(vararg labels: String): LinearLayout = LinearLayout(this).apply {
+        orientation = LinearLayout.HORIZONTAL
+        labels.forEach { label ->
+            addView(Button(this@AlbionRadarActivity).apply {
+                text = label
+                isAllCaps = false
+                isEnabled = false
+                setOnClickListener { markEvent(label) }
+            }, LinearLayout.LayoutParams(0, -2, 1f).apply { if (label != labels.first()) leftMargin = 5 })
+        }
+    }
+
+    private fun setEventButtonsEnabled(enabled: Boolean) {
+        for (i in 0 until eventButtons.childCount) {
+            val row = eventButtons.getChildAt(i) as? LinearLayout ?: continue
+            for (j in 0 until row.childCount) row.getChildAt(j).isEnabled = enabled
+        }
+    }
+
+    private fun markEvent(label: String) {
+        if (!tapping) return
+        val wall = System.currentTimeMillis()
+        val elapsed = SystemClock.elapsedRealtimeNanos()
+        val relativeMs = (elapsed - captureStartElapsedNs) / 1_000_000.0
+        try {
+            eventLogOutput?.apply {
+                write("$wall,$elapsed,${"%.3f".format(java.util.Locale.US, relativeMs)},$label")
+                newLine()
+                flush()
+            }
+            status.text = "Event recorded: $label at ${"%.3f".format(java.util.Locale.US, relativeMs)} s"
+        } catch (e: Exception) {
+            status.text = "Could not record event: ${e.message}"
+        }
+    }
+
+    private fun exportEvents() {
+        val file = eventLogFile
+        if (file == null || !file.exists()) { status.text = "No event timeline is available."; return }
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "text/csv"
+            putExtra(Intent.EXTRA_TITLE, file.name)
+        }
+        startActivityForResult(intent, CREATE_PCAP_REQUEST + 1)
     }
 
     private fun closeTextCaptureFile() {
@@ -303,16 +385,17 @@ class AlbionRadarActivity : ComponentActivity() {
     @Deprecated("Use Activity Result APIs; retained for compatibility with this diagnostic activity.")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode != CREATE_PCAP_REQUEST || resultCode != Activity.RESULT_OK) return
+        if ((requestCode != CREATE_PCAP_REQUEST && requestCode != CREATE_PCAP_REQUEST + 1) || resultCode != Activity.RESULT_OK) return
         val uri: Uri = data?.data ?: return
-        val file = captureFile ?: return
+        val file = if (requestCode == CREATE_PCAP_REQUEST) captureFile else eventLogFile
+        if (file == null) return
         lifecycleScope.launch(Dispatchers.IO) {
             try {
                 contentResolver.openOutputStream(uri, "w")?.use { output ->
                     FileInputStream(file).use { input -> input.copyTo(output, 256 * 1024) }
                 } ?: throw IllegalStateException("Could not open destination")
                 withContext(Dispatchers.Main) {
-                    status.text = "PCAP exported successfully. Open it with a packet analyzer."
+                    status.text = if (requestCode == CREATE_PCAP_REQUEST) "PCAP exported successfully." else "Event timeline exported successfully."
                 }
             } catch (e: Exception) {
                 withContext(Dispatchers.Main) {
