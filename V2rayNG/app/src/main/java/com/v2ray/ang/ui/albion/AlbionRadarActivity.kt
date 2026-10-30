@@ -109,10 +109,10 @@ class AlbionRadarActivity : ComponentActivity() {
                 val src = InetAddress.getByAddress(p.copyOfRange(12, 16)).hostAddress
                 val dst = InetAddress.getByAddress(p.copyOfRange(16, 20)).hostAddress
                 val transport = when (proto) { 6 -> "TCP"; 17 -> "UDP"; 1 -> "ICMP"; else -> "IP/" + proto }
-                val ports = if ((proto == 6 || proto == 17) && p.size >= ihl + 4) {
-                    ":" + u16(p, ihl) + " → :" + u16(p, ihl + 2)
-                } else ""
-                "$transport $src$ports → $dst (" + p.size + " B)"
+                val endpoints = if ((proto == 6 || proto == 17) && p.size >= ihl + 4) {
+                    "$src:" + u16(p, ihl) + " → $dst:" + u16(p, ihl + 2)
+                } else "$src → $dst"
+                "$transport $endpoints (" + p.size + " B)"
             } else if (version == 6 && p.size >= 40) {
                 val src = InetAddress.getByAddress(p.copyOfRange(8, 24)).hostAddress
                 val dst = InetAddress.getByAddress(p.copyOfRange(24, 40)).hostAddress
