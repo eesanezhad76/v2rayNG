@@ -61,7 +61,7 @@
                 android:value="true" />
         </service>
 
-        <activity android:name=".ui.albion.AlbionRadarActivity" android:exported="false" />
+        <activity android:name=".ui.albion.AlbionRadarActivity" android:exported="false" android:process=":daemon" />
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
