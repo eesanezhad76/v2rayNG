@@ -121,13 +121,23 @@ jobs:
         java-version: '21'
 
     - name: Decode Keystore
+      if: github.ref != 'refs/heads/albion-radar'
       uses: timheuer/base64-to-file@v2.0.0
       id: android_keystore
       with:
         fileName: "android_keystore.jks"
         encodedString: ${{ secrets.APP_KEYSTORE_BASE64 }}
 
-    - name: Build APK
+    - name: Build unsigned APK for radar branch
+      if: github.ref == 'refs/heads/albion-radar'
+      run: |
+        cd ${{ github.workspace }}/V2rayNG
+        echo "sdk.dir=${ANDROID_HOME}" > local.properties
+        chmod 755 gradlew
+        ./gradlew licenseFdroidReleaseReport assembleRelease
+
+    - name: Build signed APK
+      if: github.ref != 'refs/heads/albion-radar'
       run: |
         cd ${{ github.workspace }}/V2rayNG
         echo "sdk.dir=${ANDROID_HOME}" > local.properties
