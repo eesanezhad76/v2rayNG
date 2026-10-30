@@ -91,6 +91,7 @@ jobs:
         mkdir -p assets data
         bash gen_assets.sh download
         cp -v data/*.dat assets/
+        mkdir -p ../V2rayNG/app/libs
         gomobile init
         go mod tidy
         gomobile bind -v -androidapi 24 -trimpath -ldflags='-s -w -buildid= -checklinkname=0' -o ../V2rayNG/app/libs/libv2ray.aar ./
