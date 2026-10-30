@@ -39,6 +39,11 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Keep the radar test build separate from any installed production v2rayNG.
+            applicationIdSuffix = ".radar"
+            versionNameSuffix = "-radar"
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
