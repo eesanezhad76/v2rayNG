@@ -287,7 +287,7 @@ object CoreServiceManager {
     fun enableAlbionPacketTap(capacity: Int = 64): Boolean {
         if (!isRunning()) return false
         return try {
-            Libv2ray.enablePacketTap(capacity)
+            Libv2ray.enablePacketTap(capacity.toLong())
         } catch (e: Exception) {
             LogUtil.e(AppConfig.TAG, "Albion packet tap: failed to enable", e)
             false
