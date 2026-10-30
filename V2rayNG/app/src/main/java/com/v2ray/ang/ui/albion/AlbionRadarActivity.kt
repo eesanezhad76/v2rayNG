@@ -41,7 +41,7 @@ class AlbionRadarActivity : ComponentActivity() {
 
     companion object {
         private const val CREATE_PCAP_REQUEST = 7301
-        private const val TAP_CAPACITY = 8192
+        private const val TAP_CAPACITY = 128
         private const val MAX_READ_BATCH = 8192
     }
 
