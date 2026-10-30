@@ -128,13 +128,13 @@ jobs:
         fileName: "android_keystore.jks"
         encodedString: ${{ secrets.APP_KEYSTORE_BASE64 }}
 
-    - name: Build unsigned APK for radar branch
+    - name: Build signed isolated radar APK
       if: github.ref == 'refs/heads/albion-radar'
       run: |
         cd ${{ github.workspace }}/V2rayNG
         echo "sdk.dir=${ANDROID_HOME}" > local.properties
         chmod 755 gradlew
-        ./gradlew licenseFdroidReleaseReport assembleRelease
+        ./gradlew licenseFdroidReleaseReport assemblePlaystoreDebug
 
     - name: Build signed APK
       if: github.ref != 'refs/heads/albion-radar'
@@ -150,28 +150,28 @@ jobs:
       if: ${{  success() }}
       with:
         name: arm64-v8a
-        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/*/release/*arm64-v8a*.apk
+        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*arm64-v8a*.apk
 
     - name: Upload armeabi-v7a APK
       uses: actions/upload-artifact@v7
       if: ${{  success() }}
       with:
         name: armeabi-v7a
-        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/*/release/*armeabi-v7a*.apk
+        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*armeabi-v7a*.apk
 
     - name: Upload x86 APK
       uses: actions/upload-artifact@v7
       if: ${{  success() }}
       with:
         name: x86-apk
-        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/*/release/*x86*.apk
+        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*x86*.apk
 
     - name: Upload universal APK
       uses: actions/upload-artifact@v7
       if: ${{ success() }}
       with:
         name: universal-apk
-        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/*/release/*universal*.apk
+        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*universal*.apk
 
   sign-and-release:
     needs: build
