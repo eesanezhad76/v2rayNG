@@ -23,7 +23,6 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.net.InetAddress
-import java.util.Locale
 
 /** Passive diagnostic capture. Every packet delivered by the native tap is written to PCAP. */
 class AlbionRadarActivity : ComponentActivity() {
@@ -118,8 +117,8 @@ class AlbionRadarActivity : ComponentActivity() {
             while (isActive && tapping) {
                 val batch = withContext(Dispatchers.IO) {
                     val result = ArrayList<ByteArray>()
-                    repeat(MAX_READ_BATCH) {
-                        val packet = CoreServiceManager.readAlbionPacketTap() ?: return@repeat
+                    while (result.size < MAX_READ_BATCH) {
+                        val packet = CoreServiceManager.readAlbionPacketTap() ?: break
                         result.add(packet)
                     }
                     result
@@ -129,8 +128,8 @@ class AlbionRadarActivity : ComponentActivity() {
                         val out = captureOutput
                         if (out != null) {
                             val now = System.currentTimeMillis()
-                            batch.forEachIndexed { index, packet ->
-                                writePcapRecord(out, packet, now + index)
+                            batch.forEach { packet ->
+                                writePcapRecord(out, packet, now)
                                 packetCount++
                                 val description = describePacket(packet)
                                 recent.addFirst(description)
@@ -222,7 +221,7 @@ class AlbionRadarActivity : ComponentActivity() {
     }
 
     private fun writePcapHeader(out: DataOutputStream) {
-        out.writeInt(Integer.reverseBytes(0xa1b2c3d4.toInt()))
+        out.writeInt(Integer.reverseBytes(0xa1b2c3d4L.toInt()))
         out.writeShort(java.lang.Short.reverseBytes(2.toShort()).toInt())
         out.writeShort(java.lang.Short.reverseBytes(4.toShort()).toInt())
         out.writeInt(0)
