@@ -86,7 +86,26 @@ jobs:
           go test github.com/xtls/xray-core/proxy/tun
           gomobile bind -v -androidapi 24 -trimpath -ldflags='-s -w -buildid= -checklinkname=0' -o ../V2rayNG/app/libs/libv2ray.aar ./
 
-      - name: Build ARM64 Play Store Release APK (unsigned validation artifact)
+      - name: Restore persistent Albion signing key
+        shell: bash
+        env:
+          ALBION_KEYSTORE_BASE64: ${{ secrets.ALBION_KEYSTORE_BASE64 }}
+          ALBION_KEYSTORE_PASSWORD: ${{ secrets.ALBION_KEYSTORE_PASSWORD }}
+          ALBION_KEY_ALIAS: ${{ secrets.ALBION_KEY_ALIAS }}
+          ALBION_KEY_PASSWORD: ${{ secrets.ALBION_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          test -n "$ALBION_KEYSTORE_BASE64"
+          test -n "$ALBION_KEYSTORE_PASSWORD"
+          test -n "$ALBION_KEY_ALIAS"
+          test -n "$ALBION_KEY_PASSWORD"
+          echo "$ALBION_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/albion-release.jks"
+          chmod 600 "$RUNNER_TEMP/albion-release.jks"
+          echo "ALBION_KEYSTORE_PATH=$RUNNER_TEMP/albion-release.jks" >> "$GITHUB_ENV"
+          echo "::add-mask::$ALBION_KEYSTORE_PASSWORD"
+          echo "::add-mask::$ALBION_KEY_PASSWORD"
+
+      - name: Build ARM64 Play Store Release APK (signed Albion build)
         working-directory: V2rayNG
         shell: bash
         run: |
@@ -94,12 +113,15 @@ jobs:
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
           ./gradlew --no-daemon clean assemblePlaystoreRelease -PABI_FILTERS=arm64-v8a
+          APK="$(find app/build/outputs/apk/playstore/release -name "*arm64-v8a*.apk" -print -quit)"
+          test -n "$APK"
+          "$ANDROID_HOME/build-tools/37.0.0/apksigner" verify --verbose "$APK"
 
-      - name: Upload ARM64 validation APK
+      - name: Upload signed ARM64 Albion APK
         if: always() && success()
         uses: actions/upload-artifact@v4
         with:
-          name: albion-arm64-release-validation
+          name: albion-arm64-release
           path: V2rayNG/app/build/outputs/apk/playstore/release/*arm64-v8a*.apk
           if-no-files-found: error
-          retention-days: 14
+          retention-days: 30
