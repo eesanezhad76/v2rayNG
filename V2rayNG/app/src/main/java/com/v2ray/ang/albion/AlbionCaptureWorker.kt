@@ -27,7 +27,7 @@ class AlbionCaptureWorker(
     private val running = AtomicBoolean(false)
     private val stopMutex = Mutex()
     private val packetCount = AtomicLong(0)
-    private val protocol18 = AlbionProtocol18Decoder()
+    private val protocol18 = AlbionProtocol18Decoder()\n    private val eventStateTracker = AlbionEventStateTracker()
     @Volatile private var pcapFile: File? = null
     @Volatile private var logFile: File? = null
     @Volatile private var reportFile: File? = null
@@ -228,6 +228,7 @@ class AlbionCaptureWorker(
             messageArray.put(item)
 
             if (message.kind == "event" && message.realCode != null) {
+                eventStateChanges.put(eventStateTracker.observe(message.realCode, message.parameters))
                 val normalized = AlbionPhotonEventDecoder.decode(message.realCode, message.parameters)
                 val eventItem = JSONObject().put("event_code", message.realCode).put("recognized", normalized.recognized)
                 val resources = JSONArray()
@@ -287,6 +288,7 @@ class AlbionCaptureWorker(
             .put("photon_error", decoded?.error ?: JSONObject.NULL).put("command_count", decoded?.commandCount ?: 0)
             .put("command_types", JSONArray(decoded?.commandTypes ?: emptyList<Int>())).put("messages", messageArray)
             .put("photon_event_analysis", photonEventAnalysis)
+            .put("event_state_changes", eventStateChanges)
             .put("entities", entityArray).put("protocol18_encrypted", decoderStats.encrypted)
             .put("protocol18_malformed", decoderStats.malformed)
             .put("fragments_pending", decoderStats.fragmentsPending).toString())
