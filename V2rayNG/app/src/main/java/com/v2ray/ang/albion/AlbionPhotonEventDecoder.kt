@@ -3,9 +3,9 @@ package com.v2ray.ang.albion
 /**
  * Normalizes already-decoded Photon event parameters into auditable Albion observations.
  *
- * This is deliberately not a raw-IP/ENet/Photon byte-stream decoder. The capture tap must
- * first provide a validated Photon event code and parameter table. Unknown/malformed fields
- * are ignored rather than guessed. Resource updates are joined by exact object ID only.
+ * This is not a raw-IP/ENet/Photon byte-stream decoder. The capture layer must first provide
+ * a validated Photon event code and parameter table. Unknown or malformed fields are not guessed.
+ * Resource state updates must be joined by exact object ID, never by proximity alone.
  */
 object AlbionPhotonEventDecoder {
     const val EVENT_HARVESTABLE_LIST = 39
@@ -23,19 +23,8 @@ object AlbionPhotonEventDecoder {
         val enchantmentRaw: Int? = null
     )
 
-    data class LivingEntity(
-        val id: Long,
-        val typeId: Int?,
-        val x: Double?,
-        val y: Double?
-    )
-
-    data class StateUpdate(
-        val id: Long,
-        val amountOrState: Int?,
-        val enchantmentRaw: Int?
-    )
-
+    data class LivingEntity(val id: Long, val typeId: Int?, val x: Double?, val y: Double?)
+    data class StateUpdate(val id: Long, val amountOrState: Int?, val enchantmentRaw: Int?)
     data class Result(
         val resources: List<Resource> = emptyList(),
         val livingEntities: List<LivingEntity> = emptyList(),
@@ -43,7 +32,7 @@ object AlbionPhotonEventDecoder {
         val recognized: Boolean = false
     )
 
-    /** Accepts parameter maps keyed by numeric Photon parameter IDs (Byte or Int). */
+    /** Parameter keys may be Byte or Int, as found in Photon decoders. */
     fun decode(eventCode: Int, parameters: Map<*, *>): Result = when (eventCode) {
         EVENT_HARVESTABLE_LIST -> Result(resources = decodeResourceList(parameters), recognized = true)
         EVENT_HARVESTABLE_SINGLE -> decodeSingleResource(parameters)
@@ -59,63 +48,33 @@ object AlbionPhotonEventDecoder {
         val coords = numbers(p.value(3))
         val amounts = ints(p.value(4))
         return ids.mapIndexed { i, id ->
-            Resource(
-                id = id,
-                typeId = types?.getOrNull(i),
-                tier = tiers?.getOrNull(i),
-                x = coords?.getOrNull(i * 2),
-                y = coords?.getOrNull(i * 2 + 1),
-                amount = amounts?.getOrNull(i)
-            )
+            Resource(id, types?.getOrNull(i), tiers?.getOrNull(i),
+                coords?.getOrNull(i * 2), coords?.getOrNull(i * 2 + 1), amounts?.getOrNull(i))
         }
     }
 
     private fun decodeSingleResource(p: Map<*, *>): Result {
-        val id = p.value(0).longOrNull() ?: p.value(4).longOrNull()
-            ?: return Result(recognized = true)
+        // Single-resource object-ID location is protocol-version dependent; accept only explicit IDs.
+        val id = p.value(0).longOrNull() ?: return Result(recognized = true)
         val pos = numbers(p.value(8))
-        return Result(
-            resources = listOf(
-                Resource(
-                    id = id,
-                    typeId = p.value(5).intOrNull(),
-                    tier = p.value(7).intOrNull(),
-                    x = pos?.getOrNull(0),
-                    y = pos?.getOrNull(1),
-                    amount = p.value(10).intOrNull(),
-                    enchantmentRaw = p.value(11).intOrNull()
-                )
-            ),
-            recognized = true
-        )
+        return Result(resources = listOf(Resource(
+            id = id, typeId = p.value(5).intOrNull(), tier = p.value(7).intOrNull(),
+            x = pos?.getOrNull(0), y = pos?.getOrNull(1),
+            amount = p.value(10).intOrNull(), enchantmentRaw = p.value(11).intOrNull()
+        )), recognized = true)
     }
 
     private fun decodeState(p: Map<*, *>): Result {
         val id = p.value(0).longOrNull() ?: return Result(recognized = true)
-        return Result(
-            stateUpdate = StateUpdate(
-                id = id,
-                amountOrState = p.value(1).intOrNull(),
-                enchantmentRaw = p.value(2).intOrNull()
-            ),
-            recognized = true
-        )
+        return Result(stateUpdate = StateUpdate(id, p.value(1).intOrNull(), p.value(2).intOrNull()), recognized = true)
     }
 
     private fun decodeLivingEntity(p: Map<*, *>): Result {
         val id = p.value(0).longOrNull() ?: return Result(recognized = true)
         val pos = numbers(p.value(7))
-        return Result(
-            livingEntities = listOf(
-                LivingEntity(
-                    id = id,
-                    typeId = p.value(1).intOrNull(),
-                    x = pos?.getOrNull(0),
-                    y = pos?.getOrNull(1)
-                )
-            ),
-            recognized = true
-        )
+        return Result(livingEntities = listOf(LivingEntity(
+            id, p.value(1).intOrNull(), pos?.getOrNull(0), pos?.getOrNull(1)
+        )), recognized = true)
     }
 
     private fun Map<*, *>.value(id: Int): Any? =
@@ -131,14 +90,23 @@ object AlbionPhotonEventDecoder {
         else -> null
     }
 
-    private fun ints(value: Any?): List<Int>? =
-        sequence(value).map { it.intOrNull() ?: return null }.toList()
+    private fun ints(value: Any?): List<Int>? {
+        val values = sequence(value).toList()
+        val converted = values.map { it.intOrNull() }
+        return if (converted.any { it == null }) null else converted.filterNotNull()
+    }
 
-    private fun longs(value: Any?): List<Long>? =
-        sequence(value).map { it.longOrNull() ?: return null }.toList()
+    private fun longs(value: Any?): List<Long>? {
+        val values = sequence(value).toList()
+        val converted = values.map { it.longOrNull() }
+        return if (converted.any { it == null }) null else converted.filterNotNull()
+    }
 
-    private fun numbers(value: Any?): List<Double>? =
-        sequence(value).map { (it as? Number)?.toDouble() ?: return null }.toList()
+    private fun numbers(value: Any?): List<Double>? {
+        val values = sequence(value).toList()
+        val converted = values.map { (it as? Number)?.toDouble() }
+        return if (converted.any { it == null }) null else converted.filterNotNull()
+    }
 
     private fun sequence(value: Any?): Sequence<Any?> = when (value) {
         is Iterable<*> -> value.asSequence()
