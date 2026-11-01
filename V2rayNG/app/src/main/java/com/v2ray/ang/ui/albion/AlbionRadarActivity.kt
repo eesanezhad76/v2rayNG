@@ -775,6 +775,7 @@ class AlbionRadarActivity : ComponentActivity() {
         ((p[offset].toInt() and 0xff) shl 8) or (p[offset + 1].toInt() and 0xff)
 
     override fun onDestroy() {
+        try { unregisterReceiver(markerReceiver) } catch (_: Exception) {}
         // Stop only this screen's observer; daemon-owned capture remains active.
         pollJob?.cancel()
         captureScope.cancel()
