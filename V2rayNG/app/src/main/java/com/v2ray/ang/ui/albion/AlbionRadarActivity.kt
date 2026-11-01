@@ -44,6 +44,7 @@ class AlbionRadarActivity : ComponentActivity() {
     private lateinit var copyAll: Button
     private lateinit var analyze: Button
     private lateinit var overlay: Button
+    private lateinit var exportTags: Button
     private var pollJob: Job? = null
     private val captureScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var stopping = false
@@ -58,6 +59,7 @@ class AlbionRadarActivity : ComponentActivity() {
 
     companion object {
         private const val CREATE_PCAP_REQUEST = 7301
+        private const val CREATE_TAGS_REQUEST = 7302
         private const val TAP_CAPACITY = 4096
         private const val MAX_READ_BATCH = 8192
     }
@@ -100,6 +102,10 @@ class AlbionRadarActivity : ComponentActivity() {
             text = "Launch activity tagging overlay"
             setOnClickListener { launchActivityOverlay() }
         }
+        exportTags = Button(this).apply {
+            text = "Export activity tags (JSONL)"
+            setOnClickListener { exportActivityTags() }
+        }
         packets = TextView(this).apply {
             textSize = 13f
             typeface = android.graphics.Typeface.MONOSPACE
@@ -116,6 +122,7 @@ class AlbionRadarActivity : ComponentActivity() {
         root.addView(actions, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(analyze, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(overlay, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
+        root.addView(exportTags, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(
             ScrollView(this).apply { addView(packets) },
             LinearLayout.LayoutParams(-1, 0, 1f).apply { topMargin = 12 }
@@ -343,6 +350,20 @@ class AlbionRadarActivity : ComponentActivity() {
         captureOutput = null
     }
 
+    private fun exportActivityTags() {
+        val file = File(filesDir, "AlbionRadar/activity-events.jsonl")
+        if (!file.exists()) {
+            status.text = "No activity tags recorded yet. Start the overlay and record an event first."
+            return
+        }
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "application/json"
+            putExtra(Intent.EXTRA_TITLE, "albion-activity-events.jsonl")
+        }
+        startActivityForResult(intent, CREATE_TAGS_REQUEST)
+    }
+
     private fun exportCapture() {
         val file = captureFile
         if (file == null || !file.exists()) {
@@ -360,8 +381,24 @@ class AlbionRadarActivity : ComponentActivity() {
     @Deprecated("Use Activity Result APIs; retained for compatibility with this diagnostic activity.")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode != CREATE_PCAP_REQUEST || resultCode != Activity.RESULT_OK) return
+        if (resultCode != Activity.RESULT_OK) return
         val uri: Uri = data?.data ?: return
+        if (requestCode == CREATE_TAGS_REQUEST) {
+            val tagsFile = File(filesDir, "AlbionRadar/activity-events.jsonl")
+            if (!tagsFile.exists()) return
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    contentResolver.openOutputStream(uri, "w")?.use { output ->
+                        FileInputStream(tagsFile).use { input -> input.copyTo(output) }
+                    } ?: throw IllegalStateException("Could not open destination")
+                    withContext(Dispatchers.Main) { status.text = "Activity tags exported successfully." }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) { status.text = "Tag export failed: ${e.message}" }
+                }
+            }
+            return
+        }
+        if (requestCode != CREATE_PCAP_REQUEST) return
         val file = captureFile
         if (file == null) return
         lifecycleScope.launch(Dispatchers.IO) {
