@@ -1,7 +1,7 @@
 package com.v2ray.ang.albion
 
-import org.junit.Assert.*
-import org.junit.Test
+import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Test
 
 class AlbionPhotonPacketDecoderTest {
     @Test fun decodesValidIpv4PhotonEnvelope() {
@@ -28,6 +28,31 @@ class AlbionPhotonPacketDecoderTest {
         packet[21] = 0x89 // source port 5001, not 5056
         val result = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
         assertNull(result)
+    }
+
+    @Test fun decodesProtocol18GenericEventAndAlbionCode252() {
+        val photon = ByteArray(12 + 12 + 2 + 1 + 1 + 1 + 1 + 2)
+        put16(photon, 0, 1)
+        photon[2] = 0
+        photon[3] = 1
+        val command = 12
+        photon[command] = 6
+        put32(photon, command + 4, photon.size - command)
+        val body = command + 12
+        photon[body] = 0 // signal byte
+        photon[body + 1] = 4 // EventData message
+        photon[body + 2] = 1 // generic dispatch
+        photon[body + 3] = 1 // one parameter
+        photon[body + 4] = 252.toByte()
+        photon[body + 5] = 4 // Protocol18 short
+        photon[body + 6] = 39
+        photon[body + 7] = 0
+        val decoder = AlbionProtocol18Decoder()
+        val messages = decoder.receiveDatagram(photon)
+        assertEquals(1, messages.size)
+        assertEquals("event", messages[0].kind)
+        assertEquals(1, messages[0].dispatchCode)
+        assertEquals(39, messages[0].realCode)
     }
 
     private fun ipv4UdpPhotonPacket(commandType: Int, commandLength: Int): ByteArray {
