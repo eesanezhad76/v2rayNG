@@ -117,6 +117,16 @@ class AlbionRadarActivity : ComponentActivity() {
             LinearLayout.LayoutParams(-1, 0, 1f).apply { topMargin = 12 }
         )
         setContentView(root)
+        val existingCapture = CoreServiceManager.getAlbionCaptureSnapshot()
+        if (existingCapture?.running == true) {
+            tapping = true
+            toggle.text = "Stop capture"
+            captureFile = existingCapture.pcap
+            captureTextFile = existingCapture.log
+            packetCount = existingCapture.packets
+            summary.text = "Packets saved: ${existingCapture.packets} | dropped copies: ${existingCapture.dropped}"
+            status.text = "Capture is already running in the VPN daemon."
+        }
     }
 
     private fun startCapture() {
