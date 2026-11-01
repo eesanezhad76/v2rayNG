@@ -352,6 +352,14 @@ class AlbionCaptureWorker(
         try {
             pcapFile?.let { file -> publicPcapUri?.let { mirrorOne(context, file, it, mirroredPcapBytes) } }
             logFile?.let { file -> publicLogUri?.let { mirrorOne(context, file, it, mirroredLogBytes) } }
+            val localPcap = pcapFile
+            val localLog = logFile
+            if (localPcap != null && publicPcapUri != null && mirroredPcapBytes.get() != localPcap.length()) {
+                error("PCAP mirror incomplete: ${mirroredPcapBytes.get()} / ${localPcap.length()} bytes")
+            }
+            if (localLog != null && publicLogUri != null && mirroredLogBytes.get() != localLog.length()) {
+                error("JSONL mirror incomplete: ${mirroredLogBytes.get()} / ${localLog.length()} bytes")
+            }
             mirrorFailure = null
         } catch (t: Throwable) {
             mirrorFailure = t.message ?: t.javaClass.simpleName
