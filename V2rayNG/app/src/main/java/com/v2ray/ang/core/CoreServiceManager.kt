@@ -38,6 +38,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import libv2ray.CoreCallbackHandler
 import libv2ray.Libv2ray
@@ -58,6 +59,8 @@ object CoreServiceManager {
     // Lives in the daemon process, not in the Radar Activity lifecycle.
     private val albionCaptureScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     @Volatile private var albionCaptureWorker: AlbionCaptureWorker? = null
+    private const val ALBION_CAPTURE_PREFS = "albion_capture"
+    private const val ALBION_AUTO_START = "auto_start"
 
     @Volatile
     private var isReloading = false
@@ -182,6 +185,12 @@ object CoreServiceManager {
             }
         }
 
+        // Resume an explicitly enabled capture after an Android process/service restart.
+        if (service.getSharedPreferences(ALBION_CAPTURE_PREFS, Context.MODE_PRIVATE)
+                .getBoolean(ALBION_AUTO_START, false)) {
+            startAlbionCapture()
+        }
+
         if (browserDialer != null) {
             browserDialer!!.stop()
             browserDialer = null
@@ -221,13 +230,16 @@ object CoreServiceManager {
         currentVpnInterface = null
 
         if (isRunning()) {
-            CoroutineScope(Dispatchers.IO).launch {
+            // Finalize the capture before stopping Xray or releasing the Android TUN fd.
+            // This is intentionally awaited: an untracked coroutine could be killed with
+            // the Service and leave the last PCAP/JSONL buffers unwritten.
+            runBlocking(Dispatchers.IO) {
                 try {
-                    // Drain and close the capture while the core is still alive so the
-                    // native tap queue remains readable during finalization.
-                    try { albionCaptureWorker?.stop() } catch (captureError: Exception) {
-                        LogUtil.e(AppConfig.TAG, "Albion capture finalization failed", captureError)
-                    }
+                    albionCaptureWorker?.stop()
+                } catch (captureError: Exception) {
+                    LogUtil.e(AppConfig.TAG, "Albion capture finalization failed", captureError)
+                }
+                try {
                     coreController.stopLoop()
                 } catch (e: Exception) {
                     LogUtil.e(AppConfig.TAG, "StartCore-Manager: Failed to stop V2Ray loop", e)
@@ -347,12 +359,16 @@ object CoreServiceManager {
             return false
         }
         albionCaptureWorker = worker
+        service.getSharedPreferences(ALBION_CAPTURE_PREFS, Context.MODE_PRIVATE)
+            .edit().putBoolean(ALBION_AUTO_START, true).apply()
         return true
     }
 
     fun getAlbionCaptureSnapshot(): AlbionCaptureWorker.Snapshot? = albionCaptureWorker?.snapshot()
 
     fun stopAlbionCapture() {
+        getService()?.getSharedPreferences(ALBION_CAPTURE_PREFS, Context.MODE_PRIVATE)
+            ?.edit()?.putBoolean(ALBION_AUTO_START, false)?.apply()
         val worker = albionCaptureWorker ?: run { disableAlbionPacketTap(); return }
         albionCaptureScope.launch {
             try { worker.stop() } catch (e: Exception) {
