@@ -140,7 +140,15 @@ class AlbionRadarActivity : ComponentActivity() {
                     captureTextFile = s.log
                     packetCount = s.packets
                     summary.text = "Packets saved: ${s.packets} | dropped copies: ${s.dropped} | file: ${(s.pcap?.length() ?: 0L) / 1024} KB"
-                    if (s.error != null) status.text = "Capture writer error: ${s.error}"
+                    if (s.error != null) {
+                        status.text = "Capture writer error: ${s.error}"
+                    } else if (!s.running && s.finished && tapping) {
+                        tapping = false
+                        toggle.text = "Start full capture"
+                        export.isEnabled = s.pcap?.exists() == true
+                        copyAll.isEnabled = s.log?.exists() == true
+                        status.text = "Capture stopped unexpectedly. Existing files were finalized."
+                    }
                 }
                 delay(500)
             }
