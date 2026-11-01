@@ -10,7 +10,8 @@ object AlbionPhotonPacketDecoder {
         val flags: Int? = null,
         val commandCount: Int = 0,
         val commandTypes: List<Int> = emptyList(),
-        val error: String? = null
+        val error: String? = null,
+        val photonPayload: ByteArray? = null
     )
 
     fun decodeIpPacket(packet: ByteArray): Result? {
@@ -62,7 +63,7 @@ object AlbionPhotonPacketDecoder {
             types.add(type)
             pos += commandLength
         }
-        return Result(src, dst, true, peer, flags, count, types)
+        return Result(src, dst, true, peer, flags, count, types, photonPayload = data.copyOfRange(start, end))
     }
 
     private fun u16(b: ByteArray, o: Int) = ((b[o].toInt() and 255) shl 8) or (b[o + 1].toInt() and 255)
