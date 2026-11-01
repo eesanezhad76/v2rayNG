@@ -32,6 +32,7 @@ object AlbionPatternMiner {
         val enchant: Int?,
         val overlayTierLabel: String?,
         val overlayEnchantLabel: String?,
+        val parameterKeys: String?,
         val samples: Int,
         val distinctEntities: Int,
         val observationCount: Int,
@@ -59,6 +60,7 @@ object AlbionPatternMiner {
                 appendLine("#${index + 1} [${p.score}/100] ${p.activity} / ${p.kind}")
                 appendLine("  signature: ${p.signature}")
                 appendLine("  overlay labels: tier=${p.overlayTierLabel ?: "unknown"}, enchant=${p.overlayEnchantLabel ?: "unknown"}")
+                if (p.parameterKeys != null) appendLine("  Photon parameter keys: ${p.parameterKeys}")
                 appendLine("  repeated samples: ${p.samples}; distinct entity IDs: ${p.distinctEntities}; observations: ${p.observationCount}")
                 appendLine("  event codes: ${p.eventCodes.toSortedMap()}")
                 appendLine("  complete label pairs: ${p.completePairs}")
@@ -70,7 +72,7 @@ object AlbionPatternMiner {
     private data class Candidate(
         val signature: String, val activity: String, val kind: String,
         val eventCode: Int?, val typeId: Int?, val tier: Int?, val enchant: Int?,
-        val overlayTierLabel: String?, val overlayEnchantLabel: String?,
+        val overlayTierLabel: String?, val overlayEnchantLabel: String?, val parameterKeys: String?,
         val ids: MutableSet<String>, val events: MutableMap<Int, Int>,
         var observations: Int = 0, val sampleIndexes: MutableSet<Int> = linkedSetOf()
     )
@@ -131,6 +133,16 @@ object AlbionPatternMiner {
                         val array = row.optJSONArray("entities") ?: JSONArray()
                         val observations = ArrayList<JSONObject>(array.length())
                         for (i in 0 until array.length()) array.optJSONObject(i)?.let { observations += it }
+                        val messages = row.optJSONArray("messages") ?: JSONArray()
+                        for (i in 0 until messages.length()) {
+                            val message = messages.optJSONObject(i) ?: continue
+                            if (message.optString("kind") != "event" || message.isNull("code")) continue
+                            val keys = message.optJSONArray("param_keys") ?: JSONArray()
+                            observations += JSONObject()
+                                .put("kind", "photon_event")
+                                .put("event_code", message.optInt("code"))
+                                .put("parameter_keys", (0 until keys.length()).joinToString(",") { keys.optString(it) })
+                        }
                         if (observations.isNotEmpty()) {
                             rolling.addLast(time to observations)
                             while (rolling.isNotEmpty() && rolling.first().first < time - EDGE_WINDOW_MS) rolling.removeFirst()
@@ -164,9 +176,10 @@ object AlbionPatternMiner {
                 val tier = o.optInt("tier").takeIf { o.has("tier") }
                 val enchant = o.optInt("enchant").takeIf { o.has("enchant") }
                     ?: o.optInt("enchantment_raw").takeIf { o.has("enchantment_raw") }
-                val signature = listOf(sample.activity, kind, code ?: "-", type ?: "-", tier ?: "-", enchant ?: "-", sample.overlayTierLabel ?: "-", sample.overlayEnchantLabel ?: "-").joinToString("|")
+                val parameterKeys = o.optString("parameter_keys", "").takeIf { it.isNotBlank() }
+                val signature = listOf(sample.activity, kind, code ?: "-", type ?: "-", tier ?: "-", enchant ?: "-", sample.overlayTierLabel ?: "-", sample.overlayEnchantLabel ?: "-", parameterKeys ?: "-").joinToString("|")
                 val c = candidates.getOrPut(signature) {
-                    Candidate(signature, sample.activity, kind, code, type, tier, enchant, sample.overlayTierLabel, sample.overlayEnchantLabel, linkedSetOf(), linkedMapOf())
+                    Candidate(signature, sample.activity, kind, code, type, tier, enchant, sample.overlayTierLabel, sample.overlayEnchantLabel, parameterKeys, linkedSetOf(), linkedMapOf())
                 }
                 c.observations++
                 c.sampleIndexes += sampleIndex
@@ -185,7 +198,7 @@ object AlbionPatternMiner {
             val pairScore = if (repeated >= 2) 10 else 0
             val score = (repeatScore + identityScore + typedScore + volumeScore + pairScore).coerceAtMost(100)
             Pattern(c.signature, c.activity, c.kind, c.eventCode, c.typeId, c.tier, c.enchant,
-                c.overlayTierLabel, c.overlayEnchantLabel, repeated, c.ids.size, c.observations, c.events.toMap(), repeated, score)
+                c.overlayTierLabel, c.overlayEnchantLabel, c.parameterKeys, repeated, c.ids.size, c.observations, c.events.toMap(), repeated, score)
         }.filter { it.samples > 0 }.sortedWith(compareByDescending<Pattern> { it.score }.thenByDescending { it.samples }.thenByDescending { it.observationCount })
         val warnings = mutableListOf<String>()
         if (completed.isEmpty()) warnings += "No complete Found -> Done marker pairs. For each resource, tap Found before gathering and Done immediately after."
