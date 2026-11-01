@@ -137,6 +137,8 @@ class AlbionCaptureWorker(
             entity.y?.let { item.put("y", it) }
             entity.size?.let { item.put("size", it) }
             entity.name?.let { item.put("name", it) }
+            entity.value?.let { item.put("value", it) }
+            entity.secondaryValue?.let { item.put("secondary_value", it) }
             if (entity.kind == "resource_state") item.put("removed", entity.removed)
             entityArray.put(item)
         }
