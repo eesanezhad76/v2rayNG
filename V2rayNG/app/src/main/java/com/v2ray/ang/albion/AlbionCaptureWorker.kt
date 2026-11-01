@@ -120,6 +120,8 @@ class AlbionCaptureWorker(
             item.put("kind", message.kind)
             item.put("dispatch", message.dispatchCode)
             item.put("code", message.realCode ?: JSONObject.NULL)
+            item.put("operation_code", message.operationCode ?: JSONObject.NULL)
+            item.put("return_code", message.returnCode ?: JSONObject.NULL)
             item.put("param_keys", JSONArray(message.parameters.keys.sorted()))
             messageArray.put(item)
         }
