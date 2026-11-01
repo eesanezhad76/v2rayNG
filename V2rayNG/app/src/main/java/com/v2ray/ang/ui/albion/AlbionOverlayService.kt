@@ -21,7 +21,7 @@ import org.json.JSONObject
 
 /**
  * Local-only activity tagger. It never reads, changes, redirects or sends game traffic.
- * Tags are appended to filesDir/AlbionRadar/activity-events.jsonl.
+ * Activity tags are broadcast only to the active PCAP capture activity.
  */
 class AlbionOverlayService : Service() {
     private lateinit var windowManager: WindowManager
