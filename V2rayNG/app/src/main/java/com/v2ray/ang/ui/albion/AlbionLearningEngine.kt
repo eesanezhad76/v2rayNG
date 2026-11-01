@@ -39,7 +39,7 @@ internal object AlbionLearningEngine {
         val packets = readPcap(file)
         if (packets.isEmpty()) return "No UDP payloads found in this PCAP."
 
-        val portCounts = packets.groupingBy { maxOf(it.srcPort, it.dstPort) }.eachCount()
+        val portCounts = packets.flatMap { listOf(it.srcPort, it.dstPort) }.groupingBy { it }.eachCount()
             .entries.sortedByDescending { it.value }
         val candidatePort = portCounts.firstOrNull()?.key
         val selected = if (candidatePort == null) packets else packets.filter {
@@ -47,7 +47,7 @@ internal object AlbionLearningEngine {
         }
         val grouped = selected.groupBy { packet ->
             Signature(
-                maxOf(packet.srcPort, packet.dstPort),
+                (if (packet.srcPort == candidatePort) packet.srcPort else packet.dstPort),
                 packet.payload.size / 16,
                 packet.payload.take(8).joinToString("") { "%02x".format(it) }
             )
