@@ -181,6 +181,7 @@ class AlbionRadarActivity : ComponentActivity() {
             export.isEnabled = captureFile?.exists() == true
             copyAll.isEnabled = captureTextFile?.exists() == true
             status.text = "Capture stopped. Files are saved in the app's AlbionCaptures directory."
+            publishCaptureToDownloads()
             captureFile?.takeIf { it.exists() }?.let { file ->
                 try {
                     analysis.text = withContext(Dispatchers.IO) {
