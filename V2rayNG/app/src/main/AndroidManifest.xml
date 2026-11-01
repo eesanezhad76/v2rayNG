@@ -365,6 +365,11 @@
                 android:resource="@xml/cache_paths" />
         </provider>
 
+    
+        <activity android:name=".ui.albion.AlbionRadarActivity" android:exported="false" android:process=":daemon" android:configChanges="orientation|screenSize|keyboardHidden" />
+        <service android:name=".ui.albion.AlbionOverlayService" android:exported="false" android:foregroundServiceType="specialUse">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE" android:value="local Albion activity tagging" />
+        </service>
     </application>
 
 </manifest>
