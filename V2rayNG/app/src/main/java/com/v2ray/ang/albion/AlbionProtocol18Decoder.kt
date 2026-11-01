@@ -90,6 +90,9 @@ class AlbionProtocol18Decoder {
                     val params = r.parameterTable().toMutableMap()
                     // Protocol18's Albion event code is parameter 252. The Photon
                     // dispatch byte is not a safe substitute when parameter 252 is absent.
+                    // Move events omit parameter 252 on the wire; the protocol
+                    // post-processor injects dispatch=3 for this one special case.
+                    if (dispatch == 3 && !params.containsKey(252)) params[252] = 3
                     val real = params[252].asInt()
                     if (dispatch == 3) injectMovePosition(params)
                     out += Message("event", dispatch, real, params)
