@@ -137,6 +137,7 @@ class AlbionCaptureWorker(
             entity.y?.let { item.put("y", it) }
             entity.size?.let { item.put("size", it) }
             entity.name?.let { item.put("name", it) }
+            if (entity.kind == "resource_state") item.put("removed", entity.removed)
             entityArray.put(item)
         }
         log?.write(JSONObject().put("time_ms", timestampMs).put("length", packet.size)
