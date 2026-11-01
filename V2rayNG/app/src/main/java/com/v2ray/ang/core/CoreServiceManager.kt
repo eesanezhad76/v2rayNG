@@ -374,6 +374,19 @@ object CoreServiceManager {
             // Do not race a second writer against an asynchronous stop/drain.
             if (!state.finished) return false
         }
+        // A new capture session must not inherit stale packets from a prior session.
+        // The previous worker is already finalized above, so it is safe to disable and reset.
+        try {
+            Libv2ray.disablePacketTap()
+            if (!Libv2ray.resetPacketTap()) {
+                LogUtil.e(AppConfig.TAG, "Albion packet tap reset refused; queue may still have an active consumer")
+                return false
+            }
+            albionTapRequested = false
+        } catch (e: Exception) {
+            LogUtil.e(AppConfig.TAG, "Albion packet tap reset failed", e)
+            return false
+        }
         if (!enableAlbionPacketTap(4096)) return false
         val worker = AlbionCaptureWorker(
             readPacket = { readAlbionPacketTap() },
