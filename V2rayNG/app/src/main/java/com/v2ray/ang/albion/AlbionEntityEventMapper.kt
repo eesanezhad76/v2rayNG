@@ -7,6 +7,7 @@ object AlbionEntityEventMapper {
         val eventCode: Int,
         val entityId: Long? = null,
         val typeId: Int? = null,
+        val typeNumber: Int? = null,
         val tier: Int? = null,
         val enchant: Int? = null,
         val x: Float? = null,
@@ -57,8 +58,9 @@ object AlbionEntityEventMapper {
             40 -> {
                 val xy = pair(p[8])
                 listOf(Observation(
-                    "harvestable", code, number(0), int(6), int(7), int(11),
-                    xy?.first, xy?.second, int(10), (p[5] as? String)
+                    kind = "harvestable", eventCode = code, entityId = number(0),
+                    typeId = int(6), typeNumber = int(5), tier = int(7), enchant = int(11),
+                    x = xy?.first, y = xy?.second, size = int(10)
                 ))
             }
             46 -> listOf(Observation("resource_state", code, number(0), size = int(1)))
