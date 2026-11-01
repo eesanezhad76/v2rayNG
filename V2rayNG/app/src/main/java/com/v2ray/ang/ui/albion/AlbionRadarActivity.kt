@@ -5,9 +5,12 @@ import android.content.Intent
 import android.content.ClipboardManager
 import android.content.ClipData
 import android.content.Context
+import android.content.ContentValues
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
+import android.os.Environment
+import android.provider.MediaStore
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -152,7 +155,7 @@ class AlbionRadarActivity : ComponentActivity() {
         toggle.text = "Stop capture"
         export.isEnabled = false
         copyAll.isEnabled = false
-        status.text = "Capture active. Files are being saved automatically in Android/data/<package>/files/AlbionCaptures. Leaving this screen will not stop capture."
+        status.text = "Capture active. A copy will be published to Downloads/AlbionCaptures when capture stops. The live capture continues in the VPN daemon process."
         pollJob = captureScope.launch {
             while (isActive && tapping) {
                 val batch = withContext(Dispatchers.IO) {
@@ -243,7 +246,8 @@ class AlbionRadarActivity : ComponentActivity() {
                     toggle.text = "Start full capture"
                     export.isEnabled = captureFile?.exists() == true
                     copyAll.isEnabled = captureTextFile?.exists() == true
-                    status.text = "Capture stopped. PCAP saved; automatic transport analysis completed."
+                    status.text = "Capture stopped. Publishing PCAP and packet log to Downloads/AlbionCaptures…"
+                    publishCaptureToDownloads()
                     val saved = captureFile
                     if (saved != null && saved.exists()) {
                         lifecycleScope.launch {
@@ -264,6 +268,47 @@ class AlbionRadarActivity : ComponentActivity() {
             finishingJob.invokeOnCompletion { finalize() }
         } else {
             finalize()
+        }
+    }
+
+    /**
+     * Copies completed captures into public Downloads using MediaStore. This works
+     * on Android 10+ without requesting broad storage permissions.
+     */
+    private fun publishCaptureToDownloads() {
+        val pcap = captureFile
+        val log = captureTextFile
+        captureScope.launch {
+            try {
+                withContext(Dispatchers.IO) {
+                    val collection = MediaStore.Downloads.EXTERNAL_CONTENT_URI
+                    fun publish(source: File, mime: String) {
+                        val values = ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, source.name)
+                            put(MediaStore.MediaColumns.MIME_TYPE, mime)
+                            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/AlbionCaptures")
+                            put(MediaStore.MediaColumns.IS_PENDING, 1)
+                        }
+                        val uri = contentResolver.insert(collection, values)
+                            ?: throw IllegalStateException("MediaStore insert failed for ${source.name}")
+                        try {
+                            contentResolver.openOutputStream(uri, "w")?.use { output ->
+                                FileInputStream(source).use { input -> input.copyTo(output, 256 * 1024) }
+                            } ?: throw IllegalStateException("Cannot open Downloads output for ${source.name}")
+                            val done = ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }
+                            contentResolver.update(uri, done, null, null)
+                        } catch (e: Exception) {
+                            contentResolver.delete(uri, null, null)
+                            throw e
+                        }
+                    }
+                    pcap?.takeIf { it.exists() }?.let { publish(it, "application/vnd.tcpdump.pcap") }
+                    log?.takeIf { it.exists() }?.let { publish(it, "text/plain") }
+                }
+                status.text = "Saved to Downloads/AlbionCaptures. PCAP and packet log are available in Files."
+            } catch (e: Exception) {
+                status.text = "Private capture saved, but publishing to Downloads failed: ${e.message}"
+            }
         }
     }
 
