@@ -1,4 +1,4 @@
-name: Albion ARM64 Release validation
+name: Albion ARM64 Signed Release
 
 on:
   workflow_dispatch:
