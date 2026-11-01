@@ -17,6 +17,9 @@ object AlbionCaptureAnalyzer {
         val eventCodes: Map<Int, Int>,
         val entityKinds: Map<String, Int>,
         val malformedPhotonPackets: Int,
+        val encryptedProtocol18Messages: Int,
+        val malformedProtocol18Messages: Int,
+        val pendingFragments: Int,
         val warnings: List<String>
     ) {
         fun asText(): String = buildString {
@@ -33,6 +36,9 @@ object AlbionCaptureAnalyzer {
             appendLine("Mapped entity observations:")
             entityKinds.toSortedMap().forEach { (kind, count) -> appendLine("  $kind: $count") }
             appendLine("Malformed / unrecognized Photon envelopes: $malformedPhotonPackets")
+            appendLine("Encrypted Protocol18 messages: $encryptedProtocol18Messages")
+            appendLine("Malformed Protocol18 messages: $malformedProtocol18Messages")
+            appendLine("Pending fragmented messages: $pendingFragments")
             warnings.forEach { appendLine("Warning: $it") }
         }
     }
@@ -95,10 +101,14 @@ object AlbionCaptureAnalyzer {
                 }
             }
         }
+        val protocolStats = protocol18.stats()
         val warnings = mutableListOf<String>()
         if (albion == 0) warnings += "No UDP datagrams involving port 5056 were found."
         if (malformed > 0) warnings += "Some datagrams on port 5056 did not pass Photon envelope validation."
-        return Report(packets, albion, valid, inbound, outbound, commands, events, entities, malformed, warnings)
+        return Report(
+            packets, albion, valid, inbound, outbound, commands, events, entities, malformed,
+            protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings
+        )
     }
 
     private fun readInt(input: DataInputStream, little: Boolean): Int =
