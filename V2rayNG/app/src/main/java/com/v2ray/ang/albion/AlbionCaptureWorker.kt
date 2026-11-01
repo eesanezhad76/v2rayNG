@@ -40,6 +40,7 @@ class AlbionCaptureWorker(
             pcapFile = raw
             logFile = txt
             packetCount.set(0)
+            AlbionEntityEventMapper.reset()
             failure = null
             finalized = false
             running.set(true)
