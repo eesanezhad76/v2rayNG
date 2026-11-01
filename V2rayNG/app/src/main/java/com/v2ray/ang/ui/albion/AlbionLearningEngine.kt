@@ -7,6 +7,7 @@ import java.io.FileInputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.security.MessageDigest
+import org.json.JSONObject
 import kotlin.math.min
 
 /**
@@ -37,7 +38,8 @@ internal object AlbionLearningEngine {
 
     fun analyze(file: File): String {
         val packets = readPcap(file)
-        if (packets.isEmpty()) return "No UDP payloads found in this PCAP."
+        val markers = readMarkerEvents(file)
+        if (packets.isEmpty() && markers.isEmpty()) return "No UDP payloads or activity markers found in this PCAP."
 
         val portCounts = packets.flatMap { listOf(it.srcPort, it.dstPort) }.groupingBy { it }.eachCount()
             .entries.sortedByDescending { it.value }
@@ -103,6 +105,10 @@ internal object AlbionLearningEngine {
         out.appendLine("Most frequently changing offsets across adjacent equal-length packets:")
         out.appendLine(changeCounts.take(64).joinToString(", ") { "${it.key}(${it.value})" })
         out.appendLine()
+        out.appendLine("USER ACTIVITY MARKERS (embedded in this same PCAP; synthetic records, not game traffic)")
+        if (markers.isEmpty()) out.appendLine("No user markers found.")
+        else markers.forEach { out.appendLine(it) }
+        out.appendLine()
         out.appendLine("LIMITATIONS")
         out.appendLine("- This is unsupervised byte-pattern discovery, not a decoded Albion event log.")
         out.appendLine("- Direction labels and packet roles are provisional until tunnel direction is validated.")
@@ -144,6 +150,50 @@ internal object AlbionLearningEngine {
             }
         }
         return result
+    }
+
+    private fun readMarkerEvents(file: File): List<String> {
+        val markers = ArrayList<String>()
+        DataInputStream(BufferedInputStream(FileInputStream(file))).use { input ->
+            val magic = input.readInt()
+            val littleEndian = when (magic) {
+                0xa1b2c3d4.toInt(), 0xa1b23c4d.toInt() -> false
+                0xd4c3b2a1.toInt(), 0x4d3cb2a1 -> true
+                else -> return emptyList()
+            }
+            val major = readInt(input, littleEndian)
+            readInt(input, littleEndian)
+            readInt(input, littleEndian); readInt(input, littleEndian)
+            readInt(input, littleEndian)
+            val linkType = readInt(input, littleEndian)
+            if (major != 2 || linkType != 101) return emptyList()
+            while (true) {
+                val sec = try { readInt(input, littleEndian) } catch (_: Exception) { break }
+                val usec = try { readInt(input, littleEndian) } catch (_: Exception) { break }
+                val incl = try { readInt(input, littleEndian) } catch (_: Exception) { break }
+                try { readInt(input, littleEndian) } catch (_: Exception) { break }
+                if (incl < 20 || incl > 100_000) break
+                val frame = ByteArray(incl)
+                try { input.readFully(frame) } catch (_: Exception) { break }
+                if ((frame[0].toInt() ushr 4 and 15) != 4) continue
+                val ihl = (frame[0].toInt() and 15) * 4
+                if (ihl < 20 || frame.size < ihl || (frame[9].toInt() and 255) != 253) continue
+                val prefix = "ALBION_TAG_V1\n".toByteArray(Charsets.US_ASCII)
+                if (frame.size < ihl + prefix.size) continue
+                var matches = true
+                for (i in prefix.indices) if (frame[ihl + i] != prefix[i]) { matches = false; break }
+                if (!matches) continue
+                try {
+                    val json = String(frame, ihl + prefix.size, frame.size - ihl - prefix.size, Charsets.UTF_8)
+                    val obj = JSONObject(json)
+                    val time = sec.toLong() * 1000L + usec.toLong() / 1000L
+                    markers.add("${time} ms | " + obj.optString("event") + " | " + obj.optString("activity") + " | " + obj.optString("tier") + " | " + obj.optString("enchantment"))
+                } catch (_: Exception) {
+                    markers.add(sec.toString() + "s." + usec + " | malformed activity marker")
+                }
+            }
+        }
+        return markers
     }
 
     private fun ethernetPayload(frame: ByteArray): ByteArray? {
