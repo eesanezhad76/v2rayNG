@@ -97,6 +97,13 @@ object AlbionCaptureAnalyzer {
                     val frame = ByteArray(captured)
                     input.readFully(frame)
                     packets++
+                    // Local overlay checkpoints are deliberately stored as raw IPv4 records.
+                    // Recognize them before link-layer decoding so a PCAP link-type mismatch
+                    // cannot silently discard our own annotation packets.
+                    if (isCheckpointPacket(frame)) {
+                        parseCheckpoint(frame)?.let { checkpoints += it }
+                        continue
+                    }
                     val ip = extractIpPacket(frame, linkType) ?: continue
                     if (isCheckpointPacket(ip)) {
                         parseCheckpoint(ip)?.let { checkpoints += it }
