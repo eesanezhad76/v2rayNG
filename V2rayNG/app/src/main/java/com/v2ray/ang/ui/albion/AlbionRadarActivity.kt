@@ -126,6 +126,24 @@ class AlbionRadarActivity : ComponentActivity() {
             packetCount = existingCapture.packets
             summary.text = "Packets saved: ${existingCapture.packets} | dropped copies: ${existingCapture.dropped}"
             status.text = "Capture is already running in the VPN daemon."
+            observeCapture()
+        }
+    }
+
+    private fun observeCapture() {
+        pollJob?.cancel()
+        pollJob = captureScope.launch {
+            while (isActive && tapping) {
+                val s = CoreServiceManager.getAlbionCaptureSnapshot()
+                if (s != null) {
+                    captureFile = s.pcap
+                    captureTextFile = s.log
+                    packetCount = s.packets
+                    summary.text = "Packets saved: ${s.packets} | dropped copies: ${s.dropped} | file: ${(s.pcap?.length() ?: 0L) / 1024} KB"
+                    if (s.error != null) status.text = "Capture writer error: ${s.error}"
+                }
+                delay(500)
+            }
         }
     }
 
@@ -143,20 +161,7 @@ class AlbionRadarActivity : ComponentActivity() {
         export.isEnabled = false
         copyAll.isEnabled = false
         status.text = "Capture runs in the VPN daemon. It continues when this screen is closed."
-        pollJob?.cancel()
-        pollJob = captureScope.launch {
-            while (isActive && tapping) {
-                val s = CoreServiceManager.getAlbionCaptureSnapshot()
-                if (s != null) {
-                    captureFile = s.pcap
-                    captureTextFile = s.log
-                    packetCount = s.packets
-                    summary.text = "Packets saved: ${s.packets} | dropped copies: ${s.dropped} | file: ${(s.pcap?.length() ?: 0L) / 1024} KB"
-                    if (s.error != null) status.text = "Capture writer error: ${s.error}"
-                }
-                delay(500)
-            }
-        }
+        observeCapture()
     }
 
     private fun stopCapture() {
