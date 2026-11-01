@@ -1,6 +1,10 @@
 package com.v2ray.ang.albion
 
-/** Maps decoded Protocol18 events into conservative radar observations. */
+/**
+ * Converts the best-understood Albion events into typed observations.
+ * Unknown events are deliberately left to the event inventory/log rather than
+ * being guessed as entities.
+ */
 object AlbionEntityEventMapper {
     private val knownNonPlayerEntities = LinkedHashSet<Long>()
     fun reset() = knownNonPlayerEntities.clear()
@@ -17,7 +21,9 @@ object AlbionEntityEventMapper {
         val y: Float? = null,
         val size: Int? = null,
         val name: String? = null,
-        val removed: Boolean = false
+        val removed: Boolean = false,
+        val value: Float? = null,
+        val secondaryValue: Float? = null
     )
 
     fun map(message: AlbionProtocol18Decoder.Message): List<Observation> {
@@ -26,6 +32,7 @@ object AlbionEntityEventMapper {
         val code = message.realCode ?: return emptyList()
         fun number(key: Int) = (p[key] as? Number)?.toLong()
         fun int(key: Int) = number(key)?.toInt()
+        fun float(key: Int) = (p[key] as? Number)?.toFloat()
         fun pair(value: Any?): Pair<Float, Float>? = when (value) {
             is FloatArray -> if (value.size >= 2) value[0] to value[1] else null
             is DoubleArray -> if (value.size >= 2) value[0].toFloat() to value[1].toFloat() else null
@@ -41,11 +48,25 @@ object AlbionEntityEventMapper {
             else -> emptyList()
         }
         return when (code) {
+            1 -> {
+                val id = number(0) ?: return emptyList()
+                knownNonPlayerEntities.remove(id)
+                listOf(Observation("leave", code, entityId = id, removed = true))
+            }
             3 -> {
                 val id = number(0) ?: return emptyList()
                 if (!knownNonPlayerEntities.contains(id)) return emptyList()
-                val xy = if (p[4] is Number && p[5] is Number) (p[4] as Number).toFloat() to (p[5] as Number).toFloat() else null
+                val xy = if (p[4] is Number && p[5] is Number)
+                    (p[4] as Number).toFloat() to (p[5] as Number).toFloat() else null
                 listOf(Observation("move", code, id, x = xy?.first, y = xy?.second))
+            }
+            6, 8 -> {
+                val id = number(0) ?: number(6) ?: return emptyList()
+                listOf(Observation("health", code, entityId = id, value = float(2), secondaryValue = float(3)))
+            }
+            29 -> {
+                val id = number(0) ?: return emptyList()
+                listOf(Observation("player_spawn", code, entityId = id, name = p[1] as? String))
             }
             39 -> {
                 val ids = idList(p[0])
@@ -71,22 +92,42 @@ object AlbionEntityEventMapper {
                     x = xy?.first, y = xy?.second, size = int(10)
                 ))
             }
-            46 -> listOf(Observation(
-                "resource_state", code, number(0), size = int(1), removed = !p.containsKey(1) || p[1] == null
-            ))
+            46 -> {
+                val id = number(0) ?: return emptyList()
+                val depleted = !p.containsKey(1) || p[1] == null
+                if (depleted) knownNonPlayerEntities.remove(id)
+                listOf(Observation("resource_state", code, id, size = int(1), removed = depleted))
+            }
+            47 -> {
+                val id = number(0) ?: return emptyList()
+                listOf(Observation("mob_state", code, entityId = id, value = float(1)))
+            }
+            90 -> {
+                val id = number(0) ?: return emptyList()
+                listOf(Observation("player_equipment", code, entityId = id))
+            }
+            91 -> {
+                val id = number(6) ?: number(0) ?: return emptyList()
+                listOf(Observation("health_regeneration", code, entityId = id, value = float(2), secondaryValue = float(3)))
+            }
             123 -> {
-                number(0)?.let { knownNonPlayerEntities.add(it) }
+                val id = number(0) ?: return emptyList()
+                knownNonPlayerEntities.add(id)
                 val xy = pair(p[7])
                 listOf(Observation(
-                    kind = "mob",
-                    eventCode = code,
-                    entityId = number(0),
-                    typeId = int(1),
-                    enchant = int(34),
-                    x = xy?.first,
-                    y = xy?.second,
-                    name = p[31] as? String
+                    kind = "mob", eventCode = code, entityId = id,
+                    typeId = int(1), tier = int(2), enchant = int(34),
+                    x = xy?.first, y = xy?.second, name = p[31] as? String
                 ))
+            }
+            211 -> {
+                val id = number(0) ?: return emptyList()
+                listOf(Observation("player_mounted", code, entityId = id, value = if (p[1] == true) 1f else 0f))
+            }
+            325 -> {
+                val xy = pair(p[1])
+                listOf(Observation("dungeon_exit", code, x = xy?.first, y = xy?.second,
+                    name = p[3] as? String, enchant = int(9)))
             }
             else -> emptyList()
         }
