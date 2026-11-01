@@ -345,7 +345,7 @@ class AlbionCaptureWorker(
         val source = pcapFile ?: return
         if (!source.exists()) return
         try {
-            val report = AlbionCaptureAnalyzer.analyze(source).asText()
+            val report = AlbionCaptureAnalyzer.analyze(source).asText() + AlbionPatternMiner.analyze(logFile).asText()
             val target = File(source.parentFile, source.nameWithoutExtension + ".report.txt")
             target.writeText(buildString {
                 append(report)
