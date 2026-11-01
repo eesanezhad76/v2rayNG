@@ -314,7 +314,7 @@ object CoreServiceManager {
 
             coreController.stopLoop()
             launchCore(service, tunFd, isReload = true)
-            val tapRestored = !albionTapRequested || try { Libv2ray.packetTapEnabled() } catch (_: Exception) { false }
+            val tapRestored = !tapWasRequested || try { Libv2ray.packetTapEnabled() } catch (_: Exception) { false }
             val handoverEnd = org.json.JSONObject()
                 .put("timestamp_ms", System.currentTimeMillis())
                 .put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
