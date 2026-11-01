@@ -85,6 +85,7 @@ class AlbionCaptureWorker(
             reportFile = null
             AlbionPhotonPacketDecoder.reset()
             AlbionEntityEventMapper.reset()
+            eventStateTracker.reset()
             failure = null
             finalized = false
             running.set(true)
