@@ -3,7 +3,7 @@ package com.v2ray.ang.albion
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
-import java.util.Locale
+import java.util.ArrayDeque
 
 /**
  * Learns repeatable, label-correlated packet observations from the JSONL capture.
@@ -62,7 +62,6 @@ object AlbionPatternMiner {
         }
     }
 
-    private data class Marker(val time: Long, val activity: String, val event: String)
     private data class Candidate(
         val signature: String, val activity: String, val kind: String,
         val eventCode: Int?, val typeId: Int?, val tier: Int?, val enchant: Int?,
@@ -185,4 +184,6 @@ object AlbionPatternMiner {
         if (malformedLines > 0) warnings += "$malformedLines malformed JSONL lines were skipped."
         if (patterns.isEmpty()) warnings += "No decoded entity observations were available in the labeled windows; encrypted or unknown traffic cannot be semantically classified."
         return Report(markerCount, completed.size, incomplete, patterns, warnings)
-    }}
+    }
+}
+
