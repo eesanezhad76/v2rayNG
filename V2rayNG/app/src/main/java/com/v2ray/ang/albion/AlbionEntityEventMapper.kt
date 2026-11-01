@@ -78,8 +78,14 @@ object AlbionEntityEventMapper {
                 number(0)?.let { knownNonPlayerEntities.add(it) }
                 val xy = pair(p[7])
                 listOf(Observation(
-                    "mob", code, number(0), int(1), null, null,
-                    xy?.first, xy?.second, enchant = int(34), name = p[31] as? String
+                    kind = "mob",
+                    eventCode = code,
+                    entityId = number(0),
+                    typeId = int(1),
+                    enchant = int(34),
+                    x = xy?.first,
+                    y = xy?.second,
+                    name = p[31] as? String
                 ))
             }
             else -> emptyList()
