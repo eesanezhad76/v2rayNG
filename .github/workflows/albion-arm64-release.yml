@@ -1,0 +1,106 @@
+name: Albion ARM64 Release validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - albion-v2rayng-2.2.6-port
+    paths:
+      - ".github/workflows/albion-arm64-release.yml"
+      - "V2rayNG/**"
+      - "AndroidLibXrayLite/**"
+      - "Xray-core/**"
+      - "compile-hevtun.sh"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: albion-arm64-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-arm64:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout source and submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          packages: "platforms;android-37 build-tools;37.0.0 platform-tools"
+
+      - name: Install Android NDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          yes | sdkmanager --licenses >/dev/null
+          sdkmanager "ndk;30.0.16248370"
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/30.0.16248370" >> "$GITHUB_ENV"
+          echo "NDK_HOME=$ANDROID_HOME/ndk/30.0.16248370" >> "$GITHUB_ENV"
+
+      - name: Build HEV TUN native libraries
+        run: bash compile-hevtun.sh
+
+      - name: Stage HEV TUN libraries
+        run: |
+          mkdir -p V2rayNG/app/libs
+          cp -a libs/. V2rayNG/app/libs/
+
+      - name: Check out Albion passive-tap Android library
+        shell: bash
+        run: |
+          set -euo pipefail
+          git -C AndroidLibXrayLite remote set-url origin https://github.com/eesanezhad76/AndroidLibXrayLite.git
+          git -C AndroidLibXrayLite fetch --depth=1 origin albion-passive-tap
+          git -C AndroidLibXrayLite checkout --detach FETCH_HEAD
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: AndroidLibXrayLite/go.mod
+          cache: false
+
+      - name: Build passive-tap libv2ray AAR
+        working-directory: AndroidLibXrayLite
+        shell: bash
+        run: |
+          set -euo pipefail
+          go install golang.org/x/mobile/cmd/gomobile@latest
+          export PATH="$PATH:$(go env GOPATH)/bin"
+          mkdir -p assets data
+          bash gen_assets.sh download
+          cp -v data/*.dat assets/
+          gomobile init
+          go mod tidy
+          go test github.com/xtls/xray-core/proxy/tun
+          gomobile bind -v -androidapi 24 -trimpath -ldflags='-s -w -buildid= -checklinkname=0' -o ../V2rayNG/app/libs/libv2ray.aar ./
+
+      - name: Build ARM64 Play Store Release APK (unsigned validation artifact)
+        working-directory: V2rayNG
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+          chmod +x gradlew
+          ./gradlew --no-daemon clean testPlaystoreReleaseUnitTest assemblePlaystoreRelease -PABI_FILTERS=arm64-v8a
+
+      - name: Upload ARM64 validation APK
+        if: always() && success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: albion-arm64-release-validation
+          path: V2rayNG/app/build/outputs/apk/playstore/release/*arm64-v8a*.apk
+          if-no-files-found: error
+          retention-days: 14
