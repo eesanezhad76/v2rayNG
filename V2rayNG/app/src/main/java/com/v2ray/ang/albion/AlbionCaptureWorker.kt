@@ -115,6 +115,29 @@ class AlbionCaptureWorker(
         }
     }
 
+    /** Writes a synthetic local annotation record; it is never sent to the VPN or game. */
+    @Synchronized fun appendMarker(packet: ByteArray, timestampMs: Long): Boolean {
+        val out = pcap ?: return false
+        if (!running.get()) return false
+        return try {
+            out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
+            out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
+            out.writeInt(Integer.reverseBytes(packet.size))
+            out.writeInt(Integer.reverseBytes(packet.size))
+            out.write(packet)
+            val markerJson = String(packet, 20, packet.size - 20, Charsets.UTF_8)
+                .removePrefix("ALBION_TAG_V1\\n")
+            log?.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", JSONObject(markerJson)).toString())
+            log?.newLine()
+            out.flush()
+            log?.flush()
+            true
+        } catch (t: Throwable) {
+            failure = "marker write failed: ${t.message}"
+            false
+        }
+    }
+
     fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), dropped(), pcapFile, logFile, failure)
 
     @Synchronized private fun writePacket(packet: ByteArray, timestampMs: Long, decoded: AlbionPhotonPacketDecoder.Result) {

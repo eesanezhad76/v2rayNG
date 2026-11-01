@@ -376,6 +376,9 @@ object CoreServiceManager {
         return true
     }
 
+    fun appendAlbionCaptureMarker(packet: ByteArray, timestampMs: Long): Boolean =
+        albionCaptureWorker?.appendMarker(packet, timestampMs) ?: false
+
     fun getAlbionCaptureSnapshot(): AlbionCaptureWorker.Snapshot? = albionCaptureWorker?.snapshot()
 
     fun stopAlbionCapture() {
