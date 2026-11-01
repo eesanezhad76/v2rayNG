@@ -95,7 +95,7 @@ jobs:
         mkdir -p ../V2rayNG/app/libs
         gomobile init
         go mod tidy
-        go test github.com/xtls/xray-core/proxy/tun
+        go test -race github.com/xtls/xray-core/proxy/tun
         gomobile bind -v -androidapi 24 -trimpath -ldflags='-s -w -buildid= -checklinkname=0' -o ../V2rayNG/app/libs/libv2ray.aar ./
 
     - name: Fetch AndroidLibXrayLite tag
