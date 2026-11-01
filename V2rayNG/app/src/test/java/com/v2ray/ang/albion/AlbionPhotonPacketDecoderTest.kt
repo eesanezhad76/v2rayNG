@@ -19,7 +19,18 @@ class AlbionPhotonPacketDecoderTest {
         val result = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
         assertNotNull(result)
         assertFalse(result!!.photon)
+        assertFalse(result.encrypted)
         assertEquals("invalid Photon command length", result.error)
+    }
+
+    @Test fun classifiesEncryptedPhotonPacketsSeparatelyFromMalformedPackets() {
+        val packet = ipv4UdpPhotonPacket(commandType = 7, commandLength = 12)
+        packet[28 + 2] = 1 // encrypted Photon packet flag
+        val result = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
+        assertNotNull(result)
+        assertFalse(result!!.photon)
+        assertTrue(result.encrypted)
+        assertEquals("encrypted Photon packet", result.error)
     }
 
     @Test fun ignoresOtherUdpPorts() {
