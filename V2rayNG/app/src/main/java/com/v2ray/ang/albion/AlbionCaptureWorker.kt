@@ -12,13 +12,14 @@ class AlbionCaptureWorker(
     private val dropped: () -> Long,
     private val disableTap: () -> Unit
 ) {
-    data class Snapshot(val running: Boolean, val packets: Long, val dropped: Long, val pcap: File?, val log: File?, val error: String?)
+    data class Snapshot(val running: Boolean, val finished: Boolean, val packets: Long, val dropped: Long, val pcap: File?, val log: File?, val error: String?)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val running = AtomicBoolean(false)
     private val packetCount = AtomicLong(0)
     @Volatile private var pcapFile: File? = null
     @Volatile private var logFile: File? = null
     @Volatile private var failure: String? = null
+    @Volatile private var finalized = true
     @Volatile private var pcap: DataOutputStream? = null
     @Volatile private var log: BufferedWriter? = null
     @Volatile private var job: Job? = null
@@ -37,6 +38,7 @@ class AlbionCaptureWorker(
             logFile = txt
             packetCount.set(0)
             failure = null
+            finalized = false
             running.set(true)
             job = scope.launch {
                 var lastFlush = System.nanoTime()
@@ -58,6 +60,9 @@ class AlbionCaptureWorker(
                 } catch (t: Throwable) {
                     failure = t.message ?: t.javaClass.simpleName
                     running.set(false)
+                    try { disableTap() } catch (_: Throwable) {}
+                    synchronized(this@AlbionCaptureWorker) { closeFiles() }
+                    finalized = true
                 } finally {
                     synchronized(this@AlbionCaptureWorker) { flushFiles() }
                 }
@@ -67,6 +72,7 @@ class AlbionCaptureWorker(
             failure = t.message ?: t.javaClass.simpleName
             running.set(false)
             closeFiles()
+            finalized = true
             false
         }
     }
@@ -83,10 +89,11 @@ class AlbionCaptureWorker(
                 drained++
             }
             synchronized(this@AlbionCaptureWorker) { flushFiles(); closeFiles() }
+            finalized = true
         }
     }
 
-    fun snapshot() = Snapshot(running.get(), packetCount.get(), dropped(), pcapFile, logFile, failure)
+    fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), dropped(), pcapFile, logFile, failure)
 
     @Synchronized private fun writePacket(packet: ByteArray, timestampMs: Long) {
         val out = pcap ?: return
