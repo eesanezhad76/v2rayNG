@@ -40,6 +40,7 @@ class AlbionRadarActivity : ComponentActivity() {
     private lateinit var toggle: Button
     private lateinit var export: Button
     private lateinit var copyAll: Button
+    private lateinit var analyze: Button
     private var pollJob: Job? = null
     private val captureScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var stopping = false
@@ -83,9 +84,14 @@ class AlbionRadarActivity : ComponentActivity() {
             setOnClickListener { exportCapture() }
         }
         copyAll = Button(this).apply {
-            text = "Copy all packets"
+            text = "Copy packet summary"
             isEnabled = false
             setOnClickListener { copyAllPackets() }
+        }
+        analyze = Button(this).apply {
+            text = "Analyze mining session"
+            isEnabled = false
+            setOnClickListener { analyzeCapture() }
         }
         packets = TextView(this).apply {
             textSize = 13f
@@ -101,6 +107,7 @@ class AlbionRadarActivity : ComponentActivity() {
             addView(export, LinearLayout.LayoutParams(0, -2, 1f).apply { leftMargin = 8 })
         }
         root.addView(actions, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
+        root.addView(analyze, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(
             ScrollView(this).apply { addView(packets) },
             LinearLayout.LayoutParams(-1, 0, 1f).apply { topMargin = 12 }
@@ -141,6 +148,7 @@ class AlbionRadarActivity : ComponentActivity() {
         toggle.text = "Stop capture"
         export.isEnabled = false
         copyAll.isEnabled = false
+        analyze.isEnabled = false
         status.text = "Continuous capture active. Play normally; no event buttons needed. Packet timestamps are recorded automatically."
         pollJob = captureScope.launch {
             while (isActive && tapping) {
@@ -232,6 +240,7 @@ class AlbionRadarActivity : ComponentActivity() {
                     toggle.text = "Start full capture"
                     export.isEnabled = captureFile?.exists() == true
                     copyAll.isEnabled = captureTextFile?.exists() == true
+                    analyze.isEnabled = captureFile?.exists() == true
                     status.text = "Capture stopped. One continuous PCAP and packet summary are saved."
                     summary.text = "Packets saved: $packetCount | dropped copies: " +
                         CoreServiceManager.getAlbionPacketTapDropped() +
@@ -255,6 +264,29 @@ class AlbionRadarActivity : ComponentActivity() {
         } catch (_: Exception) {
         }
         captureTextOutput = null
+    }
+
+    private fun analyzeCapture() {
+        val file = captureFile
+        if (tapping || file == null || !file.exists()) {
+            status.text = "Stop the capture before analyzing it."
+            return
+        }
+        analyze.isEnabled = false
+        status.text = "Analyzing UDP payload patterns..."
+        lifecycleScope.launch {
+            try {
+                val report = withContext(Dispatchers.IO) {
+                    AlbionLearningEngine.analyze(file)
+                }
+                packets.text = report
+                status.text = "Analysis complete. This is a pattern-discovery report, not a decoded game map."
+            } catch (e: Exception) {
+                status.text = "Analysis failed: ${e.message}"
+            } finally {
+                analyze.isEnabled = captureFile?.exists() == true
+            }
+        }
     }
 
     private fun copyAllPackets() {
