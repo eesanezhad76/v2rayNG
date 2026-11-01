@@ -65,6 +65,18 @@ class AlbionCaptureWorker(
                         }
                         if (consumed == 0) delay(10)
                     }
+                } catch (cancelled: CancellationException) {
+                    // stop() cancels the polling job before draining the native queue.
+                    // Do not close the files here: stop() still has to append the queued
+                    // tail packets before it flushes and closes both files.
+                    if (running.get()) {
+                        failure = "capture worker cancelled unexpectedly"
+                        running.set(false)
+                        try { disableTap() } catch (_: Throwable) {}
+                        synchronized(this@AlbionCaptureWorker) { closeFiles() }
+                        finalized = true
+                    }
+                    throw cancelled
                 } catch (t: Throwable) {
                     failure = t.message ?: t.javaClass.simpleName
                     running.set(false)
