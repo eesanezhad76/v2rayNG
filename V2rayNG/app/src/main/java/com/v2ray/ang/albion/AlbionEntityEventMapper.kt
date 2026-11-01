@@ -1,0 +1,75 @@
+package com.v2ray.ang.albion
+
+/** Maps decoded Protocol18 events into conservative radar observations. */
+object AlbionEntityEventMapper {
+    data class Observation(
+        val kind: String,
+        val eventCode: Int,
+        val entityId: Long? = null,
+        val typeId: Int? = null,
+        val tier: Int? = null,
+        val enchant: Int? = null,
+        val x: Float? = null,
+        val y: Float? = null,
+        val size: Int? = null,
+        val name: String? = null
+    )
+
+    fun map(message: AlbionProtocol18Decoder.Message): List<Observation> {
+        if (message.kind != "event") return emptyList()
+        val p = message.parameters
+        val code = message.realCode ?: return emptyList()
+        fun number(key: Int) = (p[key] as? Number)?.toLong()
+        fun int(key: Int) = number(key)?.toInt()
+        fun pair(value: Any?): Pair<Float, Float>? = when (value) {
+            is FloatArray -> if (value.size >= 2) value[0] to value[1] else null
+            is DoubleArray -> if (value.size >= 2) value[0].toFloat() to value[1].toFloat() else null
+            is List<*> -> if (value.size >= 2 && value[0] is Number && value[1] is Number)
+                (value[0] as Number).toFloat() to (value[1] as Number).toFloat() else null
+            else -> null
+        }
+        fun idList(value: Any?): List<Long> = when (value) {
+            is ShortArray -> value.map { it.toLong() }
+            is IntArray -> value.map { it.toLong() }
+            is LongArray -> value.toList()
+            is List<*> -> value.mapNotNull { (it as? Number)?.toLong() }
+            else -> emptyList()
+        }
+        return when (code) {
+            3 -> {
+                val xy = if (p[4] is Number && p[5] is Number) (p[4] as Number).toFloat() to (p[5] as Number).toFloat() else null
+                listOf(Observation("move", code, number(0), x = xy?.first, y = xy?.second))
+            }
+            39 -> {
+                val ids = idList(p[0])
+                val positions = p[3]
+                val flat = when (positions) {
+                    is FloatArray -> positions
+                    is DoubleArray -> FloatArray(positions.size) { positions[it].toFloat() }
+                    is List<*> -> positions.mapNotNull { (it as? Number)?.toFloat() }.toFloatArray()
+                    else -> floatArrayOf()
+                }
+                ids.mapIndexed { i, id ->
+                    val at = i * 2
+                    Observation("static_resource", code, id, x = flat.getOrNull(at), y = flat.getOrNull(at + 1))
+                }
+            }
+            40 -> {
+                val xy = pair(p[8])
+                listOf(Observation(
+                    "harvestable", code, number(0), int(6), int(7), int(11),
+                    xy?.first, xy?.second, int(10), (p[5] as? String)
+                ))
+            }
+            46 -> listOf(Observation("resource_state", code, number(0), size = int(1)))
+            123 -> {
+                val xy = pair(p[7])
+                listOf(Observation(
+                    "mob", code, number(0), int(1), int(7), int(34),
+                    xy?.first, xy?.second, name = p[31] as? String
+                ))
+            }
+            else -> emptyList()
+        }
+    }
+}
