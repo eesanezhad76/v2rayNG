@@ -19,6 +19,7 @@ object AlbionCaptureAnalyzer {
         val operationResponses: Map<Int, Int>,
         val entityKinds: Map<String, Int>,
         val malformedPhotonPackets: Int,
+        val encryptedPhotonPackets: Int,
         val encryptedProtocol18Messages: Int,
         val malformedProtocol18Messages: Int,
         val pendingFragments: Int,
@@ -42,6 +43,7 @@ object AlbionCaptureAnalyzer {
             appendLine("Mapped entity observations:")
             entityKinds.toSortedMap().forEach { (kind, count) -> appendLine("  $kind: $count") }
             appendLine("Malformed / unrecognized Photon envelopes: $malformedPhotonPackets")
+            appendLine("Encrypted Photon packets: $encryptedPhotonPackets")
             appendLine("Encrypted Protocol18 messages: $encryptedProtocol18Messages")
             appendLine("Malformed Protocol18 messages: $malformedProtocol18Messages")
             appendLine("Pending fragmented messages: $pendingFragments")
@@ -56,6 +58,7 @@ object AlbionCaptureAnalyzer {
         var inbound = 0
         var outbound = 0
         var malformed = 0
+        var encryptedPhoton = 0
         val commands = linkedMapOf<Int, Int>()
         val events = linkedMapOf<Int, Int>()
         val requests = linkedMapOf<Int, Int>()
@@ -105,7 +108,7 @@ object AlbionCaptureAnalyzer {
                                 }
                             }
                         }
-                    } else malformed++
+                    } else if (decoded.encrypted) encryptedPhoton++ else malformed++
                 } catch (_: java.io.EOFException) {
                     break
                 }
@@ -117,7 +120,7 @@ object AlbionCaptureAnalyzer {
         if (malformed > 0) warnings += "Some datagrams on port 5056 did not pass Photon envelope validation."
         return Report(
             packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, malformed,
-            protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings
+            encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings
         )
     }
 
