@@ -14,6 +14,8 @@ object AlbionCaptureAnalyzer {
         val inboundPackets: Int,
         val outboundPackets: Int,
         val photonCommandTypes: Map<Int, Int>,
+        val eventCodes: Map<Int, Int>,
+        val entityKinds: Map<String, Int>,
         val malformedPhotonPackets: Int,
         val warnings: List<String>
     ) {
@@ -26,9 +28,12 @@ object AlbionCaptureAnalyzer {
             appendLine("Outbound from local device: $outboundPackets")
             appendLine("Photon command types (transport commands, not Albion events):")
             photonCommandTypes.toSortedMap().forEach { (type, count) -> appendLine("  command $type: $count") }
+            appendLine("Protocol18 Albion event codes:")
+            eventCodes.toSortedMap().forEach { (code, count) -> appendLine("  event $code: $count") }
+            appendLine("Mapped entity observations:")
+            entityKinds.toSortedMap().forEach { (kind, count) -> appendLine("  $kind: $count") }
             appendLine("Malformed / unrecognized Photon envelopes: $malformedPhotonPackets")
             warnings.forEach { appendLine("Warning: $it") }
-            appendLine("Protocol18 event/entity decoding is not yet implemented; no mob/resource/coordinate counts are claimed.")
         }
     }
 
@@ -40,6 +45,10 @@ object AlbionCaptureAnalyzer {
         var outbound = 0
         var malformed = 0
         val commands = linkedMapOf<Int, Int>()
+        val events = linkedMapOf<Int, Int>()
+        val entities = linkedMapOf<String, Int>()
+        val protocol18 = AlbionProtocol18Decoder()
+        AlbionEntityEventMapper.reset()
         DataInputStream(BufferedInputStream(FileInputStream(file))).use { input ->
             val magic = input.readInt()
             val little = when (magic) {
@@ -72,6 +81,14 @@ object AlbionCaptureAnalyzer {
                         valid++
                         if (decoded.dstPort == AlbionPhotonPacketDecoder.ALBION_PORT) inbound++ else outbound++
                         decoded.commandTypes.forEach { type -> commands[type] = (commands[type] ?: 0) + 1 }
+                        decoded.photonPayload?.let { payload ->
+                            protocol18.receiveDatagram(payload).forEach { message ->
+                                message.realCode?.let { code -> events[code] = (events[code] ?: 0) + 1 }
+                                AlbionEntityEventMapper.map(message).forEach { observation ->
+                                    entities[observation.kind] = (entities[observation.kind] ?: 0) + 1
+                                }
+                            }
+                        }
                     } else malformed++
                 } catch (_: java.io.EOFException) {
                     break
@@ -81,7 +98,7 @@ object AlbionCaptureAnalyzer {
         val warnings = mutableListOf<String>()
         if (albion == 0) warnings += "No UDP datagrams involving port 5056 were found."
         if (malformed > 0) warnings += "Some datagrams on port 5056 did not pass Photon envelope validation."
-        return Report(packets, albion, valid, inbound, outbound, commands, malformed, warnings)
+        return Report(packets, albion, valid, inbound, outbound, commands, events, entities, malformed, warnings)
     }
 
     private fun readInt(input: DataInputStream, little: Boolean): Int =
