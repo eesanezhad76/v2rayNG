@@ -14,6 +14,50 @@ class AlbionPhotonPacketDecoderTest {
         assertEquals(listOf(7), result.commandTypes)
     }
 
+    @Test fun reassemblesOutOfOrderIpv4FragmentsBeforePhotonDecode() {
+        val original = ipv4UdpPhotonPacket(commandType = 7, commandLength = 12)
+        val payload = original.copyOfRange(20, original.size)
+        fun fragment(offsetUnits: Int, more: Boolean, data: ByteArray): ByteArray {
+            val packet = original.copyOfRange(0, 20) + data
+            put16(packet, 2, packet.size)
+            put16(packet, 4, 0x4A21)
+            put16(packet, 6, (if (more) 0x2000 else 0) or offsetUnits)
+            return packet
+        }
+        val first = fragment(0, true, payload.copyOfRange(0, 16))
+        val second = fragment(2, false, payload.copyOfRange(16, payload.size))
+        assertNull(AlbionPhotonPacketDecoder.decodeIpPacket(second))
+        val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(first)
+        assertNotNull(decoded)
+        assertTrue(decoded!!.photon)
+        assertEquals(listOf(7), decoded.commandTypes)
+    }
+
+    @Test fun reassemblesOutOfOrderIpv6FragmentsBeforePhotonDecode() {
+        val ipv4 = ipv4UdpPhotonPacket(commandType = 7, commandLength = 12)
+        val udp = ipv4.copyOfRange(20, ipv4.size)
+        fun fragment(offsetBytes: Int, more: Boolean, data: ByteArray): ByteArray {
+            val packet = ByteArray(48 + data.size)
+            packet[0] = 0x60
+            put16(packet, 4, 8 + data.size)
+            packet[6] = 44 // Fragment extension header
+            packet[7] = 64
+            packet[8] = 0x20; packet[24] = 0x20
+            packet[40] = 17
+            put16(packet, 42, (offsetBytes and 0xfff8) or (if (more) 1 else 0))
+            packet[47] = 0x55
+            data.copyInto(packet, 48)
+            return packet
+        }
+        val tail = fragment(16, false, udp.copyOfRange(16, udp.size))
+        val head = fragment(0, true, udp.copyOfRange(0, 16))
+        assertNull(AlbionPhotonPacketDecoder.decodeIpPacket(tail))
+        val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(head)
+        assertNotNull(decoded)
+        assertTrue(decoded!!.photon)
+        assertEquals(listOf(7), decoded.commandTypes)
+    }
+
     @Test fun rejectsInvalidPhotonCommandLength() {
         val packet = ipv4UdpPhotonPacket(commandType = 7, commandLength = 99)
         val result = AlbionPhotonPacketDecoder.decodeIpPacket(packet)

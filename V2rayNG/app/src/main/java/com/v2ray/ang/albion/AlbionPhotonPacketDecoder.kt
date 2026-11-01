@@ -5,6 +5,136 @@ package com.v2ray.ang.albion
  * command envelope. It intentionally does not decrypt Photon payloads.
  */
 object AlbionPhotonPacketDecoder {
+    private data class FragmentKey(val source: String, val destination: String, val id: Int, val protocol: Int)
+    private data class FragmentAssembly(
+        var header: ByteArray,
+        val payload: ByteArray = ByteArray(65535),
+        val received: BooleanArray = BooleanArray(65535),
+        var totalPayload: Int = -1,
+        var touchedAt: Long = System.currentTimeMillis()
+    )
+    private val ipv4Fragments = Ipv4FragmentCache()
+
+    private class Ipv4FragmentCache {
+        private val sets = LinkedHashMap<FragmentKey, FragmentAssembly>()
+        fun clear() = synchronized(this) { sets.clear() }
+        fun accept(packet: ByteArray, ihl: Int, totalLength: Int, flagsOffset: Int): ByteArray? = synchronized(this) {
+            val now = System.currentTimeMillis()
+            val iterator = sets.entries.iterator()
+            while (iterator.hasNext()) if (now - iterator.next().value.touchedAt > 15000) iterator.remove()
+            val offset = (flagsOffset and 0x1fff) * 8
+            val more = (flagsOffset and 0x2000) != 0
+            val payloadLength = totalLength - ihl
+            if (payloadLength <= 0 || offset < 0 || offset + payloadLength > 65515) return@synchronized null
+            val key = FragmentKey(
+                packet.copyOfRange(12, 16).joinToString("") { "%02x".format(it) },
+                packet.copyOfRange(16, 20).joinToString("") { "%02x".format(it) },
+                (((packet[4].toInt() and 255) shl 8) or (packet[5].toInt() and 255)), packet[9].toInt() and 255
+            )
+            if (sets.size >= 64 && !sets.containsKey(key)) sets.remove(sets.keys.first())
+            var set = sets[key]
+            if (set == null) {
+                set = FragmentAssembly(packet.copyOfRange(0, ihl))
+                sets[key] = set
+            }
+            set.touchedAt = now
+            if (offset == 0) set.header = packet.copyOfRange(0, ihl)
+            for (i in 0 until payloadLength) {
+                val at = offset + i
+                if (!set.received[at]) {
+                    set.received[at] = true
+                    set.payload[at] = packet[ihl + i]
+                }
+            }
+            if (!more) set.totalPayload = offset + payloadLength
+            val end = set.totalPayload
+            if (end <= 0 || set.header.size + end > 65535 || (0 until end).any { !set.received[it] }) return@synchronized null
+            val output = ByteArray(set.header.size + end)
+            System.arraycopy(set.header, 0, output, 0, set.header.size)
+            System.arraycopy(set.payload, 0, output, set.header.size, end)
+            val total = output.size
+            output[2] = (total ushr 8).toByte()
+            output[3] = total.toByte()
+            output[6] = 0
+            output[7] = 0
+            output[10] = 0
+            output[11] = 0
+            var sum = 0L
+            for (i in 0 until set.header.size step 2) {
+                sum += ((output[i].toInt() and 255) shl 8) + (output[i + 1].toInt() and 255)
+            }
+            while ((sum ushr 16) != 0L) sum = (sum and 0xffff) + (sum ushr 16)
+            val checksum = sum.inv().toInt() and 0xffff
+            output[10] = (checksum ushr 8).toByte()
+            output[11] = checksum.toByte()
+            sets.remove(key)
+            output
+        }
+    }
+
+    private data class Ipv6FragmentKey(val source: String, val destination: String, val id: Long, val nextHeader: Int)
+    private data class Ipv6FragmentAssembly(
+        var prefix: ByteArray,
+        val payload: ByteArray = ByteArray(65535),
+        val received: BooleanArray = BooleanArray(65535),
+        var totalPayload: Int = -1,
+        var touchedAt: Long = System.currentTimeMillis()
+    )
+    private class Ipv6FragmentCache {
+        private val sets = LinkedHashMap<Ipv6FragmentKey, Ipv6FragmentAssembly>()
+        fun clear() = synchronized(this) { sets.clear() }
+        fun accept(packet: ByteArray, fragmentOffset: Int, packetEnd: Int, previousNextHeaderOffset: Int): ByteArray? = synchronized(this) {
+            val now = System.currentTimeMillis()
+            val iterator = sets.entries.iterator()
+            while (iterator.hasNext()) if (now - iterator.next().value.touchedAt > 15000) iterator.remove()
+            val bits = AlbionPhotonPacketDecoder.u16be(packet, fragmentOffset + 2)
+            val offset = bits and 0xfff8
+            val more = (bits and 1) != 0
+            val following = AlbionPhotonPacketDecoder.u8(packet, fragmentOffset)
+            val dataStart = fragmentOffset + 8
+            val dataLength = packetEnd - dataStart
+            if (dataLength <= 0 || offset + dataLength > 65535) return@synchronized null
+            val key = Ipv6FragmentKey(
+                packet.copyOfRange(8, 24).joinToString("") { "%02x".format(it) },
+                packet.copyOfRange(24, 40).joinToString("") { "%02x".format(it) },
+                ((AlbionPhotonPacketDecoder.u8(packet, fragmentOffset + 4).toLong() shl 24) or (AlbionPhotonPacketDecoder.u8(packet, fragmentOffset + 5).toLong() shl 16) or
+                    (AlbionPhotonPacketDecoder.u8(packet, fragmentOffset + 6).toLong() shl 8) or AlbionPhotonPacketDecoder.u8(packet, fragmentOffset + 7).toLong()),
+                following
+            )
+            if (sets.size >= 64 && !sets.containsKey(key)) sets.remove(sets.keys.first())
+            var set = sets[key]
+            if (set == null) {
+                set = Ipv6FragmentAssembly(packet.copyOfRange(0, fragmentOffset))
+                sets[key] = set
+            }
+            set.touchedAt = now
+            if (offset == 0) {
+                set.prefix = packet.copyOfRange(0, fragmentOffset)
+                set.prefix[previousNextHeaderOffset] = following.toByte()
+            }
+            for (i in 0 until dataLength) {
+                val at = offset + i
+                if (!set.received[at]) {
+                    set.received[at] = true
+                    set.payload[at] = packet[dataStart + i]
+                }
+            }
+            if (!more) set.totalPayload = offset + dataLength
+            val total = set.totalPayload
+            if (total <= 0 || set.prefix.size - 40 + total > 65535 || (0 until total).any { !set.received[it] }) return@synchronized null
+            val output = ByteArray(set.prefix.size + total)
+            System.arraycopy(set.prefix, 0, output, 0, set.prefix.size)
+            System.arraycopy(set.payload, 0, output, set.prefix.size, total)
+            val ipv6PayloadLength = output.size - 40
+            output[4] = (ipv6PayloadLength ushr 8).toByte()
+            output[5] = ipv6PayloadLength.toByte()
+            sets.remove(key)
+            output
+        }
+    }
+
+    private val ipv6Fragments = Ipv6FragmentCache()
+
     data class Result(
         val srcPort: Int,
         val dstPort: Int,
@@ -17,6 +147,11 @@ object AlbionPhotonPacketDecoder {
         val photonPayload: ByteArray? = null,
         val encrypted: Boolean = false
     )
+
+    fun reset() {
+        ipv4Fragments.clear()
+        ipv6Fragments.clear()
+    }
 
     fun decodeIpPacket(packet: ByteArray): Result? {
         if (packet.isEmpty()) return null
@@ -35,7 +170,12 @@ object AlbionPhotonPacketDecoder {
         if (totalLength < ihl + 8 || totalLength > packet.size) return null
         // IP fragments must be reassembled before the UDP/Photon layer.
         val fragment = u16be(packet, 6)
-        if ((fragment and 0x3fff) != 0) return null
+        if ((fragment and 0x3fff) != 0) {
+            val assembled = ipv4Fragments.accept(packet, ihl, totalLength, fragment) ?: return null
+            val assembledHeader = (assembled[0].toInt() and 15) * 4
+            val assembledLength = u16be(assembled, 2)
+            return decodeUdp(assembled, assembledHeader, assembledLength, assembled.size)
+        }
         return decodeUdp(packet, ihl, totalLength, packet.size)
     }
 
@@ -45,6 +185,7 @@ object AlbionPhotonPacketDecoder {
         val end = 40 + payloadLength
         if (end > packet.size) return null
         var next = u8(packet, 6)
+        var nextHeaderOffset = 6
         var offset = 40
         var extensions = 0
         while (next != IP_UDP) {
@@ -55,14 +196,20 @@ object AlbionPhotonPacketDecoder {
                     val following = u8(packet, offset)
                     val length = (u8(packet, offset + 1) + 1) * 8
                     if (length < 8 || offset + length > end) return null
+                    nextHeaderOffset = offset
                     next = following
                     offset += length
                 }
-                44 -> { // Fragment header: no IP-fragment reassembly here
+                44 -> { // IPv6 fragment header
                     if (offset + 8 > end) return null
+                    val following = u8(packet, offset)
                     val fragmentBits = u16be(packet, offset + 2)
-                    if ((fragmentBits and 0xfff9) != 0) return null
-                    next = u8(packet, offset)
+                    if ((fragmentBits and 0xfff8) != 0 || (fragmentBits and 1) != 0) {
+                        val assembled = ipv6Fragments.accept(packet, offset, end, nextHeaderOffset) ?: return null
+                        return decodeIpv6(assembled)
+                    }
+                    nextHeaderOffset = offset
+                    next = following
                     offset += 8
                 }
                 51 -> { // Authentication header
@@ -70,6 +217,7 @@ object AlbionPhotonPacketDecoder {
                     val following = u8(packet, offset)
                     val length = (u8(packet, offset + 1) + 2) * 4
                     if (length < 8 || offset + length > end) return null
+                    nextHeaderOffset = offset
                     next = following
                     offset += length
                 }

@@ -1,6 +1,11 @@
 package com.v2ray.ang.albion
 
 import android.content.Context
+import android.content.ContentValues
+import android.net.Uri
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -16,7 +21,7 @@ class AlbionCaptureWorker(
     private val dropped: () -> Long,
     private val disableTap: () -> Unit
 ) {
-    data class Snapshot(val running: Boolean, val finished: Boolean, val packets: Long, val dropped: Long, val pcap: File?, val log: File?, val error: String?)
+    data class Snapshot(val running: Boolean, val finished: Boolean, val packets: Long, val dropped: Long, val pcap: File?, val log: File?, val error: String?, val publicPcap: Uri? = null, val publicLog: Uri? = null, val mirrorError: String? = null, val markers: Long = 0, val nonAlbion: Long = 0, val report: File? = null)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val running = AtomicBoolean(false)
     private val stopMutex = Mutex()
@@ -24,7 +29,21 @@ class AlbionCaptureWorker(
     private val protocol18 = AlbionProtocol18Decoder()
     @Volatile private var pcapFile: File? = null
     @Volatile private var logFile: File? = null
+    @Volatile private var reportFile: File? = null
     @Volatile private var failure: String? = null
+    @Volatile private var mirrorFailure: String? = null
+    @Volatile private var publicPcapUri: Uri? = null
+    @Volatile private var publicLogUri: Uri? = null
+    @Volatile private var publicReportUri: Uri? = null
+    @Volatile private var appContext: Context? = null
+    @Volatile private var pcapFileStream: FileOutputStream? = null
+    @Volatile private var logFileStream: FileOutputStream? = null
+    private val markerCount = AtomicLong(0)
+    private val nonAlbionCount = AtomicLong(0)
+    private val dropBaseline = AtomicLong(0)
+    private val mirroredPcapBytes = AtomicLong(0)
+    private val mirroredLogBytes = AtomicLong(0)
+    private val mirrorInProgress = AtomicBoolean(false)
     @Volatile private var finalized = true
     @Volatile private var pcap: DataOutputStream? = null
     @Volatile private var log: BufferedWriter? = null
@@ -38,30 +57,50 @@ class AlbionCaptureWorker(
             val stamp = System.currentTimeMillis()
             val raw = File(dir, "albion-$stamp.pcap")
             val txt = File(dir, "albion-$stamp.jsonl")
-            pcap = DataOutputStream(BufferedOutputStream(FileOutputStream(raw), 262144)).also(::writeHeader)
-            log = BufferedWriter(OutputStreamWriter(FileOutputStream(txt), Charsets.UTF_8), 65536)
+            appContext = context.applicationContext
+            pcapFileStream = FileOutputStream(raw)
+            logFileStream = FileOutputStream(txt)
+            pcap = DataOutputStream(BufferedOutputStream(pcapFileStream!!, 262144)).also(::writeHeader)
+            log = BufferedWriter(OutputStreamWriter(BufferedOutputStream(logFileStream!!, 65536), Charsets.UTF_8), 65536)
+            publicPcapUri = createDownloadsEntry(context, raw.name, "application/vnd.tcpdump.pcap")
+            publicLogUri = createDownloadsEntry(context, txt.name, "application/x-ndjson")
+            mirrorFailure = null
+            markerCount.set(0)
+            nonAlbionCount.set(0)
+            publicReportUri = null
             pcapFile = raw
             logFile = txt
             packetCount.set(0)
+            dropBaseline.set(dropped())
+            mirroredPcapBytes.set(0)
+            mirroredLogBytes.set(0)
+            reportFile = null
+            AlbionPhotonPacketDecoder.reset()
             AlbionEntityEventMapper.reset()
             failure = null
             finalized = false
             running.set(true)
             job = scope.launch {
                 var lastFlush = System.nanoTime()
+                var lastMirror = lastFlush
                 try {
                     while (isActive && running.get()) {
                         var consumed = 0
                         while (consumed < 2048) {
                             val packet = readPacket() ?: break
                             val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
-                            if (decoded != null) writePacket(packet, System.currentTimeMillis(), decoded)
+                            writePacket(packet, System.currentTimeMillis(), decoded)
                             consumed++
                         }
                         val now = System.nanoTime()
                         if (now - lastFlush >= 500000000L) {
                             synchronized(this@AlbionCaptureWorker) { flushFiles() }
                             lastFlush = now
+                        }
+                        if (now - lastMirror >= 2_000_000_000L) {
+                            synchronized(this@AlbionCaptureWorker) { flushFiles() }
+                            scope.launch(Dispatchers.IO) { mirrorDownloads() }
+                            lastMirror = now
                         }
                         if (consumed == 0) delay(10)
                     }
@@ -82,6 +121,7 @@ class AlbionCaptureWorker(
                     running.set(false)
                     try { disableTap() } catch (_: Throwable) {}
                     synchronized(this@AlbionCaptureWorker) { closeFiles() }
+                    withContext(Dispatchers.IO) { generateOfflineReport(); while (mirrorInProgress.get()) delay(10); mirrorDownloads() }
                     finalized = true
                 } finally {
                     synchronized(this@AlbionCaptureWorker) { flushFiles() }
@@ -103,14 +143,17 @@ class AlbionCaptureWorker(
         try { disableTap() } catch (_: Throwable) {}
         job?.cancelAndJoin()
         withContext(Dispatchers.IO) {
-            var drained = 0
-            while (drained < 16384) {
+            while (true) {
                 val packet = readPacket() ?: break
                 val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
-                if (decoded != null) writePacket(packet, System.currentTimeMillis(), decoded)
-                drained++
+                writePacket(packet, System.currentTimeMillis(), decoded)
             }
             synchronized(this@AlbionCaptureWorker) { flushFiles(); closeFiles() }
+            withContext(Dispatchers.IO) {
+                generateOfflineReport()
+                while (mirrorInProgress.get()) delay(10)
+                mirrorDownloads()
+            }
             finalized = true
         }
     }
@@ -118,7 +161,7 @@ class AlbionCaptureWorker(
     /** Writes a synthetic local annotation record; it is never sent to the VPN or game. */
     @Synchronized fun appendMarker(packet: ByteArray, timestampMs: Long): Boolean {
         val out = pcap ?: return false
-        if (!running.get()) return false
+        if (!running.get() || packet.size < 20) return false
         return try {
             out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
             out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
@@ -129,8 +172,12 @@ class AlbionCaptureWorker(
                 .removePrefix("ALBION_TAG_V1\\n")
             log?.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", JSONObject(markerJson)).toString())
             log?.newLine()
+            markerCount.incrementAndGet()
             out.flush()
+            pcapFileStream?.fd?.sync()
             log?.flush()
+            logFileStream?.fd?.sync()
+            scope.launch(Dispatchers.IO) { mirrorDownloads() }
             true
         } catch (t: Throwable) {
             failure = "marker write failed: ${t.message}"
@@ -138,9 +185,9 @@ class AlbionCaptureWorker(
         }
     }
 
-    fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), dropped(), pcapFile, logFile, failure)
+    fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), (dropped() - dropBaseline.get()).coerceAtLeast(0), pcapFile, logFile, failure, publicPcapUri, publicLogUri, mirrorFailure, markerCount.get(), nonAlbionCount.get(), reportFile)
 
-    @Synchronized private fun writePacket(packet: ByteArray, timestampMs: Long, decoded: AlbionPhotonPacketDecoder.Result) {
+    @Synchronized private fun writePacket(packet: ByteArray, timestampMs: Long, decoded: AlbionPhotonPacketDecoder.Result?) {
         val out = pcap ?: return
         out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
         out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
@@ -148,7 +195,8 @@ class AlbionCaptureWorker(
         out.writeInt(Integer.reverseBytes(packet.size))
         out.write(packet)
         packetCount.incrementAndGet()
-        val messages = if (decoded.photon && decoded.photonPayload != null) protocol18.receiveDatagram(decoded.photonPayload) else emptyList()
+        if (decoded == null) nonAlbionCount.incrementAndGet()
+        val messages = if (decoded?.photon == true && decoded.photonPayload != null) protocol18.receiveDatagram(decoded.photonPayload) else emptyList()
         val messageArray = JSONArray()
         messages.forEach { message ->
             val item = JSONObject()
@@ -181,18 +229,97 @@ class AlbionCaptureWorker(
         }
         val decoderStats = protocol18.stats()
         log?.write(JSONObject().put("time_ms", timestampMs).put("length", packet.size)
-            .put("src_port", decoded.srcPort).put("dst_port", decoded.dstPort)
-            .put("photon", decoded.photon).put("photon_encrypted", decoded.encrypted)
-            .put("photon_error", decoded.error ?: JSONObject.NULL).put("command_count", decoded.commandCount)
-            .put("command_types", JSONArray(decoded.commandTypes)).put("messages", messageArray)
+            .put("ip_version", if (packet.isNotEmpty()) (packet[0].toInt() ushr 4) and 15 else JSONObject.NULL)
+            .put("src_port", decoded?.srcPort ?: JSONObject.NULL).put("dst_port", decoded?.dstPort ?: JSONObject.NULL)
+            .put("albion_candidate", decoded != null).put("photon", decoded?.photon ?: false)
+            .put("photon_encrypted", decoded?.encrypted ?: false)
+            .put("photon_error", decoded?.error ?: JSONObject.NULL).put("command_count", decoded?.commandCount ?: 0)
+            .put("command_types", JSONArray(decoded?.commandTypes ?: emptyList<Int>())).put("messages", messageArray)
             .put("entities", entityArray).put("protocol18_encrypted", decoderStats.encrypted)
             .put("protocol18_malformed", decoderStats.malformed)
             .put("fragments_pending", decoderStats.fragmentsPending).toString())
         log?.newLine()
     }
     @Synchronized private fun flushFiles() {
-        try { pcap?.flush() } catch (_: Throwable) {}
-        try { log?.flush() } catch (_: Throwable) {}
+        try { pcap?.flush(); pcapFileStream?.fd?.sync() } catch (t: Throwable) { failure = "PCAP flush failed: ${t.message}" }
+        try { log?.flush(); logFileStream?.fd?.sync() } catch (t: Throwable) { failure = "JSONL flush failed: ${t.message}" }
+    }
+
+    /** Create visible Downloads entries on Android 10+ without broad storage permission. */
+    private fun createDownloadsEntry(context: Context, name: String, mime: String): Uri? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return null
+        val values = ContentValues().apply {
+            put(MediaStore.MediaColumns.DISPLAY_NAME, name)
+            put(MediaStore.MediaColumns.MIME_TYPE, mime)
+            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/AlbionRadar")
+            put(MediaStore.MediaColumns.IS_PENDING, 0)
+        }
+        return context.contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+    }
+
+    /** Periodically mirrors flushed files so Downloads is updated during capture, not only on Export/Stop. */
+    private fun mirrorDownloads() {
+        if (!mirrorInProgress.compareAndSet(false, true)) return
+        val context = appContext ?: run { mirrorInProgress.set(false); return }
+        try {
+            pcapFile?.let { file -> publicPcapUri?.let { mirrorOne(context, file, it, mirroredPcapBytes) } }
+            logFile?.let { file -> publicLogUri?.let { mirrorOne(context, file, it, mirroredLogBytes) } }
+            mirrorFailure = null
+        } catch (t: Throwable) {
+            mirrorFailure = t.message ?: t.javaClass.simpleName
+        } finally {
+            mirrorInProgress.set(false)
+        }
+    }
+
+    private fun mirrorOne(context: Context, source: File, uri: Uri, offset: AtomicLong) {
+        val start = offset.get()
+        val available = source.length()
+        if (available <= start) return
+        context.contentResolver.openOutputStream(uri, "wa")?.use { output ->
+            FileInputStream(source).use { input ->
+                input.channel.position(start)
+                val buffer = ByteArray(256 * 1024)
+                var copied = 0L
+                while (copied < available - start) {
+                    val n = input.read(buffer, 0, minOf(buffer.size.toLong(), available - start - copied).toInt())
+                    if (n <= 0) break
+                    output.write(buffer, 0, n)
+                    copied += n
+                }
+                output.flush()
+                offset.addAndGet(copied)
+            }
+        } ?: error("Cannot append Downloads mirror: ${source.name}")
+    }
+
+    private fun generateOfflineReport() {
+        val source = pcapFile ?: return
+        if (!source.exists()) return
+        try {
+            val report = AlbionCaptureAnalyzer.analyze(source).asText()
+            val target = File(source.parentFile, source.nameWithoutExtension + ".report.txt")
+            target.writeText(buildString {
+                append(report)
+                appendLine("\nCapture integrity")
+                appendLine("PCAP packet records: ${packetCount.get()}")
+                appendLine("Native tap dropped copies: ${(dropped() - dropBaseline.get()).coerceAtLeast(0)}")
+                appendLine("Manual checkpoints: ${markerCount.get()}")
+                appendLine("Non-Albion / unclassified packets: ${nonAlbionCount.get()}")
+                appendLine("Downloads mirror error: ${mirrorFailure ?: "none"}")
+            }, Charsets.UTF_8)
+            reportFile = target
+            val context = appContext
+            if (context != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val uri = createDownloadsEntry(context, target.name, "text/plain")
+                if (uri != null) {
+                    publicReportUri = uri
+                    context.contentResolver.openOutputStream(uri, "w")?.use { out -> target.inputStream().use { it.copyTo(out) } }
+                }
+            }
+        } catch (t: Throwable) {
+            failure = "offline report failed: ${t.message}"
+        }
     }
 
     @Synchronized private fun closeFiles() {
@@ -201,6 +328,11 @@ class AlbionCaptureWorker(
         try { log?.close() } catch (_: Throwable) {}
         pcap = null
         log = null
+        try { pcapFileStream?.close() } catch (_: Throwable) {}
+        try { logFileStream?.close() } catch (_: Throwable) {}
+        pcapFileStream = null
+        logFileStream = null
+        mirrorDownloads()
     }
 
     private fun writeHeader(out: DataOutputStream) {

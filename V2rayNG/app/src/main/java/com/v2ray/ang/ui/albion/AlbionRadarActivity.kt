@@ -56,6 +56,7 @@ class AlbionRadarActivity : ComponentActivity() {
     private var captureFile: File? = null
     private var captureOutput: DataOutputStream? = null
     private var captureTextFile: File? = null
+    private var reportFile: File? = null
     private var captureTextOutput: BufferedWriter? = null
     private val recent = ArrayDeque<String>()
     private val protocolCounts = linkedMapOf<String, Long>()
@@ -134,6 +135,7 @@ class AlbionRadarActivity : ComponentActivity() {
             toggle.text = "Stop capture"
             captureFile = existingCapture.pcap
             captureTextFile = existingCapture.log
+            reportFile = existingCapture.report
             packetCount = existingCapture.packets
             summary.text = "Packets saved: ${existingCapture.packets} | dropped copies: ${existingCapture.dropped}"
             status.text = "Capture is already running in the VPN daemon."
@@ -200,8 +202,9 @@ class AlbionRadarActivity : ComponentActivity() {
                 if (s != null) {
                     captureFile = s.pcap
                     captureTextFile = s.log
+                    reportFile = s.report
                     packetCount = s.packets
-                    summary.text = "Packets saved: ${s.packets} | dropped copies: ${s.dropped} | file: ${(s.pcap?.length() ?: 0L) / 1024} KB"
+                    summary.text = "Packets saved: ${s.packets} | tap drops: ${s.dropped} | markers: ${s.markers} | Downloads mirror: ${if (s.mirrorError == null) "active" else "error"} | ${(s.pcap?.length() ?: 0L) / 1024} KB"
                     if (!s.running && s.finished && tapping) {
                         tapping = false
                         toggle.text = "Start full capture"
@@ -254,22 +257,23 @@ class AlbionRadarActivity : ComponentActivity() {
             }
             captureFile = s?.pcap ?: captureFile
             captureTextFile = s?.log ?: captureTextFile
+            reportFile = s?.report ?: reportFile
             packetCount = s?.packets ?: packetCount
             toggle.text = "Start full capture"
             export.isEnabled = captureFile?.exists() == true
             copyAll.isEnabled = captureTextFile?.exists() == true
-            status.text = "Capture stopped. Files are saved in the app's AlbionCaptures directory."
-            publishCaptureToDownloads()
-            captureFile?.takeIf { it.exists() }?.let { file ->
-                try {
-                    analysis.text = withContext(Dispatchers.IO) {
-                        com.v2ray.ang.albion.AlbionCaptureAnalyzer.analyze(file).asText()
-                    }
-                } catch (e: Exception) {
-                    analysis.text = "Analysis failed: ${e.message}"
+            status.text = "Capture stopped. Live files and offline report are in Downloads/AlbionRadar."
+            val completedReport = reportFile
+            if (completedReport?.exists() == true) {
+                analysis.text = withContext(Dispatchers.IO) { completedReport.readText() }
+            } else {
+                captureFile?.takeIf { it.exists() }?.let { file ->
+                    try {
+                        analysis.text = withContext(Dispatchers.IO) { com.v2ray.ang.albion.AlbionCaptureAnalyzer.analyze(file).asText() }
+                    } catch (e: Exception) { analysis.text = "Analysis failed: ${e.message}" }
                 }
             }
-            summary.text = "Packets saved: $packetCount | dropped copies: ${s?.dropped ?: 0} | file: ${(captureFile?.length() ?: 0L) / 1024} KB"
+            summary.text = "Packets saved: $packetCount | tap drops: ${s?.dropped ?: 0} | markers: ${s?.markers ?: 0} | Downloads/AlbionRadar | ${(captureFile?.length() ?: 0L) / 1024} KB"
             stopping = false
         }
     }

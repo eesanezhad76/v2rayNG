@@ -4,6 +4,7 @@ import java.io.BufferedInputStream
 import java.io.DataInputStream
 import java.io.File
 import java.io.FileInputStream
+import org.json.JSONObject
 
 /** Offline PCAP validation using the same Photon transport parser as the live writer. */
 object AlbionCaptureAnalyzer {
@@ -23,7 +24,8 @@ object AlbionCaptureAnalyzer {
         val encryptedProtocol18Messages: Int,
         val malformedProtocol18Messages: Int,
         val pendingFragments: Int,
-        val warnings: List<String>
+        val warnings: List<String>,
+        val checkpoints: List<String>
     ) {
         fun asText(): String = buildString {
             appendLine("Albion / Photon capture report")
@@ -47,6 +49,8 @@ object AlbionCaptureAnalyzer {
             appendLine("Encrypted Protocol18 messages: $encryptedProtocol18Messages")
             appendLine("Malformed Protocol18 messages: $malformedProtocol18Messages")
             appendLine("Pending fragmented messages: $pendingFragments")
+            appendLine("Manual checkpoints: ${checkpoints.size}")
+            checkpoints.forEach { appendLine("  $it") }
             warnings.forEach { appendLine("Warning: $it") }
         }
     }
@@ -64,7 +68,9 @@ object AlbionCaptureAnalyzer {
         val requests = linkedMapOf<Int, Int>()
         val responses = linkedMapOf<Int, Int>()
         val entities = linkedMapOf<String, Int>()
+        val checkpoints = mutableListOf<String>()
         val protocol18 = AlbionProtocol18Decoder()
+        AlbionPhotonPacketDecoder.reset()
         AlbionEntityEventMapper.reset()
         DataInputStream(BufferedInputStream(FileInputStream(file))).use { input ->
             val magic = input.readInt()
@@ -88,6 +94,10 @@ object AlbionCaptureAnalyzer {
                     input.readFully(frame)
                     packets++
                     val ip = extractIpPacket(frame, linkType) ?: continue
+                    if (isCheckpointPacket(ip)) {
+                        parseCheckpoint(ip)?.let { checkpoints += it }
+                        continue
+                    }
                     val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(ip) ?: continue
                     albion++
                     if (decoded.photon) {
@@ -120,8 +130,27 @@ object AlbionCaptureAnalyzer {
         if (malformed > 0) warnings += "Some datagrams on port 5056 did not pass Photon envelope validation."
         return Report(
             packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, malformed,
-            encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings
+            encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings, checkpoints
         )
+    }
+
+    private fun isCheckpointPacket(ip: ByteArray): Boolean =
+        ip.size >= 20 && (ip[0].toInt() ushr 4) == 4 && (ip[9].toInt() and 255) == 253
+
+    private fun parseCheckpoint(ip: ByteArray): String? {
+        return try {
+            val headerLength = (ip[0].toInt() and 15) * 4
+            if (headerLength < 20 || headerLength >= ip.size) null
+            else {
+                val payload = String(ip, headerLength, ip.size - headerLength, Charsets.UTF_8)
+                val prefix = "ALBION_TAG_V1\\n"
+                if (!payload.startsWith(prefix)) null
+                else {
+                    val marker = JSONObject(payload.removePrefix(prefix))
+                    "${marker.optString("activity", "Unknown")}: ${marker.optString("event", "event")} @ ${marker.optLong("timestamp_ms")}"
+                }
+            }
+        } catch (_: Exception) { null }
     }
 
     private fun extractIpPacket(frame: ByteArray, linkType: Int): ByteArray? {

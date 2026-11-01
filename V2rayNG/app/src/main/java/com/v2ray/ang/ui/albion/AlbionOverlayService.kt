@@ -18,6 +18,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import org.json.JSONObject
+import com.v2ray.ang.albion.AlbionCaptureMarker
+import com.v2ray.ang.core.CoreServiceManager
 
 /** Small local-only activity tagger; game packets are never modified or transmitted. */
 class AlbionOverlayService : Service() {
@@ -68,8 +70,8 @@ class AlbionOverlayService : Service() {
         title = TextView(this).apply { text = "Ore"; setTextColor(-1); textSize = 12f; typeface = Typeface.DEFAULT_BOLD; gravity = Gravity.CENTER_VERTICAL }
         head.addView(title, LinearLayout.LayoutParams(0, dp(32), 1f))
         head.addView(button("›") { stepActivity(1) }, LinearLayout.LayoutParams(dp(28), dp(32)))
-        head.addView(button("+") { expanded = !expanded; renderBody() }, LinearLayout.LayoutParams(dp(28), dp(32)))
-        head.addView(button("×") { stopSelf() }, LinearLayout.LayoutParams(dp(28), dp(32)))
+        head.addView(button(if (expanded) "−" else "+") { expanded = !expanded; tag(if (expanded) "overlay_expanded" else "overlay_collapsed"); renderBody() }, LinearLayout.LayoutParams(dp(28), dp(32)))
+        head.addView(button("×") { tag("overlay_closed"); stopSelf() }, LinearLayout.LayoutParams(dp(28), dp(32)))
         panel.addView(head)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         panel.addView(body)
@@ -81,15 +83,15 @@ class AlbionOverlayService : Service() {
         wm.addView(panel, params)
         renderBody()
     }
-    private fun stepActivity(delta: Int) { activityIndex = (activityIndex + delta + activities.size) % activities.size; title.text = activities[activityIndex]; renderBody() }
+    private fun stepActivity(delta: Int) { activityIndex = (activityIndex + delta + activities.size) % activities.size; title.text = activities[activityIndex]; tag("activity_selected"); renderBody() }
     private fun renderBody() {
         if (!::body.isInitialized) return
         body.removeAllViews()
         if (!expanded) { body.visibility = android.view.View.GONE; return }
         body.visibility = android.view.View.VISIBLE
         val selectors = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        selectors.addView(button(tiers[tierIndex]) { tierIndex = (tierIndex + 1) % tiers.size; renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
-        selectors.addView(button(enchants[enchantIndex]) { enchantIndex = (enchantIndex + 1) % enchants.size; renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
+        selectors.addView(button(tiers[tierIndex]) { tierIndex = (tierIndex + 1) % tiers.size; tag("tier_selected"); renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
+        selectors.addView(button(enchants[enchantIndex]) { enchantIndex = (enchantIndex + 1) % enchants.size; tag("enchantment_selected"); renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
         body.addView(selectors)
         val events = when (activities[activityIndex]) {
             "Ore","Wood","Stone","Fiber","Hide" -> listOf("Found" to "target_found", "Start" to "gathering_started", "Done" to "gathering_completed", "Empty" to "node_depleted")
@@ -108,7 +110,12 @@ class AlbionOverlayService : Service() {
                 put("event", event); put("activity", activities[activityIndex]); put("tier", tiers[tierIndex])
                 put("enchantment", enchants[enchantIndex]); put("source", "manual_overlay")
             }.toString()
-            sendBroadcast(Intent(ACTION_MARKER).setPackage(packageName).putExtra(EXTRA_MARKER, json))
+            val saved = CoreServiceManager.appendAlbionCaptureMarker(
+                AlbionCaptureMarker.build(json),
+                System.currentTimeMillis()
+            )
+            title.text = if (saved) "${activities[activityIndex]} ✓" else "${activities[activityIndex]} !"
+
         } catch (_: Exception) { }
     }
     override fun onDestroy() {
