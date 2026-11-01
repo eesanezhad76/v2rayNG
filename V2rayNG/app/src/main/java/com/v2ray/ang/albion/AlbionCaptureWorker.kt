@@ -20,7 +20,10 @@ import java.util.concurrent.atomic.AtomicLong
 class AlbionCaptureWorker(
     private val readPacket: () -> ByteArray?,
     private val dropped: () -> Long,
-    private val disableTap: () -> Unit
+    private val disableTap: () -> Unit,
+    private val queueDepth: () -> Int = { -1 },
+    private val queueCapacity: () -> Int = { -1 },
+    private val tapEnabled: () -> Boolean = { false }
 ) {
     data class Snapshot(val running: Boolean, val finished: Boolean, val packets: Long, val dropped: Long, val pcap: File?, val log: File?, val error: String?, val publicPcap: Uri? = null, val publicLog: Uri? = null, val mirrorError: String? = null, val markers: Long = 0, val nonAlbion: Long = 0, val report: File? = null)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -84,6 +87,7 @@ class AlbionCaptureWorker(
             job = scope.launch {
                 var lastFlush = System.nanoTime()
                 var lastMirror = lastFlush
+                var lastHealth = lastFlush
                 try {
                     while (isActive && running.get()) {
                         var consumed = 0
@@ -97,6 +101,19 @@ class AlbionCaptureWorker(
                         if (now - lastFlush >= 500000000L) {
                             synchronized(this@AlbionCaptureWorker) { flushFiles() }
                             lastFlush = now
+                        }
+                        if (now - lastHealth >= 5_000_000_000L) {
+                            synchronized(this@AlbionCaptureWorker) {
+                                log?.write(JSONObject().put("record_type", "capture_health")
+                                    .put("time_ms", System.currentTimeMillis())
+                                    .put("tap_enabled", try { tapEnabled() } catch (_: Throwable) { false })
+                                    .put("queue_depth", try { queueDepth() } catch (_: Throwable) { -1 })
+                                    .put("queue_capacity", try { queueCapacity() } catch (_: Throwable) { -1 })
+                                    .put("tap_dropped_total", dropped()).put("packets_written", packetCount.get()).toString())
+                                log?.newLine()
+                                log?.flush()
+                            }
+                            lastHealth = now
                         }
                         if (now - lastMirror >= 2_000_000_000L) {
                             synchronized(this@AlbionCaptureWorker) { flushFiles() }
