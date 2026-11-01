@@ -326,7 +326,10 @@ object CoreServiceManager {
      * This does not alter packet contents or routing. Returns false if the tap cannot start.
      */
     fun enableAlbionPacketTap(capacity: Int = 64): Boolean {
-        if (!isRunning()) return false
+        if (!isRunning() || currentVpnInterface == null || SettingsManager.isUsingHevTun()) {
+            LogUtil.w(AppConfig.TAG, "Albion packet tap requires the standard Android Xray TUN path")
+            return false
+        }
         albionTapCapacity = capacity.coerceIn(64, 4096)
         return try {
             val enabled = Libv2ray.enablePacketTap(albionTapCapacity.toLong())
@@ -342,7 +345,10 @@ object CoreServiceManager {
     /** Starts a daemon-owned capture writer. Safe to call repeatedly after Activity recreation. */
     fun startAlbionCapture(): Boolean {
         val service = getService() ?: return false
-        if (!isRunning()) return false
+        if (!isRunning() || currentVpnInterface == null || SettingsManager.isUsingHevTun()) {
+            LogUtil.w(AppConfig.TAG, "Albion capture requires the standard Android Xray TUN path")
+            return false
+        }
         val existing = albionCaptureWorker
         if (existing != null) {
             val state = existing.snapshot()
