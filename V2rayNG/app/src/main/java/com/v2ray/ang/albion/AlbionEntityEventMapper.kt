@@ -3,6 +3,8 @@ package com.v2ray.ang.albion
 /** Maps decoded Protocol18 events into conservative radar observations. */
 object AlbionEntityEventMapper {
     private val knownNonPlayerEntities = LinkedHashSet<Long>()
+    fun reset() = knownNonPlayerEntities.clear()
+
     data class Observation(
         val kind: String,
         val eventCode: Int,
