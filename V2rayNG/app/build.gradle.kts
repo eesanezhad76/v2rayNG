@@ -10,7 +10,7 @@ android {
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "com.v2ray.ang"
+        applicationId = "com.v2ray.ang.albion"
         minSdk = 24
         targetSdk = 37
         versionCode = 754
@@ -38,6 +38,23 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    val albionKeystorePath = System.getenv("ALBION_KEYSTORE_PATH")
+    val albionKeystorePassword = System.getenv("ALBION_KEYSTORE_PASSWORD")
+    val albionKeyAlias = System.getenv("ALBION_KEY_ALIAS")
+    val albionKeyPassword = System.getenv("ALBION_KEY_PASSWORD")
+
+    signingConfigs {
+        if (!albionKeystorePath.isNullOrBlank() && !albionKeystorePassword.isNullOrBlank() &&
+            !albionKeyAlias.isNullOrBlank() && !albionKeyPassword.isNullOrBlank()) {
+            create("albionRelease") {
+                storeFile = file(albionKeystorePath)
+                storePassword = albionKeystorePassword
+                keyAlias = albionKeyAlias
+                keyPassword = albionKeyPassword
+            }
+        }
+    }
+
     buildTypes {
         debug {
             // Keep the radar test build separate from any installed production v2rayNG.
@@ -45,6 +62,9 @@ android {
             versionNameSuffix = "-radar"
         }
         release {
+            if (signingConfigs.findByName("albionRelease") != null) {
+                signingConfig = signingConfigs.getByName("albionRelease")
+            }
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
