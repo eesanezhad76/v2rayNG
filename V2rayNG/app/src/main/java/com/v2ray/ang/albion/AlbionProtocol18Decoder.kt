@@ -21,7 +21,7 @@ class AlbionProtocol18Decoder {
     )
     data class DecodeStats(val encrypted: Int, val malformed: Int, val fragmentsPending: Int)
 
-    private data class FragmentSet(val bytes: ByteArray, val seenOffsets: MutableSet<Int>, var written: Int = 0)
+    private data class FragmentSet(val bytes: ByteArray, val received: BooleanArray, var written: Int = 0, var lastUpdated: Long = System.currentTimeMillis())
     private val fragments = LinkedHashMap<Long, FragmentSet>()
     private var encryptedCount = 0
     private var malformedCount = 0
@@ -65,7 +65,7 @@ class AlbionProtocol18Decoder {
         val messageType = u8(src, start + 1)
         val payloadStart = start + 2
         val payloadLength = length - 2
-        if (messageType == 131) { encryptedCount++; return }
+        if (messageType == 130 || messageType == 131 || messageType == 132) { encryptedCount++; return }
         try {
             when (messageType) {
                 2 -> {
@@ -117,14 +117,40 @@ class AlbionProtocol18Decoder {
             val oldest = fragments.keys.firstOrNull()
             if (oldest != null) fragments.remove(oldest)
         }
-        val set = fragments.getOrPut(sequence) { FragmentSet(ByteArray(totalLength.toInt()), mutableSetOf()) }
-        if (set.seenOffsets.add(fragmentOffset.toInt())) {
-            src.copyInto(set.bytes, fragmentOffset.toInt(), dataStart, dataStart + dataLength)
-            set.written += dataLength
+        var set = fragments[sequence]
+        if (set != null && set.bytes.size != totalLength.toInt()) {
+            fragments.remove(sequence)
+            malformedCount++
+            set = null
         }
-        if (set.written >= totalLength.toInt()) {
+        if (set == null) {
+            set = FragmentSet(ByteArray(totalLength.toInt()), BooleanArray(totalLength.toInt()))
+            fragments[sequence] = set
+        }
+        set.lastUpdated = System.currentTimeMillis()
+        val base = fragmentOffset.toInt()
+        for (i in 0 until dataLength) {
+            val target = base + i
+            if (!set.received[target]) {
+                set.received[target] = true
+                set.bytes[target] = src[dataStart + i]
+                set.written++
+            }
+        }
+        if (set.written == set.bytes.size) {
             fragments.remove(sequence)
             decodeCommandBody(set.bytes, 0, set.bytes.size, out)
+        }
+    }
+
+    private fun expireFragments() {
+        val cutoff = System.currentTimeMillis() - FRAGMENT_TTL_MS
+        val iterator = fragments.entries.iterator()
+        while (iterator.hasNext()) {
+            if (iterator.next().value.lastUpdated < cutoff) {
+                iterator.remove()
+                malformedCount++
+            }
         }
     }
 
@@ -277,7 +303,7 @@ class AlbionProtocol18Decoder {
     }
 
     companion object {
-        private fun u8(b: ByteArray, o: Int) = b[o].toInt() and 255
+        private const val FRAGMENT_TTL_MS = 30_000L\n        private fun u8(b: ByteArray, o: Int) = b[o].toInt() and 255
         private fun u16le(b: ByteArray, o: Int) = (b[o].toInt() and 255) or ((b[o + 1].toInt() and 255) shl 8)
         private fun u32(b: ByteArray, o: Int) =
             ((b[o].toLong() and 255L) shl 24) or ((b[o + 1].toLong() and 255L) shl 16) or
