@@ -113,7 +113,6 @@ jobs:
         working-directory: V2rayNG
         shell: bash
         env:
-          ALBION_KEYSTORE_PATH: ${{ env.ALBION_KEYSTORE_PATH }}
           ALBION_KEYSTORE_PASSWORD: ${{ secrets.ALBION_KEYSTORE_PASSWORD }}
           ALBION_KEY_ALIAS: ${{ secrets.ALBION_KEY_ALIAS }}
           ALBION_KEY_PASSWORD: ${{ secrets.ALBION_KEY_PASSWORD }}
