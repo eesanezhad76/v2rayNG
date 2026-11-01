@@ -378,6 +378,9 @@ object CoreServiceManager {
 
     fun getAlbionCaptureSnapshot(): AlbionCaptureWorker.Snapshot? = albionCaptureWorker?.snapshot()
 
+    fun appendAlbionCaptureMarker(packet: ByteArray, timestampMs: Long): Boolean =
+        albionCaptureWorker?.appendMarker(packet, timestampMs) ?: false
+
     fun stopAlbionCapture() {
         getService()?.getSharedPreferences(ALBION_CAPTURE_PREFS, Context.MODE_PRIVATE)
             ?.edit()?.putBoolean(ALBION_AUTO_START, false)?.apply()
