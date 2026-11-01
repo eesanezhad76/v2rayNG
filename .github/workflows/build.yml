@@ -6,6 +6,9 @@ on:
       release_tag:
         required: false
         type: string
+  pull_request:
+    branches:
+      - albion-decoder-lab
   push:
     branches:
       - master
