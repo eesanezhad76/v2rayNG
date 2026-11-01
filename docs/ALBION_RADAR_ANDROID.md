@@ -1,29 +1,42 @@
-# Albion Android radar integration
+# Albion Android capture and radar status
 
-This branch is a feasibility checkpoint, not a working radar APK.
+This branch is an integrated capture/decoder feasibility build, not yet a validated live radar APK.
 
-## Confirmed architecture
+## Integration path
 
-The normal Android path establishes one VpnService TUN descriptor in CoreVpnService, passes it through CoreServiceManager to CoreController.startLoop(), and starts Xray from the AndroidLibXrayLite Go wrapper. The optional HEV mode uses a separate native hev-socks5-tunnel path.
+- The normal Android `VpnService` creates one TUN descriptor and passes it to `CoreServiceManager` and Xray.
+- The passive packet-copy hook is implemented in the `eesanezhad76/Xray-core` fork under `proxy/tun/packet_tap.go`.
+- It observes both packets read from the Android TUN and packets written back to it. It copies packet bytes into a bounded queue; it does not consume or rewrite the original traffic.
+- `AndroidLibXrayLite` exposes enable/read/drop-count/disable methods to Kotlin.
+- `CoreServiceManager` owns the capture worker in the same `:daemon` process as the VPN service and radar activity. Closing the activity does not stop the worker.
+- The capture opt-in is persisted. After an Android service/process restart, the worker is started again when the core comes up.
+- Core shutdown waits for capture finalization before stopping Xray and releasing the TUN descriptor.
 
-A second Android VpnService cannot safely mirror the same traffic. Duplicating a TUN descriptor is not a safe passive tap because both descriptors refer to the same queue and a monitor could consume packets intended for the proxy.
+## Reliability boundaries
 
-## Native boundary
+The native observation queue is bounded to at most 4096 packets. The TUN forwarding path uses a non-blocking lock attempt; when the queue is full, contended, or a packet is too large, only the observer copy is dropped and the drop counter increments. This protects VPN forwarding latency, but it means absolute zero-loss capture cannot be promised. A zero drop counter is useful evidence, not proof that the network or upstream game server lost no packets.
 
-AndroidLibXrayLite and hev-socks5-tunnel are pinned git submodules. The Xray AAR is built separately with gomobile. A real packet-copy feature therefore requires a native-source change and a rebuilt AAR; Kotlin traffic counters do not expose raw Photon payloads.
+The Kotlin worker writes PCAP and JSONL files under the app-specific `AlbionCaptures` directory and flushes its buffers periodically. On an explicit stop, it disables observation, drains queued copies, flushes and closes both files. The activity can publish completed files to `Downloads/AlbionCaptures`. If Android kills the process abruptly or storage fills, the last unflushed data or the remainder of the queue may still be lost.
 
-## Protocol scope
+## Decoder scope
 
-OpenRadar documents harvestable events 39, 40, 46 and the living-resource path 123. Passive resource parsing is a separate task from player live-position recovery. The latter is protected by additional Photon and Albion protocol layers and is not promised by this project.
+- IPv4/IPv6 UDP candidate packets involving Albion Photon port 5056 are identified.
+- Photon command envelopes and Protocol18 event, request, response and fragment paths are parsed.
+- Fragment reassembly is bounded, duplicate-aware and expires stale partial messages.
+- Protocol18 event code 252 and operation code 253 follow the OpenRadar parameter contract.
+- Encrypted Photon and Protocol18 payloads are counted separately from malformed packets; they are not decrypted.
+- Known entity events are mapped to typed observations for resources, harvestables, resource state, mobs, player lifecycle, health and dungeon exits.
+- Unknown events are logged/inventoried rather than guessed.
 
-## Safe implementation plan
+This does not yet establish a complete player-position decoder, zone-coordinate transform, or live map UI. Event interpretation still requires validation against real PCAPs captured during gameplay.
 
-1. Add an opt-in, non-blocking packet-copy hook at the native TUN ingress. It must never consume, alter, delay or drop the original packet; queue overflow drops only monitor copies.
-2. Filter candidate Albion UDP flows.
-3. Port and test the passive Photon/ENet resource-event parser.
-4. Resolve zone identity and resource coordinates from validated events.
-5. Add the Android radar UI only after real events are decoded.
-6. Keep capture disabled by default and provide an immediate stop control.
-7. Build all supported ABIs and test on a physical device with V2RayNG connected.
+## Validation required before calling it reliable
 
-No native hook, APK, or physical-device validation has been completed in this checkpoint.
+1. Run the race-enabled Go tests for the native TUN tap.
+2. Run Kotlin unit tests, including encrypted-packet classification and Protocol18 fragment reassembly.
+3. Build the Android AAR and debug APK for all configured ABIs.
+4. Install the arm64 APK on a physical Android device and verify that normal VPN traffic remains unaffected.
+5. Capture while idle, moving, gathering, fighting mobs and changing zones; inspect PCAP, JSONL, drop counters and decoder statistics.
+6. Force activity recreation, network handover, VPN stop/start and process restart; verify capture resumes only when the persisted opt-in is enabled and files remain readable.
+
+No physical-device validation has been completed yet.
