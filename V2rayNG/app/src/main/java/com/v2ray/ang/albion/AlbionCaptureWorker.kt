@@ -115,6 +115,24 @@ class AlbionCaptureWorker(
         }
     }
 
+    /** Append a synthetic annotation record to the active PCAP from the capture-owning process. */
+    @Synchronized fun appendMarker(packet: ByteArray, timestampMs: Long): Boolean {
+        val out = pcap ?: return false
+        if (!running.get()) return false
+        return try {
+            out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
+            out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
+            out.writeInt(Integer.reverseBytes(packet.size))
+            out.writeInt(Integer.reverseBytes(packet.size))
+            out.write(packet)
+            out.flush()
+            true
+        } catch (t: Throwable) {
+            failure = "marker write failed: ${t.message}"
+            false
+        }
+    }
+
     fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), dropped(), pcapFile, logFile, failure)
 
     @Synchronized private fun writePacket(packet: ByteArray, timestampMs: Long, decoded: AlbionPhotonPacketDecoder.Result) {

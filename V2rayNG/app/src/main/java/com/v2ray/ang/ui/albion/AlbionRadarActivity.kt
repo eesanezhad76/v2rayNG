@@ -135,22 +135,19 @@ class AlbionRadarActivity : ComponentActivity() {
     }
 
     private fun writeMarkerToPcap(markerJson: String) {
-        val out = captureOutput
-        if (!tapping || out == null) {
+        if (!tapping) {
             status.text = "Marker not written: start PCAP capture first."
             return
         }
         try {
             val packet = buildMarkerIpPacket(markerJson.toByteArray(Charsets.UTF_8))
-            writePcapRecord(out, packet, System.currentTimeMillis())
-            out.flush()
-            status.text = "Activity marker embedded in current PCAP (capture-only; not sent to Albion)."
+            val saved = CoreServiceManager.appendAlbionCaptureMarker(packet, System.currentTimeMillis())
+            status.text = if (saved) "Marker saved in the active PCAP." else "Marker not written: capture writer is not active."
         } catch (e: Exception) {
             status.text = "Could not write activity marker: ${e.message}"
         }
     }
 
-    // Synthetic private protocol 253 record; this never enters the VPN or game socket.
     private fun buildMarkerIpPacket(json: ByteArray): ByteArray {
         val payload = "ALBION_TAG_V1\n".toByteArray(Charsets.US_ASCII) + json
         require(payload.size <= 65515) { "Marker too large" }
