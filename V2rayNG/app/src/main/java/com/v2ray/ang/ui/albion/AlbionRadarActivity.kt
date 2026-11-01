@@ -37,6 +37,7 @@ class AlbionRadarActivity : ComponentActivity() {
     private lateinit var status: TextView
     private lateinit var summary: TextView
     private lateinit var packets: TextView
+    private lateinit var analysis: TextView
     private lateinit var toggle: Button
     private lateinit var export: Button
     private lateinit var copyAll: Button
@@ -87,6 +88,11 @@ class AlbionRadarActivity : ComponentActivity() {
             isEnabled = false
             setOnClickListener { copyAllPackets() }
         }
+        analysis = TextView(this).apply {
+            textSize = 13f
+            typeface = android.graphics.Typeface.MONOSPACE
+            text = "After stopping capture, transport analysis appears here."
+        }
         packets = TextView(this).apply {
             textSize = 13f
             typeface = android.graphics.Typeface.MONOSPACE
@@ -101,6 +107,7 @@ class AlbionRadarActivity : ComponentActivity() {
             addView(export, LinearLayout.LayoutParams(0, -2, 1f).apply { leftMargin = 8 })
         }
         root.addView(actions, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
+        root.addView(analysis, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 12 })
         root.addView(
             ScrollView(this).apply { addView(packets) },
             LinearLayout.LayoutParams(-1, 0, 1f).apply { topMargin = 12 }
@@ -232,7 +239,15 @@ class AlbionRadarActivity : ComponentActivity() {
                     toggle.text = "Start full capture"
                     export.isEnabled = captureFile?.exists() == true
                     copyAll.isEnabled = captureTextFile?.exists() == true
-                    status.text = "Capture stopped. One continuous PCAP and packet summary are saved."
+                    status.text = "Capture stopped. PCAP saved; automatic transport analysis completed."
+                    val saved = captureFile
+                    if (saved != null && saved.exists()) {
+                        lifecycleScope.launch {
+                            analysis.text = try {
+                                withContext(Dispatchers.IO) { com.v2ray.ang.albion.AlbionCaptureAnalyzer.analyze(saved).asText() }
+                            } catch (e: Exception) { "Analysis failed: ${e.message}" }
+                        }
+                    }
                     summary.text = "Packets saved: $packetCount | dropped copies: " +
                         CoreServiceManager.getAlbionPacketTapDropped() +
                         " | file: " + (captureFile?.length() ?: 0L) / 1024 + " KB"
