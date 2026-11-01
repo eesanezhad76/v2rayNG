@@ -35,8 +35,8 @@ class AlbionPhotonPacketDecoderTest {
 
     @Test fun ignoresOtherUdpPorts() {
         val packet = ipv4UdpPhotonPacket(commandType = 7, commandLength = 12)
-        packet[20] = 0x13
-        packet[21] = 0x89 // source port 5001, not 5056
+        packet[20] = 0x13.toByte()
+        packet[21] = 0x89.toByte() // source port 5001, not 5056
         val result = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
         assertNull(result)
     }
