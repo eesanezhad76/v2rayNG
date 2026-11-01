@@ -1,6 +1,9 @@
 package com.v2ray.ang.albion
 
-/** Strict passive parser for the UDP/IP + Photon transport envelope used by Albion. */
+/**
+ * Bounds-checked passive parser for raw IPv4/IPv6 UDP packets and the Photon
+ * command envelope. It intentionally does not decrypt Photon payloads.
+ */
 object AlbionPhotonPacketDecoder {
     data class Result(
         val srcPort: Int,
@@ -16,62 +19,122 @@ object AlbionPhotonPacketDecoder {
 
     fun decodeIpPacket(packet: ByteArray): Result? {
         if (packet.isEmpty()) return null
-        val version = (packet[0].toInt() ushr 4) and 15
-        val transportOffset: Int
-        when (version) {
-            4 -> {
-                if (packet.size < 20) return null
-                val ihl = (packet[0].toInt() and 15) * 4
-                if (ihl < 20 || packet.size < ihl || (packet[9].toInt() and 255) != 17) return null
-                transportOffset = ihl
-            }
-            6 -> {
-                if (packet.size < 40 || (packet[6].toInt() and 255) != 17) return null
-                transportOffset = 40
-            }
-            else -> return null
+        return when ((packet[0].toInt() ushr 4) and 15) {
+            4 -> decodeIpv4(packet)
+            6 -> decodeIpv6(packet)
+            else -> null
         }
-        if (packet.size < transportOffset + 8) return null
-        val src = u16(packet, transportOffset)
-        val dst = u16(packet, transportOffset + 2)
-        val udpLength = u16(packet, transportOffset + 4)
-        if (udpLength < 8 || transportOffset + udpLength > packet.size) {
+    }
+
+    private fun decodeIpv4(packet: ByteArray): Result? {
+        if (packet.size < 20) return null
+        val ihl = (packet[0].toInt() and 15) * 4
+        if (ihl < 20 || ihl > packet.size || u8(packet, 9) != IP_UDP) return null
+        val totalLength = u16be(packet, 2)
+        if (totalLength < ihl + 8 || totalLength > packet.size) return null
+        // IP fragments must be reassembled before the UDP/Photon layer.
+        val fragment = u16be(packet, 6)
+        if ((fragment and 0x3fff) != 0) return null
+        return decodeUdp(packet, ihl, totalLength, packet.size)
+    }
+
+    private fun decodeIpv6(packet: ByteArray): Result? {
+        if (packet.size < 40) return null
+        val payloadLength = u16be(packet, 4)
+        val end = 40 + payloadLength
+        if (end > packet.size) return null
+        var next = u8(packet, 6)
+        var offset = 40
+        var extensions = 0
+        while (next != IP_UDP) {
+            if (++extensions > 8) return null
+            when (next) {
+                0, 43, 60 -> { // Hop-by-hop, routing, destination options
+                    if (offset + 2 > end) return null
+                    val following = u8(packet, offset)
+                    val length = (u8(packet, offset + 1) + 1) * 8
+                    if (length < 8 || offset + length > end) return null
+                    next = following
+                    offset += length
+                }
+                44 -> { // Fragment header: no IP-fragment reassembly here
+                    if (offset + 8 > end) return null
+                    val fragmentBits = u16be(packet, offset + 2)
+                    if ((fragmentBits and 0xfff9) != 0) return null
+                    next = u8(packet, offset)
+                    offset += 8
+                }
+                51 -> { // Authentication header
+                    if (offset + 2 > end) return null
+                    val following = u8(packet, offset)
+                    val length = (u8(packet, offset + 1) + 2) * 4
+                    if (length < 8 || offset + length > end) return null
+                    next = following
+                    offset += length
+                }
+                else -> return null
+            }
+        }
+        return decodeUdp(packet, offset, end, packet.size)
+    }
+
+    private fun decodeUdp(packet: ByteArray, offset: Int, ipEnd: Int, packetEnd: Int): Result? {
+        if (offset < 0 || offset + 8 > ipEnd || ipEnd > packetEnd) return null
+        val src = u16be(packet, offset)
+        val dst = u16be(packet, offset + 2)
+        val udpLength = u16be(packet, offset + 4)
+        if (src != ALBION_PORT && dst != ALBION_PORT) return null
+        if (udpLength < 8 || offset + udpLength > ipEnd) {
             return Result(src, dst, false, error = "invalid UDP length")
         }
-        if (src != ALBION_PORT && dst != ALBION_PORT) return null
-        val start = transportOffset + 8
-        val end = transportOffset + udpLength
+        val start = offset + 8
+        val end = offset + udpLength
         return decodePhoton(packet, start, end, src, dst)
     }
 
     private fun decodePhoton(data: ByteArray, start: Int, end: Int, src: Int, dst: Int): Result {
         val size = end - start
-        if (size < 12) return Result(src, dst, false, error = "short Photon datagram")
-        val peer = u16(data, start)
-        val flags = data[start + 2].toInt() and 255
-        val count = data[start + 3].toInt() and 255
-        if (count == 0 || count > 64) return Result(src, dst, false, error = "invalid Photon command count")
-        var pos = start + 12
+        if (size < PHOTON_HEADER_LENGTH) return Result(src, dst, false, error = "short Photon datagram")
+        val peer = u16be(data, start)
+        val flags = u8(data, start + 2)
+        val count = u8(data, start + 3)
+        if (flags == ENCRYPTED_PACKET_FLAG) {
+            return Result(src, dst, false, peer, flags, error = "encrypted Photon packet")
+        }
+        if (count !in 1..MAX_COMMANDS) {
+            return Result(src, dst, false, peer, flags, error = "invalid Photon command count")
+        }
+        var pos = start + PHOTON_HEADER_LENGTH
         val types = ArrayList<Int>(count)
         repeat(count) {
-            if (pos + 12 > end) return Result(src, dst, false, error = "truncated Photon command header")
-            val type = data[pos].toInt() and 255
-            val commandLength = u32(data, pos + 4)
-            if (commandLength < 12 || commandLength > end - pos) {
-                return Result(src, dst, false, error = "invalid Photon command length")
+            if (pos + COMMAND_HEADER_LENGTH > end) {
+                return Result(src, dst, false, peer, flags, error = "truncated Photon command header")
+            }
+            val type = u8(data, pos)
+            val commandLength = u32be(data, pos + 4)
+            if (commandLength < COMMAND_HEADER_LENGTH || commandLength > end - pos) {
+                return Result(src, dst, false, peer, flags, error = "invalid Photon command length")
             }
             types.add(type)
             pos += commandLength
         }
+        if (pos != end) {
+            return Result(src, dst, false, peer, flags, types.size, types, "trailing bytes after Photon commands")
+        }
         return Result(src, dst, true, peer, flags, count, types, photonPayload = data.copyOfRange(start, end))
     }
 
-    private fun u16(b: ByteArray, o: Int) = ((b[o].toInt() and 255) shl 8) or (b[o + 1].toInt() and 255)
-    private fun u32(b: ByteArray, o: Int): Int =
-        ((b[o].toLong() and 255L) shl 24 or
-         ((b[o + 1].toLong() and 255L) shl 16) or
-         ((b[o + 2].toLong() and 255L) shl 8) or
-         (b[o + 3].toLong() and 255L)).coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
+    private fun u8(b: ByteArray, o: Int) = b[o].toInt() and 255
+    private fun u16be(b: ByteArray, o: Int) = (u8(b, o) shl 8) or u8(b, o + 1)
+    private fun u32be(b: ByteArray, o: Int): Int =
+        (((u8(b, o).toLong() shl 24) or (u8(b, o + 1).toLong() shl 16) or
+            (u8(b, o + 2).toLong() shl 8) or u8(b, o + 3).toLong())
+            .coerceAtMost(Int.MAX_VALUE.toLong())).toInt()
 
     const val ALBION_PORT = 5056
+    private const val IP_UDP = 17
+    private const val ENCRYPTED_PACKET_FLAG = 1
+    private const val PHOTON_HEADER_LENGTH = 12
+    private const val COMMAND_HEADER_LENGTH = 12
+    private const val MAX_COMMANDS = 64
 }
