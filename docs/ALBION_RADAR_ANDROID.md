@@ -27,3 +27,21 @@ OpenRadar documents harvestable events 39, 40, 46 and the living-resource path 1
 7. Build all supported ABIs and test on a physical device with V2RayNG connected.
 
 No native hook, APK, or physical-device validation has been completed in this checkpoint.
+
+
+## Offline mining-session discovery (first implementation)
+
+The radar activity now includes an **Analyze mining session** action after capture stops.
+It reads the raw-IP PCAP locally and:
+- parses IPv4/IPv6 UDP payloads (and Ethernet PCAP when present);
+- ranks repeated UDP endpoint ports to select the dominant service port;
+- groups payloads by service port, length bucket and leading bytes;
+- reports stable and variable byte offsets for repeated payload-length groups;
+- reports byte offsets that change between adjacent same-length packets;
+- preserves the original PCAP as the authoritative raw evidence.
+
+This is deliberately a discovery report, not a claim that the app already decodes Albion's Photon/Protocol18 event semantics. It does not yet identify mining actions, entity IDs, enchantment, remaining resource count or map coordinates, and it does not yet merge learned fields into a persistent semantic database. Those require a validated Photon/Protocol18 parser and controlled comparisons. The report labels patterns as candidates rather than assigning unsupported meanings.
+
+### First field trial
+
+For the first trial, run one continuous capture while doing mining only for about one hour. Avoid combat, gathering living mobs, and zone changes if possible. Stop capture and tap **Analyze mining session**. Export the PCAP as well; the PCAP is needed to independently validate any candidate. The resulting report should be retained with that PCAP.
