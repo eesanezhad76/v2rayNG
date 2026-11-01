@@ -176,25 +176,29 @@ class AlbionCaptureWorker(
     @Synchronized fun appendMarker(packet: ByteArray, timestampMs: Long): Boolean {
         val out = pcap ?: return false
         if (!running.get() || packet.size < 20) return false
+        val marker = AlbionCaptureMarker.parsePayload(packet, 20, packet.size - 20) ?: run {
+            failure = "marker rejected: invalid ALBION_TAG_V1 framing or JSON"
+            return false
+        }
         return try {
+            // Validate and serialize both representations before touching either output stream.
+            val jsonLine = JSONObject().put("time_ms", timestampMs)
+                .put("manual_marker", marker).toString() + "\n"
             out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
             out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
             out.writeInt(Integer.reverseBytes(packet.size))
             out.writeInt(Integer.reverseBytes(packet.size))
             out.write(packet)
-            val markerJson = String(packet, 20, packet.size - 20, Charsets.UTF_8)
-                .removePrefix("ALBION_TAG_V1\\n")
-            log?.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", JSONObject(markerJson)).toString())
-            log?.newLine()
-            markerCount.incrementAndGet()
             out.flush()
             pcapFileStream?.fd?.sync()
+            log?.write(jsonLine)
             log?.flush()
             logFileStream?.fd?.sync()
+            markerCount.incrementAndGet()
             scope.launch(Dispatchers.IO) { mirrorDownloads() }
             true
         } catch (t: Throwable) {
-            failure = "marker write failed: ${t.message}"
+            failure = "marker write failed (PCAP/JSONL integrity requires review): ${t.message}"
             false
         }
     }
