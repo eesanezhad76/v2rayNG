@@ -254,7 +254,10 @@ class AlbionProtocol18Decoder {
         private fun typedArray(tc: Int): Any {
             val n = varUInt().toInt(); require(n in 0..65536)
             return when (tc) {
-                2 -> List(n) { (byte() and 1) != 0 }
+                2 -> {
+                    val packed = ByteArray((n + 7) / 8) { byte().toByte() }
+                    List(n) { index -> (packed[index / 8].toInt() and (1 shl (index % 8))) != 0 }
+                }
                 3 -> ByteArray(n) { byte().toByte() }
                 4 -> ShortArray(n) { short().toShort() }
                 5 -> FloatArray(n) { float() }
