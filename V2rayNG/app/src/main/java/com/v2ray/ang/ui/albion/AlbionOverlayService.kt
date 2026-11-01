@@ -149,7 +149,8 @@ class AlbionOverlayService : Service() {
         val screenHeight = resources.displayMetrics.heightPixels
         val desiredTop = rawY.toInt() - popupIndex * popupRowHeight - popupRowHeight / 2
         popupTop = desiredTop.coerceIn(dp(4), max(dp(4), screenHeight - popupRowHeight * values.size - dp(10)))
-        val popupParent = root ?: return\n        activePopup?.showAtLocation(popupParent, Gravity.TOP or Gravity.START, location[0], popupTop)
+        val popupParent = root ?: return
+        activePopup?.showAtLocation(popupParent, Gravity.TOP or Gravity.START, location[0], popupTop)
         updatePopupHighlight()
         updateSwipePicker(rawY)
     }
