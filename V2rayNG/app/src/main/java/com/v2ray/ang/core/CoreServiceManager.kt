@@ -391,7 +391,9 @@ object CoreServiceManager {
 
     /** Returns one copied raw IP packet, or null when the observation queue is empty. */
     fun readAlbionPacketTap(): ByteArray? {
-        if (!isRunning()) return null
+        // The native tap intentionally keeps queued copies readable after Xray stops.
+        // Do not gate draining on isRunning(), or an unexpected core shutdown would
+        // strand the final packets before the capture writer can close its files.
         return try {
             Libv2ray.readPacketTap()
         } catch (e: Exception) {
