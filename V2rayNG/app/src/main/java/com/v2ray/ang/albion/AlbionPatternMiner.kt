@@ -104,7 +104,7 @@ object AlbionPatternMiner {
             lines.forEach { line ->
                 try {
                     // Tolerate JSONL rows exported with one extra layer of JSON-string escaping.
-                    val row = JSONObject(line.replace("\\\"", "\""))
+                    val row = JSONObject(line.replace("\\", ""))
                     val time = row.optLong("time_ms", -1L)
                     if (row.has("manual_marker")) {
                         val m = row.optJSONObject("manual_marker") ?: return@forEach
