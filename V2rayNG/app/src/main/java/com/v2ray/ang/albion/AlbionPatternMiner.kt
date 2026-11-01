@@ -70,11 +70,26 @@ object AlbionPatternMiner {
         var observations: Int = 0, val sampleIndexes: MutableSet<Int> = linkedSetOf()
     )
 
+    private data class MutableSample(
+        val activity: String,
+        val startMs: Long,
+        var endMs: Long? = null,
+        val observations: MutableList<JSONObject> = mutableListOf()
+    )
+
     fun analyze(file: File?): Report {
         if (file == null || !file.isFile) return Report(0, 0, 0, emptyList(), listOf("JSONL capture file is missing."))
-        val markers = mutableListOf<Marker>()
-        val packets = mutableListOf<Pair<Long, List<JSONObject>>>()
+        val active = linkedMapOf<String, MutableSample>()
+        val closing = mutableListOf<MutableSample>()
+        val completed = mutableListOf<Sample>()
+        val rolling = ArrayDeque<Pair<Long, List<JSONObject>>>()
+        var markerCount = 0
+        var incomplete = 0
         var malformedLines = 0
+
+        fun finish(sample: MutableSample) {
+            completed += Sample(sample.activity, sample.startMs, sample.endMs ?: sample.startMs, sample.observations.toList())
+        }
         file.useLines { lines ->
             lines.forEach { line ->
                 try {
@@ -83,42 +98,55 @@ object AlbionPatternMiner {
                     if (row.has("manual_marker")) {
                         val m = row.optJSONObject("manual_marker") ?: return@forEach
                         val markerTime = m.optLong("timestamp_ms", time)
-                        if (markerTime > 0) markers += Marker(markerTime, m.optString("activity", "Unknown"), m.optString("event", ""))
+                        if (markerTime <= 0) return@forEach
+                        markerCount++
+                        val activity = m.optString("activity", "Unknown")
+                        when (m.optString("event", "")) {
+                            "target_found" -> {
+                                active.remove(activity)?.let { incomplete++ }
+                                val sample = MutableSample(activity, markerTime)
+                                rolling.filter { it.first >= markerTime - EDGE_WINDOW_MS }.forEach { sample.observations.addAll(it.second) }
+                                active[activity] = sample
+                            }
+                            "gathering_completed" -> {
+                                val sample = active.remove(activity) ?: return@forEach
+                                if (markerTime <= sample.startMs || markerTime - sample.startMs > MAX_SESSION_MS) {
+                                    incomplete++
+                                } else {
+                                    sample.endMs = markerTime
+                                    closing += sample
+                                }
+                            }
+                        }
                     } else if (time > 0) {
                         val array = row.optJSONArray("entities") ?: JSONArray()
                         val observations = ArrayList<JSONObject>(array.length())
                         for (i in 0 until array.length()) array.optJSONObject(i)?.let { observations += it }
-                        if (observations.isNotEmpty()) packets += time to observations
+                        if (observations.isNotEmpty()) {
+                            rolling.addLast(time to observations)
+                            while (rolling.isNotEmpty() && rolling.first().first < time - EDGE_WINDOW_MS) rolling.removeFirst()
+                            active.values.forEach { it.observations.addAll(observations) }
+                            closing.forEach { sample ->
+                                if (time <= (sample.endMs ?: time) + EDGE_WINDOW_MS) sample.observations.addAll(observations)
+                            }
+                        }
+                        val iterator = closing.iterator()
+                        while (iterator.hasNext()) {
+                            val sample = iterator.next()
+                            if (time > (sample.endMs ?: time) + EDGE_WINDOW_MS) {
+                                finish(sample)
+                                iterator.remove()
+                            }
+                        }
                     }
                 } catch (_: Exception) { malformedLines++ }
             }
         }
-        markers.sortBy { it.time }
-        val samples = mutableListOf<Sample>()
-        val open = mutableMapOf<String, Marker>()
-        var incomplete = 0
-        markers.forEach { marker ->
-            when (marker.event) {
-                "target_found" -> {
-                    if (open.containsKey(marker.activity)) incomplete++
-                    open[marker.activity] = marker
-                }
-                "gathering_completed" -> {
-                    val start = open.remove(marker.activity) ?: return@forEach
-                    if (marker.time <= start.time || marker.time - start.time > MAX_SESSION_MS) {
-                        incomplete++
-                    } else {
-                        val from = (start.time - EDGE_WINDOW_MS).coerceAtLeast(0L)
-                        val to = marker.time + EDGE_WINDOW_MS
-                        val obs = packets.asSequence().filter { it.first in from..to }.flatMap { it.second.asSequence() }.toList()
-                        samples += Sample(marker.activity, start.time, marker.time, obs)
-                    }
-                }
-            }
-        }
-        incomplete += open.size
+        incomplete += active.size
+        closing.forEach(::finish)
+
         val candidates = linkedMapOf<String, Candidate>()
-        samples.forEachIndexed { sampleIndex, sample ->
+        completed.forEachIndexed { sampleIndex, sample ->
             sample.observations.forEach { o ->
                 val kind = o.optString("kind", "unknown")
                 val code = o.optInt("event_code").takeIf { o.has("event_code") }
@@ -140,7 +168,7 @@ object AlbionPatternMiner {
         }
         val patterns = candidates.values.map { c ->
             val repeated = c.sampleIndexes.size
-            val repeatScore = (repeated.coerceAtMost(10) * 5)
+            val repeatScore = repeated.coerceAtMost(10) * 5
             val identityScore = if (c.ids.size >= 2) 15 else if (c.ids.size == 1) 8 else 0
             val typedScore = (if (c.eventCode != null) 10 else 0) +
                 (if (c.typeId != null) 10 else 0) + (if (c.tier != null) 5 else 0) + (if (c.enchant != null) 5 else 0)
@@ -151,11 +179,10 @@ object AlbionPatternMiner {
                 repeated, c.ids.size, c.observations, c.events.toMap(), repeated, score)
         }.filter { it.samples > 0 }.sortedWith(compareByDescending<Pattern> { it.score }.thenByDescending { it.samples }.thenByDescending { it.observationCount })
         val warnings = mutableListOf<String>()
-        if (samples.isEmpty()) warnings += "No complete Found -> Done marker pairs. For each resource, tap Found before gathering and Done immediately after."
-        if (samples.size < 10) warnings += "Fewer than 10 complete samples: pattern scores are preliminary; collect more labeled nodes."
+        if (completed.isEmpty()) warnings += "No complete Found -> Done marker pairs. For each resource, tap Found before gathering and Done immediately after."
+        if (completed.size < 10) warnings += "Fewer than 10 complete samples: pattern scores are preliminary; collect more labeled nodes."
         if (patterns.none { it.samples >= 3 }) warnings += "No signature has repeated across at least 3 separate samples yet."
         if (malformedLines > 0) warnings += "$malformedLines malformed JSONL lines were skipped."
-        if (packets.isEmpty()) warnings += "No decoded entity observations were available in JSONL; encrypted or unknown traffic cannot be semantically classified."
-        return Report(markers.size, samples.size, incomplete, patterns, warnings)
-    }
-}
+        if (patterns.isEmpty()) warnings += "No decoded entity observations were available in the labeled windows; encrypted or unknown traffic cannot be semantically classified."
+        return Report(markerCount, completed.size, incomplete, patterns, warnings)
+    }}
