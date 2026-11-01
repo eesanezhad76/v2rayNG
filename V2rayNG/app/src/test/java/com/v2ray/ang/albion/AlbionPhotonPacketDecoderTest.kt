@@ -55,6 +55,21 @@ class AlbionPhotonPacketDecoderTest {
         assertEquals(39, messages[0].realCode)
     }
 
+    @Test fun doesNotTreatPhotonDispatchAsAlbionEventCode() {
+        val photon = ByteArray(12 + 12 + 4)
+        photon[3] = 1
+        val command = 12
+        photon[command] = 6
+        put32(photon, command + 4, photon.size - command)
+        val body = command + 12
+        photon[body + 1] = 4 // EventData
+        photon[body + 2] = 39 // dispatch value alone is not Protocol18 event code
+        photon[body + 3] = 0 // empty parameter table
+        val messages = AlbionProtocol18Decoder().receiveDatagram(photon)
+        assertEquals(1, messages.size)
+        assertNull(messages[0].realCode)
+    }
+
     private fun ipv4UdpPhotonPacket(commandType: Int, commandLength: Int): ByteArray {
         val packet = ByteArray(20 + 8 + 12 + 12)
         packet[0] = 0x45
