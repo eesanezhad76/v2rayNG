@@ -30,7 +30,8 @@ class AlbionCaptureWorker(
     private val running = AtomicBoolean(false)
     private val stopMutex = Mutex()
     private val packetCount = AtomicLong(0)
-    private val protocol18 = AlbionProtocol18Decoder()\n    private val eventStateTracker = AlbionEventStateTracker()
+    private val protocol18 = AlbionProtocol18Decoder()
+    private val eventStateTracker = AlbionEventStateTracker()
     @Volatile private var pcapFile: File? = null
     @Volatile private var logFile: File? = null
     @Volatile private var reportFile: File? = null
@@ -42,7 +43,9 @@ class AlbionCaptureWorker(
     @Volatile private var appContext: Context? = null
     @Volatile private var pcapFileStream: FileOutputStream? = null
     @Volatile private var logFileStream: FileOutputStream? = null
-    private val markerCount = AtomicLong(0)\n    private data class ManualNodeAnchor(val nodeId: String, val activity: String, val tier: String, val enchantment: String, val timestampMs: Long, var linked: Boolean = false)\n    @Volatile private var activeManualNode: ManualNodeAnchor? = null
+    private val markerCount = AtomicLong(0)
+    private data class ManualNodeAnchor(val nodeId: String, val activity: String, val tier: String, val enchantment: String, val timestampMs: Long, var linked: Boolean = false)
+    @Volatile private var activeManualNode: ManualNodeAnchor? = null
     private val nonAlbionCount = AtomicLong(0)
     private val dropBaseline = AtomicLong(0)
     private val mirroredPcapBytes = AtomicLong(0)
@@ -69,7 +72,8 @@ class AlbionCaptureWorker(
             publicPcapUri = createDownloadsEntry(context, raw.name, "application/vnd.tcpdump.pcap")
             publicLogUri = createDownloadsEntry(context, txt.name, "application/x-ndjson")
             mirrorFailure = null
-            markerCount.set(0)\n            activeManualNode = null
+            markerCount.set(0)
+            activeManualNode = null
             nonAlbionCount.set(0)
             publicReportUri = null
             pcapFile = raw
