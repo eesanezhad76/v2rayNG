@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import com.v2ray.ang.AppConfig
 import com.v2ray.ang.contracts.IDialerService
 import com.v2ray.ang.contracts.ServiceControl
+import com.v2ray.ang.albion.AlbionCaptureWorker
 import com.v2ray.ang.dto.ConnectionTestResult
 import com.v2ray.ang.dto.OutboundTrafficStat
 import com.v2ray.ang.dto.entities.ProfileItem
@@ -54,6 +55,9 @@ object CoreServiceManager {
     private var browserDialer: IDialerService? = null
     private var networkMonitor: NetworkMonitor? = null
     private val connectionTestScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    // Lives in the daemon process, not in the Radar Activity lifecycle.
+    private val albionCaptureScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    @Volatile private var albionCaptureWorker: AlbionCaptureWorker? = null
 
     @Volatile
     private var isReloading = false
@@ -212,6 +216,7 @@ object CoreServiceManager {
         connectionTestScope.coroutineContext.cancelChildren()
         val service = getService() ?: return false
 
+        stopAlbionCapture()
         networkMonitor?.unregister()
         networkMonitor = null
         currentVpnInterface = null
@@ -313,6 +318,37 @@ object CoreServiceManager {
             albionTapRequested = false
             LogUtil.e(AppConfig.TAG, "Albion packet tap: failed to enable", e)
             false
+        }
+    }
+
+    /** Starts a daemon-owned capture writer. Safe to call repeatedly after Activity recreation. */
+    fun startAlbionCapture(): Boolean {
+        val service = getService() ?: return false
+        if (!isRunning()) return false
+        val existing = albionCaptureWorker
+        if (existing?.snapshot()?.running == true) return true
+        if (!enableAlbionPacketTap(4096)) return false
+        val worker = AlbionCaptureWorker(
+            readPacket = { readAlbionPacketTap() },
+            dropped = { getAlbionPacketTapDropped() },
+            disableTap = { disableAlbionPacketTap() }
+        )
+        if (!worker.start(service)) {
+            disableAlbionPacketTap()
+            return false
+        }
+        albionCaptureWorker = worker
+        return true
+    }
+
+    fun getAlbionCaptureSnapshot(): AlbionCaptureWorker.Snapshot? = albionCaptureWorker?.snapshot()
+
+    fun stopAlbionCapture() {
+        val worker = albionCaptureWorker ?: run { disableAlbionPacketTap(); return }
+        albionCaptureScope.launch {
+            try { worker.stop() } catch (e: Exception) {
+                LogUtil.e(AppConfig.TAG, "Albion capture stop failed", e)
+            }
         }
     }
 
