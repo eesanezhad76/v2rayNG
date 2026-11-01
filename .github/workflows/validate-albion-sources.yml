@@ -29,6 +29,12 @@ jobs:
           echo "y" | ${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager --channel=0 --install "ndk;30.0.16248370"
           echo "NDK_HOME=${ANDROID_HOME}/ndk/30.0.16248370" >> ${GITHUB_ENV}
 
+      - name: Checkout passive-tap Android library branch
+        run: |
+          git -C AndroidLibXrayLite remote set-url origin https://github.com/eesanezhad76/AndroidLibXrayLite.git
+          git -C AndroidLibXrayLite fetch --depth=1 origin albion-passive-tap
+          git -C AndroidLibXrayLite checkout --detach FETCH_HEAD
+
       - uses: actions/setup-go@v6
         with:
           go-version-file: AndroidLibXrayLite/go.mod
