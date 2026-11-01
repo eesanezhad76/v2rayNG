@@ -100,7 +100,7 @@ object AlbionPhotonPacketDecoder {
         val flags = u8(data, start + 2)
         val count = u8(data, start + 3)
         if (flags == ENCRYPTED_PACKET_FLAG) {
-            return Result(src, dst, false, peer, flags, error = "encrypted Photon packet")
+            return Result(src, dst, false, peer, flags, error = "encrypted Photon packet", encrypted = true)
         }
         if (count !in 0..MAX_COMMANDS) {
             return Result(src, dst, false, peer, flags, error = "invalid Photon command count")
