@@ -324,6 +324,8 @@ class AlbionCaptureWorker(
                     .put("entity_id", entity.opt("entity_id") ?: JSONObject.NULL)
                     .put("activity", nodeAnchor.activity).put("manual_tier", nodeAnchor.tier)
                     .put("manual_enchantment", nodeAnchor.enchantment)
+                    .put("correlation_basis", "first_harvestable_after_manual_target_within_10s_and_tier_match")
+                    .put("confidence", "provisional")
                 if (entity.has("x")) link.put("x", entity.opt("x"))
                 if (entity.has("y")) link.put("y", entity.opt("y"))
                 if (entity.has("type_id")) link.put("type_id", entity.opt("type_id"))
