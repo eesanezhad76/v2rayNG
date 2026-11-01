@@ -96,6 +96,31 @@ class AlbionPhotonPacketDecoderTest {
         assertEquals(3, messages[0].realCode)
     }
 
+    @Test fun reassemblesFragmentedProtocol18MessageAcrossDatagrams() {
+        val message = byteArrayOf(0, 4, 1, 1, 252.toByte(), 4, 39, 0)
+        val decoder = AlbionProtocol18Decoder()
+        val first = fragmentDatagram(77, message.size, 0, message.copyOfRange(0, 4))
+        val second = fragmentDatagram(77, message.size, 4, message.copyOfRange(4, message.size))
+        assertTrue(decoder.receiveDatagram(first).isEmpty())
+        val decoded = decoder.receiveDatagram(second)
+        assertEquals(1, decoded.size)
+        assertEquals("event", decoded.single().kind)
+        assertEquals(39, decoded.single().realCode)
+        assertEquals(0, decoder.stats().fragmentsPending)
+    }
+
+    @Test fun duplicateFragmentBytesAreNotCountedTwiceDuringReassembly() {
+        val message = byteArrayOf(0, 4, 1, 1, 252.toByte(), 4, 39, 0)
+        val decoder = AlbionProtocol18Decoder()
+        val first = fragmentDatagram(78, message.size, 0, message.copyOfRange(0, 4))
+        val second = fragmentDatagram(78, message.size, 4, message.copyOfRange(4, message.size))
+        assertTrue(decoder.receiveDatagram(first).isEmpty())
+        assertTrue(decoder.receiveDatagram(first).isEmpty())
+        val decoded = decoder.receiveDatagram(second)
+        assertEquals(1, decoded.size)
+        assertEquals(39, decoded.single().realCode)
+    }
+
     @Test fun operationRequestUsesWireOperationAsFallbackWhenParameter253IsAbsent() {
         val photon = ByteArray(12 + 12 + 2 + 1 + 1)
         photon[3] = 1
@@ -172,6 +197,21 @@ class AlbionPhotonPacketDecoderTest {
         assertEquals(10f, observation.x)
         assertEquals(20f, observation.y)
         assertEquals("Exit", observation.name)
+    }
+
+    private fun fragmentDatagram(sequence: Int, totalLength: Int, fragmentOffset: Int, chunk: ByteArray): ByteArray {
+        val commandLength = 12 + 20 + chunk.size
+        val datagram = ByteArray(12 + commandLength)
+        datagram[3] = 1
+        val command = 12
+        datagram[command] = 8 // Fragment command
+        put32(datagram, command + 4, commandLength)
+        val body = command + 12
+        put32(datagram, body, sequence)
+        put32(datagram, body + 12, totalLength)
+        put32(datagram, body + 16, fragmentOffset)
+        chunk.copyInto(datagram, body + 20)
+        return datagram
     }
 
     private fun ipv4UdpPhotonPacket(commandType: Int, commandLength: Int): ByteArray {
