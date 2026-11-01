@@ -45,7 +45,7 @@ class AlbionCaptureWorker(
                         var consumed = 0
                         while (consumed < 2048) {
                             val packet = readPacket() ?: break
-                            writePacket(packet, System.currentTimeMillis())
+                            if (AlbionPhotonPacketDecoder.decodeIpPacket(packet) != null) writePacket(packet, System.currentTimeMillis())
                             consumed++
                         }
                         val now = System.nanoTime()
@@ -79,7 +79,7 @@ class AlbionCaptureWorker(
             var drained = 0
             while (drained < 16384) {
                 val packet = readPacket() ?: break
-                writePacket(packet, System.currentTimeMillis())
+                if (AlbionPhotonPacketDecoder.decodeIpPacket(packet) != null) writePacket(packet, System.currentTimeMillis())
                 drained++
             }
             synchronized(this@AlbionCaptureWorker) { flushFiles(); closeFiles() }
@@ -97,8 +97,9 @@ class AlbionCaptureWorker(
         out.write(packet)
         packetCount.incrementAndGet()
         log?.apply {
-            val version = if (packet.isNotEmpty()) (packet[0].toInt() ushr 4) and 15 else 0
-            write("{\"time_ms\":$timestampMs,\"length\":${packet.size},\"ip_version\":$version}")
+            val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
+            val types = decoded?.commandTypes?.joinToString(",") ?: ""
+            write("{\"time_ms\":$timestampMs,\"length\":${packet.size},\"src_port\":${decoded?.srcPort ?: 0},\"dst_port\":${decoded?.dstPort ?: 0},\"photon\":${decoded?.photon ?: false},\"command_count\":${decoded?.commandCount ?: 0},\"command_types\":[${types}]}")
             newLine()
         }
     }
