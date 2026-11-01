@@ -59,7 +59,7 @@ object AlbionCaptureAnalyzer {
             val magic = input.readInt()
             val little = when (magic) {
                 0xd4c3b2a1.toInt(), 0x4d3cb2a1 -> true
-                0xa1b2c3d4.toInt() -> false
+                0xa1b2c3d4.toInt(), 0xa1b23c4d.toInt() -> false
                 else -> throw IllegalArgumentException("Unsupported PCAP magic: %08x".format(magic))
             }
             // Four 32-bit words precede the network/link-type word:
@@ -76,11 +76,7 @@ object AlbionCaptureAnalyzer {
                     val frame = ByteArray(captured)
                     input.readFully(frame)
                     packets++
-                    val ip = when (linkType) {
-                        101 -> frame
-                        1 -> if (frame.size >= 14 && (u16(frame, 12) == 0x0800 || u16(frame, 12) == 0x86dd)) frame.copyOfRange(14, frame.size) else null
-                        else -> null
-                    } ?: continue
+                    val ip = extractIpPacket(frame, linkType) ?: continue
                     val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(ip) ?: continue
                     albion++
                     if (decoded.photon) {
@@ -109,6 +105,40 @@ object AlbionCaptureAnalyzer {
             packets, albion, valid, inbound, outbound, commands, events, entities, malformed,
             protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings
         )
+    }
+
+    private fun extractIpPacket(frame: ByteArray, linkType: Int): ByteArray? {
+        when (linkType) {
+            101, 12 -> return frame // DLT_RAW / LINKTYPE_RAW
+            228 -> return frame.takeIf { it.isNotEmpty() && (it[0].toInt() ushr 4) == 4 }
+            229 -> return frame.takeIf { it.isNotEmpty() && (it[0].toInt() ushr 4) == 6 }
+            113 -> { // Linux cooked capture v1
+                if (frame.size < 16) return null
+                val protocol = u16(frame, 14)
+                if (protocol == 0x0800 || protocol == 0x86dd) return frame.copyOfRange(16, frame.size)
+                return null
+            }
+            276 -> { // Linux cooked capture v2
+                if (frame.size < 20) return null
+                val protocol = u16(frame, 0)
+                if (protocol == 0x0800 || protocol == 0x86dd) return frame.copyOfRange(20, frame.size)
+                return null
+            }
+            1 -> {
+                if (frame.size < 14) return null
+                var offset = 14
+                var protocol = u16(frame, 12)
+                var tags = 0
+                while (protocol == 0x8100 || protocol == 0x88a8 || protocol == 0x9100) {
+                    if (++tags > 4 || offset + 4 > frame.size) return null
+                    protocol = u16(frame, offset + 2)
+                    offset += 4
+                }
+                if (protocol == 0x0800 || protocol == 0x86dd) return frame.copyOfRange(offset, frame.size)
+                return null
+            }
+            else -> return null
+        }
     }
 
     private fun readInt(input: DataInputStream, little: Boolean): Int =
