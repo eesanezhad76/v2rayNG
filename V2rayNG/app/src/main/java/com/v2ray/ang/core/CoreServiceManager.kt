@@ -304,12 +304,26 @@ object CoreServiceManager {
 
             isReloading = true
             connectionTestScope.coroutineContext.cancelChildren()
+            val handoverStart = org.json.JSONObject()
+                .put("timestamp_ms", System.currentTimeMillis())
+                .put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
+                .put("event", "network_handover_gap_start")
+                .put("source", "core_service_manager")
+            recordAlbionCaptureMarker(handoverStart.toString())
             LogUtil.i(AppConfig.TAG, "StartCore-Manager: Core reload start...")
 
             coreController.stopLoop()
             launchCore(service, tunFd, isReload = true)
+            val tapRestored = !albionTapRequested || try { Libv2ray.packetTapEnabled() } catch (_: Exception) { false }
+            val handoverEnd = org.json.JSONObject()
+                .put("timestamp_ms", System.currentTimeMillis())
+                .put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
+                .put("event", if (tapRestored) "network_handover_recovered" else "network_handover_tap_missing")
+                .put("tap_restored", tapRestored)
+                .put("source", "core_service_manager")
+            recordAlbionCaptureMarker(handoverEnd.toString())
 
-            LogUtil.i(AppConfig.TAG, "StartCore-Manager: Core reload finished")
+            LogUtil.i(AppConfig.TAG, "StartCore-Manager: Core reload finished; tap restored=$tapRestored")
             true
         } catch (e: Exception) {
             val message = e.message?.takeUnless { it.isBlank() } ?: e.javaClass.simpleName
