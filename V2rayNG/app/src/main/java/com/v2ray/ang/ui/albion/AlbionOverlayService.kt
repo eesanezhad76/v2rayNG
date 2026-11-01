@@ -23,6 +23,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import com.v2ray.ang.core.CoreServiceManager
+import com.v2ray.ang.albion.AlbionMarkerQueue
 import org.json.JSONObject
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicLong
@@ -305,7 +306,11 @@ class AlbionOverlayService : Service() {
                 val key = keys.next()
                 json.put(key, extra.get(key))
             }
-            val result = CoreServiceManager.recordAlbionCaptureMarker(json.toString())
+            var result = CoreServiceManager.recordAlbionCaptureMarker(json.toString())
+            if (result == "error:no_service") {
+                val queued = AlbionMarkerQueue.enqueue(this, json.toString())
+                result = if (queued != null) "queued:$queued" else "error:local_queue_failed"
+            }
             title.text = when {
                 result.startsWith("saved:") -> "${activities[activityIndex]} ✓"
                 result.startsWith("queued:") -> "${activities[activityIndex]} …"
