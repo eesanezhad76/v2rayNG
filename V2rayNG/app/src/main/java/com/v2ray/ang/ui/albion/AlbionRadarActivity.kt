@@ -2,6 +2,8 @@ package com.v2ray.ang.ui.albion
 
 import android.app.Activity
 import android.content.Intent
+import android.content.BroadcastReceiver
+import android.content.IntentFilter
 import android.content.ClipboardManager
 import android.content.ClipData
 import android.content.Context
@@ -33,6 +35,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.net.InetAddress
+import org.json.JSONObject
 
 /** Passive diagnostic capture. Every packet delivered by the native tap is written to PCAP. */
 class AlbionRadarActivity : ComponentActivity() {
@@ -128,6 +131,58 @@ class AlbionRadarActivity : ComponentActivity() {
             LinearLayout.LayoutParams(-1, 0, 1f).apply { topMargin = 12 }
         )
         setContentView(root)
+        val markerFilter = IntentFilter(AlbionOverlayService.ACTION_MARKER)
+        if (Build.VERSION.SDK_INT >= 33) registerReceiver(markerReceiver, markerFilter, Context.RECEIVER_NOT_EXPORTED)
+        else registerReceiver(markerReceiver, markerFilter)
+    }
+
+    private val markerReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val marker = intent?.getStringExtra(AlbionOverlayService.EXTRA_MARKER) ?: return
+            writeMarkerToPcap(marker)
+        }
+    }
+
+    private fun writeMarkerToPcap(markerJson: String) {
+        val out = captureOutput
+        if (!tapping || out == null) {
+            status.text = "Marker not written: start PCAP capture first."
+            return
+        }
+        try {
+            val packet = buildMarkerIpPacket(markerJson.toByteArray(Charsets.UTF_8))
+            writePcapRecord(out, packet, System.currentTimeMillis())
+            out.flush()
+            status.text = "Activity marker embedded in current PCAP (capture-only; not sent to Albion)."
+        } catch (e: Exception) {
+            status.text = "Could not write activity marker: ${e.message}"
+        }
+    }
+
+    // Synthetic private protocol 253 record; this never enters the VPN or game socket.
+    private fun buildMarkerIpPacket(json: ByteArray): ByteArray {
+        val payload = "ALBION_TAG_V1\n".toByteArray(Charsets.US_ASCII) + json
+        require(payload.size <= 65515) { "Marker too large" }
+        val packet = ByteArray(20 + payload.size)
+        packet[0] = 0x45
+        putU16(packet, 2, packet.size)
+        putU16(packet, 4, 0xA17B)
+        putU16(packet, 6, 0x4000)
+        packet[8] = 64
+        packet[9] = 253.toByte()
+        packet[12] = 192.toByte(); packet[13] = 0; packet[14] = 2; packet[15] = 1
+        packet[16] = 192.toByte(); packet[17] = 0; packet[18] = 2; packet[19] = 2
+        System.arraycopy(payload, 0, packet, 20, payload.size)
+        var sum = 0L
+        for (i in 0 until 20 step 2) sum += ((packet[i].toInt() and 255) shl 8) + (packet[i + 1].toInt() and 255)
+        while ((sum shr 16) != 0L) sum = (sum and 0xffff) + (sum shr 16)
+        putU16(packet, 10, sum.inv().toInt() and 0xffff)
+        return packet
+    }
+
+    private fun putU16(target: ByteArray, offset: Int, value: Int) {
+        target[offset] = (value ushr 8).toByte()
+        target[offset + 1] = value.toByte()
     }
 
     private fun launchActivityOverlay() {
@@ -475,6 +530,7 @@ class AlbionRadarActivity : ComponentActivity() {
         ((p[offset].toInt() and 0xff) shl 8) or (p[offset + 1].toInt() and 0xff)
 
     override fun onDestroy() {
+        try { unregisterReceiver(markerReceiver) } catch (_: Exception) {}
         if (isFinishing && tapping) stopCapture()
         super.onDestroy()
     }
