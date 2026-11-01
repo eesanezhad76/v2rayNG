@@ -378,7 +378,10 @@ object CoreServiceManager {
         val worker = AlbionCaptureWorker(
             readPacket = { readAlbionPacketTap() },
             dropped = { getAlbionPacketTapDropped() },
-            disableTap = { disableAlbionPacketTap() }
+            disableTap = { disableAlbionPacketTap() },
+            queueDepth = { try { Libv2ray.packetTapQueued() } catch (_: Exception) { -1 } },
+            queueCapacity = { try { Libv2ray.packetTapCapacity() } catch (_: Exception) { -1 } },
+            tapEnabled = { try { Libv2ray.packetTapEnabled() } catch (_: Exception) { false } }
         )
         if (!worker.start(service)) {
             disableAlbionPacketTap()
