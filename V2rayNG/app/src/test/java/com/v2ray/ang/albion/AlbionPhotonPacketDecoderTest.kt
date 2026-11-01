@@ -55,7 +55,7 @@ class AlbionPhotonPacketDecoderTest {
         assertEquals(39, messages[0].realCode)
     }
 
-    @Test fun doesNotTreatPhotonDispatchAsAlbionEventCode() {
+    @Test fun genericDispatchIsNormalizedToAlbionEventCodeWhenParameter252IsAbsent() {
         val photon = ByteArray(12 + 12 + 4)
         photon[3] = 1
         val command = 12
@@ -67,7 +67,7 @@ class AlbionPhotonPacketDecoderTest {
         photon[body + 3] = 0 // empty parameter table
         val messages = AlbionProtocol18Decoder().receiveDatagram(photon)
         assertEquals(1, messages.size)
-        assertNull(messages[0].realCode)
+        assertEquals(39, messages[0].realCode)
     }
 
     @Test fun moveDispatchInjectsOnlyItsDocumentedSpecialEventCode() {
@@ -85,7 +85,7 @@ class AlbionPhotonPacketDecoderTest {
         assertEquals(3, messages[0].realCode)
     }
 
-    @Test fun operationRequestDoesNotUseWireOperationByteAsAlbionOperationCode() {
+    @Test fun operationRequestUsesWireOperationAsFallbackWhenParameter253IsAbsent() {
         val photon = ByteArray(12 + 12 + 2 + 1 + 1)
         photon[3] = 1
         val command = 12
@@ -98,7 +98,7 @@ class AlbionPhotonPacketDecoderTest {
         val messages = AlbionProtocol18Decoder().receiveDatagram(photon)
         assertEquals(1, messages.size)
         assertEquals("request", messages[0].kind)
-        assertNull(messages[0].realCode)
+        assertEquals(1, messages[0].realCode)
         assertEquals(1, messages[0].operationCode)
     }
 
@@ -143,6 +143,24 @@ class AlbionPhotonPacketDecoderTest {
         assertEquals(8f, observation.x)
         assertEquals(9f, observation.y)
         assertEquals(3, observation.size)
+    }
+
+
+    @Test fun mapsPlayerSpawnAndLeaveLifecycle() {
+        val spawn = AlbionProtocol18Decoder.Message("event", 1, 29, mapOf(0 to 77L, 1 to "Scout"))
+        val leave = AlbionProtocol18Decoder.Message("event", 1, 1, mapOf(0 to 77L))
+        assertEquals("player_spawn", AlbionEntityEventMapper.map(spawn).single().kind)
+        assertTrue(AlbionEntityEventMapper.map(leave).single().removed)
+    }
+
+    @Test fun mapsDungeonExitCoordinates() {
+        val message = AlbionProtocol18Decoder.Message("event", 1, 325,
+            mapOf(1 to floatArrayOf(10f, 20f), 3 to "Exit", 9 to 2))
+        val observation = AlbionEntityEventMapper.map(message).single()
+        assertEquals("dungeon_exit", observation.kind)
+        assertEquals(10f, observation.x)
+        assertEquals(20f, observation.y)
+        assertEquals("Exit", observation.name)
     }
 
     private fun ipv4UdpPhotonPacket(commandType: Int, commandLength: Int): ByteArray {
