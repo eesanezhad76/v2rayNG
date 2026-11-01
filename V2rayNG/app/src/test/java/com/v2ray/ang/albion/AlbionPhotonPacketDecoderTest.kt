@@ -70,6 +70,38 @@ class AlbionPhotonPacketDecoderTest {
         assertNull(messages[0].realCode)
     }
 
+    @Test fun moveDispatchInjectsOnlyItsDocumentedSpecialEventCode() {
+        val photon = ByteArray(12 + 12 + 4)
+        photon[3] = 1
+        val command = 12
+        photon[command] = 6
+        put32(photon, command + 4, photon.size - command)
+        val body = command + 12
+        photon[body + 1] = 4 // EventData
+        photon[body + 2] = 3 // Move dispatch
+        photon[body + 3] = 0 // params omitted by server
+        val messages = AlbionProtocol18Decoder().receiveDatagram(photon)
+        assertEquals(1, messages.size)
+        assertEquals(3, messages[0].realCode)
+    }
+
+    @Test fun operationRequestDoesNotUseWireOperationByteAsAlbionOperationCode() {
+        val photon = ByteArray(12 + 12 + 2 + 1 + 1)
+        photon[3] = 1
+        val command = 12
+        photon[command] = 6
+        put32(photon, command + 4, photon.size - command)
+        val body = command + 12
+        photon[body + 1] = 2 // OperationRequest
+        photon[body + 2] = 1 // wire operation byte
+        photon[body + 3] = 0 // empty parameter table
+        val messages = AlbionProtocol18Decoder().receiveDatagram(photon)
+        assertEquals(1, messages.size)
+        assertEquals("request", messages[0].kind)
+        assertNull(messages[0].realCode)
+        assertEquals(1, messages[0].operationCode)
+    }
+
     private fun ipv4UdpPhotonPacket(commandType: Int, commandLength: Int): ByteArray {
         val packet = ByteArray(20 + 8 + 12 + 12)
         packet[0] = 0x45
