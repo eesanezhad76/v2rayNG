@@ -116,7 +116,7 @@ object AlbionEntityEventMapper {
                 val xy = pair(p[7])
                 listOf(Observation(
                     kind = "mob", eventCode = code, entityId = id,
-                    typeId = int(1), tier = int(2), enchant = int(34),
+                    typeId = int(1), enchant = int(34),
                     x = xy?.first, y = xy?.second, name = p[31] as? String
                 ))
             }
