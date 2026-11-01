@@ -16,7 +16,8 @@ object AlbionEntityEventMapper {
         val x: Float? = null,
         val y: Float? = null,
         val size: Int? = null,
-        val name: String? = null
+        val name: String? = null,
+        val removed: Boolean = false
     )
 
     fun map(message: AlbionProtocol18Decoder.Message): List<Observation> {
@@ -70,13 +71,15 @@ object AlbionEntityEventMapper {
                     x = xy?.first, y = xy?.second, size = int(10)
                 ))
             }
-            46 -> listOf(Observation("resource_state", code, number(0), size = int(1)))
+            46 -> listOf(Observation(
+                "resource_state", code, number(0), size = int(1), removed = !p.containsKey(1) || p[1] == null
+            ))
             123 -> {
                 number(0)?.let { knownNonPlayerEntities.add(it) }
                 val xy = pair(p[7])
                 listOf(Observation(
-                    "mob", code, number(0), int(1), null, int(34),
-                    xy?.first, xy?.second, name = p[31] as? String
+                    "mob", code, number(0), int(1), null, null,
+                    xy?.first, xy?.second, enchant = int(34), name = p[31] as? String
                 ))
             }
             else -> emptyList()
