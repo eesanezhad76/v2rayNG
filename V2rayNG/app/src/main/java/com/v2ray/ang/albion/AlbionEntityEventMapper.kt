@@ -2,6 +2,7 @@ package com.v2ray.ang.albion
 
 /** Maps decoded Protocol18 events into conservative radar observations. */
 object AlbionEntityEventMapper {
+    private val knownNonPlayerEntities = LinkedHashSet<Long>()
     data class Observation(
         val kind: String,
         val eventCode: Int,
@@ -38,8 +39,10 @@ object AlbionEntityEventMapper {
         }
         return when (code) {
             3 -> {
+                val id = number(0) ?: return emptyList()
+                if (!knownNonPlayerEntities.contains(id)) return emptyList()
                 val xy = if (p[4] is Number && p[5] is Number) (p[4] as Number).toFloat() to (p[5] as Number).toFloat() else null
-                listOf(Observation("move", code, number(0), x = xy?.first, y = xy?.second))
+                listOf(Observation("move", code, id, x = xy?.first, y = xy?.second))
             }
             39 -> {
                 val ids = idList(p[0])
@@ -50,12 +53,14 @@ object AlbionEntityEventMapper {
                     is List<*> -> positions.mapNotNull { (it as? Number)?.toFloat() }.toFloatArray()
                     else -> floatArrayOf()
                 }
+                knownNonPlayerEntities.addAll(ids)
                 ids.mapIndexed { i, id ->
                     val at = i * 2
                     Observation("static_resource", code, id, x = flat.getOrNull(at), y = flat.getOrNull(at + 1))
                 }
             }
             40 -> {
+                number(0)?.let { knownNonPlayerEntities.add(it) }
                 val xy = pair(p[8])
                 listOf(Observation(
                     kind = "harvestable", eventCode = code, entityId = number(0),
@@ -65,6 +70,7 @@ object AlbionEntityEventMapper {
             }
             46 -> listOf(Observation("resource_state", code, number(0), size = int(1)))
             123 -> {
+                number(0)?.let { knownNonPlayerEntities.add(it) }
                 val xy = pair(p[7])
                 listOf(Observation(
                     "mob", code, number(0), int(1), null, int(34),
