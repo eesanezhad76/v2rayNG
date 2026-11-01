@@ -231,16 +231,16 @@ object CoreServiceManager {
         networkMonitor = null
         currentVpnInterface = null
 
-        if (isRunning()) {
-            // Finalize the capture before stopping Xray or releasing the Android TUN fd.
-            // This is intentionally awaited: an untracked coroutine could be killed with
-            // the Service and leave the last PCAP/JSONL buffers unwritten.
-            runBlocking(Dispatchers.IO) {
-                try {
-                    albionCaptureWorker?.stop()
-                } catch (captureError: Exception) {
-                    LogUtil.e(AppConfig.TAG, "Albion capture finalization failed", captureError)
-                }
+        // Finalize the capture even if Xray has already stopped unexpectedly; otherwise
+        // its polling worker could keep open PCAP/JSONL streams indefinitely.
+        // When Xray is running, drain first and only then stop the core and release the TUN fd.
+        runBlocking(Dispatchers.IO) {
+            try {
+                albionCaptureWorker?.stop()
+            } catch (captureError: Exception) {
+                LogUtil.e(AppConfig.TAG, "Albion capture finalization failed", captureError)
+            }
+            if (isRunning()) {
                 try {
                     coreController.stopLoop()
                 } catch (e: Exception) {
