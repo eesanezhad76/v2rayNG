@@ -330,7 +330,12 @@ object CoreServiceManager {
         val service = getService() ?: return false
         if (!isRunning()) return false
         val existing = albionCaptureWorker
-        if (existing?.snapshot()?.running == true) return true
+        if (existing != null) {
+            val state = existing.snapshot()
+            if (state.running) return true
+            // Do not race a second writer against an asynchronous stop/drain.
+            if (!state.finished) return false
+        }
         if (!enableAlbionPacketTap(4096)) return false
         val worker = AlbionCaptureWorker(
             readPacket = { readAlbionPacketTap() },
