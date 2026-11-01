@@ -167,8 +167,13 @@ class AlbionRadarActivity : ComponentActivity() {
         pollJob = null
         CoreServiceManager.stopAlbionCapture()
         captureScope.launch {
-            delay(1200)
-            val s = CoreServiceManager.getAlbionCaptureSnapshot()
+            var waited = 0
+            var s = CoreServiceManager.getAlbionCaptureSnapshot()
+            while (s != null && !s.finished && waited < 30000) {
+                delay(250)
+                waited += 250
+                s = CoreServiceManager.getAlbionCaptureSnapshot()
+            }
             captureFile = s?.pcap ?: captureFile
             captureTextFile = s?.log ?: captureTextFile
             packetCount = s?.packets ?: packetCount
