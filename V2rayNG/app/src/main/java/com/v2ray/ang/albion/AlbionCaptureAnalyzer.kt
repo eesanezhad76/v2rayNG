@@ -19,6 +19,7 @@ object AlbionCaptureAnalyzer {
         val operationRequests: Map<Int, Int>,
         val operationResponses: Map<Int, Int>,
         val entityKinds: Map<String, Int>,
+        val typedEventKinds: Map<String, Int>,
         val malformedPhotonPackets: Int,
         val encryptedPhotonPackets: Int,
         val encryptedProtocol18Messages: Int,
@@ -44,6 +45,8 @@ object AlbionCaptureAnalyzer {
             operationResponses.toSortedMap().forEach { (code, count) -> appendLine("  operation $code: $count") }
             appendLine("Mapped entity observations:")
             entityKinds.toSortedMap().forEach { (kind, count) -> appendLine("  $kind: $count") }
+            appendLine("Typed Photon event observations:")
+            typedEventKinds.toSortedMap().forEach { (kind, count) -> appendLine("  $kind: $count") }
             appendLine("Malformed / unrecognized Photon envelopes: $malformedPhotonPackets")
             appendLine("Encrypted Photon packets: $encryptedPhotonPackets")
             appendLine("Encrypted Protocol18 messages: $encryptedProtocol18Messages")
@@ -68,6 +71,7 @@ object AlbionCaptureAnalyzer {
         val requests = linkedMapOf<Int, Int>()
         val responses = linkedMapOf<Int, Int>()
         val entities = linkedMapOf<String, Int>()
+        val typedEvents = linkedMapOf<String, Int>()
         val checkpoints = mutableListOf<String>()
         val protocol18 = AlbionProtocol18Decoder()
         AlbionPhotonPacketDecoder.reset()
@@ -116,6 +120,12 @@ object AlbionCaptureAnalyzer {
                                 AlbionEntityEventMapper.map(message).forEach { observation ->
                                     entities[observation.kind] = (entities[observation.kind] ?: 0) + 1
                                 }
+                                if (message.kind == "event" && message.realCode != null) {
+                                    val typed = AlbionPhotonEventDecoder.decode(message.realCode, message.parameters)
+                                    if (typed.resources.isNotEmpty()) typedEvents["resource"] = (typedEvents["resource"] ?: 0) + typed.resources.size
+                                    if (typed.livingEntities.isNotEmpty()) typedEvents["living_entity"] = (typedEvents["living_entity"] ?: 0) + typed.livingEntities.size
+                                    if (typed.stateUpdate != null) typedEvents["resource_state"] = (typedEvents["resource_state"] ?: 0) + 1
+                                }
                             }
                         }
                     } else if (decoded.encrypted) encryptedPhoton++ else malformed++
@@ -129,7 +139,7 @@ object AlbionCaptureAnalyzer {
         if (albion == 0) warnings += "No UDP datagrams involving port 5056 were found."
         if (malformed > 0) warnings += "Some datagrams on port 5056 did not pass Photon envelope validation."
         return Report(
-            packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, malformed,
+            packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, typedEvents, malformed,
             encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings, checkpoints
         )
     }

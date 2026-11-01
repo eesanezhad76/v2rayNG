@@ -212,6 +212,7 @@ class AlbionCaptureWorker(
         if (decoded == null) nonAlbionCount.incrementAndGet()
         val messages = if (decoded?.photon == true && decoded.photonPayload != null) protocol18.receiveDatagram(decoded.photonPayload) else emptyList()
         val messageArray = JSONArray()
+        val photonEventAnalysis = JSONArray()
         messages.forEach { message ->
             val item = JSONObject()
             item.put("kind", message.kind)
@@ -221,6 +222,38 @@ class AlbionCaptureWorker(
             item.put("return_code", message.returnCode ?: JSONObject.NULL)
             item.put("param_keys", JSONArray(message.parameters.keys.sorted()))
             messageArray.put(item)
+
+            if (message.kind == "event" && message.realCode != null) {
+                val normalized = AlbionPhotonEventDecoder.decode(message.realCode, message.parameters)
+                val eventItem = JSONObject().put("event_code", message.realCode).put("recognized", normalized.recognized)
+                val resources = JSONArray()
+                normalized.resources.forEach { resource ->
+                    val r = JSONObject().put("id", resource.id)
+                    resource.typeId?.let { r.put("type_id", it) }
+                    resource.tier?.let { r.put("tier", it) }
+                    resource.x?.let { r.put("x", it) }
+                    resource.y?.let { r.put("y", it) }
+                    resource.amount?.let { r.put("amount", it) }
+                    resource.enchantmentRaw?.let { r.put("enchantment_raw", it) }
+                    resources.put(r)
+                }
+                val living = JSONArray()
+                normalized.livingEntities.forEach { entity ->
+                    val e = JSONObject().put("id", entity.id)
+                    entity.typeId?.let { e.put("type_id", it) }
+                    entity.x?.let { e.put("x", it) }
+                    entity.y?.let { e.put("y", it) }
+                    living.put(e)
+                }
+                eventItem.put("resources", resources).put("living_entities", living)
+                normalized.stateUpdate?.let { state ->
+                    val update = JSONObject().put("id", state.id)
+                    state.amountOrState?.let { update.put("amount_or_state", it) }
+                    state.enchantmentRaw?.let { update.put("enchantment_raw", it) }
+                    eventItem.put("state_update", update)
+                }
+                photonEventAnalysis.put(eventItem)
+            }
         }
         val entityArray = JSONArray()
         messages.flatMap { AlbionEntityEventMapper.map(it) }.forEach { entity ->
@@ -249,6 +282,7 @@ class AlbionCaptureWorker(
             .put("photon_encrypted", decoded?.encrypted ?: false)
             .put("photon_error", decoded?.error ?: JSONObject.NULL).put("command_count", decoded?.commandCount ?: 0)
             .put("command_types", JSONArray(decoded?.commandTypes ?: emptyList<Int>())).put("messages", messageArray)
+            .put("photon_event_analysis", photonEventAnalysis)
             .put("entities", entityArray).put("protocol18_encrypted", decoderStats.encrypted)
             .put("protocol18_malformed", decoderStats.malformed)
             .put("fragments_pending", decoderStats.fragmentsPending).toString())
