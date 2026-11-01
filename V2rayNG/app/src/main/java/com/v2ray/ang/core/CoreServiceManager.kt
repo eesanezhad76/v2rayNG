@@ -179,8 +179,10 @@ object CoreServiceManager {
         if (albionTapRequested) {
             try {
                 val restored = Libv2ray.enablePacketTap(albionTapCapacity.toLong())
+                if (!restored) albionTapRequested = false
                 LogUtil.i(AppConfig.TAG, "Albion packet tap restored after core start: $restored")
             } catch (e: Exception) {
+                albionTapRequested = false
                 LogUtil.e(AppConfig.TAG, "Albion packet tap restore failed", e)
             }
         }
@@ -344,7 +346,11 @@ object CoreServiceManager {
         val existing = albionCaptureWorker
         if (existing != null) {
             val state = existing.snapshot()
-            if (state.running) return true
+            if (state.running) {
+                // The worker may survive a core/network reload while the native tap does not.
+                // Re-enable the same bounded queue before reporting capture as healthy.
+                return enableAlbionPacketTap(4096)
+            }
             // Do not race a second writer against an asynchronous stop/drain.
             if (!state.finished) return false
         }
