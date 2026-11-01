@@ -3,6 +3,8 @@ package com.v2ray.ang.albion
 import android.content.Context
 import kotlinx.coroutines.*
 import java.io.*
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 
@@ -16,6 +18,7 @@ class AlbionCaptureWorker(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val running = AtomicBoolean(false)
     private val packetCount = AtomicLong(0)
+    private val protocol18 = AlbionProtocol18Decoder()
     @Volatile private var pcapFile: File? = null
     @Volatile private var logFile: File? = null
     @Volatile private var failure: String? = null
@@ -47,7 +50,8 @@ class AlbionCaptureWorker(
                         var consumed = 0
                         while (consumed < 2048) {
                             val packet = readPacket() ?: break
-                            if (AlbionPhotonPacketDecoder.decodeIpPacket(packet) != null) writePacket(packet, System.currentTimeMillis())
+                            val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
+                            if (decoded != null) writePacket(packet, System.currentTimeMillis(), decoded)
                             consumed++
                         }
                         val now = System.nanoTime()
@@ -85,7 +89,8 @@ class AlbionCaptureWorker(
             var drained = 0
             while (drained < 16384) {
                 val packet = readPacket() ?: break
-                if (AlbionPhotonPacketDecoder.decodeIpPacket(packet) != null) writePacket(packet, System.currentTimeMillis())
+                val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
+                if (decoded != null) writePacket(packet, System.currentTimeMillis(), decoded)
                 drained++
             }
             synchronized(this@AlbionCaptureWorker) { flushFiles(); closeFiles() }
@@ -95,7 +100,7 @@ class AlbionCaptureWorker(
 
     fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), dropped(), pcapFile, logFile, failure)
 
-    @Synchronized private fun writePacket(packet: ByteArray, timestampMs: Long) {
+    @Synchronized private fun writePacket(packet: ByteArray, timestampMs: Long, decoded: AlbionPhotonPacketDecoder.Result) {
         val out = pcap ?: return
         out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
         out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
@@ -103,14 +108,39 @@ class AlbionCaptureWorker(
         out.writeInt(Integer.reverseBytes(packet.size))
         out.write(packet)
         packetCount.incrementAndGet()
-        log?.apply {
-            val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
-            val types = decoded?.commandTypes?.joinToString(",") ?: ""
-            write("{\"time_ms\":$timestampMs,\"length\":${packet.size},\"src_port\":${decoded?.srcPort ?: 0},\"dst_port\":${decoded?.dstPort ?: 0},\"photon\":${decoded?.photon ?: false},\"command_count\":${decoded?.commandCount ?: 0},\"command_types\":[${types}]}")
-            newLine()
+        val messages = if (decoded.photon && decoded.photonPayload != null) protocol18.receiveDatagram(decoded.photonPayload) else emptyList()
+        val messageArray = JSONArray()
+        messages.forEach { message ->
+            val item = JSONObject()
+            item.put("kind", message.kind)
+            item.put("dispatch", message.dispatchCode)
+            item.put("code", message.realCode ?: JSONObject.NULL)
+            item.put("param_keys", JSONArray(message.parameters.keys.sorted()))
+            messageArray.put(item)
         }
+        val entityArray = JSONArray()
+        messages.flatMap { AlbionEntityEventMapper.map(it) }.forEach { entity ->
+            val item = JSONObject()
+            item.put("kind", entity.kind)
+            item.put("event_code", entity.eventCode)
+            entity.entityId?.let { item.put("entity_id", it) }
+            entity.typeId?.let { item.put("mobile_type_id", it) }
+            entity.typeNumber?.let { item.put("type_number", it) }
+            entity.tier?.let { item.put("tier", it) }
+            entity.enchant?.let { item.put("enchant", it) }
+            entity.x?.let { item.put("x", it) }
+            entity.y?.let { item.put("y", it) }
+            entity.size?.let { item.put("size", it) }
+            entity.name?.let { item.put("name", it) }
+            entityArray.put(item)
+        }
+        log?.write(JSONObject().put("time_ms", timestampMs).put("length", packet.size)
+            .put("src_port", decoded.srcPort).put("dst_port", decoded.dstPort)
+            .put("photon", decoded.photon).put("command_count", decoded.commandCount)
+            .put("command_types", JSONArray(decoded.commandTypes)).put("messages", messageArray)
+            .put("entities", entityArray).toString())
+        log?.newLine()
     }
-
     @Synchronized private fun flushFiles() {
         try { pcap?.flush() } catch (_: Throwable) {}
         try { log?.flush() } catch (_: Throwable) {}
