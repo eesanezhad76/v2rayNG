@@ -47,8 +47,9 @@ object AlbionCaptureAnalyzer {
                 0xa1b2c3d4.toInt() -> false
                 else -> throw IllegalArgumentException("Unsupported PCAP magic: %08x".format(magic))
             }
-            readInt(input, little); readInt(input, little)
-            readInt(input, little); readInt(input, little); readInt(input, little)
+            // Four 32-bit words precede the network/link-type word:
+            // version pair, thiszone, sigfigs, snaplen.
+            repeat(4) { readInt(input, little) }
             val linkType = readInt(input, little)
             while (true) {
                 try {
