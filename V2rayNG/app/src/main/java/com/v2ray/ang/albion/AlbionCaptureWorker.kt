@@ -140,11 +140,14 @@ class AlbionCaptureWorker(
             if (entity.kind == "resource_state") item.put("removed", entity.removed)
             entityArray.put(item)
         }
+        val decoderStats = protocol18.stats()
         log?.write(JSONObject().put("time_ms", timestampMs).put("length", packet.size)
             .put("src_port", decoded.srcPort).put("dst_port", decoded.dstPort)
             .put("photon", decoded.photon).put("command_count", decoded.commandCount)
             .put("command_types", JSONArray(decoded.commandTypes)).put("messages", messageArray)
-            .put("entities", entityArray).toString())
+            .put("entities", entityArray).put("protocol18_encrypted", decoderStats.encrypted)
+            .put("protocol18_malformed", decoderStats.malformed)
+            .put("fragments_pending", decoderStats.fragmentsPending).toString())
         log?.newLine()
     }
     @Synchronized private fun flushFiles() {
