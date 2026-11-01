@@ -2,6 +2,7 @@ package com.v2ray.ang.albion
 
 import org.json.JSONArray
 import org.json.JSONObject
+import org.json.JSONTokener
 import java.io.File
 import java.util.ArrayDeque
 
@@ -103,8 +104,14 @@ object AlbionPatternMiner {
         file.useLines { lines ->
             lines.forEach { line ->
                 try {
-                    // Tolerate JSONL rows exported with one extra layer of JSON-string escaping.
-                    val row = JSONObject(line.replace("\\", ""))
+                    // Parse ordinary JSONL first. Some exporters wrap each row as a JSON
+                    // string; unwrap that single layer without deleting legitimate backslashes.
+                    val parsed = JSONTokener(line).nextValue()
+                    val row = when (parsed) {
+                        is JSONObject -> parsed
+                        is String -> JSONObject(parsed)
+                        else -> throw IllegalArgumentException("JSONL row must be an object")
+                    }
                     val time = row.optLong("time_ms", -1L)
                     if (row.has("manual_marker")) {
                         val m = row.optJSONObject("manual_marker") ?: return@forEach
