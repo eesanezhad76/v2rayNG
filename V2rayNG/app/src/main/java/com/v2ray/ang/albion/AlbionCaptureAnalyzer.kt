@@ -27,6 +27,7 @@ object AlbionCaptureAnalyzer {
         val encryptedProtocol18Messages: Int,
         val malformedProtocol18Messages: Int,
         val pendingFragments: Int,
+        val truncatedPcap: Boolean,
         val warnings: List<String>,
         val checkpoints: List<String>
     ) {
@@ -57,6 +58,7 @@ object AlbionCaptureAnalyzer {
             appendLine("Encrypted Protocol18 messages: $encryptedProtocol18Messages")
             appendLine("Malformed Protocol18 messages: $malformedProtocol18Messages")
             appendLine("Pending fragmented messages: $pendingFragments")
+            appendLine("Truncated PCAP record detected: $truncatedPcap")
             appendLine("Manual checkpoints: ${checkpoints.size}")
             checkpoints.forEach { appendLine("  $it") }
             warnings.forEach { appendLine("Warning: $it") }
@@ -71,6 +73,7 @@ object AlbionCaptureAnalyzer {
         var outbound = 0
         var malformed = 0
         var encryptedPhoton = 0
+        var truncatedPcap = false
         val commands = linkedMapOf<Int, Int>()
         val events = linkedMapOf<Int, Int>()
         val requests = linkedMapOf<Int, Int>()
@@ -97,11 +100,17 @@ object AlbionCaptureAnalyzer {
             val linkType = readInt(input, little)
             while (true) {
                 try {
+                    val remaining = input.available()
+                    if (remaining == 0) break
+                    if (remaining < 16) { truncatedPcap = true; break }
                     readInt(input, little)
                     readInt(input, little)
                     val captured = readInt(input, little)
                     readInt(input, little)
-                    if (captured !in 1..2_000_000) break
+                    if (captured !in 1..2_000_000 || captured > input.available()) {
+                        truncatedPcap = true
+                        break
+                    }
                     val frame = ByteArray(captured)
                     input.readFully(frame)
                     packets++
@@ -149,9 +158,10 @@ object AlbionCaptureAnalyzer {
         val warnings = mutableListOf<String>()
         if (albion == 0) warnings += "No UDP datagrams involving port 5056 were found."
         if (malformed > 0) warnings += "Some datagrams on port 5056 did not pass Photon envelope validation."
+        if (truncatedPcap) warnings += "PCAP ended with a partial record or invalid captured-length field."
         return Report(
             packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, typedEvents, stateSnapshotCount, unknownSchemas, malformed,
-            encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings, checkpoints
+            encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, truncatedPcap, warnings, checkpoints
         )
     }
 
