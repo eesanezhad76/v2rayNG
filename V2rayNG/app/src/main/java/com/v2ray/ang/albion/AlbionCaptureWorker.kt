@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.SystemClock
 import android.provider.MediaStore
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
@@ -127,6 +128,7 @@ class AlbionCaptureWorker(
                     synchronized(this@AlbionCaptureWorker) { flushFiles() }
                 }
             }
+            appendLifecycleMarker("capture_started")
             true
         } catch (t: Throwable) {
             failure = t.message ?: t.javaClass.simpleName
@@ -139,6 +141,7 @@ class AlbionCaptureWorker(
 
     suspend fun stop() = stopMutex.withLock {
         if (finalized) return@withLock
+        appendLifecycleMarker("capture_stopping")
         running.set(false)
         try { disableTap() } catch (_: Throwable) {}
         job?.cancelAndJoin()
@@ -155,6 +158,17 @@ class AlbionCaptureWorker(
                 mirrorDownloads()
             }
             finalized = true
+        }
+    }
+
+    private fun appendLifecycleMarker(event: String) {
+        val now = System.currentTimeMillis()
+        val json = JSONObject().put("timestamp_ms", now)
+            .put("elapsed_realtime_ms", SystemClock.elapsedRealtime())
+            .put("event", event).put("activity", "Capture")
+            .put("source", "capture_worker").toString()
+        try { appendMarker(AlbionCaptureMarker.build(json), now) } catch (t: Throwable) {
+            failure = "lifecycle checkpoint failed: ${t.message}"
         }
     }
 
@@ -302,7 +316,7 @@ class AlbionCaptureWorker(
             target.writeText(buildString {
                 append(report)
                 appendLine("\nCapture integrity")
-                appendLine("PCAP packet records: ${packetCount.get()}")
+                appendLine("PCAP records (TUN packets + checkpoints): ${packetCount.get() + markerCount.get()}")
                 appendLine("Native tap dropped copies: ${(dropped() - dropBaseline.get()).coerceAtLeast(0)}")
                 appendLine("Manual checkpoints: ${markerCount.get()}")
                 appendLine("Non-Albion / unclassified packets: ${nonAlbionCount.get()}")
