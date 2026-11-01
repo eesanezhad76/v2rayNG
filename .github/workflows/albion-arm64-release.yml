@@ -51,7 +51,7 @@ jobs:
           echo "$ALBION_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/albion-release.jks"
           chmod 600 "$RUNNER_TEMP/albion-release.jks"
           keytool -list -keystore "$RUNNER_TEMP/albion-release.jks" -storepass "$ALBION_KEYSTORE_PASSWORD" -alias "$ALBION_KEY_ALIAS" >/dev/null
-          keytool -importkeystore -srckeystore "$RUNNER_TEMP/albion-release.jks" -srcstoretype JKS -srcstorepass "$ALBION_KEYSTORE_PASSWORD" -srcalias "$ALBION_KEY_ALIAS" -srckeypass "$ALBION_KEY_PASSWORD" -destkeystore "$RUNNER_TEMP/albion-key-check.p12" -deststoretype PKCS12 -deststorepass "$ALBION_KEYSTORE_PASSWORD" -destkeypass "$ALBION_KEYSTORE_PASSWORD" -noprompt >/dev/null
+          keytool -importkeystore -srckeystore "$RUNNER_TEMP/albion-release.jks" -srcstoretype PKCS12 -srcstorepass "$ALBION_KEYSTORE_PASSWORD" -srcalias "$ALBION_KEY_ALIAS" -srckeypass "$ALBION_KEY_PASSWORD" -destkeystore "$RUNNER_TEMP/albion-key-check.p12" -deststoretype PKCS12 -deststorepass "$ALBION_KEYSTORE_PASSWORD" -destkeypass "$ALBION_KEYSTORE_PASSWORD" -noprompt >/dev/null
           rm -f "$RUNNER_TEMP/albion-key-check.p12"
           echo "ALBION_KEYSTORE_PATH=$RUNNER_TEMP/albion-release.jks" >> "$GITHUB_ENV"
           echo "::add-mask::$ALBION_KEYSTORE_PASSWORD"
