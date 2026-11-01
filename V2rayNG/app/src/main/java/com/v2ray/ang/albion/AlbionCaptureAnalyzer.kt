@@ -53,9 +53,9 @@ object AlbionCaptureAnalyzer {
                 0xa1b2c3d4.toInt() -> false
                 else -> throw IllegalArgumentException("Unsupported PCAP magic: %08x".format(magic))
             }
-            val link = readInt(input, little)
             readShort(input, little); readShort(input, little)
             readInt(input, little); readInt(input, little); readInt(input, little)
+            val link = readInt(input, little)
             if (link != 101 && link != 1) warnings += "Link type $link is not raw IP/Ethernet; some packets may be skipped."
             while (true) {
                 val sec = try { readInt(input, little) } catch (_: Exception) { break }
@@ -80,18 +80,10 @@ object AlbionCaptureAnalyzer {
                 if (payloadEnd <= payloadStart) continue
                 if (dst == 5056) inbound++ else outbound++
                 val payload = b.copyOfRange(payloadStart, payloadEnd)
-                val commands = parseEnet(payload)
-                commands.forEach { cmd ->
-                    enet[cmd.first] = (enet[cmd.first] ?: 0) + 1
-                    if (cmd.first == 4) {
-                        val event = photonEventCode(cmd.second)
-                        if (event != null) events[event] = (events[event] ?: 0) + 1
-                    }
-                }
             }
         }
         if (game == 0) warnings += "No UDP packets on port 5056 found."
-        if (events.isEmpty()) warnings += "No Photon event codes were confidently decoded; encrypted or fragmented payloads may require reassembly."
+        warnings += "Photon event decoding is not enabled in this build yet; transport statistics are automatic, but entity IDs and coordinates are not inferred."
         return Report(packets, udp, game, inbound, outbound, enet, events, warnings)
     }
 
