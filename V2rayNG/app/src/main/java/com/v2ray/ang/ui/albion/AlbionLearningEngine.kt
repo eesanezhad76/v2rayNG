@@ -114,7 +114,7 @@ internal object AlbionLearningEngine {
     private fun readPcap(file: File): List<Packet> {
         val result = ArrayList<Packet>()
         DataInputStream(BufferedInputStream(FileInputStream(file))).use { input ->
-            val magic = readLeInt(input)
+            val magic = input.readInt()
             val littleEndian = when (magic) {
                 0xa1b2c3d4.toInt(), 0xa1b23c4d.toInt() -> false
                 0xd4c3b2a1.toInt(), 0x4d3cb2a1 -> true
@@ -184,7 +184,6 @@ internal object AlbionLearningEngine {
         }
     }
 
-    private fun readLeInt(input: DataInputStream): Int = Integer.reverseBytes(input.readInt())
     private fun readInt(input: DataInputStream, little: Boolean): Int {
         val value = input.readInt()
         return if (little) Integer.reverseBytes(value) else value
