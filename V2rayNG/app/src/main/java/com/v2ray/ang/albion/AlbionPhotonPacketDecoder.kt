@@ -101,7 +101,7 @@ object AlbionPhotonPacketDecoder {
         if (flags == ENCRYPTED_PACKET_FLAG) {
             return Result(src, dst, false, peer, flags, error = "encrypted Photon packet")
         }
-        if (count !in 1..MAX_COMMANDS) {
+        if (count !in 0..MAX_COMMANDS) {
             return Result(src, dst, false, peer, flags, error = "invalid Photon command count")
         }
         var pos = start + PHOTON_HEADER_LENGTH
