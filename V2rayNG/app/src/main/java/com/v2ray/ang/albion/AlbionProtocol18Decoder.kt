@@ -31,7 +31,8 @@ class AlbionProtocol18Decoder {
         val flags = u8(datagram, 2)
         val commandCount = u8(datagram, 3)
         if (flags == 1) { encryptedCount++; return emptyList() }
-        if (commandCount !in 1..64) { malformedCount++; return emptyList() }
+        if (commandCount !in 0..64) { malformedCount++; return emptyList() }
+        if (commandCount == 0) return emptyList()
         var offset = 12
         val output = ArrayList<Message>()
         repeat(commandCount) {
@@ -61,7 +62,7 @@ class AlbionProtocol18Decoder {
     fun stats() = DecodeStats(encryptedCount, malformedCount, fragments.size)
 
     private fun decodeCommandBody(src: ByteArray, start: Int, length: Int, out: MutableList<Message>) {
-        if (length < 2 || start < 0 || start + length > src.size) { malformedCount++; return }
+        if (length < 2 || start < 0 || start > src.size || length > src.size - start) { malformedCount++; return }
         val messageType = u8(src, start + 1)
         val payloadStart = start + 2
         val payloadLength = length - 2
@@ -72,6 +73,7 @@ class AlbionProtocol18Decoder {
                     val r = Reader(src, payloadStart, payloadLength)
                     val op = r.byte()
                     val params = r.parameterTable()
+                    if (!params.containsKey(253)) params[253] = op
                     out += Message("request", 0, params[253].asInt(), params, op)
                 }
                 3, 7 -> {
@@ -82,17 +84,17 @@ class AlbionProtocol18Decoder {
                     if (r.remaining() > 0) debug = r.typedValue()
                     val params = r.parameterTable()
                     if (debug is List<*>) params[0] = debug
+                    if (!params.containsKey(253)) params[253] = op
                     out += Message("response", 0, params[253].asInt(), params, op, ret)
                 }
                 4 -> {
                     val r = Reader(src, payloadStart, payloadLength)
                     val dispatch = r.byte()
                     val params = r.parameterTable().toMutableMap()
-                    // Protocol18's Albion event code is parameter 252. The Photon
-                    // dispatch byte is not a safe substitute when parameter 252 is absent.
-                    // Move events omit parameter 252 on the wire; the protocol
-                    // post-processor injects dispatch=3 for this one special case.
-                    if (dispatch == 3 && !params.containsKey(252)) params[252] = 3
+                    // OpenRadar's Protocol18 post-processing contract: parameter 252
+                    // is the canonical Albion event code; inject the event dispatch byte
+                    // whenever the server omitted it (not only for Move).
+                    if (!params.containsKey(252)) params[252] = dispatch
                     val real = params[252].asInt()
                     if (dispatch == 3) injectMovePosition(params)
                     out += Message("event", dispatch, real, params)
@@ -104,13 +106,14 @@ class AlbionProtocol18Decoder {
     }
 
     private fun handleFragment(src: ByteArray, start: Int, length: Int, out: MutableList<Message>) {
+        expireFragments()
         if (length < 20 || start + length > src.size) { malformedCount++; return }
         val sequence = u32(src, start)
         val totalLength = u32(src, start + 12)
         val fragmentOffset = u32(src, start + 16)
         val dataStart = start + 20
         val dataLength = length - 20
-        if (totalLength <= 0 || totalLength > 1_048_576 || fragmentOffset + dataLength > totalLength) {
+        if (totalLength <= 0 || totalLength > 1_048_576 || fragmentOffset > totalLength || dataLength.toLong() > totalLength - fragmentOffset) {
             malformedCount++; return
         }
         if (fragments.size >= 64 && !fragments.containsKey(sequence)) {
@@ -303,7 +306,8 @@ class AlbionProtocol18Decoder {
     }
 
     companion object {
-        private const val FRAGMENT_TTL_MS = 30_000L\n        private fun u8(b: ByteArray, o: Int) = b[o].toInt() and 255
+        private const val FRAGMENT_TTL_MS = 30_000L
+        private fun u8(b: ByteArray, o: Int) = b[o].toInt() and 255
         private fun u16le(b: ByteArray, o: Int) = (b[o].toInt() and 255) or ((b[o + 1].toInt() and 255) shl 8)
         private fun u32(b: ByteArray, o: Int) =
             ((b[o].toLong() and 255L) shl 24) or ((b[o + 1].toLong() and 255L) shl 16) or
