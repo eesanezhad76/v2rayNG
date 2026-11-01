@@ -6,6 +6,7 @@ import android.content.ClipboardManager
 import android.content.ClipData
 import android.content.Context
 import android.net.Uri
+import android.provider.Settings
 import android.os.Bundle
 import android.os.SystemClock
 import android.widget.Button
@@ -41,6 +42,7 @@ class AlbionRadarActivity : ComponentActivity() {
     private lateinit var export: Button
     private lateinit var copyAll: Button
     private lateinit var analyze: Button
+    private lateinit var overlay: Button
     private var pollJob: Job? = null
     private val captureScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var stopping = false
@@ -93,6 +95,10 @@ class AlbionRadarActivity : ComponentActivity() {
             isEnabled = false
             setOnClickListener { analyzeCapture() }
         }
+        overlay = Button(this).apply {
+            text = "Launch activity tagging overlay"
+            setOnClickListener { launchActivityOverlay() }
+        }
         packets = TextView(this).apply {
             textSize = 13f
             typeface = android.graphics.Typeface.MONOSPACE
@@ -108,11 +114,28 @@ class AlbionRadarActivity : ComponentActivity() {
         }
         root.addView(actions, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(analyze, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
+        root.addView(overlay, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(
             ScrollView(this).apply { addView(packets) },
             LinearLayout.LayoutParams(-1, 0, 1f).apply { topMargin = 12 }
         )
         setContentView(root)
+    }
+
+    private fun launchActivityOverlay() {
+        if (Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(this)) {
+            status.text = "Allow Display over other apps for V2RayNG, then return and tap the overlay button again."
+            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName"))
+            startActivity(intent)
+            return
+        }
+        try {
+            val intent = Intent(this, AlbionOverlayService::class.java)
+            if (Build.VERSION.SDK_INT >= 26) startForegroundService(intent) else startService(intent)
+            status.text = "Activity tagging overlay started. It writes local timestamps only; packet capture and VPN routing are unchanged."
+        } catch (e: Exception) {
+            status.text = "Could not start activity overlay: ${e.message}"
+        }
     }
 
     private fun startCapture() {
