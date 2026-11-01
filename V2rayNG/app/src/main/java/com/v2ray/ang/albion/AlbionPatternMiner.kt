@@ -28,6 +28,8 @@ object AlbionPatternMiner {
         val typeId: Int?,
         val tier: Int?,
         val enchant: Int?,
+        val overlayTierLabel: String?,
+        val overlayEnchantLabel: String?,
         val samples: Int,
         val distinctEntities: Int,
         val observationCount: Int,
@@ -54,6 +56,7 @@ object AlbionPatternMiner {
             patterns.take(30).forEachIndexed { index, p ->
                 appendLine("#${index + 1} [${p.score}/100] ${p.activity} / ${p.kind}")
                 appendLine("  signature: ${p.signature}")
+                appendLine("  overlay labels: tier=${p.overlayTierLabel ?: "unknown"}, enchant=${p.overlayEnchantLabel ?: "unknown"}")
                 appendLine("  repeated samples: ${p.samples}; distinct entity IDs: ${p.distinctEntities}; observations: ${p.observationCount}")
                 appendLine("  event codes: ${p.eventCodes.toSortedMap()}")
                 appendLine("  complete label pairs: ${p.completePairs}")
@@ -65,6 +68,7 @@ object AlbionPatternMiner {
     private data class Candidate(
         val signature: String, val activity: String, val kind: String,
         val eventCode: Int?, val typeId: Int?, val tier: Int?, val enchant: Int?,
+        val overlayTierLabel: String?, val overlayEnchantLabel: String?,
         val ids: MutableSet<String>, val events: MutableMap<Int, Int>,
         var observations: Int = 0, val sampleIndexes: MutableSet<Int> = linkedSetOf()
     )
@@ -73,6 +77,8 @@ object AlbionPatternMiner {
         val activity: String,
         val startMs: Long,
         var endMs: Long? = null,
+        val overlayTierLabel: String? = null,
+        val overlayEnchantLabel: String? = null,
         val observations: MutableList<JSONObject> = mutableListOf()
     )
 
@@ -103,7 +109,9 @@ object AlbionPatternMiner {
                         when (m.optString("event", "")) {
                             "target_found" -> {
                                 active.remove(activity)?.let { incomplete++ }
-                                val sample = MutableSample(activity, markerTime)
+                                val tierLabel = m.optString("tier", "").takeIf { it.isNotBlank() && it != "null" }
+                                val enchantLabel = m.optString("enchantment", "").takeIf { it.isNotBlank() && it != "null" }
+                                val sample = MutableSample(activity, markerTime, overlayTierLabel = tierLabel, overlayEnchantLabel = enchantLabel)
                                 rolling.filter { it.first >= markerTime - EDGE_WINDOW_MS }.forEach { sample.observations.addAll(it.second) }
                                 active[activity] = sample
                             }
@@ -154,9 +162,9 @@ object AlbionPatternMiner {
                 val tier = o.optInt("tier").takeIf { o.has("tier") }
                 val enchant = o.optInt("enchant").takeIf { o.has("enchant") }
                     ?: o.optInt("enchantment_raw").takeIf { o.has("enchantment_raw") }
-                val signature = listOf(sample.activity, kind, code ?: "-", type ?: "-", tier ?: "-", enchant ?: "-").joinToString("|")
+                val signature = listOf(sample.activity, kind, code ?: "-", type ?: "-", tier ?: "-", enchant ?: "-", sample.overlayTierLabel ?: "-", sample.overlayEnchantLabel ?: "-").joinToString("|")
                 val c = candidates.getOrPut(signature) {
-                    Candidate(signature, sample.activity, kind, code, type, tier, enchant, linkedSetOf(), linkedMapOf())
+                    Candidate(signature, sample.activity, kind, code, type, tier, enchant, sample.overlayTierLabel, sample.overlayEnchantLabel, linkedSetOf(), linkedMapOf())
                 }
                 c.observations++
                 c.sampleIndexes += sampleIndex
@@ -175,7 +183,7 @@ object AlbionPatternMiner {
             val pairScore = if (repeated >= 2) 10 else 0
             val score = (repeatScore + identityScore + typedScore + volumeScore + pairScore).coerceAtMost(100)
             Pattern(c.signature, c.activity, c.kind, c.eventCode, c.typeId, c.tier, c.enchant,
-                repeated, c.ids.size, c.observations, c.events.toMap(), repeated, score)
+                c.overlayTierLabel, c.overlayEnchantLabel, repeated, c.ids.size, c.observations, c.events.toMap(), repeated, score)
         }.filter { it.samples > 0 }.sortedWith(compareByDescending<Pattern> { it.score }.thenByDescending { it.samples }.thenByDescending { it.observationCount })
         val warnings = mutableListOf<String>()
         if (completed.isEmpty()) warnings += "No complete Found -> Done marker pairs. For each resource, tap Found before gathering and Done immediately after."
