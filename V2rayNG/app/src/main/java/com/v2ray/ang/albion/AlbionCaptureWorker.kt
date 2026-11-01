@@ -39,7 +39,7 @@ class AlbionCaptureWorker(
     @Volatile private var appContext: Context? = null
     @Volatile private var pcapFileStream: FileOutputStream? = null
     @Volatile private var logFileStream: FileOutputStream? = null
-    private val markerCount = AtomicLong(0)
+    private val markerCount = AtomicLong(0)\n    private data class ManualNodeAnchor(val nodeId: String, val activity: String, val tier: String, val enchantment: String, val timestampMs: Long, var linked: Boolean = false)\n    @Volatile private var activeManualNode: ManualNodeAnchor? = null
     private val nonAlbionCount = AtomicLong(0)
     private val dropBaseline = AtomicLong(0)
     private val mirroredPcapBytes = AtomicLong(0)
@@ -66,7 +66,7 @@ class AlbionCaptureWorker(
             publicPcapUri = createDownloadsEntry(context, raw.name, "application/vnd.tcpdump.pcap")
             publicLogUri = createDownloadsEntry(context, txt.name, "application/x-ndjson")
             mirrorFailure = null
-            markerCount.set(0)
+            markerCount.set(0)\n            activeManualNode = null
             nonAlbionCount.set(0)
             publicReportUri = null
             pcapFile = raw
@@ -194,6 +194,14 @@ class AlbionCaptureWorker(
             log?.write(jsonLine)
             log?.flush()
             logFileStream?.fd?.sync()
+            val event = marker.optString("event")
+            val node = marker.optString("node_id")
+            if (event == "target_found" && node.isNotBlank()) {
+                activeManualNode = ManualNodeAnchor(
+                    node, marker.optString("activity"), marker.optString("tier"),
+                    marker.optString("enchantment"), timestampMs
+                )
+            }
             markerCount.incrementAndGet()
             scope.launch(Dispatchers.IO) { mirrorDownloads() }
             true
@@ -279,6 +287,32 @@ class AlbionCaptureWorker(
             if (entity.kind == "resource_state") item.put("removed", entity.removed)
             entityArray.put(item)
         }
+        // Link the first matching network harvestable observation after a manual node selection.
+        // The link is emitted as a separate auditable record; no entity ID or coordinates are guessed.
+        val nodeAnchor = activeManualNode
+        if (nodeAnchor != null && !nodeAnchor.linked && timestampMs - nodeAnchor.timestampMs in 0..10_000L) {
+            for (i in 0 until entityArray.length()) {
+                val entity = entityArray.optJSONObject(i) ?: continue
+                if (entity.optString("kind") != "harvestable") continue
+                val networkTier = entity.optInt("tier", -1)
+                val manualTier = nodeAnchor.tier.removePrefix("T").toIntOrNull()
+                if (manualTier != null && networkTier >= 0 && manualTier != networkTier) continue
+                val link = JSONObject().put("record_type", "node_network_link")
+                    .put("time_ms", timestampMs).put("node_id", nodeAnchor.nodeId)
+                    .put("entity_id", entity.opt("entity_id") ?: JSONObject.NULL)
+                    .put("activity", nodeAnchor.activity).put("manual_tier", nodeAnchor.tier)
+                    .put("manual_enchantment", nodeAnchor.enchantment)
+                if (entity.has("x")) link.put("x", entity.opt("x"))
+                if (entity.has("y")) link.put("y", entity.opt("y"))
+                if (entity.has("type_id")) link.put("type_id", entity.opt("type_id"))
+                if (entity.has("tier")) link.put("network_tier", entity.opt("tier"))
+                if (entity.has("enchant")) link.put("network_enchantment", entity.opt("enchant"))
+                log?.write(link.toString()); log?.newLine()
+                nodeAnchor.linked = true
+                break
+            }
+        }
+
         val decoderStats = protocol18.stats()
         log?.write(JSONObject().put("time_ms", timestampMs).put("length", packet.size)
             .put("ip_version", if (packet.isNotEmpty()) (packet[0].toInt() ushr 4) and 15 else JSONObject.NULL)
