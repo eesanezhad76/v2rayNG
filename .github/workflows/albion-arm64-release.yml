@@ -42,13 +42,12 @@ jobs:
           ALBION_KEYSTORE_BASE64: ${{ secrets.ALBION_KEYSTORE_BASE64 }}
           ALBION_KEYSTORE_PASSWORD: ${{ secrets.ALBION_KEYSTORE_PASSWORD }}
           ALBION_KEY_ALIAS: ${{ secrets.ALBION_KEY_ALIAS }}
-          ALBION_KEY_PASSWORD: ${{ secrets.ALBION_KEY_PASSWORD }}
         run: |
           set -euo pipefail
           test -n "$ALBION_KEYSTORE_BASE64" || { echo "Missing secret: ALBION_KEYSTORE_BASE64"; exit 1; }
           test -n "$ALBION_KEYSTORE_PASSWORD" || { echo "Missing secret: ALBION_KEYSTORE_PASSWORD"; exit 1; }
           test -n "$ALBION_KEY_ALIAS" || { echo "Missing secret: ALBION_KEY_ALIAS"; exit 1; }
-          test -n "$ALBION_KEY_PASSWORD" || { echo "Missing secret: ALBION_KEY_PASSWORD"; exit 1; }
+          ALBION_KEY_PASSWORD="$ALBION_KEYSTORE_PASSWORD"
           echo "$ALBION_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/albion-release.jks"
           chmod 600 "$RUNNER_TEMP/albion-release.jks"
           keytool -list -keystore "$RUNNER_TEMP/albion-release.jks" -storepass "$ALBION_KEYSTORE_PASSWORD" -alias "$ALBION_KEY_ALIAS" >/dev/null
@@ -115,7 +114,7 @@ jobs:
         env:
           ALBION_KEYSTORE_PASSWORD: ${{ secrets.ALBION_KEYSTORE_PASSWORD }}
           ALBION_KEY_ALIAS: ${{ secrets.ALBION_KEY_ALIAS }}
-          ALBION_KEY_PASSWORD: ${{ secrets.ALBION_KEY_PASSWORD }}
+          ALBION_KEY_PASSWORD: ${{ secrets.ALBION_KEYSTORE_PASSWORD }}
         run: |
           set -euo pipefail
           test -s "$ALBION_KEYSTORE_PATH"
