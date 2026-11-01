@@ -108,8 +108,16 @@ jobs:
       - name: Build ARM64 Play Store Release APK (signed Albion build)
         working-directory: V2rayNG
         shell: bash
+        env:
+          ALBION_KEYSTORE_PASSWORD: ${{ secrets.ALBION_KEYSTORE_PASSWORD }}
+          ALBION_KEY_ALIAS: ${{ secrets.ALBION_KEY_ALIAS }}
+          ALBION_KEY_PASSWORD: ${{ secrets.ALBION_KEY_PASSWORD }}
         run: |
           set -euo pipefail
+          test -n "$ALBION_KEYSTORE_PATH"
+          test -n "$ALBION_KEYSTORE_PASSWORD"
+          test -n "$ALBION_KEY_ALIAS"
+          test -n "$ALBION_KEY_PASSWORD"
           echo "sdk.dir=$ANDROID_HOME" > local.properties
           chmod +x gradlew
           ./gradlew --no-daemon clean assemblePlaystoreRelease -PABI_FILTERS=arm64-v8a
@@ -118,7 +126,7 @@ jobs:
           "$ANDROID_HOME/build-tools/37.0.0/apksigner" verify --verbose "$APK"
 
       - name: Upload signed ARM64 Albion APK
-        if: always() && success()
+        if: success()
         uses: actions/upload-artifact@v4
         with:
           name: albion-arm64-release
