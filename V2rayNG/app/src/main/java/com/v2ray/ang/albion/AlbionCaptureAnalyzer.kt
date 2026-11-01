@@ -20,6 +20,8 @@ object AlbionCaptureAnalyzer {
         val operationResponses: Map<Int, Int>,
         val entityKinds: Map<String, Int>,
         val typedEventKinds: Map<String, Int>,
+        val stateSnapshotCount: Int,
+        val unknownEventSchemas: Map<Int, Int>,
         val malformedPhotonPackets: Int,
         val encryptedPhotonPackets: Int,
         val encryptedProtocol18Messages: Int,
@@ -47,6 +49,9 @@ object AlbionCaptureAnalyzer {
             entityKinds.toSortedMap().forEach { (kind, count) -> appendLine("  $kind: $count") }
             appendLine("Typed Photon event observations:")
             typedEventKinds.toSortedMap().forEach { (kind, count) -> appendLine("  $kind: $count") }
+            appendLine("Decoded event state snapshots: $stateSnapshotCount")
+            appendLine("Unknown event schemas (not assumed to be inventory):")
+            unknownEventSchemas.toSortedMap().forEach { (code, count) -> appendLine("  event $code: $count") }
             appendLine("Malformed / unrecognized Photon envelopes: $malformedPhotonPackets")
             appendLine("Encrypted Photon packets: $encryptedPhotonPackets")
             appendLine("Encrypted Protocol18 messages: $encryptedProtocol18Messages")
@@ -72,6 +77,9 @@ object AlbionCaptureAnalyzer {
         val responses = linkedMapOf<Int, Int>()
         val entities = linkedMapOf<String, Int>()
         val typedEvents = linkedMapOf<String, Int>()
+        var stateSnapshotCount = 0
+        val unknownSchemas = linkedMapOf<Int, Int>()
+        val stateTracker = AlbionEventStateTracker()
         val checkpoints = mutableListOf<String>()
         val protocol18 = AlbionProtocol18Decoder()
         AlbionPhotonPacketDecoder.reset()
@@ -121,7 +129,10 @@ object AlbionCaptureAnalyzer {
                                     entities[observation.kind] = (entities[observation.kind] ?: 0) + 1
                                 }
                                 if (message.kind == "event" && message.realCode != null) {
+                                    stateTracker.observe(message.realCode, message.parameters)
+                                    stateSnapshotCount++
                                     val typed = AlbionPhotonEventDecoder.decode(message.realCode, message.parameters)
+                                    if (!typed.recognized) unknownSchemas[message.realCode] = (unknownSchemas[message.realCode] ?: 0) + 1
                                     if (typed.resources.isNotEmpty()) typedEvents["resource"] = (typedEvents["resource"] ?: 0) + typed.resources.size
                                     if (typed.livingEntities.isNotEmpty()) typedEvents["living_entity"] = (typedEvents["living_entity"] ?: 0) + typed.livingEntities.size
                                     if (typed.stateUpdate != null) typedEvents["resource_state"] = (typedEvents["resource_state"] ?: 0) + 1
@@ -139,7 +150,7 @@ object AlbionCaptureAnalyzer {
         if (albion == 0) warnings += "No UDP datagrams involving port 5056 were found."
         if (malformed > 0) warnings += "Some datagrams on port 5056 did not pass Photon envelope validation."
         return Report(
-            packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, typedEvents, malformed,
+            packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, typedEvents, stateSnapshotCount, unknownSchemas, malformed,
             encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings, checkpoints
         )
     }
