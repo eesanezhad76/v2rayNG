@@ -21,7 +21,8 @@ class AlbionPatternMinerTest {
         }
         file.writeText(lines.joinToString("\n"))
         val report = AlbionPatternMiner.analyze(file)
-        assertEquals(3, report.completeSamples)
+        assertEquals(6, report.markers, report.asText())
+        assertEquals(3, report.completeSamples, report.asText())
         val pattern = report.patterns.first { it.kind == "harvestable" && it.activity == "Ore" }
         assertEquals(3, pattern.samples)
         assertEquals(3, pattern.distinctEntities)
@@ -38,7 +39,8 @@ class AlbionPatternMinerTest {
         file.writeText("""{"time_ms":1000,"manual_marker":{"timestamp_ms":1000,"activity":"Ore","event":"target_found"}}""")
         val report = AlbionPatternMiner.analyze(file)
         assertEquals(0, report.completeSamples)
-        assertEquals(1, report.incompleteStarts)
+        assertEquals(1, report.markers, report.asText())
+        assertEquals(1, report.incompleteStarts, report.asText())
         assertTrue(report.warnings.any { it.contains("No complete") })
     }
 }
