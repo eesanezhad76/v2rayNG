@@ -304,7 +304,7 @@ object CoreServiceManager {
      */
     fun enableAlbionPacketTap(capacity: Int = 64): Boolean {
         if (!isRunning()) return false
-        albionTapCapacity = capacity.coerceIn(64, 65536)
+        albionTapCapacity = capacity.coerceIn(64, 4096)
         return try {
             val enabled = Libv2ray.enablePacketTap(albionTapCapacity.toLong())
             albionTapRequested = enabled
