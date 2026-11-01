@@ -72,6 +72,7 @@ class AlbionProtocol18Decoder {
                     val r = Reader(src, payloadStart, payloadLength)
                     val op = r.byte()
                     val params = r.parameterTable()
+                    if (!params.containsKey(253)) params[253] = op
                     out += Message("request", 0, params[253].asInt(), params, op)
                 }
                 3, 7 -> {
@@ -82,6 +83,7 @@ class AlbionProtocol18Decoder {
                     if (r.remaining() > 0) debug = r.typedValue()
                     val params = r.parameterTable()
                     if (debug is List<*>) params[0] = debug
+                    if (!params.containsKey(253)) params[253] = op
                     out += Message("response", 0, params[253].asInt(), params, op, ret)
                 }
                 4 -> {
