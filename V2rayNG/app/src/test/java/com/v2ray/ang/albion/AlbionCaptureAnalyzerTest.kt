@@ -31,6 +31,6 @@ class AlbionCaptureAnalyzerTest {
         }
         val report = AlbionCaptureAnalyzer.analyze(file)
         assertEquals(1, report.ipPackets)
-        assertEquals(listOf("Mobs: mob_killed @ 1234"), report.checkpoints)
+        assertEquals(listOf("Mobs: mob_killed @ 1234"), report.checkpoints, report.asText())
     }
 }
