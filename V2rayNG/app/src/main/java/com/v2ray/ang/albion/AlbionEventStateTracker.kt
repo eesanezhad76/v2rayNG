@@ -22,6 +22,7 @@ class AlbionEventStateTracker {
         parameters.toSortedMap().forEach { (key, value) -> current.put(key.toString(), encode(value, 0)) }
         val previous = previousByEvent[eventCode]
         val changed = JSONArray()
+        val deltas = JSONArray()
         val keys = LinkedHashSet<String>()
         val currentKeys = current.keys()
         while (currentKeys.hasNext()) keys.add(currentKeys.next())
@@ -30,7 +31,24 @@ class AlbionEventStateTracker {
             while (oldKeys.hasNext()) keys.add(oldKeys.next())
         }
         keys.sorted().forEach { key ->
-            if (previous == null || previous.opt(key).toString() != current.opt(key).toString()) changed.put(key)
+            val before = previous?.opt(key)
+            val after = current.opt(key)
+            if (previous == null || before.toString() != after.toString()) {
+                changed.put(key)
+                if (before is JSONArray && after is JSONArray) {
+                    val oldValues = (0 until before.length()).map { before.opt(it).toString() }.toSet()
+                    val newValues = (0 until after.length()).map { after.opt(it).toString() }.toSet()
+                    val added = JSONArray()
+                    val removed = JSONArray()
+                    for (i in 0 until after.length()) if (after.opt(i).toString() !in oldValues) added.put(after.opt(i))
+                    for (i in 0 until before.length()) if (before.opt(i).toString() !in newValues) removed.put(before.opt(i))
+                    deltas.put(JSONObject().put("parameter_key", key).put("added_values", added).put("removed_values", removed))
+                } else if (before is Number && after is Number) {
+                    deltas.put(JSONObject().put("parameter_key", key)
+                        .put("before", before).put("after", after)
+                        .put("numeric_delta", after.toDouble() - before.toDouble()))
+                }
+            }
         }
         previousByEvent[eventCode] = current
         val count = (countsByEvent[eventCode] ?: 0) + 1
@@ -39,6 +57,7 @@ class AlbionEventStateTracker {
             .put("event_code", eventCode)
             .put("occurrence", count)
             .put("changed_parameter_keys", changed)
+            .put("parameter_deltas", deltas)
             .put("parameter_snapshot", current)
             .put("inventory_classification", "unknown_schema")
     }
