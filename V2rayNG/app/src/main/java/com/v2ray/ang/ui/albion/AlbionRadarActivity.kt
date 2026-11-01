@@ -23,6 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -354,9 +355,9 @@ class AlbionRadarActivity : ComponentActivity() {
         ((p[offset].toInt() and 0xff) shl 8) or (p[offset + 1].toInt() and 0xff)
 
     override fun onDestroy() {
-        // Do not stop an active capture when this screen is closed. The V2Ray daemon
-        // process remains alive with the foreground VPN service; the capture coroutine
-        // intentionally owns its own scope and continues draining the native tap.
+        // Stop only this screen's observer; daemon-owned capture remains active.
+        pollJob?.cancel()
+        captureScope.cancel()
         super.onDestroy()
     }
 }
