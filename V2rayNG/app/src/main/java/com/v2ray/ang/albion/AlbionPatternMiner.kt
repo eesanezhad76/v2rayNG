@@ -95,6 +95,7 @@ object AlbionPatternMiner {
         var markerCount = 0
         var incomplete = 0
         var malformedLines = 0
+        val parseErrors = mutableListOf<String>()
 
         fun finish(sample: MutableSample) {
             completed += Sample(sample.activity, sample.startMs, sample.endMs ?: sample.startMs, sample.observations.toList(), sample.overlayTierLabel, sample.overlayEnchantLabel)
@@ -160,7 +161,10 @@ object AlbionPatternMiner {
                             }
                         }
                     }
-                } catch (_: Exception) { malformedLines++ }
+                } catch (e: Exception) {
+                    malformedLines++
+                    if (parseErrors.size < 3) parseErrors += "${e.javaClass.simpleName}: ${e.message}"
+                }
             }
         }
         incomplete += active.size
@@ -204,7 +208,10 @@ object AlbionPatternMiner {
         if (completed.isEmpty()) warnings += "No complete Found -> Done marker pairs. For each resource, tap Found before gathering and Done immediately after."
         if (completed.size < 10) warnings += "Fewer than 10 complete samples: pattern scores are preliminary; collect more labeled nodes."
         if (patterns.none { it.samples >= 3 }) warnings += "No signature has repeated across at least 3 separate samples yet."
-        if (malformedLines > 0) warnings += "$malformedLines malformed JSONL lines were skipped."
+        if (malformedLines > 0) {
+            warnings += "$malformedLines malformed JSONL lines were skipped."
+            parseErrors.forEach { warnings += "JSONL parse detail: $it" }
+        }
         if (patterns.isEmpty()) warnings += "No decoded entity observations were available in the labeled windows; encrypted or unknown traffic cannot be semantically classified."
         return Report(markerCount, completed.size, incomplete, patterns, warnings)
     }
