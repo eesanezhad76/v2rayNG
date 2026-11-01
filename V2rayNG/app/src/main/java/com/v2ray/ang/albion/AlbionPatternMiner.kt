@@ -17,7 +17,9 @@ object AlbionPatternMiner {
         val activity: String,
         val startMs: Long,
         val endMs: Long,
-        val observations: List<JSONObject>
+        val observations: List<JSONObject>,
+        val overlayTierLabel: String? = null,
+        val overlayEnchantLabel: String? = null
     )
 
     data class Pattern(
@@ -93,7 +95,7 @@ object AlbionPatternMiner {
         var malformedLines = 0
 
         fun finish(sample: MutableSample) {
-            completed += Sample(sample.activity, sample.startMs, sample.endMs ?: sample.startMs, sample.observations.toList())
+            completed += Sample(sample.activity, sample.startMs, sample.endMs ?: sample.startMs, sample.observations.toList(), sample.overlayTierLabel, sample.overlayEnchantLabel)
         }
         file.useLines { lines ->
             lines.forEach { line ->
