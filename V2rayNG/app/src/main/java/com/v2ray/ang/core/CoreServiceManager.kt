@@ -216,7 +216,6 @@ object CoreServiceManager {
         connectionTestScope.coroutineContext.cancelChildren()
         val service = getService() ?: return false
 
-        stopAlbionCapture()
         networkMonitor?.unregister()
         networkMonitor = null
         currentVpnInterface = null
@@ -224,6 +223,11 @@ object CoreServiceManager {
         if (isRunning()) {
             CoroutineScope(Dispatchers.IO).launch {
                 try {
+                    // Drain and close the capture while the core is still alive so the
+                    // native tap queue remains readable during finalization.
+                    try { albionCaptureWorker?.stop() } catch (captureError: Exception) {
+                        LogUtil.e(AppConfig.TAG, "Albion capture finalization failed", captureError)
+                    }
                     coreController.stopLoop()
                 } catch (e: Exception) {
                     LogUtil.e(AppConfig.TAG, "StartCore-Manager: Failed to stop V2Ray loop", e)
