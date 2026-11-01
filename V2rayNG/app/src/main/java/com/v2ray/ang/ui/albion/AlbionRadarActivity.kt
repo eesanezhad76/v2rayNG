@@ -123,151 +123,59 @@ class AlbionRadarActivity : ComponentActivity() {
             status.text = "Start V2RayNG and connect first."
             return
         }
-        try {
-            val stamp = System.currentTimeMillis()
-            val captureDir = File(getExternalFilesDir(null) ?: filesDir, "AlbionCaptures")
-            if (!captureDir.exists() && !captureDir.mkdirs()) {
-                throw IllegalStateException("Cannot create AlbionCaptures directory")
-            }
-            val file = File(captureDir, "albion-capture-$stamp.pcap")
-            val textFile = File(captureDir, "albion-capture-$stamp.txt")
-                captureOutput = DataOutputStream(BufferedOutputStream(FileOutputStream(file, false), 256 * 1024))
-            writePcapHeader(captureOutput!!)
-            captureTextOutput = BufferedWriter(FileWriter(textFile, false), 64 * 1024)
-            captureFile = file
-            captureTextFile = textFile
-            packetCount = 0L
-            recent.clear()
-            protocolCounts.clear()
-        } catch (e: Exception) {
-            status.text = "Could not create capture file: ${e.message}"
-            closeCaptureFile()
-            closeTextCaptureFile()
-            return
-        }
-
-        if (!CoreServiceManager.enableAlbionPacketTap(TAP_CAPACITY)) {
-            status.text = "Could not enable packet tap. Check the custom AAR."
-            closeCaptureFile()
+        if (!CoreServiceManager.startAlbionCapture()) {
+            status.text = "Could not start daemon-owned capture. Check VPN state and packet tap."
             return
         }
         tapping = true
         toggle.text = "Stop capture"
         export.isEnabled = false
         copyAll.isEnabled = false
-        status.text = "Capture active. A copy will be published to Downloads/AlbionCaptures when capture stops. The live capture continues in the VPN daemon process."
+        status.text = "Capture runs in the VPN daemon. It continues when this screen is closed."
+        pollJob?.cancel()
         pollJob = captureScope.launch {
             while (isActive && tapping) {
-                val batch = withContext(Dispatchers.IO) {
-                    val result = ArrayList<ByteArray>()
-                    while (result.size < MAX_READ_BATCH) {
-                        val packet = CoreServiceManager.readAlbionPacketTap() ?: break
-                        result.add(packet)
-                    }
-                    result
+                val s = CoreServiceManager.getAlbionCaptureSnapshot()
+                if (s != null) {
+                    captureFile = s.pcap
+                    captureTextFile = s.log
+                    packetCount = s.packets
+                    summary.text = "Packets saved: ${s.packets} | dropped copies: ${s.dropped} | file: ${(s.pcap?.length() ?: 0L) / 1024} KB"
+                    if (s.error != null) status.text = "Capture writer error: ${s.error}"
                 }
-                if (batch.isNotEmpty()) {
-                    try {
-                        val out = captureOutput
-                        if (out != null) {
-                            batch.forEach { packet ->
-                                val packetTime = System.currentTimeMillis()
-                                writePcapRecord(out, packet, packetTime)
-                                packetCount++
-                                val description = describePacket(packet)
-                                captureTextOutput?.apply {
-                                    write(description)
-                                    newLine()
-                                }
-                                recent.addFirst(description)
-                                while (recent.size > 40) recent.removeLast()
-                                val protocol = description.substringBefore(' ')
-                                protocolCounts[protocol] = (protocolCounts[protocol] ?: 0L) + 1L
-                            }
-                            out.flush()
-                            captureTextOutput?.flush()
-                        }
-                    } catch (e: Exception) {
-                        status.text = "File write error: ${e.message}. Capture stopped."
-                        stopCapture()
-                        return@launch
-                    }
-                    packets.text = buildString {
-                        append("Recent packets (last 40 only; full capture is saved):\n")
-                        append(recent.joinToString("\n"))
-                        append("\n\nProtocol totals:\n")
-                        protocolCounts.entries.sortedByDescending { it.value }.forEach {
-                            append(it.key).append(": ").append(it.value).append('\n')
-                        }
-                    }
-                }
-                summary.text = "Packets saved: $packetCount | dropped copies: " +
-                    CoreServiceManager.getAlbionPacketTapDropped() +
-                    " | file: " + (captureFile?.length() ?: 0L) / 1024 + " KB"
-                delay(40)
+                delay(500)
             }
         }
     }
 
     private fun stopCapture() {
-        if (stopping || !tapping) return
+        if (!tapping || stopping) return
         tapping = false
         stopping = true
-        // Stop accepting new packets, but leave the native queue readable.
-        CoreServiceManager.disableAlbionPacketTap()
-        val finishingJob = pollJob
+        pollJob?.cancel()
         pollJob = null
-
-        val finalize = {
-            captureScope.launch {
+        CoreServiceManager.stopAlbionCapture()
+        captureScope.launch {
+            delay(1200)
+            val s = CoreServiceManager.getAlbionCaptureSnapshot()
+            captureFile = s?.pcap ?: captureFile
+            captureTextFile = s?.log ?: captureTextFile
+            packetCount = s?.packets ?: packetCount
+            toggle.text = "Start full capture"
+            export.isEnabled = captureFile?.exists() == true
+            copyAll.isEnabled = captureTextFile?.exists() == true
+            status.text = "Capture stopped. Files are saved in the app's AlbionCaptures directory."
+            captureFile?.takeIf { it.exists() }?.let { file ->
                 try {
-                    withContext(Dispatchers.IO) {
-                        // The polling job has completed, so every packet it already removed
-                        // has been written. Drain the remaining native queue before closing.
-                        while (true) {
-                            val packet = CoreServiceManager.readAlbionPacketTap() ?: break
-                            val out = captureOutput ?: break
-                            val packetTime = System.currentTimeMillis()
-                            writePcapRecord(out, packet, packetTime)
-                            packetCount++
-                            val description = describePacket(packet)
-                            captureTextOutput?.apply { write(description); newLine() }
-                            recent.addFirst(description)
-                            while (recent.size > 40) recent.removeLast()
-                        }
-                        captureOutput?.flush()
-                        captureTextOutput?.flush()
+                    analysis.text = withContext(Dispatchers.IO) {
+                        com.v2ray.ang.albion.AlbionCaptureAnalyzer.analyze(file).asText()
                     }
                 } catch (e: Exception) {
-                    status.text = "Final drain warning: ${e.message}"
-                } finally {
-                    closeCaptureFile()
-                    closeTextCaptureFile()
-                    toggle.text = "Start full capture"
-                    export.isEnabled = captureFile?.exists() == true
-                    copyAll.isEnabled = captureTextFile?.exists() == true
-                    status.text = "Capture stopped. Publishing PCAP and packet log to Downloads/AlbionCaptures…"
-                    publishCaptureToDownloads()
-                    val saved = captureFile
-                    if (saved != null && saved.exists()) {
-                        lifecycleScope.launch {
-                            analysis.text = try {
-                                withContext(Dispatchers.IO) { com.v2ray.ang.albion.AlbionCaptureAnalyzer.analyze(saved).asText() }
-                            } catch (e: Exception) { "Analysis failed: ${e.message}" }
-                        }
-                    }
-                    summary.text = "Packets saved: $packetCount | dropped copies: " +
-                        CoreServiceManager.getAlbionPacketTapDropped() +
-                        " | file: " + (captureFile?.length() ?: 0L) / 1024 + " KB"
-                    stopping = false
+                    analysis.text = "Analysis failed: ${e.message}"
                 }
             }
-        }
-
-        if (finishingJob != null) {
-            finishingJob.invokeOnCompletion { finalize() }
-        } else {
-            finalize()
+            summary.text = "Packets saved: $packetCount | dropped copies: ${s?.dropped ?: 0} | file: ${(captureFile?.length() ?: 0L) / 1024} KB"
+            stopping = false
         }
     }
 
