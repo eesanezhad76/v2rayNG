@@ -58,6 +58,13 @@ object CoreServiceManager {
     @Volatile
     private var isReloading = false
 
+    // The native tap belongs to the running Xray core and is lost whenever the core
+    // is reloaded after a network handover. Remember the requested state and restore it.
+    @Volatile
+    private var albionTapRequested = false
+    @Volatile
+    private var albionTapCapacity = 64
+
     /** Tun descriptor the core was started with, null in the proxy only and root run modes. */
     private var currentVpnInterface: ParcelFileDescriptor? = null
 
@@ -158,6 +165,17 @@ object CoreServiceManager {
 
         if (!isRunning()) {
             error("Core failed to start")
+        }
+
+        // Re-arm passive capture after initial start/reload. A reload replaces the
+        // underlying TUN reader, so the old native tap cannot be assumed to survive.
+        if (albionTapRequested) {
+            try {
+                val restored = Libv2ray.enablePacketTap(albionTapCapacity.toLong())
+                LogUtil.i(AppConfig.TAG, "Albion packet tap restored after core start: $restored")
+            } catch (e: Exception) {
+                LogUtil.e(AppConfig.TAG, "Albion packet tap restore failed", e)
+            }
         }
 
         if (browserDialer != null) {
@@ -286,9 +304,13 @@ object CoreServiceManager {
      */
     fun enableAlbionPacketTap(capacity: Int = 64): Boolean {
         if (!isRunning()) return false
+        albionTapCapacity = capacity.coerceIn(64, 65536)
         return try {
-            Libv2ray.enablePacketTap(capacity.toLong())
+            val enabled = Libv2ray.enablePacketTap(albionTapCapacity.toLong())
+            albionTapRequested = enabled
+            enabled
         } catch (e: Exception) {
+            albionTapRequested = false
             LogUtil.e(AppConfig.TAG, "Albion packet tap: failed to enable", e)
             false
         }
@@ -313,6 +335,7 @@ object CoreServiceManager {
     }
 
     fun disableAlbionPacketTap() {
+        albionTapRequested = false
         try {
             Libv2ray.disablePacketTap()
         } catch (e: Exception) {

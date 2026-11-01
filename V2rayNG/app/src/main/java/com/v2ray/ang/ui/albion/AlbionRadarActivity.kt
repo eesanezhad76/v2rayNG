@@ -122,8 +122,12 @@ class AlbionRadarActivity : ComponentActivity() {
         }
         try {
             val stamp = System.currentTimeMillis()
-            val file = File(cacheDir, "albion-capture-$stamp.pcap")
-            val textFile = File(cacheDir, "albion-capture-$stamp.txt")
+            val captureDir = File(getExternalFilesDir(null) ?: filesDir, "AlbionCaptures")
+            if (!captureDir.exists() && !captureDir.mkdirs()) {
+                throw IllegalStateException("Cannot create AlbionCaptures directory")
+            }
+            val file = File(captureDir, "albion-capture-$stamp.pcap")
+            val textFile = File(captureDir, "albion-capture-$stamp.txt")
                 captureOutput = DataOutputStream(BufferedOutputStream(FileOutputStream(file, false), 256 * 1024))
             writePcapHeader(captureOutput!!)
             captureTextOutput = BufferedWriter(FileWriter(textFile, false), 64 * 1024)
@@ -148,7 +152,7 @@ class AlbionRadarActivity : ComponentActivity() {
         toggle.text = "Stop capture"
         export.isEnabled = false
         copyAll.isEnabled = false
-        status.text = "Continuous capture active. Play normally; no event buttons needed. Packet timestamps are recorded automatically."
+        status.text = "Capture active. Files are being saved automatically in Android/data/<package>/files/AlbionCaptures. Leaving this screen will not stop capture."
         pollJob = captureScope.launch {
             while (isActive && tapping) {
                 val batch = withContext(Dispatchers.IO) {
@@ -397,7 +401,9 @@ class AlbionRadarActivity : ComponentActivity() {
         ((p[offset].toInt() and 0xff) shl 8) or (p[offset + 1].toInt() and 0xff)
 
     override fun onDestroy() {
-        if (isFinishing && tapping) stopCapture()
+        // Do not stop an active capture when this screen is closed. The V2Ray daemon
+        // process remains alive with the foreground VPN service; the capture coroutine
+        // intentionally owns its own scope and continues draining the native tap.
         super.onDestroy()
     }
 }
