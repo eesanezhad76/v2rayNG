@@ -7,7 +7,7 @@ object AlbionCaptureMarker {
     private val nextId = AtomicInteger(1)
 
     fun build(markerJson: String): ByteArray {
-        val payload = ("ALBION_TAG_V1\\n" + markerJson).toByteArray(Charsets.UTF_8)
+        val payload = ("ALBION_TAG_V1\n" + markerJson).toByteArray(Charsets.UTF_8)
         require(payload.size <= 65515) { "Marker too large" }
         val packet = ByteArray(20 + payload.size)
         packet[0] = 0x45
