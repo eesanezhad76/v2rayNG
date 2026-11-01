@@ -183,7 +183,7 @@ class AlbionCaptureWorker(
             out.writeInt(Integer.reverseBytes(packet.size))
             out.write(packet)
             val markerJson = String(packet, 20, packet.size - 20, Charsets.UTF_8)
-                .removePrefix("ALBION_TAG_V1\\n")
+                .removePrefix("ALBION_TAG_V1\n")
             log?.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", JSONObject(markerJson)).toString())
             log?.newLine()
             markerCount.incrementAndGet()
