@@ -27,6 +27,7 @@ class AlbionProtocol18Decoder {
     private var malformedCount = 0
 
     fun receiveDatagram(datagram: ByteArray): List<Message> {
+        expireFragments()
         if (datagram.size < 12) { malformedCount++; return emptyList() }
         val flags = u8(datagram, 2)
         val commandCount = u8(datagram, 3)
@@ -113,10 +114,10 @@ class AlbionProtocol18Decoder {
         val fragmentOffset = u32(src, start + 16)
         val dataStart = start + 20
         val dataLength = length - 20
-        if (totalLength <= 0 || totalLength > 1_048_576 || fragmentOffset > totalLength || dataLength.toLong() > totalLength - fragmentOffset) {
+        if (totalLength <= 0 || totalLength > 262_144 || fragmentOffset > totalLength || dataLength.toLong() > totalLength - fragmentOffset) {
             malformedCount++; return
         }
-        if (fragments.size >= 64 && !fragments.containsKey(sequence)) {
+        if (fragments.size >= 16 && !fragments.containsKey(sequence)) {
             val oldest = fragments.keys.firstOrNull()
             if (oldest != null) fragments.remove(oldest)
         }
