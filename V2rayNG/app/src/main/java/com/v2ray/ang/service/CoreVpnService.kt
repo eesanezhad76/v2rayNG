@@ -340,15 +340,8 @@ class CoreVpnService : VpnService(), ServiceControl {
             //which means the first v2ray core somehow failed to stop and release the port.
             stopSelf()
 
-            // Add a small delay to allow the async core stop operation to complete
-            // before closing the VPN interface, preventing a race condition that can
-            // leave the VPN icon in the status bar after stopping the service.
-            try {
-                Thread.sleep(100)
-            } catch (e: InterruptedException) {
-                LogUtil.w(AppConfig.TAG, "StartCore-VPN: Sleep interrupted", e)
-            }
-
+            // CoreServiceManager.stopCoreLoop() now waits for capture finalization
+            // and Xray shutdown before returning, so the TUN fd is safe to close here.
             try {
                 if (::mInterface.isInitialized) {
                     mInterface.close()
