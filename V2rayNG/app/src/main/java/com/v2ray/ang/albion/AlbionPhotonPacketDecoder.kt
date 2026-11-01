@@ -14,7 +14,8 @@ object AlbionPhotonPacketDecoder {
         val commandCount: Int = 0,
         val commandTypes: List<Int> = emptyList(),
         val error: String? = null,
-        val photonPayload: ByteArray? = null
+        val photonPayload: ByteArray? = null,
+        val encrypted: Boolean = false
     )
 
     fun decodeIpPacket(packet: ByteArray): Result? {
