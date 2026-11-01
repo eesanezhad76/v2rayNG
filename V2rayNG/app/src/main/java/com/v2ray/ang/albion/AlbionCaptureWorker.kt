@@ -2,6 +2,8 @@ package com.v2ray.ang.albion
 
 import android.content.Context
 import kotlinx.coroutines.*
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.io.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -17,6 +19,7 @@ class AlbionCaptureWorker(
     data class Snapshot(val running: Boolean, val finished: Boolean, val packets: Long, val dropped: Long, val pcap: File?, val log: File?, val error: String?)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val running = AtomicBoolean(false)
+    private val stopMutex = Mutex()
     private val packetCount = AtomicLong(0)
     private val protocol18 = AlbionProtocol18Decoder()
     @Volatile private var pcapFile: File? = null
@@ -82,7 +85,8 @@ class AlbionCaptureWorker(
         }
     }
 
-    suspend fun stop() {
+    suspend fun stop() = stopMutex.withLock {
+        if (finalized) return@withLock
         running.set(false)
         try { disableTap() } catch (_: Throwable) {}
         job?.cancelAndJoin()
