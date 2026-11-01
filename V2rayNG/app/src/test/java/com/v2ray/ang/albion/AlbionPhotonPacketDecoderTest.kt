@@ -102,6 +102,49 @@ class AlbionPhotonPacketDecoderTest {
         assertEquals(1, messages[0].operationCode)
     }
 
+    @Test fun mapsNewMobPositionAndEnchantToCorrectFields() {
+        val message = AlbionProtocol18Decoder.Message(
+            kind = "event",
+            dispatchCode = 1,
+            realCode = 123,
+            parameters = mapOf(
+                0 to 987654321L,
+                1 to 530,
+                7 to floatArrayOf(12.5f, 44.25f),
+                31 to "MOB_TEST",
+                34 to 3
+            )
+        )
+        val observation = AlbionEntityEventMapper.map(message).single()
+        assertEquals("mob", observation.kind)
+        assertEquals(987654321L, observation.entityId)
+        assertEquals(530, observation.typeId)
+        assertEquals(12.5f, observation.x)
+        assertEquals(44.25f, observation.y)
+        assertEquals(3, observation.enchant)
+        assertEquals("MOB_TEST", observation.name)
+    }
+
+    @Test fun mapsHarvestablePositionAndMetadataToCorrectFields() {
+        val message = AlbionProtocol18Decoder.Message(
+            kind = "event",
+            dispatchCode = 1,
+            realCode = 40,
+            parameters = mapOf(
+                0 to 123L, 5 to 16, 6 to 530, 7 to 5,
+                8 to floatArrayOf(8f, 9f), 10 to 3, 11 to 2
+            )
+        )
+        val observation = AlbionEntityEventMapper.map(message).single()
+        assertEquals(16, observation.typeNumber)
+        assertEquals(530, observation.typeId)
+        assertEquals(5, observation.tier)
+        assertEquals(2, observation.enchant)
+        assertEquals(8f, observation.x)
+        assertEquals(9f, observation.y)
+        assertEquals(3, observation.size)
+    }
+
     private fun ipv4UdpPhotonPacket(commandType: Int, commandLength: Int): ByteArray {
         val packet = ByteArray(20 + 8 + 12 + 12)
         packet[0] = 0x45
