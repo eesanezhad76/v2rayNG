@@ -18,8 +18,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
 
 /**
  * Local-only activity tagger. It never reads, changes, redirects or sends game traffic.
@@ -167,20 +165,19 @@ class AlbionOverlayService : Service() {
 
     private fun logEvent(event: String) {
         try {
-            val now = System.currentTimeMillis()
             val record = JSONObject().apply {
-                put("timestamp_ms", now)
+                put("timestamp_ms", System.currentTimeMillis())
                 put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
                 put("event", event)
                 put("activity", activities[activityIndex])
                 put("tier", tiers[tierIndex])
                 put("enchantment", enchants[enchantIndex])
                 put("source", "manual_overlay")
-            }.toString() + "\n"
-            val dir = File(filesDir, "AlbionRadar").apply { mkdirs() }
-            FileOutputStream(File(dir, "activity-events.jsonl"), true).use { it.write(record.toByteArray(Charsets.UTF_8)); it.fd.sync() }
+            }.toString()
+            // Explicit app-local broadcast to the capture activity; never touches the VPN socket.
+            sendBroadcast(Intent(ACTION_MARKER).setPackage(packageName).putExtra(EXTRA_MARKER, record))
         } catch (_: Exception) {
-            // Logging failure must never affect the VPN or game connection.
+            // A failed annotation must never affect the VPN or game connection.
         }
     }
 
@@ -193,6 +190,8 @@ class AlbionOverlayService : Service() {
 
     companion object {
         const val ACTION_STOP = "com.v2ray.ang.albion.STOP_OVERLAY"
+        const val ACTION_MARKER = "com.v2ray.ang.albion.PCAP_MARKER"
+        const val EXTRA_MARKER = "marker_json"
         private const val NOTIFICATION_ID = 7331
     }
 }
