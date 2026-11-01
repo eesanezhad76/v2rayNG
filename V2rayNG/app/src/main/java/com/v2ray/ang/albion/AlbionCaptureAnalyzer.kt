@@ -15,6 +15,8 @@ object AlbionCaptureAnalyzer {
         val outboundPackets: Int,
         val photonCommandTypes: Map<Int, Int>,
         val eventCodes: Map<Int, Int>,
+        val operationRequests: Map<Int, Int>,
+        val operationResponses: Map<Int, Int>,
         val entityKinds: Map<String, Int>,
         val malformedPhotonPackets: Int,
         val encryptedProtocol18Messages: Int,
@@ -33,6 +35,10 @@ object AlbionCaptureAnalyzer {
             photonCommandTypes.toSortedMap().forEach { (type, count) -> appendLine("  command $type: $count") }
             appendLine("Protocol18 Albion event codes:")
             eventCodes.toSortedMap().forEach { (code, count) -> appendLine("  event $code: $count") }
+            appendLine("Operation requests:")
+            operationRequests.toSortedMap().forEach { (code, count) -> appendLine("  operation $code: $count") }
+            appendLine("Operation responses:")
+            operationResponses.toSortedMap().forEach { (code, count) -> appendLine("  operation $code: $count") }
             appendLine("Mapped entity observations:")
             entityKinds.toSortedMap().forEach { (kind, count) -> appendLine("  $kind: $count") }
             appendLine("Malformed / unrecognized Photon envelopes: $malformedPhotonPackets")
@@ -52,6 +58,8 @@ object AlbionCaptureAnalyzer {
         var malformed = 0
         val commands = linkedMapOf<Int, Int>()
         val events = linkedMapOf<Int, Int>()
+        val requests = linkedMapOf<Int, Int>()
+        val responses = linkedMapOf<Int, Int>()
         val entities = linkedMapOf<String, Int>()
         val protocol18 = AlbionProtocol18Decoder()
         AlbionEntityEventMapper.reset()
@@ -85,7 +93,13 @@ object AlbionCaptureAnalyzer {
                         decoded.commandTypes.forEach { type -> commands[type] = (commands[type] ?: 0) + 1 }
                         decoded.photonPayload?.let { payload ->
                             protocol18.receiveDatagram(payload).forEach { message ->
-                                message.realCode?.let { code -> events[code] = (events[code] ?: 0) + 1 }
+                                message.realCode?.let { code ->
+                                    when (message.kind) {
+                                        "event" -> events[code] = (events[code] ?: 0) + 1
+                                        "request" -> requests[code] = (requests[code] ?: 0) + 1
+                                        "response" -> responses[code] = (responses[code] ?: 0) + 1
+                                    }
+                                }
                                 AlbionEntityEventMapper.map(message).forEach { observation ->
                                     entities[observation.kind] = (entities[observation.kind] ?: 0) + 1
                                 }
@@ -102,7 +116,7 @@ object AlbionCaptureAnalyzer {
         if (albion == 0) warnings += "No UDP datagrams involving port 5056 were found."
         if (malformed > 0) warnings += "Some datagrams on port 5056 did not pass Photon envelope validation."
         return Report(
-            packets, albion, valid, inbound, outbound, commands, events, entities, malformed,
+            packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, malformed,
             protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings
         )
     }
