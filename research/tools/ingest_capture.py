@@ -165,7 +165,7 @@ def analyze(path):
     if not isinstance(x,(int,float)) or not isinstance(y,(int,float)) or not math.isfinite(x) or not math.isfinite(y): continue
     if kind=="own_player_move":
      player_positions.append((float(x),float(y)))
-    elif kind in ("harvestable","static_resource") and raw_entity.get("entity_id") is not None:
+    elif kind=="harvestable" and raw_entity.get("entity_id") is not None:
      resource_positions.setdefault(str(raw_entity["entity_id"]),(float(x),float(y)))
    for e in parse_row(r):
     k=e.get("kind"); ident=e.get("entity_id"); t=r.get("time_ms")
