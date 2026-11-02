@@ -35,15 +35,28 @@ The Kotlin worker writes PCAP and JSONL files under the app-specific `AlbionCapt
 
 Important limits: no zone identifier or global coordinate transform has been validated, so the map is a coordinate plane for the currently observed game coordinate space, not a complete Albion world map with terrain/roads. Player/resource coordinate alignment is explicitly provisional until the same-capture PCAP spatial audit and device test pass. Arbitrary Event 3 movement payloads remain untrusted as other-player coordinates and are withheld from rendering. Resource/mobile mappings remain limited to evidence-backed catalog entries. Event interpretation and actual overlay delivery still require physical-device validation.
 
+## Controlled first field test
+
+For a Poco F5 / Android 15, use the `arm64-v8a` APK (or the universal APK). The debug package ID is `com.v2ray.ang.radar`, so it installs separately from the regular V2RayNG app.
+
+1. Install the APK, open V2RayNG Radar, connect the VPN, then open the app drawer and select **Albion Radar**.
+2. Grant the requested display-over-other-apps permission. Start **Full capture** before starting the overlay; keep the VPN connected.
+3. In one known zone, move around for at least 30 seconds. Open **Live coordinate map** and check whether the green YOU marker follows movement. The mini-radar should also show YOU when movement packets are decoded.
+4. Expand the overlay, select Ore, and use Found → Start → Done → Empty for at least three separate nodes. Set the tier/enchantment before each sample. These manual labels train pattern correlation; they do not independently prove a node's catalog identity.
+5. Select Mobs and use Seen then Killed for at least two mobs. Do not mix a mob label with an Ore activity.
+6. Stop capture from the Albion Radar screen. Check packet count, tap drops, writer errors, marker count, and the generated offline report. A nonzero tap-drop count must be retained in the report, not hidden.
+7. Export **Learned database (ZIP)**. This compact ZIP contains the persistent entity cache, raw protocol evidence, learned pattern signatures, manifest and SHA-256 digests; it excludes VPN profiles and raw PCAP payloads. Send this ZIP back for central database ingestion. Do not rename its internal files.
+8. Repeat in a second capture session in the same zone, then in a different zone. The database must preserve each session's observations without joining runtime entity IDs across zones. A world-map/zone transform is not claimed until independently decoded.
+
 ## Validation required before calling it reliable
 
 1. Run the race-enabled Go tests for the native TUN tap.
 2. Run Kotlin unit tests, including encrypted-packet classification and Protocol18 fragment reassembly.
-3. Build the Android AAR and debug APK for all configured ABIs.
+3. Build the Android AAR and debug APK for all four ABI splits plus universal; verify every APK signature, package ID and SHA-256 checksum.
 4. Install the arm64 APK on a physical Android device and verify that normal VPN traffic remains unaffected.
-5. Capture while idle, moving, gathering, fighting mobs and changing zones; inspect PCAP, JSONL, drop counters and decoder statistics.
+5. Complete the controlled field test above; inspect PCAP, JSONL, drop counters, decoder statistics, live map and overlay delivery.
 6. Force activity recreation, network handover, VPN stop/start and process restart; verify capture resumes only when the persisted opt-in is enabled and files remain readable.
-7. Export the learned-database ZIP and verify its manifest, entity/protocol counts and SHA-256 values; compare it with the compact replay diagnostics.
-8. Verify the local-coordinate map on-device while moving, gathering and changing zones; record whether the coordinate system resets and whether a zone identifier can be decoded.
+7. Export the learned-database ZIP, import it into the research vault, and verify source hashes, session-scoped entity records, protocol evidence and deduplicated pattern signatures.
+8. Verify whether coordinates reset on zone changes and whether a zone identifier/global map transform can be decoded.
 
-No physical-device validation has been completed yet.
+No physical-device validation has been completed yet. A CI build and offline replay are not substitutes for the first on-device test.
