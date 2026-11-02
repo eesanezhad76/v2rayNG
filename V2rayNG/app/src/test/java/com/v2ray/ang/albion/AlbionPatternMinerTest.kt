@@ -32,6 +32,11 @@ class AlbionPatternMinerTest {
         val eventPattern = report.patterns.first { it.kind == "photon_event" && it.eventCode == 40 }
         assertEquals(3, eventPattern.samples)
         assertEquals("0,5,7,8,11", eventPattern.parameterKeys)
+        val learnedDatabase = report.asJson()
+        assertEquals(1, learnedDatabase.optInt("schema_version"))
+        assertEquals(3, learnedDatabase.optInt("complete_samples"))
+        assertEquals("Heuristic evidence score, not a calibrated probability.", learnedDatabase.optString("score_semantics"))
+        assertTrue(learnedDatabase.optJSONArray("patterns")!!.length() >= 2)
     }
 
     @Test fun doesNotTreatAnUnclosedFoundMarkerAsACompleteSample() {
