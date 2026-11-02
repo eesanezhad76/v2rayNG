@@ -315,7 +315,17 @@ object CoreServiceManager {
 
             coreController.stopLoop()
             launchCore(service, tunFd, isReload = true)
-            val tapRestored = !tapWasRequested || try { Libv2ray.packetTapEnabled() } catch (_: Exception) { false }
+            // A core reload can leave the native observer disabled even though the capture
+            // worker is still alive. Restore it only when this session had requested it.
+            val tapRestored = if (!tapWasRequested) {
+                true
+            } else {
+                try {
+                    Libv2ray.packetTapEnabled() || enableAlbionPacketTap(4096)
+                } catch (_: Exception) {
+                    false
+                }
+            }
             val handoverEnd = org.json.JSONObject()
                 .put("timestamp_ms", System.currentTimeMillis())
                 .put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
