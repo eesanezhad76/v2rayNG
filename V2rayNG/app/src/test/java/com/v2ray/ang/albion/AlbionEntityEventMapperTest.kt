@@ -37,7 +37,7 @@ class AlbionEntityEventMapperTest {
     fun mapsHealthAndEnergyRegenerationSeparately() {
         AlbionEntityEventMapper.reset()
         val health = AlbionEntityEventMapper.map(
-            event(91, mapOf(6 to 202L, 2 to 12f, 3 to 100f))
+            event(91, mapOf(0 to 202L, 2 to 12f, 3 to 100f, 6 to 639290000715162322L))
         ).single()
         assertEquals("health_regeneration", health.kind)
         assertEquals(202L, health.entityId)
@@ -52,10 +52,20 @@ class AlbionEntityEventMapperTest {
     }
 
     @Test
-    fun leavesMultiHealthUpdateAsRawOnlyUntilItsShapeIsProven() {
+    fun decodesBatchedHealthUpdatesByExactEntityId() {
         AlbionEntityEventMapper.reset()
-        assertTrue(AlbionEntityEventMapper.map(
-            event(7, mapOf(0 to listOf(101L, 102L), 1 to listOf(80f, 60f)))
-        ).isEmpty())
+        val updates = AlbionEntityEventMapper.map(
+            event(7, mapOf(
+                0 to 999L,
+                2 to listOf(-51f, -76f),
+                3 to listOf(2436f, 821f),
+                6 to listOf(630243L, 640358L)
+            ))
+        )
+        assertEquals(2, updates.size)
+        assertEquals(listOf(630243L, 640358L), updates.map { it.entityId })
+        assertEquals(listOf(-51f, -76f), updates.map { it.value })
+        assertEquals(listOf(2436f, 821f), updates.map { it.secondaryValue })
+        assertTrue(updates.all { it.kind == "health" && it.eventCode == 7 })
     }
 }
