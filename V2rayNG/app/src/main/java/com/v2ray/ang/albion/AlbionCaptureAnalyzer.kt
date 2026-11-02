@@ -180,7 +180,8 @@ object AlbionCaptureAnalyzer {
                 val tier = marker.optString("tier", "")
                 val enchantment = marker.opt("enchantment")?.toString()?.takeUnless { it == "null" || it == "0" || it.isBlank() }
                 buildString {
-                    append("${activity} [${targetType}]: ${event}")
+                    if (targetType == "unspecified") append("${activity}: ${event}")
+                    else append("${activity} [${targetType}]: ${event}")
                     if (tier.isNotBlank()) append(" | tier=${tier}")
                     if (enchantment != null && targetType != "mob") append(" | enchantment=${enchantment}")
                     marker.optString("node_id").takeIf { it.isNotBlank() }?.let { append(" | target_id=${it}") }
