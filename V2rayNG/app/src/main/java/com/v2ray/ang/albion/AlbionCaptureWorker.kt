@@ -238,6 +238,9 @@ class AlbionCaptureWorker(
                 if (message.realCode in INVENTORY_EVENT_CODES) {
                     eventItem.put("inventory_parameters", jsonSafeParameters(message.parameters))
                 }
+                if (message.realCode in HARVEST_EVENT_CODES) {
+                    eventItem.put("harvest_parameters", jsonSafeParameters(message.parameters))
+                }
                 val resources = JSONArray()
                 normalized.resources.forEach { resource ->
                     val r = JSONObject().put("id", resource.id)
@@ -427,6 +430,8 @@ class AlbionCaptureWorker(
         // Current Photon event enum: InventoryPutItem, InventoryDeleteItem, InventoryState.
         // Payloads are logged verbatim-but-bounded; no stack delta is inferred yet.
         val INVENTORY_EVENT_CODES = setOf(26, 27, 28)
+        // HarvestStart, HarvestCancel and HarvestFinished in the current event enum.
+        val HARVEST_EVENT_CODES = setOf(59, 60, 61)
     }
 
     private fun writeHeader(out: DataOutputStream) {
