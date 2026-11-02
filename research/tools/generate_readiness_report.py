@@ -267,7 +267,7 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
          "evidence": "Candidate parameter paths are not semantic mappings; real item IDs and stack deltas still require independent live evidence"},
         {"name": "Same-capture player/resource coordinate alignment candidate",
          "status": "PASS" if spatial_alignment.get("status") == "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" else "NOT_VERIFIED",
-         "evidence": f'source={spatial_alignment.get("source")}; player samples={spatial_alignment.get("player_position_samples", 0)}; resource nodes={spatial_alignment.get("resource_nodes", 0)}; median nearest distance={spatial_alignment.get("nearest_resource_to_player_distance_median", "n/a")}; candidate-only heuristic, not zone/global-map proof'},
+         "evidence": f'source={spatial_alignment.get("source")}; player samples={spatial_alignment.get("player_position_samples", 0)}; typed resource nodes={spatial_alignment.get("typed_resource_nodes", 0)}; median nearest distance={spatial_alignment.get("nearest_resource_to_player_distance_median", "n/a")}; candidate-only heuristic, not zone/global-map proof'},
         {"name": "Live spatial correlation", "status": "NOT_VERIFIED",
          "evidence": "A same-capture coordinate-space heuristic does not replace live device verification of entity identity and zone continuity"},
         {"name": "Overlay Activity/Service process wiring", "status": overlay_wiring["status"],
