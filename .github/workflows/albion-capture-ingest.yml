@@ -37,6 +37,7 @@ jobs:
           shopt -s nullglob globstar
           zips=(research/inbox/*.zip research/inbox/**/*.zip)
           python research/tools/ingest_capture.py --refresh-existing "${zips[@]}"
+          python research/tools/ingest_knowledge_bundle.py "${zips[@]}"
           python -m unittest discover -s research/tests -p 'test_*.py' -v
           chmod +x V2rayNG/gradlew
           V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
