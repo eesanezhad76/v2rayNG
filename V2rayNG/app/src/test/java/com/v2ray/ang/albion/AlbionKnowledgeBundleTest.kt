@@ -13,6 +13,7 @@ import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.zip.ZipInputStream
+import java.security.MessageDigest
 
 class AlbionKnowledgeBundleTest {
     @TempDir lateinit var tempDir: File
@@ -64,6 +65,11 @@ class AlbionKnowledgeBundleTest {
         assertEquals(AlbionKnowledgeBundle.SCHEMA_VERSION, manifest.optInt("schema_version"))
         assertEquals(1, manifest.optInt("entity_records"))
         assertEquals(1, manifest.optInt("protocol_events"))
+        val expectedPatternHash = manifest.getJSONObject("files").getJSONObject("learned-patterns.json").getString("sha256")
+        val actualPatternHash = MessageDigest.getInstance("SHA-256")
+            .digest(entries.getValue("learned-patterns.json").toByteArray(Charsets.UTF_8))
+            .joinToString("") { "%02x".format(it) }
+        assertEquals(expectedPatternHash, actualPatternHash)
         assertFalse(entries.values.any { it.contains("must-not-export") })
     }
 
