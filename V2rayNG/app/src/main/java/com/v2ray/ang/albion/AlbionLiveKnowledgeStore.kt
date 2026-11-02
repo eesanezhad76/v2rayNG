@@ -30,10 +30,14 @@ class AlbionLiveKnowledgeStore(
         observations.forEach { observation ->
             if (observation.kind !in TRACKED_KINDS) return@forEach
             val id = observation.entityId ?: return@forEach
-            val key = id.toString()
+            val entityId = id.toString()
+            // Runtime IDs are only safely unique within a capture session until zone identity is decoded.
+            val key = "$sessionStartedMs:$entityId"
             val record = records.getOrPut(key) {
                 JSONObject()
-                    .put("entity_id", key)
+                    .put("record_key", key)
+                    .put("entity_id", entityId)
+                    .put("session_started_ms", sessionStartedMs)
                     .put("first_seen_ms", timestampMs)
                     .put("sightings", 0)
             }
@@ -143,7 +147,7 @@ class AlbionLiveKnowledgeStore(
     fun snapshotJson(): String {
         val array = JSONArray()
         records.values
-            .filter { it.optLong("last_seen_ms") >= sessionStartedMs && it.has("x") && it.has("y") }
+            .filter { it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs && it.has("x") && it.has("y") }
             .sortedByDescending { it.optLong("last_seen_ms") }
             .take(200)
             .forEach { array.put(JSONObject(it.toString())) }
@@ -153,7 +157,7 @@ class AlbionLiveKnowledgeStore(
     @Synchronized
     fun snapshotText(): String {
         val recent = records.values
-            .filter { it.optLong("last_seen_ms") >= sessionStartedMs &&
+            .filter { it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                 it.optString("last_kind") in setOf("static_resource", "harvestable", "resource_state", "player_move", "own_player_move", "mob") }
             .sortedByDescending { it.optLong("last_seen_ms") }
             .take(8)
@@ -321,7 +325,12 @@ class AlbionLiveKnowledgeStore(
             for (i in 0 until array.length()) {
                 val item = array.optJSONObject(i) ?: continue
                 val id = item.optString("entity_id")
-                if (id.isNotBlank() && id != "null") records[id] = JSONObject(item.toString())
+                val key = item.optString("record_key").takeIf { it.isNotBlank() && it != "null" } ?: id
+                if (key.isNotBlank() && key != "null" && id.isNotBlank() && id != "null") {
+                    val copy = JSONObject(item.toString())
+                    if (!copy.has("record_key")) copy.put("record_key", key)
+                    records[key] = copy
+                }
             }
         } catch (_: Exception) {
             // A corrupt cache is ignored; live capture continues and a fresh cache is written.
