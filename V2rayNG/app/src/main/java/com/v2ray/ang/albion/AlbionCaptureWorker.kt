@@ -208,6 +208,8 @@ class AlbionCaptureWorker(
     fun liveKnowledgeSnapshot(): String = knowledgeStore?.snapshotText()
         ?: "Live knowledge unavailable: capture has not initialized."
 
+    fun liveKnowledgeJson(): String = knowledgeStore?.snapshotJson() ?: "[]"
+
     @Synchronized private fun writePacket(packet: ByteArray, timestampMs: Long, decoded: AlbionPhotonPacketDecoder.Result?) {
         val out = pcap ?: return
         out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
