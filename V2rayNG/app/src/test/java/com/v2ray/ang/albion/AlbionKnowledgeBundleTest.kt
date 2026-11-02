@@ -33,6 +33,11 @@ class AlbionKnowledgeBundleTest {
             JSONArray().put(JSONObject().put("event_code", 40)).toString()
         )
         File(tempDir, "v2ray-profile.json").writeText("{\"password\":\"must-not-export\"}")
+        File(tempDir, "albion-learned-patterns.json").writeText(
+            JSONObject().put("schema_version", 1).put("patterns", JSONArray().put(
+                JSONObject().put("signature", "Ore|harvestable|40")
+            )).toString()
+        )
         val captureDir = File(tempDir, "AlbionCaptures").apply { mkdirs() }
         File(captureDir, "latest.report.txt").writeText("Pattern Miner: new resource family candidate")
 
@@ -51,8 +56,10 @@ class AlbionKnowledgeBundleTest {
         assertTrue(entries.containsKey("manifest.json"))
         assertTrue(entries.containsKey("live-knowledge.json"))
         assertTrue(entries.containsKey("protocol-evidence.json"))
+        assertTrue(entries.containsKey("learned-patterns.json"))
         assertTrue(entries.containsKey("pattern-learning-report.txt"))
         assertTrue(summary.patternReportIncluded)
+        assertTrue(summary.patternDatabaseIncluded)
         val manifest = JSONObject(entries.getValue("manifest.json"))
         assertEquals(AlbionKnowledgeBundle.SCHEMA_VERSION, manifest.optInt("schema_version"))
         assertEquals(1, manifest.optInt("entity_records"))
@@ -66,6 +73,7 @@ class AlbionKnowledgeBundleTest {
         val summary = AlbionKnowledgeBundle.write(context(), bytes)
         assertEquals(0, summary.entityRecords)
         assertEquals(0, summary.protocolEvents)
+        assertFalse(summary.patternDatabaseIncluded)
         assertTrue(bytes.size() > 0)
     }
 }
