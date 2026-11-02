@@ -16,6 +16,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import org.json.JSONObject
 import com.v2ray.ang.albion.AlbionCaptureMarker
@@ -104,19 +105,23 @@ class AlbionOverlayService : Service() {
         body.addView(row)
     }
     private fun tag(event: String) {
+        val selectedActivity = activities[activityIndex]
         try {
+            val now = System.currentTimeMillis()
             val json = JSONObject().apply {
-                put("timestamp_ms", System.currentTimeMillis()); put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
-                put("event", event); put("activity", activities[activityIndex]); put("tier", tiers[tierIndex])
+                put("timestamp_ms", now); put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
+                put("event", event); put("activity", selectedActivity); put("tier", tiers[tierIndex])
                 put("enchantment", enchants[enchantIndex]); put("source", "manual_overlay")
             }.toString()
             val saved = CoreServiceManager.appendAlbionCaptureMarker(
-                AlbionCaptureMarker.build(json),
-                System.currentTimeMillis()
+                AlbionCaptureMarker.build(json), now
             )
-            title.text = if (saved) "${activities[activityIndex]} ✓" else "${activities[activityIndex]} !"
-
-        } catch (_: Exception) { }
+            title.text = if (saved) "$selectedActivity ✓" else "$selectedActivity !"
+            if (!saved) Toast.makeText(this, "Marker NOT saved. Start capture and check VPN connection.", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            title.text = "$selectedActivity !"
+            Toast.makeText(this, "Marker NOT saved: ${e.message ?: "unknown error"}", Toast.LENGTH_LONG).show()
+        }
     }
     override fun onDestroy() {
         try { root?.let { wm.removeView(it) } } catch (_: Exception) { }

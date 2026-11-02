@@ -175,21 +175,23 @@ class AlbionCaptureWorker(
     /** Writes a synthetic local annotation record; it is never sent to the VPN or game. */
     @Synchronized fun appendMarker(packet: ByteArray, timestampMs: Long): Boolean {
         val out = pcap ?: return false
+        val textLog = log ?: return false
         if (!running.get() || packet.size < 20) return false
         return try {
-            // Validate before writing either file, keeping PCAP and JSONL in sync.
+            // Require both sinks before writing; otherwise a tap could appear successful
+            // in the overlay while PatternMiner has no JSONL marker to analyze.
             val marker = AlbionCaptureMarker.parse(packet)
             out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
             out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
             out.writeInt(Integer.reverseBytes(packet.size))
             out.writeInt(Integer.reverseBytes(packet.size))
             out.write(packet)
-            log?.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", marker).toString())
-            log?.newLine()
+            textLog.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", marker).toString())
+            textLog.newLine()
             markerCount.incrementAndGet()
             out.flush()
             pcapFileStream?.fd?.sync()
-            log?.flush()
+            textLog.flush()
             logFileStream?.fd?.sync()
             scope.launch(Dispatchers.IO) { mirrorDownloads() }
             true
