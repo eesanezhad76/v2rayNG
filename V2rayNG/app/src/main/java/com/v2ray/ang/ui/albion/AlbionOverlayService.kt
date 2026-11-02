@@ -14,48 +14,40 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.view.Gravity
+import android.view.View
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.HorizontalScrollView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import org.json.JSONObject
-import com.v2ray.ang.ui.albion.AlbionMiniRadarView
 import com.v2ray.ang.albion.AlbionCaptureMarker
 import com.v2ray.ang.core.CoreServiceManager
 
-/** Small local-only activity tagger; game packets are never modified or transmitted. */
+/** Compact, direct-choice local activity tagger. It never modifies game traffic. */
 class AlbionOverlayService : Service() {
     private lateinit var wm: WindowManager
     private var root: LinearLayout? = null
-    private var expanded = false
-    private var activityIndex = 0
-    private var tierIndex = 2
-    private var enchantIndex = 0
+    private var expanded = true
+    private var activity = "Ore"
+    private var tier = "T3"
+    private var enchant = "Normal"
     private lateinit var title: TextView
     private lateinit var body: LinearLayout
     private lateinit var liveStatus: TextView
-    private lateinit var radarView: AlbionMiniRadarView
     private val refreshHandler = Handler(Looper.getMainLooper())
     private val refreshLiveSnapshot = object : Runnable {
         override fun run() {
             if (root == null) return
             if (::liveStatus.isInitialized) liveStatus.text = CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
-            if (::radarView.isInitialized) {
-                radarView.setTargetFilter(tiers[tierIndex].drop(1).toInt(), enchantIndex)
-                val snapshot = CoreServiceManager.getAlbionLiveKnowledgeJson()
-                val acceptedEntityCount = radarView.setSnapshot(snapshot)
-                if (acceptedEntityCount != null) {
-                    CoreServiceManager.acknowledgeAlbionOverlaySnapshot(acceptedEntityCount)
-                }
-            }
-            refreshHandler.postDelayed(this, 1500L)
+            refreshHandler.postDelayed(this, 1800L)
         }
     }
-    private val activities = listOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Mobs", "PvP", "Travel", "Other")
-    private val tiers = listOf("T2","T3","T4","T5","T6","T7","T8")
-    private val enchants = listOf("Normal","E1","E2","E3")
+    private val activities = listOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Mobs", "PvP", "Move", "Other")
+    private val tiers = (2..8).map { "T$it" }
+    private val enchants = listOf("Normal", "E1", "E2", "E3")
 
     override fun onBind(intent: Intent?): IBinder? = null
     override fun onCreate() {
@@ -69,45 +61,63 @@ class AlbionOverlayService : Service() {
         if (Build.VERSION.SDK_INT >= 34) startForeground(7331, notification, android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE)
         else startForeground(7331, notification)
         wm = getSystemService(WINDOW_SERVICE) as WindowManager
-        if (Settings.canDrawOverlays(this)) { show(); tag("overlay_started") } else stopSelf()
+        if (Settings.canDrawOverlays(this)) show() else stopSelf()
     }
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent?.action == ACTION_STOP) stopSelf()
         return START_STICKY
     }
     private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
-    private fun button(label: String, action: () -> Unit) = Button(this).apply {
-        text = label; textSize = 10f; isAllCaps = false
+    private fun button(label: String, selected: Boolean = false, action: () -> Unit) = Button(this).apply {
+        text = label
+        textSize = 10f
+        isAllCaps = false
         minWidth = 0; minimumWidth = 0; minHeight = 0; minimumHeight = 0
-        setPadding(dp(2), 0, dp(2), 0); setOnClickListener { action() }
+        setPadding(dp(3), 0, dp(3), 0)
+        if (selected) setTextColor(0xFF80D8FF.toInt())
+        setOnClickListener { action() }
+    }
+    private fun choiceRow(values: List<String>, selected: String, onPick: (String) -> Unit): HorizontalScrollView {
+        val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        values.forEach { value ->
+            row.addView(button(value, value == selected) { onPick(value) },
+                LinearLayout.LayoutParams(-2, dp(34)).apply { rightMargin = dp(3) })
+        }
+        return HorizontalScrollView(this).apply {
+            isHorizontalScrollBarEnabled = false
+            addView(row)
+        }
     }
     private fun show() {
         if (root != null) return
         val panel = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL; setPadding(dp(5), dp(4), dp(5), dp(4))
-            background = GradientDrawable().apply { setColor(0xE9162029.toInt()); cornerRadius = dp(9).toFloat(); setStroke(dp(1), 0x885F7788.toInt()) }
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(5), dp(4), dp(5), dp(4))
+            background = GradientDrawable().apply {
+                setColor(0xE9162029.toInt()); cornerRadius = dp(9).toFloat()
+                setStroke(dp(1), 0x885F7788.toInt())
+            }
         }
         val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
-        head.addView(button("‹") { stepActivity(-1) }, LinearLayout.LayoutParams(dp(28), dp(32)))
-        title = TextView(this).apply { text = "Ore"; setTextColor(-1); textSize = 12f; typeface = Typeface.DEFAULT_BOLD; gravity = Gravity.CENTER_VERTICAL }
+        title = TextView(this).apply {
+            text = "Albion • $activity"; setTextColor(-1); textSize = 12f
+            typeface = Typeface.DEFAULT_BOLD; gravity = Gravity.CENTER_VERTICAL
+        }
         head.addView(title, LinearLayout.LayoutParams(0, dp(32), 1f))
-        head.addView(button("›") { stepActivity(1) }, LinearLayout.LayoutParams(dp(28), dp(32)))
-        head.addView(button(if (expanded) "−" else "+") { expanded = !expanded; tag(if (expanded) "overlay_expanded" else "overlay_collapsed"); renderBody() }, LinearLayout.LayoutParams(dp(28), dp(32)))
-        head.addView(button("×") { tag("overlay_closed"); stopSelf() }, LinearLayout.LayoutParams(dp(28), dp(32)))
+        head.addView(button("−") { expanded = !expanded; renderBody() }, LinearLayout.LayoutParams(dp(32), dp(32)))
+        head.addView(button("×") { stopSelf() }, LinearLayout.LayoutParams(dp(32), dp(32)))
         panel.addView(head)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
-        radarView = AlbionMiniRadarView(this)
         liveStatus = TextView(this).apply {
-            text = "Live entities: waiting for capture"
-            setTextColor(0xFFE3EDF5.toInt())
-            textSize = 10f
-            typeface = Typeface.MONOSPACE
-            setPadding(dp(3), dp(3), dp(3), dp(3))
+            text = "Automatic capture learning: waiting for capture"
+            setTextColor(0xFFE3EDF5.toInt()); textSize = 9f
+            typeface = Typeface.MONOSPACE; setPadding(dp(3), dp(3), dp(3), dp(3))
+            maxLines = 3
         }
         panel.addView(body)
         root = panel
         val type = if (Build.VERSION.SDK_INT >= 26) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE
-        val params = WindowManager.LayoutParams(dp(176), WindowManager.LayoutParams.WRAP_CONTENT, type,
+        val params = WindowManager.LayoutParams(dp(290), WindowManager.LayoutParams.WRAP_CONTENT, type,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT).apply { gravity = Gravity.TOP or Gravity.START; x = dp(4); y = dp(105) }
         wm.addView(panel, params)
@@ -115,58 +125,77 @@ class AlbionOverlayService : Service() {
         refreshHandler.removeCallbacks(refreshLiveSnapshot)
         refreshHandler.post(refreshLiveSnapshot)
     }
-    private fun stepActivity(delta: Int) { activityIndex = (activityIndex + delta + activities.size) % activities.size; title.text = activities[activityIndex]; tag("activity_selected"); renderBody() }
     private fun renderBody() {
         if (!::body.isInitialized) return
         body.removeAllViews()
         if (!expanded) {
-            body.visibility = android.view.View.VISIBLE
-            liveStatus.maxLines = 2
-            body.addView(radarView, LinearLayout.LayoutParams(-1, dp(128)))
             body.addView(liveStatus)
             return
         }
-        body.visibility = android.view.View.VISIBLE
-        body.addView(radarView, LinearLayout.LayoutParams(-1, dp(128)))
-        val selectors = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        selectors.addView(button(tiers[tierIndex]) { tierIndex = (tierIndex + 1) % tiers.size; radarView.setTargetFilter(tiers[tierIndex].drop(1).toInt(), enchantIndex); tag("tier_selected"); renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
-        selectors.addView(button(enchants[enchantIndex]) { enchantIndex = (enchantIndex + 1) % enchants.size; radarView.setTargetFilter(tiers[tierIndex].drop(1).toInt(), enchantIndex); tag("enchantment_selected"); renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
-        body.addView(selectors)
-        val events = when (activities[activityIndex]) {
-            "Ore","Wood","Stone","Fiber","Hide" -> listOf("Found" to "target_found", "Start" to "gathering_started", "Done" to "gathering_completed", "Empty" to "node_depleted")
-            "Mobs" -> listOf("Seen" to "target_found", "Killed" to "mob_killed")
-            "PvP" -> listOf("Player" to "player_spotted", "Fight" to "pvp_started", "End" to "pvp_ended")
-            else -> listOf("Start" to "activity_start", "Event" to "activity_event", "End" to "activity_end")
+        // Row 1: choose an activity directly; no cycling through categories.
+        body.addView(label("1 • Activity"))
+        body.addView(choiceRow(activities, activity) { activity = it; renderBody() })
+        title.text = "Albion • $activity"
+        if (activity != "Mobs" && activity != "PvP" && activity != "Move" && activity != "Other") {
+            body.addView(label("2 • Tier"))
+            body.addView(choiceRow(tiers, tier) { tier = it; renderBody() })
+            body.addView(label("3 • Enchantment"))
+            body.addView(choiceRow(enchants, enchant) { enchant = it; renderBody() })
         }
-        val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        events.forEach { (label, event) -> row.addView(button(label) { tag(event) }, LinearLayout.LayoutParams(0, dp(32), 1f)) }
-        body.addView(row)
-        liveStatus.maxLines = 8
+        val actions = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        when (activity) {
+            "Ore", "Wood", "Stone", "Fiber", "Hide" -> {
+                actions.addView(button("Start") { tag("target_found") }, LinearLayout.LayoutParams(0, dp(38), 1f))
+                actions.addView(button("Stop") { tag("gathering_completed") }, LinearLayout.LayoutParams(0, dp(38), 1f))
+            }
+            "Mobs" -> {
+                actions.addView(button("Start") { tag("target_found") }, LinearLayout.LayoutParams(0, dp(38), 1f))
+                actions.addView(button("Killed") { tag("mob_killed") }, LinearLayout.LayoutParams(0, dp(38), 1f))
+            }
+            "Move" -> {
+                actions.addView(button("Start movement test") { tag("movement_started") }, LinearLayout.LayoutParams(0, dp(38), 1f))
+                actions.addView(button("Stop movement test") { tag("movement_completed") }, LinearLayout.LayoutParams(0, dp(38), 1f))
+            }
+            "PvP" -> {
+                actions.addView(button("Start") { tag("pvp_started") }, LinearLayout.LayoutParams(0, dp(38), 1f))
+                actions.addView(button("Stop") { tag("pvp_ended") }, LinearLayout.LayoutParams(0, dp(38), 1f))
+            }
+            else -> {
+                actions.addView(button("Start") { tag("activity_start") }, LinearLayout.LayoutParams(0, dp(38), 1f))
+                actions.addView(button("Stop") { tag("activity_end") }, LinearLayout.LayoutParams(0, dp(38), 1f))
+            }
+        }
+        body.addView(actions)
         body.addView(liveStatus)
     }
+    private fun label(value: String) = TextView(this).apply {
+        text = value; setTextColor(0xFFB8CAD8.toInt()); textSize = 9f
+        setPadding(dp(2), dp(3), 0, 0)
+    }
     private fun tag(event: String) {
-        val selectedActivity = activities[activityIndex]
+        val now = System.currentTimeMillis()
         try {
-            val now = System.currentTimeMillis()
             val json = JSONObject().apply {
-                put("timestamp_ms", now); put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
-                put("event", event); put("activity", selectedActivity); put("tier", tiers[tierIndex])
-                put("enchantment", enchants[enchantIndex]); put("source", "manual_overlay")
+                put("timestamp_ms", now)
+                put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
+                put("event", event); put("activity", activity)
+                put("tier", tier); put("enchantment", enchant)
+                put("source", "manual_overlay")
             }.toString()
-            val saved = CoreServiceManager.appendAlbionCaptureMarker(
-                AlbionCaptureMarker.build(json), now
-            )
-            title.text = if (saved) "$selectedActivity ✓" else "$selectedActivity !"
-            if (!saved) Toast.makeText(this, "Marker NOT saved. Start capture and check VPN connection.", Toast.LENGTH_SHORT).show()
+            val saved = CoreServiceManager.appendAlbionCaptureMarker(AlbionCaptureMarker.build(json), now)
+            title.text = if (saved) "Albion • $activity ✓" else "Albion • $activity !"
+            if (!saved) Toast.makeText(this, "Marker not saved. Capture must be running.", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            title.text = "$selectedActivity !"
-            Toast.makeText(this, "Marker NOT saved: ${e.message ?: "unknown error"}", Toast.LENGTH_LONG).show()
+            title.text = "Albion • $activity !"
+            Toast.makeText(this, "Marker error: ${e.message ?: "unknown"}", Toast.LENGTH_LONG).show()
         }
     }
     override fun onDestroy() {
         refreshHandler.removeCallbacks(refreshLiveSnapshot)
         try { root?.let { wm.removeView(it) } } catch (_: Exception) { }
-        root = null; stopForeground(STOP_FOREGROUND_REMOVE); super.onDestroy()
+        root = null
+        stopForeground(STOP_FOREGROUND_REMOVE)
+        super.onDestroy()
     }
     companion object {
         const val ACTION_MARKER = "com.v2ray.ang.albion.PCAP_MARKER"
