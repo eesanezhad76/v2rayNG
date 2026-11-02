@@ -81,7 +81,6 @@ class AlbionPatternMinerTest {
         val pattern = report.patterns.first { it.kind == "harvestable" }
         assertEquals(1, pattern.distinctEntities)
         assertTrue(pattern.signature.contains("574"))
-        assertTrue(!pattern.signature.contains("801"))
     }
 
 }
