@@ -48,6 +48,15 @@ object AlbionEntityEventMapper {
             is List<*> -> value.mapNotNull { (it as? Number)?.toLong() }
             else -> emptyList()
         }
+        fun floatList(value: Any?): List<Float> = when (value) {
+            is FloatArray -> value.toList()
+            is DoubleArray -> value.map { it.toFloat() }
+            is IntArray -> value.map { it.toFloat() }
+            is LongArray -> value.map { it.toFloat() }
+            is ShortArray -> value.map { it.toFloat() }
+            is List<*> -> value.mapNotNull { (it as? Number)?.toFloat() }
+            else -> emptyList()
+        }
         return when (code) {
             1 -> {
                 val id = number(0) ?: return emptyList()
@@ -68,6 +77,22 @@ object AlbionEntityEventMapper {
             6 -> {
                 val id = number(0) ?: number(6) ?: return emptyList()
                 listOf(Observation("health", code, entityId = id, value = float(2), secondaryValue = float(3)))
+            }
+            7 -> {
+                // HealthUpdates is batched: key 6 contains affected entity IDs,
+                // key 2 contains per-entity health deltas, key 3 the resulting
+                // health values. Keep only exact index-aligned observations.
+                val ids = idList(p[6])
+                val deltas = floatList(p[2])
+                val resultingHealth = floatList(p[3])
+                if (ids.isEmpty()) return emptyList()
+                ids.mapIndexed { index, id ->
+                    Observation(
+                        "health", code, entityId = id,
+                        value = deltas.getOrNull(index),
+                        secondaryValue = resultingHealth.getOrNull(index)
+                    )
+                }
             }
             8 -> {
                 val id = number(0) ?: number(6) ?: return emptyList()
@@ -118,11 +143,11 @@ object AlbionEntityEventMapper {
                 listOf(Observation("player_equipment", code, entityId = id))
             }
             91 -> {
-                val id = number(6) ?: number(0) ?: return emptyList()
+                val id = number(0) ?: number(6) ?: return emptyList()
                 listOf(Observation("health_regeneration", code, entityId = id, value = float(2), secondaryValue = float(3)))
             }
             92 -> {
-                val id = number(6) ?: number(0) ?: return emptyList()
+                val id = number(0) ?: number(6) ?: return emptyList()
                 listOf(Observation("energy_regeneration", code, entityId = id, value = float(2), secondaryValue = float(3)))
             }
             123 -> {
