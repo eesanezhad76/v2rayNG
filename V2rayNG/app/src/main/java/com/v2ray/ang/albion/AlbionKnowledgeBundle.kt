@@ -25,7 +25,8 @@ object AlbionKnowledgeBundle {
         val entityRecords: Int,
         val protocolEvents: Int,
         val bytesWritten: Long,
-        val sha256: String
+        val sha256: String,
+        val patternReportIncluded: Boolean
     )
 
     fun write(context: Context, output: OutputStream): Summary {
@@ -34,6 +35,11 @@ object AlbionKnowledgeBundle {
         val protocol = readJsonArray(dir.resolve(PROTOCOL_FILE))
         val liveBytes = live.toByteArray(Charsets.UTF_8)
         val protocolBytes = protocol.toByteArray(Charsets.UTF_8)
+        val captureDir = context.getExternalFilesDir(null)?.resolve("AlbionCaptures")
+        val latestPatternReport = captureDir?.listFiles()
+            ?.filter { it.isFile && it.name.endsWith(".report.txt") }
+            ?.maxByOrNull { it.lastModified() }
+        val patternReportBytes = latestPatternReport?.readBytes()
         val manifest = JSONObject()
             .put("format", "albion-radar-knowledge")
             .put("schema_version", SCHEMA_VERSION)
@@ -47,8 +53,11 @@ object AlbionKnowledgeBundle {
                     .put("bytes", liveBytes.size))
                 .put("protocol-evidence.json", JSONObject()
                     .put("sha256", sha256(protocolBytes))
-                    .put("bytes", protocolBytes.size)))
-            .put("privacy", "No VPN profiles, credentials, raw packet payloads, or PCAP files are included.")
+                    .put("bytes", protocolBytes.size))
+                .put("pattern-learning-report.txt", if (patternReportBytes != null)
+                    JSONObject().put("sha256", sha256(patternReportBytes)).put("bytes", patternReportBytes.size)
+                    else JSONObject.NULL))
+            .put("privacy", "No VPN profiles, credentials, raw packet payloads, or PCAP files are included. The text report contains decoded summaries and pattern-miner findings only.")
         val zip = ZipOutputStream(output)
         zip.putNextEntry(ZipEntry("manifest.json"))
         zip.write(manifest.toString(2).toByteArray(Charsets.UTF_8))
@@ -59,13 +68,19 @@ object AlbionKnowledgeBundle {
         zip.putNextEntry(ZipEntry("protocol-evidence.json"))
         zip.write(protocolBytes)
         zip.closeEntry()
+        if (patternReportBytes != null) {
+            zip.putNextEntry(ZipEntry("pattern-learning-report.txt"))
+            zip.write(patternReportBytes)
+            zip.closeEntry()
+        }
         zip.finish()
         zip.flush()
         return Summary(
             entityRecords = JSONArray(live).length(),
             protocolEvents = JSONArray(protocol).length(),
-            bytesWritten = liveBytes.size.toLong() + protocolBytes.size,
-            sha256 = sha256(manifest.toString().toByteArray(Charsets.UTF_8))
+            bytesWritten = liveBytes.size.toLong() + protocolBytes.size + (patternReportBytes?.size ?: 0),
+            sha256 = sha256(manifest.toString().toByteArray(Charsets.UTF_8)),
+            patternReportIncluded = patternReportBytes != null
         )
     }
 
