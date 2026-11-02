@@ -106,11 +106,13 @@ Implemented in current branch (must still pass the current CI run before claimin
 
 Not yet proven/complete:
 - Physical-device rendering and live snapshot delivery on the user's Poco F5.
+- Same-capture player-position / typed-resource coordinate alignment is being measured from replayed PCAP details; until the report passes, map alignment remains provisional.
 - Zone identity and global/world-map coordinate transform; current map is a local coordinate plane, not a complete world map with terrain or roads.
 - Full mob Seen→Killed linkage and exact T4 golem runtime entity identification.
 - Calibrated statistical confidence (current confidence is heuristic).
 - Production-grade mappings for unknown resource families and inventory Item IDs/stack deltas.
-- Safe import/merge of a centrally revised knowledge database into the phone; current implemented exchange is a privacy-minimal export bundle.
+- Safe import/merge of a centrally revised knowledge database into the phone; current implemented exchange is a privacy-minimal export bundle for sending the phone database to the central research vault.
+- Validated other-player position decoding; Event 3 coordinates remain withheld because the current decoder has not been approved.
 - The capture-ingest workflow must be checked against actual ZIP and Actions logs; never assume it processed a particular archive just because the workflow exists.
 
 ## 6. Promotion policy: research → production APK
