@@ -20,6 +20,7 @@ object AlbionKnowledgeBundle {
     const val SCHEMA_VERSION = 1
     private const val LIVE_FILE = "albion-live-knowledge.json"
     private const val PROTOCOL_FILE = "albion-protocol-evidence.json"
+    private const val AUTONOMOUS_FILE = "albion-autonomous-patterns.json"
     private const val MAX_PATTERN_REPORT_BYTES = 4L * 1024L * 1024L
 
     data class Summary(
@@ -37,6 +38,8 @@ object AlbionKnowledgeBundle {
         val protocol = readJsonArray(dir.resolve(PROTOCOL_FILE))
         val liveBytes = live.toByteArray(Charsets.UTF_8)
         val protocolBytes = protocol.toByteArray(Charsets.UTF_8)
+        val autonomousText = readJsonArray(dir.resolve(AUTONOMOUS_FILE))
+        val autonomousBytes = autonomousText.toByteArray(Charsets.UTF_8)
         val patternsFile = dir.resolve("albion-learned-patterns.json")
         val patternsText = if (patternsFile.isFile) patternsFile.readText(Charsets.UTF_8) else
             JSONObject().put("schema_version", 1).put("patterns", JSONArray()).toString()
@@ -55,6 +58,7 @@ object AlbionKnowledgeBundle {
             .put("app_id", context.packageName)
             .put("entity_records", JSONArray(live).length())
             .put("protocol_events", JSONArray(protocol).length())
+            .put("autonomous_patterns", JSONArray(autonomousText).length())
             .put("files", JSONObject()
                 .put("live-knowledge.json", JSONObject()
                     .put("sha256", sha256(liveBytes))
@@ -62,6 +66,9 @@ object AlbionKnowledgeBundle {
                 .put("protocol-evidence.json", JSONObject()
                     .put("sha256", sha256(protocolBytes))
                     .put("bytes", protocolBytes.size))
+                .put("autonomous-patterns.json", JSONObject()
+                    .put("sha256", sha256(autonomousBytes))
+                    .put("bytes", autonomousBytes.size))
                 .put("learned-patterns.json", JSONObject()
                     .put("sha256", sha256(patternsBytes))
                     .put("bytes", patternsBytes.size))
@@ -79,6 +86,9 @@ object AlbionKnowledgeBundle {
         zip.putNextEntry(ZipEntry("protocol-evidence.json"))
         zip.write(protocolBytes)
         zip.closeEntry()
+        zip.putNextEntry(ZipEntry("autonomous-patterns.json"))
+        zip.write(autonomousBytes)
+        zip.closeEntry()
         zip.putNextEntry(ZipEntry("learned-patterns.json"))
         zip.write(patternsBytes)
         zip.closeEntry()
@@ -92,7 +102,7 @@ object AlbionKnowledgeBundle {
         return Summary(
             entityRecords = JSONArray(live).length(),
             protocolEvents = JSONArray(protocol).length(),
-            bytesWritten = liveBytes.size.toLong() + protocolBytes.size + patternsBytes.size + (patternReportBytes?.size ?: 0),
+            bytesWritten = liveBytes.size.toLong() + protocolBytes.size + autonomousBytes.size + patternsBytes.size + (patternReportBytes?.size ?: 0),
             sha256 = sha256(manifest.toString().toByteArray(Charsets.UTF_8)),
             patternReportIncluded = patternReportBytes != null,
             patternDatabaseIncluded = patternsFile.isFile
