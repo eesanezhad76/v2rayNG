@@ -58,6 +58,25 @@ class ReadinessReportTests(unittest.TestCase):
             report.write_text("Number of signers: 1\n", encoding="utf-8")
             self.assertEqual("FAIL", readiness.summarize_signature(root)["status"])
 
+    def test_spatial_alignment_reads_only_same_capture_candidate_report(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            database = root / "research/database"
+            database.mkdir(parents=True)
+            (database / "capture-a.json").write_text(json.dumps({
+                "spatial_alignment": {
+                    "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+                    "player_position_samples": 300,
+                    "resource_nodes": 25,
+                    "nearest_resource_to_player_distance_median": 12.5,
+                    "warning": "candidate only",
+                }
+            }), encoding="utf-8")
+            result = readiness.summarize_spatial_alignment(root)
+            self.assertEqual("PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE", result["status"])
+            self.assertEqual("capture-a.json", result["source"])
+            self.assertEqual(300, result["player_position_samples"])
+
     def test_exit_code_fails_only_on_explicit_fail_not_unverified_gate(self):
         self.assertEqual(0, readiness.report_exit_code({
             "overall_status": "NOT_READY_FOR_FIELD_TEST",
