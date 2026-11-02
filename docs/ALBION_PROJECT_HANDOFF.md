@@ -188,3 +188,32 @@ If nothing was changed, do not create a fake implementation entry; record only a
 - **Regressions or possible breakage:** The older build may still be occupying a runner; verify before triggering another build.
 - **Not done / remaining:** Inspect run 41535345732 steps/logs/artifacts and build the current branch HEAD.
 - **Next exact action:** Query job steps and artifacts for run 41535345732, then trigger/verify a build of the current HEAD if needed.
+
+
+## 2026-11-03 — Overlay simplification and autonomous-learning boundary
+
+### Implemented in commit `c4171ee269de3a038494402365dbbd720d02d8fa`
+- Replaced cyclic activity/tier/enchantment controls in `AlbionOverlayService.kt` with direct horizontal choice rows.
+- Row 1 selects activity directly: Ore, Wood, Stone, Fiber, Hide, Mobs, PvP, Move, Other.
+- Gathering activities show all tiers T2–T8 in row 2 and Normal/E1/E2/E3 in row 3. Each value is directly tappable; no cycling backward from T8 to T3.
+- Gathering actions are reduced to Start/Stop. Start writes the existing `target_found` marker and Stop writes `gathering_completed`; this preserves compatibility with the current PatternMiner's single-target compatibility path. Empty is removed.
+- Mobs show only Start/Killed. Movement has its own activity choice with Start movement test/Stop movement test.
+- PvP and Other retain simple Start/Stop actions.
+- Overlay remains local-only and does not alter game packets.
+- This change is source-committed only until the current Android CI build completes. It is not device-tested yet.
+
+### Autonomous learning: exact capability boundary
+- Packet capture and `AlbionLiveKnowledgeStore.observe(...)` already run automatically while the daemon-owned capture is active; user does not need to tag every resource or mob for the recognized mapper observations to be recorded.
+- Current entity mapper still emits only known event mappings. Unknown events are not semantically classified by magic.
+- Current `AlbionPatternMiner` is still primarily offline and its robust resource correlation is based on capture markers. The overlay simplification keeps optional Start/Stop labels; it does NOT yet implement a validated fully unsupervised semantic classifier.
+- Never auto-promote an unknown packet signature to a named resource/mob. Future autonomous discovery must create an Unknown/Candidate record with evidence and confidence, keep session IDs isolated, and only promote after independent repeated evidence or optional user confirmation.
+- Capture Start remains required once per session unless the daemon snapshot says capture is already running. Overlay start is separate and only needed when manual labels are desired. The overlay is not required for automatic packet capture.
+- Field workflow after install: connect V2RayNG, start full capture once, play normally; optionally open overlay and tap activity + tier + enchant + Start/Stop for a high-quality labeled sample; stop capture at end and export knowledge ZIP for central ingest.
+- Do not claim live semantic recognition of every enchanted resource or mob until verified against controlled Android gameplay captures.
+
+### Verification and next actions
+- Commit: `c4171ee269de3a038494402365dbbd720d02d8fa`.
+- Source change: `AlbionOverlayService.kt` only.
+- No Kotlin test, Android build, APK artifact, checksum, or device test is confirmed by this commit yet.
+- Next: inspect Build APK workflow run triggered by this commit; verify Gradle success, signing, package ID, checksums and artifacts. Then inspect overlay runtime on Poco F5 for row clipping/touchability/scroll behavior.
+- Next autonomous-learning engineering task: design and test a bounded candidate-signature learner that runs from mapped observations and protocol evidence without marker dependency; keep all unknown semantics as candidates and add tests for false merges, tier/enchantment variation, repeated IDs across sessions, despawn/depletion, and missing coordinates before wiring it into map display.
