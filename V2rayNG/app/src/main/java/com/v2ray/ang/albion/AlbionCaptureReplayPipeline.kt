@@ -18,7 +18,7 @@ object AlbionCaptureReplayPipeline {
     @Synchronized
     fun replay(file: File, context: Context): Result {
         require(file.isFile) { "Capture file does not exist: $file" }
-        val replayDir = File(context.cacheDir, "albion-replay-\${System.nanoTime()}")
+        val replayDir = File(context.cacheDir, "albion-replay-${System.nanoTime()}")
         check(replayDir.mkdirs()) { "Cannot create isolated replay directory" }
         val isolatedContext = object : ContextWrapper(context.applicationContext) {
             override fun getFilesDir(): File = replayDir
