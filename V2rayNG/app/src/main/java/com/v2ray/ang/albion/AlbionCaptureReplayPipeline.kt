@@ -25,6 +25,7 @@ object AlbionCaptureReplayPipeline {
         val replayDir = File(context.cacheDir, "albion-replay-${System.nanoTime()}")
         check(replayDir.mkdirs()) { "Cannot create isolated replay directory" }
         val isolatedContext = object : ContextWrapper(context.applicationContext) {
+            override fun getApplicationContext(): Context = this
             override fun getFilesDir(): File = replayDir
         }
         try {

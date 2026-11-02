@@ -35,7 +35,7 @@ class AlbionPipelineSelfTest {
         assertTrue(summary.contains("HarvestCancel events retained across captures: 1"))
         assertTrue(summary.contains("HarvestFinished events retained across captures: 1"))
         assertTrue(summary.contains("Inventory events retained across captures: 1"))
-        assertTrue(summary.contains("No Ore identity is asserted"))
+        assertTrue(summary.contains("No item ID, stack delta, or Ore identity is asserted"))
     }
 
     @Test fun corruptProtocolEvidenceCacheIsIgnoredAndRebuiltWithoutCrashing() {
