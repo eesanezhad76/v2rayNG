@@ -95,6 +95,7 @@ Operation responses:
   operation 427: 4
   operation 530: 1
 Mapped entity observations:
+  energy_regeneration: 4
   health_regeneration: 3
   leave: 63
   player_equipment: 47

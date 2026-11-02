@@ -58,8 +58,9 @@ Operation responses:
   operation 52: 22
   operation 53: 4
 Mapped entity observations:
+  energy: 9
   harvestable: 2
-  health: 10
+  health: 1
   health_regeneration: 51
   leave: 33
   mob: 8
@@ -79,7 +80,7 @@ Encrypted Protocol18 messages: 9
 Malformed Protocol18 messages: 0
 Pending fragmented messages: 0
 Manual checkpoints: 0
-Detailed entity/player observations: 1758
+Detailed entity/player observations: 1749
   t=1793399296287 event3 id=589713 raw=038318e317d536df08241ed7aec5bbe708796666344116a8d6ae0de8e108 p4=null p5=null
   t=1793399296383 event3 id=589713 raw=03d381f217d536df08c665d7ae51cae608796666344135b6d6ae507be108 p4=null p5=null
   t=1793399296477 event3 id=589713 raw=0373ae0218d536df082241d7aec25de6087966663441819dd6ae4785e008 p4=null p5=null
@@ -289,7 +290,6 @@ Detailed entity/player observations: 1758
   t=1793399306829 event3 id=594646 raw=03e3562f1ed536df08e350b21aa173de94f0000030411412b21a00eedf94 p4=null p5=null
   t=1793399306829 kind=player_move id=594646 name=Dafr raw_hex=03e3562f1ed536df08e350b21aa173de94f0000030411412b21a00eedf94 coord_source=unvalidated_event3_payload
   t=1793399306982 event3 id=508752 raw=033775421ed536df0805eea3c37195aa431500002040baaaa3c3ab5ca843 p4=null p5=null
-  t=1793399306982 kind=health id=508752
   t=1793399306982 event3 id=594646 raw=0333c03e1ed536df08a76fb21a0dffdf94f100003041c024b21abd57df94 p4=null p5=null
   t=1793399306982 kind=player_move id=594646 name=Dafr raw_hex=0333c03e1ed536df08a76fb21a0dffdf94f100003041c024b21abd57df94 coord_source=unvalidated_event3_payload
   t=1793399306982 event3 id=508752 raw=0326cb511ed536df0842eaa3c3aa75aa437b00002040baaaa3c3ab5ca843 p4=null p5=null
@@ -371,7 +371,6 @@ Detailed entity/player observations: 1758
   t=1793399309869 event3 id=589713 raw=01938ff91fd536df08cdd8bbe72b5ebcb53d66663441 p4=null p5=null
   t=1793399309869 kind=health_regeneration id=639289961103139620
   t=1793399309869 event3 id=592554 raw=03038c0920d536df089ce383c39bcf9c43aa6666e63fd71a84c361af9c43 p4=null p5=null
-  t=1793399309978 kind=health id=508752
   t=1793399309978 event3 id=592554 raw=03a7e91820d536df0882f783c3fec39c43aa6666e63fd71a84c361af9c43 p4=null p5=null
   t=1793399310093 event3 id=592554 raw=030e472820d536df08690b84c362b89c43aa6666e63fd71a84c361af9c43 p4=null p5=null
   t=1793399310198 event3 id=592554 raw=01dc993720d536df08d71a84c361af9c43aa6666e63f p4=null p5=null
@@ -534,7 +533,6 @@ Detailed entity/player observations: 1758
   t=1793399325645 event3 id=592554 raw=0384a36829d536df08eff083c3f15f9d43fc6666e63fc4f483c32f839d43 p4=null p5=null
   t=1793399325748 event3 id=592554 raw=030dfd7729d536df086df383c3d9769d43fc6666e63fc4f483c32f839d43 p4=null p5=null
   t=1793399325808 event3 id=592554 raw=0190408729d536df08c4f483c32f839d43fc6666e63f p4=null p5=null
-  t=1793399326050 kind=health id=508752
   t=1793399326287 kind=resource_state id=2981 amount=0
   t=1793399326287 kind=health_regeneration id=639289961267244804
   t=1793399326355 kind=resource_state id=2472 amount=3
@@ -553,7 +551,6 @@ Detailed entity/player observations: 1758
   t=1793399327526 event3 id=573383 raw=017a378b2ad536df08f897abc3625ea043d59a993940 p4=null p5=null
   t=1793399327526 kind=move id=573383
   t=1793399328324 event3 id=508752 raw=031f0bf72ad536df081edea3c3e73da943f7000020400955a4c3b648aa43 p4=null p5=null
-  t=1793399328324 kind=health id=508752
   t=1793399328327 event3 id=508752 raw=03434f062bd536df0825eba3c3215ba943ef000020400955a4c3b648aa43 p4=null p5=null
   t=1793399328430 event3 id=508752 raw=03729d152bd536df082cf8a3c35b78a943ef000020400955a4c3b648aa43 p4=null p5=null
   t=1793399328590 event3 id=508752 raw=03d0e2242bd536df083305a4c39595a943ef000020400955a4c3b648aa43 p4=null p5=null
@@ -926,7 +923,6 @@ Detailed entity/player observations: 1758
   t=1793399346074 kind=move id=595837
   t=1793399346182 event3 id=595837 raw=03e8aea735d536df08ad4e76c304c8a843889a993940c06d76c3ae7ba843 p4=null p5=null
   t=1793399346182 kind=move id=595837
-  t=1793399346238 kind=health id=598807
   t=1793399346238 event3 id=598807 raw=0d7b05ad35d536df08000072c30000b443090000a04091ff0800 p4=null p5=null
   t=1793399346238 kind=move id=598807
   t=1793399346295 event3 id=595837 raw=037af8b635d536df087c5d76c3a4a3a843889a993940c06d76c3ae7ba843 p4=null p5=null
@@ -1408,7 +1404,6 @@ Detailed entity/player observations: 1758
   t=1793399360137 kind=own_player_move x=-233.332763671875 y=366.1905517578125 heading=70.86367797851562 target_x=-233.332763671875 target_y=366.1905517578125 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793399360200 event3 id=595074 raw=0306c5fe3dd536df086f543bc33e2eb4433700002040527e38c30f7fb443 p4=null p5=null
   t=1793399360200 kind=move id=595074
-  t=1793399360200 kind=health id=595074
   t=1793399360251 event3 id=595074 raw=038e1a0e3ed536df08f6153bc33235b4433700002040527e38c30f7fb443 p4=null p5=null
   t=1793399360251 kind=move id=595074
   t=1793399360333 kind=health_regeneration id=639289961607279440
@@ -1420,7 +1415,6 @@ Detailed entity/player observations: 1758
   t=1793399360605 kind=move id=595074
   t=1793399360664 event3 id=595074 raw=036e7c4b3ed536df08121c3ac30251b4433700002040527e38c30f7fb443 p4=null p5=null
   t=1793399360664 kind=move id=595074
-  t=1793399360664 kind=health id=589713
   t=1793399360664 event3 id=589713 raw=00ab8c4c3ed536df08d03aacedb929944ae9 p4=null p5=null
   t=1793399360664 kind=leave id=598833 removed=true
   t=1793399360778 event3 id=595074 raw=032adb5a3ed536df0899dd39c3f657b4433700002040527e38c30f7fb443 p4=null p5=null
@@ -1608,7 +1602,6 @@ Detailed entity/player observations: 1758
   t=1793399371727 kind=move id=511814
   t=1793399371843 event3 id=511814 raw=014f47f144d536df081bcb64c32361a6432f6666e63f p4=null p5=null
   t=1793399371843 kind=move id=511814
-  t=1793399374238 kind=health id=595074
   t=1793399374474 event3 id=597275 raw=03098c8246d536df08a51a5bc379dcac43146666e63f655f5ac3a2c0ab43 p4=null p5=null
   t=1793399374474 kind=move id=597275
   t=1793399374474 event3 id=598140 raw=0379758346d536df085d276ec3b9c7a3437a9a9939403e9f6cc35f46a443 p4=null p5=null
@@ -1665,7 +1658,6 @@ Detailed entity/player observations: 1758
   t=1793399376796 kind=move id=595837
   t=1793399377886 event3 id=595074 raw=033d0a9348d536df08dc2337c3c071b443430000204090ba3ec3896cb343 p4=null p5=null
   t=1793399377886 kind=move id=595074
-  t=1793399377886 kind=health id=595074
   t=1793399377937 kind=resource_state id=2970 amount=0
   t=1793399378037 event3 id=595074 raw=03b762a248d536df08aa6137c37169b443b50000204090ba3ec3896cb343 p4=null p5=null
   t=1793399378037 kind=move id=595074

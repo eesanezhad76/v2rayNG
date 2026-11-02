@@ -50,7 +50,7 @@ Operation responses:
   operation 52: 8
   operation 53: 2
 Mapped entity observations:
-  health: 2
+  energy: 2
   health_regeneration: 12
   leave: 3
   player_mounted: 1
@@ -65,7 +65,7 @@ Encrypted Protocol18 messages: 4
 Malformed Protocol18 messages: 0
 Pending fragmented messages: 0
 Manual checkpoints: 0
-Detailed entity/player observations: 293
+Detailed entity/player observations: 291
   t=1793389552890 event3 id=440367 raw=033d595d68be36df088e902ac35c19b443739a993940b82c2cc3f2c0b343 p4=null p5=null
   t=1793389553022 event3 id=440367 raw=034fbb6c68be36df08c9d42ac3b90ab443af9a993940b82c2cc3f2c0b343 p4=null p5=null
   t=1793389553068 event3 id=440367 raw=03d50f7c68be36df0804192bc316fcb343af9a993940b82c2cc3f2c0b343 p4=null p5=null
@@ -117,7 +117,6 @@ Detailed entity/player observations: 293
   t=1793389557911 event3 id=440367 raw=014d47606bbe36df08078e2dc35629b443d69a993940 p4=null p5=null
   t=1793389557911 kind=health_regeneration id=639289863583323599
   t=1793389559548 event3 id=455009 raw=03ac01566cbe36df08163339c387b2b3431800002040df0539c3f5c8b543 p4=null p5=null
-  t=1793389559548 kind=health id=455009
   t=1793389559614 event3 id=455009 raw=03bb50656cbe36df08623039c380d2b3430200002040df0539c3f5c8b543 p4=null p5=null
   t=1793389559746 event3 id=455009 raw=0343b4746cbe36df08ae2d39c379f2b3430200002040df0539c3f5c8b543 p4=null p5=null
   t=1793389559816 event3 id=455009 raw=03a916846cbe36df08f92a39c37212b4430200002040df0539c3f5c8b543 p4=null p5=null
@@ -169,7 +168,6 @@ Detailed entity/player observations: 293
   t=1793389562762 event3 id=386457 raw=0307d7fb6dbe36df08b9e965c3461fa643986666e63fe94766c31dd9a543 p4=null p5=null
   t=1793389562762 event3 id=386457 raw=038d2b0b6ebe36df08670366c3250ca643986666e63fe94766c31dd9a543 p4=null p5=null
   t=1793389562762 event3 id=386457 raw=0305751a6ebe36df08151d66c304f9a543986666e63fe94766c31dd9a543 p4=null p5=null
-  t=1793389562762 kind=health id=455009
   t=1793389562762 event3 id=386457 raw=032ccf296ebe36df08c33666c3e3e5a543986666e63fe94766c31dd9a543 p4=null p5=null
   t=1793389562851 event3 id=386457 raw=016d33396ebe36df08e94766c31dd9a543986666e63f p4=null p5=null
   t=1793389563797 event3 id=240159 raw=034ae5ca6ebe36df08cdd02fc350659e436300004040d03c31c3073ea143 p4=null p5=null

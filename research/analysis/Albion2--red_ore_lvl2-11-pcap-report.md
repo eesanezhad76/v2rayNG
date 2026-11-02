@@ -50,8 +50,8 @@ Operation responses:
   operation 52: 2
   operation 53: 1
 Mapped entity observations:
+  energy: 3
   harvestable: 1
-  health: 3
   health_regeneration: 2
   leave: 12
   mob: 3
@@ -68,7 +68,7 @@ Encrypted Protocol18 messages: 2
 Malformed Protocol18 messages: 0
 Pending fragmented messages: 0
 Manual checkpoints: 0
-Detailed entity/player observations: 336
+Detailed entity/player observations: 333
   t=1793402775711 event3 id=636053 raw=039f02d331dd36df08f25637c3b0a0b742730000404022253ac33a16bd42 p4=null p5=null
   t=1793402775801 event3 id=636053 raw=036664e231dd36df08fd8d37c3cc0bb842df0000404022253ac33a16bd42 p4=null p5=null
   t=1793402775891 event3 id=636053 raw=03dabef131dd36df0808c537c3e876b842df0000404022253ac33a16bd42 p4=null p5=null
@@ -274,7 +274,6 @@ Detailed entity/player observations: 336
   t=1793402785069 kind=move id=631993
   t=1793402785153 event3 id=631993 raw=01113b7737dd36df08a2a244c3e1be52c131cdcc4c40 p4=null p5=null
   t=1793402785153 kind=move id=631993
-  t=1793402785367 kind=health id=632407
   t=1793402785762 event3 id=632407 raw=03251ed237dd36df0878aa71c33f1d9242e80000204080306fc369c98942 p4=null p5=null
   t=1793402785849 event3 id=632407 raw=030975e137dd36df08c18971c33daf91426a0000204080306fc369c98942 p4=null p5=null
   t=1793402785977 event3 id=632407 raw=032ad2f037dd36df080a6971c33b4191426a0000204080306fc369c98942 p4=null p5=null
@@ -344,7 +343,6 @@ Detailed entity/player observations: 336
   t=1793402788300 event3 id=394859 raw=01afa85239dd36df08dead37c3d95806425d00004040 p4=null p5=null
   t=1793402788689 event3 id=636373 raw=0375df8e39dd36df089d1040c36eb26dc1ee00002040099940c3b28497c1 p4=null p5=null
   t=1793402788689 kind=move id=636373
-  t=1793402788689 kind=health id=636373
   t=1793402788825 event3 id=636373 raw=03972a9e39dd36df08e51840c3d2a971c18500002040099940c3b28497c1 p4=null p5=null
   t=1793402788825 kind=move id=636373
   t=1793402788869 outbound_request op=199 params={0=639289995893512643 1=636744 2=true 3=true 253=199}
@@ -395,7 +393,6 @@ Detailed entity/player observations: 336
   t=1793402791479 event3 id=587051 raw=03ee1d363bdd36df08aa672dc35d164842f60000404059272ec330af5442 p4=null p5=null
   t=1793402791531 event3 id=587051 raw=038f67453bdd36df086e792dc33a414942f60000404059272ec330af5442 p4=null p5=null
   t=1793402791684 event3 id=587051 raw=0394ae543bdd36df08328b2dc3176c4a42f60000404059272ec330af5442 p4=null p5=null
-  t=1793402791684 kind=health id=636373
   t=1793402791734 event3 id=587051 raw=037ef5633bdd36df08f69c2dc3f4964b42f60000404059272ec330af5442 p4=null p5=null
   t=1793402791883 event3 id=587051 raw=031c54733bdd36df08baae2dc3d1c14c42f60000404059272ec330af5442 p4=null p5=null
   t=1793402791930 event3 id=587051 raw=031cb3823bdd36df087ec02dc3afec4d42f60000404059272ec330af5442 p4=null p5=null
