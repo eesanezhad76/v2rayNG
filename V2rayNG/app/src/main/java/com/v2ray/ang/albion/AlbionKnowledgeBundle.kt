@@ -27,7 +27,8 @@ object AlbionKnowledgeBundle {
         val protocolEvents: Int,
         val bytesWritten: Long,
         val sha256: String,
-        val patternReportIncluded: Boolean
+        val patternReportIncluded: Boolean,
+        val patternDatabaseIncluded: Boolean
     )
 
     fun write(context: Context, output: OutputStream): Summary {
@@ -36,6 +37,11 @@ object AlbionKnowledgeBundle {
         val protocol = readJsonArray(dir.resolve(PROTOCOL_FILE))
         val liveBytes = live.toByteArray(Charsets.UTF_8)
         val protocolBytes = protocol.toByteArray(Charsets.UTF_8)
+        val patternsFile = dir.resolve("albion-learned-patterns.json")
+        val patternsText = if (patternsFile.isFile) patternsFile.readText(Charsets.UTF_8) else
+            JSONObject().put("schema_version", 1).put("patterns", JSONArray()).toString()
+        JSONObject(patternsText)
+        val patternsBytes = patternsText.toByteArray(Charsets.UTF_8)
         val captureRoot = context.getExternalFilesDir(null) ?: dir
         val captureDir = captureRoot.resolve("AlbionCaptures")
         val latestPatternReport = captureDir.listFiles()
@@ -56,6 +62,9 @@ object AlbionKnowledgeBundle {
                 .put("protocol-evidence.json", JSONObject()
                     .put("sha256", sha256(protocolBytes))
                     .put("bytes", protocolBytes.size))
+                .put("learned-patterns.json", JSONObject()
+                    .put("sha256", sha256(patternsBytes))
+                    .put("bytes", patternsBytes.size))
                 .put("pattern-learning-report.txt", if (patternReportBytes != null)
                     JSONObject().put("sha256", sha256(patternReportBytes)).put("bytes", patternReportBytes.size)
                     else JSONObject.NULL))
@@ -70,6 +79,9 @@ object AlbionKnowledgeBundle {
         zip.putNextEntry(ZipEntry("protocol-evidence.json"))
         zip.write(protocolBytes)
         zip.closeEntry()
+        zip.putNextEntry(ZipEntry("learned-patterns.json"))
+        zip.write(patternsBytes)
+        zip.closeEntry()
         if (patternReportBytes != null) {
             zip.putNextEntry(ZipEntry("pattern-learning-report.txt"))
             zip.write(patternReportBytes)
@@ -80,9 +92,10 @@ object AlbionKnowledgeBundle {
         return Summary(
             entityRecords = JSONArray(live).length(),
             protocolEvents = JSONArray(protocol).length(),
-            bytesWritten = liveBytes.size.toLong() + protocolBytes.size + (patternReportBytes?.size ?: 0),
+            bytesWritten = liveBytes.size.toLong() + protocolBytes.size + patternsBytes.size + (patternReportBytes?.size ?: 0),
             sha256 = sha256(manifest.toString().toByteArray(Charsets.UTF_8)),
-            patternReportIncluded = patternReportBytes != null
+            patternReportIncluded = patternReportBytes != null,
+            patternDatabaseIncluded = patternsFile.isFile
         )
     }
 
