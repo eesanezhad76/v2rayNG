@@ -18,7 +18,7 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
     init { load() }
 
     @Synchronized fun observe(timestampMs: Long, eventCode: Int, parameters: Map<Int, Any?>) {
-        if (eventCode < 0 || parameters.isEmpty()) return
+        if (eventCode < 0) return
         val shape = parameters.keys.sorted().joinToString(",") { key -> "$key:${shapeOf(parameters[key])}" }
         val signature = sha256("$eventCode|$shape")
         val record = patterns.getOrPut(signature) {
@@ -39,6 +39,10 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
             }
         }
         updateStatus(record)
+        while (patterns.size > MAX_PATTERN_RECORDS) {
+            val oldest = patterns.entries.minByOrNull { it.value.optLong("last_seen_ms") } ?: break
+            patterns.remove(oldest.key)
+        }
         dirty = true
         if (timestampMs - lastFlush >= FLUSH_INTERVAL_MS) flush(timestampMs)
     }
@@ -165,6 +169,7 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
     private companion object {
         const val FILE_NAME = "albion-autonomous-patterns.json"
         const val MAX_RECENT_EVENTS = 2048
+        const val MAX_PATTERN_RECORDS = 5000
         const val MAX_EXPORTED_PATTERNS = 5000
         const val MAX_LABEL_SIGNATURES = 512
         const val MAX_LABEL_WINDOW_MS = 15 * 60_000L
