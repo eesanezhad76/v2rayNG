@@ -46,11 +46,11 @@ class AlbionProtocolEvidenceStore(context: Context) {
     @Synchronized
     fun summaryText(): String {
         val current = events.filter { it.optLong("time_ms") >= sessionStartedMs }
-        val inventory = current.filter { it.optString("kind") == "inventory" }
-        val harvestFinished = current.filter {
+        val inventory = events.filter { it.optString("kind") == "inventory" }
+        val harvestFinished = events.filter {
             it.optString("kind") == "harvest" && it.optInt("event_code") == 61
         }
-        val resources = current.filter {
+        val resources = events.filter {
             it.optString("kind") == "resource" && it.optInt("event_code") == 40
         }
         var paired = 0
@@ -78,8 +78,9 @@ class AlbionProtocolEvidenceStore(context: Context) {
         return buildString {
             appendLine()
             appendLine("PROTOCOL / INVENTORY EVIDENCE (raw; item schema not yet verified)")
-            appendLine("Inventory events this capture: ${inventory.size}")
-            appendLine("HarvestFinished events this capture: ${harvestFinished.size}")
+            appendLine("Inventory events retained across captures: ${inventory.size}")
+            appendLine("HarvestFinished events retained across captures: ${harvestFinished.size}")
+            appendLine("Events in current capture: ${current.size}")
             appendLine("Inventory events within ${PAIR_WINDOW_MS / 1000}s of HarvestFinished: $paired")
             appendLine("With a nearby typed resource event (candidate only): $resourceCandidates")
             details.takeLast(5).forEach { appendLine(it) }
