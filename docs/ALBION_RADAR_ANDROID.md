@@ -29,9 +29,11 @@ The Kotlin worker writes PCAP and JSONL files under the app-specific `AlbionCapt
 - Unknown events are logged/inventoried rather than guessed.
 - Outbound Photon operation 22 parameter 1 is corroborated by two independent movement captures as the local player's current [x, y] coordinate pair; parameters 2, 3 and 4 are retained as heading, target position and speed.
 - The mini radar and a pan/zoom local-coordinate map consume the daemon live-knowledge snapshot. A bounded 240-point own-player trail is persisted and rendered.
-- A learned-database ZIP export contains normalized live entity records, protocol evidence, a versioned manifest and SHA-256 digests; it excludes VPN profiles, credentials and raw PCAP payloads.
+- A learned-database ZIP export contains normalized live entity records, protocol evidence, the structured learned-pattern database, the latest pattern-learning report, a versioned manifest and SHA-256 digests; it excludes VPN profiles, credentials and raw PCAP payloads.
+- The live entity store is persistent, capture-session scoped and bounded at 25,000 records. The pattern miner scans up to 32 recent independent captures, skips byte-identical copies by SHA-256, aggregates pattern signatures and retains source capture hashes.
+- Unvalidated Event 3 other-player coordinates are not rendered on either map; they remain evidence-only until decoded and corroborated.
 
-Important limits: no zone identifier or global coordinate transform has been validated, so the map is a coordinate plane for the currently observed game coordinate space, not a complete Albion world map with terrain/roads. Arbitrary Event 3 movement payloads remain untrusted as player coordinates. Resource/mobile mappings remain limited to evidence-backed catalog entries. Event interpretation and actual overlay delivery still require physical-device validation.
+Important limits: no zone identifier or global coordinate transform has been validated, so the map is a coordinate plane for the currently observed game coordinate space, not a complete Albion world map with terrain/roads. Player/resource coordinate alignment is explicitly provisional until the same-capture PCAP spatial audit and device test pass. Arbitrary Event 3 movement payloads remain untrusted as other-player coordinates and are withheld from rendering. Resource/mobile mappings remain limited to evidence-backed catalog entries. Event interpretation and actual overlay delivery still require physical-device validation.
 
 ## Validation required before calling it reliable
 
