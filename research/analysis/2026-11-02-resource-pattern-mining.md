@@ -83,6 +83,18 @@ These examples suggest different initial resource sizes in these samples, but sa
 4. If Event 40 lacks enchant raw value, do not fill it from nearby nodes, coordinates, state count, or a filename. Return Unknown unless an exact same-entity marker or another authoritative field supplies it.
 5. Do not predict resource identity from Event 39 coordinates alone. Event 39 observations are currently an untyped static-resource stream.
 
+
+## Overlay marker correlation status
+
+The offline analyzer now preserves marker fields (`activity`, `event`, `tier`, and `enchantment`) and exports:
+- `2026-11-02-overlay-manual-markers.csv`
+- `2026-11-02-overlay-family-correlation.csv`
+- `2026-11-02-overlay-family-candidate-summary.csv`
+
+The current three ZIPs in `research/inbox` contain **zero manual checkpoint packets**, so these correlation exports currently contain headers only. The separate `Albionsskkakaks111.zip` capture described in `2026-11-02-capture-inventory.md` is not present in the current inbox; only its aggregate Markdown inventory is available. Consequently, family 7/14/27 cannot yet be assigned semantic names from marker evidence. This is a missing-source limitation, not a negative mapping result.
+
+When the marked capture is added as a raw PCAP/JSONL source, the new pipeline will FIFO-pair Found/Started/Completed/Depleted markers and produce time/tier/enchantment candidate matches. Candidate matches remain explicitly non-identity evidence unless a runtime entity ID is shared.
+
 ## Why a trained classifier is not yet validated
 
 The three-inbox file has only 55 labelled Event 40 records and the second capture is currently represented in the repository by an aggregate inventory rather than a row-level node CSV. A random row split would leak nearly identical capture context and overstate accuracy. A meaningful evaluation must hold out an entire PCAP or archive, and must measure family, tier, enchant, and mobile-type separately.
