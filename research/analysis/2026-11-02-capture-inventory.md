@@ -33,9 +33,7 @@ Source archive: `Albionsskkakaks111.zip` (provided in chat; raw ZIP has not yet 
 - Previously cross-checked Ore family 29 mobile codes: T3=571, T4=573, T5=574. These are recorded in the machine dataset with explicit cross-capture provenance. Other families remain unknown.
 - Event 46 updates are linked only when runtime IDs match exactly. A state-only ID is preserved separately; it is not assigned a guessed location or resource family.
 - Raw state transitions may include resets/reappearance. They are preserved as timelines and are not flattened into a simplistic depleted/not-depleted flag.
-
-## Known state timelines for located nodes
-13 of 51 Event 40 IDs have matching Event 46 updates. Their complete ordered timelines are in the JSON database. Five nodes have clear 4→3→2→1→0 sequences (including IDs 39075, 39460, 39464 and two more in the same capture); all other sequences are preserved without assuming every value has the same meaning.
+- Three located nodes have a complete 4→3→2→1→0 Event 46 sequence: IDs 39075, 39460, 39464.
 
 ## Next analysis tasks
 1. Correlate all manual marker cycles with runtime node IDs using time windows plus exact family/tier/enchantment and state evidence; preserve ambiguity.
