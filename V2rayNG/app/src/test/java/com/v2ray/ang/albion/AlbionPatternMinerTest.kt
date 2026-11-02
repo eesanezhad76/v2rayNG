@@ -63,6 +63,8 @@ class AlbionPatternMinerTest {
         val second = report.patterns.first { it.kind == "harvestable" && it.overlayTierLabel == "T4" }
         assertEquals(574, first.typeId)
         assertEquals(573, second.typeId)
+        assertEquals(1, first.distinctEntities)
+        assertEquals(1, second.distinctEntities)
     }
 
 }
