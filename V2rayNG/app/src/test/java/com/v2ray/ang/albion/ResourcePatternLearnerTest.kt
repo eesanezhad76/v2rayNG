@@ -24,9 +24,23 @@ class ResourcePatternLearnerTest {
         assertEquals(ResourcePatternLearner.Status.CONFLICT, result.mobileTypeId.status)
     }
 
+    @Test fun treatsNegativeMobileTypeSentinelAsMissingAndUsesOnlySupportedTierRule() {
+        val inferred = ResourcePatternLearner.infer(
+            ResourcePatternLearner.Observation(family = 29, tier = 4, enchantRaw = 0, mobileTypeId = -1)
+        )
+        assertEquals("573", inferred.mobileTypeId.value)
+        assertEquals(ResourcePatternLearner.Status.CAPTURE_CORROBORATED, inferred.mobileTypeId.status)
+
+        val unsupportedTier = ResourcePatternLearner.infer(
+            ResourcePatternLearner.Observation(family = 29, tier = 6, enchantRaw = 0, mobileTypeId = -1)
+        )
+        assertNull(unsupportedTier.mobileTypeId.value)
+        assertEquals(ResourcePatternLearner.Status.UNKNOWN, unsupportedTier.mobileTypeId.status)
+    }
+
     @Test fun doesNotGuessUnknownFamilyOrMissingEnchantment() {
         val result = ResourcePatternLearner.infer(
-            ResourcePatternLearner.Observation(family = 27, tier = 5, enchantRaw = null, mobileTypeId = null)
+            ResourcePatternLearner.Observation(family = 27, tier = 5, enchantRaw = null, mobileTypeId = -1)
         )
         assertNull(result.resourceName.value)
         assertEquals(ResourcePatternLearner.Status.UNKNOWN, result.resourceName.status)

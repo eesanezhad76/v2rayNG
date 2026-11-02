@@ -24,7 +24,15 @@ class AlbionRadarSnapshotParserTest {
         val mappedOre = org.json.JSONObject(
             """{"last_kind":"harvestable","family":29,"mobile_type_id":574,"resource_inference":{"resource_name":{"value":"Ore","status":"CAPTURE_CORROBORATED","confidence":0.98}}}"""
         )
-        assertEquals("Ore", AlbionRadarSnapshotParser.labelForEntity(mappedOre))
+        assertEquals("Ore*", AlbionRadarSnapshotParser.labelForEntity(mappedOre))
+        val packetConfirmedOre = org.json.JSONObject(
+            """{"last_kind":"harvestable","resource_inference":{"resource_name":{"value":"Ore","status":"PACKET_CONFIRMED","confidence":1.0}}}"""
+        )
+        assertEquals("Ore", AlbionRadarSnapshotParser.labelForEntity(packetConfirmedOre))
+        val provisionalOre = org.json.JSONObject(
+            """{"last_kind":"harvestable","resource_inference":{"resource_name":{"value":"Ore","status":"PROVISIONAL_MAPPING","confidence":0.85}}}"""
+        )
+        assertEquals("Ore?", AlbionRadarSnapshotParser.labelForEntity(provisionalOre))
         val conflictedOre = org.json.JSONObject(
             """{"last_kind":"harvestable","family":29,"resource_inference":{"resource_name":{"value":null,"status":"CONFLICT","confidence":0.0}}}"""
         )

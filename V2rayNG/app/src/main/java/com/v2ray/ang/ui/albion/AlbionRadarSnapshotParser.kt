@@ -32,7 +32,14 @@ object AlbionRadarSnapshotParser {
                     inferenceStatus != "CONFLICT" && inferenceStatus != "UNKNOWN" &&
                     inferenceConfidence > 0.0
             }
-            if (inferredName != null) return inferredName
+            if (inferredName != null) {
+                return when (inferenceStatus) {
+                    "PACKET_CONFIRMED" -> inferredName
+                    "CAPTURE_CORROBORATED" -> "$inferredName*"
+                    "PROVISIONAL_MAPPING" -> "$inferredName?"
+                    else -> inferredName
+                }
+            }
             if (item.has("family")) return "Resource F${item.optInt("family")}"
             if (item.has("mobile_type_id")) return "Resource ID${item.optInt("mobile_type_id")}"
             return if (kind == "static_resource") "Resource candidate" else "Resource"

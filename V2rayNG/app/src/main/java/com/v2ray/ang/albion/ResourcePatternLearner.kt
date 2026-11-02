@@ -3,7 +3,8 @@ package com.v2ray.ang.albion
 /**
  * Conservative, evidence-backed inference for resource fields.
  * Predictions are kept separate from packet facts. This is a deterministic
- * first-stage catalog, not a statistically trained classifier.
+ * first-stage catalog, not a statistically trained classifier. Confidence values
+ * are heuristic evidence strengths, not calibrated probabilities.
  */
 object ResourcePatternLearner {
     const val CATALOG_VERSION = "2026-11-02.1"
@@ -54,17 +55,19 @@ object ResourcePatternLearner {
         val expectedMobile = if (observation.family == 29) {
             observation.tier?.let(oreMobileTypes::get)
         } else null
+        // -1 is the decoder's observed "unknown/unmapped" sentinel, not a real mobile type.
+        val observedMobileType = observation.mobileTypeId?.takeIf { it > 0 }
         val mobile = when {
-            observation.mobileTypeId != null && expectedMobile != null && observation.mobileTypeId != expectedMobile ->
+            observedMobileType != null && expectedMobile != null && observedMobileType != expectedMobile ->
                 FieldInference(
                     value = null,
                     status = Status.CONFLICT,
                     confidence = 0.0,
-                    reason = "Observed mobile type " + observation.mobileTypeId + " conflicts with family 29 / T" + observation.tier + ", for which captures show " + expectedMobile + "."
+                    reason = "Observed mobile type " + observedMobileType + " conflicts with family 29 / T" + observation.tier + ", for which captures show " + expectedMobile + "."
                 )
-            observation.mobileTypeId != null ->
+            observedMobileType != null ->
                 FieldInference(
-                    value = observation.mobileTypeId.toString(),
+                    value = observedMobileType.toString(),
                     status = Status.PACKET_CONFIRMED,
                     confidence = 1.0,
                     reason = "Mobile type was directly decoded from the packet."
