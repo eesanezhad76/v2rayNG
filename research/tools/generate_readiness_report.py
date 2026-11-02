@@ -110,9 +110,10 @@ def summarize_signature(repo_root: Path) -> dict[str, Any]:
     signer_match = re.search(r"Number of signers:\s*(\d+)", text)
     signers = int(signer_match.group(1)) if signer_match else 0
     verified = bool(re.search(r"\bVerifies\b", text)) and signers > 0
-    cert_match = re.search(r"Signer #1 certificate SHA-256 digest: ([0-9a-fA-F]+)", text)
+    cert_match = re.search(r"Signer #1 certificate SHA-256 digest:\s*([0-9a-fA-F:]+)", text)
+    certificate_sha256 = cert_match.group(1).replace(":", "").lower() if cert_match else None
     return {"status": "PASS" if verified else "FAIL", "signers": signers,
-            "certificate_sha256": cert_match.group(1) if cert_match else None}
+            "certificate_sha256": certificate_sha256}
 
 
 def summarize_overlay_wiring(repo_root: Path) -> dict[str, Any]:

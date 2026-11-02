@@ -44,8 +44,10 @@ class ReadinessReportTests(unittest.TestCase):
             root = Path(directory)
             report = root / "V2rayNG/app/build/reports/albion/apk-signature-verification.txt"
             report.parent.mkdir(parents=True)
-            report.write_text("Verifies\\nNumber of signers: 1\\nSigner #1 certificate SHA-256 digest: abc123\\n", encoding="utf-8")
-            self.assertEqual("PASS", readiness.summarize_signature(root)["status"])
+            report.write_text("Verifies\\nNumber of signers: 1\\nSigner #1 certificate SHA-256 digest: AB:CD:12:34\\n", encoding="utf-8")
+            result = readiness.summarize_signature(root)
+            self.assertEqual("PASS", result["status"])
+            self.assertEqual("abcd1234", result["certificate_sha256"])
             report.write_text("Number of signers: 1\\n", encoding="utf-8")
             self.assertEqual("FAIL", readiness.summarize_signature(root)["status"])
 
