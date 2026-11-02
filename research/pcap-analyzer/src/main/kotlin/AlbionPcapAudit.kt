@@ -75,7 +75,7 @@ fun main() {
         val csv = buildString {
             appendLine("archive,pcap,timestamp_ms,x,y,heading,target_x,target_y,speed,source")
             for ((archive, pcap, detail) in movements) {
-                val fields = Regex("([A-Za-z_]+)=([^\\\\s]+)").findAll(detail).associate { it.groupValues[1] to it.groupValues[2] }
+                val fields = Regex("([A-Za-z_]+)=([^\\s]+)").findAll(detail).associate { it.groupValues[1] to it.groupValues[2] }
                 val values = listOf(archive, pcap, fields["t"] ?: "", fields["x"] ?: "", fields["y"] ?: "",
                     fields["heading"] ?: "", fields["target_x"] ?: "", fields["target_y"] ?: "",
                     fields["speed"] ?: "", fields["source"] ?: "")
