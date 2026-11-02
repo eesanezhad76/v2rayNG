@@ -1,0 +1,41 @@
+name: Albion capture ingest
+on:
+  push:
+    branches: [albion-pattern-mining]
+    paths: ['research/inbox/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: albion-ingest-{{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  ingest:
+    if: github.event_name == 'workflow_dispatch' || contains(join(github.event.commits.*.added, ' '), 'research/inbox/') || contains(join(github.event.commits.*.modified, ' '), 'research/inbox/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: albion-pattern-mining
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run ingest and validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          zips=(research/inbox/*.zip research/inbox/**/*.zip)
+          if [ ${#zips[@]} -eq 0 ]; then
+            echo "No ZIPs found in research/inbox"; exit 1
+          fi
+          python research/tools/ingest_capture.py "${zips[@]}"
+          python -m unittest discover -s research/tests -p 'test_*.py' -v
+      - name: Commit derived evidence
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add research/database research/analysis
+          if git diff --cached --quiet; then echo "No derived changes"; exit 0; fi
+          git commit -m "data(albion): ingest uploaded capture evidence"
+          git push origin albion-pattern-mining
