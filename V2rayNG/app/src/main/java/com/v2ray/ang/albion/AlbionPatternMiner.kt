@@ -77,6 +77,44 @@ object AlbionPatternMiner {
             }
             warnings.forEach { appendLine("Warning: $it") }
         }
+
+        /** Structured, provenance-preserving snapshot for the on-device learned-pattern database. */
+        fun asJson(): JSONObject {
+            val patternArray = JSONArray()
+            patterns.take(500).forEach { pattern ->
+                val eventCounts = JSONObject()
+                pattern.eventCodes.forEach { (code, count) -> eventCounts.put(code.toString(), count) }
+                patternArray.put(JSONObject()
+                    .put("signature", pattern.signature)
+                    .put("activity", pattern.activity)
+                    .put("kind", pattern.kind)
+                    .put("event_code", pattern.eventCode ?: JSONObject.NULL)
+                    .put("type_id", pattern.typeId ?: JSONObject.NULL)
+                    .put("family", pattern.family ?: JSONObject.NULL)
+                    .put("tier", pattern.tier ?: JSONObject.NULL)
+                    .put("enchant", pattern.enchant ?: JSONObject.NULL)
+                    .put("overlay_tier_label", pattern.overlayTierLabel ?: JSONObject.NULL)
+                    .put("overlay_enchant_label", pattern.overlayEnchantLabel ?: JSONObject.NULL)
+                    .put("parameter_keys", pattern.parameterKeys ?: JSONObject.NULL)
+                    .put("samples", pattern.samples)
+                    .put("distinct_entities_max_within_one_capture", pattern.distinctEntities)
+                    .put("observation_count", pattern.observationCount)
+                    .put("event_codes", eventCounts)
+                    .put("complete_pairs", pattern.completePairs)
+                    .put("heuristic_score", pattern.score))
+            }
+            return JSONObject()
+                .put("schema_version", 1)
+                .put("generated_at_ms", System.currentTimeMillis())
+                .put("captures_analyzed", capturesAnalyzed)
+                .put("duplicate_files_skipped", duplicateFilesSkipped)
+                .put("markers", markers)
+                .put("complete_samples", completeSamples)
+                .put("incomplete_starts", incompleteStarts)
+                .put("score_semantics", "Heuristic evidence score, not a calibrated probability.")
+                .put("patterns", patternArray)
+                .put("warnings", JSONArray(warnings))
+        }
     }
 
     private data class Candidate(
