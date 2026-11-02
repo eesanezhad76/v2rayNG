@@ -13,7 +13,7 @@ class AlbionCaptureQualityAnalyzerTest {
 
     @Test fun scoresAContinuousCaptureAndCountsExactDuplicatePayloads() {
         val file = File(tempDir, "continuous.pcap")
-        writePcap(file, listOf(Record(1_000_000, byteArrayOf(1, 2)), Record(1_100_000, byteArrayOf(3)), Record(1_200_000, byteArrayOf(1, 2))))
+        writePcap(file, listOf(Record(1_000L, byteArrayOf(1, 2)), Record(1_100L, byteArrayOf(3)), Record(1_200L, byteArrayOf(1, 2))))
         val report = AlbionCaptureQualityAnalyzer.analyze(file)
         assertEquals(3, report.packetRecords)
         assertEquals(1, report.duplicatePayloads)
@@ -24,9 +24,9 @@ class AlbionCaptureQualityAnalyzerTest {
     @Test fun detectsTimestampRegressionAndLongContinuityGap() {
         val file = File(tempDir, "gaps.pcap")
         writePcap(file, listOf(
-            Record(3_000_000, byteArrayOf(1)),
-            Record(1_000_000, byteArrayOf(2)),
-            Record(5_500_000, byteArrayOf(3))
+            Record(3_000L, byteArrayOf(1)),
+            Record(1_000L, byteArrayOf(2)),
+            Record(5_500L, byteArrayOf(3))
         ))
         val report = AlbionCaptureQualityAnalyzer.analyze(file)
         assertEquals(1, report.timestampRegressions)
@@ -36,7 +36,7 @@ class AlbionCaptureQualityAnalyzerTest {
 
     @Test fun doesNotCrashOnTruncatedRecordAndReportsIt() {
         val file = File(tempDir, "truncated.pcap")
-        writePcap(file, listOf(Record(1_000_000, byteArrayOf(1))))
+        writePcap(file, listOf(Record(1_000L, byteArrayOf(1))))
         FileOutputStream(file, true).use { out ->
             val header = DataOutputStream(out)
             writeIntLe(header, 1); writeIntLe(header, 0)
@@ -55,7 +55,7 @@ class AlbionCaptureQualityAnalyzerTest {
         assertEquals(0, report.packetRecords)
     }
 
-    private data class Record(val timestampMicros: Int, val payload: ByteArray)
+    private data class Record(val timestampMs: Long, val payload: ByteArray)
 
     private fun writePcap(file: File, records: List<Record>) {
         DataOutputStream(FileOutputStream(file)).use { out ->
@@ -63,8 +63,8 @@ class AlbionCaptureQualityAnalyzerTest {
             writeShortLe(out, 2); writeShortLe(out, 4)
             writeIntLe(out, 0); writeIntLe(out, 0); writeIntLe(out, 65535); writeIntLe(out, 101)
             for (record in records) {
-                writeIntLe(out, 1)
-                writeIntLe(out, record.timestampMicros)
+                writeIntLe(out, (record.timestampMs / 1000L).toInt())
+                writeIntLe(out, ((record.timestampMs % 1000L) * 1000L).toInt())
                 writeIntLe(out, record.payload.size)
                 writeIntLe(out, record.payload.size)
                 out.write(record.payload)
