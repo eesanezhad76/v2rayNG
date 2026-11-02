@@ -51,6 +51,8 @@ class AlbionRadarActivity : ComponentActivity() {
     private lateinit var export: Button
     private lateinit var copyAll: Button
     private lateinit var exportDiagnostics: Button
+    private lateinit var exportKnowledge: Button
+    private var knowledgeBundleFile: File? = null
     private var diagnosticFile: File? = null
     private var captureTapDrops = 0L
     private var pollJob: Job? = null
@@ -69,6 +71,7 @@ class AlbionRadarActivity : ComponentActivity() {
     companion object {
         private const val CREATE_PCAP_REQUEST = 7301
         private const val CREATE_DIAGNOSTICS_REQUEST = 7302
+        private const val CREATE_KNOWLEDGE_BUNDLE_REQUEST = 7303
         private const val TAP_CAPACITY = 4096
         private const val MAX_READ_BATCH = 8192
     }
@@ -107,6 +110,10 @@ class AlbionRadarActivity : ComponentActivity() {
             isEnabled = false
             setOnClickListener { exportCompactDiagnostics() }
         }
+        exportKnowledge = Button(this).apply {
+            text = "Export learned database (ZIP)"
+            setOnClickListener { exportKnowledgeBundle() }
+        }
         analysis = TextView(this).apply {
             textSize = 13f
             typeface = android.graphics.Typeface.MONOSPACE
@@ -131,6 +138,7 @@ class AlbionRadarActivity : ComponentActivity() {
         }
         root.addView(actions, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(exportDiagnostics, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
+        root.addView(exportKnowledge, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(analysis, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 12 })
         root.addView(
             ScrollView(this).apply { addView(packets) },
@@ -358,6 +366,33 @@ class AlbionRadarActivity : ComponentActivity() {
         }
     }
 
+    private fun exportKnowledgeBundle() {
+        exportKnowledge.isEnabled = false
+        status.text = "Flushing learned knowledge and preparing a compact ZIP database…"
+        captureScope.launch {
+            try {
+                val output = File(cacheDir, "albion-knowledge-${System.currentTimeMillis()}.zip")
+                val summary = withContext(Dispatchers.IO) {
+                    FileOutputStream(output).use { stream ->
+                        CoreServiceManager.exportAlbionKnowledgeBundle(applicationContext, stream)
+                    }
+                }
+                knowledgeBundleFile = output
+                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "application/zip"
+                    putExtra(Intent.EXTRA_TITLE, output.name)
+                }
+                status.text = "Database ready: ${summary.entityRecords} entities, ${summary.protocolEvents} protocol events. Choose a destination."
+                startActivityForResult(intent, CREATE_KNOWLEDGE_BUNDLE_REQUEST)
+            } catch (e: Exception) {
+                status.text = "Knowledge database export failed: ${e.message ?: "unknown error"}"
+            } finally {
+                exportKnowledge.isEnabled = true
+            }
+        }
+    }
+
     private fun closeTextCaptureFile() {
         try {
             captureTextOutput?.flush()
@@ -414,6 +449,23 @@ class AlbionRadarActivity : ComponentActivity() {
     @Deprecated("Use Activity Result APIs; retained for compatibility with this diagnostic activity.")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CREATE_KNOWLEDGE_BUNDLE_REQUEST && resultCode == Activity.RESULT_OK) {
+            val uri: Uri = data?.data ?: return
+            val file = knowledgeBundleFile?.takeIf { it.isFile } ?: return
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    contentResolver.openOutputStream(uri, "w")?.use { output ->
+                        FileInputStream(file).use { input -> input.copyTo(output, 64 * 1024) }
+                    } ?: throw IllegalStateException("Could not open knowledge bundle destination")
+                    withContext(Dispatchers.Main) {
+                        status.text = "Learned database ZIP exported. It contains normalized entities and protocol evidence, not VPN profiles or raw PCAP."
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) { status.text = "Knowledge export failed: ${e.message}" }
+                }
+            }
+            return
+        }
         if (requestCode == CREATE_DIAGNOSTICS_REQUEST && resultCode == Activity.RESULT_OK) {
             val uri: Uri = data?.data ?: return
             val file = diagnosticFile?.takeIf { it.isFile } ?: return
