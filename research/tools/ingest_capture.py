@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Offline Albion capture ZIP/JSONL ingest. Preserves unknowns and exact runtime IDs."""
-import argparse,csv,json,pathlib,zipfile,collections,hashlib,math
+import argparse,csv,json,pathlib,zipfile,collections,hashlib
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 DB=ROOT/"research/database"; ANALYSIS=ROOT/"research/analysis"
 def safe_extract(zf,dest):
@@ -22,34 +22,6 @@ def parse_row(row):
 RESOURCE_ACTIVITIES={"Ore","Wood","Stone","Fiber","Hide"}
 RESOURCE_EVENTS={"target_found","gathering_started","gathering_completed","node_depleted"}
 
-def analyze_spatial_alignment(player_positions, resource_nodes):
- """Compare player op-22 positions with Event-40 resource coordinates in one capture only."""
- if len(player_positions)<10 or len(resource_nodes)<3:
-  return {"status":"NOT_VERIFIED","evidence_grade":"insufficient_samples",
-          "player_position_samples":len(player_positions),"resource_nodes":len(resource_nodes)}
- px=[p[0] for p in player_positions]; py=[p[1] for p in player_positions]
- nx=[p[0] for p in resource_nodes.values()]; ny=[p[1] for p in resource_nodes.values()]
- distances=[]
- for node_x,node_y in resource_nodes.values():
-  distances.append(min(math.hypot(node_x-x,node_y-y) for x,y in player_positions))
- ordered=sorted(distances)
- median=ordered[len(ordered)//2]
- p90=ordered[min(len(ordered)-1,int((len(ordered)-1)*0.9))]
- bbox_overlap=not (max(px)<min(nx) or max(nx)<min(px) or max(py)<min(ny) or max(ny)<min(py))
- plausible=bbox_overlap and median<=100.0 and p90<=250.0
- return {
-  "status":"PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" if plausible else "NOT_VERIFIED",
-  "evidence_grade":"single_capture_spatial_heuristic_only",
-  "player_position_samples":len(player_positions),
-  "resource_nodes":len(resource_nodes),
-  "player_bounds":{"min_x":min(px),"max_x":max(px),"min_y":min(py),"max_y":max(py)},
-  "resource_bounds":{"min_x":min(nx),"max_x":max(nx),"min_y":min(ny),"max_y":max(ny)},
-  "bounding_boxes_overlap":bbox_overlap,
-  "nearest_resource_to_player_distance_median":round(median,3),
-  "nearest_resource_to_player_distance_p90":round(p90,3),
-  "nodes_within_100_units_of_player_path":sum(d<=100.0 for d in distances),
-  "warning":"Heuristic only. This does not prove a zone ID, global map transform, or cross-zone continuity."
-}
 def pair_manual_markers(markers):
  """FIFO-pair manual resource and mob markers without inventing runtime entity IDs."""
  def compare_metadata(cycle,marker,event):
@@ -147,7 +119,6 @@ def refresh_existing_marker_lifecycles():
  return refreshed
 def analyze(path):
  nodes={}; states=collections.defaultdict(list); markers=[]; rows=bad=event123=0; packet5056=0
- player_positions=[]; resource_positions={}
  with path.open(encoding="utf-8",errors="replace") as f:
   for line in f:
    try:r=json.loads(line)
@@ -158,15 +129,6 @@ def analyze(path):
     marker=dict(r["manual_marker"])
     marker.setdefault("timestamp_ms",r.get("time_ms"))
     markers.append(marker)
-   for raw_entity in r.get("entities",[]) or []:
-    if not isinstance(raw_entity,dict): continue
-    kind=raw_entity.get("kind")
-    x=raw_entity.get("x"); y=raw_entity.get("y")
-    if not isinstance(x,(int,float)) or not isinstance(y,(int,float)) or not math.isfinite(x) or not math.isfinite(y): continue
-    if kind=="own_player_move":
-     player_positions.append((float(x),float(y)))
-    elif kind=="harvestable" and raw_entity.get("entity_id") is not None:
-     resource_positions.setdefault(str(raw_entity["entity_id"]),(float(x),float(y)))
    for e in parse_row(r):
     k=e.get("kind"); ident=e.get("entity_id"); t=r.get("time_ms")
     if k=="mob": event123+=1
@@ -188,9 +150,8 @@ def analyze(path):
  state_only=[{"entity_id":int(k) if k.isdigit() else k,"state_timeline":sorted(v,key=lambda x:x["time_ms"] or 0)} for k,v in states.items() if k not in nodes]
  marker_lifecycles,unmatched_markers=pair_manual_markers(markers)
  resource_cycles=[x for x in marker_lifecycles if x["activity"] in RESOURCE_ACTIVITIES]
- spatial_alignment=analyze_spatial_alignment(player_positions,resource_positions)
  stem=path.stem; ordered=sorted(nodes.values(),key=lambda n:(n["type_number"] or -1,n["tier"] or -1,n["enchant"] or 0,n["entity_id"]))
- doc={"dataset_id":stem,"source_file":path.name,"source_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"counts":{"jsonl_rows":rows,"malformed_lines":bad,"udp_5056_packets":packet5056,"event40_observations":sum(n["observations"] for n in ordered),"unique_event40_nodes":len(ordered),"event46_updates":sum(map(len,states.values())),"event46_state_ids":len(states),"event46_exact_joins":sum(bool(n["state_timeline"]) for n in ordered),"state_only_ids":len(state_only),"event123_living_entity_observations":event123,"manual_markers":len(markers),"resource_marker_cycles":len(resource_cycles),"complete_resource_marker_cycles":sum(x["status"]=="COMPLETE" for x in resource_cycles),"incomplete_resource_marker_cycles":sum(x["status"]!="COMPLETE" for x in resource_cycles),"mob_marker_pairs":sum(x["status"]=="TARGET_FOUND_TO_KILLED" for x in marker_lifecycles),"unmatched_marker_events":len(unmatched_markers),"marker_metadata_conflicts":sum(bool(x.get("metadata_conflicts")) for x in marker_lifecycles),"own_player_position_samples":len(player_positions)},"spatial_alignment":spatial_alignment,"nodes":ordered,"state_only_entities":state_only,"manual_markers":markers,"marker_lifecycles":marker_lifecycles,"unmatched_marker_events":unmatched_markers}
+ doc={"dataset_id":stem,"source_file":path.name,"source_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"counts":{"jsonl_rows":rows,"malformed_lines":bad,"udp_5056_packets":packet5056,"event40_observations":sum(n["observations"] for n in ordered),"unique_event40_nodes":len(ordered),"event46_updates":sum(map(len,states.values())),"event46_state_ids":len(states),"event46_exact_joins":sum(bool(n["state_timeline"]) for n in ordered),"state_only_ids":len(state_only),"event123_living_entity_observations":event123,"manual_markers":len(markers),"resource_marker_cycles":len(resource_cycles),"complete_resource_marker_cycles":sum(x["status"]=="COMPLETE" for x in resource_cycles),"incomplete_resource_marker_cycles":sum(x["status"]!="COMPLETE" for x in resource_cycles),"mob_marker_pairs":sum(x["status"]=="TARGET_FOUND_TO_KILLED" for x in marker_lifecycles),"unmatched_marker_events":len(unmatched_markers),"marker_metadata_conflicts":sum(bool(x.get("metadata_conflicts")) for x in marker_lifecycles)}"nodes":ordered,"state_only_entities":state_only,"manual_markers":markers,"marker_lifecycles":marker_lifecycles,"unmatched_marker_events":unmatched_markers}
  DB.mkdir(parents=True,exist_ok=True);ANALYSIS.mkdir(parents=True,exist_ok=True)
  (DB/(stem+".json")).write_text(json.dumps(doc,indent=2),encoding="utf-8")
  fields=["entity_id","mobile_type_id","type_number","tier","enchant","x","y","first_seen_ms","last_seen_ms","observations","sizes_seen","state_timeline"]
@@ -200,8 +161,7 @@ def analyze(path):
    x=n.copy();x["sizes_seen"]=";".join(map(str,x["sizes_seen"]));x["state_timeline"]=json.dumps(x["state_timeline"],separators=(",",":"));w.writerow(x)
  write_marker_lifecycle_csv(stem,marker_lifecycles)
  summary=doc["counts"]
- (ANALYSIS/(stem+".md")).write_text("# Capture ingest: "+stem+"\n\n"+"\n".join("- "+k+": "+str(v) for k,v in summary.items())+"\n\nSpatial alignment: "+spatial_alignment["status"]+"; "+spatial_alignment.get("warning","")+"\n\nState updates join only by exact runtime entity ID. Marker lifecycles are FIFO-paired but remain manual annotations without runtime entity identity. State-only IDs remain separate.\n",encoding="utf-8")
- (ANALYSIS/(stem+"-spatial-alignment.md")).write_text("# Spatial alignment: "+stem+"\n\n"+json.dumps(spatial_alignment,indent=2)+"\n",encoding="utf-8")
+ (ANALYSIS/(stem+".md")).write_text("# Capture ingest: "+stem+"\n\n"+"\n".join("- "+k+": "+str(v) for k,v in summary.items())+"\n\nState updates join only by exact runtime entity ID. Marker lifecycles are FIFO-paired but remain manual annotations without runtime entity identity. State-only IDs remain separate.\n",encoding="utf-8")
  return doc
 def main():
  ap=argparse.ArgumentParser()
