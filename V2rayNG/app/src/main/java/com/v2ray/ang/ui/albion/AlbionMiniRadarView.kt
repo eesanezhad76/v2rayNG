@@ -134,7 +134,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val family = target.optInt("family", -1)
             val type = target.optInt("mobile_type_id", -1)
             val code = if (family >= 0) "F$family" else if (type >= 0) "ID$type" else "RESOURCE"
-            canvas.drawText("$code  T$targetTier E$targetEnchant  ${distance.roundToInt()}m",
+            val evidenceScore = target.optInt("evidence_score", 0)
+            canvas.drawText("$code  T$targetTier E$targetEnchant  ${distance.roundToInt()}m  EV$evidenceScore",
                 7f * density, 15f * density, paint)
         } else {
             paint.style = Paint.Style.FILL

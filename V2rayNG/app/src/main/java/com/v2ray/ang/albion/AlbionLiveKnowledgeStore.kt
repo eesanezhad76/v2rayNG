@@ -146,7 +146,10 @@ class AlbionLiveKnowledgeStore(
                 val position = if (record.has("x") && record.has("y")) " (${"%.1f".format(java.util.Locale.US, record.optDouble("x"))}, ${"%.1f".format(java.util.Locale.US, record.optDouble("y"))})" else ""
                 val state = if (record.optBoolean("depleted", false)) " [depleted]" else ""
                 val evidence = record.optString("evidence_grade", "unclassified")
-                appendLine("$label$tier$enchant$amount$position$state [$evidence]")
+                val evidenceSuffix = if (kind in RESOURCE_KINDS)
+                    " [$evidence EV${record.optInt("evidence_score")}/100]"
+                else " [$evidence]"
+                appendLine("$label$tier$enchant$amount$position$state$evidenceSuffix")
             }
             append("Showing ${recent.size} recent observations; proximity alone is not confirmation.")
         }
