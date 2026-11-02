@@ -181,7 +181,7 @@ fun main() {
         }
         File(out, "2026-11-02-pcap-resource-state-timelines.csv").writeText(stateCsv, Charsets.UTF_8)
         File(out, "2026-11-02-pcap-static-resources.csv").writeText(
-            listOf("archive,pcap,timestamp_ms,entity_id,x,y") + staticResources,
+            (listOf("archive,pcap,timestamp_ms,entity_id,x,y") + staticResources).joinToString("\n") + "\n",
             Charsets.UTF_8
         )
         val mobCsv = buildString {
