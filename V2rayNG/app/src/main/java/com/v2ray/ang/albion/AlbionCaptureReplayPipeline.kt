@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import org.json.JSONArray
 import org.json.JSONObject
+import com.v2ray.ang.ui.albion.AlbionRadarSnapshotParser
 import java.io.File
 
 /** Android adapter that replays decoded observations into isolated copies of the production stores. */
@@ -12,7 +13,10 @@ object AlbionCaptureReplayPipeline {
         val replay: AlbionCaptureReplayEngine.ReplayResult,
         val knowledgeSnapshotJson: String,
         val protocolEvidenceSummary: String,
-        val entityCount: Int
+        val entityCount: Int,
+        val overlayAcceptedEntityCount: Int,
+        val invalidCoordinateCount: Int,
+        val overlaySnapshotValid: Boolean
     )
 
     @Synchronized
@@ -33,7 +37,16 @@ object AlbionCaptureReplayPipeline {
                 knowledge.observe(timestamp, observations)
             }
             val snapshot = knowledge.snapshotJson()
-            return Result(replay, snapshot, evidence.summaryText(), JSONArray(snapshot).length())
+            val parsedSnapshot = AlbionRadarSnapshotParser.parse(snapshot)
+            return Result(
+                replay = replay,
+                knowledgeSnapshotJson = snapshot,
+                protocolEvidenceSummary = evidence.summaryText(),
+                entityCount = JSONArray(snapshot).length(),
+                overlayAcceptedEntityCount = parsedSnapshot?.entities?.size ?: 0,
+                invalidCoordinateCount = parsedSnapshot?.invalidCoordinateCount ?: 0,
+                overlaySnapshotValid = parsedSnapshot != null
+            )
         } finally {
             replayDir.deleteRecursively()
         }
@@ -51,6 +64,9 @@ object AlbionCaptureReplayPipeline {
             .put("source_sha256", result.replay.sourceSha256)
             .put("fingerprint", result.replay.fingerprint)
             .put("entity_count", result.entityCount)
+            .put("overlay_accepted_entity_count", result.overlayAcceptedEntityCount)
+            .put("invalid_coordinate_count", result.invalidCoordinateCount)
+            .put("overlay_snapshot_valid", result.overlaySnapshotValid)
             .put("knowledge_snapshot", JSONArray(result.knowledgeSnapshotJson))
             .put("protocol_evidence_summary", result.protocolEvidenceSummary)
         destination.writeText(root.toString(2), Charsets.UTF_8)
