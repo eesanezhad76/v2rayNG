@@ -123,7 +123,7 @@ object AlbionCaptureAnalyzer {
                     albion++
                     if (decoded.photon) {
                         valid++
-                        if (decoded.dstPort == AlbionPhotonPacketDecoder.ALBION_PORT) inbound++ else outbound++
+                        if (decoded.srcPort == AlbionPhotonPacketDecoder.ALBION_PORT) inbound++ else outbound++
                         decoded.commandTypes.forEach { type -> commands[type] = (commands[type] ?: 0) + 1 }
                         decoded.photonPayload?.let { payload ->
                             protocol18.receiveDatagram(payload).forEach { message ->
