@@ -405,7 +405,12 @@ object CoreServiceManager {
             disableTap = { disableAlbionPacketTap() },
             queueDepth = { try { Libv2ray.packetTapQueued().toInt() } catch (_: Exception) { -1 } },
             queueCapacity = { try { Libv2ray.packetTapCapacity().toInt() } catch (_: Exception) { -1 } },
-            tapEnabled = { try { Libv2ray.packetTapEnabled() } catch (_: Exception) { false } }
+            tapEnabled = { try { Libv2ray.packetTapEnabled() } catch (_: Exception) { false } },
+            recoverTap = {
+                if (isRunning() && currentVpnInterface != null && !SettingsManager.isUsingHevTun()) {
+                    enableAlbionPacketTap(4096)
+                } else false
+            }
         )
         if (!worker.start(service)) {
             disableAlbionPacketTap()
