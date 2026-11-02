@@ -97,8 +97,10 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
                 }
                 val sample = entry ?: JSONObject().put("label_key", labelKey)
                     .put("activity", label.optString("activity")).put("tier", label.optString("tier"))
-                    .put("enchantment", label.optString("enchantment")).put("completed_samples", 0).also { labels.put(it) }
+                    .put("enchantment", label.optString("enchantment")).put("completed_samples", 0)
+                    .put("sample_sessions", JSONArray()).also { labels.put(it) }
                 sample.put("completed_samples", sample.optInt("completed_samples") + 1).put("last_sample_ms", timestampMs)
+                addUnique(sample.optJSONArray("sample_sessions") ?: JSONArray().also { sample.put("sample_sessions", it) }, captureSessionId, 12)
                 updateStatus(record)
             }
         }
@@ -108,10 +110,12 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
     private fun updateStatus(record: JSONObject) {
         val sessions = record.optJSONArray("capture_sessions")?.length() ?: 0
         val labels = record.optJSONArray("labels") ?: JSONArray()
-        val strongest = (0 until labels.length()).mapNotNull { labels.optJSONObject(it) }.maxOfOrNull { it.optInt("completed_samples") } ?: 0
+        val labelRows = (0 until labels.length()).mapNotNull { labels.optJSONObject(it) }
+        val strongest = labelRows.maxOfOrNull { it.optInt("completed_samples") } ?: 0
+        val labelSessions = labelRows.maxOfOrNull { it.optJSONArray("sample_sessions")?.length() ?: 0 } ?: 0
         val sightings = record.optInt("sightings")
         val status = when {
-            strongest >= MIN_LABEL_SAMPLES && sessions >= 2 -> "label_corroborated_candidate"
+            strongest >= MIN_LABEL_SAMPLES && labelSessions >= 2 && sessions >= 2 -> "label_corroborated_candidate"
             sightings >= MIN_REPEATED_SIGHTINGS && sessions >= MIN_CAPTURE_SESSIONS -> "repeated_candidate"
             sightings >= MIN_REPEATED_SIGHTINGS -> "repeated_single_session_candidate"
             else -> "unknown_candidate"
