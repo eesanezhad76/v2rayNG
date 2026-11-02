@@ -91,6 +91,7 @@ class AlbionCaptureWorker(
             mirroredLogBytes.set(0)
             reportFile = null
             AlbionPhotonPacketDecoder.reset()
+            protocol18.reset()
             AlbionEntityEventMapper.reset()
             eventStateTracker.reset()
             failure = null
