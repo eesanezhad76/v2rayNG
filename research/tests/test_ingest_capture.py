@@ -96,6 +96,27 @@ class IngestTests(unittest.TestCase):
    self.assertEqual("TARGET_FOUND_TO_KILLED",out["marker_lifecycles"][0]["status"])
    self.assertEqual("manual_marker_only_no_runtime_entity_id",out["marker_lifecycles"][0]["identity_scope"])
 
+ def test_refresh_existing_database_rebuilds_marker_lifecycle_metadata(self):
+  with tempfile.TemporaryDirectory() as td:
+   d=pathlib.Path(td);db=d/"research/database";db.mkdir(parents=True)
+   markers=[
+    {"timestamp_ms":10,"activity":"Ore","event":"target_found","tier":"T4","enchantment":"E1"},
+    {"timestamp_ms":20,"activity":"Ore","event":"gathering_started","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":30,"activity":"Ore","event":"gathering_completed","tier":"T4","enchantment":"E1"},
+    {"timestamp_ms":40,"activity":"Ore","event":"node_depleted","tier":"T4","enchantment":"E1"}
+   ]
+   stale={"dataset_id":"legacy","source_file":"legacy.jsonl","counts":{"manual_markers":4},"manual_markers":markers,"marker_lifecycles":[]}
+   (db/"legacy.json").write_text(json.dumps(stale),encoding="utf-8")
+   script=SCRIPT.read_text(encoding="utf-8")
+   temp=d/"ingest_capture.py"
+   temp.write_text(script.replace('ROOT=pathlib.Path(__file__).resolve().parents[2]',f'ROOT=pathlib.Path(r"{d}")'),encoding="utf-8")
+   subprocess.run([sys.executable,str(temp),"--refresh-existing"],check=True,capture_output=True,text=True)
+   refreshed=json.loads((db/"legacy.json").read_text(encoding="utf-8"))
+   self.assertEqual("COMPLETE_WITH_METADATA_CONFLICT",refreshed["marker_lifecycles"][0]["status"])
+   self.assertEqual(1,refreshed["counts"]["marker_metadata_conflicts"])
+   csv_text=(db/"legacy-marker-lifecycles.csv").read_text(encoding="utf-8")
+   self.assertIn("metadata_conflicts",csv_text.splitlines()[0])
+
  def test_legacy_event_analysis_schema_still_supported(self):
   with tempfile.TemporaryDirectory() as td:
    d=pathlib.Path(td)

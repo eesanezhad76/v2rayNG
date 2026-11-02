@@ -80,6 +80,42 @@ def pair_manual_markers(markers):
   cycle.setdefault("mob_killed_ms",None)
  lifecycles.sort(key=lambda x:(x.get("found_ms") or 0,x.get("activity") or ""))
  return lifecycles,unmatched
+def write_marker_lifecycle_csv(stem,marker_lifecycles):
+ marker_fields=["activity","tier","enchantment","found_ms","started_ms","completed_ms","depleted_ms","mob_killed_ms","status","metadata_conflicts","identity_scope"]
+ with (DB/(stem+"-marker-lifecycles.csv")).open("w",newline="",encoding="utf-8") as f:
+  w=csv.DictWriter(f,fieldnames=marker_fields);w.writeheader()
+  for cycle in marker_lifecycles:
+   row=cycle.copy();row["metadata_conflicts"]=";".join(row.get("metadata_conflicts",[]));w.writerow(row)
+def refresh_existing_marker_lifecycles():
+ refreshed=0
+ DB.mkdir(parents=True,exist_ok=True);ANALYSIS.mkdir(parents=True,exist_ok=True)
+ for path in sorted(DB.glob("*.json")):
+  try:doc=json.loads(path.read_text(encoding="utf-8"))
+  except (OSError,json.JSONDecodeError):continue
+  markers=doc.get("manual_markers")
+  if not isinstance(markers,list):continue
+  lifecycles,unmatched=pair_manual_markers(markers)
+  resource_cycles=[x for x in lifecycles if x.get("activity") in RESOURCE_ACTIVITIES]
+  counts=doc.setdefault("counts",{})
+  counts.update({
+   "manual_markers":len(markers),
+   "resource_marker_cycles":len(resource_cycles),
+   "complete_resource_marker_cycles":sum(x.get("status")=="COMPLETE" for x in resource_cycles),
+   "incomplete_resource_marker_cycles":sum(x.get("status")!="COMPLETE" for x in resource_cycles),
+   "mob_marker_pairs":sum(x.get("status")=="TARGET_FOUND_TO_KILLED" for x in lifecycles),
+   "unmatched_marker_events":len(unmatched),
+   "marker_metadata_conflicts":sum(bool(x.get("metadata_conflicts")) for x in lifecycles)
+  })
+  doc["marker_lifecycles"]=lifecycles;doc["unmatched_marker_events"]=unmatched
+  path.write_text(json.dumps(doc,indent=2),encoding="utf-8")
+  write_marker_lifecycle_csv(path.stem,lifecycles)
+  (ANALYSIS/(path.stem+".md")).write_text(
+   "# Capture ingest: "+path.stem+"\n\n"+
+   "\n".join("- "+k+": "+str(v) for k,v in counts.items())+
+   "\n\nState updates join only by exact runtime entity ID. Marker lifecycles are FIFO-paired, metadata conflicts are retained, and manual annotations do not establish runtime entity identity. State-only IDs remain separate.\n",
+   encoding="utf-8")
+  refreshed+=1
+ return refreshed
 def analyze(path):
  nodes={}; states=collections.defaultdict(list); markers=[]; rows=bad=event123=0; packet5056=0
  with path.open(encoding="utf-8",errors="replace") as f:
@@ -122,16 +158,17 @@ def analyze(path):
   w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
   for n in ordered:
    x=n.copy();x["sizes_seen"]=";".join(map(str,x["sizes_seen"]));x["state_timeline"]=json.dumps(x["state_timeline"],separators=(",",":"));w.writerow(x)
- marker_fields=["activity","tier","enchantment","found_ms","started_ms","completed_ms","depleted_ms","mob_killed_ms","status","metadata_conflicts","identity_scope"]
- with (DB/(stem+"-marker-lifecycles.csv")).open("w",newline="",encoding="utf-8") as f:
-  w=csv.DictWriter(f,fieldnames=marker_fields);w.writeheader()
-  for cycle in marker_lifecycles:
-   row=cycle.copy();row["metadata_conflicts"]=";".join(row.get("metadata_conflicts",[]));w.writerow(row)
+ write_marker_lifecycle_csv(stem,marker_lifecycles)
  summary=doc["counts"]
  (ANALYSIS/(stem+".md")).write_text("# Capture ingest: "+stem+"\n\n"+"\n".join("- "+k+": "+str(v) for k,v in summary.items())+"\n\nState updates join only by exact runtime entity ID. Marker lifecycles are FIFO-paired but remain manual annotations without runtime entity identity. State-only IDs remain separate.\n",encoding="utf-8")
  return doc
 def main():
- ap=argparse.ArgumentParser();ap.add_argument("inputs",nargs="+");args=ap.parse_args()
+ ap=argparse.ArgumentParser()
+ ap.add_argument("--refresh-existing",action="store_true")
+ ap.add_argument("inputs",nargs="*")
+ args=ap.parse_args()
+ if args.refresh_existing:
+  print("Refreshed existing marker datasets:",refresh_existing_marker_lifecycles())
  for item in args.inputs:
   p=pathlib.Path(item)
   if p.suffix.lower()==".zip":
