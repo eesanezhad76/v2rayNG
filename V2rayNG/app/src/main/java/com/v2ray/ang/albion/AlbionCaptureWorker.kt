@@ -247,6 +247,7 @@ class AlbionCaptureWorker(
         val messages = if (decoded?.photon == true && decoded.photonPayload != null) protocol18.receiveDatagram(decoded.photonPayload) else emptyList()
         val messageArray = JSONArray()
         val photonEventAnalysis = JSONArray()
+        val eventStateChanges = JSONArray()
         messages.forEach { message ->
             val item = JSONObject()
             item.put("kind", message.kind)
