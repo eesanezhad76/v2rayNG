@@ -1,0 +1,1227 @@
+# PCAP analysis: Albion2.zip / went from yellow 5 region to fort sterling, and then to bank and inspectoed a few of my items and equipmentz.pcap
+
+Albion / Photon capture report
+IP packets in file: 10828
+UDP packets involving port 5056: 978
+Valid Photon envelopes: 972
+Inbound to local device: 225
+Outbound from local device: 747
+Photon command types (transport commands, not Albion events):
+  command 1: 1247
+  command 2: 7
+  command 3: 2
+  command 4: 2
+  command 5: 15
+  command 6: 1204
+  command 7: 990
+  command 8: 20
+  command 11: 64
+  command 12: 4
+Protocol18 Albion event codes:
+  event 1: 63
+  event 2: 3
+  event 3: 1026
+  event 11: 179
+  event 14: 1
+  event 19: 70
+  event 21: 32
+  event 22: 1
+  event 29: 102
+  event 30: 142
+  event 32: 118
+  event 35: 17
+  event 39: 5
+  event 45: 23
+  event 90: 47
+  event 91: 3
+  event 92: 4
+  event 93: 1
+  event 96: 24
+  event 98: 7
+  event 99: 2
+  event 104: 4
+  event 150: 3
+  event 153: 3
+  event 155: 3
+  event 159: 4
+  event 191: 7
+  event 201: 4
+  event 209: 35
+  event 210: 81
+  event 211: 7
+  event 212: 1
+  event 215: 6
+  event 222: 3
+  event 257: 3
+  event 259: 1
+  event 270: 2
+  event 271: 1
+  event 276: 6
+  event 284: 3
+  event 311: 3
+  event 313: 3
+  event 314: 1
+  event 326: 2
+  event 369: 3
+  event 383: 10
+  event 413: 2
+  event 414: 2
+  event 474: 2
+  event 475: 1
+  event 503: 3
+  event 600: 2
+  event 641: 3
+  event 662: 1
+  event 670: 1
+Operation requests:
+  operation 22: 62
+  operation 41: 3
+  operation 45: 1
+  operation 144: 1
+  operation 299: 1
+  operation 300: 2
+  operation 372: 2
+  operation 383: 1
+  operation 427: 2
+  operation 515: 2
+  operation 530: 1
+Operation responses:
+  operation 0: 2
+  operation 2: 3
+  operation 22: 1
+  operation 41: 2
+  operation 372: 2
+  operation 383: 1
+  operation 427: 4
+  operation 530: 1
+Mapped entity observations:
+  health_regeneration: 3
+  leave: 63
+  player_equipment: 47
+  player_mounted: 7
+  player_move: 990
+  player_spawn: 102
+  static_resource: 15
+Typed Photon event observations:
+Malformed / unrecognized Photon envelopes: 6
+Encrypted Photon packets: 0
+Encrypted Protocol18 messages: 12
+Malformed Protocol18 messages: 3
+Pending fragmented messages: 1
+Manual checkpoints: 0
+Detailed entity/player observations: 1114
+  t=1793403800327 kind=player_mounted id=643645
+  t=1793403801851 kind=static_resource id=1511 x=231.5 y=331.5
+  t=1793403802310 kind=player_spawn id=647403 name=Trener000v
+  t=1793403803691 kind=player_move id=647403 name=Trener000v raw_hex=03144d7f96df36df083273fe3cf4dae0e57f9a994141604afe3cb459e0e5 coord_source=unvalidated_event3_payload
+  t=1793403804041 kind=player_move id=647403 name=Trener000v raw_hex=03b4798f96df36df083a5dfe3c4487e1e57e9a9941412546fe3c34d7e1e5 coord_source=unvalidated_event3_payload
+  t=1793403820032 kind=static_resource id=292 x=-28.5 y=-38.5
+  t=1793403820032 kind=static_resource id=297 x=-42.5 y=-34.5
+  t=1793403820032 kind=static_resource id=298 x=33.5 y=-17.5
+  t=1793403820032 kind=static_resource id=195 x=38.5 y=-21.5
+  t=1793403820032 kind=static_resource id=332 x=19.5 y=-14.5
+  t=1793403820032 kind=static_resource id=344 x=24.5 y=-10.5
+  t=1793403820032 kind=static_resource id=276 x=26.5 y=-8.5
+  t=1793403820032 kind=static_resource id=170 x=43.5 y=-5.5
+  t=1793403824603 kind=static_resource id=290 x=-34.5 y=-0.5
+  t=1793403826591 kind=static_resource id=520 x=-37.5 y=26.5
+  t=1793403827673 kind=static_resource id=291 x=-31.5 y=41.5
+  t=1793403827673 kind=static_resource id=294 x=-19.5 y=43.5
+  t=1793403827673 kind=static_resource id=569 x=20.5 y=40.5
+  t=1793403827673 kind=static_resource id=571 x=18.5 y=37.5
+  t=1793403837833 kind=player_spawn id=1508316 name=xlMISTERlx
+  t=1793403837833 kind=player_spawn id=1512059 name=GrandFrere
+  t=1793403837833 kind=player_spawn id=1509172 name=azginteke
+  t=1793403837833 kind=player_spawn id=1521716 name=pxablo
+  t=1793403837834 kind=player_spawn id=1517108 name=Natwix01
+  t=1793403837834 kind=player_spawn id=1519342 name=KOKYACHE32
+  t=1793403837834 kind=player_spawn id=1518876 name=Alien90
+  t=1793403837834 kind=player_spawn id=1521394 name=SZYSZKONATOR
+  t=1793403837834 kind=player_spawn id=1497989 name=MonkeyModeActive
+  t=1793403837834 kind=player_spawn id=1521269 name=Pistoli
+  t=1793403837834 kind=player_spawn id=1520540 name=EnjoyApple
+  t=1793403837834 kind=player_spawn id=1520843 name=Raceth
+  t=1793403837834 kind=player_spawn id=1521354 name=Raikyu
+  t=1793403837834 kind=player_spawn id=1519488 name=D1CTA
+  t=1793403837834 kind=player_spawn id=1520087 name=RustinDust
+  t=1793403837834 kind=player_spawn id=1520182 name=EmmanuelGM
+  t=1793403837992 kind=player_spawn id=1521325 name=BuzzerB
+  t=1793403837992 kind=player_spawn id=1518857 name=faxerix
+  t=1793403837992 kind=player_spawn id=1519475 name=Kaizer404
+  t=1793403837992 kind=player_spawn id=1496216 name=hoe23
+  t=1793403837992 kind=player_spawn id=1519948 name=PaiinXD
+  t=1793403837992 kind=player_spawn id=1519768 name=DiosSalchicha
+  t=1793403837992 kind=player_spawn id=1517886 name=widonin
+  t=1793403837992 kind=player_spawn id=1515848 name=Cosmopolites
+  t=1793403837992 kind=player_spawn id=1508694 name=niikkollas
+  t=1793403837992 kind=player_spawn id=1519622 name=Sephir
+  t=1793403837992 kind=player_spawn id=1518481 name=MarkusAlexander
+  t=1793403837992 kind=player_spawn id=1512045 name=m1lkshake
+  t=1793403837992 kind=player_spawn id=1519411 name=LOKYLOKY
+  t=1793403837992 kind=player_spawn id=1516074 name=Lagherza
+  t=1793403837992 kind=player_spawn id=1519377 name=Sithamus
+  t=1793403837992 kind=player_spawn id=1521344 name=Tedio
+  t=1793403837992 kind=player_spawn id=1521380 name=PapyFredo
+  t=1793403837992 kind=player_spawn id=1520520 name=Tieya
+  t=1793403837992 kind=player_spawn id=1521255 name=MadGroot
+  t=1793403837992 kind=player_spawn id=1519858 name=orzeszek23
+  t=1793403837992 kind=player_spawn id=1520703 name=Eyvazov0
+  t=1793403837992 kind=player_spawn id=1515193 name=Schillplz
+  t=1793403837992 kind=player_spawn id=1520239 name=knox
+  t=1793403837992 kind=player_spawn id=1515900 name=CrystalSoldier
+  t=1793403838047 kind=player_spawn id=1519783 name=DenAniMan
+  t=1793403838048 kind=player_spawn id=1521244 name=Mediiv
+  t=1793403838048 kind=player_spawn id=1466971 name=hopeale
+  t=1793403838048 kind=player_spawn id=1517096 name=atothemachine
+  t=1793403838048 kind=player_spawn id=1521713 name=Tepee
+  t=1793403838134 kind=player_spawn id=1521237 name=MyNickyRho
+  t=1793403838134 kind=player_spawn id=1512128 name=Krawat1108
+  t=1793403838134 kind=player_spawn id=1521320 name=bigdady55
+  t=1793403838134 kind=player_move id=1521244 name=Mediiv raw_hex=038314c2aadf36df08fb240f34a90cca120c0000b040a91cd3c9fe791312 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521394 name=SZYSZKONATOR raw_hex=03475dc2aadf36df086cf28e344f3679ed3d0000b040e4741634457ec4ed coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521269 name=Pistoli raw_hex=037329b8aadf36df083c223135b3f73a6cb6cccc4e41951db635517a04ec coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521320 name=bigdady55 raw_hex=0333d097aadf36df08af06434b62af4f12070000b040fc3cb6b48bcadb11 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521713 name=Tepee raw_hex=033c61c9aadf36df08f974914a24cf3c127dcdcc0c4189ed3bcb695f5613 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521716 name=pxablo raw_hex=03665ecaaadf36df086bc6ea35fff2b96c3e00003041a9f1a935dcf82f6c coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1519342 name=KOKYACHE32 raw_hex=030382cfaadf36df080571c3357fb5496ec10000b0404b681f366bc6726d coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03435ac6aadf36df089fe23c4b9297d513963433ff4045b77d34e441baec coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521394 name=SZYSZKONATOR raw_hex=0167fec9aadf36df08b48fb734cfad62ed3d0000b040 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521244 name=Mediiv raw_hex=032341d2aadf36df0893b53134e63ec3120c0000b040a91cd3c9fe791312 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1518876 name=Alien90 raw_hex=032341d2aadf36df08a280923528c52a93c166663441d4fe9435a877d593 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521269 name=Pistoli raw_hex=03c303caaadf36df08b2941935d2e2936cb4cccc4e41d5548835f545a993 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521320 name=bigdady55 raw_hex=03b3aea7aadf36df089dea654b592f4312070000b040d6828bb4ff2bd811 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521713 name=Tepee raw_hex=030c03daaadf36df086839a14a076a24127ccdcc0c411bf772cba79f7313 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521716 name=pxablo raw_hex=03a611dcaadf36df08e5289d357fd3976c3a000030415f2c76356e75a213 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1519342 name=KOKYACHE32 raw_hex=037339dfaadf36df083ef9c635e25f536ec10000b0404b681f366bc6726d coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0373e6d7aadf36df080e8dbb4bb38cfa13a43433ff409700013597942693 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521244 name=Mediiv raw_hex=03a31fe2aadf36df0833d73b34f047d8120c0000b040a91cd3c9fe791312 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521269 name=Pistoli raw_hex=03136dd9aadf36df08d3e96d35c918016db4cccc4e410cf28735baf48a93 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1518876 name=Alien90 raw_hex=034317e6aadf36df082cdbee354804d493c1666634410000e5352e5cd793 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521320 name=bigdady55 raw_hex=0353dbb7aadf36df085ccd184b74854412070000b040d6828bb4ff2bd811 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521713 name=Tepee raw_hex=03cc7deaaadf36df08f5d4184aa91b2c127ccdcc0c41acec57cb90c60013 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1519342 name=KOKYACHE32 raw_hex=03f317efaadf36df08f66dda357ed1a26dc10000b0404b681f366bc6726d coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521320 name=bigdady55 raw_hex=03d3f5bdaadf36df083431034b84fe5a12070000b040d6828bb4ff2bd811 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521716 name=pxablo raw_hex=03f6ebedaadf36df080b1d873575c3da6c3a00003041f69f6235ce34bc13 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1521244 name=Mediiv raw_hex=0313d7f1aadf36df086c252d347c8cd1120a0000b040747acbca62757a12 coord_source=unvalidated_event3_payload
+  t=1793403838134 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03c3c0e9aadf36df085c4ade4bef6ff413eb3433ff401ec93135fdf72d12 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1521269 name=Pistoli raw_hex=035320ebaadf36df0845f17635348c75eeb4cccc4e41521b9c3522ef9793 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1518876 name=Alien90 raw_hex=032351f9aadf36df08ee8efb358683d293c566663441e0b0fd35465cd893 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1521713 name=Tepee raw_hex=038cf8faaadf36df08063f89491435d4127ccdcc0c411699a7cb97832d13 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1519342 name=KOKYACHE32 raw_hex=0353a8feaadf36df0824e9dd35d7a8b96dc10000b0404b681f366bc6726d coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1521716 name=pxablo raw_hex=034655fdaadf36df08efd48f3552f7246c3a00003041585a1c354619b513 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1521244 name=Mediiv raw_hex=0393b501abdf36df087190d64b7fca2812090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1518481 name=MarkusAlexander raw_hex=030374fbaadf36df0810f9904b983f28133d3433ff40656a22b5e28a3613 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1521269 name=Pistoli raw_hex=03a3fafcaadf36df0878ea5f35b432a4ecb4cccc4e41eaeee835a768f393 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1521713 name=Tepee raw_hex=035c9a0babdf36df08f8e1a3c8016ec5127ccdcc0c41f821bccb5ee6e313 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1518876 name=Alien90 raw_hex=03b3c70babdf36df08cedff0356231cc93ca66663441608dca3591c1f093 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1519342 name=KOKYACHE32 raw_hex=03e3ad0eabdf36df08db06d135be57b46dc10000b0404b681f366bc6726d coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1521716 name=pxablo raw_hex=03962f0fabdf36df080515b235c236336c4100003041320709352ce8d56c coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1521244 name=Mediiv raw_hex=03036d11abdf36df08f712c74b47742c12090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0353dd0aabdf36df0808c7b94bc932cb13973433ff4086a3b934e4ec40ec coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1521269 name=Pistoli raw_hex=03e3ad0eabdf36df08306fae35a7d9c6ecb7cccc4e41b6afe435594be993 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1521713 name=Tepee raw_hex=031c151cabdf36df08a079cac9128cca127ccdcc0c41f821bccb5ee6e313 coord_source=unvalidated_event3_payload
+  t=1793403838193 kind=player_move id=1519342 name=KOKYACHE32 raw_hex=0323f01dabdf36df088fecd4356079836dc10000b0404b681f366bc6726d coord_source=unvalidated_event3_payload
+  t=1793403838245 kind=player_move id=1518876 name=Alien90 raw_hex=03e3531dabdf36df08bb39cf358b14e693ce66663441f895c0352ba79093 coord_source=unvalidated_event3_payload
+  t=1793403838245 kind=player_move id=1521244 name=Mediiv raw_hex=0363fd20abdf36df086cbcf74b17152012090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403838245 kind=player_move id=1521716 name=pxablo raw_hex=03d6711eabdf36df08fa2abb35de51386c4300003041c7522435861ea16c coord_source=unvalidated_event3_payload
+  t=1793403838298 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03a3b71cabdf36df08cc2fda4bee7fdc13f13433ff402229d734cc2c3712 coord_source=unvalidated_event3_payload
+  t=1793403838351 kind=player_move id=1521713 name=Tepee raw_hex=03dc8f2cabdf36df08a5737bca27aafb127ccdcc0c41f821bccb5ee6e313 coord_source=unvalidated_event3_payload
+  t=1793403838351 kind=player_move id=1521269 name=Pistoli raw_hex=03338820abdf36df08725aba3531240aecb7cccc4e41863bf135b6a6e793 coord_source=unvalidated_event3_payload
+  t=1793403838351 kind=player_move id=1519342 name=KOKYACHE32 raw_hex=0393a72dabdf36df0851332a36922c9e6dc10000b0404b681f366bc6726d coord_source=unvalidated_event3_payload
+  t=1793403838351 kind=player_move id=1518876 name=Alien90 raw_hex=03e36a2eabdf36df086bebc5351b328793d1666634413a6cdf354d43bc93 coord_source=unvalidated_event3_payload
+  t=1793403838494 kind=player_move id=1521244 name=Mediiv raw_hex=03c38d30abdf36df08e5c9e74be7b32512090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403838494 kind=player_move id=1521716 name=pxablo raw_hex=03162530abdf36df089005ad355e322b6c4600003041e019d934711720ed coord_source=unvalidated_event3_payload
+  t=1793403838494 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03e36a2eabdf36df083da2844b91ae3a13353433ff400ec61bb5bbc8ab12 coord_source=unvalidated_event3_payload
+  t=1793403838494 kind=player_move id=1521269 name=Pistoli raw_hex=0373ca2fabdf36df08ac77b035ef0169ecb7cccc4e41c6b7ca352093ca93 coord_source=unvalidated_event3_payload
+  t=1793403838494 kind=player_move id=1519342 name=KOKYACHE32 raw_hex=03035f3dabdf36df085ef72f36c7e3ea6dc10000b0404b681f366bc6726d coord_source=unvalidated_event3_payload
+  t=1793403838494 kind=player_move id=1521713 name=Tepee raw_hex=039c0a3dabdf36df08d7e9b3ca38c8e8127ccdcc0c41f821bccb5ee6e313 coord_source=unvalidated_event3_payload
+  t=1793403838494 kind=player_spawn id=1521320 name=bigdady55
+  t=1793403838495 kind=player_spawn id=1512128 name=Krawat1108
+  t=1793403838495 kind=player_spawn id=1521237 name=MyNickyRho
+  t=1793403838495 kind=player_spawn id=1521713 name=Tepee
+  t=1793403838495 kind=player_spawn id=1517096 name=atothemachine
+  t=1793403838495 kind=player_spawn id=1466971 name=hopeale
+  t=1793403838495 kind=player_spawn id=1521244 name=Mediiv
+  t=1793403838495 kind=player_spawn id=1519783 name=DenAniMan
+  t=1793403838495 kind=player_spawn id=1515900 name=CrystalSoldier
+  t=1793403838495 kind=player_spawn id=1520239 name=knox
+  t=1793403838495 kind=player_spawn id=1515193 name=Schillplz
+  t=1793403838495 kind=player_spawn id=1520703 name=Eyvazov0
+  t=1793403838495 kind=player_spawn id=1519858 name=orzeszek23
+  t=1793403838495 kind=player_spawn id=1521255 name=MadGroot
+  t=1793403838495 kind=player_spawn id=1520520 name=Tieya
+  t=1793403838495 kind=player_spawn id=1521380 name=PapyFredo
+  t=1793403838495 kind=player_spawn id=1521344 name=Tedio
+  t=1793403838495 kind=player_spawn id=1519377 name=Sithamus
+  t=1793403838495 kind=player_spawn id=1516074 name=Lagherza
+  t=1793403838495 kind=player_spawn id=1519411 name=LOKYLOKY
+  t=1793403838495 kind=player_spawn id=1512045 name=m1lkshake
+  t=1793403838495 kind=player_spawn id=1518481 name=MarkusAlexander
+  t=1793403838495 kind=player_spawn id=1519622 name=Sephir
+  t=1793403838495 kind=player_spawn id=1508694 name=niikkollas
+  t=1793403838495 kind=player_spawn id=1515848 name=Cosmopolites
+  t=1793403838495 kind=player_spawn id=1517886 name=widonin
+  t=1793403838495 kind=player_spawn id=1519768 name=DiosSalchicha
+  t=1793403838495 kind=player_spawn id=1519948 name=PaiinXD
+  t=1793403838495 kind=player_spawn id=1496216 name=hoe23
+  t=1793403838495 kind=player_spawn id=1519475 name=Kaizer404
+  t=1793403838495 kind=player_spawn id=1518857 name=faxerix
+  t=1793403838495 kind=player_spawn id=1521325 name=BuzzerB
+  t=1793403838495 kind=player_move id=1518876 name=Alien90 raw_hex=0393be3eabdf36df08f32ddd3502b8a793d2666634413957d635522043ec coord_source=unvalidated_event3_payload
+  t=1793403838495 kind=player_move id=1521244 name=Mediiv raw_hex=03539340abdf36df086696904b9f333912090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403838559 kind=player_move id=1521716 name=pxablo raw_hex=0366ff41abdf36df08f78b5235ddaae76c4700003041b015e5343a3cceec coord_source=unvalidated_event3_payload
+  t=1793403838559 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03334540abdf36df0895be5d4b6fcfd1138d3433ff4059d65e3462fe3f93 coord_source=unvalidated_event3_payload
+  t=1793403838559 kind=player_move id=1519342 name=KOKYACHE32 raw_hex=0393644dabdf36df081ca42d36b48ee16dc10000b0404b681f366bc6726d coord_source=unvalidated_event3_payload
+  t=1793403838559 kind=player_move id=1521713 name=Tepee raw_hex=036cac4dabdf36df082b41e3ca6c0298127ccdcc0c41f821bccb5ee6e313 coord_source=unvalidated_event3_payload
+  t=1793403838559 kind=player_move id=1521269 name=Pistoli raw_hex=03b37d41abdf36df089db58c351f2440ecb9cccc4e41a2a1c0355afafa93 coord_source=unvalidated_event3_payload
+  t=1793403838559 kind=player_move id=1518876 name=Alien90 raw_hex=0333eb4eabdf36df08b474d435a30473ecd26666344154362f364f3b27ec coord_source=unvalidated_event3_payload
+  t=1793403838559 kind=player_move id=1521244 name=Mediiv raw_hex=03f3bf50abdf36df08189c814b4fbc3212090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403838559 kind=player_move id=1521394 name=SZYSZKONATOR raw_hex=0167fec9aadf36df08b48fb734cfad62ed3d0000b040 coord_source=unvalidated_event3_payload
+  t=1793403838559 kind=player_move id=1521716 name=pxablo raw_hex=03a64151abdf36df08dbc14335246ab26c48000030413a188034b87c3fec coord_source=unvalidated_event3_payload
+  t=1793403838696 kind=player_move id=1519342 name=KOKYACHE32 raw_hex=03136158abdf36df088ada23365ca4f96dc10000b0404b681f366bc6726d coord_source=unvalidated_event3_payload
+  t=1793403838696 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0393d54fabdf36df084c24ed4beb04c213df66661e415b75a33480166213 coord_source=unvalidated_event3_payload
+  t=1793403838696 kind=player_move id=1521713 name=Tepee raw_hex=032c275eabdf36df083ba6d3ca812089127ccdcc0c41f821bccb5ee6e313 coord_source=unvalidated_event3_payload
+  t=1793403838696 kind=player_move id=1521269 name=Pistoli raw_hex=03035853abdf36df08b0bb9835494c55ecbdcccc4e418042df35aebb8e93 coord_source=unvalidated_event3_payload
+  t=1793403838696 kind=player_move id=1518876 name=Alien90 raw_hex=03b3c95eabdf36df0878f32f36dc0d34eccf666634411a432c36e892ccec coord_source=unvalidated_event3_payload
+  t=1793403838696 kind=player_move id=1521244 name=Mediiv raw_hex=0383c560abdf36df089cacb24b073c3612090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403838696 kind=player_move id=1521716 name=pxablo raw_hex=03f61b63abdf36df08c0067835450f1e6d47000030419f40af34e67602ec coord_source=unvalidated_event3_payload
+  t=1793403838755 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03b33a61abdf36df08b5e7b84b012527132266661e414be7deb4a5f8e312 coord_source=unvalidated_event3_payload
+  t=1793403838755 kind=player_move id=1521713 name=Tepee raw_hex=03fcc86eabdf36df08dab93fcbb29abe127ccdcc0c41f821bccb5ee6e313 coord_source=unvalidated_event3_payload
+  t=1793403838755 kind=player_move id=1518876 name=Alien90 raw_hex=0353f66eabdf36df08c07923365055f0eccc66663441f4f42736b7a7beec coord_source=unvalidated_event3_payload
+  t=1793403838755 kind=player_move id=1521244 name=Mediiv raw_hex=03e35570abdf36df0812f6a24bd7da0b12090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403838755 kind=player_move id=1521269 name=Pistoli raw_hex=03533265abdf36df08f2509435ce76ab93c1cccc4e41f7ead6355dbe48ec coord_source=unvalidated_event3_payload
+  t=1793403838755 kind=player_spawn id=1521924 name=Wysoki1312
+  t=1793403838755 kind=player_move id=1518876 name=Alien90 raw_hex=0353f66eabdf36df08c07923365055f0eccc66663441dfec26361547a8ec coord_source=unvalidated_event3_payload
+  t=1793403838925 kind=player_move id=1521716 name=pxablo raw_hex=03468572abdf36df0808816935f9c7816d4700003041c23a633417b500ec coord_source=unvalidated_event3_payload
+  t=1793403838925 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0303a470abdf36df08cabd884a389235132b66661e41b032e0b4eb2aa112 coord_source=unvalidated_event3_payload
+  t=1793403838925 kind=player_move id=1521713 name=Tepee raw_hex=03bc437fabdf36df08228a07cbc7b8af127ccdcc0c41f821bccb5ee6e313 coord_source=unvalidated_event3_payload
+  t=1793403838925 kind=player_move id=1521244 name=Mediiv raw_hex=03735b80abdf36df08077f5b4b8f5a0f12090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403838925 kind=player_move id=1521269 name=Pistoli raw_hex=0393e576abdf36df0862a0e035fb195becc6cccc4e410d932d362f5597ec coord_source=unvalidated_event3_payload
+  t=1793403838925 kind=player_move id=1521716 name=pxablo raw_hex=03863884abdf36df0806fb0535c5e5b4ee46000030412b20c44b2a691cec coord_source=unvalidated_event3_payload
+  t=1793403838925 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03435782abdf36df08607a0ccb023f18132766661e41f545edb40df4bd12 coord_source=unvalidated_event3_payload
+  t=1793403838982 kind=player_move id=1521713 name=Tepee raw_hex=037cbe8fabdf36df08aa9e6fcbb08e46137ccdcc0c41f821bccb5ee6e313 coord_source=unvalidated_event3_payload
+  t=1793403838982 kind=player_move id=1521244 name=Mediiv raw_hex=03d3eb8fabdf36df0834d27b4b5ffb0012090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403839039 kind=player_move id=1521269 name=Pistoli raw_hex=03e3bf88abdf36df08a98afc35df617aecc8cccc4e41f0c024364184c36d coord_source=unvalidated_event3_payload
+  t=1793403839039 kind=player_move id=1521716 name=pxablo raw_hex=03d6a193abdf36df08395d373524f394ed44000030419f60684bd05c25ec coord_source=unvalidated_event3_payload
+  t=1793403839100 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03933194abdf36df0804f3e6cbfecc62132766661e41d212c9b44dca8b12 coord_source=unvalidated_event3_payload
+  t=1793403839100 kind=player_move id=1521713 name=Tepee raw_hex=03bc009fabdf36df0842ad71cbc0887a137ccdcc0c41f821bccb5ee6e313 coord_source=unvalidated_event3_payload
+  t=1793403839100 kind=player_move id=1521244 name=Mediiv raw_hex=0343a39fabdf36df085bd7044b27650412090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403839172 kind=player_move id=1521716 name=pxablo raw_hex=031655a5abdf36df0886ef23358a7108ed44000030419f60684bd05c25ec coord_source=unvalidated_event3_payload
+  t=1793403839172 kind=player_move id=1521269 name=Pistoli raw_hex=03339a9aabdf36df08ebf3c8356fda0eeccacccc4e41123a3336a155336c coord_source=unvalidated_event3_payload
+  t=1793403839172 kind=player_move id=1521713 name=Tepee raw_hex=038ca2afabdf36df08f4f949cbda161b1388cdcc0c418010e04b92607293 coord_source=unvalidated_event3_payload
+  t=1793403839172 kind=player_move id=1521244 name=Mediiv raw_hex=03930cafabdf36df087b7c254bff361812090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403839172 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03d3e4a5abdf36df08424301b4992b7e133b66661e41878c2cb501504313 coord_source=unvalidated_event3_payload
+  t=1793403839227 kind=player_move id=1521716 name=pxablo raw_hex=0366beb4abdf36df08d6f1c63490bd77ed44000030419f60684bd05c25ec coord_source=unvalidated_event3_payload
+  t=1793403839227 kind=player_move id=1521924 name=Wysoki1312 raw_hex=030a5bb2abdf36df08062ef83501e1aa6c400000b040fa279835b86a0ced coord_source=unvalidated_event3_payload
+  t=1793403839227 kind=player_move id=1521269 name=Pistoli raw_hex=038374acabdf36df08931cc535cc8fc8eccbcccc4e413e150936750ea413 coord_source=unvalidated_event3_payload
+  t=1793403839281 kind=player_move id=1521244 name=Mediiv raw_hex=033339bfabdf36df08fba4f24aaf831d12090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403839281 kind=player_move id=1521713 name=Tepee raw_hex=034c1dc0abdf36df0863f104cb80da3e1389cdcc0c418f832a34f0ad4593 coord_source=unvalidated_event3_payload
+  t=1793403839281 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0323bfb7abdf36df08cebd5fb4b7387b134466661e41a0d7c7b4a6176d13 coord_source=unvalidated_event3_payload
+  t=1793403839281 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03aa87c2abdf36df08c5a1e43516276b6d490000b04022bb993538f565ed coord_source=unvalidated_event3_payload
+  t=1793403839337 kind=player_move id=1521716 name=pxablo raw_hex=03a671c6abdf36df08268cef3471921ced3e000030418c201634afae81ed coord_source=unvalidated_event3_payload
+  t=1793403839396 kind=player_move id=1521269 name=Pistoli raw_hex=03c327beabdf36df08ffb4d135153455edcacccc4e419e9007366d888c13 coord_source=unvalidated_event3_payload
+  t=1793403839396 kind=player_move id=1521244 name=Mediiv raw_hex=03f3b3cfabdf36df08ef96bf4a4fe21612090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403839396 kind=player_move id=1521713 name=Tepee raw_hex=031cbfd0abdf36df0800e5d8ca556cc61389cdcc0c418f832a34f0ad4593 coord_source=unvalidated_event3_payload
+  t=1793403839396 kind=player_move id=1518481 name=MarkusAlexander raw_hex=037399c9abdf36df08f2ceb4b476977e133b66661e41fcc4dfb44b937413 coord_source=unvalidated_event3_payload
+  t=1793403839450 kind=player_move id=1521924 name=Wysoki1312 raw_hex=039a77d3abdf36df081178e135d748d56d490000b04022bb993538f565ed coord_source=unvalidated_event3_payload
+  t=1793403839451 kind=player_move id=1521716 name=pxablo raw_hex=03f64bd8abdf36df08ba90b03470d525ed3e000030418c201634afae81ed coord_source=unvalidated_event3_payload
+  t=1793403839451 kind=player_move id=1521269 name=Pistoli raw_hex=031302d0abdf36df0808c72836885888edc8cccc4e412f6c193645f9a713 coord_source=unvalidated_event3_payload
+  t=1793403839556 kind=player_move id=1521716 name=pxablo raw_hex=01f64bd8abdf36df08ba90b03470d525ed3e00003041 coord_source=unvalidated_event3_payload
+  t=1793403839556 kind=player_move id=1521244 name=Mediiv raw_hex=03431ddfabdf36df0840f80c4a27b66a12090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403839556 kind=player_move id=1521713 name=Tepee raw_hex=03dc39e1abdf36df08c7f5a2ca62d19b1389cdcc0c418f832a34f0ad4593 coord_source=unvalidated_event3_payload
+  t=1793403839556 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03fa07e3abdf36df080597ed35ef99ac6d490000b04022bb993538f565ed coord_source=unvalidated_event3_payload
+  t=1793403839556 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03c373dbabdf36df08bc1ce8b4767979134b66661e4124da20b5bbb31713 coord_source=unvalidated_event3_payload
+  t=1793403839767 kind=player_move id=1521269 name=Pistoli raw_hex=035344dfabdf36df0841e52336fc5a1d6fc4cccc4e41282e1e36e733db6c coord_source=unvalidated_event3_payload
+  t=1793403839767 kind=player_move id=1521244 name=Mediiv raw_hex=03835feeabdf36df084ae5374907416e12090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403839773 kind=player_move id=1521713 name=Tepee raw_hex=039cb4f1abdf36df08034b53c9e247416c89cdcc0c418f832a34f0ad4593 coord_source=unvalidated_event3_payload
+  t=1793403839773 kind=player_move id=1521924 name=Wysoki1312 raw_hex=036abff2abdf36df082b09ea35189ceb6f490000b04022bb993538f565ed coord_source=unvalidated_event3_payload
+  t=1793403839773 kind=player_move id=1518481 name=MarkusAlexander raw_hex=030327edabdf36df08770fceb42e386f135066661e416e5931b501630f13 coord_source=unvalidated_event3_payload
+  t=1793403839773 kind=player_move id=1521244 name=Mediiv raw_hex=03f316feabdf36df08901f92c9cfe86312090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403839773 kind=player_move id=1521713 name=Tepee raw_hex=036c5602acdf36df081f6d274af01e756c88cdcc0c418f832a34f0ad4593 coord_source=unvalidated_event3_payload
+  t=1793403839775 kind=player_move id=1521924 name=Wysoki1312 raw_hex=030aec02acdf36df08579896359f5249ee490000b04022bb993538f565ed coord_source=unvalidated_event3_payload
+  t=1793403839776 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03939dffabdf36df08678dc0b4f3d86f13ce66661e4130828bb49b7f7513 coord_source=unvalidated_event3_payload
+  t=1793403839843 kind=player_move id=1521244 name=Mediiv raw_hex=0353a70dacdf36df085d4274ca9f896712090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403839843 kind=player_move id=1521713 name=Tepee raw_hex=032cd112acdf36df08deba884a07e14a6c87cdcc0c418f832a34f0ad4593 coord_source=unvalidated_event3_payload
+  t=1793403839843 kind=player_move id=1521924 name=Wysoki1312 raw_hex=037aa312acdf36df088d099335672a85ed3a0000b0405aada2359d24e86c coord_source=unvalidated_event3_payload
+  t=1793403839893 kind=player_spawn id=1522039 name=Mazzarbul
+  t=1793403839893 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0393b410acdf36df08f7d1e1b4f0ac7b13cf66661e41900356b4c8bd4713 coord_source=unvalidated_event3_payload
+  t=1793403840004 kind=player_move id=1521244 name=Mediiv raw_hex=01b3371dacdf36df0876e982ca13a17b12090000b040 coord_source=unvalidated_event3_payload
+  t=1793403840004 kind=player_move id=1521713 name=Tepee raw_hex=03ec4b23acdf36df082413dc4af51e756c87cdcc0c418f832a34f0ad4593 coord_source=unvalidated_event3_payload
+  t=1793403840004 kind=player_spawn id=1522066 name=staszk
+  t=1793403840004 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03fa8122acdf36df08b4829f353f5502ee3a0000b040d551ae354a37f26c coord_source=unvalidated_event3_payload
+  t=1793403840079 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03e38e22acdf36df08b6d683b423fc4a13d166661e4148691fb4b67bab12 coord_source=unvalidated_event3_payload
+  t=1793403840079 kind=player_move id=1521713 name=Tepee raw_hex=03cc1434acdf36df08796f094b05e14a6c86cdcc0c418f832a34f0ad4593 coord_source=unvalidated_event3_payload
+  t=1793403840079 kind=player_move id=1521924 name=Wysoki1312 raw_hex=038a8732acdf36df087c138435869b61683a0000b04002d65235c82ed06c coord_source=unvalidated_event3_payload
+  t=1793403840126 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03234234acdf36df089c42adb4d8b34513d166661e41ae2fcacb1f67a312 coord_source=unvalidated_event3_payload
+  t=1793403840177 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03fa3e42acdf36df08629680352e7e106e3a0000b0404cfb5a3575a92c6c coord_source=unvalidated_event3_payload
+  t=1793403840177 kind=player_move id=1521713 name=Tepee raw_hex=01fc2f43acdf36df08c4af694bf41e756c86cdcc0c41 coord_source=unvalidated_event3_payload
+  t=1793403840177 kind=player_move id=1521713 name=Tepee raw_hex=01fc2f43acdf36df08c4af694bf41e756c70cdcc0c41 coord_source=unvalidated_event3_payload
+  t=1793403840256 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03731c46acdf36df087ee361b447da5513d266661e4116d76fcbfaacb812 coord_source=unvalidated_event3_payload
+  t=1793403840256 kind=player_move id=1521924 name=Wysoki1312 raw_hex=036af651acdf36df08ba1d8d35c4e59e6d3a0000b0404cfb5a3575a92c6c coord_source=unvalidated_event3_payload
+  t=1793403840530 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03b35e55acdf36df08da9b24b43986ae12bb66661e41bed7f24a6e525413 coord_source=unvalidated_event3_payload
+  t=1793403840530 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03fafb61acdf36df0828e989353166286d3b0000b040693f1d358aeb106c coord_source=unvalidated_event3_payload
+  t=1793403840659 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03f31167acdf36df08bdecd2cba33942137366661e416a3814b4c7472b13 coord_source=unvalidated_event3_payload
+  t=1793403840659 kind=player_move id=1521924 name=Wysoki1312 raw_hex=036ab371acdf36df08ba6bb635ea590d6d3d0000b0406a500e359ef7276c coord_source=unvalidated_event3_payload
+  t=1793403840659 kind=player_move id=1518857 name=faxerix raw_hex=03633a79acdf36df08364e22343a5800ee3e66660841c63d4d3497e18712 coord_source=unvalidated_event3_payload
+  t=1793403840659 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03437b76acdf36df089c9d35b4c05b67136766661e4130eabcb40dc4e613 coord_source=unvalidated_event3_payload
+  t=1793403840659 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03fab881acdf36df08d7cfb23550f1116d3e0000b040a150363565efc76c coord_source=unvalidated_event3_payload
+  t=1793403840659 kind=player_move id=1518857 name=faxerix raw_hex=0343038aacdf36df08a4443a34747bf26cfb666608415576463401729312 coord_source=unvalidated_event3_payload
+  t=1793403840659 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03832e88acdf36df08cea96cb4e6ac05136a66661e412805b9b47d4dea13 coord_source=unvalidated_event3_payload
+  t=1793403840659 kind=player_move id=1521924 name=Wysoki1312 raw_hex=037a9791acdf36df08d13b5c26ba614c0a3f0000b040565ec5265026870b coord_source=unvalidated_event3_payload
+  t=1793403840720 kind=player_move id=1522066 name=staszk raw_hex=033cd694acdf36df0824481b2655b58b0b4033332741ba097f26989dd374 coord_source=unvalidated_event3_payload
+  t=1793403840720 kind=player_move id=1518857 name=faxerix raw_hex=03037e9aacdf36df0892d2d12709a96a0bfb66660841a399bd27cdbac375 coord_source=unvalidated_event3_payload
+  t=1793403840788 kind=player_move id=1521924 name=Wysoki1312 raw_hex=0373e2a2acdf36df08493847263ec4420a400000b040dccbc226b3b3540a coord_source=unvalidated_event3_payload
+  t=1793403840788 kind=player_move id=1522066 name=staszk raw_hex=03632ca5acdf36df08ee9204264119f40b3a33332741dae64526c2278774 coord_source=unvalidated_event3_payload
+  t=1793403840788 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03e32f9aacdf36df081aeb83a7302401748666661e41430ce4a72703010b coord_source=unvalidated_event3_payload
+  t=1793403840944 kind=player_move id=1518857 name=faxerix raw_hex=03e346abacdf36df082d43e82792a2a774fb6666084163d2ba27096ad975 coord_source=unvalidated_event3_payload
+  t=1793403841024 kind=player_spawn id=1522092 name=Yanvers
+  t=1793403841024 kind=player_move id=1522066 name=staszk raw_hex=03d3e3b4acdf36df0859270b2624ebe40b4433332741cecce3269ae47d8a coord_source=unvalidated_event3_payload
+  t=1793403841024 kind=player_move id=1521924 name=Wysoki1312 raw_hex=0303e8b2acdf36df081c474226bd7d410a400000b040dccbc226b3b3540a coord_source=unvalidated_event3_payload
+  t=1793403841024 kind=player_move id=1518481 name=MarkusAlexander raw_hex=034331acacdf36df084a5ff3a7cdb1c7748a66661e410fdecca797b1b08a coord_source=unvalidated_event3_payload
+  t=1793403841024 kind=player_move id=1518857 name=faxerix raw_hex=03b3e8bbacdf36df08b710ef27409aec74fc6666084153c7a1278988d575 coord_source=unvalidated_event3_payload
+  t=1793403841024 kind=player_move id=1522066 name=staszk raw_hex=0353c2c4acdf36df08b85072265eefdc0b43333327414d95f9267136fa09 coord_source=unvalidated_event3_payload
+  t=1793403841024 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03a314c3acdf36df081bf14e26f996470a400000b040dccbc226b3b3540a coord_source=unvalidated_event3_payload
+  t=1793403841024 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03930bbeacdf36df08e7c7e1a7d68c8f748a66661e410fdecca797b1b08a coord_source=unvalidated_event3_payload
+  t=1793403841024 kind=player_move id=1518857 name=faxerix raw_hex=037363ccacdf36df08bebce4276e4d1b74fe66660841323e87275355e575 coord_source=unvalidated_event3_payload
+  t=1793403841084 kind=player_move id=1518481 name=MarkusAlexander raw_hex=01937cc0acdf36df08405eeea711657f0b8a66661e41 coord_source=unvalidated_event3_payload
+  t=1793403841084 kind=player_move id=1518481 name=MarkusAlexander raw_hex=01937cc0acdf36df08405eeea711657f0ba766661e41 coord_source=unvalidated_event3_payload
+  t=1793403841084 kind=player_move id=1522066 name=staszk raw_hex=03c379d4acdf36df085df87a265b6fce0b43333327414d95f9267136fa09 coord_source=unvalidated_event3_payload
+  t=1793403841084 kind=player_move id=1521924 name=Wysoki1312 raw_hex=0323f3d2acdf36df08aa044926b1c2460a400000b040dccbc226b3b3540a coord_source=unvalidated_event3_payload
+  t=1793403841160 kind=player_move id=1518857 name=faxerix raw_hex=0333dedcacdf36df088880e62700dc2574ff666608414fa18927c62ff775 coord_source=unvalidated_event3_payload
+  t=1793403841160 kind=player_move id=1522066 name=staszk raw_hex=033331e4acdf36df087000612641efbf0b43333327414d95f9267136fa09 coord_source=unvalidated_event3_payload
+  t=1793403841160 kind=player_move id=1521924 name=Wysoki1312 raw_hex=0393aae2acdf36df0844e1b226807d450a400000b040dccbc226b3b3540a coord_source=unvalidated_event3_payload
+  t=1793403841280 kind=player_move id=1518857 name=faxerix raw_hex=030380edacdf36df08ac72e727bb974774ff666608418023f72728b70e75 coord_source=unvalidated_event3_payload
+  t=1793403841280 kind=player_move id=1522066 name=staszk raw_hex=03a3e8f3acdf36df0814a869264e6fa90b43333327414d95f9267136fa09 coord_source=unvalidated_event3_payload
+  t=1793403841280 kind=player_move id=1521924 name=Wysoki1312 raw_hex=031389f2acdf36df085a98b92659a85b0a400000b040dccbc226b3b3540a coord_source=unvalidated_event3_payload
+  t=1793403841393 kind=player_move id=1518857 name=faxerix raw_hex=03c3fafdacdf36df08e547f8279e226274ff6666084129f3f1274c6f0175 coord_source=unvalidated_event3_payload
+  t=1793403841448 kind=player_move id=1522066 name=staszk raw_hex=0313a003addf36df082f30502674ef9a0b43333327414d95f9267136fa09 coord_source=unvalidated_event3_payload
+  t=1793403841448 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03936702addf36df088ebea026d792400a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403841448 kind=player_move id=1518857 name=faxerix raw_hex=03939c0eaddf36df08fc73f827831c88750166660841f423ee27f3f20575 coord_source=unvalidated_event3_payload
+  t=1793403841506 kind=player_move id=1522066 name=staszk raw_hex=03937e13addf36df082e6d47263895890b3c33332741506fff272fc5660b coord_source=unvalidated_event3_payload
+  t=1793403841506 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03236d12addf36df08777b96260887480a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403841506 kind=player_move id=1521244 name=Mediiv raw_hex=03b33d16addf36df08548f61d947f55a75090000b040f6b9295a7156b076 coord_source=unvalidated_event3_payload
+  t=1793403841568 kind=player_move id=1518857 name=faxerix raw_hex=0353171faddf36df08aa5de6275cd6997502666608419db1dd27bd8b1975 coord_source=unvalidated_event3_payload
+  t=1793403841628 kind=player_move id=1522066 name=staszk raw_hex=03f30e23addf36df08efef4f2654b9980b3e333327415bee69d8981c5b0b coord_source=unvalidated_event3_payload
+  t=1793403841628 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03a34b22addf36df0865119d26cae5300a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403841628 kind=player_move id=1522092 name=Yanvers raw_hex=03ceb925addf36df0824481b2655b58b0b40cccce440bb3b4a267eb0b674 coord_source=unvalidated_event3_payload
+  t=1793403841628 kind=player_move id=1521244 name=Mediiv raw_hex=03434326addf36df08511160d9ed6b5e75010000b0400edcead888acb176 coord_source=unvalidated_event3_payload
+  t=1793403841691 kind=player_move id=1518857 name=faxerix raw_hex=0313922faddf36df0883eae3276fa2aa750366660841b40fc9273cf71d75 coord_source=unvalidated_event3_payload
+  t=1793403841691 kind=player_move id=1522066 name=staszk raw_hex=0363c632addf36df082336b5263e1bae0b3c33332741cc337cd815388174 coord_source=unvalidated_event3_payload
+  t=1793403841691 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03130332addf36df08d02084261c37380a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403841741 kind=player_move id=1522092 name=Yanvers raw_hex=03def736addf36df0851070526437ba70b38cccce440ee60b126af9ab974 coord_source=unvalidated_event3_payload
+  t=1793403841741 kind=player_move id=1521244 name=Mediiv raw_hex=03b3fa35addf36df081fa466d9e2d35175010000b0403f19f6d8dc4eb076 coord_source=unvalidated_event3_payload
+  t=1793403841801 kind=player_move id=1518857 name=faxerix raw_hex=03e33340addf36df08865bed276650a475046666084185931358b3101175 coord_source=unvalidated_event3_payload
+  t=1793403841802 kind=player_move id=1522066 name=staszk raw_hex=03d37d42addf36df0856d4a4264c16c80b3b333327413bd4d45bec13a974 coord_source=unvalidated_event3_payload
+  t=1793403841802 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03a30842addf36df08b9ed8b267038200a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403841802 kind=player_move id=1522092 name=Yanvers raw_hex=036efd46addf36df081b7a0f2672bdd80b39cccce440b90ba32615aca274 coord_source=unvalidated_event3_payload
+  t=1793403841858 kind=player_move id=1521244 name=Mediiv raw_hex=03036445addf36df082f5c7bd9736d5575010000b040690b88d81b23b676 coord_source=unvalidated_event3_payload
+  t=1793403841911 kind=player_move id=1518857 name=faxerix raw_hex=03a3ae50addf36df088c2fd727c73fb575046666084195a10458e76a2a75 coord_source=unvalidated_event3_payload
+  t=1793403841911 kind=player_move id=1522066 name=staszk raw_hex=03535c52addf36df0800a89326cb79ef0b3b33332741f66fbdd82251ac74 coord_source=unvalidated_event3_payload
+  t=1793403841911 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03330e52addf36df0822aaf226552d280a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403841912 kind=player_move id=1522092 name=Yanvers raw_hex=03eedb56addf36df08c15b0926ab97e40b3bcccce440793894266ed48674 coord_source=unvalidated_event3_payload
+  t=1793403841912 kind=player_move id=1521244 name=Mediiv raw_hex=03731b55addf36df08da5671d94ed56875010000b040690b88d81b23b676 coord_source=unvalidated_event3_payload
+  t=1793403841962 kind=player_move id=1518857 name=faxerix raw_hex=03735061addf36df089482d127fce7c67504666608413edd77580a872275 coord_source=unvalidated_event3_payload
+  t=1793403842019 kind=player_move id=1522066 name=staszk raw_hex=03c31362addf36df0867b4822650a4090b3b33332741dd045cd8e8ccae74 coord_source=unvalidated_event3_payload
+  t=1793403842019 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03a3c561addf36df089db9f926ff7c100a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403842019 kind=player_move id=1521244 name=Mediiv raw_hex=03d3ab64addf36df0821de77d99b696c75010000b0402aa7f4d8edcac976 coord_source=unvalidated_event3_payload
+  t=1793403842072 kind=player_move id=1522092 name=Yanvers raw_hex=039e2f67addf36df08f06f73263d92080b3bcccce4403f8c9826b1668474 coord_source=unvalidated_event3_payload
+  t=1793403842072 kind=player_move id=1518857 name=faxerix raw_hex=0333cb71addf36df088a56da275d4dd075046666084137727a58a2313b75 coord_source=unvalidated_event3_payload
+  t=1793403842131 kind=player_move id=1522066 name=staszk raw_hex=0333cb71addf36df08f450f026bb101a0b3b33332741dd045cd8e8ccae74 coord_source=unvalidated_event3_payload
+  t=1793403842131 kind=player_move id=1521924 name=Wysoki1312 raw_hex=0333cb71addf36df080666ef26d061180a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403842131 kind=player_move id=1521244 name=Mediiv raw_hex=0313ee73addf36df08ae220cd9aef76775010000b04084f3f5d8543bc876 coord_source=unvalidated_event3_payload
+  t=1793403842384 kind=player_move id=1522092 name=Yanvers raw_hex=031e0e77addf36df085d587d266086050b3bcccce44066a48c26fb309e74 coord_source=unvalidated_event3_payload
+  t=1793403842384 kind=player_move id=1518857 name=faxerix raw_hex=03036d82addf36df08cec2c4278b0ae175046666084132fa5658ee593775 coord_source=unvalidated_event3_payload
+  t=1793403842384 kind=player_move id=1522066 name=staszk raw_hex=03a38281addf36df08047fef266816040b4433332741a980f527489d280a coord_source=unvalidated_event3_payload
+  t=1793403842384 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03b3a981addf36df08741cd6269247000a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403842384 kind=player_move id=1521244 name=Mediiv raw_hex=0393cc83addf36df08754201d963637b75010000b04084f3f5d8543bc876 coord_source=unvalidated_event3_payload
+  t=1793403842445 kind=player_move id=1522092 name=Yanvers raw_hex=039eec86addf36df083ab178265c8a120b3bcccce4409001f0260f609174 coord_source=unvalidated_event3_payload
+  t=1793403842505 kind=player_move id=1518857 name=faxerix raw_hex=03c3e792addf36df083de3cf27d6d9f27503666608415a2278582be45975 coord_source=unvalidated_event3_payload
+  t=1793403842505 kind=player_move id=1522066 name=staszk raw_hex=03236191addf36df0891c9de26f5550b0b4433332741a980f527489d280a coord_source=unvalidated_event3_payload
+  t=1793403842505 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03236191addf36df08e72bdd2624910f0a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403842505 kind=player_move id=1522092 name=Yanvers raw_hex=030ea496addf36df08289b6226279b2f0b3bcccce440b2a3e426e7f9ab74 coord_source=unvalidated_event3_payload
+  t=1793403842505 kind=player_move id=1522066 name=staszk raw_hex=039318a1addf36df08bde9cd26fc31ef0b4433332741a980f5277e9d280a coord_source=unvalidated_event3_payload
+  t=1793403842505 kind=player_move id=1518857 name=faxerix raw_hex=038362a3addf36df08a164cb2729a50f750266660841cb337458c95b5075 coord_source=unvalidated_event3_payload
+  t=1793403842505 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03a33fa1addf36df08d5c1c4263230f30a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403842505 kind=player_move id=1522092 name=Yanvers raw_hex=037e5ba6addf36df080be76c26ff5a260b3ccccce440ffaee826599f9d74 coord_source=unvalidated_event3_payload
+  t=1793403842576 kind=player_move id=1522066 name=staszk raw_hex=03f3a8b0addf36df08a7652027e825cc0b4433332741a980f5277e9d280a coord_source=unvalidated_event3_payload
+  t=1793403842576 kind=player_move id=1518857 name=faxerix raw_hex=035304b4addf36df083f09c827adc900750266660841037a095854516875 coord_source=unvalidated_event3_payload
+  t=1793403842576 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03436cb1addf36df083195cb2607c1e30a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403842576 kind=player_move id=1522092 name=Yanvers raw_hex=031e88b6addf36df086ef25626cd033e0b3dcccce4405049da26d1798274 coord_source=unvalidated_event3_payload
+  t=1793403842646 kind=player_move id=1522066 name=staszk raw_hex=037387c0addf36df08518a0e272ebea10b4433332741a980f5277e9d280a coord_source=unvalidated_event3_payload
+  t=1793403842646 kind=player_move id=1518857 name=faxerix raw_hex=03137fc4addf36df08e9be3558626c1975026666084185640258727d6e75 coord_source=unvalidated_event3_payload
+  t=1793403842646 kind=player_spawn id=1522196 name=AlExxPoP
+  t=1793403842646 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03c34ac1addf36df080d4e3b278d05d30a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403842716 kind=player_mounted id=1521344
+  t=1793403842716 kind=player_move id=1522092 name=Yanvers raw_hex=038e3fc6addf36df0818d45026e7bc300b3ecccce4404f8fce267a50730b coord_source=unvalidated_event3_payload
+  t=1793403842827 kind=player_move id=1522066 name=staszk raw_hex=03e33ed0addf36df08234a6b27b67b870b4433332741a980f5277e9d280a coord_source=unvalidated_event3_payload
+  t=1793403842827 kind=player_move id=1518857 name=faxerix raw_hex=03d3f9d4addf36df08a423305823801175026666084185640258727d6e75 coord_source=unvalidated_event3_payload
+  t=1793403842827 kind=player_move id=1521924 name=Wysoki1312 raw_hex=0383c5d1addf36df08454e28277fe7c30a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403842827 kind=player_move id=1522092 name=Yanvers raw_hex=032e6cd6addf36df08bae35a268fb8350b3fcccce440ea453b271e325e0b coord_source=unvalidated_event3_payload
+  t=1793403842827 kind=player_move id=1522066 name=staszk raw_hex=0103fed2addf36df0874b65627b3078c0b4433332741 coord_source=unvalidated_event3_payload
+  t=1793403842887 kind=player_move id=1518857 name=faxerix raw_hex=03a39be5addf36df08c7a23c5872162a75026666084185640258727d6e75 coord_source=unvalidated_event3_payload
+  t=1793403842887 kind=player_move id=1521924 name=Wysoki1312 raw_hex=0313cbe1addf36df089c370627b3d2b30a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403842887 kind=player_move id=1522092 name=Yanvers raw_hex=03eee6e6addf36df087e904426edc44b0b3ecccce4401c3326274828740b coord_source=unvalidated_event3_payload
+  t=1793403842945 kind=player_move id=1521924 name=Wysoki1312 raw_hex=0393a9f1addf36df08fd8374273a11a30a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403842945 kind=player_move id=1518857 name=faxerix raw_hex=036316f6addf36df087eab3a583bb52275016666084172a0145855f08976 coord_source=unvalidated_event3_payload
+  t=1793403843090 kind=player_move id=1522092 name=Yanvers raw_hex=037eecf6addf36df0888904e265248480b40cccce440a6f11f27f98d5b0b coord_source=unvalidated_event3_payload
+  t=1793403843091 kind=player_spawn id=1522196 name=AlExxPoP
+  t=1793403843091 kind=player_mounted id=1521344
+  t=1793403843091 kind=player_move id=1521924 name=Wysoki1312 raw_hex=03138801aedf36df08de5f6127ac55930a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
+  t=1793403843091 kind=player_move id=1518857 name=faxerix raw_hex=03239106aedf36df083de138589fe83b75016666084131fd125824498e76 coord_source=unvalidated_event3_payload
+  t=1793403843161 kind=player_move id=1522092 name=Yanvers raw_hex=031e1907aedf36df08dba04826a96d480b40cccce44045607527f77a350b coord_source=unvalidated_event3_payload
+  t=1793403843161 kind=player_move id=1521924 name=Wysoki1312 raw_hex=0103250baedf36df085f6556273de1840a410000b040 coord_source=unvalidated_event3_payload
+  t=1793403843161 kind=player_move id=1518857 name=faxerix raw_hex=03e30b17aedf36df0884262658730e3c750166660841fa321058711e8276 coord_source=unvalidated_event3_payload
+  t=1793403843218 kind=player_move id=1522092 name=Yanvers raw_hex=037ea916aedf36df087b32bc266f894b0b42cccce440fc3157275b1cfd0b coord_source=unvalidated_event3_payload
+  t=1793403843467 kind=player_move id=1518857 name=faxerix raw_hex=03b3ad27aedf36df088e702458a29c347501666608415c761e5891ec8676 coord_source=unvalidated_event3_payload
+  t=1793403843467 kind=player_move id=1522092 name=Yanvers raw_hex=03fe8726aedf36df089312a0261115310b43cccce440fecab527db67b70b coord_source=unvalidated_event3_payload
+  t=1793403843467 kind=player_move id=1518857 name=faxerix raw_hex=03732838aedf36df0842b6235806324d750166660841ea4c1c582cbd9a76 coord_source=unvalidated_event3_payload
+  t=1793403843467 kind=player_move id=1522092 name=Yanvers raw_hex=03de5037aedf36df080cae94261e76390b44cccce440d27a8f272f02510a coord_source=unvalidated_event3_payload
+  t=1793403843520 kind=player_move id=1518857 name=faxerix raw_hex=0343ca48aedf36df0859802158714346750166660841819a1b58aa0a9f76 coord_source=unvalidated_event3_payload
+  t=1793403843520 kind=player_move id=1522092 name=Yanvers raw_hex=037e7d47aedf36df0893b098266923220b44cccce440fbeedf2793912b0a coord_source=unvalidated_event3_payload
+  t=1793403843631 kind=player_move id=1518857 name=faxerix raw_hex=03034559aedf36df0873c62f58d5e65e750166660841e9de1958e0db9376 coord_source=unvalidated_event3_payload
+  t=1793403843631 kind=player_move id=1522092 name=Yanvers raw_hex=030e8357aedf36df08dda58c26bfce2b0b44cccce44082bd075842c9fc0a coord_source=unvalidated_event3_payload
+  t=1793403843857 kind=player_move id=1517886 name=widonin raw_hex=0353ea5eaedf36df08cfd16e58a13ab1f4110000b040082ba927da747c0b coord_source=unvalidated_event3_payload
+  t=1793403843857 kind=player_move id=1518857 name=faxerix raw_hex=03c3bf69aedf36df08381c2d588905577501666608411f170758b3909776 coord_source=unvalidated_event3_payload
+  t=1793403843857 kind=player_move id=1522092 name=Yanvers raw_hex=03de2468aedf36df083b10ff26a0a91c0b44cccce4400dc14f58cb5edf0a coord_source=unvalidated_event3_payload
+  t=1793403843857 kind=player_move id=1517886 name=widonin raw_hex=03b37a6eaedf36df08b9100c5813b591f4ee0000b0404794bc27ae0c9674 coord_source=unvalidated_event3_payload
+  t=1793403843858 kind=player_move id=1518857 name=faxerix raw_hex=0393617aaedf36df08cf552b58f8aa6f750166660841866d0558d9619476 coord_source=unvalidated_event3_payload
+  t=1793403843858 kind=player_move id=1522092 name=Yanvers raw_hex=035e0378aedf36df08a078e3263cf1050b44cccce4400dc14f58cb5edf0a coord_source=unvalidated_event3_payload
+  t=1793403843915 kind=player_move id=1517886 name=widonin raw_hex=0363ce7eaedf36df08acaf2d58feb17b8bee0000b040ecadb927f4788474 coord_source=unvalidated_event3_payload
+  t=1793403843915 kind=player_move id=1522092 name=Yanvers raw_hex=031e7e88aedf36df085a33d726adfe0f0b44cccce440eefff5271198150a coord_source=unvalidated_event3_payload
+  t=1793403843915 kind=player_move id=1518857 name=faxerix raw_hex=0353dc8aaedf36df088cab2a585cc860750166660841aca304580536a876 coord_source=unvalidated_event3_payload
+  t=1793403844039 kind=player_move id=1517886 name=widonin raw_hex=03c35e8eaedf36df0876a4ca2714f3248bee0000b040ecadb927f4788474 coord_source=unvalidated_event3_payload
+  t=1793403844039 kind=player_move id=1518857 name=faxerix raw_hex=03838697aedf36df0864082858ad907a7501666608410c3802583d13ad76 coord_source=unvalidated_event3_payload
+  t=1793403844039 kind=player_move id=1522092 name=Yanvers raw_hex=03def898aedf36df08b58ddb264bf3ff0b44cccce440eefff5271198150a coord_source=unvalidated_event3_payload
+  t=1793403844188 kind=player_move id=1517886 name=widonin raw_hex=03638b9eaedf36df08d280da27ee4edc8bee0000b040ecadb927f4788474 coord_source=unvalidated_event3_payload
+  t=1793403844188 kind=player_move id=1522092 name=Yanvers raw_hex=035ed7a8aedf36df080ed3cf26a601eb0b44cccce440eefff5271198150a coord_source=unvalidated_event3_payload
+  t=1793403844248 kind=player_move id=1517886 name=widonin raw_hex=03332dafaedf36df08a278ea27578d108aee0000b040ecadb927f4788474 coord_source=unvalidated_event3_payload
+  t=1793403844248 kind=player_move id=1522039 name=Mazzarbul raw_hex=030329b1aedf36df08cfb7c858894a3875806666084120e7a0d8c74c1275 coord_source=unvalidated_event3_payload
+  t=1793403844248 kind=player_move id=1522092 name=Yanvers raw_hex=03deb5b8aedf36df088ca93f279f96c60b44cccce440eefff5271198150a coord_source=unvalidated_event3_payload
+  t=1793403844358 kind=player_move id=1517886 name=widonin raw_hex=03e380bfaedf36df0801aefb275c52e30aee0000b040ecadb927f4788474 coord_source=unvalidated_event3_payload
+  t=1793403844358 kind=player_move id=1522039 name=Mazzarbul raw_hex=03932ec1aedf36df0824f4ef59b2e826757366660841e15eb3d8649a1975 coord_source=unvalidated_event3_payload
+  t=1793403844358 kind=player_move id=1522092 name=Yanvers raw_hex=037ee2c8aedf36df08b64916271887b20b44cccce440eefff5271198150a coord_source=unvalidated_event3_payload
+  t=1793403844426 kind=player_move id=1517886 name=widonin raw_hex=010340c2aedf36df089760fd274f92290aee0000b040 coord_source=unvalidated_event3_payload
+  t=1793403844426 kind=player_move id=1517886 name=widonin raw_hex=010340c2aedf36df089760fd274f92290a440000b040 coord_source=unvalidated_event3_payload
+  t=1793403844427 kind=player_spawn id=1522420 name=MaestroDV
+  t=1793403844427 kind=player_move id=1522039 name=Mazzarbul raw_hex=03130dd1aedf36df08643220db72c12d757b666608419c1cc5d8c3fc0c75 coord_source=unvalidated_event3_payload
+  t=1793403844492 kind=player_move id=1522092 name=Yanvers raw_hex=03ee99d8aedf36df08a13a0f271864ae0b44cccce440eefff5271198150a coord_source=unvalidated_event3_payload
+  t=1793403844492 kind=player_move id=1521344 name=Tedio raw_hex=03331fdbaedf36df08f2655a2722d95c0b4e0000b0401ed4c92649290575 coord_source=unvalidated_event3_payload
+  t=1793403844599 kind=player_move id=1522039 name=Mazzarbul raw_hex=0393ebe0aedf36df082c0d34dab8d314757c666608417e33cdd8afb3f475 coord_source=unvalidated_event3_payload
+  t=1793403844600 kind=player_move id=1522092 name=Yanvers raw_hex=03de89e9aedf36df08fbfd6627ae5b9b0b44cccce440eefff5271198150a coord_source=unvalidated_event3_payload
+  t=1793403844600 kind=player_move id=1521344 name=Tedio raw_hex=0313e8ebaedf36df08465c5e278c389a74f70000b0401abccb263e181975 coord_source=unvalidated_event3_payload
+  t=1793403844791 kind=player_move id=1522039 name=Mazzarbul raw_hex=0313caf0aedf36df08681490d97eed13757c66660841c897d4d8c05cfb75 coord_source=unvalidated_event3_payload
+  t=1793403844792 kind=player_move id=1522092 name=Yanvers raw_hex=01be70f5aedf36df08073e54274ef7890b44cccce440 coord_source=unvalidated_event3_payload
+  t=1793403844792 kind=player_move id=1521344 name=Tedio raw_hex=03b314fcaedf36df08dd6c5227e2b3bd74f70000b040442acc2616591d75 coord_source=unvalidated_event3_payload
+  t=1793403844877 kind=player_move id=1522039 name=Mazzarbul raw_hex=0393a800afdf36df0882c251d932fc1a757c66660841e3fee0d894fae275 coord_source=unvalidated_event3_payload
+  t=1793403844877 kind=player_move id=1521344 name=Tedio raw_hex=0313a50bafdf36df08dd285627fd94d274f70000b040c413cd2616b31075 coord_source=unvalidated_event3_payload
+  t=1793403844877 kind=player_spawn id=1522421 name=Mumio
+  t=1793403844877 kind=player_move id=1522039 name=Mazzarbul raw_hex=03138710afdf36df08622f0ed9f68f01757c66660841e3fee0d894fae275 coord_source=unvalidated_event3_payload
+  t=1793403844941 kind=player_move id=1521344 name=Tedio raw_hex=03630e1bafdf36df0873166927039df774fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403845106 kind=player_move id=1522039 name=Mazzarbul raw_hex=03a38c20afdf36df08ec9c3cd9d4af08757c66660841e3fee0d894fae275 coord_source=unvalidated_event3_payload
+  t=1793403845106 kind=player_move id=1521344 name=Tedio raw_hex=03e3ec2aafdf36df08e4ba6c27b78d1b74fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403845107 kind=player_move id=1522039 name=Mazzarbul raw_hex=03236b30afdf36df088d10d8d82fa2f3757c66660841e3fee0d894fae275 coord_source=unvalidated_event3_payload
+  t=1793403845107 kind=player_move id=1521344 name=Tedio raw_hex=0333563aafdf36df086ed16e27f5622a74fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403845214 kind=player_move id=1522039 name=Mazzarbul raw_hex=03a34940afdf36df08c18eefd8a14ce2757c66660841e3fee0d894fae275 coord_source=unvalidated_event3_payload
+  t=1793403845214 kind=player_move id=1521344 name=Tedio raw_hex=0393e649afdf36df08e371602752163874fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403845306 kind=player_move id=1522039 name=Mazzarbul raw_hex=01334f50afdf36df08e3fee0d894fae2757c66660841 coord_source=unvalidated_event3_payload
+  t=1793403845307 kind=player_move id=1521344 name=Tedio raw_hex=0323ec59afdf36df08408063273c414e74fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403845543 kind=player_move id=1521344 name=Tedio raw_hex=03d33f6aafdf36df0809036527492a5374fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403845543 kind=player_move id=1522421 name=Mumio raw_hex=0340e366afdf36df08cfb7c858894a38758034333d4156184f59f55a4875 coord_source=unvalidated_event3_payload
+  t=1793403845543 kind=player_move id=1520540 name=EnjoyApple raw_hex=03e3b971afdf36df08bf82542725e39b8b3b66661e41f0f1c9262987a875 coord_source=unvalidated_event3_payload
+  t=1793403845544 kind=player_move id=1521344 name=Tedio raw_hex=0333d079afdf36df088aa378272bdf6174fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403845544 kind=player_move id=1522421 name=Mumio raw_hex=03a0557bafdf36df08f47e4659ff394b750534333d415ca2cb5919964175 coord_source=unvalidated_event3_payload
+  t=1793403845603 kind=player_move id=1520540 name=EnjoyApple raw_hex=03339483afdf36df0808096e276e41800bf466661e4182ddcc265bddbb75 coord_source=unvalidated_event3_payload
+  t=1793403845652 kind=player_move id=1521344 name=Tedio raw_hex=03b3ae89afdf36df087cc87a27623a7774fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403845652 kind=player_move id=1522421 name=Mumio raw_hex=03e0978aafdf36df08946d9159014b42750134333d417117e45983185875 coord_source=unvalidated_event3_payload
+  t=1793403845755 kind=player_move id=1520540 name=EnjoyApple raw_hex=03836e95afdf36df08c35e6427dc595c0bfc66661e41b8841827fb99d575 coord_source=unvalidated_event3_payload
+  t=1793403845755 kind=player_move id=1521344 name=Tedio raw_hex=0343b499afdf36df08d2467c271cc58c75fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403845964 kind=player_move id=1522421 name=Mumio raw_hex=0330e39eafdf36df08ab2ae9591c245d750234333d4196aa295a98e76b75 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1520540 name=EnjoyApple raw_hex=03c321a7afdf36df0824e1672709fcbe74ff66661e41ebda7227e5bee675 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1521344 name=Tedio raw_hex=03a344a9afdf36df0853e77f27ade09b75fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1522039 name=Mazzarbul raw_hex=0303bea7afdf36df08e3fee0d894fae2757c66660841a4a9fba7e104cc75 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1522421 name=Mumio raw_hex=039073aeafdf36df0859ff2c5af0806b750134333d4184f5455a55726275 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1520540 name=EnjoyApple raw_hex=032323b9afdf36df08dbd26427e101f4740666661e4192a5a1273aecf775 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1521344 name=Tedio raw_hex=035398b9afdf36df08247a71271b1e9275fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1522039 name=Mazzarbul raw_hex=03839cb7afdf36df08b2926dd80bd5d4756066660841f89e9ea76fadb475 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1522421 name=Mumio raw_hex=03d0b5bdafdf36df08acba6f5ac81f62750134333d417e80945a71da7875 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03d3eeb5afdf36df081e8fb75a7349117480cdcc0c41313b8827c6a42674 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1521344 name=Tedio raw_hex=0393dac8afdf36df08bc96742700d1a975fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1520540 name=EnjoyApple raw_hex=0353afcaafdf36df0837456e27735528740666661e412c8c9327bb500d75 coord_source=unvalidated_event3_payload
+  t=1793403846041 kind=player_move id=1522039 name=Mazzarbul raw_hex=03037bc7afdf36df0850322dd80168d8757166660841126cfba7490ba375 coord_source=unvalidated_event3_payload
+  t=1793403846096 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0323c9c7afdf36df0876084058f0462a74cacdcc0c41e407ba2712083374 coord_source=unvalidated_event3_payload
+  t=1793403846096 kind=player_move id=1522421 name=Mumio raw_hex=0300d1ccafdf36df08486ea25af1b278750134333d41ce3ed55a3b7a7475 coord_source=unvalidated_event3_payload
+  t=1793403846164 kind=player_move id=1521344 name=Tedio raw_hex=033307d9afdf36df080e2f76270316a075fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403846164 kind=player_move id=1522039 name=Mazzarbul raw_hex=038359d7afdf36df08aeb926d8f864ce7583666608417afe1fd85f649c75 coord_source=unvalidated_event3_payload
+  t=1793403846164 kind=player_move id=1520540 name=EnjoyApple raw_hex=03a389dcafdf36df08b084692740cb43740766661e412dce812764e50575 coord_source=unvalidated_event3_payload
+  t=1793403846258 kind=player_move id=1522092 name=Yanvers raw_hex=035e04daafdf36df08073e54274ef7890b44cccce440dd700827aa457174 coord_source=unvalidated_event3_payload
+  t=1793403846258 kind=player_move id=1519768 name=DiosSalchicha raw_hex=039380d7afdf36df08cf5c3e5807b22074cecdcc0c4114515b27035b4374 coord_source=unvalidated_event3_payload
+  t=1793403846259 kind=player_move id=1521344 name=Tedio raw_hex=03a3bee8afdf36df08854908270e2abf75fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403846259 kind=player_move id=1522039 name=Mazzarbul raw_hex=03135fe7afdf36df08f11a2bd82a3bbc75846666084165ab75d80a2d8875 coord_source=unvalidated_event3_payload
+  t=1793403846259 kind=player_move id=1522092 name=Yanvers raw_hex=03be05ecafdf36df08c3ee56270a0e270bffcccce440227d6927e7808875 coord_source=unvalidated_event3_payload
+  t=1793403846259 kind=player_move id=1520540 name=EnjoyApple raw_hex=03f3f2ebafdf36df08b43c532757496c740866661e416814e727d39a1975 coord_source=unvalidated_event3_payload
+  t=1793403846463 kind=player_move id=1519768 name=DiosSalchicha raw_hex=037349e8afdf36df08ceb8fd27b7df3d74d0cdcc0c412b120527d2346d74 coord_source=unvalidated_event3_payload
+  t=1793403846463 kind=player_move id=1521344 name=Tedio raw_hex=03f327f8afdf36df080ae00b27e3dbb675fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403846463 kind=player_move id=1522039 name=Mazzarbul raw_hex=03933df7afdf36df08d58f15d800d0a2758266660841e9950bd8d4975174 coord_source=unvalidated_event3_payload
+  t=1793403846463 kind=player_move id=1522092 name=Yanvers raw_hex=037e80fcafdf36df089106552764028c7405cccce4405844b62715c9a375 coord_source=unvalidated_event3_payload
+  t=1793403846463 kind=player_move id=1520540 name=EnjoyApple raw_hex=0333a6fdafdf36df08704a58272b278e750e66661e4193595358577d0675 coord_source=unvalidated_event3_payload
+  t=1793403846463 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03d3d9f7afdf36df08e974a227f83a4b74cccdcc0c41d4c7dd26a5cb7374 coord_source=unvalidated_event3_payload
+  t=1793403846464 kind=player_move id=1521344 name=Tedio raw_hex=0353b807b0df36df0889000d2736e1cd75fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403846464 kind=player_move id=1522039 name=Mazzarbul raw_hex=03131c07b0df36df08aad107d845e69075876666084109d4aed87eb13c74 coord_source=unvalidated_event3_payload
+  t=1793403846712 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03131c07b0df36df08803a582795444c74cacdcc0c415c7fe52667517374 coord_source=unvalidated_event3_payload
+  t=1793403846712 kind=player_move id=1520540 name=EnjoyApple raw_hex=0393a70fb0df36df08e7b74c2743ac9c750f66661e410b1ee2589a171875 coord_source=unvalidated_event3_payload
+  t=1793403846712 kind=player_move id=1522092 name=Yanvers raw_hex=03fe2216b0df36df0890d0512795a9df7405cccce4405844b62715c9a375 coord_source=unvalidated_event3_payload
+  t=1793403846712 kind=player_move id=1521344 name=Tedio raw_hex=03b34817b0df36df0809a10027478fc475fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403846712 kind=player_move id=1522039 name=Mazzarbul raw_hex=0393fa16b0df36df085cd17bd89a2386758d666608419cbbe35a9aaa0774 coord_source=unvalidated_event3_payload
+  t=1793403846712 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03e3bd17b0df36df083501662773234674c6cdcc0c413742f726abaf6674 coord_source=unvalidated_event3_payload
+  t=1793403846777 kind=player_move id=1520540 name=EnjoyApple raw_hex=03d35a21b0df36df08d32fa427d790a3751066661e41b0e7715a4cca1275 coord_source=unvalidated_event3_payload
+  t=1793403846777 kind=player_move id=1522092 name=Yanvers raw_hex=039e4f26b0df36df0848055e27079d097405cccce4405844b62715c9a375 coord_source=unvalidated_event3_payload
+  t=1793403846777 kind=player_move id=1521344 name=Tedio raw_hex=03537527b0df36df08da39022744ccd375fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403846777 kind=player_move id=1522039 name=Mazzarbul raw_hex=0313d926b0df36df08413f58d8a0a38b758d666608419cbbe35a9aaa0774 coord_source=unvalidated_event3_payload
+  t=1793403846777 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0383ea27b0df36df087ee704272dd95a74c5cdcc0c41235b82267b666374 coord_source=unvalidated_event3_payload
+  t=1793403846777 kind=player_move id=1520540 name=EnjoyApple raw_hex=03233533b0df36df086c0c8727c182b2751066661e4144640ed9afe22a75 coord_source=unvalidated_event3_payload
+  t=1793403846777 kind=player_move id=1522092 name=Yanvers raw_hex=031e2e36b0df36df0811bd5c278f78127405cccce4405844b62715c9a375 coord_source=unvalidated_event3_payload
+  t=1793403846777 kind=player_move id=1521344 name=Tedio raw_hex=03f3a137b0df36df08b5b20527460dea75fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403846778 kind=player_move id=1522039 name=Mazzarbul raw_hex=03a3de36b0df36df08fc1e92d8eb5e6f748d666608419cbbe35a9aaa0774 coord_source=unvalidated_event3_payload
+  t=1793403846832 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03f3a137b0df36df08a89a21271cfd5f74c3cdcc0c41fe759c262b0e6874 coord_source=unvalidated_event3_payload
+  t=1793403846963 kind=player_move id=1520540 name=EnjoyApple raw_hex=0363e844b0df36df0807aefb279b96c1751066661e4124419ed89e552275 coord_source=unvalidated_event3_payload
+  t=1793403846963 kind=player_move id=1522092 name=Yanvers raw_hex=030e1e47b0df36df089b82592780bf387405cccce4405844b62715c9a375 coord_source=unvalidated_event3_payload
+  t=1793403846965 kind=player_move id=1521344 name=Tedio raw_hex=0383a747b0df36df0815c107279555e175fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403846965 kind=player_move id=1522039 name=Mazzarbul raw_hex=0323bd46b0df36df08c35adcd85c5942748d666608419cbbe35a9aaa0774 coord_source=unvalidated_event3_payload
+  t=1793403847157 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03635947b0df36df083da5cb2659285e74c1cdcc0c41e14b96262db65174 coord_source=unvalidated_event3_payload
+  t=1793403847158 kind=player_move id=1522092 name=Yanvers raw_hex=038efc56b0df36df086c3a46270805417405cccce4405844b62715c9a375 coord_source=unvalidated_event3_payload
+  t=1793403847158 kind=player_move id=1520540 name=EnjoyApple raw_hex=03b3c256b0df36df08698fde273480d0751066661e418cf76dd884dc3975 coord_source=unvalidated_event3_payload
+  t=1793403847158 kind=player_move id=1521344 name=Tedio raw_hex=0323d457b0df36df08e259192797aaff75fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403847158 kind=player_move id=1522039 name=Mazzarbul raw_hex=03a39b56b0df36df08541609d915c8257483666608414280f5d98a1cb074 coord_source=unvalidated_event3_payload
+  t=1793403847158 kind=player_spawn id=1522441 name=EXIPAY
+  t=1793403847158 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03d31057b0df36df08c425d926a3f45e74becdcc0c410f0ea226df744074 coord_source=unvalidated_event3_payload
+  t=1793403847158 kind=player_move id=1522039 name=Mazzarbul raw_hex=01831160b0df36df089a5a64d9581516748366660841 coord_source=unvalidated_event3_payload
+  t=1793403847158 kind=player_move id=1522092 name=Yanvers raw_hex=032e2967b0df36df08246f43271a7f697405cccce4405844b62715c9a375 coord_source=unvalidated_event3_payload
+  t=1793403847158 kind=player_move id=1521344 name=Tedio raw_hex=03733d67b0df36df0876f01c27495af775fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403847158 kind=player_move id=1520540 name=EnjoyApple raw_hex=03039d68b0df36df08f5183a58a1f3e7751066661e4123c916d8e06a3175 coord_source=unvalidated_event3_payload
+  t=1793403847158 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0333a166b0df36df08d055d726ac415974bccdcc0c41865fbf26c7563474 coord_source=unvalidated_event3_payload
+  t=1793403847160 kind=player_move id=1522092 name=Yanvers raw_hex=03eea377b0df36df08c1a04127feed707405cccce4405844b62715c9a375 coord_source=unvalidated_event3_payload
+  t=1793403847160 kind=player_move id=1521344 name=Tedio raw_hex=03e3f476b0df36df08e31a1e27c7400975fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403847282 kind=player_move id=1520540 name=EnjoyApple raw_hex=03530678b0df36df08d9640858afb7f0751066661e412759cfa7739e4975 coord_source=unvalidated_event3_payload
+  t=1793403847282 kind=player_move id=1521354 name=Raikyu raw_hex=03839973b0df36df08baf2532741df110a429a991541613f4b26f556bf75 coord_source=unvalidated_event3_payload
+  t=1793403847283 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03b37f76b0df36df0870d7e62632644574b9cdcc0c41d9944b26e9f53974 coord_source=unvalidated_event3_payload
+  t=1793403847335 kind=player_move id=1522092 name=Yanvers raw_hex=037ea987b0df36df080cdf4e276129827505cccce4405844b62715c9a375 coord_source=unvalidated_event3_payload
+  t=1793403847335 kind=player_move id=1521344 name=Tedio raw_hex=03438586b0df36df086cbb11273edd0c75fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403847335 kind=player_move id=1521354 name=Raikyu raw_hex=03738984b0df36df0847877e27e7ffec0bd59a991541983a6b26e5e59975 coord_source=unvalidated_event3_payload
+  t=1793403847335 kind=player_move id=1520540 name=EnjoyApple raw_hex=0393b989b0df36df08a7384f58ce420e751066661e41e8b8eda7c8734175 coord_source=unvalidated_event3_payload
+  t=1793403847488 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03131086b0df36df0816cef4262cec4274b8cdcc0c413bbd412691d22d74 coord_source=unvalidated_event3_payload
+  t=1793403847488 kind=player_move id=1522092 name=Yanvers raw_hex=03ee6097b0df36df0859704b2788e49e7505cccce4405844b62715c9a375 coord_source=unvalidated_event3_payload
+  t=1793403847488 kind=player_move id=1521344 name=Tedio raw_hex=03b33c96b0df36df08dac513273b530075fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403847488 kind=player_move id=1521354 name=Raikyu raw_hex=03637995b0df36df08145e1c27d58a2e0bcb9a99154181b27f26517d3774 coord_source=unvalidated_event3_payload
+  t=1793403847488 kind=player_move id=1520540 name=EnjoyApple raw_hex=03e3939bb0df36df08e6d7da58ffeb05751366661e411ad592a73bc24775 coord_source=unvalidated_event3_payload
+  t=1793403847488 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03c36396b0df36df087d8b832654e64874b8cdcc0c41cdfe5826a3c82b74 coord_source=unvalidated_event3_payload
+  t=1793403847547 kind=player_move id=1521344 name=Tedio raw_hex=0323f4a5b0df36df08526015273ad11b75fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403847547 kind=player_move id=1522092 name=Yanvers raw_hex=038e8da7b0df36df0811a5492780ebaa7505cccce4405844b62715c9a375 coord_source=unvalidated_event3_payload
+  t=1793403847547 kind=player_move id=1521354 name=Raikyu raw_hex=035369a6b0df36df08dc2d3d2755af370bc59a991541e30d76261451d774 coord_source=unvalidated_event3_payload
+  t=1793403847547 kind=player_move id=1520540 name=EnjoyApple raw_hex=03336eadb0df36df088985d659c84d1d750b66661e413a75dea79a866b75 coord_source=unvalidated_event3_payload
+  t=1793403847547 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0373b7a6b0df36df0865489126ddf93674b8cdcc0c41561d5f26f5c21174 coord_source=unvalidated_event3_payload
+  t=1793403847689 kind=player_move id=1521344 name=Tedio raw_hex=03735db5b0df36df08e48628274f791f75fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403847689 kind=player_move id=1522092 name=Yanvers raw_hex=014e08b8b0df36df085844b62715c9a37505cccce440 coord_source=unvalidated_event3_payload
+  t=1793403847689 kind=player_move id=1521354 name=Raikyu raw_hex=034359b7b0df36df08b8ecc3268dbe4d0bc49a991541029a55268de2ab74 coord_source=unvalidated_event3_payload
+  t=1793403847689 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0303bdb6b0df36df0823cca026bdd73c74b8cdcc0c41ec4d56269eca1f74 coord_source=unvalidated_event3_payload
+  t=1793403847689 kind=player_move id=1520540 name=EnjoyApple raw_hex=037321bfb0df36df08eac424dad35314750966661e41fde0daa7d6da6075 coord_source=unvalidated_event3_payload
+  t=1793403847689 kind=player_move id=1521344 name=Tedio raw_hex=030363c5b0df36df08bf152a2739d51275fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403847814 kind=player_move id=1521354 name=Raikyu raw_hex=033349c8b0df36df084e5dd326d64c440bc39a9915412cfa6926f9f09874 coord_source=unvalidated_event3_payload
+  t=1793403847814 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03d35ec7b0df36df08b532bf26c88a3a74b8cdcc0c4111c96e26f8e90574 coord_source=unvalidated_event3_payload
+  t=1793403847814 kind=player_move id=1520540 name=EnjoyApple raw_hex=03c3fbd0b0df36df08fc3d7cd9024d23750866661e41e953c6a741f87e75 coord_source=unvalidated_event3_payload
+  t=1793403847814 kind=player_move id=1521344 name=Tedio raw_hex=0363f3d4b0df36df083eb62d2711661675fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403847814 kind=player_spawn id=1522492 name=NelorArsm
+  t=1793403847875 kind=player_move id=1521354 name=Raikyu raw_hex=032339d9b0df36df0835c8e4261d085d0bc29a99154177c76d2685308f74 coord_source=unvalidated_event3_payload
+  t=1793403847875 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0383b2d7b0df36df08ee934b26738c2074b8cdcc0c41c845652695f20374 coord_source=unvalidated_event3_payload
+  t=1793403848021 kind=player_move id=1520540 name=EnjoyApple raw_hex=0313d6e2b0df36df08a71ed9d8e1a739750766661e418cb4c5a746fa7475 coord_source=unvalidated_event3_payload
+  t=1793403848021 kind=player_move id=1521344 name=Tedio raw_hex=03c383e4b0df36df08bcd62f274cf32975fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403848021 kind=player_move id=1521354 name=Raikyu raw_hex=032350eab0df36df084088f526ae39510bc19a991541c5046326e4cc710b coord_source=unvalidated_event3_payload
+  t=1793403848021 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03d31be7b0df36df0840ae42262bd52e74b7cdcc0c4102307c26ac220b74 coord_source=unvalidated_event3_payload
+  t=1793403848021 kind=player_move id=1520540 name=EnjoyApple raw_hex=0363b0f4b0df36df087424e1d8f0f830750166661e41618048d833e68d76 coord_source=unvalidated_event3_payload
+  t=1793403848021 kind=player_move id=1521344 name=Tedio raw_hex=034362f4b0df36df081a7b2127167a2d75fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403848103 kind=player_move id=1521354 name=Raikyu raw_hex=031340fbb0df36df086c6e8526ab97560bc19a99154196447f264cb68b74 coord_source=unvalidated_event3_payload
+  t=1793403848103 kind=player_move id=1519768 name=DiosSalchicha raw_hex=036321f7b0df36df082ae5592669a81474b7cdcc0c41d341732610f8ff74 coord_source=unvalidated_event3_payload
+  t=1793403848161 kind=player_move id=1521344 name=Tedio raw_hex=0393cb03b1df36df08f9a8242754b52175fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
+  t=1793403848161 kind=player_mounted id=1521394
+  t=1793403848161 kind=player_move id=1520540 name=EnjoyApple raw_hex=03a36306b1df36df0809d2e0d87ec84f75ff66661e41898157d9d44c8076 coord_source=unvalidated_event3_payload
+  t=1793403848161 kind=player_move id=1522196 name=AlExxPoP raw_hex=039590fbb0df36df0824481b2655b58b0b40666608411ac167261fabb575 coord_source=unvalidated_event3_payload
+  t=1793403848277 kind=player_move id=1521354 name=Raikyu raw_hex=0303300cb1df36df081bc596265b796b0bc09a9915411bd00626ccdb600b coord_source=unvalidated_event3_payload
+  t=1793403848277 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03239c07b1df36df08e876502673191374b7cdcc0c4180980b264772ec74 coord_source=unvalidated_event3_payload
+  t=1793403848277 kind=player_move id=1522196 name=AlExxPoP raw_hex=0325070eb1df36df084a5b1826b130310b106666084139e66726c9c0b575 coord_source=unvalidated_event3_payload
+  t=1793403848277 kind=player_move id=1521344 name=Tedio raw_hex=01e33413b1df36df0822af252757b52175fc0000b040 coord_source=unvalidated_event3_payload
+  t=1793403848277 kind=player_move id=1520540 name=EnjoyApple raw_hex=03f33d18b1df36df08dee1ded883094675fd66661e412576e659a8219b76 coord_source=unvalidated_event3_payload
+  t=1793403848330 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03d3ef17b1df36df08a9ab6826dc841974b7cdcc0c410c330126ce75dc74 coord_source=unvalidated_event3_payload
+  t=1793403848330 kind=player_move id=1521354 name=Raikyu raw_hex=03f31f1db1df36df080ebda72689e3570bbe9a9915412083162644c90b0b coord_source=unvalidated_event3_payload
+  t=1793403848330 kind=player_move id=1522196 name=AlExxPoP raw_hex=03456c1fb1df36df086c6b052617d89d7411666608411b4a6126c127cd75 coord_source=unvalidated_event3_payload
+  t=1793403848460 kind=player_move id=1520540 name=EnjoyApple raw_hex=0343182ab1df36df080b60c8d89b4f5d75fd66661e4148f84a59a4869e76 coord_source=unvalidated_event3_payload
+  t=1793403848527 kind=player_move id=1522420 name=MaestroDV raw_hex=03af6d1ab1df36df0824481b2655b58b0b400000b0402f361c265d3b4b8b coord_source=unvalidated_event3_payload
+  t=1793403848527 kind=player_move id=1521354 name=Raikyu raw_hex=0363d72cb1df36df0817d0b6265fb7580bbc9a991541b8cb2b261d72710a coord_source=unvalidated_event3_payload
+  t=1793403848527 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0363f527b1df36df0810f46f26e8770174b5cdcc0c41bbc80626450fb774 coord_source=unvalidated_event3_payload
+  t=1793403848527 kind=player_move id=1522196 name=AlExxPoP raw_hex=03458330b1df36df088fb502262aa7c0741866660841927254262d08b375 coord_source=unvalidated_event3_payload
+  t=1793403848527 kind=player_move id=1520540 name=EnjoyApple raw_hex=0383cb3bb1df36df08f1a61fd9d9916b75fd66661e414c546459ac7d9276 coord_source=unvalidated_event3_payload
+  t=1793403848527 kind=player_move id=1522420 name=MaestroDV raw_hex=030fe02eb1df36df08fcd41a2632b8bc8a650000b0402ef0022673d5368b coord_source=unvalidated_event3_payload
+  t=1793403848527 kind=player_move id=1521354 name=Raikyu raw_hex=03f3dc3cb1df36df08c0b34f2653844d0bbb9a991541350a2f26f8e4cc0a coord_source=unvalidated_event3_payload
+  t=1793403848527 kind=player_move id=1521380 name=PapyFredo raw_hex=03833c3eb1df36df0822e1de584e4b17747b9a991541d7e6fad8db77cf75 coord_source=unvalidated_event3_payload
+  t=1793403848527 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0353e538b1df36df08d00f66261ed10a74b3cdcc0c41ba8c1b2653389574 coord_source=unvalidated_event3_payload
+  t=1793403848584 kind=player_move id=1522196 name=AlExxPoP raw_hex=03c54345b1df36df08e3ed0b265bd5f5742466660841068a4326657b9175 coord_source=unvalidated_event3_payload
+  t=1793403848584 kind=player_move id=1522420 name=MaestroDV raw_hex=036f703eb1df36df08b6070626e156718a520000b04034620a26b27c138b coord_source=unvalidated_event3_payload
+  t=1793403848695 kind=player_move id=1520540 name=EnjoyApple raw_hex=03e3cc4db1df36df085c0163d9e9c36275fd66661e41014d1f599fd29576 coord_source=unvalidated_event3_payload
+  t=1793403848695 kind=player_move id=1521380 name=PapyFredo raw_hex=03937a4fb1df36df089f1c0a59be913574089a991541a7cd69d89d72d775 coord_source=unvalidated_event3_payload
+  t=1793403848695 kind=player_move id=1521354 name=Raikyu raw_hex=0383e24cb1df36df08f16746263e993c0bbb9a991541bb05232632655288 coord_source=unvalidated_event3_payload
+  t=1793403848695 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03f31149b1df36df08cc037d26a170e674b0cdcc0c410c8d10269e84770b coord_source=unvalidated_event3_payload
+  t=1793403848695 kind=player_move id=1522196 name=AlExxPoP raw_hex=03f5cf56b1df36df08aee77426315a07742f666608415e71bf2625f07774 coord_source=unvalidated_event3_payload
+  t=1793403848956 kind=player_move id=1521380 name=PapyFredo raw_hex=03631c60b1df36df083815e3594cbf5574099a99154107040ad89ee9e075 coord_source=unvalidated_event3_payload
+  t=1793403848956 kind=player_move id=1520540 name=EnjoyApple raw_hex=03230f5db1df36df08644f4ed9b8e97a75fdcccc4e4104f1c9589849a976 coord_source=unvalidated_event3_payload
+  t=1793403848956 kind=player_move id=1521354 name=Raikyu raw_hex=0303c15cb1df36df0892245e2644813a0bc19a9915417d9c2026e61c400b coord_source=unvalidated_event3_payload
+  t=1793403848956 kind=player_move id=1522420 name=MaestroDV raw_hex=03af9452b1df36df086b4d0026ebf7918b410000b040bf5673264146a98b coord_source=unvalidated_event3_payload
+  t=1793403848956 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03b38c59b1df36df084a1f7426458cde74aecdcc0c41696c14264bb83d0b coord_source=unvalidated_event3_payload
+  t=1793403848956 kind=player_spawn id=1522521 name=MomoMonii
+  t=1793403848956 kind=player_move id=1522196 name=AlExxPoP raw_hex=03956d69b1df36df08c98d7c26702b1f743866660841ef4294260d4d4074 coord_source=unvalidated_event3_payload
+  t=1793403848956 kind=player_move id=1521380 name=PapyFredo raw_hex=03c3ac6fb1df36df08e21aebda3e667074099a9915416b2421d8b7c3fc75 coord_source=unvalidated_event3_payload
+  t=1793403848956 kind=player_move id=1521354 name=Raikyu raw_hex=03839f6cb1df36df08ddef5626071c3c0bc29a9915410d952226e6b3700b coord_source=unvalidated_event3_payload
+  t=1793403848956 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0303f668b1df36df084c4c0a262788b074accdcc0c41a1ab2926c96fd70b coord_source=unvalidated_event3_payload
+  t=1793403849011 kind=player_move id=1522420 name=MaestroDV raw_hex=030f0767b1df36df08e4a90b26ce2f8c8b3a0000b040a86a7d26496a058a coord_source=unvalidated_event3_payload
+  t=1793403849011 kind=player_mounted id=1521394
+  t=1793403849011 kind=player_move id=1521380 name=PapyFredo raw_hex=03438b7fb1df36df08b3f14ed911b88675069a991541d12770d8e7650875 coord_source=unvalidated_event3_payload
+  t=1793403849011 kind=player_move id=1522196 name=AlExxPoP raw_hex=03c56a7db1df36df0834e063268dd413743c6666084102d78e2672923974 coord_source=unvalidated_event3_payload
+  t=1793403849011 kind=player_move id=1521354 name=Raikyu raw_hex=0363687db1df36df08143e6e269a39480bc39a991541d05e242693d99a74 coord_source=unvalidated_event3_payload
+  t=1793403849011 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03b34979b1df36df08ae3d01269c2d9674abcdcc0c41965b2d26d5d0540a coord_source=unvalidated_event3_payload
+  t=1793403849011 kind=player_move id=1522420 name=MaestroDV raw_hex=036f9776b1df36df08a7007626b6b85c8a380000b040e1607926f93e2789 coord_source=unvalidated_event3_payload
+  t=1793403849197 kind=player_move id=1521380 name=PapyFredo raw_hex=03a31b8fb1df36df08a55ba2d9968b9775f99a991541dc816f58d7c71175 coord_source=unvalidated_event3_payload
+  t=1793403849202 kind=player_move id=1521354 name=Raikyu raw_hex=03f36d8db1df36df08ffe86626273e470bc29a991541fc2d3926bebc8c74 coord_source=unvalidated_event3_payload
+  t=1793403849202 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0383eb89b1df36df08b6f31826b7a58b74accdcc0c4110b6222625fe140a coord_source=unvalidated_event3_payload
+  t=1793403849203 kind=player_move id=1522196 name=AlExxPoP raw_hex=03350492b1df36df08d19d6a26888810743d666608416ad7fb268e0c3b74 coord_source=unvalidated_event3_payload
+  t=1793403849203 kind=player_move id=1522420 name=MaestroDV raw_hex=03bfe28ab1df36df083ebc71269254ff8a350000b04001fe64269d27c10a coord_source=unvalidated_event3_payload
+  t=1793403849203 kind=player_move id=1521380 name=PapyFredo raw_hex=0383e49fb1df36df08bf3959dba0eda775f79a991541dde8cb27b94b2975 coord_source=unvalidated_event3_payload
+  t=1793403849203 kind=player_move id=1521354 name=Raikyu raw_hex=03734c9db1df36df08b2937e2656d5590bc19a991541e0813e268d127d0b coord_source=unvalidated_event3_payload
+  t=1793403849203 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03333f9ab1df36df08f84e1e2689d2420ba9cdcc0c4106f8222695f87e08 coord_source=unvalidated_event3_payload
+  t=1793403849320 kind=player_move id=1522196 name=AlExxPoP raw_hex=03358ca5b1df36df08e8c25126347016743d666608419370e826004a3974 coord_source=unvalidated_event3_payload
+  t=1793403849320 kind=player_move id=1522521 name=MomoMonii raw_hex=0377a59fb1df36df0824481b2655b58b0b400000b040a24864263e049cf4 coord_source=unvalidated_event3_payload
+  t=1793403849320 kind=player_move id=1522420 name=MaestroDV raw_hex=030f4c9ab1df36df0897787c26a5081989330000b040f8e7602696986f0a coord_source=unvalidated_event3_payload
+  t=1793403849320 kind=player_move id=1521380 name=PapyFredo raw_hex=03e374afb1df36df089bf8fb59c1ffb075f89a991541ae52cd27310a2375 coord_source=unvalidated_event3_payload
+  t=1793403849320 kind=player_move id=1521354 name=Raikyu raw_hex=030352adb1df36df08a14a7526026c440bbd9a9915413a1032261d31000b coord_source=unvalidated_event3_payload
+  t=1793403849320 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0383a8a9b1df36df088fab1426f72ef20b93cdcc0c4130c32e264dd1438b coord_source=unvalidated_event3_payload
+  t=1793403849376 kind=player_spawn id=1522527 name=yidunxiaoshaokao
+  t=1793403849376 kind=player_move id=1522420 name=MaestroDV raw_hex=036fdca9b1df36df08802b78260d878a0a310000b04071c26c26ac7ab30b coord_source=unvalidated_event3_payload
+  t=1793403849376 kind=player_move id=1522521 name=MomoMonii raw_hex=03b758b1b1df36df083c2c0726887eb90a560000b040299a6126a166a7f4 coord_source=unvalidated_event3_payload
+  t=1793403849376 kind=player_move id=1521380 name=PapyFredo raw_hex=03a3efbfb1df36df08f0af09594faac075f89a9915419264da27fc1c3b75 coord_source=unvalidated_event3_payload
+  t=1793403849376 kind=player_move id=1522196 name=AlExxPoP raw_hex=03956fbcb1df36df08e9f6472665092b743d666608419370e826004a3974 coord_source=unvalidated_event3_payload
+  t=1793403849376 kind=player_move id=1521354 name=Raikyu raw_hex=037309bdb1df36df08e91e0d269dca4f0bbb9a9915415427c8255d12a50b coord_source=unvalidated_event3_payload
+  t=1793403849448 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03f35fb9b1df36df0895171126b2caca0a5ecdcc0c41765000262022578b coord_source=unvalidated_event3_payload
+  t=1793403849448 kind=player_spawn id=1522521 name=MomoMonii
+  t=1793403849526 kind=player_move id=1522521 name=MomoMonii raw_hex=03f79ac0b1df36df08826f03269d3b6a89560000b040e4116c26618ecdf4 coord_source=unvalidated_event3_payload
+  t=1793403849526 kind=player_move id=1522420 name=MaestroDV raw_hex=03bf27beb1df36df0881836326f45a440a300000b040f7aa5726e63d0d0b coord_source=unvalidated_event3_payload
+  t=1793403849526 kind=player_move id=1521380 name=PapyFredo raw_hex=03431cd0b1df36df08d1f8db58c01dd175f89a9915415b77d727b0263375 coord_source=unvalidated_event3_payload
+  t=1793403849526 kind=player_move id=1521354 name=Raikyu raw_hex=03030fcdb1df36df08e3c405267bd53f0bbb9a9941415cbece2509427e0a coord_source=unvalidated_event3_payload
+  t=1793403849526 kind=player_move id=1519768 name=DiosSalchicha raw_hex=038365c9b1df36df0817cb1b26882b2e8a56cdcc0c41df5477265389638b coord_source=unvalidated_event3_payload
+  t=1793403849526 kind=player_move id=1522196 name=AlExxPoP raw_hex=038541d2b1df36df08d5304d26da3a28743d666608419370e826004a3974 coord_source=unvalidated_event3_payload
+  t=1793403849526 kind=player_spawn id=1522536 name=govend
+  t=1793403849527 kind=player_move id=1522521 name=MomoMonii raw_hex=034775d2b1df36df0852d40f262680568a540000b0408a55522619afd3f4 coord_source=unvalidated_event3_payload
+  t=1793403849583 kind=player_move id=1522420 name=MaestroDV raw_hex=031fb8cdb1df36df083cad6f26cdc0a90b2f0000b04007885326eb612c0b coord_source=unvalidated_event3_payload
+  t=1793403849583 kind=player_move id=1521380 name=PapyFredo raw_hex=03e348e0b1df36df08b4258958fa8be175fb9a9915419febc927ba064d75 coord_source=unvalidated_event3_payload
+  t=1793403849583 kind=player_move id=1521354 name=Raikyu raw_hex=0373c6dcb1df36df0819ab1d26d51a2c0bbd9a9941411a4cc3259ff6900b coord_source=unvalidated_event3_payload
+  t=1793403849583 kind=player_move id=1519768 name=DiosSalchicha raw_hex=032392d9b1df36df083110042654a6a78b45cdcc0c41d3b17e263f76098b coord_source=unvalidated_event3_payload
+  t=1793403849779 kind=player_move id=1522196 name=AlExxPoP raw_hex=03657be5b1df36df083e5eb126a5b92d743d666608419370e826004a3974 coord_source=unvalidated_event3_payload
+  t=1793403849779 kind=player_move id=1522521 name=MomoMonii raw_hex=038728e4b1df36df086d1b0a267b62a78b4e0000b040d8d142261cfac2f4 coord_source=unvalidated_event3_payload
+  t=1793403849779 kind=player_move id=1521380 name=PapyFredo raw_hex=03939cf0b1df36df08ce8d8e58be8ff175029a991541f3e84c59e1d95075 coord_source=unvalidated_event3_payload
+  t=1793403849887 kind=player_move id=1521354 name=Raikyu raw_hex=0373ddedb1df36df080fb41726ba83140bbf9a9941413eb4dd25fd47090b coord_source=unvalidated_event3_payload
+  t=1793403849887 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0363d4e8b1df36df0824d20326161a2f8ad6cdcc0c41f97d1626e4751f0b coord_source=unvalidated_event3_payload
+  t=1793403849887 kind=player_move id=1522420 name=MaestroDV raw_hex=035fdce1b1df36df08286369264be1fb0b2e0000b0404f465d2663755b0b coord_source=unvalidated_event3_payload
+  t=1793403849888 kind=player_move id=1522521 name=MomoMonii raw_hex=03c7dbf5b1df36df081f787526dfebd58b4b0000b040540b4926049ac9f4 coord_source=unvalidated_event3_payload
+  t=1793403849888 kind=player_move id=1522196 name=AlExxPoP raw_hex=03e5acfcb1df36df08918bad2684b822743d666608419370e826004a3974 coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1522420 name=MaestroDV raw_hex=03cf93f1b1df36df08e40c5526c6bd1c0b2e0000b040256e5926cf067a0b coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1521380 name=PapyFredo raw_hex=03633e01b2df36df08f86bf15800f70e75029a99154171c3e359c7df6875 coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03e3b2f8b1df36df086f861a267932bd08cbcdcc0c4153812026c630c00b coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1521354 name=Raikyu raw_hex=0353a6feb1df36df082b1f21264181100bbf9a9941413eb4dd25fd47090b coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=038c8bf3b1df36df0824481b2655b58b0b406666344197d66526bbc6c08b coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1522521 name=MomoMonii raw_hex=03174505b2df36df0885327126621d0a8b4b0000b04086b8b1268b29c8f4 coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=034c0604b2df36df0894280226b30ca50a4c66663441a6676c2675b32e8b coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1521380 name=PapyFredo raw_hex=03d3f510b2df36df082e9be65827410775029a991541bd6c3f5aa6f76075 coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03331c08b2df36df08a5a311266145e60ac9cdcc0c4113663a2698b6fc0b coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1521354 name=Raikyu raw_hex=0343960fb2df36df081dd13c26b6921c0bbf9a9941413eb4dd25fd47090b coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1522420 name=MaestroDV raw_hex=030fb805b2df36df0855c95026c08f340b2e0000b040ca1d44262be18674 coord_source=unvalidated_event3_payload
+  t=1793403849947 kind=player_move id=1522196 name=AlExxPoP raw_hex=03b5a114b2df36df084a5787265c9d27743d666608419370e826004a3974 coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1522521 name=MomoMonii raw_hex=03671f17b2df36df08463c7c26c27e1d8b4b0000b040464ea626bdadc6f4 coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=039c6f13b2df36df0802470926e0d6b98a4d666634417838532675d06f8b coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0393ac17b2df36df08ba9c28269eba300ac2cdcc0c4153c43326610f870b coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1521380 name=PapyFredo raw_hex=03937021b2df36df084b5be95864b31e75029a9915414d6d5c5ae9d27875 coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1522420 name=MaestroDV raw_hex=034ffa14b2df36df08f23b5c26b7ec550b2d0000b0401b0f4026196b9674 coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1521354 name=Raikyu raw_hex=0343ad20b2df36df08808b37261d5d1d0bc39a994141a369e7254dd6710b coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1522196 name=AlExxPoP raw_hex=03b52928b2df36df087bc1f626d71a25743d666608419370e826004a3974 coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03ecd822b2df36df08e68571261363708a4b666634410b025b26b4d56b8b coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1519768 name=DiosSalchicha raw_hex=0323b227b2df36df08f2392f2684d4450ac2cdcc0c419bc2cb2546f0910b coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1522521 name=MomoMonii raw_hex=03a7d228b2df36df08ab2b67264101208b4b0000b040c0f0ad26e92dddf4 coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1521380 name=PapyFredo raw_hex=0353eb31b2df36df08291cdd58a4a21675029a991541988d075b2bd37075 coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1521354 name=Raikyu raw_hex=03237631b2df36df089759cc253d0d2a0bc39a9941414c05fb25be15740b coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1522420 name=MaestroDV raw_hex=03bf9329b2df36df08648f47261e808f742d0000b040c3ca4b26d03cb974 coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1522196 name=AlExxPoP raw_hex=03a58a3bb2df36df080098e526a2843a743d666608419370e826004a3974 coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03936937b2df36df08af7c26261a02630ac3cdcc0c411c74c025a8f9c10b coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=033cb334b2df36df0880656626ab21bf8b4366663441793eb4264edb1c8b coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1521380 name=PapyFredo raw_hex=03c3a241b2df36df084b4bc158587f2f75029a991541ad3862dbff208a76 coord_source=unvalidated_event3_payload
+  t=1793403850144 kind=player_move id=1521354 name=Raikyu raw_hex=0383243cb2df36df0837f8c025c937230bc39a9941414c05fb25be15740b coord_source=unvalidated_event3_payload
+  t=1793403850200 kind=player_move id=1522521 name=MomoMonii raw_hex=03f7ac3ab2df36df08ea156226380c4b8b4b0000b040d8df932679b0eaf4 coord_source=unvalidated_event3_payload
+  t=1793403850200 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0373fd3bb2df36df08405eeea711657f0ba73433ff40c73b27d9177abb75 coord_source=unvalidated_event3_payload
+  t=1793403850252 kind=player_move id=1522420 name=MaestroDV raw_hex=031f063eb2df36df08e0424126b2c092742d0000b04041c9b426d50dc374 coord_source=unvalidated_event3_payload
+  t=1793403850252 kind=player_move id=1522441 name=EXIPAY raw_hex=03a30149b2df36df08cfb7c858894a387580cccce440b9b30d581336e275 coord_source=unvalidated_event3_payload
+  t=1793403850252 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03f3f946b2df36df080a473d26f673810bc5cccc38411a9bc625a545010b coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1521380 name=PapyFredo raw_hex=03233351b2df36df087b6334595ddc2775029a9915418fb74fda19d08e76 coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=038c8d46b2df36df0859fd6c26a137c38b406666344199dcaa26cf7cd28b coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1522521 name=MomoMonii raw_hex=0347874cb2df36df08323b6d261b1d428b3d0000b04087d99d262bb20b8b coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1522196 name=AlExxPoP raw_hex=01757f53b2df36df089370e826004a39743d66660841 coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03c3d74db2df36df08ed33d0a739e9bf74f63433ff408cc4b3d9c901bd75 coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1522420 name=MaestroDV raw_hex=036f6f4db2df36df08194a4d263f35a2742d0000b040ba28bc26ff46d374 coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1522441 name=EXIPAY raw_hex=0383ca59b2df36df08cabcc758640e267580cccce440c4e1ce5885a38f75 coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03932657b2df36df08dfd535265aae9f0bbdcccc384180bfd925753a0d0a coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03dcf655b2df36df084e9953267226c08b40666634411ce29e26af0dd08b coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1521380 name=PapyFredo raw_hex=03f3d461b2df36df087dae2c59b2383f75029a991541ff4b21dae7c28276 coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1522521 name=MomoMonii raw_hex=0397615eb2df36df08833968261eeb3d8b340000b040b2488e26d2b3fb0b coord_source=unvalidated_event3_payload
+  t=1793403850463 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03f3635fb2df36df086475c2a752d9e674f63433ff400f92d0d9fdacb475 coord_source=unvalidated_event3_payload
+  t=1793403850464 kind=player_move id=1522420 name=MaestroDV raw_hex=03afb15cb2df36df0882a54a2654c9b2742d0000b040a778a4263d95e274 coord_source=unvalidated_event3_payload
+  t=1793403850464 kind=player_move id=1522441 name=EXIPAY raw_hex=03e35a69b2df36df0816a6c15837532c757fcccce44032428eddce974f74 coord_source=unvalidated_event3_payload
+  t=1793403850530 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03437a67b2df36df080e89cb258d0e560abacccc3841c622dc2555a4d38a coord_source=unvalidated_event3_payload
+  t=1793403850531 kind=player_move id=1521380 name=PapyFredo raw_hex=03b34f72b2df36df08bb2f0359f22a3775029a991541d9a6eed9f9358676 coord_source=unvalidated_event3_payload
+  t=1793403850531 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=032cd167b2df36df08c81658269eeac48b40666634416dc9fd2635f0e88b coord_source=unvalidated_event3_payload
+  t=1793403850532 kind=player_move id=1522521 name=MomoMonii raw_hex=03d71470b2df36df08ca195326da8c158b340000b040bb9ff5266ee01b0b coord_source=unvalidated_event3_payload
+  t=1793403850587 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03331771b2df36df081ae03cd837951874f43433ff405d0e2a59a740cd75 coord_source=unvalidated_event3_payload
+  t=1793403850587 kind=player_move id=1522441 name=EXIPAY raw_hex=0333c478b2df36df08b30cca581c9529757fcccce440db6a42dacf260c74 coord_source=unvalidated_event3_payload
+  t=1793403850587 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03a30a77b2df36df08ac51cf25d1e7f40abacccc384178add125f5b7578a coord_source=unvalidated_event3_payload
+  t=1793403850587 kind=player_move id=1522420 name=MaestroDV raw_hex=03fffc70b2df36df08cc73b126ff97c4742c0000b040b0c4aa261c820b74 coord_source=unvalidated_event3_payload
+  t=1793403850587 kind=player_move id=1521380 name=PapyFredo raw_hex=0383f182b2df36df08a16a7a59d3714f75029a991541a13f9fd9be279a76 coord_source=unvalidated_event3_payload
+  t=1793403850639 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=038c6177b2df36df082dda4f262d70d98b40666634416dc9fd2635f0e88b coord_source=unvalidated_event3_payload
+  t=1793403850639 kind=player_move id=1519768 name=DiosSalchicha raw_hex=03832d79b2df36df08323ec0253035ee0abacccc38419ae1d22595467f8a coord_source=unvalidated_event3_payload
+  t=1793403850640 kind=player_spawn id=1522557 name=Knopers2112
+  t=1793403850699 kind=player_move id=1522521 name=MomoMonii raw_hex=03173984b2df36df08fef5a93e73549593340000b04064bc0c3efdedbf13 coord_source=unvalidated_event3_payload
+  t=1793403850699 kind=player_move id=1522441 name=EXIPAY raw_hex=03138d89b2df36df0819dad0415c4c8c6d7dcccce440ffd239c03ee3496c coord_source=unvalidated_event3_payload
+  t=1793403850699 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03931883b2df36df085402eec0176eb86cf43433ff40ef85134034f1436d coord_source=unvalidated_event3_payload
+  t=1793403850750 kind=player_move id=1522420 name=MaestroDV raw_hex=034f6680b2df36df083f384e3ee649486c2c0000b0400f19653e2c6f9f6c coord_source=unvalidated_event3_payload
+  t=1793403850750 kind=player_move id=1521380 name=PapyFredo raw_hex=0333d490b2df36df081098a241f34adc6d026666344182efbdc145d2026e coord_source=unvalidated_event3_payload
+  t=1793403850750 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03cc1489b2df36df085c3b463eca3641934066663441fdaa0a3e2ed17493 coord_source=unvalidated_event3_payload
+  t=1793403850807 kind=player_move id=1522521 name=MomoMonii raw_hex=0377c993b2df36df08fd06ae3e78cb4a93360000b0402cf8193e79078713 coord_source=unvalidated_event3_payload
+  t=1793403850807 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03e38192b2df36df0822748bc03a26df6cf43433ff405e036640e00c486d coord_source=unvalidated_event3_payload
+  t=1793403850807 kind=player_move id=1522441 name=EXIPAY raw_hex=03537598b2df36df085e23e7417bd0816d7dcccce440ffd239c03ee3496c coord_source=unvalidated_event3_payload
+  t=1793403850862 kind=player_move id=1521380 name=PapyFredo raw_hex=03f34ea1b2df36df086fab4041870dc26d02666634410f56a2c1b9520e6e coord_source=unvalidated_event3_payload
+  t=1793403850862 kind=player_move id=1522420 name=MaestroDV raw_hex=03ff9b95b2df36df080be1583e4ae3606c2b0000b0403ab56f3ec692826c coord_source=unvalidated_event3_payload
+  t=1793403850862 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=032ca598b2df36df08ea5c583e7f9c4d934066663441fdaa0a3e2ed17493 coord_source=unvalidated_event3_payload
+  t=1793403850862 kind=player_move id=1522536 name=govend raw_hex=0333099db2df36df08b42bec3e4e9417134033332741012af63ee0b239ec coord_source=unvalidated_event3_payload
+  t=1793403850920 kind=player_move id=1522521 name=MomoMonii raw_hex=034312a2b2df36df086468b23ee8f347933f0000b04091a23c3e4a503a93 coord_source=unvalidated_event3_payload
+  t=1793403850920 kind=player_move id=1522441 name=EXIPAY raw_hex=0393b7a7b2df36df083c8efd41e51a876d7dcccce440ffd239c03ee3496c coord_source=unvalidated_event3_payload
+  t=1793403851128 kind=player_move id=1518481 name=MarkusAlexander raw_hex=035339a2b2df36df083beda8c0577bf66cf53433ff4019a1bb4036c97c6d coord_source=unvalidated_event3_payload
+  t=1793403851128 kind=player_move id=1521380 name=PapyFredo raw_hex=038354b1b2df36df082fdd7941ea9bc86d0266663441d45c85c1c219096e coord_source=unvalidated_event3_payload
+  t=1793403851128 kind=player_move id=1522536 name=govend raw_hex=03f383adb2df36df08cb8cef3e1d941f936b3333274197c3fc3e74d476ec coord_source=unvalidated_event3_payload
+  t=1793403851128 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03d3c4aab2df36df089dcf6d3ea9684a934066663441fdaa0a3e2ed17493 coord_source=unvalidated_event3_payload
+  t=1793403851128 kind=player_move id=1522420 name=MaestroDV raw_hex=032317a9b2df36df08aaa7623edf74916c2b0000b0405f1a793ec8b8b66c coord_source=unvalidated_event3_payload
+  t=1793403851128 kind=player_move id=1522521 name=MomoMonii raw_hex=0383c5b3b2df36df089f76b73e85aa4093420000b040d894e93f0e81a593 coord_source=unvalidated_event3_payload
+  t=1793403851128 kind=player_move id=1522441 name=EXIPAY raw_hex=0383a7b8b2df36df085295964110ac9d6d7dcccce440ffd239c03ee3496c coord_source=unvalidated_event3_payload
+  t=1793403851128 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0393ecb3b2df36df08a7a052c0caf2e96cf53433ff40a030b040a07e636d coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1521380 name=PapyFredo raw_hex=032381c1b2df36df0841b65b41770cff6df96666344131639b40c202196e coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1522536 name=govend raw_hex=038389bdb2df36df08d3d8f53e2dbdb49355333327412758993e4ade63ec coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03232ebab2df36df08fa37003e41ce76934066663441fdaa0a3e2ed17493 coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1522420 name=MaestroDV raw_hex=036359b8b2df36df08f40e6a3efb54986c2a0000b040d4d1003e3714bd6c coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1522441 name=EXIPAY raw_hex=0313adc8b2df36df08a156ae418cad936d7dcccce440ffd239c03ee3496c coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1522521 name=MomoMonii raw_hex=03d39fc5b2df36df08f9abbc3e85447693430000b040dbc2883fbf9ff693 coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03e3c6c5b2df36df089aa80ec0d1321a6df63433ff4041beba404a336a6d coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1521380 name=PapyFredo raw_hex=0303d9cfb2df36df08ca32f141ac66e76df96666344118c9fd404a8d056e coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1522536 name=govend raw_hex=03f340cdb2df36df088806fe3e513adf9345333327413569b33e8f6900ec coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=017397c9b2df36df08fdaa0a3e2ed174934066663441 coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1522196 name=AlExxPoP raw_hex=03f3cfcab2df36df0803131f3e1b6ba56c3d6666084193ac193ffe64a013 coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1522420 name=MaestroDV raw_hex=03f340cdb2df36df085058743ee5d68b6c2a0000b040f0b30a3ea5aca06c coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1522441 name=EXIPAY raw_hex=038364d8b2df36df0800a54b418c246b6d7dcccce440ffd239c03ee3496c coord_source=unvalidated_event3_payload
+  t=1793403851223 kind=player_move id=1522521 name=MomoMonii raw_hex=031353d7b2df36df08c207433e6c2d7893430000b040ffb1903f5456ff93 coord_source=unvalidated_event3_payload
+  t=1793403851337 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03237ad7b2df36df0834fbc8c11c840b6df73433ff40488b40404305956d coord_source=unvalidated_event3_payload
+  t=1793403851337 kind=player_move id=1522536 name=govend raw_hex=03936dddb2df36df08a92c873e51b3db933f3333274128e1513ea2f3bd93 coord_source=unvalidated_event3_payload
+  t=1793403851337 kind=player_move id=1522196 name=AlExxPoP raw_hex=03837be9b2df36df08fa02373e77d28f6c556666084193ac193ffe64a013 coord_source=unvalidated_event3_payload
+  t=1793403851337 kind=player_move id=1522441 name=EXIPAY raw_hex=03f31be8b2df36df08a5d0a9417a6c676d84cccce4402d4bf440eb60dc13 coord_source=unvalidated_event3_payload
+  t=1793403851510 kind=player_move id=1522420 name=MaestroDV raw_hex=031317e1b2df36df08fb6a7e3ec69abf6c2a0000b040af30153ea86fd56c coord_source=unvalidated_event3_payload
+  t=1793403851510 kind=player_move id=1522521 name=MomoMonii raw_hex=03632de9b2df36df0834454d3e64546a93430000b040ffb1903f5456ff93 coord_source=unvalidated_event3_payload
+  t=1793403851510 kind=player_move id=1522536 name=govend raw_hex=03134cedb2df36df083c988f3ec75ed5933d333327418776683ea57f4893 coord_source=unvalidated_event3_payload
+  t=1793403851510 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03632de9b2df36df08bd18a8c1f01b3d6df83433ff40187557408619906d coord_source=unvalidated_event3_payload
+  t=1793403851510 kind=player_move id=1522557 name=Knopers2112 raw_hex=03ee21f1b2df36df085fd43f40926ba46d80333327415382573f4b52466d coord_source=unvalidated_event3_payload
+  t=1793403851510 kind=player_move id=1522441 name=EXIPAY raw_hex=03e30bf9b2df36df08d9d4824125c0736d84cccce440d2fae94013dc2a13 coord_source=unvalidated_event3_payload
+  t=1793403851590 kind=player_move id=1522420 name=MaestroDV raw_hex=036380f0b2df36df0896c4053ed795a66c2a0000b0400e911c3e7e00dc6c coord_source=unvalidated_event3_payload
+  t=1793403851590 kind=player_move id=1522196 name=AlExxPoP raw_hex=0303ad00b3df36df0870acd23fae84936c556666084193ac193ffe64a013 coord_source=unvalidated_event3_payload
+  t=1793403851590 kind=player_move id=1522521 name=MomoMonii raw_hex=03b307fbb2df36df087e9b573ed6779293430000b040ffb1903f5456ff93 coord_source=unvalidated_event3_payload
+  t=1793403851590 kind=player_move id=1522536 name=govend raw_hex=03932afdb2df36df08ac74983e47daaf933d333327418776683ea57f4893 coord_source=unvalidated_event3_payload
+  t=1793403851590 kind=player_move id=1522557 name=Knopers2112 raw_hex=032ed502b3df36df080ec55d403158bd6d8d3333274103e6463f9a5a536d coord_source=unvalidated_event3_payload
+  t=1793403851590 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03b396f8b2df36df08223d20c13cd4206df93433ff409975624018439c6d coord_source=unvalidated_event3_payload
+  t=1793403851709 kind=player_move id=1522441 name=EXIPAY raw_hex=0353c308b3df36df0843f9de41980d4f6d84cccce440d2fae94013dc2a13 coord_source=unvalidated_event3_payload
+  t=1793403851709 kind=player_move id=1522420 name=MaestroDV raw_hex=03b3e9ffb2df36df08aab60d3e7861ae6c2a0000b0404b7a243ed1f9c36c coord_source=unvalidated_event3_payload
+  t=1793403851709 kind=player_move id=1522536 name=govend raw_hex=0323300db3df36df086534a13ef723ba933d333327418776683ea57f4893 coord_source=unvalidated_event3_payload
+  t=1793403851709 kind=player_move id=1522521 name=MomoMonii raw_hex=03f3ba0cb3df36df0832f7613e8c439b93430000b040ffb1903f5456ff93 coord_source=unvalidated_event3_payload
+  t=1793403851709 kind=player_move id=1522557 name=Knopers2112 raw_hex=037eaf14b3df36df08cb119d401812b66d8d333327417a48b53f6d2a256d coord_source=unvalidated_event3_payload
+  t=1793403851709 kind=player_move id=1522196 name=AlExxPoP raw_hex=03238314b3df36df08d054f13fd704726c556666084193ac193ffe64a013 coord_source=unvalidated_event3_payload
+  t=1793403851709 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0303710ab3df36df08d4947dc6c56c526df93433ff403313bd4013a7846d coord_source=unvalidated_event3_payload
+  t=1793403851824 kind=player_move id=1522441 name=EXIPAY raw_hex=03930518b3df36df08ec4adc4109ba5a6d7fcccce44021a738418d8a2b6c coord_source=unvalidated_event3_payload
+  t=1793403851824 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03e3e613b3df36df08fdaa0a3e2ed174934066663441e56e463f8b71c893 coord_source=unvalidated_event3_payload
+  t=1793403851824 kind=player_move id=1522420 name=MaestroDV raw_hex=03135c14b3df36df08a6e6173edc41d26c2a0000b040f4bd2e3e9cf1f76c coord_source=unvalidated_event3_payload
+  t=1793403851824 kind=player_move id=1522536 name=govend raw_hex=03c35c1db3df36df0846dea93edb93b4933d333327418776683ea57f4893 coord_source=unvalidated_event3_payload
+  t=1793403851824 kind=player_move id=1522521 name=MomoMonii raw_hex=0343951eb3df36df0864356c3e084f8493430000b040ffb1903f5456ff93 coord_source=unvalidated_event3_payload
+  t=1793403851824 kind=player_move id=1522557 name=Knopers2112 raw_hex=03ce8926b3df36df0841e3e940c6dd8f6d8e3333274128d1a43f4319366d coord_source=unvalidated_event3_payload
+  t=1793403851824 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03534b1cb3df36df08865c2041ec24436df93433ff405c40a940cceb8d6d coord_source=unvalidated_event3_payload
+  t=1793403851932 kind=player_move id=1522441 name=EXIPAY raw_hex=0313e427b3df36df08b04ce8414cde566d7fcccce44021a738418d8a2b6c coord_source=unvalidated_event3_payload
+  t=1793403851932 kind=player_move id=1522196 name=AlExxPoP raw_hex=03d3292cb3df36df080d40963fe3cd2b6c556666084193ac193ffe64a013 coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=0343e825b3df36df08e8811f3eeea79393446666344140c00a3fd72af793 coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522420 name=MaestroDV raw_hex=0363c523b3df36df087a511f3e615dd96c2a0000b0407631363e1ebdfe6c coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522536 name=govend raw_hex=0383d72db3df36df081cddb23e9db78f933d333327418776683ea57f4893 coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522521 name=MomoMonii raw_hex=03936f30b3df36df08f849763efc648e93400000b040cc04dc4032108a93 coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522557 name=Knopers2112 raw_hex=031e6438b3df36df082f863b3f0993986d8d33332741cb40a13f6897196d coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0393fe2db3df36df08d126a141cbdc746df93433ff40d5ac9840cd2db76d coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522441 name=EXIPAY raw_hex=03737437b3df36df08141af4410634226d7fcccce44023a738418a8a2b6c coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03935135b3df36df08e0e0313e725c8593446666344140c00a3fd72af793 coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522420 name=MaestroDV raw_hex=03b32e33b3df36df08b000273e5d20c06c2b0000b04034fa3d3ebc21e66c coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522536 name=govend raw_hex=03f38e3db3df36df080baebb3ecdcc9e933b333327417134183edefd8c92 coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522196 name=AlExxPoP raw_hex=03e34942b3df36df0854deb83f385f026c556666084193ac193ffe64a013 coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03d3403db3df36df08f2e0dc415249786df93433ff40264f8440f1b1bf6d coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522521 name=MomoMonii raw_hex=03e34942b3df36df08b085003e7d6f8e93400000b0406794ad40c4388d93 coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522441 name=EXIPAY raw_hex=03c3dd46b3df36df0860f5ff419b873d6d7fcccce44023a738418a8a2b6c coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522557 name=Knopers2112 raw_hex=037e654ab3df36df08b1e4253f7a19926d8a33332741f698a73f572de66c coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_spawn id=1522626 name=71Mist
+  t=1793403851997 kind=player_move id=1522420 name=MaestroDV raw_hex=0313bf42b3df36df08e7222f3e3cc3f76c2c0000b040f427cc3fde2eef6c coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03f35247b3df36df089038ce3f40d28b93416666344198fa57403836bc93 coord_source=unvalidated_event3_payload
+  t=1793403852111 kind=player_move id=1522536 name=govend raw_hex=0363464db3df36df08f902483e970363933d33332741e15c213e771ee492 coord_source=unvalidated_event3_payload
+  t=1793403852111 kind=player_move id=1522196 name=AlExxPoP raw_hex=01e34942b3df36df0854deb83f385f026c5566660841 coord_source=unvalidated_event3_payload
+  t=1793403852111 kind=player_spawn id=1522638 name=BloodyPeach
+  t=1793403852111 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0313f44eb3df36df081fe52640b0e0696df93433ff40f8b3f040f8e5b86d coord_source=unvalidated_event3_payload
+  t=1793403852111 kind=player_move id=1522441 name=EXIPAY raw_hex=03236e56b3df36df08c4828b4155fe096d7fcccce44023a738418a8a2b6c coord_source=unvalidated_event3_payload
+  t=1793403852111 kind=player_move id=1522521 name=MomoMonii raw_hex=0323fd53b3df36df08f7c80a3eec918d93400000b0400951c041dd228d93 coord_source=unvalidated_event3_payload
+  t=1793403852111 kind=player_move id=1522557 name=Knopers2112 raw_hex=03aef15bb3df36df0801da183fd4be6f6d8533332741544b543f4a5aa86c coord_source=unvalidated_event3_payload
+  t=1793403852228 kind=player_move id=1522536 name=govend raw_hex=03b3af5cb3df36df08fe2d593eaeb970933f333327419bb3353e4e0e5e93 coord_source=unvalidated_event3_payload
+  t=1793403852228 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03535459b3df36df082a8ff83f02cc8893416666344198fa57403836bc93 coord_source=unvalidated_event3_payload
+  t=1793403852228 kind=player_move id=1522420 name=MaestroDV raw_hex=0353e356b3df36df088e013a3e85faf16c3a0000b0401a62e83faf4efa6c coord_source=unvalidated_event3_payload
+  t=1793403852229 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0373845eb3df36df08aed403404e31926df93433ff4081a0df409f2fa26d coord_source=unvalidated_event3_payload
+  t=1793403852229 kind=player_move id=1522441 name=EXIPAY raw_hex=03b37366b3df36df0877e79741defc056d7fcccce44023a738418a8a2b6c coord_source=unvalidated_event3_payload
+  t=1793403852277 kind=player_move id=1522521 name=MomoMonii raw_hex=0373d765b3df36df088804153ec46d8e93400000b04072a736c18e078493 coord_source=unvalidated_event3_payload
+  t=1793403852277 kind=player_move id=1522557 name=Knopers2112 raw_hex=03fecb6db3df36df089338133fee3d736d82333327410b48763f69f2806c coord_source=unvalidated_event3_payload
+  t=1793403852277 kind=player_move id=1522536 name=govend raw_hex=0393786db3df36df08f2436b3ec7497a934233332741564fd83f94408b93 coord_source=unvalidated_event3_payload
+  t=1793403852277 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03a3bd68b3df36df0820cf9c3fc6e187933c666634417db9bec056f1ee92 coord_source=unvalidated_event3_payload
+  t=1793403852277 kind=player_move id=1522420 name=MaestroDV raw_hex=03d3c166b3df36df086ab7c63f7c59f26c430000b0406c9ffa3fd01cf66c coord_source=unvalidated_event3_payload
+  t=1793403852277 kind=player_move id=1522441 name=EXIPAY raw_hex=03933c77b3df36df08e9afa441e640126d7fcccce44023a738418a8a2b6c coord_source=unvalidated_event3_payload
+  t=1793403852277 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03b33770b3df36df08a3435c40bc649b6df93433ff40d217cb4057acaa6d coord_source=unvalidated_event3_payload
+  t=1793403852277 kind=player_move id=1522521 name=MomoMonii raw_hex=03c3b177b3df36df083a511f3e5f2c8f933f0000b04073e803c0e3e96693 coord_source=unvalidated_event3_payload
+  t=1793403852277 kind=player_move id=1522557 name=Knopers2112 raw_hex=033e7f7fb3df36df0808d7103f16d2466d8133332741224a053fd5ab486c coord_source=unvalidated_event3_payload
+  t=1793403852335 kind=player_move id=1522536 name=govend raw_hex=0313577db3df36df0886ee7c3e46886a9342333327418b26fc3fdd63bb93 coord_source=unvalidated_event3_payload
+  t=1793403852335 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03e3707ab3df36df082e234d3fc1666a933c666634417db9bec056f1ee92 coord_source=unvalidated_event3_payload
+  t=1793403852335 kind=player_move id=1522420 name=MaestroDV raw_hex=03f3977ab3df36df080463dd3feb2df56c460000b040405e913f849ecc6c coord_source=unvalidated_event3_payload
+  t=1793403852335 kind=player_move id=1522441 name=EXIPAY raw_hex=03730588b3df36df080310b141cc15e56c7fcccce44023a738418a8a2b6c coord_source=unvalidated_event3_payload
+  t=1793403852335 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03e3c381b3df36df0855b8ba4084b8836df93433ff4073ca3b3fa5f7d36d coord_source=unvalidated_event3_payload
+  t=1793403852384 kind=player_move id=1520087 name=RustinDust raw_hex=03a37a88b3df36df08aca8a43f2237cf10400000b0406d501b3f2ac70f6d coord_source=unvalidated_event3_payload
+  t=1793403852384 kind=player_move id=1522521 name=MomoMonii raw_hex=03036589b3df36df08ee85293ee96582933e0000b040a37a94c09cc22f93 coord_source=unvalidated_event3_payload
+  t=1793403852384 kind=player_move id=1522536 name=govend raw_hex=03a35c8db3df36df0857620e3e153b90934333332741ac8fa03f50f8a993 coord_source=unvalidated_event3_payload
+  t=1793403852384 kind=player_move id=1522557 name=Knopers2112 raw_hex=039e8091b3df36df083b3c103fb91f2a6d803333274119fb0f3f106c066c coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=0333da89b3df36df0882af153ff4eb48933c666634417db9bec056f1ee92 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522420 name=MaestroDV raw_hex=03839d8ab3df36df0841baef3f5e9af76c460000b040780da33f1211cf6c coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522441 name=EXIPAY raw_hex=0343a798b3df36df08ddfebd417000ce6c7fcccce44023a738418a8a2b6c coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03332d91b3df36df081a7ca9407f138d6df93433ff40576f333f282add6d coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1520087 name=RustinDust raw_hex=0343a798b3df36df08dd81a83ff7d70f13090000b040133c163fc3c8326d coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522521 name=MomoMonii raw_hex=0343a798b3df36df08b853323ea6c785933e0000b0406822d2c0ae911293 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522536 name=govend raw_hex=0333629db3df36df0816fa1f3e1749999341333327417a47bf3fc4198b93 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522557 name=Knopers2112 raw_hex=03de33a3b3df36df08d6f4113f04bc3d6d7f33332741d91a253ff94f9a13 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=0383b49bb3df36df08ad2be0407638a5922a666634416f2432bf52f0e613 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522441 name=EXIPAY raw_hex=03a337a8b3df36df08966b534187d4d56c7fcccce44023a738418a8a2b6c coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522420 name=MaestroDV raw_hex=03a3739eb3df36df08181e863fc82bcb6c460000b040c8a1ba3f848ec26c coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1518481 name=MarkusAlexander raw_hex=038307a3b3df36df08054b95407377b66df93433ff408f4a293f0a9ec56d coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1520087 name=RustinDust raw_hex=030322a9b3df36df087950ac3f2c098113080000b0406428153f4ee03d6d coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522521 name=MomoMonii raw_hex=039381aab3df36df0827963c3e35329b933d0000b0402a8022bfa3be9b92 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522536 name=govend raw_hex=0393f2acb3df36df08b0f0303e7a019e933d33332741c48a053fb2f53b93 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522492 name=NelorArsm raw_hex=030322a9b3df36df08b42bec3e4e94171340ae4735411f818e3e3b7e346c coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522557 name=Knopers2112 raw_hex=032e0eb5b3df36df08f066143ff00e016d7f33332741b63c273f34b00013 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03d38eadb3df36df0844d4df407fd2a4122e66663441b7032ebfd8f01c6c coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522420 name=MaestroDV raw_hex=03132baeb3df36df08ff32983ff745ce6c470000b0400b9f573ffc50c76c coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522441 name=EXIPAY raw_hex=032316b8b3df36df0844606b4173ecbd6c7fcccce44023a738418a8a2b6c coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522492 name=NelorArsm raw_hex=03c39cb9b3df36df086e04f53e9437711339ae4735419ee7993e3f80cb13 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1520087 name=RustinDust raw_hex=03b375b9b3df36df08716ab03f73fef713080000b0406428153f4ee03d6d coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03c3bab4b3df36df08f8be81407ebbbe6df93433ff4000531f3f6fc2ce6d coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522536 name=govend raw_hex=0313d1bcb3df36df08b061c43f347162933a33332741a5753e3fedd90c92 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1520087 name=RustinDust raw_hex=018371bbb3df36df08939cb03fecf5fe13080000b040 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_mounted id=1520087
+  t=1793403852851 kind=player_move id=1522521 name=MomoMonii raw_hex=03d334bcb3df36df0845e4cd3f0cab92933c0000b040efb17cbfbfa60111 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522557 name=Knopers2112 raw_hex=036e50c4b3df36df084d50173fee73126d7e333327417fbc343f9a964213 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=03331fbdb3df36df085ad4df40cee85f133266663441b7032ebfd8f01c6c coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522441 name=EXIPAY raw_hex=01038cc1b3df36df08078a7941c6de8b6c7fcccce440 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0303fdc3b3df36df0815aff04032edb86df93433ff4038d9163fc334c86d coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522420 name=MaestroDV raw_hex=03534fc2b3df36df0896c0ae3f7ee3c26c480000b040f473053f9bdfdc6c coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522492 name=NelorArsm raw_hex=03239ecbb3df36df081cf0ff3e95d76b133fae473541056cb33e00b98e13 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522536 name=govend raw_hex=03a3d6ccb3df36df088dcde63f873e51933933332741d425b54049129e12 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_spawn id=1522651 name=VODCKA
+  t=1793403852851 kind=player_move id=1522521 name=MomoMonii raw_hex=03230fceb3df36df083768e23fe2c360933b0000b040c10e62bf883d8a12 coord_source=unvalidated_event3_payload
+  t=1793403852851 kind=player_move id=1522557 name=Knopers2112 raw_hex=03be2ad6b3df36df081d602c3f82aaf16c743333274103f053408f16246c coord_source=unvalidated_event3_payload
+  t=1793403852910 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=0163c9c9b3df36df08ffb9e040c5009d133566663441 coord_source=unvalidated_event3_payload
+  t=1793403852910 kind=player_move id=1522527 name=yidunxiaoshaokao raw_hex=0163c9c9b3df36df08ffb9e040c5009d135766663441 coord_source=unvalidated_event3_payload
+  t=1793403852910 kind=player_move id=1522626 name=71Mist raw_hex=03f454d8b3df36df08b42bec3e4e941713403333114179d6fe3e22f1026c coord_source=unvalidated_event3_payload
+  t=1793403852911 kind=player_move id=1522638 name=BloodyPeach raw_hex=03b4b8deb3df36df08b42bec3e4e94171340cdcc0c41b1d6ad3e23227413 coord_source=unvalidated_event3_payload
+  t=1793403852911 kind=player_move id=1522420 name=MaestroDV raw_hex=03b3dfd1b3df36df084785403f5cb3c66c4b0000b04044bb253f4e19d46c coord_source=unvalidated_event3_payload
+  t=1793403852911 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0343b0d5b3df36df088692dc402051a16df93433ff4068f50c3fe398f06d coord_source=unvalidated_event3_payload
+  t=1793403852971 kind=player_move id=1522536 name=govend raw_hex=037378ddb3df36df0822988a3feb63189338333327419611e443db401b13 coord_source=unvalidated_event3_payload
+  t=1793403852971 kind=player_move id=1522492 name=NelorArsm raw_hex=0333dcdcb3df36df08f9338a3e7c1094133fae473541056cb33e00b98e13 coord_source=unvalidated_event3_payload
+  t=1793403852971 kind=player_move id=1522521 name=MomoMonii raw_hex=0373e9dfb3df36df08aa9ff63f1bd974933b0000b040c10e62bf883d8a12 coord_source=unvalidated_event3_payload
+  t=1793403852972 kind=player_move id=1522557 name=Knopers2112 raw_hex=030e05e8b3df36df08e89bc740677bd76c743333274103f053408f16246c coord_source=unvalidated_event3_payload
+  t=1793403852972 kind=player_move id=1522626 name=71Mist raw_hex=03d41de9b3df36df08afabf33eee02501340333311411f1a8a3e73f35013 coord_source=unvalidated_event3_payload
+  t=1793403853027 kind=player_move id=1522638 name=BloodyPeach raw_hex=0354e5eeb3df36df08115ff33e0dd01d133fcdcc0c4120a7b63e12264113 coord_source=unvalidated_event3_payload
+  t=1793403853027 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03a3b1e7b3df36df088dbdc840dba5a96df93433ff4081d3023f24ccf96d coord_source=unvalidated_event3_payload
+  t=1793403853027 kind=player_move id=1522536 name=govend raw_hex=0323ccedb3df36df0804eaad3f40abba923833332741beb552c00b0d5a13 coord_source=unvalidated_event3_payload
+  t=1793403853027 kind=player_move id=1522492 name=NelorArsm raw_hex=03037eedb3df36df088cd3933ee5219f133fae473541056cb33e00b98e13 coord_source=unvalidated_event3_payload
+  t=1793403853027 kind=player_move id=1522420 name=MaestroDV raw_hex=03f303e6b3df36df08476c6c3f25bfde6c510000b0405240da4040d6a36c coord_source=unvalidated_event3_payload
+  t=1793403853027 kind=player_move id=1522521 name=MomoMonii raw_hex=03b32befb3df36df088807883f23b845933b0000b040c10e62bf883d8a12 coord_source=unvalidated_event3_payload
+  t=1793403853250 kind=player_move id=1522557 name=Knopers2112 raw_hex=034eb8f9b3df36df08a049f64067658c6c743333274103f053408f16246c coord_source=unvalidated_event3_payload
+  t=1793403853250 kind=player_move id=1522626 name=71Mist raw_hex=03744af9b3df36df08faeefa3e0ac8ed125233331141ec258f3e15043a93 coord_source=unvalidated_event3_payload
+  t=1793403853250 kind=player_move id=1522638 name=BloodyPeach raw_hex=03f411ffb3df36df081dc1fa3eaa56191340cdcc0c417e89bf3e34e43013 coord_source=unvalidated_event3_payload
+  t=1793403853250 kind=player_move id=1522557 name=Knopers2112 raw_hex=015e50fcb3df36df084f12fd401f11816c7433332741 coord_source=unvalidated_event3_payload
+  t=1793403853299 kind=player_move id=1522536 name=govend raw_hex=03d31ffeb3df36df0822bf613f34fff4913833332741beb552c00b0d5a13 coord_source=unvalidated_event3_payload
+  t=1793403853299 kind=player_move id=1522420 name=MaestroDV raw_hex=0373e2f5b3df36df080a970c3f5d22d76c550000b0401e68914039c1b06c coord_source=unvalidated_event3_payload
+  t=1793403853299 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03e364f9b3df36df0869813a3f9cead26dfa3433ff40361c053f0ed6e16d coord_source=unvalidated_event3_payload
+  t=1793403853299 kind=player_move id=1522521 name=MomoMonii raw_hex=03030601b4df36df0823b79c3f58b629933b0000b040c10e62bf883d8a12 coord_source=unvalidated_event3_payload
+  t=1793403853299 kind=player_move id=1522626 name=71Mist raw_hex=03f42809b4df36df08029f813e56edf9114f333311414688963ee0e77693 coord_source=unvalidated_event3_payload
+  t=1793403853299 kind=player_move id=1522492 name=NelorArsm raw_hex=03030601b4df36df081dbb9f3ea43199133fae4735412fe8723e9313be13 coord_source=unvalidated_event3_payload
+  t=1793403853299 kind=player_move id=1522638 name=BloodyPeach raw_hex=03943e0fb4df36df080f4b823e244f04133fcdcc0c41421c543e45944513 coord_source=unvalidated_event3_payload
+  t=1793403853299 kind=player_move id=1522536 name=govend raw_hex=03d3360fb4df36df0834242b3fde98fe113b33332741d3f81fbfb0752813 coord_source=unvalidated_event3_payload
+  t=1793403853299 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0323180bb4df36df0889a5363fcb4adb6d023433ff40f041cb40bbbde16d coord_source=unvalidated_event3_payload
+  t=1793403853299 kind=player_move id=1522420 name=MaestroDV raw_hex=03a3df09b4df36df085fb5343f29b0a26c560000b040e4257e40047d8e6c coord_source=unvalidated_event3_payload
+  t=1793403853361 kind=player_move id=1522521 name=MomoMonii raw_hex=0353e012b4df36df084527b13ff1833d933b0000b040c10e62bf883d8a12 coord_source=unvalidated_event3_payload
+  t=1793403853361 kind=player_move id=1522626 name=71Mist raw_hex=03945519b4df36df087d06893e4bcec59145333311418819aa3ebc520b93 coord_source=unvalidated_event3_payload
+  t=1793403853361 kind=player_move id=1522492 name=NelorArsm raw_hex=03e33f14b4df36df08f1d0aa3e54149d1342ae47354189dd113e7af25613 coord_source=unvalidated_event3_payload
+  t=1793403853489 kind=player_move id=1522638 name=BloodyPeach raw_hex=0344921fb4df36df083ac3893ed87f0f1340cdcc0c415a756d3eb6d93013 coord_source=unvalidated_event3_payload
+  t=1793403853549 kind=player_move id=1522536 name=govend raw_hex=03633c1fb4df36df08a62be0406cd8109254333327412c2229bffaa606ec coord_source=unvalidated_event3_payload
+  t=1793403853549 kind=player_move id=1522420 name=MaestroDV raw_hex=03037019b4df36df085e95e640ca74bc6c560000b040a83ca6414fe9876c coord_source=unvalidated_event3_payload
+  t=1793403853550 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0383191db4df36df0836d2c240e06ed86d7f3433ff4085c9cb40c38aad6d coord_source=unvalidated_event3_payload
+  t=1793403853550 kind=player_move id=1522492 name=NelorArsm raw_hex=03d32f25b4df36df085e28b53e82366a1344ae473541738a293ed8439512 coord_source=unvalidated_event3_payload
+  t=1793403853550 kind=player_move id=1522626 name=71Mist raw_hex=0354d029b4df36df085c2a913e51c2e5913d333311416854b73ea1b44212 coord_source=unvalidated_event3_payload
+  t=1793403853550 kind=player_move id=1522521 name=MomoMonii raw_hex=03939324b4df36df08928a4a3f0fad01933b0000b040c10e62bf883d8a12 coord_source=unvalidated_event3_payload
+  t=1793403853639 kind=player_move id=1522638 name=BloodyPeach raw_hex=03e4be2fb4df36df08e876913e77dc061344cdcc0c410aa00e3e3024aa92 coord_source=unvalidated_event3_payload
+  t=1793403853639 kind=player_move id=1522536 name=govend raw_hex=03f3412fb4df36df08af2be040e01954935c3333274184e6d2c0974772ec coord_source=unvalidated_event3_payload
+  t=1793403853639 kind=player_move id=1522420 name=MaestroDV raw_hex=0343b228b4df36df083f85a2405731b56c570000b040dce01dc1124d916c coord_source=unvalidated_event3_payload
+  t=1793403853639 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03c3cc2eb4df36df08155d3c3f470fdf6d843433ff40f96c1f3fcde1b66d coord_source=unvalidated_event3_payload
+  t=1793403853639 kind=player_move id=1522626 name=71Mist raw_hex=03b46039b4df36df086670983ea451ee973b33331141ca4a443e749c2513 coord_source=unvalidated_event3_payload
+  t=1793403853639 kind=player_move id=1522521 name=MomoMonii raw_hex=03e36d36b4df36df08aea9733fa4ba15933b0000b040c10e62bf883d8a12 coord_source=unvalidated_event3_payload
+  t=1793403853639 kind=player_move id=1522638 name=BloodyPeach raw_hex=0384eb3fb4df36df0839e9983e1cbaf41246cdcc0c41f99a2b3e879cb793 coord_source=unvalidated_event3_payload
+  t=1793403853639 kind=player_move id=1522492 name=NelorArsm raw_hex=03032d39b4df36df080c8d413ee8d9411344ae473541c924c33fdea33a90 coord_source=unvalidated_event3_payload
+  t=1793403853639 kind=player_move id=1522536 name=govend raw_hex=0373203fb4df36df08d27480403d7fd0935f3333274187a3d7c07acb83ec coord_source=unvalidated_event3_payload
+  t=1793403853697 kind=player_move id=1522420 name=MaestroDV raw_hex=0383d63cb4df36df080bd5224008c2816c570000b040a05d73c006a2636c coord_source=unvalidated_event3_payload
+  t=1793403853697 kind=player_move id=1522626 name=71Mist raw_hex=0364b449b4df36df081325a03e70fcee113b33331141be89533ea24f4513 coord_source=unvalidated_event3_payload
+  t=1793403853697 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0313a740b4df36df08b9c7363f18b8d66d843433ff40b690193ffa928d6d coord_source=unvalidated_event3_payload
+  t=1793403853697 kind=player_move id=1522420 name=MaestroDV raw_hex=0183d63cb4df36df080bd5224008c2816c570000b040 coord_source=unvalidated_event3_payload
+  t=1793403853697 kind=player_move id=1522638 name=BloodyPeach raw_hex=03343f50b4df36df08511fa03e2b0d8d1246cdcc0c411773c33f8436da93 coord_source=unvalidated_event3_payload
+  t=1793403853697 kind=player_move id=1522521 name=MomoMonii raw_hex=03334848b4df36df087a491c3f66ddcb923b0000b040c10e62bf883d8a12 coord_source=unvalidated_event3_payload
+  t=1793403853877 kind=player_move id=1522536 name=govend raw_hex=03e3d74eb4df36df089a290a403e9604ec5f33332741bca11abfec88bbec coord_source=unvalidated_event3_payload
+  t=1793403853877 kind=player_move id=1522492 name=NelorArsm raw_hex=03a33b4eb4df36df080ba75a3e39f9381344ae473541c5e2d73f68943210 coord_source=unvalidated_event3_payload
+  t=1793403853942 kind=player_move id=1522626 name=71Mist raw_hex=0314085ab4df36df0808eaa73eea0f97123b33331141022c633ea4686413 coord_source=unvalidated_event3_payload
+  t=1793403853942 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03535a52b4df36df08f28a243feda1ad6d933433ff403407983fee0d996d coord_source=unvalidated_event3_payload
+  t=1793403854111 kind=player_move id=1522420 name=MaestroDV raw_hex=01d35d47b4df36df080bd5224008c2816c7b0000b040 coord_source=unvalidated_event3_payload
+  t=1793403854111 kind=player_move id=1522638 name=BloodyPeach raw_hex=03d46b60b4df36df08f3b8a73e30d4091247cdcc0c4169a6e53f3710ff93 coord_source=unvalidated_event3_payload
+  t=1793403854111 kind=player_move id=1522521 name=MomoMonii raw_hex=0373fb59b4df36df08f2ffc9406118a3923b0000b040c10e62bf883d8a12 coord_source=unvalidated_event3_payload
+  t=1793403854111 kind=player_move id=1522536 name=govend raw_hex=0363b65eb4df36df08908e27c1f4d82aec553333274103b2b3bf3470bcec coord_source=unvalidated_event3_payload
+  t=1793403854111 kind=player_move id=1522492 name=NelorArsm raw_hex=03033d60b4df36df0879f46f3e0100031343ae473541ea20a13f6ea69a91 coord_source=unvalidated_event3_payload
+  t=1793403854111 kind=player_move id=1522626 name=71Mist raw_hex=03d4826ab4df36df0851adaf3eaeeed4123b3333114190b9723e6a209d13 coord_source=unvalidated_event3_payload
+  t=1793403854111 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03a33464b4df36df08a1f2073f333fa46d953433ff405821fe3fe463906d coord_source=unvalidated_event3_payload
+  t=1793403854111 kind=player_move id=1522638 name=BloodyPeach raw_hex=0384bf70b4df36df08c529af3e16a5351747cdcc0c41ed6c843f1a4116ec coord_source=unvalidated_event3_payload
+  t=1793403854111 kind=player_move id=1522521 name=MomoMonii raw_hex=03b33d69b4df36df08af2be040387c85923b0000b040c10e62bf883d8a12 coord_source=unvalidated_event3_payload
+  t=1793403854111 kind=player_move id=1522536 name=govend raw_hex=03e3946eb4df36df088ad0a5c0dc9151ec3833332741805285bf6e3d19ec coord_source=unvalidated_event3_payload
+  t=1793403854111 kind=player_move id=1522492 name=NelorArsm raw_hex=03137b71b4df36df080915043e4144f31245ae473541cd296b3f1ea70593 coord_source=unvalidated_event3_payload
+  t=1793403854112 kind=player_move id=1522626 name=71Mist raw_hex=0324ec79b4df36df08cae0b63e319616133b33331141f630013e5ace8d13 coord_source=unvalidated_event3_payload
+  t=1793403854112 kind=player_move id=1522638 name=BloodyPeach raw_hex=0324ec80b4df36df086974b63e98eb009246cdcc0c414c7fa03f8bf3e493 coord_source=unvalidated_event3_payload
+  t=1793403854112 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03f30e76b4df36df08fb03653f0b0dba6d9b3433ff40a08bcd3ffa93956d coord_source=unvalidated_event3_payload
+  t=1793403854112 kind=player_move id=1522521 name=MomoMonii raw_hex=03f3f07ab4df36df08ac2be0400feb48923c0000b040c10e62bf883d8a12 coord_source=unvalidated_event3_payload
+  t=1793403854112 kind=player_move id=1522536 name=govend raw_hex=0383c17eb4df36df08d3103bbff60809ec1333332741d8a748bfb9d66813 coord_source=unvalidated_event3_payload
+  t=1793403854112 kind=player_move id=1522492 name=NelorArsm raw_hex=03737c83b4df36df08ae50193e6312851245ae473541cd296b3f1ea70593 coord_source=unvalidated_event3_payload
+  t=1793403854164 kind=player_move id=1522626 name=71Mist raw_hex=03b4f189b4df36df08d171be3eccef37133c33331141f395113e17058013 coord_source=unvalidated_event3_payload
+  t=1793403854164 kind=player_move id=1522638 name=BloodyPeach raw_hex=03c41891b4df36df08f3fbbd3e3129439240cdcc0c41cdd2bc3f20843392 coord_source=unvalidated_event3_payload
+  t=1793403854222 kind=player_move id=1522521 name=MomoMonii raw_hex=01435a8ab4df36df08ab2be0409de65b923c0000b040 coord_source=unvalidated_event3_payload
+  t=1793403854222 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0333c287b4df36df08c66b413f9b22b06d9b3433ff40dac73d3efff66f6d coord_source=unvalidated_event3_payload
+  t=1793403854222 kind=player_move id=1522536 name=govend raw_hex=03e3518eb4df36df08851a29bf3631ae930b33332741f3fe7bbfceba8613 coord_source=unvalidated_event3_payload
+  t=1793403854222 kind=player_move id=1522492 name=NelorArsm raw_hex=03c35695b4df36df08fda22e3ee649161245ae473541cd296b3f1ea70593 coord_source=unvalidated_event3_payload
+  t=1793403854222 kind=player_move id=1522626 name=71Mist raw_hex=0384939ab4df36df08cfae4c3e828e321341333311413f0e2a3e4697ed12 coord_source=unvalidated_event3_payload
+  t=1793403854222 kind=player_move id=1522638 name=BloodyPeach raw_hex=03746ca1b4df36df086e9b4a3ed60654923fcdcc0c417b4c7a3fabb02f12 coord_source=unvalidated_event3_payload
+  t=1793403854293 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03935297b4df36df0845fdb03f781eb56d9b3433ff40252c363e189d796d coord_source=unvalidated_event3_payload
+  t=1793403854293 kind=player_move id=1522536 name=govend raw_hex=01a35b9cb4df36df0801c018bff97b12930b33332741 coord_source=unvalidated_event3_payload
+  t=1793403854293 kind=player_move id=1522536 name=govend raw_hex=01a35b9cb4df36df0801c018bff97b1293c833332741 coord_source=unvalidated_event3_payload
+  t=1793403854293 kind=player_move id=1522626 name=71Mist raw_hex=031499aab4df36df08a9955b3e1d39001343333311418aca3b3e293afb11 coord_source=unvalidated_event3_payload
+  t=1793403854293 kind=player_move id=1522492 name=NelorArsm raw_hex=0363f4a7b4df36df08add7c83f5cbd369145ae473541cd296b3f1ea70593 coord_source=unvalidated_event3_payload
+  t=1793403854293 kind=player_move id=1522638 name=BloodyPeach raw_hex=0324c0b1b4df36df084495593e864e08923ecdcc0c417500323fcb208d12 coord_source=unvalidated_event3_payload
+  t=1793403854293 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03c3dea8b4df36df080a219f3ff1208b6d9b3433ff40750a2d3e0aca756d coord_source=unvalidated_event3_payload
+  t=1793403854352 kind=player_move id=1522626 name=71Mist raw_hex=036402bab4df36df0878646a3eb889ed12453333114119a1de3f6ec68b92 coord_source=unvalidated_event3_payload
+  t=1793403854417 kind=player_move id=1522638 name=BloodyPeach raw_hex=03c4ecc1b4df36df08aa82683e084ee0913ecdcc0c417500323fcb208d12 coord_source=unvalidated_event3_payload
+  t=1793403854476 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0313b9bab4df36df08a4c48c3f1d51816d9b3433ff40823f243e36eb416d coord_source=unvalidated_event3_payload
+  t=1793403854476 kind=player_move id=1521344 name=Tedio raw_hex=0323a4c4b4df36df08b2ccd23f4c94bd6dfc0000b0404826da3f3b294c6d coord_source=unvalidated_event3_payload
+  t=1793403854525 kind=player_move id=1522626 name=71Mist raw_hex=03247dcab4df36df0834f3793e2b32a2124633331141a668863fa5553693 coord_source=unvalidated_event3_payload
+  t=1793403854525 kind=player_move id=1522492 name=NelorArsm raw_hex=0363edbdb4df36df08d7fbfc3f71b5669245ae473541cd296b3f1ea70593 coord_source=unvalidated_event3_payload
+  t=1793403854525 kind=player_move id=1522420 name=MaestroDV raw_hex=01d35d47b4df36df080bd5224008c2816c7b0000b040 coord_source=unvalidated_event3_payload
+  t=1793403854742 kind=player_move id=1522638 name=BloodyPeach raw_hex=036419d2b4df36df08b8b8773eb86ab8913ecdcc0c417500323fcb208d12 coord_source=unvalidated_event3_payload
+  t=1793403854800 kind=player_move id=1522492 name=NelorArsm raw_hex=03c37dcdb4df36df0850ada13f5a26a89245ae473541cd296b3f1ea70593 coord_source=unvalidated_event3_payload
+  t=1793403854800 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03536cccb4df36df08b3d0fa3fac76876d9b66661e41ea2d1b3e83345d6d coord_source=unvalidated_event3_payload
+  t=1793403854800 kind=player_move id=1521344 name=Tedio raw_hex=03d3f7d4b4df36df08688ad33ffadfb26d7e0000b040f09ae03f439d5a6d coord_source=unvalidated_event3_payload
+  t=1793403854800 kind=player_move id=1522626 name=71Mist raw_hex=03a45bdab4df36df08d2ed083e826e4e124633331141aa048f3f74e32793 coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1522638 name=BloodyPeach raw_hex=03146de2b4df36df08818a063e7f7859913ecdcc0c417500323fcb208d12 coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1521344 name=Tedio raw_hex=037324e5b4df36df086b09d53f5c32b76d7a0000b040e008f83f688b506d coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1522492 name=NelorArsm raw_hex=03230eddb4df36df085e514c3f8efd149345ae473541cd296b3f1ea70593 coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03a346deb4df36df082ff4e83f3b679d6d9b66661e414620123e8c4f296d coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1522626 name=71Mist raw_hex=03944bebb4df36df08d09e183e32786d114633331141aa048f3f74e32793 coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1522638 name=BloodyPeach raw_hex=03b499f2b4df36df0862a0153efc32a29040cdcc0c41d892013f46405096 coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1522492 name=NelorArsm raw_hex=01b313edb4df36df08cd296b3f1ea7059345ae473541 coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1521344 name=Tedio raw_hex=03032af5b4df36df08fb1fda3f4bac8b6d700000b0405acbaa3f1be9426d coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03f320f0b4df36df0847e8d63f4790926d9b66661e4184d5083e4469256d coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1522626 name=71Mist raw_hex=03f4dbfab4df36df086b72273e7c4888914633331141aa048f3f74e32793 coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1519948 name=PaiinXD raw_hex=004fe605b5df36df083dd18b41b06bc89307 coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1519948 name=PaiinXD raw_hex=004fe605b5df36df083dd18b41b06bc89307 coord_source=unvalidated_event3_payload
+  t=1793403854860 kind=player_move id=1522638 name=BloodyPeach raw_hex=0354c602b5df36df082f53243eb8ccb79040cdcc0c41d892013f46405096 coord_source=unvalidated_event3_payload
+  t=1793403854924 kind=player_move id=1521344 name=Tedio raw_hex=03539304b5df36df086258e23fcadd8f6d6a0000b040f7374c3f54f5496d coord_source=unvalidated_event3_payload
+  t=1793403854924 kind=player_move id=1522626 name=71Mist raw_hex=0364930ab5df36df086e09363e136948924633331141aa048f3f74e32793 coord_source=unvalidated_event3_payload
+  t=1793403854924 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0333d401b5df36df083651c03fbfff6c6d9b66661e41b0577e3ebea1326d coord_source=unvalidated_event3_payload
+  t=1793403854924 kind=player_move id=1522638 name=BloodyPeach raw_hex=03041a13b5df36df08e1a2333e89439d9040cdcc0c41d892013f46405096 coord_source=unvalidated_event3_payload
+  t=1793403854985 kind=player_move id=1521344 name=Tedio raw_hex=03e39814b5df36df087943ec3f78f1836d680000b040b781673fda564e6d coord_source=unvalidated_event3_payload
+  t=1793403854985 kind=player_move id=1522626 name=71Mist raw_hex=03c4231ab5df36df08bca5c93f06c7a0924633331141aa048f3f74e32793 coord_source=unvalidated_event3_payload
+  t=1793403854985 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03738713b5df36df080f33353e9c5b7b6d9b66661e41217c733e930d016d coord_source=unvalidated_event3_payload
+  t=1793403855069 kind=player_move id=1522638 name=BloodyPeach raw_hex=03a44623b5df36df08a0c7c43f58807c9040cdcc0c41d892013f46405096 coord_source=unvalidated_event3_payload
+  t=1793403855069 kind=player_move id=1521344 name=Tedio raw_hex=03432924b5df36df088a16f63f9f37876d680000b04087c37b3f2193456d coord_source=unvalidated_event3_payload
+  t=1793403855168 kind=player_move id=1522626 name=71Mist raw_hex=0374772ab5df36df08b16de83fcc8716934633331141aa048f3f74e32793 coord_source=unvalidated_event3_payload
+  t=1793403855168 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03c36125b5df36df08cff0293e3b87496d9b66661e41f22a683e1229106d coord_source=unvalidated_event3_payload
+  t=1793403855168 kind=player_move id=1522638 name=BloodyPeach raw_hex=03447333b5df36df0829eee23fedec579040cdcc0c41d892013f46405096 coord_source=unvalidated_event3_payload
+  t=1793403855169 kind=player_move id=1521344 name=Tedio raw_hex=03d32e34b5df36df087046803f675d9b6d680000b040d96c103fcad95c6d coord_source=unvalidated_event3_payload
+  t=1793403855227 kind=player_move id=1522626 name=71Mist raw_hex=0354403bb5df36df080bf1873fa51d30934633331141aa048f3f74e32793 coord_source=unvalidated_event3_payload
+  t=1793403855283 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03133c37b5df36df088fb51e3e57c3586d9b66661e412a4d5e3e74dee16c coord_source=unvalidated_event3_payload
+  t=1793403855283 kind=player_move id=1522638 name=BloodyPeach raw_hex=03e49f43b5df36df0852b5803f7a49029040cdcc0c41d892013f46405096 coord_source=unvalidated_event3_payload
+  t=1793403855283 kind=player_move id=1521344 name=Tedio raw_hex=0393a944b5df36df08d1c68a3f49479f6d680000b040576d253fcaf5546d coord_source=unvalidated_event3_payload
+  t=1793403855359 kind=player_move id=1522626 name=71Mist raw_hex=0114bb4bb5df36df08aa048f3f74e327934633331141 coord_source=unvalidated_event3_payload
+  t=1793403855359 kind=player_move id=1522638 name=BloodyPeach raw_hex=0394f353b5df36df082ceb9e3ff521c29740cdcc0c41d892013f46405096 coord_source=unvalidated_event3_payload
+  t=1793403855359 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0353ef48b5df36df080f0e133e2b6b576d9e66661e41e4f0483ebb34ca6c coord_source=unvalidated_event3_payload
+  t=1793403855411 kind=player_move id=1521344 name=Tedio raw_hex=0343fd54b5df36df08e07a953f8171936d680000b0401b3a393f80272c6d coord_source=unvalidated_event3_payload
+  t=1793403855411 kind=player_move id=1522638 name=BloodyPeach raw_hex=01741656b5df36df086c9aa23fcbe0dd9740cdcc0c41 coord_source=unvalidated_event3_payload
+  t=1793403855528 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03a3c95ab5df36df0811c9053e5d9b236da266661e41364fb93e5c20d86c coord_source=unvalidated_event3_payload
+  t=1793403855528 kind=player_move id=1521344 name=Tedio raw_hex=03037865b5df36df088de79f3fa67a976d680000b0402b80db408b4c246d coord_source=unvalidated_event3_payload
+  t=1793403855640 kind=player_move id=1521344 name=Tedio raw_hex=0353e174b5df36df08fab2a93fd0e76d6d680000b04077c383405bc13b6d coord_source=unvalidated_event3_payload
+  t=1793403855640 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03f3a36cb5df36df08bd23783e832b306da266661e417787b13eff16ae6c coord_source=unvalidated_event3_payload
+  t=1793403855696 kind=player_move id=1521344 name=Tedio raw_hex=03e3e684b5df36df084ccbb33fa551656d680000b04070d14040522d356d coord_source=unvalidated_event3_payload
+  t=1793403855696 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0333577eb5df36df080f6d6a3e7b050c6da266661e415497aa3ecc7bb76c coord_source=unvalidated_event3_payload
+  t=1793403855902 kind=player_move id=1521344 name=Tedio raw_hex=03232994b5df36df08e1e5bd3ffc157c6d670000b0401d4735407a0b0e6d coord_source=unvalidated_event3_payload
+  t=1793403855902 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03833190b5df36df08704d5c3ef6d3186da266661e419af7a33e71069f6c coord_source=unvalidated_event3_payload
+  t=1793403856018 kind=player_move id=1521344 name=Tedio raw_hex=03e3a3a4b5df36df08637f513f9020746d670000b0405f2f4942e38b076d coord_source=unvalidated_event3_payload
+  t=1793403856134 kind=player_move id=1522626 name=71Mist raw_hex=0344f6a8b5df36df08aa048f3f74e327934633331141e913033f69fbae92 coord_source=unvalidated_event3_payload
+  t=1793403856134 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03f359a2b5df36df08f1614e3e395c156da266661e41cfc79c3e406b486c coord_source=unvalidated_event3_payload
+  t=1793403856134 kind=player_move id=1521344 name=Tedio raw_hex=0393f7b4b5df36df084e3d673f02914b6d670000b040a6aef5c1b362116d coord_source=unvalidated_event3_payload
+  t=1793403856134 kind=player_move id=1522626 name=71Mist raw_hex=01a4a4b3b5df36df082a72a33fa96d0c933b33331141 coord_source=unvalidated_event3_payload
+  t=1793403856134 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0313bfb3b5df36df080aee403e0a0bfa6ca266661e41f4d7953e924c396c coord_source=unvalidated_event3_payload
+  t=1793403856134 kind=player_spawn id=1522745 name=Wumido
+  t=1793403856138 kind=player_move id=1521344 name=Tedio raw_hex=0303afc4b5df36df0831137c3f8333436d670000b040220a67c033a8eb6c coord_source=unvalidated_event3_payload
+  t=1793403856189 kind=player_spawn id=1522760 name=1hpp
+  t=1793403856189 kind=player_mounted id=1522527
+  t=1793403856246 kind=player_move id=1518481 name=MarkusAlexander raw_hex=036399c5b5df36df084759b93e0698c26ca266661e41c7278f3e14f1ec13 coord_source=unvalidated_event3_payload
+  t=1793403856246 kind=player_move id=1521344 name=Tedio raw_hex=0303c6d5b5df36df0854c8103f75d95b6d710000b040501183410bacce6c coord_source=unvalidated_event3_payload
+  t=1793403856306 kind=player_spawn id=1522778 name=Elthelpan
+  t=1793403856306 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03a3dbd4b5df36df08a4aeb33e2d9fd76ca266661e416a06893ec0adbf13 coord_source=unvalidated_event3_payload
+  t=1793403856363 kind=player_move id=1521344 name=Tedio raw_hex=03a3f2e5b5df36df084e0a163f1589546d7f0000b04007c6223f699ca06c coord_source=unvalidated_event3_payload
+  t=1793403856364 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03036ce4b5df36df087c53ad3eb90abd6ca266661e41a628833e73263613 coord_source=unvalidated_event3_payload
+  t=1793403856481 kind=player_move id=1521344 name=Tedio raw_hex=03f35bf5b5df36df08a8dc153f06ae2d6d810000b04058960b3f3569b76c coord_source=unvalidated_event3_payload
+  t=1793403856481 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03b3bff4b5df36df08130ba73efab1836ca266661e415e69fd3e9f30b297 coord_source=unvalidated_event3_payload
+  t=1793403856540 kind=player_move id=1521344 name=Tedio raw_hex=03c3fd05b6df36df089d66133fe83d276d850000b0409cea5f3fd7c6916c coord_source=unvalidated_event3_payload
+  t=1793403856590 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03631305b6df36df08f4e0a03e4dd46c6ca266661e414cdef63eaccc5e93 coord_source=unvalidated_event3_payload
+  t=1793403856702 kind=player_move id=1521344 name=Tedio raw_hex=03530316b6df36df08c2520e3f3314306d850000b040a49a533f1063736c coord_source=unvalidated_event3_payload
+  t=1793403856703 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03b3ed16b6df36df0837279a3e10f95f6ca166661e410975f23e9380ce93 coord_source=unvalidated_event3_payload
+  t=1793403856759 kind=player_move id=1521344 name=Tedio raw_hex=03a36c25b6df36df08f477093f9720096d860000b040b4d1493fdcfe456c coord_source=unvalidated_event3_payload
+  t=1793403856759 kind=player_move id=1522745 name=Wumido raw_hex=03a6bf24b6df36df08b42bec3e4e9417134066663441e541b73efa1d0e93 coord_source=unvalidated_event3_payload
+  t=1793403856815 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03035726b6df36df08b453943e1d010d6c9f66661e412b47ef3e379a35ec coord_source=unvalidated_event3_payload
+  t=1793403856815 kind=player_move id=1522745 name=Wumido raw_hex=03766135b6df36df08feeff53e0202a012446666344147f7453e08993993 coord_source=unvalidated_event3_payload
+  t=1793403856815 kind=player_move id=1521344 name=Tedio raw_hex=03f3d534b6df36df08a337043f327e026d860000b040b4d1493fdcfe456c coord_source=unvalidated_event3_payload
+  t=1793403856864 kind=player_move id=1522441 name=EXIPAY raw_hex=03430a38b6df36df08078a7941c6de8b6c7fcccce440ee482e408ee9486d coord_source=unvalidated_event3_payload
+  t=1793403856916 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03533138b6df36df08734d8d3e386ac213a866661e411150e43e3a10c193 coord_source=unvalidated_event3_payload
+  t=1793403856980 kind=player_move id=1521344 name=Tedio raw_hex=0373b444b6df36df086f987e3f09491b6d860000b040b4d1493fdcfe456c coord_source=unvalidated_event3_payload
+  t=1793403856980 kind=player_move id=1522745 name=Wumido raw_hex=03665146b6df36df086eeaff3efd2d9a124266663441466f553ee0fe8792 coord_source=unvalidated_event3_payload
+  t=1793403857036 kind=player_move id=1522441 name=EXIPAY raw_hex=03c3594ab6df36df084e1618412120a06c03cccce440d77fcec03883f96d coord_source=unvalidated_event3_payload
+  t=1793403857037 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0393e449b6df36df081f11853e06be8413af66661e41cd6dda3e43838c93 coord_source=unvalidated_event3_payload
+  t=1793403857037 kind=player_move id=1522745 name=Wumido raw_hex=0336f356b6df36df08b6bd893eaeda8c123f666634410425013ebb000513 coord_source=unvalidated_event3_payload
+  t=1793403857037 kind=player_move id=1521344 name=Tedio raw_hex=03032b57b6df36df089242783f02c1156d860000b040b4d1493fdcfe456c coord_source=unvalidated_event3_payload
+  t=1793403857095 kind=player_move id=1522441 name=EXIPAY raw_hex=0333115ab6df36df0848ac8342efbcd86c04cccce4407b1f68bf70c1316e coord_source=unvalidated_event3_payload
+  t=1793403857150 kind=player_move id=1522760 name=1hpp raw_hex=032bf55db6df36df08b42bec3e4e941713408fc247411499ac3ecb3dd892 coord_source=unvalidated_event3_payload
+  t=1793403857150 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03e3be5bb6df36df08a957fc3eddd35213b466661e41e7e1d23eb5635c93 coord_source=unvalidated_event3_payload
+  t=1793403857150 kind=player_move id=1521344 name=Tedio raw_hex=03539466b6df36df084803733f9081e46c860000b040b4d1493fdcfe456c coord_source=unvalidated_event3_payload
+  t=1793403857150 kind=player_move id=1522745 name=Wumido raw_hex=03360a68b6df36df089286933e98aaad123e6666344161650f3e3b137913 coord_source=unvalidated_event3_payload
+  t=1793403857150 kind=player_move id=1522778 name=Elthelpan raw_hex=03545d64b6df36df08b42bec3e4e94171340333327419848863ed322326c coord_source=unvalidated_event3_payload
+  t=1793403857200 kind=player_move id=1522441 name=EXIPAY raw_hex=0313da6ab6df36df08ac07ab4369a3ff6c04cccce4403b3ebdbf2774556e coord_source=unvalidated_event3_payload
+  t=1793403857201 kind=player_move id=1522760 name=1hpp raw_hex=03bbfa6db6df36df08fe42f63ed5aeb812458fc24741307bbb3e3b845393 coord_source=unvalidated_event3_payload
+  t=1793403857312 kind=player_move id=1522441 name=EXIPAY raw_hex=03736a7ab6df36df08901f4cc3dfede86cffcccce440ea40213f4e94cf6e coord_source=unvalidated_event3_payload
+  t=1793403857313 kind=player_move id=1522760 name=1hpp raw_hex=033bd97db6df36df08d194803edd314812428fc247411960703efbe4af92 coord_source=unvalidated_event3_payload
+  t=1793403857398 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0363b47cb6df36df08ed71ec3e745b9311b666661e413bc3c23efbe68a93 coord_source=unvalidated_event3_payload
+  t=1793403857398 kind=player_move id=1521344 name=Tedio raw_hex=03432a86b6df36df08014e683fd799d86c860000b040b4d1493fdcfe456c coord_source=unvalidated_event3_payload
+  t=1793403857398 kind=player_move id=1522745 name=Wumido raw_hex=0346ee87b6df36df0874a8a63ef3c7f51240666634410db4c83f11331b13 coord_source=unvalidated_event3_payload
+  t=1793403857398 kind=player_move id=1522778 name=Elthelpan raw_hex=03e4ea87b6df36df08d1d5fe3ed887e0124a33332741da13b03e9fa69793 coord_source=unvalidated_event3_payload
+  t=1793403857447 kind=player_move id=1522441 name=EXIPAY raw_hex=03635a8bb6df36df08dea8ac44d4fa1b6dffcccce4403c12273f4e94cf6e coord_source=unvalidated_event3_payload
+  t=1793403857447 kind=player_move id=1522760 name=1hpp raw_hex=03eb2c8eb6df36df08da458b3e35712a12408fc24741fe700d3e696f4e11 coord_source=unvalidated_event3_payload
+  t=1793403857501 kind=player_move id=1522745 name=Wumido raw_hex=03965797b6df36df085cb4af3ea95ef01240666634410db4c83f11331b13 coord_source=unvalidated_event3_payload
+  t=1793403857501 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03a3678eb6df36df082e1de33e2efd9317c366661e41fa22373d1858cc12 coord_source=unvalidated_event3_payload
+  t=1793403857501 kind=player_move id=1521344 name=Tedio raw_hex=0313cc96b6df36df087391623f2e80ab6c860000b040b4d1493fdcfe456c coord_source=unvalidated_event3_payload
+  t=1793403857501 kind=player_move id=1522778 name=Elthelpan raw_hex=03345497b6df36df082f0c873ea1b94e124c333327418738b93ea439d893 coord_source=unvalidated_event3_payload
+  t=1793403857557 kind=player_move id=1522441 name=EXIPAY raw_hex=0333fc9bb6df36df086dd32ec2c8490f6d01cccce440ee3b4ec0c312276e coord_source=unvalidated_event3_payload
+  t=1793403857557 kind=player_move id=1522760 name=1hpp raw_hex=039b809eb6df36df084136963e9df73112418fc2474131c52a3efee31392 coord_source=unvalidated_event3_payload
+  t=1793403857621 kind=player_move id=1522745 name=Wumido raw_hex=0366f9a7b6df36df086e5fb93eaa24fa1240666634410db4c83f11331b13 coord_source=unvalidated_event3_payload
+  t=1793403857621 kind=player_move id=1521344 name=Tedio raw_hex=0393aaa6b6df36df089613733f7d8ebb6c6a0000b04098affc40c4dc356c coord_source=unvalidated_event3_payload
+  t=1793403857621 kind=player_move id=1518481 name=MarkusAlexander raw_hex=030369a0b6df36df0803dcd93edd4a2712c766661e4114c62d3dd6c7d613 coord_source=unvalidated_event3_payload
+  t=1793403857621 kind=player_move id=1522778 name=Elthelpan raw_hex=03b4a3a9b6df36df08f3ef903e3aad01924c333327414811423e3555ee93 coord_source=unvalidated_event3_payload
+  t=1793403857622 kind=player_move id=1522441 name=EXIPAY raw_hex=038365abb6df36df0865b7d3c304ff336d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403857622 kind=player_move id=1522760 name=1hpp raw_hex=030b38aeb6df36df08314ea03ecc2cfe11428fc24741203ac53f23841593 coord_source=unvalidated_event3_payload
+  t=1793403857691 kind=player_move id=1521344 name=Tedio raw_hex=031389b6b6df36df081fe3053fdbc78b6c6a0000b04098affc40c4dc356c coord_source=unvalidated_event3_payload
+  t=1793403857691 kind=player_move id=1522745 name=Wumido raw_hex=0346c2b8b6df36df08fcea463ef230e41240666634410db4c83f11331b13 coord_source=unvalidated_event3_payload
+  t=1793403857770 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03431cb2b6df36df08aed8d03e0c01df12c866661e41c8a7263deea21e6c coord_source=unvalidated_event3_payload
+  t=1793403857770 kind=player_move id=1522778 name=Elthelpan raw_hex=03047ebbb6df36df080c089a3ef4a3e9924c333327414229543e71b405ec coord_source=unvalidated_event3_payload
+  t=1793403857770 kind=player_move id=1522441 name=EXIPAY raw_hex=03632ebcb6df36df08fe0e9fc3dc94266d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403857771 kind=player_move id=1522760 name=1hpp raw_hex=030b4fbfb6df36df0840a4ab3e22b0f110438fc247413572f33f34c85493 coord_source=unvalidated_event3_payload
+  t=1793403857828 kind=player_move id=1521344 name=Tedio raw_hex=03c3dcc6b6df36df08eec9183f388c9b6c6a0000b04098affc40c4dc356c coord_source=unvalidated_event3_payload
+  t=1793403857828 kind=player_move id=1522745 name=Wumido raw_hex=0336b2c9b6df36df08f4ec5a3e2332ee1240666634410db4c83f11331b13 coord_source=unvalidated_event3_payload
+  t=1793403857886 kind=player_move id=1518481 name=MarkusAlexander raw_hex=0383cfc3b6df36df08ddc3c73e42fa0f13c766661e41b5af1d3d2e47046c coord_source=unvalidated_event3_payload
+  t=1793403857886 kind=player_move id=1522441 name=EXIPAY raw_hex=03035bccb6df36df08daf60fc3f9b42a6d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403857886 kind=player_move id=1522778 name=Elthelpan raw_hex=03e4b7ceb6df36df082d10a43ed21848934c33332741c83f673eed703fec coord_source=unvalidated_event3_payload
+  t=1793403857886 kind=player_move id=1522760 name=1hpp raw_hex=03bba2cfb6df36df08c812b63eed8f9591438fc247411bb29c3f8d677a93 coord_source=unvalidated_event3_payload
+  t=1793403857887 kind=player_move id=1521344 name=Tedio raw_hex=0163d4cab6df36df08c8ad1d3f80b29f6c6a0000b040 coord_source=unvalidated_event3_payload
+  t=1793403857934 kind=player_move id=1522745 name=Wumido raw_hex=0326a2dab6df36df08cce66e3e503ce81240666634410db4c83f11331b13 coord_source=unvalidated_event3_payload
+  t=1793403857935 kind=player_move id=1522441 name=EXIPAY raw_hex=03439ddbb6df36df08b2e024c469055f6d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403857935 kind=player_move id=1518481 name=MarkusAlexander raw_hex=03d3a9d5b6df36df08a14c3f3d604d5813c866661e4190c7163d9a643b6c coord_source=unvalidated_event3_payload
+  t=1793403857935 kind=player_move id=1522760 name=1hpp raw_hex=03ab92e0b6df36df0831bb423efb053192438fc24741ab4d563fed139393 coord_source=unvalidated_event3_payload
+  t=1793403857996 kind=player_move id=1522778 name=Elthelpan raw_hex=03a4a3e1b6df36df08cb01ae3eedae88934c3333274191947b3e8f0656ec coord_source=unvalidated_event3_payload
+  t=1793403857996 kind=player_move id=1519858 name=orzeszek23 raw_hex=0393b3e3b6df36df08101263bfe2965becdecdcc0c4173e42bc14828abec coord_source=unvalidated_event3_payload
+  t=1793403858156 kind=player_move id=1522745 name=Wumido raw_hex=03f643ebb6df36df083e46023e5c98cc1243666634410a37aec168c6bf92 coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1522441 name=EXIPAY raw_hex=03133fecb6df36df08dd1ce244689d426d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1522638 name=BloodyPeach raw_hex=0334a2efb6df36df086c9aa23fcbe0dd97405d8f8e3fbfe4183e9d0aba6c coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1518481 name=MarkusAlexander raw_hex=032384e7b6df36df0811fc3a3df2a19513c766661e416518123daaab216c coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1522760 name=1hpp raw_hex=036b0df1b6df36df089824583e79db9992448fc24741b97e2f3f57b2af93 coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1519858 name=orzeszek23 raw_hex=034307f4b6df36df0826560fbf9f7563eca1cdcc0c4156d42f4095c7c9ec coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1522778 name=Elthelpan raw_hex=03c479f5b6df36df08ecbfb83ea46ec7934c3333274144ee0f3ef6ea4eec coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1522745 name=Wumido raw_hex=0346adfab6df36df0881b6143ef4b9a0124266663441c83750c01b0ba292 coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1522638 name=BloodyPeach raw_hex=03e4f5ffb6df36df08298ba03fd8caab11f45d8f8e3fb449c23fb8500c6d coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1522441 name=EXIPAY raw_hex=03032ffdb6df36df08207ebc43f92f766d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1518481 name=MarkusAlexander raw_hex=034307f4b6df36df083e8f373de4718413c766661e41d3a50f3db084256c coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1522760 name=1hpp raw_hex=03bb7600b7df36df08e6016c3e2317d492438fc24741d5e1b940c92a8093 coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1519858 name=orzeszek23 raw_hex=03c3e503b7df36df08dea83abf10c499eca2cdcc0c418610a840865ffaec coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1522778 name=Elthelpan raw_hex=03343105b7df36df08a78b413e15dbee934d33332741fd6f263e2bb56aec coord_source=unvalidated_event3_payload
+  t=1793403858216 kind=player_move id=1522745 name=Wumido raw_hex=0326760bb7df36df081740283e48fd87124266663441c83750c01b0ba292 coord_source=unvalidated_event3_payload
+  t=1793403858272 kind=player_move id=1522638 name=BloodyPeach raw_hex=0374fb0fb7df36df08c07aa03f0f884212015d8f8e3ff536a83ffe8d586d coord_source=unvalidated_event3_payload
+  t=1793403858272 kind=player_move id=1522441 name=EXIPAY raw_hex=0353980cb7df36df08b1d0f6433edd7a6d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403858328 kind=player_move id=1522760 name=1hpp raw_hex=031b7812b7df36df08dd9e033ea3fef092418fc247414cf086c10cf64493 coord_source=unvalidated_event3_payload
+  t=1793403858328 kind=player_move id=1519858 name=orzeszek23 raw_hex=03938714b7df36df08379999c05db888ecb6cdcc0c414f0e8640504da3ec coord_source=unvalidated_event3_payload
+  t=1793403858328 kind=player_move id=1522778 name=Elthelpan raw_hex=03c43615b7df36df0813ab523e9a4618ec4933332741df25cc3f137461ec coord_source=unvalidated_event3_payload
+  t=1793403858328 kind=player_move id=1522745 name=Wumido raw_hex=0386061bb7df36df0821e23a3e0b784f124266663441c83750c01b0ba292 coord_source=unvalidated_event3_payload
+  t=1793403858391 kind=player_move id=1522638 name=BloodyPeach raw_hex=03244f20b7df36df08138aa03f9cc6b012065d8f8e3f27cb7e3f0ec64b6d coord_source=unvalidated_event3_payload
+  t=1793403858391 kind=player_move id=1522441 name=EXIPAY raw_hex=03d3761cb7df36df080ee337424dbb6e6d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403858453 kind=player_move id=1522760 name=1hpp raw_hex=038b2f22b7df36df089463183ea2e2f0923f8fc247414486ecc0df372092 coord_source=unvalidated_event3_payload
+  t=1793403858453 kind=player_move id=1519858 name=orzeszek23 raw_hex=03136624b7df36df08e61528c0e2cc87ecedcdcc0c418f2e454034a5a793 coord_source=unvalidated_event3_payload
+  t=1793403858453 kind=player_move id=1522778 name=Elthelpan raw_hex=03141127b7df36df086cf9653e2c320cec4433332741917e933fcbea5bec coord_source=unvalidated_event3_payload
+  t=1793403858453 kind=player_move id=1522745 name=Wumido raw_hex=03c6482ab7df36df08febdd93f2dfb05124266663441c83750c01b0ba292 coord_source=unvalidated_event3_payload
+  t=1793403858507 kind=player_move id=1522638 name=BloodyPeach raw_hex=03c47b30b7df36df08c851a13f1bbbf5120b5d8f8e3f7d926e40e457796d coord_source=unvalidated_event3_payload
+  t=1793403858507 kind=player_move id=1522441 name=EXIPAY raw_hex=03b33f2db7df36df08cb2f12426876956d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403858507 kind=player_move id=1522760 name=1hpp raw_hex=03ebbf31b7df36df082abf2c3e2d08a4923a8fc24741977729bfd3cdb713 coord_source=unvalidated_event3_payload
+  t=1793403858507 kind=player_move id=1519858 name=orzeszek23 raw_hex=03c3b934b7df36df08be4aaec1354370ecf5cdcc0c41da2e61401b642913 coord_source=unvalidated_event3_payload
+  t=1793403858558 kind=player_move id=1522778 name=Elthelpan raw_hex=0374a136b7df36df08dbf0763e5c3b09ec413333274169a7be3f526a32ec coord_source=unvalidated_event3_payload
+  t=1793403858558 kind=player_move id=1522745 name=Wumido raw_hex=03a6113bb7df36df087f1d813f42e2b71140666634411d97013f32d23911 coord_source=unvalidated_event3_payload
+  t=1793403858559 kind=player_move id=1522638 name=BloodyPeach raw_hex=0374cf40b7df36df085dbaa23fc8c619130c5d8f8e3fbbeec4413fbb636d coord_source=unvalidated_event3_payload
+  t=1793403858559 kind=player_move id=1522441 name=EXIPAY raw_hex=0313d03cb7df36df08ebd46e42e8239f6d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403858613 kind=player_move id=1522760 name=1hpp raw_hex=037bc541b7df36df087c7ac23f401fdd91378fc2474133ca15bff7841a6c coord_source=unvalidated_event3_payload
+  t=1793403858613 kind=player_move id=1519858 name=orzeszek23 raw_hex=03337144b7df36df08fd9671c28e5838ecf5cdcc0c415381b340239ddd13 coord_source=unvalidated_event3_payload
+  t=1793403858669 kind=player_move id=1522778 name=Elthelpan raw_hex=03b45448b7df36df08a4140a3ec3990aec3f3333274191d8143f63521bec coord_source=unvalidated_event3_payload
+  t=1793403858675 kind=player_move id=1522441 name=EXIPAY raw_hex=0363394cb7df36df08ae794c42ccea996d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403858675 kind=player_move id=1522745 name=Wumido raw_hex=0146cd48b7df36df08ba84a13f1a0690114066663441 coord_source=unvalidated_event3_payload
+  t=1793403858675 kind=player_move id=1522638 name=BloodyPeach raw_hex=0314fc50b7df36df087783a33f9dd63c130c5d8f8e3f5b39d641ad6e626d coord_source=unvalidated_event3_payload
+  t=1793403858727 kind=player_move id=1522760 name=1hpp raw_hex=03cb2e51b7df36df08e70eea3f7989d8113a8fc2474170b386c0ee0f8913 coord_source=unvalidated_event3_payload
+  t=1793403858727 kind=player_move id=1519858 name=orzeszek23 raw_hex=0183f84eb7df36df080e5fe842d9a81decf5cdcc0c41 coord_source=unvalidated_event3_payload
+  t=1793403858727 kind=player_move id=1519858 name=orzeszek23 raw_hex=0183f84eb7df36df080e5fe842d9a81dec01cdcc0c41 coord_source=unvalidated_event3_payload
+  t=1793403858727 kind=player_move id=1522778 name=Elthelpan raw_hex=0304be57b7df36df08370a1b3ede960bec3f333327415809f840ece005ec coord_source=unvalidated_event3_payload
+  t=1793403858804 kind=player_move id=1522441 name=EXIPAY raw_hex=03b3a25bb7df36df08cdf9b44210d1836d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403858804 kind=player_move id=1522638 name=BloodyPeach raw_hex=03c44f61b7df36df08a7eda43f6ce45f130c5d8f8e3f3af2834194f2626d coord_source=unvalidated_event3_payload
+  t=1793403858873 kind=player_move id=1522760 name=1hpp raw_hex=039bd061b7df36df08d659953fe8702912418fc247416bff013f31cecd11 coord_source=unvalidated_event3_payload
+  t=1793403858873 kind=player_move id=1522778 name=Elthelpan raw_hex=03644e67b7df36df08020e2c3ed79b0fec3c33332741cc4c7040c630a893 coord_source=unvalidated_event3_payload
+  t=1793403858959 kind=player_move id=1522441 name=EXIPAY raw_hex=0313336bb7df36df087364a342908e8d6d00cccce440c3ff8d41b9383e6e coord_source=unvalidated_event3_payload
+  t=1793403858959 kind=player_move id=1522638 name=BloodyPeach raw_hex=0324e070b7df36df08a9f3a53f0baf73130c5d8f8e3f3af2834194f2626d coord_source=unvalidated_event3_payload
+  t=1793403858959 kind=player_move id=1522760 name=1hpp raw_hex=01db4e67b7df36df08f6f9a33f50c03812418fc24741 coord_source=unvalidated_event3_payload
+Warning: Some datagrams on port 5056 did not pass Photon envelope validation.
