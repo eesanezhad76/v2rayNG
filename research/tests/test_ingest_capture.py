@@ -31,6 +31,55 @@ class IngestTests(unittest.TestCase):
    self.assertEqual(out["nodes"][0]["entity_id"],77)
    self.assertEqual(out["nodes"][0]["state_timeline"][0]["size"],4)
    self.assertEqual(out["state_only_entities"][0]["entity_id"],88)
+ def test_manual_marker_fifo_pairs_multiple_found_targets_without_crossing_metadata(self):
+  with tempfile.TemporaryDirectory() as td:
+   d=pathlib.Path(td)
+   markers=[
+    {"timestamp_ms":10,"activity":"Ore","event":"target_found","tier":"T4","enchantment":"Normal"},
+    {"timestamp_ms":20,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":30,"activity":"Ore","event":"gathering_started"},
+    {"timestamp_ms":40,"activity":"Ore","event":"gathering_started"},
+    {"timestamp_ms":50,"activity":"Ore","event":"gathering_completed"},
+    {"timestamp_ms":60,"activity":"Ore","event":"gathering_completed"},
+    {"timestamp_ms":70,"activity":"Ore","event":"node_depleted"},
+    {"timestamp_ms":80,"activity":"Ore","event":"node_depleted"}
+   ]
+   rows=[{"time_ms":m["timestamp_ms"],"manual_marker":m} for m in markers]
+   out=self.run_ingest(rows,d)
+   cycles=out["marker_lifecycles"]
+   self.assertEqual(2,out["counts"]["complete_resource_marker_cycles"])
+   self.assertEqual([10,20],[x["found_ms"] for x in cycles])
+   self.assertEqual(["T4","T5"],[x["tier"] for x in cycles])
+   self.assertEqual([30,40],[x["started_ms"] for x in cycles])
+   self.assertTrue(all(x["identity_scope"]=="manual_marker_only_no_runtime_entity_id" for x in cycles))
+
+ def test_manual_marker_orphans_are_preserved_not_force_paired(self):
+  with tempfile.TemporaryDirectory() as td:
+   d=pathlib.Path(td)
+   markers=[
+    {"timestamp_ms":10,"activity":"Ore","event":"target_found","tier":"T5"},
+    {"timestamp_ms":20,"activity":"Ore","event":"gathering_started"},
+    {"timestamp_ms":30,"activity":"Ore","event":"gathering_started"},
+    {"timestamp_ms":40,"activity":"Ore","event":"gathering_completed"},
+    {"timestamp_ms":50,"activity":"Ore","event":"node_depleted"}
+   ]
+   out=self.run_ingest([{"time_ms":m["timestamp_ms"],"manual_marker":m} for m in markers],d)
+   self.assertEqual(1,out["counts"]["complete_resource_marker_cycles"])
+   self.assertEqual(1,out["counts"]["unmatched_marker_events"])
+   self.assertEqual("start_without_found",out["unmatched_marker_events"][0]["reason"])
+
+ def test_manual_mob_markers_pair_found_to_killed_without_claiming_entity_id(self):
+  with tempfile.TemporaryDirectory() as td:
+   d=pathlib.Path(td)
+   markers=[
+    {"timestamp_ms":100,"activity":"Mobs","event":"target_found","tier":"T4"},
+    {"timestamp_ms":200,"activity":"Mobs","event":"mob_killed"}
+   ]
+   out=self.run_ingest([{"time_ms":m["timestamp_ms"],"manual_marker":m} for m in markers],d)
+   self.assertEqual(1,out["counts"]["mob_marker_pairs"])
+   self.assertEqual("TARGET_FOUND_TO_KILLED",out["marker_lifecycles"][0]["status"])
+   self.assertEqual("manual_marker_only_no_runtime_entity_id",out["marker_lifecycles"][0]["identity_scope"])
+
  def test_legacy_event_analysis_schema_still_supported(self):
   with tempfile.TemporaryDirectory() as td:
    d=pathlib.Path(td)

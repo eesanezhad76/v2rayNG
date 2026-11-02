@@ -19,6 +19,60 @@ def parse_row(row):
   elif code==46 and isinstance(event.get("state_update"),dict):
    s=event["state_update"]; entities.append({"kind":"resource_state","event_code":46,"entity_id":s.get("id"),"size":s.get("amount_or_state",s.get("size")),"removed":s.get("removed")})
  return entities
+RESOURCE_ACTIVITIES={"Ore","Wood","Stone","Fiber","Hide"}
+RESOURCE_EVENTS={"target_found","gathering_started","gathering_completed","node_depleted"}
+def pair_manual_markers(markers):
+ """FIFO-pair manual resource and mob markers without inventing runtime entity IDs."""
+ states=collections.defaultdict(lambda:{"pending":collections.deque(),"active":collections.deque(),"completed":collections.deque()})
+ mob_pending=collections.defaultdict(collections.deque)
+ lifecycles=[]; unmatched=[]
+ ordered=[]
+ for index,marker in enumerate(markers):
+  try: timestamp=int(marker.get("timestamp_ms"))
+  except (TypeError,ValueError):
+   unmatched.append({"activity":marker.get("activity"),"event":marker.get("event"),"timestamp_ms":None,"reason":"missing_or_invalid_timestamp"})
+   continue
+  ordered.append((timestamp,index,marker))
+ for timestamp,index,marker in sorted(ordered,key=lambda x:(x[0],x[1])):
+  activity=str(marker.get("activity") or "Unknown")
+  event=str(marker.get("event") or "")
+  if activity in RESOURCE_ACTIVITIES and event in RESOURCE_EVENTS:
+   queue=states[activity]
+   if event=="target_found":
+    queue["pending"].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":None,"completed_ms":None,"depleted_ms":None})
+   elif event=="gathering_started":
+    if queue["pending"]:
+     cycle=queue["pending"].popleft();cycle["started_ms"]=timestamp;queue["active"].append(cycle)
+    else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"start_without_found"})
+   elif event=="gathering_completed":
+    if queue["active"]:
+     cycle=queue["active"].popleft();cycle["completed_ms"]=timestamp;queue["completed"].append(cycle)
+    else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"completion_without_start"})
+   elif event=="node_depleted":
+    if queue["completed"]:
+     cycle=queue["completed"].popleft();cycle["depleted_ms"]=timestamp;cycle["status"]="COMPLETE";lifecycles.append(cycle)
+    else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"depletion_without_completion"})
+  elif activity=="Mobs" and event=="target_found":
+   mob_pending[activity].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":None,"completed_ms":None,"depleted_ms":None})
+  elif activity=="Mobs" and event=="mob_killed":
+   if mob_pending[activity]:
+    cycle=mob_pending[activity].popleft();cycle["mob_killed_ms"]=timestamp;cycle["status"]="TARGET_FOUND_TO_KILLED";lifecycles.append(cycle)
+   else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"mob_kill_without_target_found"})
+ for activity,queue in states.items():
+  for cycle in queue["pending"]:
+   cycle["status"]="FOUND_NOT_STARTED";lifecycles.append(cycle)
+  for cycle in queue["active"]:
+   cycle["status"]="STARTED_NOT_COMPLETED";lifecycles.append(cycle)
+  for cycle in queue["completed"]:
+   cycle["status"]="COMPLETED_NOT_DEPLETED";lifecycles.append(cycle)
+ for queue in mob_pending.values():
+  for cycle in queue:
+   cycle["status"]="TARGET_FOUND_NOT_KILLED";lifecycles.append(cycle)
+ for cycle in lifecycles:
+  cycle["identity_scope"]="manual_marker_only_no_runtime_entity_id"
+  cycle.setdefault("mob_killed_ms",None)
+ lifecycles.sort(key=lambda x:(x.get("found_ms") or 0,x.get("activity") or ""))
+ return lifecycles,unmatched
 def analyze(path):
  nodes={}; states=collections.defaultdict(list); markers=[]; rows=bad=event123=0; packet5056=0
  with path.open(encoding="utf-8",errors="replace") as f:
@@ -27,7 +81,10 @@ def analyze(path):
    except Exception:bad+=1;continue
    rows+=1
    if r.get("src_port")==5056 or r.get("dst_port")==5056: packet5056+=1
-   if isinstance(r.get("manual_marker"),dict):markers.append(r["manual_marker"])
+   if isinstance(r.get("manual_marker"),dict):
+    marker=dict(r["manual_marker"])
+    marker.setdefault("timestamp_ms",r.get("time_ms"))
+    markers.append(marker)
    for e in parse_row(r):
     k=e.get("kind"); ident=e.get("entity_id"); t=r.get("time_ms")
     if k=="mob": event123+=1
@@ -47,8 +104,10 @@ def analyze(path):
  for key,seq in states.items():
   if key in nodes:nodes[key]["state_timeline"]=sorted(seq,key=lambda x:x["time_ms"] or 0)
  state_only=[{"entity_id":int(k) if k.isdigit() else k,"state_timeline":sorted(v,key=lambda x:x["time_ms"] or 0)} for k,v in states.items() if k not in nodes]
+ marker_lifecycles,unmatched_markers=pair_manual_markers(markers)
+ resource_cycles=[x for x in marker_lifecycles if x["activity"] in RESOURCE_ACTIVITIES]
  stem=path.stem; ordered=sorted(nodes.values(),key=lambda n:(n["type_number"] or -1,n["tier"] or -1,n["enchant"] or 0,n["entity_id"]))
- doc={"dataset_id":stem,"source_file":path.name,"source_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"counts":{"jsonl_rows":rows,"malformed_lines":bad,"udp_5056_packets":packet5056,"event40_observations":sum(n["observations"] for n in ordered),"unique_event40_nodes":len(ordered),"event46_updates":sum(map(len,states.values())),"event46_state_ids":len(states),"event46_exact_joins":sum(bool(n["state_timeline"]) for n in ordered),"state_only_ids":len(state_only),"event123_living_entity_observations":event123,"manual_markers":len(markers)},"nodes":ordered,"state_only_entities":state_only,"manual_markers":markers}
+ doc={"dataset_id":stem,"source_file":path.name,"source_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"counts":{"jsonl_rows":rows,"malformed_lines":bad,"udp_5056_packets":packet5056,"event40_observations":sum(n["observations"] for n in ordered),"unique_event40_nodes":len(ordered),"event46_updates":sum(map(len,states.values())),"event46_state_ids":len(states),"event46_exact_joins":sum(bool(n["state_timeline"]) for n in ordered),"state_only_ids":len(state_only),"event123_living_entity_observations":event123,"manual_markers":len(markers),"resource_marker_cycles":len(resource_cycles),"complete_resource_marker_cycles":sum(x["status"]=="COMPLETE" for x in resource_cycles),"incomplete_resource_marker_cycles":sum(x["status"]!="COMPLETE" for x in resource_cycles),"mob_marker_pairs":sum(x["status"]=="TARGET_FOUND_TO_KILLED" for x in marker_lifecycles),"unmatched_marker_events":len(unmatched_markers)},"nodes":ordered,"state_only_entities":state_only,"manual_markers":markers,"marker_lifecycles":marker_lifecycles,"unmatched_marker_events":unmatched_markers}
  DB.mkdir(parents=True,exist_ok=True);ANALYSIS.mkdir(parents=True,exist_ok=True)
  (DB/(stem+".json")).write_text(json.dumps(doc,indent=2),encoding="utf-8")
  fields=["entity_id","mobile_type_id","type_number","tier","enchant","x","y","first_seen_ms","last_seen_ms","observations","sizes_seen","state_timeline"]
@@ -56,8 +115,12 @@ def analyze(path):
   w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
   for n in ordered:
    x=n.copy();x["sizes_seen"]=";".join(map(str,x["sizes_seen"]));x["state_timeline"]=json.dumps(x["state_timeline"],separators=(",",":"));w.writerow(x)
+ marker_fields=["activity","tier","enchantment","found_ms","started_ms","completed_ms","depleted_ms","mob_killed_ms","status","identity_scope"]
+ with (DB/(stem+"-marker-lifecycles.csv")).open("w",newline="",encoding="utf-8") as f:
+  w=csv.DictWriter(f,fieldnames=marker_fields);w.writeheader()
+  for cycle in marker_lifecycles:w.writerow(cycle)
  summary=doc["counts"]
- (ANALYSIS/(stem+".md")).write_text("# Capture ingest: "+stem+"\n\n"+"\n".join("- "+k+": "+str(v) for k,v in summary.items())+"\n\nState updates join only by exact runtime entity ID. State-only IDs remain separate.\n",encoding="utf-8")
+ (ANALYSIS/(stem+".md")).write_text("# Capture ingest: "+stem+"\n\n"+"\n".join("- "+k+": "+str(v) for k,v in summary.items())+"\n\nState updates join only by exact runtime entity ID. Marker lifecycles are FIFO-paired but remain manual annotations without runtime entity identity. State-only IDs remain separate.\n",encoding="utf-8")
  return doc
 def main():
  ap=argparse.ArgumentParser();ap.add_argument("inputs",nargs="+");args=ap.parse_args()
