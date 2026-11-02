@@ -234,8 +234,8 @@ fun main() {
                 }
                 "gathering_completed" -> {
                     val queue = pendingMarkers[key]
-                    val sample = queue?.firstOrNull { it.startedMs != null }
-                        ?: if (queue?.size == 1) queue.first() else null
+                    val sample = if (queue == null) null else
+                        queue.firstOrNull { it.startedMs != null } ?: queue.singleOrNull()
                     if (sample == null) unmatchedCompletions++ else {
                         sample.completedMs = t
                         queue?.remove(sample)
@@ -274,8 +274,8 @@ fun main() {
                 val tierNumber = sample.tierLabel?.removePrefix("T")?.toIntOrNull()
                 val enchantNumber = when (sample.enchantLabel?.uppercase()?.replace(" ", "")) {
                     "NORMAL", "E0", "0" -> "0"
-                    "E1", "ENCHANT1", "1" -> "1"
-                    "E2", "ENCHANT2", "2" -> "2"
+                    "E1", "ENCH1", "ENCHANT1", "ENCHANTMENT1", "1" -> "1"
+                    "E2", "ENCH2", "ENCHANT2", "ENCHANTMENT2", "2" -> "2"
                     else -> null
                 }
                 val windowStart = sample.foundMs - 10_000L
