@@ -26,7 +26,8 @@ object AlbionCaptureAnalyzer {
         val malformedProtocol18Messages: Int,
         val pendingFragments: Int,
         val warnings: List<String>,
-        val checkpoints: List<String>
+        val checkpoints: List<String>,
+        val detailedObservations: List<String>
     ) {
         fun asText(): String = buildString {
             appendLine("Albion / Photon capture report")
@@ -54,6 +55,8 @@ object AlbionCaptureAnalyzer {
             appendLine("Pending fragmented messages: $pendingFragments")
             appendLine("Manual checkpoints: ${checkpoints.size}")
             checkpoints.forEach { appendLine("  $it") }
+            appendLine("Detailed entity/player observations: ${detailedObservations.size}")
+            detailedObservations.forEach { appendLine("  $it") }
             warnings.forEach { appendLine("Warning: $it") }
         }
     }
@@ -73,6 +76,7 @@ object AlbionCaptureAnalyzer {
         val entities = linkedMapOf<String, Int>()
         val typedEvents = linkedMapOf<String, Int>()
         val checkpoints = mutableListOf<String>()
+        val detailed = mutableListOf<String>()
         val protocol18 = AlbionProtocol18Decoder()
         AlbionPhotonPacketDecoder.reset()
         AlbionEntityEventMapper.reset()
@@ -89,8 +93,9 @@ object AlbionCaptureAnalyzer {
             val linkType = readInt(input, little)
             while (true) {
                 try {
-                    readInt(input, little)
-                    readInt(input, little)
+                    val packetSeconds = readInt(input, little)
+                    val packetMicros = readInt(input, little)
+                    val packetTimeMs = packetSeconds.toLong() * 1000L + packetMicros.toLong() / 1000L
                     val captured = readInt(input, little)
                     readInt(input, little)
                     if (captured !in 1..2_000_000) break
@@ -126,6 +131,21 @@ object AlbionCaptureAnalyzer {
                                 }
                                 AlbionEntityEventMapper.map(message).forEach { observation ->
                                     entities[observation.kind] = (entities[observation.kind] ?: 0) + 1
+                                    if (observation.kind in setOf("player_spawn", "player_move", "static_resource", "harvestable", "resource_state", "mob", "mob_state", "player_mounted", "move")) {
+                                        detailed += buildString {
+                                            append("t=").append(packetTimeMs).append(" kind=").append(observation.kind)
+                                            observation.entityId?.let { append(" id=").append(it) }
+                                            observation.name?.let { append(" name=").append(it) }
+                                            observation.x?.let { append(" x=").append(it) }
+                                            observation.y?.let { append(" y=").append(it) }
+                                            observation.typeId?.let { append(" mobileType=").append(it) }
+                                            observation.typeNumber?.let { append(" family=").append(it) }
+                                            observation.tier?.let { append(" tier=").append(it) }
+                                            observation.enchant?.let { append(" enchant=").append(it) }
+                                            observation.size?.let { append(" amount=").append(it) }
+                                            if (observation.removed) append(" removed=true")
+                                        }
+                                    }
                                 }
                                 if (message.kind == "event" && message.realCode != null) {
                                     val typed = AlbionPhotonEventDecoder.decode(message.realCode, message.parameters)
@@ -147,7 +167,7 @@ object AlbionCaptureAnalyzer {
         if (malformed > 0) warnings += "Some datagrams on port 5056 did not pass Photon envelope validation."
         return Report(
             packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, typedEvents, malformed,
-            encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings, checkpoints
+            encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings, checkpoints, detailed
         )
     }
 
