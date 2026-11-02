@@ -91,6 +91,7 @@ class AlbionProtocolEvidenceStore(context: Context) {
                 details.add("inventory event ${inv.optInt("event_code")} near HarvestFinished; resource candidate id=$id type=$type tier=$tier enchant=$enchant")
             }
         }
+        val numericCandidates = AlbionInventoryEvidenceAnalyzer.analyze(events)
         return buildString {
             appendLine()
             appendLine("PROTOCOL / INVENTORY EVIDENCE (raw; item schema not yet verified)")
@@ -105,8 +106,12 @@ class AlbionProtocolEvidenceStore(context: Context) {
             appendLine("Events in current capture: ${current.size}")
             appendLine("Inventory events within ${PAIR_WINDOW_MS / 1000}s of HarvestFinished: $paired")
             appendLine("With a nearby typed resource event (candidate only): $resourceCandidates")
+            appendLine("Repeated harvest-correlated numeric parameter candidates (unclassified): " + numericCandidates.size)
+            numericCandidates.take(10).forEach { candidate ->
+                appendLine("candidate event=" + candidate.eventCode + " path=" + candidate.parameterPath + " independent_harvests=" + candidate.independentHarvests + " observations=" + candidate.observations + " distinct_values=" + candidate.distinctValues + " range=" + candidate.minimum + ".." + candidate.maximum)
+            }
             details.takeLast(5).forEach { appendLine(it) }
-            append("No item ID, stack delta, or Ore identity is asserted from these raw events.")
+            append("Candidate parameter paths are not Item ID or Stack Delta mappings. No Ore identity is asserted.")
         }
     }
 
