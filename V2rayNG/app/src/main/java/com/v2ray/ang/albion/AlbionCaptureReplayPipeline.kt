@@ -57,14 +57,28 @@ object AlbionCaptureReplayPipeline {
         }
     }
 
-    fun writeJson(result: Result, destination: File) {
+    fun writeJson(
+        result: Result,
+        destination: File,
+        liveKnowledgeJson: String? = null,
+        liveHealthSummary: String? = null
+    ) {
         destination.parentFile?.mkdirs()
+        val liveParsed = liveKnowledgeJson?.let { AlbionRadarSnapshotParser.parse(it) }
+        val liveAccepted = JSONArray().also { array ->
+            liveParsed?.entities?.forEach { array.put(JSONObject(it.toString())) }
+        }
         val root = JSONObject()
             .put("schema_version", 1)
             .put("replay_scope", "pcap_to_photon_to_protocol18_to_event_mapper_to_isolated_knowledge_and_evidence_stores_to_overlay_snapshot")
             .put("isolated_knowledge_store_replayed", true)
             .put("daemon_live_store_mutated", false)
             .put("overlay_delivery_verified", false)
+            .put("live_knowledge_snapshot_valid", liveParsed != null)
+            .put("live_knowledge_entity_count", liveParsed?.entities?.size ?: 0)
+            .put("live_invalid_coordinate_count", liveParsed?.invalidCoordinateCount ?: 0)
+            .put("live_knowledge_snapshot", liveAccepted)
+            .put("live_overlay_health_summary", liveHealthSummary ?: "not_available")
             .put("source_name", result.replay.sourceName)
             .put("source_sha256", result.replay.sourceSha256)
             .put("fingerprint", result.replay.fingerprint)

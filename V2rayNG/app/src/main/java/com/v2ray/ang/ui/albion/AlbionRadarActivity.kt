@@ -330,9 +330,17 @@ class AlbionRadarActivity : ComponentActivity() {
                         file, applicationContext, captureTapDrops
                     )
                 }
+                val liveKnowledge = withContext(Dispatchers.IO) {
+                    CoreServiceManager.getAlbionLiveKnowledgeJson()
+                }
+                val liveHealth = withContext(Dispatchers.IO) {
+                    CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
+                }
                 val output = File(cacheDir, "albion-radar-diagnostics-${System.currentTimeMillis()}.json")
                 withContext(Dispatchers.IO) {
-                    com.v2ray.ang.albion.AlbionCaptureReplayPipeline.writeJson(result, output)
+                    com.v2ray.ang.albion.AlbionCaptureReplayPipeline.writeJson(
+                        result, output, liveKnowledge, liveHealth
+                    )
                 }
                 diagnosticFile = output
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {

@@ -39,7 +39,10 @@ class AlbionCaptureReplayEngineTest {
         assertTrue(pipeline.protocolEvidenceSummary.contains("No item ID, stack delta, or Ore identity is asserted"))
 
         val output = File(tempDir, "reports/pipeline.json")
-        AlbionCaptureReplayPipeline.writeJson(pipeline, output)
+        val liveSnapshot = """[{"entity_id":"9","last_kind":"harvestable","x":1,"y":2}]"""
+        AlbionCaptureReplayPipeline.writeJson(
+            pipeline, output, liveSnapshot, "Overlay pipeline health: PIPELINE_ACTIVE"
+        )
         val json = output.readText()
         assertTrue(json.contains("\"isolated_knowledge_store_replayed\": true"))
         assertTrue(json.contains("\"daemon_live_store_mutated\": false"))
@@ -50,6 +53,9 @@ class AlbionCaptureReplayEngineTest {
         assertTrue(json.contains("\"manual_checkpoints\""))
         assertTrue(json.contains("\"capture_quality\""))
         assertTrue(json.contains("\"native_tap_drops\": 3"))
+        assertTrue(json.contains("\"live_knowledge_snapshot_valid\": true"))
+        assertTrue(json.contains("\"live_knowledge_entity_count\": 1"))
+        assertTrue(json.contains("\"live_overlay_health_summary\": \"Overlay pipeline health: PIPELINE_ACTIVE\""))
     }
 
     @Test fun replaysCommittedInboxCapturesThroughKnowledgeEvidenceAndOverlayParser() {
