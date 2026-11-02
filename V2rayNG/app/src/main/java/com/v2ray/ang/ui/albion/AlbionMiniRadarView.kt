@@ -180,6 +180,6 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         paint.textSize = 8f * density
         canvas.drawText("YOU", cx + 7f * density, cy + 8f * density, paint)
         paint.color = 0xFFB8C8D5.toInt()
-        canvas.drawText("RANGE 60  •  player/resource coordinate alignment unverified", 7f * density, height - 6f * density, paint)
+        canvas.drawText("RANGE 60  •  coords provisional", 7f * density, height - 6f * density, paint)
     }
 }
