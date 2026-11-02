@@ -65,15 +65,24 @@ class ReadinessReportTests(unittest.TestCase):
             analysis.mkdir(parents=True)
             (analysis / "2026-11-02-spatial-alignment.json").write_text(json.dumps({
                 "overall_status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
-                "captures": [{
-                    "archive": "capture.zip",
-                    "pcap": "capture.pcap",
-                    "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
-                    "player_position_samples": 300,
-                    "typed_resource_nodes": 25,
-                    "nearest_resource_to_player_path_distance_median": 12.5,
-                    "warning": "candidate only",
-                }]
+                "captures": [
+                    {
+                        "archive": "many-moves.zip",
+                        "pcap": "no-nodes.pcap",
+                        "status": "NOT_VERIFIED",
+                        "player_position_samples": 900,
+                        "typed_resource_nodes": 0,
+                    },
+                    {
+                        "archive": "capture.zip",
+                        "pcap": "capture.pcap",
+                        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+                        "player_position_samples": 300,
+                        "typed_resource_nodes": 25,
+                        "nearest_resource_to_player_path_distance_median": 12.5,
+                        "warning": "candidate only",
+                    }
+                ]
             }), encoding="utf-8")
             result = readiness.summarize_spatial_alignment(root)
             self.assertEqual("PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE", result["status"])
