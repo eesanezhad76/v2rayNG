@@ -53,7 +53,9 @@ class AlbionLiveKnowledgeStore(context: Context) {
             }
             if (observation.kind == "resource_state") {
                 record.put("depleted", observation.removed)
+                record.put("resource_state_seen", true)
             }
+            if (observation.kind == "harvestable") record.put("typed_resource_seen", true)
             observation.heading?.let { if (it.isFinite() && it in 0f..360f) record.put("heading", it) }
             observation.speed?.let { if (it.isFinite() && it in 0f..100f) record.put("speed", it) }
             val targetX = observation.targetX?.toDouble()
@@ -63,6 +65,7 @@ class AlbionLiveKnowledgeStore(context: Context) {
                 record.put("target_x", targetX).put("target_y", targetY)
             }
             record.put("classification", classification(record))
+            record.put("evidence_grade", evidenceGrade(record))
             dirty = true
         }
         // Bound storage and avoid disk I/O for every packet in a busy scene.
@@ -112,7 +115,8 @@ class AlbionLiveKnowledgeStore(context: Context) {
                 val amount = if (record.has("amount")) " amount=${record.optInt("amount")}" else ""
                 val position = if (record.has("x") && record.has("y")) " (${"%.1f".format(java.util.Locale.US, record.optDouble("x"))}, ${"%.1f".format(java.util.Locale.US, record.optDouble("y"))})" else ""
                 val state = if (record.optBoolean("depleted", false)) " [depleted]" else ""
-                appendLine("$label$tier$enchant$amount$position$state")
+                val evidence = record.optString("evidence_grade", "unclassified")
+                appendLine("$label$tier$enchant$amount$position$state [$evidence]")
             }
             append("Showing ${recent.size} recent observations; proximity alone is not confirmation.")
         }
@@ -123,6 +127,8 @@ class AlbionLiveKnowledgeStore(context: Context) {
         val typed = records.values.count { it.optString("classification") == "typed_resource_observation" }
         val candidates = records.values.count { it.optString("classification") == "static_resource_candidate" }
         val depleted = records.values.count { it.optBoolean("depleted", false) }
+        val corroborated = records.values.count { it.optString("evidence_grade") == "corroborated_same_id" }
+        val repeated = records.values.count { it.optString("evidence_grade") == "repeated_typed" }
         return buildString {
             appendLine()
             appendLine("Live knowledge cache")
@@ -130,8 +136,23 @@ class AlbionLiveKnowledgeStore(context: Context) {
             appendLine("Typed resource observations: $typed")
             appendLine("Static resource candidates (not confirmed Ore): $candidates")
             appendLine("Entities marked depleted: $depleted")
+            appendLine("Corroborated by same-ID resource state: $corroborated")
+            appendLine("Repeated typed resource observations: $repeated")
+            appendLine("Evidence grades are ordinal rules, not calibrated probabilities.")
             appendLine("Persistent file: ${file.name}")
             appendLine("Classification is conservative; no family-to-Ore guesses are made.")
+        }
+    }
+
+    private fun evidenceGrade(record: JSONObject): String {
+        val typed = record.has("mobile_type_id") && record.has("tier") && record.has("x") && record.has("y")
+        return when {
+            typed && record.optBoolean("resource_state_seen", false) -> "corroborated_same_id"
+            typed && record.optInt("sightings") >= 3 -> "repeated_typed"
+            typed -> "typed_single"
+            record.optString("last_kind") == "static_resource" && record.optInt("sightings") >= 3 -> "repeated_candidate"
+            record.optString("last_kind") == "static_resource" -> "candidate"
+            else -> "unclassified"
         }
     }
 
