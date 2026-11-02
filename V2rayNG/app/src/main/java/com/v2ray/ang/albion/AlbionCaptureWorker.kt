@@ -195,12 +195,12 @@ class AlbionCaptureWorker(
             out.write(packet)
             textLog.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", marker).toString())
             textLog.newLine()
-            markerCount.incrementAndGet()
-            autonomousPatternLearner?.observeMarker(marker, timestampMs)
             out.flush()
             pcapFileStream?.fd?.sync()
             textLog.flush()
             logFileStream?.fd?.sync()
+            markerCount.incrementAndGet()
+            autonomousPatternLearner?.observeMarker(marker, timestampMs)
             scope.launch(Dispatchers.IO) { mirrorDownloads() }
             true
         } catch (t: Throwable) {
