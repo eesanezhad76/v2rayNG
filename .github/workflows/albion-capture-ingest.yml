@@ -23,6 +23,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Forensic ZIP inventory and test-note extraction
+        shell: bash
+        run: |
+          set -euo pipefail
+          python research/tools/forensic_zip_audit.py
       - name: Run ingest and validation
         shell: bash
         run: |
