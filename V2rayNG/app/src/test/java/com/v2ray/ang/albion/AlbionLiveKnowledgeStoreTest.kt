@@ -43,8 +43,9 @@ class AlbionLiveKnowledgeStoreTest {
 
     @Test fun liveSnapshotIncludesTypedResourcesAndValidatedPlayerMovement() {
         val store = AlbionLiveKnowledgeStore(context())
+        val now = System.currentTimeMillis() + 1_000L
         store.observe(
-            3_000L,
+            now,
             listOf(
                 AlbionEntityEventMapper.Observation(
                     kind = "harvestable", eventCode = 40, entityId = 901L,
