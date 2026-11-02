@@ -21,6 +21,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import org.json.JSONObject
+import com.v2ray.ang.ui.albion.AlbionMiniRadarView
 import com.v2ray.ang.albion.AlbionCaptureMarker
 import com.v2ray.ang.core.CoreServiceManager
 
@@ -35,11 +36,13 @@ class AlbionOverlayService : Service() {
     private lateinit var title: TextView
     private lateinit var body: LinearLayout
     private lateinit var liveStatus: TextView
+    private lateinit var radarView: AlbionMiniRadarView
     private val refreshHandler = Handler(Looper.getMainLooper())
     private val refreshLiveSnapshot = object : Runnable {
         override fun run() {
             if (root == null) return
             if (::liveStatus.isInitialized) liveStatus.text = CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
+            if (::radarView.isInitialized) radarView.setSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
             refreshHandler.postDelayed(this, 1500L)
         }
     }
@@ -86,6 +89,7 @@ class AlbionOverlayService : Service() {
         head.addView(button("×") { tag("overlay_closed"); stopSelf() }, LinearLayout.LayoutParams(dp(28), dp(32)))
         panel.addView(head)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        radarView = AlbionMiniRadarView(this)
         liveStatus = TextView(this).apply {
             text = "Live entities: waiting for capture"
             setTextColor(0xFFE3EDF5.toInt())
@@ -111,10 +115,12 @@ class AlbionOverlayService : Service() {
         if (!expanded) {
             body.visibility = android.view.View.VISIBLE
             liveStatus.maxLines = 2
+            body.addView(radarView, LinearLayout.LayoutParams(-1, dp(128)))
             body.addView(liveStatus)
             return
         }
         body.visibility = android.view.View.VISIBLE
+        body.addView(radarView, LinearLayout.LayoutParams(-1, dp(128)))
         val selectors = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         selectors.addView(button(tiers[tierIndex]) { tierIndex = (tierIndex + 1) % tiers.size; tag("tier_selected"); renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
         selectors.addView(button(enchants[enchantIndex]) { enchantIndex = (enchantIndex + 1) % enchants.size; tag("enchantment_selected"); renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
