@@ -48,10 +48,18 @@ class AlbionCaptureReplayEngineTest {
     }
 
     @Test fun replaysCommittedInboxCapturesThroughKnowledgeEvidenceAndOverlayParser() {
-        val inbox = File("../research/inbox")
-        val archives = inbox.listFiles()?.filter { it.isFile && it.extension.equals("zip", ignoreCase = true) }
+        val inbox = listOf(
+            File("../research/inbox"),
+            File("../../research/inbox"),
+            File("research/inbox")
+        ).firstOrNull { candidate ->
+            candidate.isDirectory && candidate.listFiles()?.any {
+                it.isFile && it.extension.equals("zip", ignoreCase = true)
+            } == true
+        }
+        assumeTrue(inbox != null, "No committed PCAP inbox directory is available in this checkout")
+        val archives = inbox!!.listFiles()?.filter { it.isFile && it.extension.equals("zip", ignoreCase = true) }
             ?.sortedBy { it.name }.orEmpty()
-        assumeTrue(archives.isNotEmpty(), "No committed PCAP inbox archives are available in this checkout")
 
         var decodedPhotonPackets = 0
         var harvestFinishedEvents = 0
