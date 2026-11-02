@@ -49,7 +49,7 @@ class AlbionCaptureWorker(
     // duplicate the PCAP marker or silently omit the JSONL marker.
     private val pcapMarkerIds = HashSet<String>()
     private val jsonlMarkerIds = HashSet<String>()
-    private data class ManualNodeAnchor(val nodeId: String, val activity: String, val tier: String, val enchantment: String, val timestampMs: Long, var linked: Boolean = false)
+    private data class ManualNodeAnchor(val nodeId: String, val activity: String, val tier: String, val enchantment: String, val timestampMs: Long, var linked: Boolean = false, var ambiguityReported: Boolean = false)
     @Volatile private var activeManualNode: ManualNodeAnchor? = null
     private val nonAlbionCount = AtomicLong(0)
     private val dropBaseline = AtomicLong(0)
@@ -245,7 +245,8 @@ class AlbionCaptureWorker(
             }
             val event = marker.optString("event")
             val node = marker.optString("node_id")
-            if (event == "target_found" && node.isNotBlank()) {
+            if (event == "target_found" && node.isNotBlank() &&
+                marker.optString("target_type") == "resource_node") {
                 activeManualNode = ManualNodeAnchor(
                     node, marker.optString("activity"), marker.optString("tier"),
                     marker.optString("enchantment"), timestampMs
@@ -337,31 +338,49 @@ class AlbionCaptureWorker(
             if (entity.kind == "resource_state") item.put("removed", entity.removed)
             entityArray.put(item)
         }
-        // Link the first matching network harvestable observation after a manual node selection.
-        // The link is emitted as a separate auditable record; no entity ID or coordinates are guessed.
+        // Correlate only an unambiguous, exact-tier harvestable observation.
+        // Similarity alone never establishes identity; ambiguous batches remain unresolved.
         val nodeAnchor = activeManualNode
         if (nodeAnchor != null && !nodeAnchor.linked && timestampMs - nodeAnchor.timestampMs in 0..10_000L) {
-            for (i in 0 until entityArray.length()) {
-                val entity = entityArray.optJSONObject(i) ?: continue
-                if (entity.optString("kind") != "harvestable") continue
+            val manualTier = nodeAnchor.tier.removePrefix("T").toIntOrNull()
+            val candidates = (0 until entityArray.length()).mapNotNull { index ->
+                val entity = entityArray.optJSONObject(index) ?: return@mapNotNull null
+                if (entity.optString("kind") != "harvestable") return@mapNotNull null
                 val networkTier = entity.optInt("tier", -1)
-                val manualTier = nodeAnchor.tier.removePrefix("T").toIntOrNull()
-                if (manualTier != null && networkTier >= 0 && manualTier != networkTier) continue
+                if (manualTier != null && networkTier != manualTier) return@mapNotNull null
+                entity
+            }
+            if (candidates.size == 1) {
+                val entity = candidates.single()
                 val link = JSONObject().put("record_type", "node_network_link")
                     .put("time_ms", timestampMs).put("node_id", nodeAnchor.nodeId)
                     .put("entity_id", entity.opt("entity_id") ?: JSONObject.NULL)
                     .put("activity", nodeAnchor.activity).put("manual_tier", nodeAnchor.tier)
                     .put("manual_enchantment", nodeAnchor.enchantment)
-                    .put("correlation_basis", "first_harvestable_after_manual_target_within_10s_and_tier_match")
+                    .put("correlation_basis", "unique_harvestable_after_manual_resource_target_within_10s_and_exact_tier_match")
                     .put("confidence", "provisional")
                 if (entity.has("x")) link.put("x", entity.opt("x"))
                 if (entity.has("y")) link.put("y", entity.opt("y"))
-                if (entity.has("type_id")) link.put("type_id", entity.opt("type_id"))
+                if (entity.has("mobile_type_id")) link.put("type_id", entity.opt("mobile_type_id"))
+                if (entity.has("type_number")) link.put("type_number", entity.opt("type_number"))
                 if (entity.has("tier")) link.put("network_tier", entity.opt("tier"))
                 if (entity.has("enchant")) link.put("network_enchantment", entity.opt("enchant"))
-                log?.write(link.toString()); log?.newLine()
+                log?.write(link.toString())
+                log?.newLine()
                 nodeAnchor.linked = true
-                break
+            } else if (candidates.size > 1 && !nodeAnchor.ambiguityReported) {
+                log?.write(JSONObject()
+                    .put("record_type", "node_network_link_ambiguous")
+                    .put("time_ms", timestampMs)
+                    .put("node_id", nodeAnchor.nodeId)
+                    .put("activity", nodeAnchor.activity)
+                    .put("manual_tier", nodeAnchor.tier)
+                    .put("candidate_count", candidates.size)
+                    .put("correlation_basis", "multiple_harvestables_match_tier_within_10s")
+                    .put("confidence", "unresolved")
+                    .toString())
+                log?.newLine()
+                nodeAnchor.ambiguityReported = true
             }
         }
 
