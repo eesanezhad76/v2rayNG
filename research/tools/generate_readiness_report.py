@@ -110,7 +110,10 @@ def summarize_signature(repo_root: Path) -> dict[str, Any]:
     signer_match = re.search(r"Number of signers:\s*(\d+)", text)
     signers = int(signer_match.group(1)) if signer_match else 0
     verified = bool(re.search(r"\bVerifies\b", text)) and signers > 0
-    cert_match = re.search(r"Signer #1 certificate SHA-256 digest:\s*([0-9a-fA-F:]+)", text)
+    cert_match = re.search(
+        r"(?:Signer #1|V2 Signer): certificate SHA-256 digest:\s*([0-9a-fA-F:]+)",
+        text,
+    )
     certificate_sha256 = cert_match.group(1).replace(":", "").lower() if cert_match else None
     return {"status": "PASS" if verified else "FAIL", "signers": signers,
             "certificate_sha256": certificate_sha256}
@@ -277,12 +280,17 @@ def write_report(repo_root: Path, report: dict[str, Any]) -> tuple[Path, Path]:
     return markdown_path, json_path
 
 
+def report_exit_code(report: dict[str, Any]) -> int:
+    """Fail CI on broken evidence checks, but keep NOT_VERIFIED as a reportable gate."""
+    return 1 if any(check["status"] == "FAIL" for check in report["checks"]) else 0
+
+
 def main() -> int:
     repo_root = Path(__file__).resolve().parents[2]
     report = build_report(repo_root)
     markdown_path, json_path = write_report(repo_root, report)
     print(json.dumps({"overall_status": report["overall_status"], "markdown": str(markdown_path), "json": str(json_path)}, indent=2))
-    return 1 if any(check["status"] == "FAIL" for check in report["checks"]) else 0
+    return report_exit_code(report)
 
 
 if __name__ == "__main__":

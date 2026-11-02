@@ -48,8 +48,26 @@ class ReadinessReportTests(unittest.TestCase):
             result = readiness.summarize_signature(root)
             self.assertEqual("PASS", result["status"])
             self.assertEqual("abcd1234", result["certificate_sha256"])
+            report.write_text("V2 Signer: certificate SHA-256 digest: 0D:93:51:F7\\n", encoding="utf-8")
+            result = readiness.summarize_signature(root)
+            self.assertEqual("PASS", result["status"])
+            self.assertEqual("0d9351f7", result["certificate_sha256"])
             report.write_text("Number of signers: 1\\n", encoding="utf-8")
             self.assertEqual("FAIL", readiness.summarize_signature(root)["status"])
+
+    def test_exit_code_fails_only_on_explicit_fail_not_unverified_gate(self):
+        self.assertEqual(0, readiness.report_exit_code({
+            "overall_status": "NOT_READY_FOR_FIELD_TEST",
+            "checks": [{"name": "Live capture", "status": "NOT_VERIFIED"}],
+        }))
+        self.assertEqual(1, readiness.report_exit_code({
+            "overall_status": "BLOCKED",
+            "checks": [{"name": "Gradle tests", "status": "FAIL"}],
+        }))
+        self.assertEqual(0, readiness.report_exit_code({
+            "overall_status": "READY",
+            "checks": [{"name": "APK", "status": "PASS"}],
+        }))
 
     def test_replay_requires_baseline_and_rejects_review_required_outputs(self):
         with tempfile.TemporaryDirectory() as directory:
