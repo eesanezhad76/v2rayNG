@@ -216,12 +216,17 @@ object AlbionCaptureAnalyzer {
 
 
 
-    private fun coordinatePair(value: Any?): Pair<Double, Double>? = when (value) {
-        is FloatArray -> if (value.size >= 2) value[0].toDouble() to value[1].toDouble() else null
-        is DoubleArray -> if (value.size >= 2) value[0] to value[1] else null
-        is List<*> -> if (value.size >= 2 && value[0] is Number && value[1] is Number)
-            (value[0] as Number).toDouble() to (value[1] as Number).toDouble() else null
-        else -> null
+    private fun coordinatePair(value: Any?): Pair<Double, Double>? {
+        val pair = when (value) {
+            is FloatArray -> if (value.size >= 2) value[0].toDouble() to value[1].toDouble() else null
+            is DoubleArray -> if (value.size >= 2) value[0] to value[1] else null
+            is List<*> -> if (value.size >= 2 && value[0] is Number && value[1] is Number)
+                (value[0] as Number).toDouble() to (value[1] as Number).toDouble() else null
+            else -> null
+        } ?: return null
+        // Reject invalid and implausibly large values before downstream spatial use.
+        return pair.takeIf { it.first.isFinite() && it.second.isFinite() &&
+            kotlin.math.abs(it.first) <= 10000.0 && kotlin.math.abs(it.second) <= 10000.0 }
     }
 
     private fun describeValue(value: Any?): String = when (value) {

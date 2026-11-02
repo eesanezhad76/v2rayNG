@@ -398,6 +398,77 @@ fun main() {
             }
         }
         File(out, "2026-11-02-overlay-family-correlation.csv").writeText(correlationCsv, Charsets.UTF_8)
+
+        // Rank compatible Ore candidates by proximity to the nearest valid player position.
+        // This is spatial evidence only and does not prove entity identity.
+        data class PlayerPosition(val t: Long, val x: Double, val y: Double, val source: String)
+        val playerPositions = allDetails.mapNotNull { (archive, pcap, detail) ->
+            if (field(detail, "kind") != "own_player_move") return@mapNotNull null
+            val t = field(detail, "t")?.toLongOrNull() ?: return@mapNotNull null
+            val x = field(detail, "x")?.toDoubleOrNull() ?: return@mapNotNull null
+            val y = field(detail, "y")?.toDoubleOrNull() ?: return@mapNotNull null
+            if (!x.isFinite() || !y.isFinite() || kotlin.math.abs(x) > 10000.0 || kotlin.math.abs(y) > 10000.0) return@mapNotNull null
+            Triple(archive, pcap, PlayerPosition(t, x, y, field(detail, "source") ?: "unknown"))
+        }.groupBy { it.first + "::" + it.second }
+        val spatialCsv = buildString {
+            appendLine("archive,pcap,activity,found_ms,reference_ms,player_position_ms,player_position_gap_ms,player_x,player_y,player_position_source,candidate_rank,entity_id,family,tier,enchantment,mobile_type,ore_x,ore_y,distance_game_units,spatial_evidence")
+            for (sample in markerSamples) {
+                val referenceMs = sample.startedMs ?: sample.foundMs
+                val scoped = sample.archive + "::" + sample.pcap
+                val nearestPlayer = playerPositions[scoped].orEmpty().map { it.third }
+                    .minByOrNull { kotlin.math.abs(it.t - referenceMs) }
+                    ?.takeIf { kotlin.math.abs(it.t - referenceMs) <= 5000L }
+                if (nearestPlayer == null) {
+                    appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                        referenceMs.toString(), "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+                        "no_valid_player_position_within_5000ms").joinToString(",") { csvCell(it) })
+                    continue
+                }
+                val tierNumber = sample.tierLabel?.removePrefix("T")?.toIntOrNull()
+                val enchantNumber = when (sample.enchantLabel?.uppercase()?.replace(" ", "")) {
+                    "NORMAL", "E0", "0" -> "0"
+                    "E1", "ENCH1", "ENCHANT1", "ENCHANTMENT1", "1" -> "1"
+                    "E2", "ENCH2", "ENCHANT2", "ENCHANTMENT2", "2" -> "2"
+                    else -> null
+                }
+                val windowStart = sample.foundMs - 10000L
+                val windowEnd = (sample.depletedMs ?: sample.completedMs ?: sample.foundMs) + 10000L
+                val ranked = nodes.values.asSequence()
+                    .filter { node -> node.archive == sample.archive && node.pcap == sample.pcap &&
+                        node.first <= windowEnd && node.last >= windowStart &&
+                        (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
+                        (enchantNumber == null || node.enchants.contains(enchantNumber)) }
+                    .flatMap { node ->
+                        node.coordinates.asSequence().mapNotNull coordinateLoop@ { coordinate ->
+                            val pair = coordinate.split(",")
+                            if (pair.size != 2) return@coordinateLoop null
+                            val ox = pair[0].toDoubleOrNull() ?: return@coordinateLoop null
+                            val oy = pair[1].toDoubleOrNull() ?: return@coordinateLoop null
+                            if (!ox.isFinite() || !oy.isFinite() || kotlin.math.abs(ox) > 10000.0 || kotlin.math.abs(oy) > 10000.0) return@coordinateLoop null
+                            Triple(node, coordinate, kotlin.math.hypot(nearestPlayer.x - ox, nearestPlayer.y - oy))
+                        }
+                    }.sortedBy { it.third }.toList()
+                if (ranked.isEmpty()) {
+                    appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                        referenceMs.toString(), nearestPlayer.t.toString(), kotlin.math.abs(nearestPlayer.t-referenceMs).toString(),
+                        nearestPlayer.x.toString(), nearestPlayer.y.toString(), nearestPlayer.source, "", "", "", "", "", "",
+                        "", "", "", "no_coordinate_bearing_time_tier_candidate").joinToString(",") { csvCell(it) })
+                } else {
+                    ranked.forEachIndexed { index, item ->
+                        val node = item.first
+                        val coords = item.second.split(",")
+                        appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                            referenceMs.toString(), nearestPlayer.t.toString(), kotlin.math.abs(nearestPlayer.t-referenceMs).toString(),
+                            nearestPlayer.x.toString(), nearestPlayer.y.toString(), nearestPlayer.source, (index + 1).toString(),
+                            node.id, node.families.joinToString("|"), node.tiers.joinToString("|"), node.enchants.joinToString("|"),
+                            node.mobileTypes.joinToString("|"), coords[0], coords[1], item.third.toString(),
+                            "nearest_player_position_rank_only_not_identity_proof").joinToString(",") { csvCell(it) })
+                    }
+                }
+            }
+        }
+        File(out, "2026-11-02-overlay-spatial-correlation.csv").writeText(spatialCsv, Charsets.UTF_8)
+
         val familySummaryCsv = buildString {
             appendLine("overlay_activity,candidate_family,samples_with_single_family,distinct_pcaps,candidate_nodes,evidence_status")
             for (evidence in familyEvidence.values.sortedWith(compareBy<FamilyEvidence> { it.activity }.thenBy { it.family })) {
