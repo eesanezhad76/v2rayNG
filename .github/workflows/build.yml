@@ -166,6 +166,7 @@ jobs:
       if: ${{ success() }}
       with:
         name: radar-apk-checksums
+        if-no-files-found: error
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/SHA256SUMS.txt
 
     - name: Upload arm64-v8a APK
@@ -173,6 +174,7 @@ jobs:
       if: ${{  success() }}
       with:
         name: arm64-v8a
+        if-no-files-found: error
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*arm64-v8a*.apk
 
     - name: Upload armeabi-v7a APK
@@ -180,20 +182,31 @@ jobs:
       if: ${{  success() }}
       with:
         name: armeabi-v7a
+        if-no-files-found: error
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*armeabi-v7a*.apk
 
     - name: Upload x86 APK
       uses: actions/upload-artifact@v7
-      if: ${{  success() }}
+      if: ${{ success() }}
       with:
         name: x86-apk
-        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*x86*.apk
+        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*_x86.apk
+        if-no-files-found: error
+
+    - name: Upload x86_64 APK
+      uses: actions/upload-artifact@v7
+      if: ${{ success() }}
+      with:
+        name: x86_64-apk
+        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*_x86_64.apk
+        if-no-files-found: error
 
     - name: Upload universal APK
       uses: actions/upload-artifact@v7
       if: ${{ success() }}
       with:
         name: universal-apk
+        if-no-files-found: error
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*universal*.apk
 
   sign-and-release:
