@@ -43,4 +43,20 @@ class AlbionPatternMinerTest {
         assertEquals(1, report.incompleteStarts, report.asText())
         assertTrue(report.warnings.any { it.contains("No complete") })
     }
+    @Test fun keepsMultiplePendingFoundTargetsInFifoOrder() {
+        val file = File(tempDir, "multiple-targets.jsonl")
+        file.writeText(listOf(
+            """{"time_ms":1000,"manual_marker":{"timestamp_ms":1000,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"E1"}}""",
+            """{"time_ms":1500,"manual_marker":{"timestamp_ms":1500,"activity":"Ore","event":"target_found","tier":"T4","enchantment":"E2"}}""",
+            """{"time_ms":2000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":701,"mobile_type_id":574,"tier":5,"enchant":1}]}""",
+            """{"time_ms":3000,"manual_marker":{"timestamp_ms":3000,"activity":"Ore","event":"gathering_completed"}}""",
+            """{"time_ms":4000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":702,"mobile_type_id":573,"tier":4,"enchant":2}]}""",
+            """{"time_ms":5000,"manual_marker":{"timestamp_ms":5000,"activity":"Ore","event":"gathering_completed"}}"""
+        ).joinToString("\n"))
+        val report = AlbionPatternMiner.analyze(file)
+        assertEquals(4, report.markers, report.asText())
+        assertEquals(2, report.completeSamples, report.asText())
+        assertEquals(0, report.incompleteStarts, report.asText())
+    }
+
 }
