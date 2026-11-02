@@ -21,6 +21,11 @@ The central importer:
 - ignores ordinary raw-capture ZIPs (those continue through the PCAP/JSONL ingest path);
 - never promotes an unverified item ID, stack delta, Ore name, zone ID or world-map coordinate transform to a confirmed fact.
 
+- imports optional `autonomous-patterns.json` event-shape signatures with source bundle provenance;
+- merges cumulative autonomous snapshots by signature without summing repeated sightings, unions capture-session IDs, and retains the strongest marker-label sample count;
+- remains backward-compatible with older schema-version-1 bundles that do not contain autonomous patterns.
+
+
 After upload, check the **Albion capture ingest** workflow and its `albion-knowledge-bundle-import.md` report. The workflow commits derived database files automatically when there are changes.
 
 Branch policy: `albion-pattern-mining` is the single working branch for this workflow. Do not merge experimental findings into app code without validation and regression tests.
