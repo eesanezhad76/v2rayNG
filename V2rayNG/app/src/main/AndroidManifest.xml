@@ -63,6 +63,7 @@
         </service>
 
         <activity android:name=".ui.albion.AlbionRadarActivity" android:exported="false" android:process=":daemon" android:configChanges="orientation|screenSize|keyboardHidden" />
+        <activity android:name=".ui.albion.AlbionWorldMapActivity" android:exported="false" android:process=":daemon" />
         <activity
             android:name=".ui.main.MainActivity"
             android:exported="true"
