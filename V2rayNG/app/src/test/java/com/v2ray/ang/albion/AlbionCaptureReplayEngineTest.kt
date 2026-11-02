@@ -25,7 +25,7 @@ class AlbionCaptureReplayEngineTest {
     @Test fun replayPipelineUsesIsolatedStoresAndProducesOverlayCompatibleSnapshot() {
         val capture = File(tempDir, "pipeline.pcap")
         writePcap(capture, listOf(byteArrayOf(1, 2, 3), byteArrayOf(4, 5, 6)))
-        val pipeline = AlbionCaptureReplayPipeline.replay(capture, context())
+        val pipeline = AlbionCaptureReplayPipeline.replay(capture, context(), nativeTapDrops = 3L)
         assertEquals(0, pipeline.entityCount)
         assertEquals(0, pipeline.overlayAcceptedEntityCount)
         assertEquals(0, pipeline.invalidCoordinateCount)
@@ -35,6 +35,7 @@ class AlbionCaptureReplayEngineTest {
         assertTrue(!File(tempDir, "albion-protocol-evidence.json").exists())
         assertTrue(tempDir.listFiles()?.none { it.name.startsWith("albion-replay-") } != false)
         assertTrue(pipeline.replay.report.ipPackets >= 2)
+        assertEquals(3L, pipeline.replay.report.quality.nativeTapDrops)
         assertTrue(pipeline.protocolEvidenceSummary.contains("No item ID, stack delta, or Ore identity is asserted"))
 
         val output = File(tempDir, "reports/pipeline.json")
@@ -45,6 +46,10 @@ class AlbionCaptureReplayEngineTest {
         assertTrue(json.contains("\"overlay_delivery_verified\": false"))
         assertTrue(json.contains("\"overlay_snapshot_valid\": true"))
         assertTrue(json.contains("\"overlay_accepted_entity_count\": 0"))
+        assertTrue(json.contains("\"capture_analysis_report\""))
+        assertTrue(json.contains("\"manual_checkpoints\""))
+        assertTrue(json.contains("\"capture_quality\""))
+        assertTrue(json.contains("\"native_tap_drops\": 3"))
     }
 
     @Test fun replaysCommittedInboxCapturesThroughKnowledgeEvidenceAndOverlayParser() {

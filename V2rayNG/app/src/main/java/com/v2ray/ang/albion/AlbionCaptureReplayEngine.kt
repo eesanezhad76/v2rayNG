@@ -49,16 +49,17 @@ object AlbionCaptureReplayEngine {
 
     /** Decoder singletons are stateful; serialize replays to prevent cross-capture contamination. */
     @Synchronized
-    fun replay(file: File): ReplayResult = replay(file, null)
+    fun replay(file: File): ReplayResult = replay(file, null, null)
 
     /** Pure-JVM replay hook; Android stores can consume decoded messages without coupling this engine to Android. */
     @Synchronized
     fun replay(
         file: File,
-        onDecodedMessage: ((Long, AlbionProtocol18Decoder.Message, List<AlbionEntityEventMapper.Observation>) -> Unit)?
+        onDecodedMessage: ((Long, AlbionProtocol18Decoder.Message, List<AlbionEntityEventMapper.Observation>) -> Unit)?,
+        nativeTapDrops: Long? = null
     ): ReplayResult {
         require(file.isFile) { "Capture file does not exist: $file" }
-        return replayResult(file, AlbionCaptureAnalyzer.analyze(file, onDecodedMessage))
+        return replayResult(file, AlbionCaptureAnalyzer.analyze(file, onDecodedMessage, nativeTapDrops))
     }
 
     private fun replayResult(file: File, report: AlbionCaptureAnalyzer.Report): ReplayResult {

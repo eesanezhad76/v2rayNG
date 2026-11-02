@@ -20,7 +20,7 @@ object AlbionCaptureReplayPipeline {
     )
 
     @Synchronized
-    fun replay(file: File, context: Context): Result {
+    fun replay(file: File, context: Context, nativeTapDrops: Long? = null): Result {
         require(file.isFile) { "Capture file does not exist: $file" }
         val replayDir = File(context.cacheDir, "albion-replay-${System.nanoTime()}")
         check(replayDir.mkdirs()) { "Cannot create isolated replay directory" }
@@ -31,12 +31,16 @@ object AlbionCaptureReplayPipeline {
         try {
             val knowledge = AlbionLiveKnowledgeStore(isolatedContext, Long.MIN_VALUE)
             val evidence = AlbionProtocolEvidenceStore(isolatedContext, Long.MIN_VALUE)
-            val replay = AlbionCaptureReplayEngine.replay(file) { timestamp, message, observations ->
-                if (message.kind == "event" && message.realCode != null) {
-                    evidence.observe(timestamp, message.realCode, message.parameters)
-                }
-                knowledge.observe(timestamp, observations)
-            }
+            val replay = AlbionCaptureReplayEngine.replay(
+                file,
+                onDecodedMessage = { timestamp, message, observations ->
+                    if (message.kind == "event" && message.realCode != null) {
+                        evidence.observe(timestamp, message.realCode, message.parameters)
+                    }
+                    knowledge.observe(timestamp, observations)
+                },
+                nativeTapDrops = nativeTapDrops
+            )
             val snapshot = knowledge.snapshotJson()
             val parsedSnapshot = AlbionRadarSnapshotParser.parse(snapshot)
             return Result(
@@ -70,6 +74,31 @@ object AlbionCaptureReplayPipeline {
             .put("overlay_snapshot_valid", result.overlaySnapshotValid)
             .put("knowledge_snapshot", JSONArray(result.knowledgeSnapshotJson))
             .put("protocol_evidence_summary", result.protocolEvidenceSummary)
+            .put("capture_analysis_report", result.replay.report.asText())
+            .put("manual_checkpoints", JSONArray(result.replay.report.checkpoints))
+            .put("replay_warnings", JSONArray(result.replay.report.warnings))
+            .put("event_code_counts", JSONObject().apply {
+                result.replay.report.eventCodes.forEach { (code, count) -> put(code.toString(), count) }
+            })
+            .put("entity_kind_counts", JSONObject().apply {
+                result.replay.report.entityKinds.forEach { (kind, count) -> put(kind, count) }
+            })
+            .put("capture_quality", JSONObject().apply {
+                val quality = result.replay.report.quality
+                put("packet_records", quality.packetRecords)
+                put("captured_bytes", quality.capturedBytes)
+                put("duration_ms", quality.durationMs)
+                put("timestamp_regressions", quality.timestampRegressions)
+                put("truncated_records", quality.truncatedRecords)
+                put("duplicate_payloads", quality.duplicatePayloads)
+                put("gaps_over_one_second", quality.gapsOverOneSecond)
+                put("maximum_gap_ms", quality.maximumGapMs)
+                put("native_tap_drops", quality.nativeTapDrops ?: JSONObject.NULL)
+                put("tap_drop_rate_percent", quality.tapDropRatePercent ?: JSONObject.NULL)
+                put("score", quality.score)
+                put("grade", quality.grade)
+                put("limitations", JSONArray(quality.limitations))
+            })
         destination.writeText(root.toString(2), Charsets.UTF_8)
     }
 }
