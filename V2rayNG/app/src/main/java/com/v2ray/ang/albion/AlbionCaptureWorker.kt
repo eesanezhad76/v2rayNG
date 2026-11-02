@@ -233,6 +233,11 @@ class AlbionCaptureWorker(
             if (message.kind == "event" && message.realCode != null) {
                 val normalized = AlbionPhotonEventDecoder.decode(message.realCode, message.parameters)
                 val eventItem = JSONObject().put("event_code", message.realCode).put("recognized", normalized.recognized)
+                // Keep raw, bounded inventory event fields for schema discovery. These are
+                // candidates only until item IDs and stack quantities are verified.
+                if (message.realCode in INVENTORY_EVENT_CODES) {
+                    eventItem.put("inventory_parameters", jsonSafeParameters(message.parameters))
+                }
                 val resources = JSONArray()
                 normalized.resources.forEach { resource ->
                     val r = JSONObject().put("id", resource.id)
@@ -350,6 +355,30 @@ class AlbionCaptureWorker(
         } ?: error("Cannot append Downloads mirror: ${source.name}")
     }
 
+    private fun jsonSafeParameters(parameters: Map<Int, Any?>): JSONObject {
+        val result = JSONObject()
+        parameters.entries.sortedBy { it.key }.forEach { (key, value) ->
+            result.put(key.toString(), jsonSafeValue(value))
+        }
+        return result
+    }
+
+    private fun jsonSafeValue(value: Any?): Any = when (value) {
+        null -> JSONObject.NULL
+        is String, is Number, is Boolean -> value
+        is ByteArray -> JSONArray(value.take(256).map { it.toInt() and 0xff })
+        is ShortArray -> JSONArray(value.take(256).map { it.toInt() })
+        is IntArray -> JSONArray(value.take(256).toList())
+        is LongArray -> JSONArray(value.take(256).toList())
+        is FloatArray -> JSONArray(value.take(256).toList())
+        is DoubleArray -> JSONArray(value.take(256).toList())
+        is Iterable<*> -> JSONArray(value.take(256).map { jsonSafeValue(it) })
+        is Map<*, *> -> JSONObject().also { out ->
+            value.entries.take(256).forEach { (key, item) -> out.put(key.toString(), jsonSafeValue(item)) }
+        }
+        else -> value.toString().take(256)
+    }
+
     private fun generateOfflineReport() {
         val source = pcapFile ?: return
         if (!source.exists()) return
@@ -392,6 +421,12 @@ class AlbionCaptureWorker(
         pcapFileStream = null
         logFileStream = null
         mirrorDownloads()
+    }
+
+    private companion object {
+        // Current Photon event enum: InventoryPutItem, InventoryDeleteItem, InventoryState.
+        // Payloads are logged verbatim-but-bounded; no stack delta is inferred yet.
+        val INVENTORY_EVENT_CODES = setOf(26, 27, 28)
     }
 
     private fun writeHeader(out: DataOutputStream) {
