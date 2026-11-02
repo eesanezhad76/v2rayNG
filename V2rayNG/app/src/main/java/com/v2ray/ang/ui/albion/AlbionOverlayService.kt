@@ -42,7 +42,10 @@ class AlbionOverlayService : Service() {
         override fun run() {
             if (root == null) return
             if (::liveStatus.isInitialized) liveStatus.text = CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
-            if (::radarView.isInitialized) radarView.setSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
+            if (::radarView.isInitialized) {
+                radarView.setTargetFilter(tiers[tierIndex].drop(1).toInt(), enchantIndex)
+                radarView.setSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
+            }
             refreshHandler.postDelayed(this, 1500L)
         }
     }
@@ -122,8 +125,8 @@ class AlbionOverlayService : Service() {
         body.visibility = android.view.View.VISIBLE
         body.addView(radarView, LinearLayout.LayoutParams(-1, dp(128)))
         val selectors = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
-        selectors.addView(button(tiers[tierIndex]) { tierIndex = (tierIndex + 1) % tiers.size; tag("tier_selected"); renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
-        selectors.addView(button(enchants[enchantIndex]) { enchantIndex = (enchantIndex + 1) % enchants.size; tag("enchantment_selected"); renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
+        selectors.addView(button(tiers[tierIndex]) { tierIndex = (tierIndex + 1) % tiers.size; radarView.setTargetFilter(tiers[tierIndex].drop(1).toInt(), enchantIndex); tag("tier_selected"); renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
+        selectors.addView(button(enchants[enchantIndex]) { enchantIndex = (enchantIndex + 1) % enchants.size; radarView.setTargetFilter(tiers[tierIndex].drop(1).toInt(), enchantIndex); tag("enchantment_selected"); renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
         body.addView(selectors)
         val events = when (activities[activityIndex]) {
             "Ore","Wood","Stone","Fiber","Hide" -> listOf("Found" to "target_found", "Start" to "gathering_started", "Done" to "gathering_completed", "Empty" to "node_depleted")
