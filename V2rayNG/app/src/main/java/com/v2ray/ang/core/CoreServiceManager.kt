@@ -382,6 +382,13 @@ object CoreServiceManager {
     fun getAlbionCaptureSnapshot(): AlbionCaptureWorker.Snapshot? = albionCaptureWorker?.snapshot()
 
     /** Same :daemon process as the capture worker and Albion overlay service. */
+    /** Flushes live stores and exports only normalized learned knowledge, never VPN credentials. */
+    fun exportAlbionKnowledgeBundle(output: java.io.OutputStream): com.v2ray.ang.albion.AlbionKnowledgeBundle.Summary {
+        albionCaptureWorker?.flushKnowledgeStores()
+        val service = getService() ?: throw IllegalStateException("V2RayNG service is not available")
+        return com.v2ray.ang.albion.AlbionKnowledgeBundle.write(service, output)
+    }
+
     fun getAlbionLiveKnowledgeSnapshot(): String =
         albionCaptureWorker?.liveKnowledgeSnapshot()
             ?: "Live knowledge: start capture to populate observations."
