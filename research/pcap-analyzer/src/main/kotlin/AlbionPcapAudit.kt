@@ -49,7 +49,7 @@ fun main() {
                     "ANALYSIS_ERROR: " + e.javaClass.simpleName + ": " + e.message
                 }
                 val safe = (archive.nameWithoutExtension + "--" + pcap.nameWithoutExtension)
-                    .replace(Regex("[^A-Za-z0-9._-]+"), "_").take(120)
+                    .replace(Regex("[^A-Za-z0-9._-]+"), "_").take(110) + "-" + total.toString().padStart(2, '0')
                 File(out, safe + "-pcap-report.md").writeText(
                     "# PCAP analysis: " + archive.name + " / " + pcap.name + "\n\n" + text,
                     Charsets.UTF_8
