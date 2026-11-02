@@ -39,6 +39,7 @@ def summarize_junit(results_dir: Path) -> dict[str, Any]:
         "errors": errors,
         "skipped": skipped,
         "suites": len(suite_names),
+        "suite_names": suite_names,
         "decoder_suites": len(decoder_suites),
         "decoder_status": "PASS" if status == "PASS" and decoder_suites else "NOT_VERIFIED",
     }
@@ -79,16 +80,55 @@ def summarize_pcap_audit(analysis_dir: Path) -> dict[str, Any]:
     candidates = sorted(analysis_dir.glob("*all-inbox-pcap-analysis.md"))
     for file in candidates:
         text = file.read_text(encoding="utf-8", errors="replace")
-        match = re.search(r"PCAP_AUDIT_COMPLETE archives=(\d+) pcaps=(\d+) errors=(\d+)", text)
+        marker = re.search(r"PCAP_AUDIT_COMPLETE archives=(\d+) pcaps=(\d+)(?: unique=(\d+) duplicates=(\d+))? errors=(\d+)", text)
+        summary = re.search(
+            r"Archives:\s*(\d+).*?Discovered PCAP files:\s*(\d+).*?Unique PCAP files analyzed:\s*(\d+).*?Byte-identical duplicates skipped:\s*(\d+).*?Analysis errors:\s*(\d+)",
+            text,
+            re.S,
+        )
+        match = marker or summary
         if match:
-            archives, pcaps, errors = map(int, match.groups())
+            values = [int(value) if value is not None else 0 for value in match.groups()]
+            if marker:
+                archives, pcaps = values[0], values[1]
+                unique, duplicates, errors = values[2] or pcaps, values[3], values[4]
+            else:
+                archives, pcaps, unique, duplicates, errors = values
             return {
-                "status": "PASS" if pcaps > 0 and errors == 0 else "FAIL",
-                "archives": archives,
-                "pcaps": pcaps,
-                "errors": errors,
+                "status": "PASS" if archives > 0 and pcaps > 0 and unique > 0 and errors == 0 else "FAIL",
+                "archives": archives, "pcaps": pcaps, "unique_pcaps": unique,
+                "duplicates": duplicates, "errors": errors,
             }
-    return {"status": "NOT_VERIFIED", "archives": 0, "pcaps": 0, "errors": 0}
+    return {"status": "NOT_VERIFIED", "archives": 0, "pcaps": 0, "unique_pcaps": 0, "duplicates": 0, "errors": 0}
+
+
+def summarize_signature(repo_root: Path) -> dict[str, Any]:
+    report = repo_root / "V2rayNG/app/build/reports/albion/apk-signature-verification.txt"
+    if not report.is_file():
+        return {"status": "NOT_VERIFIED", "signers": 0, "reason": "apksigner verification output is missing"}
+    text = report.read_text(encoding="utf-8", errors="replace")
+    signer_match = re.search(r"Number of signers:\s*(\d+)", text)
+    signers = int(signer_match.group(1)) if signer_match else 0
+    verified = bool(re.search(r"^Verifies\s*$", text, re.M)) and signers > 0
+    cert_match = re.search(r"Signer #1 certificate SHA-256 digest: ([0-9a-fA-F]+)", text)
+    return {"status": "PASS" if verified else "FAIL", "signers": signers,
+            "certificate_sha256": cert_match.group(1) if cert_match else None}
+
+
+def summarize_overlay_wiring(repo_root: Path) -> dict[str, Any]:
+    manifest = repo_root / "V2rayNG/app/src/main/AndroidManifest.xml"
+    try:
+        root = ET.parse(manifest).getroot()
+    except (OSError, ET.ParseError):
+        return {"status": "FAIL", "activity_process": None, "service_process": None}
+    android_ns = "{http://schemas.android.com/apk/res/android}"
+    activity = next((node for node in root.iter() if node.tag.endswith("activity") and node.attrib.get(android_ns + "name") == ".ui.albion.AlbionRadarActivity"), None)
+    service = next((node for node in root.iter() if node.tag.endswith("service") and node.attrib.get(android_ns + "name") == ".ui.albion.AlbionOverlayService"), None)
+    activity_process = activity.attrib.get(android_ns + "process") if activity is not None else None
+    service_process = service.attrib.get(android_ns + "process") if service is not None else None
+    same_daemon = activity_process == ":daemon" and service_process == ":daemon"
+    return {"status": "PASS" if same_daemon else "FAIL",
+            "activity_process": activity_process, "service_process": service_process}
 
 
 def inspect_apk(apk_root: Path) -> dict[str, Any]:
@@ -134,6 +174,8 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
     replay = summarize_replay(analysis)
     pcap = summarize_pcap_audit(analysis)
     apk = inspect_apk(repo_root / "V2rayNG/app/build/outputs/apk/playstore/debug")
+    signature = summarize_signature(repo_root)
+    overlay_wiring = summarize_overlay_wiring(repo_root)
 
     unique = replay.get("unique", 0)
     quality_rows = 0
@@ -164,16 +206,22 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
          "evidence": f'{replay["unique"]} unique captures, {replay["stable"]} stable, {replay["review"]} review-required, {replay["duplicates"]} duplicates'},
         {"name": "Capture quality scoring", "status": quality_status,
          "evidence": f'{quality_rows}/{unique} unique captures have quality score and grade'},
-        {"name": "APK signing verification", "status": "NOT_VERIFIED",
-         "evidence": f'APK signing block: {apk.get("signing_block", "not checked")}; debug build; cryptographic verification not performed'},
+        {"name": "APK signing verification", "status": signature["status"],
+         "evidence": f'apksigner verification; signers={signature["signers"]}; certificate SHA-256={signature.get("certificate_sha256") or "unavailable"}'},
         {"name": "Live packet capture", "status": "NOT_VERIFIED",
          "evidence": "Requires an on-device live Albion capture"},
+        {"name": "Inventory schema candidate analysis", "status": "PASS" if junit["status"] == "PASS" and any("AlbionInventoryEvidenceAnalyzerTest" in name for name in junit.get("suite_names", [])) else "NOT_VERIFIED",
+         "evidence": "Repeated numeric parameter paths are reported only as unclassified candidates across at least three independent harvest completions"},
         {"name": "Inventory Item ID and Stack Delta mapping", "status": "NOT_VERIFIED",
-         "evidence": "Parameter shapes are recorded; item identity and stack deltas are not confirmed"},
+         "evidence": "Candidate parameter paths are not semantic mappings; real item IDs and stack deltas still require independent live evidence"},
         {"name": "Live spatial correlation", "status": "NOT_VERIFIED",
          "evidence": "Offline candidates do not prove live entity identity"},
+        {"name": "Overlay Activity/Service process wiring", "status": overlay_wiring["status"],
+         "evidence": f'Radar Activity process={overlay_wiring["activity_process"]}; Overlay Service process={overlay_wiring["service_process"]}'},
         {"name": "Overlay delivery and rendering", "status": "NOT_VERIFIED",
-         "evidence": "Health instrumentation exists; actual device-side delivery and rendering require field verification"},
+         "evidence": "Snapshot parsing is validated before acknowledgement; actual device-side rendering and live data delivery still require a device run"},
+        {"name": "Fault-injection and malformed-input tests", "status": "PASS" if junit["status"] == "PASS" and any("AlbionPipelineSelfTest" in name for name in junit.get("suite_names", [])) and any("AlbionRadarSnapshotParserTest" in name for name in junit.get("suite_names", [])) else "NOT_VERIFIED",
+         "evidence": "Automated malformed snapshot, corrupt evidence, coordinate guard, and replay determinism tests"},
     ]
     if any(check["status"] == "FAIL" for check in checks):
         overall = "BLOCKED"
@@ -187,7 +235,7 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
         "commit_sha": env.get("GITHUB_SHA", "local"),
         "workflow_run_id": env.get("GITHUB_RUN_ID", "local"),
         "checks": checks,
-        "metrics": {"unit_tests": junit, "pcap_audit": pcap, "replay": replay, "quality_rows": quality_rows, "apk": apk},
+        "metrics": {"unit_tests": junit, "pcap_audit": pcap, "replay": replay, "quality_rows": quality_rows, "apk": apk, "signature": signature, "overlay_wiring": overlay_wiring},
     }
 
 
