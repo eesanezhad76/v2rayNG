@@ -131,6 +131,10 @@ class AlbionRadarActivity : ComponentActivity() {
             text = "Start compact activity overlay"
             setOnClickListener { startActivityOverlay() }
         }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
+        root.addView(Button(this).apply {
+            text = "Open live coordinate map"
+            setOnClickListener { startActivity(Intent(this@AlbionRadarActivity, AlbionWorldMapActivity::class.java)) }
+        }, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         val actions = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             addView(copyAll, LinearLayout.LayoutParams(0, -2, 1f))
