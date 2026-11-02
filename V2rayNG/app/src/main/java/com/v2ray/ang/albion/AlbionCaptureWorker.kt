@@ -418,7 +418,7 @@ class AlbionCaptureWorker(
             knowledgeStore?.flush()
             val tapDrops = (dropped() - dropBaseline.get()).coerceAtLeast(0L)
             val report = AlbionCaptureAnalyzer.analyze(source, nativeTapDrops = tapDrops).asText() +
-                AlbionPatternMiner.analyze(logFile).asText() + (knowledgeStore?.summaryText() ?: "")
+                AlbionPatternMiner.analyzeDirectory(logFile?.parentFile ?: source.parentFile).asText() + (knowledgeStore?.summaryText() ?: "")
             val target = File(source.parentFile, source.nameWithoutExtension + ".report.txt")
             target.writeText(buildString {
                 append(report)
