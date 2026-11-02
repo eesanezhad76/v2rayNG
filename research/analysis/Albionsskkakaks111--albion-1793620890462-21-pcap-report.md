@@ -99,6 +99,7 @@ Mapped entity observations:
   mob: 448
   mob_state: 1
   move: 9162
+  own_player_move: 3346
   player_mounted: 14
   player_move: 1878
   player_spawn: 46

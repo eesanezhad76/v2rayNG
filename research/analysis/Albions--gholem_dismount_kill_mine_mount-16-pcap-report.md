@@ -66,6 +66,7 @@ Mapped entity observations:
   health: 31
   health_regeneration: 12
   leave: 9
+  own_player_move: 25
   resource_state: 10
 Typed Photon event observations:
   resource: 1

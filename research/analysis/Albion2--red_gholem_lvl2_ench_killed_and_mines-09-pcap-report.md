@@ -78,6 +78,7 @@ Mapped entity observations:
   mob: 17
   mob_state: 1
   move: 519
+  own_player_move: 55
   player_move: 43
   player_spawn: 2
   resource_state: 5

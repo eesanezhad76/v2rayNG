@@ -75,6 +75,7 @@ Mapped entity observations:
   leave: 42
   mob: 2
   move: 107
+  own_player_move: 72
   player_move: 69
   player_spawn: 1
   resource_state: 6

@@ -48,6 +48,7 @@ Mapped entity observations:
   health: 9
   health_regeneration: 3
   leave: 4
+  own_player_move: 8
 Typed Photon event observations:
 Malformed / unrecognized Photon envelopes: 0
 Encrypted Photon packets: 0

@@ -582,6 +582,7 @@ Mapped entity observations:
   leave: 94
   mob: 14
   move: 82
+  own_player_move: 361
   player_mounted: 1
   player_move: 172
   player_spawn: 8
@@ -3646,6 +3647,7 @@ Mapped entity observations:
   energy: 2
   health_regeneration: 12
   leave: 3
+  own_player_move: 7
   player_mounted: 1
   player_move: 5
   player_spawn: 1
@@ -4041,6 +4043,7 @@ Mapped entity observations:
   leave: 20
   mob: 11
   move: 370
+  own_player_move: 143
   player_move: 29
   player_spawn: 1
   resource_state: 6
@@ -5866,6 +5869,7 @@ Mapped entity observations:
   leave: 26
   mob: 8
   move: 156
+  own_player_move: 117
   player_mounted: 1
   player_move: 3
   player_spawn: 1
@@ -7212,6 +7216,7 @@ Mapped entity observations:
   leave: 27
   mob: 5
   move: 149
+  own_player_move: 49
   resource_state: 5
   static_resource: 29
 Typed Photon event observations:
@@ -7956,6 +7961,7 @@ Mapped entity observations:
   leave: 6
   mob: 3
   move: 16
+  own_player_move: 16
   resource_state: 3
   static_resource: 10
 Typed Photon event observations:
@@ -8304,6 +8310,7 @@ Mapped entity observations:
   leave: 42
   mob: 2
   move: 107
+  own_player_move: 72
   player_move: 69
   player_spawn: 1
   resource_state: 6
@@ -9268,6 +9275,7 @@ Mapped entity observations:
   mob: 17
   mob_state: 1
   move: 519
+  own_player_move: 55
   player_move: 43
   player_spawn: 2
   resource_state: 5
@@ -11007,6 +11015,7 @@ Mapped entity observations:
   leave: 28
   mob: 6
   move: 131
+  own_player_move: 43
   player_mounted: 1
   player_move: 10
   player_spawn: 2
@@ -12014,6 +12023,7 @@ Mapped entity observations:
   leave: 12
   mob: 3
   move: 31
+  own_player_move: 25
   resource_state: 4
   static_resource: 15
 Typed Photon event observations:
@@ -12469,6 +12479,7 @@ Mapped entity observations:
   energy_regeneration: 4
   health_regeneration: 3
   leave: 63
+  own_player_move: 62
   player_equipment: 47
   player_mounted: 7
   player_move: 990
@@ -14877,6 +14888,7 @@ Mapped entity observations:
   health: 9
   health_regeneration: 3
   leave: 4
+  own_player_move: 8
 Typed Photon event observations:
 Malformed / unrecognized Photon envelopes: 0
 Encrypted Photon packets: 0
@@ -15111,6 +15123,7 @@ Mapped entity observations:
   leave: 99
   mob: 25
   move: 389
+  own_player_move: 203
   player_spawn: 1
   resource_state: 3
   static_resource: 113
@@ -16701,6 +16714,7 @@ Mapped entity observations:
   leave: 47
   mob: 8
   move: 93
+  own_player_move: 121
   resource_state: 1
   static_resource: 27
 Typed Photon event observations:
@@ -17923,6 +17937,7 @@ Mapped entity observations:
   health: 31
   health_regeneration: 12
   leave: 9
+  own_player_move: 25
   resource_state: 10
 Typed Photon event observations:
   resource: 1
@@ -18746,6 +18761,7 @@ Mapped entity observations:
   leave: 33
   mob: 8
   move: 414
+  own_player_move: 164
   player_mounted: 5
   player_move: 47
   player_spawn: 1
@@ -20644,6 +20660,7 @@ Mapped entity observations:
   leave: 107
   mob: 28
   move: 694
+  own_player_move: 233
   player_mounted: 1
   player_move: 51
   player_spawn: 2
@@ -24671,6 +24688,7 @@ Mapped entity observations:
   mob: 448
   mob_state: 1
   move: 9162
+  own_player_move: 3346
   player_mounted: 14
   player_move: 1878
   player_spawn: 46

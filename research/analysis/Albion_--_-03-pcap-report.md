@@ -53,6 +53,7 @@ Mapped entity observations:
   energy: 2
   health_regeneration: 12
   leave: 3
+  own_player_move: 7
   player_mounted: 1
   player_move: 5
   player_spawn: 1

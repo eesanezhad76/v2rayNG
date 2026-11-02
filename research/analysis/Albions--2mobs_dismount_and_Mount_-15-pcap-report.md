@@ -67,6 +67,7 @@ Mapped entity observations:
   leave: 47
   mob: 8
   move: 93
+  own_player_move: 121
   resource_state: 1
   static_resource: 27
 Typed Photon event observations:
