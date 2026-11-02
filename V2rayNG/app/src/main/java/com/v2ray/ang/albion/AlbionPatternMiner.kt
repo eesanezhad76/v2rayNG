@@ -97,7 +97,6 @@ object AlbionPatternMiner {
         val active = linkedMapOf<String, ArrayDeque<MutableSample>>()
         val closing = mutableListOf<MutableSample>()
         val completed = mutableListOf<Sample>()
-        val rolling = ArrayDeque<Pair<Long, List<JSONObject>>>()
         var markerCount = 0
         var incomplete = 0
         var malformedLines = 0
@@ -129,7 +128,6 @@ object AlbionPatternMiner {
                                 val tierLabel = m.optString("tier", "").takeIf { it.isNotBlank() && it != "null" }
                                 val enchantLabel = m.optString("enchantment", "").takeIf { it.isNotBlank() && it != "null" }
                                 val sample = MutableSample(activity, markerTime, overlayTierLabel = tierLabel, overlayEnchantLabel = enchantLabel)
-                                rolling.filter { it.first >= markerTime - EDGE_WINDOW_MS }.forEach { sample.observations.addAll(it.second) }
                                 active.getOrPut(activity) { ArrayDeque() }.addLast(sample)
                             }
                             "gathering_started" -> {
@@ -162,8 +160,6 @@ object AlbionPatternMiner {
                                 .put("parameter_keys", (0 until keys.length()).joinToString(",") { keys.optString(it) })
                         }
                         if (observations.isNotEmpty()) {
-                            rolling.addLast(time to observations)
-                            while (rolling.isNotEmpty() && rolling.first().first < time - EDGE_WINDOW_MS) rolling.removeFirst()
                             active.values.forEach { queue ->
                                 // Attribute observations only to the currently started target.
                                 // For older captures without Started markers, retain single-target
