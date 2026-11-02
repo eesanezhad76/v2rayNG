@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "finding": "own_player_position_from_outbound_photon_operation_22_parameter_1",
+  "status": "capture_corroborated",
+  "source_reports": [
+    "research/analysis/Albions--run_and_stop-18-pcap-report.md",
+    "research/analysis/Albions--2_times_90degred_change_direction_-14-pcap-report.md"
+  ],
+  "observations": [
+    {
+      "capture": "run and stop.pcap",
+      "timestamp_ms": 1793399097905,
+      "operation_code": 22,
+      "parameter_key": 1,
+      "position": [-78.86469, 46.23921],
+      "heading": 172.43239,
+      "target": [-75.69194, 44.742764],
+      "speed": 11.0
+    },
+    {
+      "capture": "run and stop.pcap",
+      "timestamp_ms": 1793399098025,
+      "operation_code": 22,
+      "parameter_key": 1,
+      "position": [-77.37234, 45.535328],
+      "heading": 115.25115,
+      "target": [-75.69174, 44.74267],
+      "speed": 11.0
+    },
+    {
+      "capture": "2 times 90degred change direction .pcap",
+      "timestamp_ms": 1793399203561,
+      "operation_code": 22,
+      "parameter_key": 1,
+      "position": [-61.95968, 241.66254],
+      "heading": 181.79382,
+      "target": [-60.418728, 240.38028],
+      "speed": 11.0
+    }
+  ],
+  "capture_counts": {
+    "run_and_stop_operation_22_requests": 233,
+    "two_turns_operation_22_requests": 203
+  },
+  "unknowns": [
+    "zone identity",
+    "global coordinate transform",
+    "cross-zone coordinate continuity"
+  ],
+  "do_not_promote": [
+    "arbitrary Event 3 payload bytes as player coordinates",
+    "local entity_id -1 as a server runtime entity ID",
+    "these local coordinates as global map coordinates"
+  ]
+}
