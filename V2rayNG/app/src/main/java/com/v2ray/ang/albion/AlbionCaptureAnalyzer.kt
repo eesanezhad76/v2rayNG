@@ -138,6 +138,22 @@ object AlbionCaptureAnalyzer {
                                     val params = message.parameters.entries.sortedBy { it.key }.joinToString(" ") { (key, value) -> key.toString() + "=" + describeValue(value) }
                                     detailed += "t=" + packetTimeMs + " outbound_request op=" + message.realCode + " params={" + params + "}"
                                 }
+                                if (message.kind == "request" && message.realCode == 22) {
+                                    val current = coordinatePair(message.parameters[1])
+                                    val destination = coordinatePair(message.parameters[3])
+                                    if (current != null) {
+                                        detailed += buildString {
+                                            append("t=").append(packetTimeMs).append(" kind=own_player_move")
+                                            append(" x=").append(current.first).append(" y=").append(current.second)
+                                            (message.parameters[2] as? Number)?.let { append(" heading=").append(it.toDouble()) }
+                                            if (destination != null) append(" target_x=").append(destination.first).append(" target_y=").append(destination.second)
+                                            (message.parameters[4] as? Number)?.let { append(" speed=").append(it.toDouble()) }
+                                            append(" source=outbound_photon_operation_22_param_1")
+                                        }
+                                    } else {
+                                        detailed += "t=" + packetTimeMs + " kind=own_player_move_unparsed params=" + describeValue(message.parameters)
+                                    }
+                                }
                                 AlbionEntityEventMapper.map(message).forEach { observation ->
                                     entities[observation.kind] = (entities[observation.kind] ?: 0) + 1
                                     if (observation.kind in setOf("player_spawn", "player_move", "static_resource", "harvestable", "resource_state", "mob", "mob_state", "player_mounted", "move")) {
@@ -185,6 +201,15 @@ object AlbionCaptureAnalyzer {
         )
     }
 
+
+
+    private fun coordinatePair(value: Any?): Pair<Double, Double>? = when (value) {
+        is FloatArray -> if (value.size >= 2) value[0].toDouble() to value[1].toDouble() else null
+        is DoubleArray -> if (value.size >= 2) value[0] to value[1] else null
+        is List<*> -> if (value.size >= 2 && value[0] is Number && value[1] is Number)
+            (value[0] as Number).toDouble() to (value[1] as Number).toDouble() else null
+        else -> null
+    }
 
     private fun describeValue(value: Any?): String = when (value) {
         null -> "null"
