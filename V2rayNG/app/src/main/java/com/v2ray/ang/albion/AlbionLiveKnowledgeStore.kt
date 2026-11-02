@@ -92,6 +92,7 @@ class AlbionLiveKnowledgeStore(
             }
             val conflicts = conflictingEvidenceFields(record)
             record.put("evidence_conflicts", JSONArray(conflicts))
+            updateResourceInference(record, conflicts)
             record.put("classification", classification(record, conflicts))
             record.put("evidence_grade", evidenceGrade(record, conflicts))
             record.put("evidence_score", evidenceScore(record, conflicts))
@@ -183,6 +184,42 @@ class AlbionLiveKnowledgeStore(
             appendLine("Persistent file: ${file.name}")
             appendLine("Classification is conservative; no family-to-Ore guesses are made.")
         }
+    }
+
+
+    /**
+     * Adds a machine-readable interpretation layer without overwriting packet facts.
+     * Inferred names and catalog mappings are always accompanied by provenance/status.
+     * Conflicting evidence suppresses affected inferred values rather than picking a winner.
+     */
+    private fun updateResourceInference(record: JSONObject, conflicts: List<String>) {
+        if (record.optString("last_kind") !in RESOURCE_KINDS && !record.has("family")) return
+        val inferred = ResourcePatternLearner.infer(
+            ResourcePatternLearner.Observation(
+                family = if (record.has("family")) record.optInt("family") else null,
+                tier = if (record.has("tier")) record.optInt("tier") else null,
+                enchantRaw = if (record.has("enchant")) record.optInt("enchant") else null,
+                mobileTypeId = if (record.has("mobile_type_id")) record.optInt("mobile_type_id") else null
+            )
+        )
+        fun field(value: ResourcePatternLearner.FieldInference, blocked: Boolean, blockedReason: String): JSONObject {
+            val conflict = blocked && value.status != ResourcePatternLearner.Status.UNKNOWN
+            return JSONObject()
+                .put("value", if (conflict) JSONObject.NULL else value.value ?: JSONObject.NULL)
+                .put("status", if (conflict) ResourcePatternLearner.Status.CONFLICT.name else value.status.name)
+                .put("confidence", if (conflict) 0.0 else value.confidence)
+                .put("reason", if (conflict) blockedReason else value.reason)
+        }
+        record.put("resource_inference", JSONObject()
+            .put("catalog_version", ResourcePatternLearner.CATALOG_VERSION)
+            .put("resource_name", field(inferred.resourceName, "family" in conflicts,
+                "Conflicting family evidence prevents a stable resource-name inference."))
+            .put("mobile_type_id", field(inferred.mobileTypeId,
+                conflicts.any { it in setOf("family", "tier", "mobile_type_id") },
+                "Conflicting family/tier/mobile-type evidence prevents a stable mobile-type mapping."))
+            .put("enchantment_name", field(inferred.enchantmentName, "enchant" in conflicts,
+                "Conflicting enchantment evidence prevents a stable enchantment-name inference."))
+            .put("source_fields", JSONArray(listOf("family", "tier", "enchant", "mobile_type_id"))))
     }
 
     private fun recordEvidenceValue(record: JSONObject, field: String, value: Any) {

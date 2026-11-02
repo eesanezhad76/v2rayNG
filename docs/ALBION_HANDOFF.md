@@ -1,5 +1,5 @@
 # ALBION RADAR — PERSISTENT HANDOFF / SOURCE OF TRUTH
-Last updated: 2026-11-02
+Last updated: 2026-11-03
 Repository: https://github.com/eesanezhad76/v2rayNG
 
 ## 0. Mandatory startup protocol for every new chat
@@ -31,6 +31,14 @@ Root: `research/`
 - `.github/workflows/albion-capture-ingest.yml`: capture ingest/test workflow. Inspect current file and latest workflow status before relying on it.
 
 Never mix raw evidence with production code. Unknown values must remain unknown. Preserve all packet/event records, entity IDs, timestamps, coordinates, enchantments, state transitions, markers and unmatched records. Do not silently drop ambiguous evidence.
+
+## 2A. Integration roadmap / current automation status
+- Preserve the end-to-end path: passive IP capture → PCAP/JSONL → Photon packet decoder → Protocol18 decoder → typed event mapper → isolated/live knowledge store + protocol evidence store → overlay snapshot; offline replay must exercise the same pipeline without mutating live state.
+- Keep inventory candidates separate from confirmed item IDs/stack deltas. Require repeated independent HarvestFinished-correlated observations and retain parameter paths, deltas, sample counts, and uncertainty.
+- Keep node identity exact-ID based; resource family, mobile type, tier, enchantment, and runtime entity ID are distinct fields. Do not join entities by proximity alone.
+- Mob names/type catalog remains unresolved unless direct packet evidence or independently labelled captures corroborate it. Entity-leave is not proof of kill.
+- Current code change: connect ResourcePatternLearner output into persistent live knowledge records as a separate `resource_inference` object with catalog version, value/status/confidence/reason; preserve raw packet fields and suppress inference when evidence conflicts. Add regression coverage and verify the current APK workflow before calling it ready.
+- Latest workflow evidence at handoff edit: capture-ingest run 41525742713 succeeded on source SHA b028ee35818201b1b1a525c9b806f7718614fa5a; APK build run 41525742789 was still building passive-tap libv2ray AAR on that SHA. The branch may advance when ingest commits derived research outputs; re-query current HEAD and CI before relying on these values.
 
 ## 3. Existing capture facts (2026-11-02 capture)
 Archive supplied in chat: `Albionsskkakaks111.zip`.

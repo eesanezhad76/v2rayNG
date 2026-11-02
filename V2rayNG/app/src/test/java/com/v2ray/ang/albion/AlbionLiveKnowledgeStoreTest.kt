@@ -41,6 +41,32 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(summary.contains("Typed resource observations: 1"), summary)
     }
 
+    @Test fun attachesProvenanceAwareResourceMappingsWithoutOverwritingRawPacketFields() {
+        val store = AlbionLiveKnowledgeStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 808L,
+            typeId = 574, typeNumber = 29, tier = 5, enchant = 1, x = 20f, y = 30f
+        )))
+        var record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        var inference = record.getJSONObject("resource_inference")
+        assertTrue(record.optInt("mobile_type_id") == 574, record.toString())
+        assertTrue(inference.getJSONObject("resource_name").optString("value") == "Ore", inference.toString())
+        assertTrue(inference.getJSONObject("resource_name").optString("status") == "CAPTURE_CORROBORATED", inference.toString())
+        assertTrue(inference.getJSONObject("mobile_type_id").optString("status") == "PACKET_CONFIRMED", inference.toString())
+        assertTrue(inference.getJSONObject("enchantment_name").optString("value") == "E1", inference.toString())
+
+        store.observe(now + 100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 808L,
+            typeId = 571, typeNumber = 29, tier = 5, enchant = 1, x = 20f, y = 30f
+        )))
+        record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        inference = record.getJSONObject("resource_inference")
+        assertTrue(inference.getJSONObject("mobile_type_id").optString("status") == "CONFLICT", inference.toString())
+        assertTrue(inference.getJSONObject("mobile_type_id").isNull("value"), inference.toString())
+        assertTrue(record.optInt("mobile_type_id") == 571, "Raw latest packet value must remain available")
+    }
+
     @Test fun liveSnapshotIncludesTypedResourcesAndValidatedPlayerMovement() {
         val store = AlbionLiveKnowledgeStore(context())
         val now = System.currentTimeMillis() + 1_000L
