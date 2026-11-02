@@ -53,6 +53,14 @@ class AlbionLiveKnowledgeStore(context: Context) {
             if (observation.kind == "resource_state") {
                 record.put("depleted", observation.removed)
             }
+            observation.heading?.let { if (it.isFinite() && it in 0f..360f) record.put("heading", it) }
+            observation.speed?.let { if (it.isFinite() && it in 0f..100f) record.put("speed", it) }
+            val targetX = observation.targetX?.toDouble()
+            val targetY = observation.targetY?.toDouble()
+            if (targetX != null && targetY != null && targetX.isFinite() && targetY.isFinite() &&
+                kotlin.math.abs(targetX) <= MAX_COORDINATE && kotlin.math.abs(targetY) <= MAX_COORDINATE) {
+                record.put("target_x", targetX).put("target_y", targetY)
+            }
             record.put("classification", classification(record))
             dirty = true
         }
@@ -69,9 +77,20 @@ class AlbionLiveKnowledgeStore(context: Context) {
     fun flush() = flush(System.currentTimeMillis())
 
     @Synchronized
+    fun snapshotJson(): String {
+        val array = JSONArray()
+        records.values
+            .filter { it.has("x") && it.has("y") }
+            .sortedByDescending { it.optLong("last_seen_ms") }
+            .take(200)
+            .forEach { array.put(JSONObject(it.toString())) }
+        return array.toString()
+    }
+
+    @Synchronized
     fun snapshotText(): String {
         val recent = records.values
-            .filter { it.optString("last_kind") in setOf("static_resource", "harvestable", "resource_state", "player_move", "mob") }
+            .filter { it.optString("last_kind") in setOf("static_resource", "harvestable", "resource_state", "player_move", "own_player_move", "mob") }
             .sortedByDescending { it.optLong("last_seen_ms") }
             .take(8)
         if (recent.isEmpty()) return "Live entities: waiting for decoded game observations"
@@ -82,6 +101,7 @@ class AlbionLiveKnowledgeStore(context: Context) {
                 val label = when (kind) {
                     "static_resource", "harvestable", "resource_state" -> "Resource"
                     "player_move" -> "Player movement"
+                    "own_player_move" -> "YOU"
                     "mob" -> "Mob"
                     else -> kind
                 }
@@ -156,6 +176,6 @@ class AlbionLiveKnowledgeStore(context: Context) {
         const val MAX_RECORDS = 5000
         const val MAX_COORDINATE = 10000.0
         const val FLUSH_INTERVAL_MS = 2000L
-        val TRACKED_KINDS = setOf("static_resource", "harvestable", "resource_state", "mob", "leave", "player_move")
+        val TRACKED_KINDS = setOf("static_resource", "harvestable", "resource_state", "mob", "leave", "player_move", "own_player_move")
     }
 }
