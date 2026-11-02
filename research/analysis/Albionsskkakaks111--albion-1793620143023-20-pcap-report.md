@@ -21,6 +21,21 @@ Manual checkpoints: 3
   t=1793620143183 kind=manual_marker activity=Capture event=capture_started
   t=1793620147466 kind=manual_marker activity=Ore event=overlay_started tier=T4 enchantment=Normal
   t=1793620187418 kind=manual_marker activity=Capture event=capture_stopping
+Capture file quality: GOOD (92/100)
+PCAP records: 2138
+Captured bytes: 944478
+Duration (ms): 44235
+Timestamp regressions: 0
+Invalid timestamp fractions: 0
+Malformed record headers: 0
+Truncated records: 0
+Repeated packet payloads: 8
+Gaps over 1 second: 4
+Maximum observed gap (ms): 3500
+Limitation: Packet duplicates are counted, not assumed to be packet loss; retransmission/repetition may be legitimate.
+Limitation: Tap-drop counters are external to PCAP and must be supplied by capture metadata.
+Limitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.
+
 Detailed entity/player observations: 3
   t=1793620143183 kind=manual_marker activity=Capture event=capture_started
   t=1793620147466 kind=manual_marker activity=Ore event=overlay_started tier=T4 enchantment=Normal

@@ -111,6 +111,21 @@ Encrypted Protocol18 messages: 12
 Malformed Protocol18 messages: 3
 Pending fragmented messages: 1
 Manual checkpoints: 0
+Capture file quality: GOOD (100/100)
+PCAP records: 10828
+Captured bytes: 1150409
+Duration (ms): 59263
+Timestamp regressions: 0
+Invalid timestamp fractions: 0
+Malformed record headers: 0
+Truncated records: 0
+Repeated packet payloads: 2
+Gaps over 1 second: 0
+Maximum observed gap (ms): 395
+Limitation: Packet duplicates are counted, not assumed to be packet loss; retransmission/repetition may be legitimate.
+Limitation: Tap-drop counters are external to PCAP and must be supplied by capture metadata.
+Limitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.
+
 Detailed entity/player observations: 2341
   t=1793403799757 event3 id=643645 raw=0313b30494df36df08f91dfa3c2562ede58e0000044196a4e63cc908f6e5 p4=0.03053187 p5=-1.4012641E23
   t=1793403799913 event3 id=632089 raw=03836a1494df36df082712f83cc4dae1e508cdcc0c41c8daf83c356ae0e5 p4=0.030282093 p5=-1.33321E23
