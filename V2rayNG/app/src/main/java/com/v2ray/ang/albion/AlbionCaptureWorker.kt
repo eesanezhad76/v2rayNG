@@ -410,13 +410,15 @@ class AlbionCaptureWorker(
         if (!source.exists()) return
         try {
             knowledgeStore?.flush()
-            val report = AlbionCaptureAnalyzer.analyze(source).asText() + AlbionPatternMiner.analyze(logFile).asText() + (knowledgeStore?.summaryText() ?: "")
+            val tapDrops = (dropped() - dropBaseline.get()).coerceAtLeast(0L)
+            val report = AlbionCaptureAnalyzer.analyze(source, nativeTapDrops = tapDrops).asText() +
+                AlbionPatternMiner.analyze(logFile).asText() + (knowledgeStore?.summaryText() ?: "")
             val target = File(source.parentFile, source.nameWithoutExtension + ".report.txt")
             target.writeText(buildString {
                 append(report)
                 appendLine("\nCapture integrity")
                 appendLine("PCAP records (TUN packets + checkpoints): ${packetCount.get() + markerCount.get()}")
-                appendLine("Native tap dropped copies: ${(dropped() - dropBaseline.get()).coerceAtLeast(0)}")
+                appendLine("Native tap dropped copies: $tapDrops")
                 appendLine("Manual checkpoints: ${markerCount.get()}")
                 appendLine("Non-Albion / unclassified packets: ${nonAlbionCount.get()}")
                 appendLine("Downloads mirror error: ${mirrorFailure ?: "none"}")

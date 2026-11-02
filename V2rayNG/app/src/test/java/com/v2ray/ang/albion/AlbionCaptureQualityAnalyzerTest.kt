@@ -21,6 +21,22 @@ class AlbionCaptureQualityAnalyzerTest {
         assertEquals("INSUFFICIENT_SAMPLE", report.grade)
     }
 
+    @Test fun incorporatesMeasuredNativeTapDropsIntoQualityScoreWithoutCallingThemNetworkLoss() {
+        val file = File(tempDir, "tap-drops.pcap")
+        writePcap(file, listOf(
+            Record(1_000L, byteArrayOf(1)),
+            Record(1_100L, byteArrayOf(2)),
+            Record(1_200L, byteArrayOf(3))
+        ))
+        val withoutMetadata = AlbionCaptureQualityAnalyzer.analyze(file)
+        val withDrops = AlbionCaptureQualityAnalyzer.analyze(file, nativeTapDrops = 100L)
+        assertEquals(100L, withDrops.nativeTapDrops)
+        assertTrue((withDrops.tapDropRatePercent ?: 0.0) > 90.0)
+        assertTrue(withDrops.score < withoutMetadata.score)
+        assertTrue(withDrops.asText().contains("Native tap dropped copies: 100"))
+        assertTrue(withDrops.asText().contains("local tap-queue drops, not network packet loss"))
+    }
+
     @Test fun detectsTimestampRegressionAndLongContinuityGap() {
         val file = File(tempDir, "gaps.pcap")
         writePcap(file, listOf(

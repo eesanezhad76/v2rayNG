@@ -26,6 +26,8 @@ data class AlbionCaptureQualityReport(
     val duplicatePayloads: Int,
     val gapsOverOneSecond: Int,
     val maximumGapMs: Long,
+    val nativeTapDrops: Long?,
+    val tapDropRatePercent: Double?,
     val score: Int,
     val grade: String,
     val limitations: List<String>
@@ -42,6 +44,8 @@ data class AlbionCaptureQualityReport(
         appendLine("Repeated packet payloads: $duplicatePayloads")
         appendLine("Gaps over 1 second: $gapsOverOneSecond")
         appendLine("Maximum observed gap (ms): $maximumGapMs")
+        appendLine("Native tap dropped copies: ${nativeTapDrops ?: "not supplied"}")
+        appendLine("Native tap drop rate (%): ${tapDropRatePercent?.let { "%.2f".format(java.util.Locale.US, it) } ?: "not available"}")
         limitations.forEach { appendLine("Limitation: $it") }
     }
 }
@@ -49,7 +53,7 @@ data class AlbionCaptureQualityReport(
 object AlbionCaptureQualityAnalyzer {
     private const val MAX_CAPTURED_PACKET = 2_000_000
 
-    fun analyze(file: File): AlbionCaptureQualityReport {
+    fun analyze(file: File, nativeTapDrops: Long? = null): AlbionCaptureQualityReport {
         var records = 0
         var bytes = 0L
         var first: Long? = null
@@ -66,7 +70,7 @@ object AlbionCaptureQualityAnalyzer {
 
         DataInputStream(BufferedInputStream(FileInputStream(file))).use { input ->
             val magic = try { input.readInt() } catch (_: EOFException) {
-                return emptyReport()
+                return emptyReport(nativeTapDrops)
             }
             val little = when (magic) {
                 0xd4c3b2a1.toInt(), 0x4d3cb2a1 -> true
@@ -145,7 +149,13 @@ object AlbionCaptureQualityAnalyzer {
         val gapPenalty = (gaps * 2).coerceAtMost(20)
         val timestampPenalty = if (records == 0) 0 else
             (invalidFractions.toDouble() / records * 10.0).toInt()
-        val score = (100 - integrityPenalty - regressionPenalty - duplicatePenalty - gapPenalty - timestampPenalty)
+        val tapDrops = nativeTapDrops?.coerceAtLeast(0L)
+        val tapDropRate = tapDrops?.let { drops ->
+            drops.toDouble() / (records.toLong() + drops).coerceAtLeast(1L) * 100.0
+        }
+        // Penalize only measured native queue drops. This is not a claim about network loss.
+        val tapDropPenalty = tapDropRate?.let { (it * 0.5).toInt().coerceAtMost(40) } ?: 0
+        val score = (100 - integrityPenalty - regressionPenalty - duplicatePenalty - gapPenalty - timestampPenalty - tapDropPenalty)
             .coerceIn(0, 100)
         val grade = when {
             records == 0 -> "NO_DATA"
@@ -154,22 +164,28 @@ object AlbionCaptureQualityAnalyzer {
             score >= 70 -> "FAIR"
             else -> "POOR"
         }
-        val limitations = listOf(
-            "Packet duplicates are counted, not assumed to be packet loss; retransmission/repetition may be legitimate.",
-            "Tap-drop counters are external to PCAP and must be supplied by capture metadata.",
-            "A long timestamp gap is a continuity warning, not proof that packets were dropped."
-        )
+        val limitations = buildList {
+            add("Packet duplicates are counted, not assumed to be packet loss; retransmission/repetition may be legitimate.")
+            add("A long timestamp gap is a continuity warning, not proof that packets were dropped.")
+            if (tapDrops == null) add("Native tap drops were not supplied; no tap-drop penalty was applied.")
+            else add("Native tap drop rate measures local tap-queue drops, not network packet loss.")
+        }
         return AlbionCaptureQualityReport(
             records, bytes, first, last,
             if (first != null && last != null) (last - first).coerceAtLeast(0L) else 0L,
             regressions, invalidFractions, malformedHeaders, truncated, duplicates,
-            gaps, maxGap, score, grade, limitations
+            gaps, maxGap, tapDrops, tapDropRate, score, grade, limitations
         )
     }
 
-    private fun emptyReport() = AlbionCaptureQualityReport(
-        0, 0L, null, null, 0L, 0, 0, 0, 0, 0, 0, 0L,
-        0, "NO_DATA", listOf("The file is empty or has no complete PCAP global header.")
+    private fun emptyReport(nativeTapDrops: Long?) = AlbionCaptureQualityReport(
+        packetRecords = 0, capturedBytes = 0L, firstTimestampMs = null, lastTimestampMs = null,
+        durationMs = 0L, timestampRegressions = 0, invalidTimestampFractions = 0,
+        malformedRecordHeaders = 0, truncatedRecords = 0, duplicatePayloads = 0,
+        gapsOverOneSecond = 0, maximumGapMs = 0L, nativeTapDrops = nativeTapDrops?.coerceAtLeast(0L),
+        tapDropRatePercent = nativeTapDrops?.takeIf { it >= 0L }?.let { if (it == 0L) 0.0 else 100.0 },
+        score = 0, grade = "NO_DATA",
+        limitations = listOf("The file is empty or has no complete PCAP global header.")
     )
 
     private fun readInt(input: DataInputStream, little: Boolean): Int =

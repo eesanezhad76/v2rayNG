@@ -65,7 +65,8 @@ object AlbionCaptureAnalyzer {
 
     fun analyze(
         file: File,
-        onDecodedMessage: ((Long, AlbionProtocol18Decoder.Message, List<AlbionEntityEventMapper.Observation>) -> Unit)? = null
+        onDecodedMessage: ((Long, AlbionProtocol18Decoder.Message, List<AlbionEntityEventMapper.Observation>) -> Unit)? = null,
+        nativeTapDrops: Long? = null
     ): Report {
         var packets = 0
         var albion = 0
@@ -218,7 +219,7 @@ object AlbionCaptureAnalyzer {
         return Report(
             packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, typedEvents, malformed,
             encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending,
-            warnings, checkpoints, detailed, AlbionCaptureQualityAnalyzer.analyze(file)
+            warnings, checkpoints, detailed, AlbionCaptureQualityAnalyzer.analyze(file, nativeTapDrops)
         )
     }
 

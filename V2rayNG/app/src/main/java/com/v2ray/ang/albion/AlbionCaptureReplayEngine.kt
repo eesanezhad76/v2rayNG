@@ -146,7 +146,9 @@ object AlbionCaptureReplayEngine {
                 .put("timestamp_regressions", report.quality.timestampRegressions)
                 .put("truncated_records", report.quality.truncatedRecords)
                 .put("gaps_over_one_second", report.quality.gapsOverOneSecond)
-                .put("maximum_gap_ms", report.quality.maximumGapMs))
+                .put("maximum_gap_ms", report.quality.maximumGapMs)
+                .put("native_tap_drops", report.quality.nativeTapDrops ?: JSONObject.NULL)
+                .put("tap_drop_rate_percent", report.quality.tapDropRatePercent ?: JSONObject.NULL))
             .put("warnings", JSONArray(report.warnings))
         destination.writeText(root.toString(2), Charsets.UTF_8)
     }
