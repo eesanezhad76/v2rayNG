@@ -69,6 +69,34 @@ class AlbionLiveKnowledgeStore(context: Context) {
     fun flush() = flush(System.currentTimeMillis())
 
     @Synchronized
+    fun snapshotText(): String {
+        val recent = records.values
+            .filter { it.optString("last_kind") in setOf("static_resource", "harvestable", "resource_state", "player_move", "mob") }
+            .sortedByDescending { it.optLong("last_seen_ms") }
+            .take(8)
+        if (recent.isEmpty()) return "Live entities: waiting for decoded game observations"
+        return buildString {
+            appendLine("LIVE ENTITY SNAPSHOT")
+            recent.forEach { record ->
+                val kind = record.optString("last_kind")
+                val label = when (kind) {
+                    "static_resource", "harvestable", "resource_state" -> "Resource"
+                    "player_move" -> "Player movement"
+                    "mob" -> "Mob"
+                    else -> kind
+                }
+                val tier = if (record.has("tier")) " T${record.optInt("tier")}" else ""
+                val enchant = if (record.has("enchant") && record.optInt("enchant") > 0) " E${record.optInt("enchant")}" else ""
+                val amount = if (record.has("amount")) " amount=${record.optInt("amount")}" else ""
+                val position = if (record.has("x") && record.has("y")) " (${"%.1f".format(java.util.Locale.US, record.optDouble("x"))}, ${"%.1f".format(java.util.Locale.US, record.optDouble("y"))})" else ""
+                val state = if (record.optBoolean("depleted", false)) " [depleted]" else ""
+                appendLine("$label$tier$enchant$amount$position$state")
+            }
+            append("Showing ${recent.size} recent observations; proximity alone is not confirmation.")
+        }
+    }
+
+    @Synchronized
     fun summaryText(): String {
         val typed = records.values.count { it.optString("classification") == "typed_resource_observation" }
         val candidates = records.values.count { it.optString("classification") == "static_resource_candidate" }
@@ -128,6 +156,6 @@ class AlbionLiveKnowledgeStore(context: Context) {
         const val MAX_RECORDS = 5000
         const val MAX_COORDINATE = 10000.0
         const val FLUSH_INTERVAL_MS = 2000L
-        val TRACKED_KINDS = setOf("static_resource", "harvestable", "resource_state", "mob", "leave")
+        val TRACKED_KINDS = setOf("static_resource", "harvestable", "resource_state", "mob", "leave", "player_move")
     }
 }
