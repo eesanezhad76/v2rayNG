@@ -129,6 +129,10 @@ object AlbionCaptureAnalyzer {
                                         "response" -> responses[code] = (responses[code] ?: 0) + 1
                                     }
                                 }
+                                if (message.kind == "request" && message.operationCode in setOf(22, 23, 24, 54, 199, 554)) {
+                                    val params = message.parameters.entries.sortedBy { it.key }.joinToString(" ") { (key, value) -> key.toString() + "=" + describeValue(value) }
+                                    detailed += "t=" + packetTimeMs + " outbound_request op=" + message.operationCode + " params={" + params + "}"
+                                }
                                 AlbionEntityEventMapper.map(message).forEach { observation ->
                                     entities[observation.kind] = (entities[observation.kind] ?: 0) + 1
                                     if (observation.kind in setOf("player_spawn", "player_move", "static_resource", "harvestable", "resource_state", "mob", "mob_state", "player_mounted", "move")) {
@@ -144,6 +148,11 @@ object AlbionCaptureAnalyzer {
                                             observation.enchant?.let { append(" enchant=").append(it) }
                                             observation.size?.let { append(" amount=").append(it) }
                                             if (observation.removed) append(" removed=true")
+                                            if (observation.kind == "player_move") {
+                                                val raw = message.parameters[1] as? ByteArray
+                                                if (raw != null) append(" raw_hex=").append(raw.take(96).joinToString("") { "%02x".format(it) })
+                                                append(" coord_source=unvalidated_event3_payload")
+                                            }
                                         }
                                     }
                                 }
@@ -169,6 +178,20 @@ object AlbionCaptureAnalyzer {
             packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, typedEvents, malformed,
             encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings, checkpoints, detailed
         )
+    }
+
+
+    private fun describeValue(value: Any?): String = when (value) {
+        null -> "null"
+        is ByteArray -> "bytes[" + value.size + "]=" + value.take(96).joinToString("") { "%02x".format(it) } + if (value.size > 96) "..." else ""
+        is FloatArray -> value.joinToString(prefix = "[", postfix = "]")
+        is DoubleArray -> value.joinToString(prefix = "[", postfix = "]")
+        is IntArray -> value.joinToString(prefix = "[", postfix = "]")
+        is LongArray -> value.joinToString(prefix = "[", postfix = "]")
+        is ShortArray -> value.joinToString(prefix = "[", postfix = "]")
+        is Map<*, *> -> value.entries.take(32).joinToString(prefix = "{", postfix = "}") { describeValue(it.key) + ":" + describeValue(it.value) }
+        is Iterable<*> -> value.take(32).joinToString(prefix = "[", postfix = "]") { describeValue(it) }
+        else -> value.toString()
     }
 
     private fun isCheckpointPacket(ip: ByteArray): Boolean =
