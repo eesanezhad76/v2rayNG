@@ -253,6 +253,9 @@ fun main() {
         val event123Names = mutableMapOf<String, String>()
         val leaveKeys = mutableSetOf<String>()
         val healthCounts = mutableMapOf<String, Int>()
+        val energyCounts = mutableMapOf<String, Int>()
+        val healthCurrentSamples = mutableMapOf<String, MutableList<Double>>()
+        val energyCurrentSamples = mutableMapOf<String, MutableList<Double>>()
         fun littleFloat(hex: String, byteOffset: Int): Double? {
             val start = byteOffset * 2
             if (start + 8 > hex.length) return null
@@ -281,7 +284,14 @@ fun main() {
             }
             if (detail.contains("kind=leave")) field(detail, "id")?.let { leaveKeys += keyFor(it) }
             if (detail.contains("kind=health")) field(detail, "id")?.let { id ->
-                val key = keyFor(id); healthCounts[key] = (healthCounts[key] ?: 0) + 1
+                val key = keyFor(id)
+                healthCounts[key] = (healthCounts[key] ?: 0) + 1
+                field(detail, "secondary_value")?.toDoubleOrNull()?.let { healthCurrentSamples.getOrPut(key) { mutableListOf() }.add(it) }
+            }
+            if (detail.contains("kind=energy")) field(detail, "id")?.let { id ->
+                val key = keyFor(id)
+                energyCounts[key] = (energyCounts[key] ?: 0) + 1
+                field(detail, "secondary_value")?.toDoubleOrNull()?.let { energyCurrentSamples.getOrPut(key) { mutableListOf() }.add(it) }
             }
             if (detail.contains("outbound_request op=23")) {
                 val target = field(detail, "1")
@@ -303,7 +313,7 @@ fun main() {
             }
         }
         val attackCsv = buildString {
-            appendLine("archive,pcap,target_entity_id,attack_action_count,attack_flag_values,first_attack_ms,last_attack_ms,event3_position_samples,first_position_x,first_position_y,last_position_x,last_position_y,min_x,max_x,min_y,max_y,event123_mobile_type,event123_name,known_player_spawn,leave_observed,health_observations,interpretation")
+            appendLine("archive,pcap,target_entity_id,attack_action_count,attack_flag_values,first_attack_ms,last_attack_ms,event3_position_samples,first_position_x,first_position_y,last_position_x,last_position_y,min_x,max_x,min_y,max_y,event123_mobile_type,event123_name,known_player_spawn,leave_observed,health_observations,min_current_health,max_current_health,last_current_health,energy_observations,min_current_energy,max_current_energy,last_current_energy,interpretation")
             for ((key, values) in attacks.toSortedMap()) {
                 val parts = key.split("\u001f")
                 val ordered = values.sortedBy { it.t }
@@ -321,6 +331,13 @@ fun main() {
                     event123Types[key] ?: "", event123Names[key] ?: "",
                     (key in playerIds).toString(), (key in leaveKeys).toString(),
                     (healthCounts[key] ?: 0).toString(),
+                    healthCurrentSamples[key]?.minOrNull()?.toString() ?: "",
+                    healthCurrentSamples[key]?.maxOrNull()?.toString() ?: "",
+                    healthCurrentSamples[key]?.lastOrNull()?.toString() ?: "",
+                    (energyCounts[key] ?: 0).toString(),
+                    energyCurrentSamples[key]?.minOrNull()?.toString() ?: "",
+                    energyCurrentSamples[key]?.maxOrNull()?.toString() ?: "",
+                    energyCurrentSamples[key]?.lastOrNull()?.toString() ?: "",
                     when {
                         key in playerIds -> "player_spawn_known_do_not_classify_as_mob"
                         event123Types.containsKey(key) -> "event123_mobile_entity_attack_target_kill_not_proven"
