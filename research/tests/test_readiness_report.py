@@ -1,6 +1,7 @@
 import json
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 import sys
 
@@ -76,8 +77,7 @@ class ReadinessReportTests(unittest.TestCase):
             "workflow_run_id": "0",
             "checks": [{"name": "Live capture", "status": "NOT_VERIFIED", "evidence": "Device test pending"}],
         }
-        with unittest.mock.patch.object(readiness, "build_report", return_value=report), \\
-             unittest.mock.patch.object(readiness, "write_report"):
+        with mock.patch.object(readiness, "build_report", return_value=report), mock.patch.object(readiness, "write_report"):
             self.assertEqual(0, readiness.main())
 
         failed_report = {
@@ -85,8 +85,7 @@ class ReadinessReportTests(unittest.TestCase):
             "overall_status": "BLOCKED",
             "checks": [{"name": "APK build", "status": "FAIL", "evidence": "APK missing"}],
         }
-        with unittest.mock.patch.object(readiness, "build_report", return_value=failed_report), \\
-             unittest.mock.patch.object(readiness, "write_report"):
+        with mock.patch.object(readiness, "build_report", return_value=failed_report), mock.patch.object(readiness, "write_report"):
             self.assertEqual(1, readiness.main())
 
     def test_replay_requires_baseline_and_rejects_review_required_outputs(self):
