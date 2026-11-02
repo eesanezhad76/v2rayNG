@@ -10,6 +10,8 @@ import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.IBinder
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.view.Gravity
 import android.view.WindowManager
@@ -32,6 +34,15 @@ class AlbionOverlayService : Service() {
     private var enchantIndex = 0
     private lateinit var title: TextView
     private lateinit var body: LinearLayout
+    private lateinit var liveStatus: TextView
+    private val refreshHandler = Handler(Looper.getMainLooper())
+    private val refreshLiveSnapshot = object : Runnable {
+        override fun run() {
+            if (root == null) return
+            if (::liveStatus.isInitialized) liveStatus.text = CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
+            refreshHandler.postDelayed(this, 1500L)
+        }
+    }
     private val activities = listOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Mobs", "PvP", "Travel", "Other")
     private val tiers = listOf("T2","T3","T4","T5","T6","T7","T8")
     private val enchants = listOf("Normal","E1","E2","E3")
@@ -75,6 +86,13 @@ class AlbionOverlayService : Service() {
         head.addView(button("×") { tag("overlay_closed"); stopSelf() }, LinearLayout.LayoutParams(dp(28), dp(32)))
         panel.addView(head)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        liveStatus = TextView(this).apply {
+            text = "Live entities: waiting for capture"
+            setTextColor(0xFFE3EDF5.toInt())
+            textSize = 10f
+            typeface = Typeface.MONOSPACE
+            setPadding(dp(3), dp(3), dp(3), dp(3))
+        }
         panel.addView(body)
         root = panel
         val type = if (Build.VERSION.SDK_INT >= 26) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE
@@ -83,12 +101,19 @@ class AlbionOverlayService : Service() {
             PixelFormat.TRANSLUCENT).apply { gravity = Gravity.TOP or Gravity.START; x = dp(4); y = dp(105) }
         wm.addView(panel, params)
         renderBody()
+        refreshHandler.removeCallbacks(refreshLiveSnapshot)
+        refreshHandler.post(refreshLiveSnapshot)
     }
     private fun stepActivity(delta: Int) { activityIndex = (activityIndex + delta + activities.size) % activities.size; title.text = activities[activityIndex]; tag("activity_selected"); renderBody() }
     private fun renderBody() {
         if (!::body.isInitialized) return
         body.removeAllViews()
-        if (!expanded) { body.visibility = android.view.View.GONE; return }
+        if (!expanded) {
+            body.visibility = android.view.View.VISIBLE
+            liveStatus.maxLines = 2
+            body.addView(liveStatus)
+            return
+        }
         body.visibility = android.view.View.VISIBLE
         val selectors = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         selectors.addView(button(tiers[tierIndex]) { tierIndex = (tierIndex + 1) % tiers.size; tag("tier_selected"); renderBody() }, LinearLayout.LayoutParams(0, dp(30), 1f))
@@ -103,6 +128,8 @@ class AlbionOverlayService : Service() {
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         events.forEach { (label, event) -> row.addView(button(label) { tag(event) }, LinearLayout.LayoutParams(0, dp(32), 1f)) }
         body.addView(row)
+        liveStatus.maxLines = 8
+        body.addView(liveStatus)
     }
     private fun tag(event: String) {
         val selectedActivity = activities[activityIndex]
@@ -124,6 +151,7 @@ class AlbionOverlayService : Service() {
         }
     }
     override fun onDestroy() {
+        refreshHandler.removeCallbacks(refreshLiveSnapshot)
         try { root?.let { wm.removeView(it) } } catch (_: Exception) { }
         root = null; stopForeground(STOP_FOREGROUND_REMOVE); super.onDestroy()
     }
