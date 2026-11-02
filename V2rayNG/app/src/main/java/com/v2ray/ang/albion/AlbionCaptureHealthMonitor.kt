@@ -52,6 +52,8 @@ class AlbionCaptureHealthMonitor {
             packetAge > PACKET_STALE_MS -> "PACKET_STALE"
             eventAge == null -> "WAITING_FOR_DECODED_EVENTS"
             eventAge > EVENT_STALE_MS -> "EVENT_STALE"
+            entityAge == null -> "WAITING_FOR_MAPPED_ENTITIES"
+            entityAge > EVENT_STALE_MS -> "ENTITY_STALE"
             snapshotAge == null -> "WAITING_FOR_OVERLAY_SNAPSHOT"
             overlayAge == null -> "WAITING_FOR_OVERLAY_ACCEPTANCE"
             overlayAge > OVERLAY_STALE_MS -> "OVERLAY_STALE"
