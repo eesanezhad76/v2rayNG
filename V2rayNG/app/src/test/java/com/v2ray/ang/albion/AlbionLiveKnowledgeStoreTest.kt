@@ -63,6 +63,32 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(snapshot.contains("proximity alone is not confirmation"), snapshot)
     }
 
+    @Test fun gradesExactIdResourceStateAsCorroboratingEvidence() {
+        val store = AlbionLiveKnowledgeStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        store.observe(
+            now,
+            listOf(
+                AlbionEntityEventMapper.Observation(
+                    kind = "harvestable", eventCode = 40, entityId = 777L,
+                    typeId = 574, typeNumber = 29, tier = 5, x = 20f, y = 30f
+                )
+            )
+        )
+        store.observe(
+            now + 10L,
+            listOf(
+                AlbionEntityEventMapper.Observation(
+                    kind = "resource_state", eventCode = 46, entityId = 777L,
+                    removed = true
+                )
+            )
+        )
+        val snapshot = store.snapshotText()
+        assertTrue(snapshot.contains("corroborated_same_id"), snapshot)
+        assertTrue(snapshot.contains("[depleted]"), snapshot)
+    }
+
     @Test fun rejectsInvalidCoordinatesAndDoesNotPromoteStaticCandidateToTypedOre() {
         val store = AlbionLiveKnowledgeStore(context())
         store.observe(
