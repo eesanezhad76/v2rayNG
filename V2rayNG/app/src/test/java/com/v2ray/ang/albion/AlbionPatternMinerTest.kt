@@ -86,4 +86,33 @@ class AlbionPatternMinerTest {
         assertTrue(pattern.signature.contains("574"))
     }
 
+    @Test fun aggregatesIndependentCaptureFilesAndSkipsByteIdenticalCopies() {
+        fun capture(base: Long, entityId: Long): String = listOf(
+            """{"time_ms":${base},"manual_marker":{"timestamp_ms":${base},"activity":"Ore","event":"target_found","tier":"T6","enchantment":"E2"}}""",
+            """{"time_ms":${base + 1000},"entities":[{"kind":"harvestable","event_code":40,"entity_id":${entityId},"mobile_type_id":1001,"tier":6,"enchant":2}],"messages":[{"kind":"event","code":40,"param_keys":[0,5,7,8,11]}]}""",
+            """{"time_ms":${base + 5000},"manual_marker":{"timestamp_ms":${base + 5000},"activity":"Ore","event":"gathering_completed"}}"""
+        ).joinToString("\n")
+
+        val first = File(tempDir, "capture-a.jsonl").apply { writeText(capture(10_000L, 501L)) }
+        File(tempDir, "capture-b.jsonl").writeText(capture(20_000L, 601L))
+        File(tempDir, "duplicate-of-a.jsonl").writeText(first.readText())
+
+        val report = AlbionPatternMiner.analyzeDirectory(tempDir)
+        assertEquals(2, report.capturesAnalyzed, report.asText())
+        assertEquals(1, report.duplicateFilesSkipped, report.asText())
+        assertEquals(2, report.completeSamples, report.asText())
+        val pattern = report.patterns.first { it.kind == "harvestable" && it.activity == "Ore" }
+        assertEquals(2, pattern.samples)
+        // Runtime IDs are capture-scoped; never claim cross-capture entity identity.
+        assertEquals(1, pattern.distinctEntities)
+        assertTrue(report.asText().contains("Byte-identical capture files skipped: 1"))
+        assertTrue(report.warnings.any { it.contains("Entity IDs are scoped per capture") })
+    }
+
+    @Test fun directoryLearnerReportsMissingCaptureDirectoryWithoutThrowing() {
+        val report = AlbionPatternMiner.analyzeDirectory(File(tempDir, "missing"))
+        assertEquals(0, report.capturesAnalyzed)
+        assertTrue(report.warnings.any { it.contains("directory is missing") })
+    }
+
 }
