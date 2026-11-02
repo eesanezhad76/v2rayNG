@@ -1,103 +1,74 @@
 #!/usr/bin/env python3
-"""Safe offline Albion JSONL/ZIP ingest. No network calls; unknowns remain unknown."""
-import argparse, csv, json, pathlib, zipfile, collections, hashlib, sys
-ROOT = pathlib.Path(__file__).resolve().parents[2]
-OUT_DB = ROOT / "research/database"
-OUT_ANALYSIS = ROOT / "research/analysis"
-def safe_extract(zf, dest):
-    base = dest.resolve()
-    for info in zf.infolist():
-        target = (dest / info.filename).resolve()
-        if target != base and base not in target.parents:
-            raise ValueError("Unsafe ZIP member path: " + info.filename)
-    zf.extractall(dest)
-def analyze_jsonl(path):
-    resources, states, markers = [], [], []
-    packet_rows = malformed = event123 = 0
-    with path.open(encoding="utf-8") as stream:
-        for line in stream:
-            try: row = json.loads(line)
-            except Exception:
-                malformed += 1; continue
-            packet_rows += 1
-            if isinstance(row.get("manual_marker"), dict):
-                markers.append(row["manual_marker"])
-            for event in row.get("photon_event_analysis", []):
-                code = event.get("event_code")
-                if code == 40:
-                    for node in event.get("resources", []):
-                        resources.append({"time_ms":row.get("time_ms"), **node})
-                elif code == 46 and isinstance(event.get("state_update"), dict):
-                    states.append({"time_ms":row.get("time_ms"), **event["state_update"]})
-                elif code == 123:
-                    event123 += len(event.get("living_entities", []))
-    by_id = collections.defaultdict(list)
-    state_by_id = collections.defaultdict(list)
-    for item in resources: by_id[item["id"]].append(item)
-    for item in states: state_by_id[item["id"]].append(item)
-    nodes=[]
-    for entity_id, observations in by_id.items():
-        observations.sort(key=lambda x:x["time_ms"])
-        first=observations[0]
-        timeline=sorted(state_by_id.get(entity_id,[]),key=lambda x:x["time_ms"])
-        family,tier=first.get("type_id"),first.get("tier")
-        mobile={(29,3):571,(29,4):573,(29,5):574}.get((family,tier))
-        nodes.append({
-          "entity_id":entity_id,"type_number":family,"tier":tier,
-          "enchantment_raw":first.get("enchantment_raw",0),
-          "mobile_type_id":mobile,
-          "mobile_type_confidence":"confirmed_cross_capture" if mobile else "unknown",
-          "x":first.get("x"),"y":first.get("y"),
-          "first_seen_ms":observations[0]["time_ms"],
-          "last_seen_ms":observations[-1]["time_ms"],
-          "observations":len(observations),
-          "state_timeline":[{"time_ms":s["time_ms"],"amount_or_state":s.get("amount_or_state"),
-                             "enchantment_raw":s.get("enchantment_raw")} for s in timeline]
-        })
-    state_only=[]
-    for entity_id, timeline in state_by_id.items():
-        if entity_id not in by_id:
-            state_only.append({"entity_id":entity_id,"location_status":"no_event40_snapshot_in_capture",
-              "state_timeline":[{"time_ms":s["time_ms"],"amount_or_state":s.get("amount_or_state"),
-                                 "enchantment_raw":s.get("enchantment_raw")} for s in sorted(timeline,key=lambda x:x["time_ms"])]})
-    stem=path.stem
-    dataset={"dataset_id":stem,"source_file":path.name,
-      "source_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),
-      "counts":{"jsonl_rows":packet_rows,"malformed_lines":malformed,
-       "event40_observations":len(resources),"unique_event40_nodes":len(nodes),
-       "event46_updates":len(states),"event123_living_entity_observations":event123,
-       "manual_markers":len(markers),"state_only_ids":len(state_only)},
-      "nodes":sorted(nodes,key=lambda n:(n["type_number"] or -1,n["tier"] or -1,n["enchantment_raw"] or 0,n["entity_id"])),
-      "state_only_entities":sorted(state_only,key=lambda x:x["entity_id"]),
-      "manual_markers":markers}
-    OUT_DB.mkdir(parents=True,exist_ok=True); OUT_ANALYSIS.mkdir(parents=True,exist_ok=True)
-    (OUT_DB/(stem+".json")).write_text(json.dumps(dataset,indent=2),encoding="utf-8")
-    fields=["entity_id","type_number","mobile_type_id","tier","enchantment_raw","x","y","first_seen_ms","last_seen_ms","observations","state_count","state_values"]
-    with (OUT_DB/(stem+".csv")).open("w",newline="",encoding="utf-8") as f:
-        w=csv.DictWriter(f,fieldnames=fields); w.writeheader()
-        for n in dataset["nodes"]:
-            vals=[s["amount_or_state"] for s in n["state_timeline"]]
-            w.writerow({"entity_id":n["entity_id"],"type_number":n["type_number"],"mobile_type_id":n["mobile_type_id"],
-              "tier":n["tier"],"enchantment_raw":n["enchantment_raw"],"x":n["x"],"y":n["y"],
-              "first_seen_ms":n["first_seen_ms"],"last_seen_ms":n["last_seen_ms"],"observations":n["observations"],
-              "state_count":len(vals),"state_values":">".join(map(str,vals))})
-    summary=dataset["counts"]
-    report="# Ingest report: "+stem+"\n\n"+"\n".join("- "+k+": "+str(v) for k,v in summary.items())+"\n\n"
-    report+="Event 46 timelines are joined only by exact runtime entity ID. State-only IDs remain separate. Unknown type/mobile codes are null.\n"
-    (OUT_ANALYSIS/(stem+".md")).write_text(report,encoding="utf-8")
-    return dataset
+"""Offline Albion capture ZIP/JSONL ingest. Preserves unknowns and exact runtime IDs."""
+import argparse,csv,json,pathlib,zipfile,collections,hashlib
+ROOT=pathlib.Path(__file__).resolve().parents[2]
+DB=ROOT/"research/database"; ANALYSIS=ROOT/"research/analysis"
+def safe_extract(zf,dest):
+ base=dest.resolve()
+ for info in zf.infolist():
+  target=(dest/info.filename).resolve()
+  if target!=base and base not in target.parents: raise ValueError("Unsafe ZIP member: "+info.filename)
+ zf.extractall(dest)
+def parse_row(row):
+ entities=list(row.get("entities") or [])
+ for event in row.get("photon_event_analysis",[]):
+  code=event.get("event_code")
+  if code==40:
+   for n in event.get("resources",[]):
+    entities.append({"kind":"harvestable","event_code":40,"entity_id":n.get("id"),"mobile_type_id":n.get("mobile_type_id",-1),"type_number":n.get("type_id"),"tier":n.get("tier"),"enchant":n.get("enchantment_raw",0),"x":n.get("x"),"y":n.get("y"),"size":n.get("amount",n.get("size"))})
+  elif code==46 and isinstance(event.get("state_update"),dict):
+   s=event["state_update"]; entities.append({"kind":"resource_state","event_code":46,"entity_id":s.get("id"),"size":s.get("amount_or_state",s.get("size")),"removed":s.get("removed")})
+ return entities
+def analyze(path):
+ nodes={}; states=collections.defaultdict(list); markers=[]; rows=bad=event123=0; packet5056=0
+ with path.open(encoding="utf-8",errors="replace") as f:
+  for line in f:
+   try:r=json.loads(line)
+   except Exception:bad+=1;continue
+   rows+=1
+   if r.get("src_port")==5056 or r.get("dst_port")==5056: packet5056+=1
+   if isinstance(r.get("manual_marker"),dict):markers.append(r["manual_marker"])
+   for e in parse_row(r):
+    k=e.get("kind"); ident=e.get("entity_id"); t=r.get("time_ms")
+    if k=="mob": event123+=1
+    if ident is None: continue
+    key=str(ident)
+    if k=="harvestable":
+     n=nodes.setdefault(key,{"entity_id":ident,"mobile_type_id":e.get("mobile_type_id"),"type_number":e.get("type_number"),"tier":e.get("tier"),"enchant":e.get("enchant",0),"x":e.get("x"),"y":e.get("y"),"first_seen_ms":t,"last_seen_ms":t,"observations":0,"sizes_seen":[],"state_timeline":[]})
+     n["first_seen_ms"]=t if n["first_seen_ms"] is None else min(n["first_seen_ms"],t)
+     n["last_seen_ms"]=t if n["last_seen_ms"] is None else max(n["last_seen_ms"],t);n["observations"]+=1
+     if e.get("size") not in n["sizes_seen"]:n["sizes_seen"].append(e.get("size"))
+    elif k=="resource_state":
+     states[key].append({"time_ms":t,"size":e.get("size"),"removed":e.get("removed")})
+    elif k=="mob": event123+=0
+   # Legacy event-123 decoder results
+   for ev in r.get("photon_event_analysis",[]):
+    if ev.get("event_code")==123:event123+=len(ev.get("living_entities",[]))
+ for key,seq in states.items():
+  if key in nodes:nodes[key]["state_timeline"]=sorted(seq,key=lambda x:x["time_ms"] or 0)
+ state_only=[{"entity_id":int(k) if k.isdigit() else k,"state_timeline":sorted(v,key=lambda x:x["time_ms"] or 0)} for k,v in states.items() if k not in nodes]
+ stem=path.stem; ordered=sorted(nodes.values(),key=lambda n:(n["type_number"] or -1,n["tier"] or -1,n["enchant"] or 0,n["entity_id"]))
+ doc={"dataset_id":stem,"source_file":path.name,"source_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"counts":{"jsonl_rows":rows,"malformed_lines":bad,"udp_5056_packets":packet5056,"event40_observations":sum(n["observations"] for n in ordered),"unique_event40_nodes":len(ordered),"event46_updates":sum(map(len,states.values())),"event46_state_ids":len(states),"event46_exact_joins":sum(bool(n["state_timeline"]) for n in ordered),"state_only_ids":len(state_only),"event123_living_entity_observations":event123,"manual_markers":len(markers)},"nodes":ordered,"state_only_entities":state_only,"manual_markers":markers}
+ DB.mkdir(parents=True,exist_ok=True);ANALYSIS.mkdir(parents=True,exist_ok=True)
+ (DB/(stem+".json")).write_text(json.dumps(doc,indent=2),encoding="utf-8")
+ fields=["entity_id","mobile_type_id","type_number","tier","enchant","x","y","first_seen_ms","last_seen_ms","observations","sizes_seen","state_timeline"]
+ with (DB/(stem+".csv")).open("w",newline="",encoding="utf-8") as f:
+  w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
+  for n in ordered:
+   x=n.copy();x["sizes_seen"]=";".join(map(str,x["sizes_seen"]));x["state_timeline"]=json.dumps(x["state_timeline"],separators=(",",":"));w.writerow(x)
+ summary=doc["counts"]
+ (ANALYSIS/(stem+".md")).write_text("# Capture ingest: "+stem+"\n\n"+"\n".join("- "+k+": "+str(v) for k,v in summary.items())+"\n\nState updates join only by exact runtime entity ID. State-only IDs remain separate.\n",encoding="utf-8")
+ return doc
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("inputs",nargs="+"); args=ap.parse_args()
-    for item in args.inputs:
-        p=pathlib.Path(item)
-        if p.suffix.lower()==".zip":
-            dest=pathlib.Path("/tmp/albion-ingest")/p.stem
-            dest.mkdir(parents=True,exist_ok=True)
-            with zipfile.ZipFile(p) as zf: safe_extract(zf,dest)
-            jsonls=list(dest.rglob("*.jsonl"))
-        elif p.suffix.lower()==".jsonl": jsonls=[p]
-        else: print("skip unsupported",p); continue
-        for jf in jsonls:
-            data=analyze_jsonl(jf)
-            print(jf.name, json.dumps(data["counts"],sort_keys=True))
-if __name__=="__main__": main()
+ ap=argparse.ArgumentParser();ap.add_argument("inputs",nargs="+");args=ap.parse_args()
+ for item in args.inputs:
+  p=pathlib.Path(item)
+  if p.suffix.lower()==".zip":
+   dest=pathlib.Path("/tmp/albion-ingest")/p.stem;dest.mkdir(parents=True,exist_ok=True)
+   with zipfile.ZipFile(p) as z:safe_extract(z,dest)
+   files=list(dest.rglob("*.jsonl"))
+  elif p.suffix.lower()==".jsonl":files=[p]
+  else:continue
+  for jf in files:
+   d=analyze(jf);print(jf.name,json.dumps(d["counts"],sort_keys=True))
+if __name__=="__main__":main()
