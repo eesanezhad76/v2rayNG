@@ -169,6 +169,10 @@ fun main() {
             replayStatuses[status] = (replayStatuses[status] ?: 0) + 1
         }
         val changedStatuses = setOf("OUTPUT_CHANGED_REVIEW_REQUIRED", "SOURCE_CHANGED_REVIEW_REQUIRED", "NEW_CAPTURE_REVIEW", "ANALYSIS_ERROR")
+        val currentReplayKeys = (0 until replayRows.length()).mapNotNull { replayRows.optJSONObject(it)?.optString("key") }.toSet()
+        val changedRows = (0 until replayRows.length()).mapNotNull { replayRows.optJSONObject(it) }
+            .filter { it.optString("status") in changedStatuses }
+        val missingBaselineKeys = baselineByKey.keys.filterNot { it in currentReplayKeys }
         val regressionText = buildString {
             appendLine("# Offline replay baseline comparison")
             appendLine()
@@ -177,6 +181,12 @@ fun main() {
             appendLine("Analysis errors: $failed")
             appendLine("Baseline: " + if (baselineExists) "existing baseline; unchanged" else if (baselineFile.isFile) "initialized" else "not initialized because analysis had errors")
             replayStatuses.toSortedMap().forEach { (status, count) -> appendLine("- $status: $count") }
+            appendLine()
+            appendLine("Captures requiring review:")
+            if (changedRows.isEmpty()) appendLine("- none")
+            else changedRows.forEach { appendLine("- ${it.optString("key")}: ${it.optString("status")}") }
+            appendLine("Baseline captures missing from this inbox: ${missingBaselineKeys.size}")
+            missingBaselineKeys.forEach { appendLine("- $it") }
             appendLine()
             appendLine("Changed fingerprints are review-required signals, not automatic proof of an algorithm defect.")
             appendLine("Different source hashes are never treated as algorithm regressions.")
@@ -759,6 +769,7 @@ fun main() {
         println("OBSERVATIONS total=" + allDetails.size + " own_player_move=" + movements.size)
         println("PCAP_AUDIT_COMPLETE archives=" + archives.size + " pcaps=" + total + " errors=" + failed)
         require(total > 0) { "No PCAP files were analyzed" }
+        require(failed == 0) { "PCAP replay/analysis failed for $failed files; refusing to mark audit ready." }
     } finally {
         temp.deleteRecursively()
     }

@@ -152,6 +152,19 @@ jobs:
         ./gradlew licenseFdroidReleaseReport
         ./gradlew assembleRelease -Pandroid.injected.signing.store.file=${{ steps.android_keystore.outputs.filePath }} -Pandroid.injected.signing.store.password=${{ secrets.APP_KEYSTORE_PASSWORD }} -Pandroid.injected.signing.key.alias=${{ secrets.APP_KEYSTORE_ALIAS }} -Pandroid.injected.signing.key.password=${{ secrets.APP_KEY_PASSWORD }}
     
+    - name: Generate Albion readiness report
+      if: always() && github.ref == 'refs/heads/albion-pattern-mining'
+      run: python3 research/tools/generate_readiness_report.py
+
+    - name: Upload Albion readiness report
+      if: always() && github.ref == 'refs/heads/albion-pattern-mining'
+      uses: actions/upload-artifact@v7
+      with:
+        name: albion-readiness-report
+        path: |
+          research/analysis/albion-readiness-report.md
+          research/analysis/albion-readiness-report.json
+        if-no-files-found: warn
     - name: Upload unit test diagnostics
       if: always()
       uses: actions/upload-artifact@v7
