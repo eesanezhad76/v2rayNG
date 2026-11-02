@@ -444,7 +444,7 @@ class AlbionCaptureWorker(
                 if (backup.exists()) backup.delete()
             }
             val report = AlbionCaptureAnalyzer.analyze(source, nativeTapDrops = tapDrops).asText() +
-                patternReport.asText() + (knowledgeStore?.summaryText() ?: "")
+                patternReport.asText() + (knowledgeStore?.summaryText() ?: "") + (autonomousPatternLearner?.summaryText() ?: "")
             val target = File(source.parentFile, source.nameWithoutExtension + ".report.txt")
             target.writeText(buildString {
                 append(report)
