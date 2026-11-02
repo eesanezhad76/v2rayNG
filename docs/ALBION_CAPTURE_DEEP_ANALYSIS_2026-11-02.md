@@ -18,7 +18,7 @@ Analyzed files:
 
 ## Critical schema distinction
 The existing mapper exposes two different numeric identifiers for a harvestable:
-- `mobile_type_id`: the game mobile/type code (for example, 573).
+- `mobile_type_id`: the game mobile/type code. The five-node T5 Normal cluster in this capture is **574**.
 - `type_number`: resource family number (for example, 29).
 Do not conflate either with the runtime entity ID (`entity_id`), which identifies one individual node instance.
 Event 40 carries the node's runtime ID, mobile type, resource family, tier, position, and size/state. Event 46 updates that same runtime ID's resource state. These exact IDs should be joined; proximity-only joins are unsafe.
@@ -26,15 +26,15 @@ Event 40 carries the node's runtime ID, mobile type, resource family, tier, posi
 ## Resource family evidence
 In the Ore-labeled capture, resource-family number 29 repeatedly appears in harvestable observations. The five-node cluster around the user's five consecutive T5 Normal Found markers has these exact nearby runtime entities/positions:
 
-| Runtime entity ID | Family number | Tier | Enchant raw | X | Y | Observed size/state |
+| Runtime entity ID | Mobile type ID | Family number | Tier | Enchant raw | X | Y | Observed size/state |
 |---:|---:|---:|---:|---:|---:|---:|
-| 36602 | 29 | 5 | 0 | -57.2258 | 382.6596 | 0 |
-| 36601 | 29 | 5 | 0 | -59.3886 | 379.9530 | 0 |
-| 36607 | 29 | 5 | 0 | -54.5323 | 381.6981 | 0 |
-| 39460 | 29 | 5 | 0 | -57.8493 | 380.3329 | 5 |
-| 39464 | 29 | 5 | 0 | -56.4080 | 382.8032 | 5 |
+| 36602 | **574** | 29 | 5 | 0 | -57.2258 | 382.6596 | 0 |
+| 36601 | **574** | 29 | 5 | 0 | -59.3886 | 379.9530 | 0 |
+| 36607 | **574** | 29 | 5 | 0 | -54.5323 | 381.6981 | 0 |
+| 39460 | **574** | 29 | 5 | 0 | -57.8493 | 380.3329 | 5 → 0 |
+| 39464 | **574** | 29 | 5 | 0 | -56.4080 | 382.8032 | 5 → 0 |
 
-These five IDs form a tight cluster (roughly 5.5 game units across). The three zero-size observations are consistent with depleted/empty nodes; the two size-5 observations are consistent with available nodes. Treat this as strong spatial/resource-family evidence, not yet a proven one-to-one assignment of each of the five manual Found/Start/Done cycles to a specific ID: the capture's resource snapshots are not emitted at the exact instant of every overlay click.
+These five IDs form a tight cluster (roughly 5.5 game units across). All five have the same **mobile_type_id=574**, family number 29, T5, enchant raw 0. The three nodes 36602/36601/36607 were observed at size 0. The other two have stronger depletion evidence: event 46 updated ID 39460 at 1793621336592, 1337138, 1337674, 1338205, 1338742 with size 4,3,2,1,0; ID 39464 at 1793621339723, 1340285, 1340827, 1341321, 1341879 with size 4,3,2,1,0. The exact runtime ID remains constant through each five-step depletion sequence. This proves these two individual nodes were harvested down to zero during the capture. It does not yet prove which exact Found marker belongs to each ID, because the server snapshots for these five entities occur after the manual marker sequence.
 
 Additional resource family/tier combinations were decoded in the same capture:
 - Family 29: T3, T4, T5 (Ore-labeled context).
@@ -49,7 +49,7 @@ Markers:
 - Five `gathering_completed` markers occurred at 1793621270797, 1793621280507, 1793621298035, 1793621304788, and 1793621313017.
 - Five `node_depleted` markers followed at 1793621271537, 1793621281038, 1793621298456, 1793621305212, and 1793621313553.
 - There are six `gathering_started` markers in this interval (1793621266974, 1273431, 1283104, 1293472, 1299976, 1307145). This mismatch is real and must be preserved in analysis, not silently forced into five pairs. It may represent a repeated/extra start tap or one start without a matching completion.
-- The five family-29 T5 Normal node entities listed above are observed in the same local resource cluster shortly after this sequence.
+- The five family-29 / mobile-type-574 T5 Normal node entities listed above are observed in the same local resource cluster shortly after this sequence. Two of them (39460 and 39464) have complete event-46 size countdowns from 5 to 0.
 
 ## Earlier labeled mining samples
 The marker stream also contains complete labeled sessions:
