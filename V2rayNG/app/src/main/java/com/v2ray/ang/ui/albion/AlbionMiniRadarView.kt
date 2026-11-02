@@ -113,7 +113,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
         entities.forEach { entity ->
             val kind = entity.optString("last_kind")
-            if (kind !in setOf("static_resource", "harvestable", "resource_state", "mob", "player_move")) return@forEach
+            if (kind !in setOf("static_resource", "harvestable", "resource_state", "mob")) return@forEach
             if (entity.optBoolean("depleted", false) || !validPoint(entity)) return@forEach
             val dx = entity.optDouble("x") - px
             val dy = entity.optDouble("y") - py
@@ -126,7 +126,6 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             paint.style = Paint.Style.FILL
             paint.color = when {
                 kind == "mob" -> 0xFFFF6666.toInt()
-                kind == "player_move" -> 0xFF6AB8FF.toInt()
                 candidateOnly -> 0xFF9AA6AF.toInt()
                 else -> 0xFFFFC45C.toInt()
             }
