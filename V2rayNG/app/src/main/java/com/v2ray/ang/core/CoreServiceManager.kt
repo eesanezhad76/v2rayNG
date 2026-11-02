@@ -302,6 +302,7 @@ object CoreServiceManager {
         return try {
             val tunFd = currentVpnInterface
 
+            val tapWasRequested = albionTapRequested
             isReloading = true
             connectionTestScope.coroutineContext.cancelChildren()
             val handoverStart = org.json.JSONObject()
@@ -392,8 +393,8 @@ object CoreServiceManager {
             readPacket = { readAlbionPacketTap() },
             dropped = { getAlbionPacketTapDropped() },
             disableTap = { disableAlbionPacketTap() },
-            queueDepth = { try { Libv2ray.packetTapQueued() } catch (_: Exception) { -1 } },
-            queueCapacity = { try { Libv2ray.packetTapCapacity() } catch (_: Exception) { -1 } },
+            queueDepth = { try { Libv2ray.packetTapQueued().toInt() } catch (_: Exception) { -1 } },
+            queueCapacity = { try { Libv2ray.packetTapCapacity().toInt() } catch (_: Exception) { -1 } },
             tapEnabled = { try { Libv2ray.packetTapEnabled() } catch (_: Exception) { false } }
         )
         if (!worker.start(service)) {
