@@ -204,6 +204,129 @@ fun main() {
             }
         }
         File(out, "2026-11-02-pcap-harvestable-nodes.csv").writeText(nodeCsv, Charsets.UTF_8)
+
+        // Preserve and correlate manually labelled overlay lifecycle markers with Event 40 nodes.
+        // This is candidate evidence only: time/tier/enchantment overlap does not prove entity identity.
+        data class OverlayMiningSample(
+            val archive: String, val pcap: String, val activity: String, val foundMs: Long,
+            val tierLabel: String?, val enchantLabel: String?,
+            var startedMs: Long? = null, var completedMs: Long? = null, var depletedMs: Long? = null
+        )
+        val pendingMarkers = linkedMapOf<String, MutableList<OverlayMiningSample>>()
+        val markerSamples = mutableListOf<OverlayMiningSample>()
+        var unmatchedStarts = 0
+        var unmatchedCompletions = 0
+        var unmatchedDepletions = 0
+        val markerDetails = allDetails.filter { field(it.third, "kind") == "manual_marker" }
+            .sortedBy { field(it.third, "t")?.toLongOrNull() ?: 0L }
+        fun markerKey(archive: String, pcap: String, activity: String) = archive + "\u001f" + pcap + "\u001f" + activity
+        for ((archive, pcap, detail) in markerDetails) {
+            val t = field(detail, "t")?.toLongOrNull() ?: continue
+            val activity = field(detail, "activity") ?: "Unknown"
+            val key = markerKey(archive, pcap, activity)
+            when (field(detail, "event")) {
+                "target_found" -> pendingMarkers.getOrPut(key) { mutableListOf() }.add(
+                    OverlayMiningSample(archive, pcap, activity, t, field(detail, "tier"), field(detail, "enchantment"))
+                )
+                "gathering_started" -> {
+                    val sample = pendingMarkers[key]?.firstOrNull { it.startedMs == null && it.completedMs == null }
+                    if (sample == null) unmatchedStarts++ else sample.startedMs = t
+                }
+                "gathering_completed" -> {
+                    val queue = pendingMarkers[key]
+                    val sample = queue?.firstOrNull { it.startedMs != null }
+                        ?: if (queue?.size == 1) queue.first() else null
+                    if (sample == null) unmatchedCompletions++ else {
+                        sample.completedMs = t
+                        queue?.remove(sample)
+                        markerSamples += sample
+                    }
+                }
+                "node_depleted" -> {
+                    val sample = markerSamples.firstOrNull {
+                        it.archive == archive && it.pcap == pcap && it.activity == activity &&
+                            it.completedMs != null && it.depletedMs == null && it.completedMs!! <= t
+                    }
+                    if (sample == null) unmatchedDepletions++ else sample.depletedMs = t
+                }
+            }
+        }
+        val markerCsv = buildString {
+            appendLine("archive,pcap,timestamp_ms,activity,event,tier_label,enchantment_label")
+            for ((archive, pcap, detail) in markerDetails) {
+                appendLine(listOf(archive, pcap, field(detail, "t") ?: "", field(detail, "activity") ?: "",
+                    field(detail, "event") ?: "", field(detail, "tier") ?: "", field(detail, "enchantment") ?: "")
+                    .joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-overlay-manual-markers.csv").writeText(markerCsv, Charsets.UTF_8)
+
+        data class FamilyEvidence(
+            val activity: String, val family: String,
+            val samples: MutableSet<String> = linkedSetOf(),
+            val captures: MutableSet<String> = linkedSetOf(),
+            var candidateNodes: Int = 0
+        )
+        val familyEvidence = linkedMapOf<String, FamilyEvidence>()
+        val correlationCsv = buildString {
+            appendLine("archive,pcap,activity,found_ms,started_ms,completed_ms,depleted_ms,tier_label,enchantment_label,candidate_node_count,candidate_families,candidate_entity_ids,match_status")
+            for (sample in markerSamples) {
+                val tierNumber = sample.tierLabel?.removePrefix("T")?.toIntOrNull()
+                val enchantNumber = when (sample.enchantLabel?.uppercase()?.replace(" ", "")) {
+                    "NORMAL", "E0", "0" -> "0"
+                    "E1", "ENCHANT1", "1" -> "1"
+                    "E2", "ENCHANT2", "2" -> "2"
+                    else -> null
+                }
+                val windowStart = sample.foundMs - 10_000L
+                val windowEnd = (sample.depletedMs ?: sample.completedMs ?: sample.foundMs) + 10_000L
+                val candidates = nodes.values.filter { node ->
+                    node.archive == sample.archive && node.pcap == sample.pcap &&
+                        node.first <= windowEnd && node.last >= windowStart &&
+                        (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
+                        (enchantNumber == null || node.enchants.contains(enchantNumber))
+                }
+                val familyCounts = linkedMapOf<String, Int>()
+                candidates.forEach { node ->
+                    node.families.filter { it.isNotBlank() && it != "-1" }.forEach { family ->
+                        familyCounts[family] = (familyCounts[family] ?: 0) + 1
+                    }
+                }
+                val singleFamily = familyCounts.keys.singleOrNull()
+                if (singleFamily != null) {
+                    val evidenceKey = sample.activity + "\u001f" + singleFamily
+                    val evidence = familyEvidence.getOrPut(evidenceKey) { FamilyEvidence(sample.activity, singleFamily) }
+                    evidence.samples += sample.archive + "\u001f" + sample.pcap + "\u001f" + sample.foundMs
+                    evidence.captures += sample.archive + "/" + sample.pcap
+                    evidence.candidateNodes += familyCounts[singleFamily] ?: 0
+                }
+                val status = when {
+                    candidates.isEmpty() -> "no_candidates"
+                    tierNumber == null || enchantNumber == null -> "incomplete_overlay_labels"
+                    familyCounts.isEmpty() -> "family_unavailable"
+                    familyCounts.size == 1 -> "single_family_candidate_only"
+                    else -> "ambiguous_families"
+                }
+                appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                    sample.startedMs?.toString() ?: "", sample.completedMs?.toString() ?: "", sample.depletedMs?.toString() ?: "",
+                    sample.tierLabel ?: "", sample.enchantLabel ?: "", candidates.size.toString(),
+                    familyCounts.entries.sortedBy { it.key }.joinToString("|") { it.key + ":" + it.value },
+                    candidates.joinToString("|") { it.id }, status).joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-overlay-family-correlation.csv").writeText(correlationCsv, Charsets.UTF_8)
+        val familySummaryCsv = buildString {
+            appendLine("overlay_activity,candidate_family,samples_with_single_family,distinct_pcaps,candidate_nodes,evidence_status")
+            for (evidence in familyEvidence.values.sortedWith(compareBy<FamilyEvidence> { it.activity }.thenBy { it.family })) {
+                val status = if (evidence.samples.size >= 3 && evidence.captures.size >= 2) "repeated_candidate_mapping" else "provisional_candidate_mapping"
+                appendLine(listOf(evidence.activity, evidence.family, evidence.samples.size.toString(),
+                    evidence.captures.size.toString(), evidence.candidateNodes.toString(), status)
+                    .joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-overlay-family-candidate-summary.csv").writeText(familySummaryCsv, Charsets.UTF_8)
+        println("OVERLAY_CORRELATION markers=${markerDetails.size} completed_samples=${markerSamples.size} single_family_candidates=${familyEvidence.size} unmatched_start=$unmatchedStarts unmatched_completed=$unmatchedCompletions unmatched_depleted=$unmatchedDepletions")
+
         val unmatchedStates = resourceStates.filterKeys { !nodes.containsKey(it) }
         val stateCsv = buildString {
             appendLine("archive,pcap,entity_id,first_state_ms,last_state_ms,state_event_count,state_values,has_event40_location")
