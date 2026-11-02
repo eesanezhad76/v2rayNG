@@ -73,15 +73,20 @@ Markers:
 - Required model: per-activity FIFO/deque of pending targets and explicit Found → Started → Completed → Depleted transitions; preserve unmatched/extra/duplicate markers with uncertainty rather than force-pairing.
 - Marker-to-node association requires exact evidence. Temporal/nearest-neighbor guesses must be labeled hypotheses.
 
-## 4. Player location and movement — HIGH PRIORITY, DO NOT FORGET
-The user explicitly recalls that an earlier movement test/capture allowed the assistant to determine the user's in-game coordinates. This is an important prior finding and must NOT be erased or dismissed merely because the latest capture analysis did not recover a validated trajectory.
-- Search prior commits, reports, chat handoff files, capture datasets, and earlier test results for the exact coordinate(s), capture filename, entity ID, event code, timestamp and method that previously identified the player's position.
-- Preserve the historical coordinate finding with its original provenance and confidence as soon as recovered.
-- Distinguish: one-time position fix, own-player entity ID, and a continuous player trajectory. They are not the same.
-- A player_spawn record showed player name `EDmars`, entity ID `23433`; this does not by itself prove movement coordinates.
-- Do not infer the player's location from arbitrary Event 3 movement records.
-- Investigate outbound movement requests, own-player entity updates, known player entity IDs, and packet timing. Record exact source packet/event, direction, entity ID, coordinate system, timestamps, and confidence.
-- If old coordinate evidence cannot be found in accessible repo/history, explicitly state that it is not yet recovered and keep the user's recollection as an unresolved lead. Never state categorically that it never existed.
+## 4. Player location and movement — VERIFIED FINDING RECOVERED
+The earlier player-position finding has been recovered from the committed movement captures and preserved in:
+- `research/analysis/player-position-evidence.md`
+- `research/database/player-position-evidence.json`
+- `research/decisions/001-own-player-position-op22.md`
+
+Verified evidence:
+- `Albions--run_and_stop-18-pcap-report.md`: 233 outbound operation-22 requests; example at t=1793399097905 ms, current position [-78.86469, 46.23921], heading 172.43239, target [-75.69194, 44.742764], speed 11.
+- `Albions--2_times_90degred_change_direction_-14-pcap-report.md`: 203 outbound operation-22 requests; example at t=1793399203561 ms, current position [-61.95968, 241.66254], heading 181.79382, target [-60.418728, 240.38028], speed 11.
+- Outbound Photon operation 22 parameter key 1 is the local player's current [x,y] pair. Key 2 is heading, key 3 is target pair, and key 4 is speed.
+- This is independent of the player_spawn observation EDmars / entity ID 23433. The local mapper uses entity_id=-1 only as a YOU sentinel; it is not a server runtime ID.
+- Do not use arbitrary Event 3 payloads as own-player coordinates; the reports show implausible Event 3 decoded values.
+- Two captures establish real position fixes and movement sequences, but do NOT establish zone identity, a global coordinate transform, or cross-zone coordinate continuity.
+- Code maps operation 22 and now stores a bounded 240-point trail. Mini radar and pan/zoom local-coordinate map render it.
 
 ## 5. Current architecture / app capabilities and limits
 Implemented in previous work (verify current code before claiming):
@@ -93,12 +98,19 @@ Implemented in previous work (verify current code before claiming):
 - Event 40 harvestable and Event 46 resource-state observations; Event 123 living entity observations.
 - Marker error visibility in overlay.
 
+Implemented in current branch (must still pass the current CI run before claiming build validation):
+- Mini radar plus a pan/zoom local-coordinate map screen, both fed from the daemon live-knowledge snapshot.
+- Own-player current position from outbound operation 22 and bounded persistent movement history.
+- Learned database ZIP export with a versioned manifest, entity/protocol counts and SHA-256 digests; excludes VPN profiles, credentials and raw PCAP payloads.
+- Regression tests for database bundle export and movement-trail persistence.
+
 Not yet proven/complete:
-- Live interactive map with player/resource pins.
-- Reliable own-player coordinate/trajectory reconstruction.
+- Physical-device rendering and live snapshot delivery on the user's Poco F5.
+- Zone identity and global/world-map coordinate transform; current map is a local coordinate plane, not a complete world map with terrain or roads.
 - Full mob Seen→Killed linkage and exact T4 golem runtime entity identification.
 - Calibrated statistical confidence (current confidence is heuristic).
-- Production-grade mappings for unknown resource families.
+- Production-grade mappings for unknown resource families and inventory Item IDs/stack deltas.
+- Safe import/merge of a centrally revised knowledge database into the phone; current implemented exchange is a privacy-minimal export bundle.
 - The capture-ingest workflow must be checked against actual ZIP and Actions logs; never assume it processed a particular archive just because the workflow exists.
 
 ## 6. Promotion policy: research → production APK
@@ -116,14 +128,15 @@ Not yet proven/complete:
 - No claim of physical installation/device testing unless the user explicitly confirms it.
 
 ## 8. Immediate next actions
-1. Verify current branch HEAD and latest Actions runs.
-2. Audit the research tree and current ingestion workflow; ensure original ZIPs are actually preserved in inbox (the chat-uploaded ZIP was analyzed, but do not claim raw ZIP was committed unless verified).
-3. Audit generated node database against raw JSONL. Confirm all 51 unique Event 40 nodes and all 65 Event 46 IDs are retained, with exact ID joins only.
-4. Retrieve the earlier user-position/movement test and exact coordinates from prior GitHub/chat/capture evidence; preserve it as a first-class report and test fixture.
-5. Implement marker FIFO/deque lifecycle and tests without losing unmatched markers.
-6. Improve mob/entity lifecycle and own-player movement correlation.
-7. Add a new capture whenever the user provides one; never ask for an already available capture again.
-8. Promote only verified findings to app code; build and verify CI afterward.
+1. Verify the latest build run for the current HEAD after the map, movement trail, and database-export changes; inspect Gradle tests, offline replay, Python tests, readiness report, APK signatures and all ABI artifacts.
+2. Keep the APK withheld until that current run passes and its artifacts are verified.
+3. Test database ZIP contents in CI and ensure export can run both during capture and after capture.
+4. Implement safe, provenance-preserving import/merge of a central knowledge bundle; do not join runtime node IDs across captures unless a zone/session scope is known.
+5. Investigate zone identity and map coordinate transforms without inventing map terrain or cross-zone continuity.
+6. Improve mob lifecycle/Seen→Killed linkage and inventory Item ID/stack-delta semantics only from direct evidence.
+7. Confirm the capture-ingest workflow processed the original ZIP archives and that all original raw captures remain preserved.
+8. On the first controlled device test, verify operation-22 player location, resource pins, Mob pins, overlay delivery, VPN forwarding, storage and long-session stability.
+9. Add new captures to the research vault without asking the user to resend evidence already present.
 
 ## 9. Required reporting format at each session end
 - Active branch + current HEAD SHA:
