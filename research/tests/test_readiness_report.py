@@ -66,9 +66,17 @@ class ReadinessReportTests(unittest.TestCase):
             "checks": [{"name": "Gradle tests", "status": "FAIL"}],
         }))
         self.assertEqual(0, readiness.report_exit_code({
-            "overall_status": "READY",
+            "overall_status": "READY_FOR_FIELD_TEST",
             "checks": [{"name": "APK", "status": "PASS"}],
         }))
+        self.assertEqual(2, readiness.report_exit_code({
+            "overall_status": "NOT_READY_FOR_FIELD_TEST",
+            "checks": [{"name": "Live capture", "status": "NOT_VERIFIED"}],
+        }, require_ready=True))
+        self.assertEqual(1, readiness.report_exit_code({
+            "overall_status": "BLOCKED",
+            "checks": [{"name": "APK", "status": "FAIL"}],
+        }, require_ready=True))
 
     def test_not_verified_does_not_fail_ci_but_explicit_fail_does(self):
         report = {

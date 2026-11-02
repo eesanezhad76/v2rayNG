@@ -2,6 +2,7 @@
 """Generate a conservative, evidence-backed Albion Radar readiness report."""
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import os
@@ -114,9 +115,13 @@ def summarize_signature(repo_root: Path) -> dict[str, Any]:
         r"(?:Signer #1:?\s*|V2 Signer:\s*)certificate SHA-256 digest:\s*([0-9a-fA-F:]+)",
         text,
     )
-    certificate_sha256 = cert_match.group(1).replace(":", "").lower() if cert_match else None
-    return {"status": "PASS" if verified else "FAIL", "signers": signers,
-            "certificate_sha256": certificate_sha256}
+    certificate_sha256 = re.sub(r"[^0-9a-fA-F]", "", cert_match.group(1)).lower() if cert_match else None
+    if certificate_sha256 and len(certificate_sha256) != 64:
+        certificate_sha256 = None
+    verified_certificate = verified and certificate_sha256 is not None
+    return {"status": "PASS" if verified_certificate else "FAIL", "signers": signers,
+            "certificate_sha256": certificate_sha256,
+            "reason": None if verified_certificate else "apksigner verification or SHA-256 certificate digest is missing"}
 
 
 def summarize_overlay_wiring(repo_root: Path) -> dict[str, Any]:
@@ -280,17 +285,33 @@ def write_report(repo_root: Path, report: dict[str, Any]) -> tuple[Path, Path]:
     return markdown_path, json_path
 
 
-def report_exit_code(report: dict[str, Any]) -> int:
-    """Fail CI on broken evidence checks, but keep NOT_VERIFIED as a reportable gate."""
-    return 1 if any(check["status"] == "FAIL" for check in report["checks"]) else 0
+def report_exit_code(report: dict[str, Any], require_ready: bool = False) -> int:
+    """Fail broken checks; optionally fail closed on any NOT_VERIFIED field-readiness gate."""
+    if any(check["status"] == "FAIL" for check in report["checks"]):
+        return 1
+    if require_ready and report["overall_status"] != "READY_FOR_FIELD_TEST":
+        return 2
+    return 0
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Generate Albion Radar readiness report")
+    parser.add_argument("--require-ready", action="store_true",
+                        help="Exit 2 unless every readiness gate is PASS and the report is READY_FOR_FIELD_TEST")
+    args = parser.parse_args(argv)
     repo_root = Path(__file__).resolve().parents[2]
     report = build_report(repo_root)
     markdown_path, json_path = write_report(repo_root, report)
-    print(json.dumps({"overall_status": report["overall_status"], "markdown": str(markdown_path), "json": str(json_path)}, indent=2))
-    return report_exit_code(report)
+    exit_code = report_exit_code(report, require_ready=args.require_ready)
+    print(json.dumps({
+        "overall_status": report["overall_status"],
+        "markdown": str(markdown_path),
+        "json": str(json_path),
+        "require_ready": args.require_ready,
+        "exit_code": exit_code,
+        "exit_policy": "FAIL checks always exit 1; NOT_VERIFIED is informational by default and exits 2 with --require-ready",
+    }, indent=2))
+    return exit_code
 
 
 if __name__ == "__main__":
