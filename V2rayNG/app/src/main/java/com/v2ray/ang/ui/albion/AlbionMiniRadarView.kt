@@ -49,7 +49,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val px = player.optDouble("x")
         val py = player.optDouble("y")
         return entities.asSequence()
-            .filter { it.optString("last_kind") in setOf("harvestable", "resource_state") }
+             .filter { it.optString("last_kind") in setOf("harvestable", "resource_state") }
+            .filter { it.optString("classification") == "typed_resource_observation" }
+            .filter { it.optString("evidence_grade") != "conflicting_typed_observation" }
             .filter { !it.optBoolean("depleted", false) && validPoint(it) }
             .filter { it.optInt("tier", -1) == targetTier && it.optInt("enchant", 0) == targetEnchant }
             .minByOrNull { hypot(it.optDouble("x") - px, it.optDouble("y") - py) }
@@ -93,14 +95,21 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             if (hypot(dx, dy) > range) return@forEach
             val x = cx + (dx / range * radius).toFloat()
             val y = cy + 5f * density - (dy / range * radius).toFloat()
+            val ambiguousResource = entity.optString("classification") == "ambiguous_resource_candidate" ||
+                entity.optString("evidence_grade") == "conflicting_typed_observation"
+            val candidateOnly = kind == "static_resource" || ambiguousResource
             paint.style = Paint.Style.FILL
-            paint.color = when (kind) {
-                "mob" -> 0xFFFF6666.toInt()
-                "player_move" -> 0xFF6AB8FF.toInt()
-                "static_resource" -> 0xFF9AA6AF.toInt()
+            paint.color = when {
+                kind == "mob" -> 0xFFFF6666.toInt()
+                kind == "player_move" -> 0xFF6AB8FF.toInt()
+                candidateOnly -> 0xFF9AA6AF.toInt()
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, 3.5f * density, paint)
+            if (candidateOnly) {
+                paint.textSize = 8f * density
+                canvas.drawText("?", x + 4f * density, y - 3f * density, paint)
+            }
             val tier = entity.optInt("tier", 0)
             if (tier in 2..8) {
                 paint.textSize = 8f * density
