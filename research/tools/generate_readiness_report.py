@@ -103,6 +103,24 @@ def summarize_pcap_audit(analysis_dir: Path) -> dict[str, Any]:
     return {"status": "NOT_VERIFIED", "archives": 0, "pcaps": 0, "unique_pcaps": 0, "duplicates": 0, "errors": 0}
 
 
+def summarize_spatial_alignment(repo_root: Path) -> dict[str, Any]:
+    database = repo_root / "research/database"
+    candidates = []
+    if database.is_dir():
+        for path in database.glob("*.json"):
+            try:
+                document = json.loads(path.read_text(encoding="utf-8"))
+                alignment = document.get("spatial_alignment")
+                if isinstance(alignment, dict):
+                    candidates.append((int(alignment.get("player_position_samples", 0)), path.name, alignment))
+            except (OSError, json.JSONDecodeError, TypeError, ValueError):
+                continue
+    if not candidates:
+        return {"status": "NOT_VERIFIED", "source": None}
+    _, source, alignment = max(candidates, key=lambda row: row[0])
+    return {"status": alignment.get("status", "NOT_VERIFIED"), "source": source, **alignment}
+
+
 def summarize_signature(repo_root: Path) -> dict[str, Any]:
     report = repo_root / "V2rayNG/app/build/reports/albion/apk-signature-verification.txt"
     if not report.is_file():
@@ -191,6 +209,7 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
     apk = inspect_apk(repo_root / "V2rayNG/app/build/outputs/apk/playstore/debug")
     signature = summarize_signature(repo_root)
     overlay_wiring = summarize_overlay_wiring(repo_root)
+    spatial_alignment = summarize_spatial_alignment(repo_root)
 
     unique = replay.get("unique", 0)
     quality_rows = 0
@@ -245,8 +264,11 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
          "evidence": "Family 29 is labelled Ore from independent capture evidence; T3-T5 mobile types are bounded to observed mappings; unknown -1 mobile-type sentinel is not treated as a real ID; inferred names carry visible provenance markers"},
         {"name": "Inventory Item ID and Stack Delta mapping", "status": "NOT_VERIFIED",
          "evidence": "Candidate parameter paths are not semantic mappings; real item IDs and stack deltas still require independent live evidence"},
+        {"name": "Same-capture player/resource coordinate alignment candidate",
+         "status": "PASS" if spatial_alignment.get("status") == "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" else "NOT_VERIFIED",
+         "evidence": f'source={spatial_alignment.get("source")}; player samples={spatial_alignment.get("player_position_samples", 0)}; resource nodes={spatial_alignment.get("resource_nodes", 0)}; median nearest distance={spatial_alignment.get("nearest_resource_to_player_distance_median", "n/a")}; candidate-only heuristic, not zone/global-map proof'},
         {"name": "Live spatial correlation", "status": "NOT_VERIFIED",
-         "evidence": "Offline candidates do not prove live entity identity"},
+         "evidence": "A same-capture coordinate-space heuristic does not replace live device verification of entity identity and zone continuity"},
         {"name": "Overlay Activity/Service process wiring", "status": overlay_wiring["status"],
          "evidence": f'Radar Activity process={overlay_wiring["activity_process"]}; Overlay Service process={overlay_wiring["service_process"]}'},
         {"name": "Live coordinate map screen wiring", "status": overlay_wiring.get("map_status", "NOT_VERIFIED"),
@@ -282,7 +304,7 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
         "commit_sha": env.get("GITHUB_SHA", "local"),
         "workflow_run_id": env.get("GITHUB_RUN_ID", "local"),
         "checks": checks,
-        "metrics": {"unit_tests": junit, "pcap_audit": pcap, "replay": replay, "quality_rows": quality_rows, "apk": apk, "signature": signature, "overlay_wiring": overlay_wiring},
+        "metrics": {"unit_tests": junit, "pcap_audit": pcap, "replay": replay, "quality_rows": quality_rows, "apk": apk, "signature": signature, "overlay_wiring": overlay_wiring, "spatial_alignment": spatial_alignment},
     }
 
 
