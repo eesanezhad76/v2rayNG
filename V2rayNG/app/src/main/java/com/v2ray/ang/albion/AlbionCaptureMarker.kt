@@ -1,13 +1,17 @@
 package com.v2ray.ang.albion
 
+import org.json.JSONObject
 import java.util.concurrent.atomic.AtomicInteger
 
-/** Builds a local-only synthetic IPv4 record for PCAP annotations. Never routed to the VPN/game. */
+/** Builds and validates a local-only synthetic IPv4 record for PCAP annotations. */
 object AlbionCaptureMarker {
+    private const val PREFIX = "ALBION_TAG_V1\n"
+    private const val ESCAPED_PREFIX = "ALBION_TAG_V1\\n"
     private val nextId = AtomicInteger(1)
 
     fun build(markerJson: String): ByteArray {
-        val payload = ("ALBION_TAG_V1\n" + markerJson).toByteArray(Charsets.UTF_8)
+        JSONObject(markerJson)
+        val payload = (PREFIX + markerJson).toByteArray(Charsets.UTF_8)
         require(payload.size <= 65515) { "Marker too large" }
         val packet = ByteArray(20 + payload.size)
         packet[0] = 0x45
@@ -29,5 +33,21 @@ object AlbionCaptureMarker {
         packet[10] = (checksum ushr 8).toByte()
         packet[11] = checksum.toByte()
         return packet
+    }
+
+    /** Accepts canonical newline framing and escaped framing emitted by older overlays. */
+    fun parse(packet: ByteArray): JSONObject {
+        require(packet.size >= 20) { "Marker packet is shorter than an IPv4 header" }
+        require((packet[0].toInt() and 0xf0) == 0x40) { "Marker is not IPv4" }
+        val headerLength = (packet[0].toInt() and 0x0f) * 4
+        require(headerLength >= 20 && headerLength < packet.size) { "Invalid marker IPv4 header length" }
+        require((packet[9].toInt() and 0xff) == 253) { "Not an Albion marker protocol record" }
+        val payload = String(packet, headerLength, packet.size - headerLength, Charsets.UTF_8)
+        val json = when {
+            payload.startsWith(PREFIX) -> payload.removePrefix(PREFIX)
+            payload.startsWith(ESCAPED_PREFIX) -> payload.removePrefix(ESCAPED_PREFIX)
+            else -> throw IllegalArgumentException("Unknown Albion marker prefix")
+        }
+        return JSONObject(json)
     }
 }

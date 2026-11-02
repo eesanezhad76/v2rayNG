@@ -22,6 +22,7 @@ import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
 import com.v2ray.ang.core.CoreServiceManager
+import com.v2ray.ang.albion.AlbionCaptureMarker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -150,7 +151,7 @@ class AlbionRadarActivity : ComponentActivity() {
                 status.text = "Marker not saved: start PCAP capture first."
                 return
             }
-            val packet = buildMarkerIpPacket(("ALBION_TAG_V1\\n" + marker).toByteArray(Charsets.UTF_8))
+            val packet = AlbionCaptureMarker.build(marker)
             val saved = CoreServiceManager.appendAlbionCaptureMarker(packet, System.currentTimeMillis())
             status.text = if (saved) "Activity marker saved in PCAP and JSONL." else "Marker not saved: capture writer is not active."
         }
@@ -169,29 +170,6 @@ class AlbionRadarActivity : ComponentActivity() {
         } catch (e: Exception) {
             status.text = "Could not start overlay: ${e.message}"
         }
-    }
-
-    private fun buildMarkerIpPacket(payload: ByteArray): ByteArray {
-        require(payload.size <= 65515) { "Marker too large" }
-        val packet = ByteArray(20 + payload.size)
-        packet[0] = 0x45
-        packet[2] = (packet.size ushr 8).toByte()
-        packet[3] = packet.size.toByte()
-        packet[4] = 0xA1.toByte()
-        packet[5] = 0x7B
-        packet[6] = 0x40
-        packet[8] = 64
-        packet[9] = 253.toByte()
-        packet[12] = 192.toByte(); packet[13] = 0; packet[14] = 2; packet[15] = 1
-        packet[16] = 192.toByte(); packet[17] = 0; packet[18] = 2; packet[19] = 2
-        System.arraycopy(payload, 0, packet, 20, payload.size)
-        var sum = 0L
-        for (i in 0 until 20 step 2) sum += ((packet[i].toInt() and 255) shl 8) + (packet[i + 1].toInt() and 255)
-        while ((sum shr 16) != 0L) sum = (sum and 0xffff) + (sum shr 16)
-        val checksum = sum.inv().toInt() and 0xffff
-        packet[10] = (checksum ushr 8).toByte()
-        packet[11] = checksum.toByte()
-        return packet
     }
 
     private fun observeCapture() {

@@ -156,18 +156,9 @@ object AlbionCaptureAnalyzer {
 
     private fun parseCheckpoint(ip: ByteArray): String? {
         return try {
-            val headerLength = (ip[0].toInt() and 15) * 4
-            if (headerLength < 20 || headerLength >= ip.size) return null
-            val payload = String(ip, headerLength, ip.size - headerLength, Charsets.UTF_8)
-            val escapedPrefix = "ALBION_TAG_V1\\n"
-            val actualPrefix = "ALBION_TAG_V1\n"
-            val prefix = when {
-                payload.startsWith(escapedPrefix) -> escapedPrefix
-                payload.startsWith(actualPrefix) -> actualPrefix
-                else -> return null
-            }
-            val marker = JSONObject(payload.removePrefix(prefix))
-            marker.optString("activity", "Unknown") + ": " + marker.optString("event", "event") + " @ " + marker.optLong("timestamp_ms")
+            val marker = AlbionCaptureMarker.parse(ip)
+            marker.optString("activity", "Unknown") + ": " +
+                marker.optString("event", "event") + " @ " + marker.optLong("timestamp_ms")
         } catch (_: Exception) { null }
     }
 

@@ -177,14 +177,14 @@ class AlbionCaptureWorker(
         val out = pcap ?: return false
         if (!running.get() || packet.size < 20) return false
         return try {
+            // Validate before writing either file, keeping PCAP and JSONL in sync.
+            val marker = AlbionCaptureMarker.parse(packet)
             out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
             out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
             out.writeInt(Integer.reverseBytes(packet.size))
             out.writeInt(Integer.reverseBytes(packet.size))
             out.write(packet)
-            val markerJson = String(packet, 20, packet.size - 20, Charsets.UTF_8)
-                .removePrefix("ALBION_TAG_V1\n")
-            log?.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", JSONObject(markerJson)).toString())
+            log?.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", marker).toString())
             log?.newLine()
             markerCount.incrementAndGet()
             out.flush()
