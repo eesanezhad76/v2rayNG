@@ -13,7 +13,12 @@
     "event46_exact_joins": 13,
     "state_only_ids": 52,
     "event123_living_entity_observations": 896,
-    "manual_markers": 175
+    "manual_markers": 175,
+    "resource_marker_cycles": 20,
+    "complete_resource_marker_cycles": 20,
+    "incomplete_resource_marker_cycles": 0,
+    "mob_marker_pairs": 1,
+    "unmatched_marker_events": 1
   },
   "nodes": [
     {
@@ -4144,6 +4149,268 @@
       "event": "capture_stopping",
       "activity": "Capture",
       "source": "capture_worker"
+    }
+  ],
+  "marker_lifecycles": [
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "found_ms": 1793620915594,
+      "started_ms": 1793620916536,
+      "completed_ms": 1793620921505,
+      "depleted_ms": 1793620922508,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "found_ms": 1793620927592,
+      "started_ms": 1793620930400,
+      "completed_ms": 1793620935788,
+      "depleted_ms": 1793620936449,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "found_ms": 1793620947719,
+      "started_ms": 1793620948345,
+      "completed_ms": 1793620951849,
+      "depleted_ms": 1793620952651,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793620974913,
+      "started_ms": 1793620976193,
+      "completed_ms": 1793620984501,
+      "depleted_ms": 1793620986063,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793621000943,
+      "started_ms": 1793621002805,
+      "completed_ms": 1793621006489,
+      "depleted_ms": 1793621007591,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793621016525,
+      "started_ms": 1793621017334,
+      "completed_ms": 1793621027027,
+      "depleted_ms": 1793621027628,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793621097283,
+      "started_ms": 1793621098569,
+      "completed_ms": 1793621103716,
+      "depleted_ms": 1793621104289,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793621134988,
+      "started_ms": 1793621138686,
+      "completed_ms": 1793621142232,
+      "depleted_ms": 1793621143299,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793621163531,
+      "started_ms": 1793621165769,
+      "completed_ms": 1793621170735,
+      "depleted_ms": 1793621171856,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793621238085,
+      "started_ms": 1793621241281,
+      "completed_ms": 1793621245195,
+      "depleted_ms": 1793621245779,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793621260195,
+      "started_ms": 1793621266974,
+      "completed_ms": 1793621270797,
+      "depleted_ms": 1793621271537,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793621261187,
+      "started_ms": 1793621273431,
+      "completed_ms": 1793621280507,
+      "depleted_ms": 1793621281038,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793621262149,
+      "started_ms": 1793621283104,
+      "completed_ms": 1793621298035,
+      "depleted_ms": 1793621298456,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793621263165,
+      "started_ms": 1793621293472,
+      "completed_ms": 1793621304788,
+      "depleted_ms": 1793621305212,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793621264543,
+      "started_ms": 1793621299976,
+      "completed_ms": 1793621313017,
+      "depleted_ms": 1793621313553,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793621338341,
+      "started_ms": 1793621340506,
+      "completed_ms": 1793621344054,
+      "depleted_ms": 1793621345011,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "found_ms": 1793621397952,
+      "started_ms": 1793621400269,
+      "completed_ms": 1793621404124,
+      "depleted_ms": 1793621404658,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793621421495,
+      "started_ms": 1793621423512,
+      "completed_ms": 1793621429607,
+      "depleted_ms": 1793621430117,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Mobs",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "found_ms": 1793621458722,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793621470263,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "found_ms": 1793621478267,
+      "started_ms": 1793621479087,
+      "completed_ms": 1793621483189,
+      "depleted_ms": 1793621483619,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793621489610,
+      "started_ms": 1793621492330,
+      "completed_ms": 1793621496676,
+      "depleted_ms": 1793621497391,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    }
+  ],
+  "unmatched_marker_events": [
+    {
+      "activity": "Ore",
+      "event": "gathering_started",
+      "timestamp_ms": 1793621307145,
+      "reason": "start_without_found"
     }
   ]
 }
