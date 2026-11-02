@@ -132,6 +132,26 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(summary.contains("No item ID, stack delta, or Ore identity is asserted"), summary)
     }
 
+    @Test fun duplicateBurstDoesNotInflateRepeatedEvidenceGrade() {
+        val store = AlbionLiveKnowledgeStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        val same = AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 2222L,
+            typeId = 574, typeNumber = 29, tier = 5, enchant = 1, x = 20f, y = 30f
+        )
+        store.observe(now, listOf(same))
+        store.observe(now + 100L, listOf(same))
+        store.observe(now + 200L, listOf(same))
+        var record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(record.optInt("sightings") == 1)
+        assertTrue(record.optString("evidence_grade") == "typed_single")
+        store.observe(now + 1_000L, listOf(same))
+        store.observe(now + 2_000L, listOf(same))
+        record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(record.optInt("sightings") == 3)
+        assertTrue(record.optString("evidence_grade") == "repeated_typed")
+    }
+
     @Test fun conflictingTypedEvidenceBecomesAmbiguousAndLowersEvidenceScore() {
         val store = AlbionLiveKnowledgeStore(context())
         val now = System.currentTimeMillis() + 1_000L

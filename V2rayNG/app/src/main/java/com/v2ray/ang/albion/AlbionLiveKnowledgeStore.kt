@@ -38,7 +38,19 @@ class AlbionLiveKnowledgeStore(
                     .put("sightings", 0)
             }
             record.put("last_seen_ms", timestampMs)
-            record.put("sightings", record.optInt("sightings") + 1)
+            val sightingSignature = listOf(
+                observation.kind, observation.eventCode, observation.typeId, observation.typeNumber,
+                observation.tier, observation.enchant, observation.x, observation.y
+            ).joinToString("|")
+            val lastCountedAt = record.optLong("last_sighting_counted_ms", Long.MIN_VALUE)
+            val signatureChanged = record.optString("last_sighting_signature") != sightingSignature
+            val sufficientlySeparated = lastCountedAt == Long.MIN_VALUE ||
+                (timestampMs >= lastCountedAt && timestampMs - lastCountedAt >= MIN_REPEAT_EVIDENCE_INTERVAL_MS)
+            if (signatureChanged || sufficientlySeparated) {
+                record.put("sightings", record.optInt("sightings") + 1)
+                record.put("last_sighting_signature", sightingSignature)
+                record.put("last_sighting_counted_ms", timestampMs)
+            }
             record.put("last_event_code", observation.eventCode)
             record.put("last_kind", observation.kind)
             observation.typeId?.let {
@@ -148,8 +160,11 @@ class AlbionLiveKnowledgeStore(
         val corroborated = records.values.count { it.optString("evidence_grade") == "corroborated_same_id" }
         val repeated = records.values.count { it.optString("evidence_grade") == "repeated_typed" }
         val ambiguous = records.values.count { it.optString("classification") == "ambiguous_resource_candidate" }
-        val averageEvidenceScore = if (records.isEmpty()) 0 else
-            records.values.sumOf { it.optInt("evidence_score") } / records.size
+        val evidenceBearing = records.values.filter {
+            it.has("mobile_type_id") || it.optString("last_kind") in RESOURCE_KINDS
+        }
+        val averageEvidenceScore = if (evidenceBearing.isEmpty()) 0 else
+            evidenceBearing.sumOf { it.optInt("evidence_score") } / evidenceBearing.size
         return buildString {
             appendLine()
             appendLine("Live knowledge cache")
@@ -221,7 +236,9 @@ class AlbionLiveKnowledgeStore(
     }
 
     private fun classification(record: JSONObject, conflicts: List<String>): String = when {
-        conflicts.isNotEmpty() -> "ambiguous_resource_candidate"
+        conflicts.isNotEmpty() && (record.has("family") || record.has("tier") || record.optString("last_kind") in RESOURCE_KINDS) ->
+            "ambiguous_resource_candidate"
+        conflicts.isNotEmpty() -> "ambiguous_entity"
         record.has("mobile_type_id") && record.has("tier") && record.has("x") && record.has("y") ->
             "typed_resource_observation"
         record.optString("last_kind") == "static_resource" && record.has("x") && record.has("y") ->
@@ -264,6 +281,8 @@ class AlbionLiveKnowledgeStore(
         const val MAX_RECORDS = 5000
         const val MAX_COORDINATE = 10000.0
         const val FLUSH_INTERVAL_MS = 2000L
+        const val MIN_REPEAT_EVIDENCE_INTERVAL_MS = 500L
+        val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
         val TRACKED_KINDS = setOf("static_resource", "harvestable", "resource_state", "mob", "leave", "player_move", "own_player_move")
     }
 }
