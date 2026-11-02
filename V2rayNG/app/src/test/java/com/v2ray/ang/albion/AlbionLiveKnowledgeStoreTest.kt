@@ -98,7 +98,7 @@ class AlbionLiveKnowledgeStoreTest {
         evidence.observe(now + 1_000L, 61, mapOf(0 to 777L))
         evidence.observe(now + 2_000L, 26, mapOf(0 to 123, 1 to intArrayOf(574, 1, 5)))
         val summary = evidence.summaryText()
-        assertTrue(summary.contains("Inventory events this capture: 1"), summary)
+        assertTrue(summary.contains("Inventory events retained across captures: 1"), summary)
         assertTrue(summary.contains("With a nearby typed resource event (candidate only): 1"), summary)
         assertTrue(summary.contains("type=574 tier=5"), summary)
         assertTrue(summary.contains("No item ID, stack delta, or Ore identity is asserted"), summary)
