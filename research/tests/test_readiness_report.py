@@ -49,7 +49,7 @@ class ReadinessReportTests(unittest.TestCase):
             result = readiness.summarize_signature(root)
             self.assertEqual("PASS", result["status"])
             self.assertEqual("abcd1234", result["certificate_sha256"])
-            report.write_text("V2 Signer: certificate SHA-256 digest: 0D:93:51:F7\\n", encoding="utf-8")
+            report.write_text("Verifies\\nNumber of signers: 1\\nV2 Signer: certificate SHA-256 digest: 0D:93:51:F7\\n", encoding="utf-8")
             result = readiness.summarize_signature(root)
             self.assertEqual("PASS", result["status"])
             self.assertEqual("0d9351f7", result["certificate_sha256"])
@@ -85,7 +85,7 @@ class ReadinessReportTests(unittest.TestCase):
             "workflow_run_id": "0",
             "checks": [{"name": "Live capture", "status": "NOT_VERIFIED", "evidence": "Device test pending"}],
         }
-        with mock.patch.object(readiness, "build_report", return_value=report), mock.patch.object(readiness, "write_report"):
+        with mock.patch.object(readiness, "build_report", return_value=report), mock.patch.object(readiness, "write_report", return_value=(Path("report.md"), Path("report.json"))):
             self.assertEqual(0, readiness.main())
 
         failed_report = {
@@ -93,7 +93,7 @@ class ReadinessReportTests(unittest.TestCase):
             "overall_status": "BLOCKED",
             "checks": [{"name": "APK build", "status": "FAIL", "evidence": "APK missing"}],
         }
-        with mock.patch.object(readiness, "build_report", return_value=failed_report), mock.patch.object(readiness, "write_report"):
+        with mock.patch.object(readiness, "build_report", return_value=failed_report), mock.patch.object(readiness, "write_report", return_value=(Path("report.md"), Path("report.json"))):
             self.assertEqual(1, readiness.main())
 
     def test_replay_requires_baseline_and_rejects_review_required_outputs(self):
