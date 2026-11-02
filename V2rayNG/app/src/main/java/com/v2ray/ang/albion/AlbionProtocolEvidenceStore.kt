@@ -9,10 +9,12 @@ import java.io.File
  * Persists raw, bounded Photon evidence around gathering and inventory changes.
  * Inventory parameter layouts are deliberately not interpreted until verified.
  */
-class AlbionProtocolEvidenceStore(context: Context) {
+class AlbionProtocolEvidenceStore(
+    context: Context,
+    private val sessionStartedMs: Long = System.currentTimeMillis()
+) {
     private val file = File(context.applicationContext.filesDir, "albion-protocol-evidence.json")
     private val events = ArrayList<JSONObject>()
-    private val sessionStartedMs = System.currentTimeMillis()
     private var dirty = false
     private var lastFlushMs = 0L
 

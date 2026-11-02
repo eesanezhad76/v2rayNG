@@ -12,12 +12,14 @@ import java.util.LinkedHashMap
  * It records observations emitted by the existing typed event mapper. It never
  * promotes a family/type to an Ore name by proximity or by a single sighting.
  */
-class AlbionLiveKnowledgeStore(context: Context) {
+class AlbionLiveKnowledgeStore(
+    context: Context,
+    private val sessionStartedMs: Long = System.currentTimeMillis()
+) {
     private val file = File(context.applicationContext.filesDir, "albion-live-knowledge.json")
     private val records = LinkedHashMap<String, JSONObject>()
     private var dirty = false
     private var lastFlushMs = 0L
-    private val sessionStartedMs = System.currentTimeMillis()
 
     init {
         load()

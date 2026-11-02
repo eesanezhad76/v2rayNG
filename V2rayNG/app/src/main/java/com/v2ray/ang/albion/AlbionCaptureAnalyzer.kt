@@ -63,7 +63,10 @@ object AlbionCaptureAnalyzer {
         }
     }
 
-    fun analyze(file: File): Report {
+    fun analyze(
+        file: File,
+        onDecodedMessage: ((Long, AlbionProtocol18Decoder.Message, List<AlbionEntityEventMapper.Observation>) -> Unit)? = null
+    ): Report {
         var packets = 0
         var albion = 0
         var valid = 0
@@ -166,7 +169,9 @@ object AlbionCaptureAnalyzer {
                                         detailed += "t=" + packetTimeMs + " kind=own_player_move_unparsed params=" + describeValue(message.parameters)
                                     }
                                 }
-                                AlbionEntityEventMapper.map(message).forEach { observation ->
+                                val mappedObservations = AlbionEntityEventMapper.map(message)
+                                onDecodedMessage?.invoke(packetTimeMs, message, mappedObservations)
+                                mappedObservations.forEach { observation ->
                                     entities[observation.kind] = (entities[observation.kind] ?: 0) + 1
                                     if (observation.kind in setOf("player_spawn", "player_move", "static_resource", "harvestable", "resource_state", "mob", "mob_state", "player_mounted", "move", "leave", "health", "energy", "health_regeneration", "energy_regeneration")) {
                                         detailed += buildString {

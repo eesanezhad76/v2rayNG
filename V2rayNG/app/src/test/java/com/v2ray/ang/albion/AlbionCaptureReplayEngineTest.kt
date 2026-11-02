@@ -3,6 +3,8 @@ package com.v2ray.ang.albion
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
+import android.content.Context
+import android.content.ContextWrapper
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.io.TempDir
 import java.io.DataOutputStream
@@ -11,6 +13,29 @@ import java.io.FileOutputStream
 
 class AlbionCaptureReplayEngineTest {
     @TempDir lateinit var tempDir: File
+
+    private fun context(): Context = object : ContextWrapper(null) {
+        override fun getApplicationContext(): Context = this
+        override fun getFilesDir(): File = tempDir
+        override fun getCacheDir(): File = tempDir
+    }
+
+    @Test fun replayPipelineUsesIsolatedStoresAndProducesOverlayCompatibleSnapshot() {
+        val capture = File(tempDir, "pipeline.pcap")
+        writePcap(capture, listOf(byteArrayOf(1, 2, 3), byteArrayOf(4, 5, 6)))
+        val pipeline = AlbionCaptureReplayEngine.replayPipeline(capture, context())
+        assertEquals(0, pipeline.entityCount)
+        assertEquals("[]", pipeline.knowledgeSnapshotJson)
+        assertTrue(pipeline.replay.report.ipPackets >= 2)
+        assertTrue(pipeline.protocolEvidenceSummary.contains("No Ore identity is asserted"))
+
+        val output = File(tempDir, "reports/pipeline.json")
+        AlbionCaptureReplayEngine.writePipelineJson(pipeline, output)
+        val json = output.readText()
+        assertTrue(json.contains("\"isolated_knowledge_store_replayed\": true"))
+        assertTrue(json.contains("\"daemon_live_store_mutated\": false"))
+        assertTrue(json.contains("\"overlay_delivery_verified\": false"))
+    }
 
     @Test fun replayIsDeterministicAndWritesAuditableScopeMetadata() {
         val capture = File(tempDir, "replay.pcap")
