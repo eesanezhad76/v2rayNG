@@ -57,7 +57,7 @@ class AlbionKnowledgeBundleTest {
         assertTrue(entries.containsKey("manifest.json"))
         assertTrue(entries.containsKey("live-knowledge.json"))
         assertTrue(entries.containsKey("protocol-evidence.json"))
-        assertTrue(entries.containsKey("learned-patterns.json"))\n        assertTrue(entries.containsKey("autonomous-patterns.json"))\n        assertEquals(4, manifest.getJSONObject("files").length())
+        assertTrue(entries.containsKey("learned-patterns.json"))\n        assertTrue(entries.containsKey("autonomous-patterns.json"))\n        assertEquals(5, manifest.getJSONObject("files").length())
         assertTrue(entries.containsKey("pattern-learning-report.txt"))
         assertTrue(summary.patternReportIncluded)
         assertTrue(summary.patternDatabaseIncluded)
