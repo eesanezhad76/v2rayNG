@@ -3,6 +3,8 @@ package com.v2ray.ang.albion
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Assumptions.assumeTrue
+import java.util.zip.ZipFile
 import android.content.Context
 import android.content.ContextWrapper
 import org.junit.jupiter.api.Test
@@ -43,6 +45,50 @@ class AlbionCaptureReplayEngineTest {
         assertTrue(json.contains("\"overlay_delivery_verified\": false"))
         assertTrue(json.contains("\"overlay_snapshot_valid\": true"))
         assertTrue(json.contains("\"overlay_accepted_entity_count\": 0"))
+    }
+
+    @Test fun replaysCommittedInboxCapturesThroughKnowledgeEvidenceAndOverlayParser() {
+        val inbox = File("../research/inbox")
+        val archives = inbox.listFiles()?.filter { it.isFile && it.extension.equals("zip", ignoreCase = true) }
+            ?.sortedBy { it.name }.orEmpty()
+        assumeTrue(archives.isNotEmpty(), "No committed PCAP inbox archives are available in this checkout")
+
+        var decodedPhotonPackets = 0
+        var harvestFinishedEvents = 0
+        var inventoryEvents = 0
+        var validOverlaySnapshots = 0
+        archives.forEachIndexed { archiveIndex, archiveFile ->
+            ZipFile(archiveFile).use { zip ->
+                val entries = zip.entries().asSequence()
+                    .filter { !it.isDirectory && it.name.endsWith(".pcap", ignoreCase = true) }
+                    .toList()
+                entries.forEachIndexed { entryIndex, entry ->
+                    val capture = File(tempDir, "inbox-$archiveIndex-$entryIndex.pcap")
+                    zip.getInputStream(entry).use { input ->
+                        capture.outputStream().use { output -> input.copyTo(output) }
+                    }
+                    val result = AlbionCaptureReplayPipeline.replay(capture, context())
+                    if (result.replay.report.validPhotonPackets > 0) {
+                        decodedPhotonPackets += result.replay.report.validPhotonPackets
+                        val harvest = Regex("HarvestFinished events retained across captures: (\\d+)")
+                            .find(result.protocolEvidenceSummary)?.groupValues?.getOrNull(1)?.toIntOrNull() ?: 0
+                        val inventory = Regex("Inventory events retained across captures: (\\d+)")
+                            .find(result.protocolEvidenceSummary)?.groupValues?.getOrNull(1)?.toIntOrNull() ?: 0
+                        harvestFinishedEvents += harvest
+                        inventoryEvents += inventory
+                        assertTrue(result.overlaySnapshotValid, "Overlay snapshot rejected for ${archiveFile.name}:${entry.name}")
+                        validOverlaySnapshots++
+                    }
+                    capture.delete()
+                }
+            }
+        }
+        assertTrue(decodedPhotonPackets > 0, "No committed PCAP produced valid Photon packets")
+        assertTrue(harvestFinishedEvents > 0, "No HarvestFinished events were replayed from committed captures")
+        assertTrue(inventoryEvents > 0, "No Inventory events were replayed from committed captures")
+        assertTrue(validOverlaySnapshots > 0, "No overlay-compatible snapshots were produced")
+        assertTrue(!File(tempDir, "albion-live-knowledge.json").exists())
+        assertTrue(!File(tempDir, "albion-protocol-evidence.json").exists())
     }
 
     @Test fun replayIsDeterministicAndWritesAuditableScopeMetadata() {
