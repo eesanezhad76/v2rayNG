@@ -37,26 +37,16 @@ class AlbionWorldMapView(context: Context) : View(context) {
     })
 
     fun setSnapshot(json: String): Boolean {
-        val array = try { JSONArray(json) } catch (_: Exception) {
+        val parsed = AlbionRadarSnapshotParser.parse(json)
+        if (parsed == null) {
             entities = emptyList()
             player = null
+            invalidCount = 0
             invalidate()
             return false
         }
-        val parsed = ArrayList<JSONObject>(array.length())
-        invalidCount = 0
-        for (index in 0 until array.length()) {
-            val item = array.optJSONObject(index)
-            if (item == null) { invalidCount++; continue }
-            val x = item.optDouble("x", Double.NaN)
-            val y = item.optDouble("y", Double.NaN)
-            if (!x.isFinite() || !y.isFinite() || abs(x) > 10000.0 || abs(y) > 10000.0) {
-                invalidCount++
-                continue
-            }
-            parsed.add(JSONObject(item.toString()))
-        }
-        entities = parsed
+        entities = parsed.entities
+        invalidCount = parsed.invalidCoordinateCount
         player = entities.filter { it.optString("last_kind") == "own_player_move" }
             .maxByOrNull { it.optLong("last_seen_ms") }
         invalidate()
@@ -143,11 +133,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
             canvas.drawCircle(x, y, 4.2f * density, paint)
             paint.color = 0xFFEAF1F5.toInt()
             paint.textSize = 9f * density
-            val label = when (kind) {
-                "mob" -> entity.optString("name").takeIf { it.isNotBlank() } ?: "Mob ID${entity.optInt("mobile_type_id")}"
-                "player_move" -> entity.optString("name").takeIf { it.isNotBlank() } ?: "Player"
-                else -> (if (candidate) "? " else "") + (if (entity.has("tier")) "T${entity.optInt("tier")}" else "Resource")
-            }
+            val label = AlbionRadarSnapshotParser.labelForEntity(entity)
             canvas.drawText(label, x + 6f * density, y - 5f * density, paint)
         }
 
