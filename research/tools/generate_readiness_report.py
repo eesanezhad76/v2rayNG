@@ -217,7 +217,7 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
         {"name": "Live packet capture", "status": "NOT_VERIFIED",
          "evidence": "Requires an on-device live Albion capture"},
         {"name": "Inventory schema candidate analysis", "status": "PASS" if junit["status"] == "PASS" and any("AlbionInventoryEvidenceAnalyzerTest" in name for name in junit.get("suite_names", [])) else "NOT_VERIFIED",
-         "evidence": "Repeated numeric parameter paths are reported only as unclassified candidates across at least three independent harvest completions"},
+         "evidence": "Committed PCAPs are replayed into isolated Inventory/Harvest evidence stores; repeated numeric paths and adjacent deltas remain unclassified candidates, not Item ID or stack mappings"},
         {"name": "Entity evidence ambiguity and conflict scoring", "status": "PASS" if junit["status"] == "PASS" and any("AlbionLiveKnowledgeStoreTest" in name for name in junit.get("suite_names", [])) else "NOT_VERIFIED",
          "evidence": "Conflicting type/family/tier/enchant evidence is downgraded to ambiguous; duplicate bursts are not counted as repeated independent sightings; scores are heuristics, not probabilities"},
         {"name": "Inventory Item ID and Stack Delta mapping", "status": "NOT_VERIFIED",
