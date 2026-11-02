@@ -49,10 +49,10 @@ class AlbionPatternMinerTest {
             """{"time_ms":1000,"manual_marker":{"timestamp_ms":1000,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"E1"}}""",
             """{"time_ms":1500,"manual_marker":{"timestamp_ms":1500,"activity":"Ore","event":"target_found","tier":"T4","enchantment":"E2"}}""",
             """{"time_ms":1750,"manual_marker":{"timestamp_ms":1750,"activity":"Ore","event":"gathering_started"}}""",
-            """{"time_ms":2000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":701,"mobile_type_id":574,"tier":5,"enchant":1}]}""",
+            """{"time_ms":2000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":701,"mobile_type_id":574,"family":29,"tier":5,"enchant":1}]}""",
             """{"time_ms":3000,"manual_marker":{"timestamp_ms":3000,"activity":"Ore","event":"gathering_completed"}}""",
             """{"time_ms":3500,"manual_marker":{"timestamp_ms":3500,"activity":"Ore","event":"gathering_started"}}""",
-            """{"time_ms":4000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":702,"mobile_type_id":573,"tier":4,"enchant":2}]}""",
+            """{"time_ms":4000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":702,"mobile_type_id":573,"family":29,"tier":4,"enchant":2}]}""",
             """{"time_ms":5000,"manual_marker":{"timestamp_ms":5000,"activity":"Ore","event":"gathering_completed"}}"""
         ).joinToString("\n"))
         val report = AlbionPatternMiner.analyze(file)
@@ -63,6 +63,9 @@ class AlbionPatternMinerTest {
         val second = report.patterns.first { it.kind == "harvestable" && it.overlayTierLabel == "T4" }
         assertEquals(574, first.typeId)
         assertEquals(573, second.typeId)
+        assertEquals(29, first.family)
+        assertEquals(29, second.family)
+        assertTrue(report.asText().contains("resource=Ore"))
         assertEquals(1, first.distinctEntities)
         assertEquals(1, second.distinctEntities)
     }
@@ -70,10 +73,10 @@ class AlbionPatternMinerTest {
     @Test fun doesNotAttachPacketsObservedBeforeFoundMarker() {
         val file = File(tempDir, "pre-marker.jsonl")
         file.writeText(listOf(
-            """{"time_ms":1000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":801,"mobile_type_id":574,"tier":5,"enchant":1}]}""",
+            """{"time_ms":1000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":801,"mobile_type_id":574,"family":29,"tier":5,"enchant":1}]}""",
             """{"time_ms":2000,"manual_marker":{"timestamp_ms":2000,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"E1"}}""",
             """{"time_ms":2500,"manual_marker":{"timestamp_ms":2500,"activity":"Ore","event":"gathering_started"}}""",
-            """{"time_ms":3000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":802,"mobile_type_id":574,"tier":5,"enchant":1}]}""",
+            """{"time_ms":3000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":802,"mobile_type_id":574,"family":29,"tier":5,"enchant":1}]}""",
             """{"time_ms":4000,"manual_marker":{"timestamp_ms":4000,"activity":"Ore","event":"gathering_completed"}}"""
         ).joinToString("\n"))
         val report = AlbionPatternMiner.analyze(file)
