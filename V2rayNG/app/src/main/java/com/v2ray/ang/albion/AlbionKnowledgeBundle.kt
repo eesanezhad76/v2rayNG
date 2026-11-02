@@ -20,6 +20,7 @@ object AlbionKnowledgeBundle {
     const val SCHEMA_VERSION = 1
     private const val LIVE_FILE = "albion-live-knowledge.json"
     private const val PROTOCOL_FILE = "albion-protocol-evidence.json"
+    private const val MAX_PATTERN_REPORT_BYTES = 4L * 1024L * 1024L
 
     data class Summary(
         val entityRecords: Int,
@@ -35,9 +36,10 @@ object AlbionKnowledgeBundle {
         val protocol = readJsonArray(dir.resolve(PROTOCOL_FILE))
         val liveBytes = live.toByteArray(Charsets.UTF_8)
         val protocolBytes = protocol.toByteArray(Charsets.UTF_8)
-        val captureDir = context.getExternalFilesDir(null)?.resolve("AlbionCaptures")
-        val latestPatternReport = captureDir?.listFiles()
-            ?.filter { it.isFile && it.name.endsWith(".report.txt") }
+        val captureRoot = context.getExternalFilesDir(null) ?: dir
+        val captureDir = captureRoot.resolve("AlbionCaptures")
+        val latestPatternReport = captureDir.listFiles()
+            ?.filter { it.isFile && it.name.endsWith(".report.txt") && it.length() <= MAX_PATTERN_REPORT_BYTES }
             ?.maxByOrNull { it.lastModified() }
         val patternReportBytes = latestPatternReport?.readBytes()
         val manifest = JSONObject()
