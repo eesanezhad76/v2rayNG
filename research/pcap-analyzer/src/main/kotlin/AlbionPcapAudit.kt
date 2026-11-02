@@ -252,10 +252,13 @@ fun main() {
         val event123Types = mutableMapOf<String, String>()
         val event123Names = mutableMapOf<String, String>()
         val leaveKeys = mutableSetOf<String>()
+        val leaveTimes = mutableMapOf<String, Long>()
         val healthCounts = mutableMapOf<String, Int>()
         val energyCounts = mutableMapOf<String, Int>()
         val healthCurrentSamples = mutableMapOf<String, MutableList<Double>>()
         val energyCurrentSamples = mutableMapOf<String, MutableList<Double>>()
+        val healthDeltaSamples = mutableMapOf<String, MutableList<Double>>()
+        val healthSourceIds = mutableMapOf<String, MutableSet<String>>()
         fun littleFloat(hex: String, byteOffset: Int): Double? {
             val start = byteOffset * 2
             if (start + 8 > hex.length) return null
@@ -282,11 +285,15 @@ fun main() {
                     field(detail, "name")?.let { event123Names[key] = it }
                 }
             }
-            if (detail.contains("kind=leave")) field(detail, "id")?.let { leaveKeys += keyFor(it) }
+            if (detail.contains("kind=leave")) field(detail, "id")?.let {
+                val key = keyFor(it); leaveKeys += key; leaveTimes[key] = t
+            }
             if (detail.contains("kind=health")) field(detail, "id")?.let { id ->
                 val key = keyFor(id)
                 healthCounts[key] = (healthCounts[key] ?: 0) + 1
                 field(detail, "secondary_value")?.toDoubleOrNull()?.let { healthCurrentSamples.getOrPut(key) { mutableListOf() }.add(it) }
+                field(detail, "value")?.toDoubleOrNull()?.let { healthDeltaSamples.getOrPut(key) { mutableListOf() }.add(it) }
+                field(detail, "source_entity_id")?.let { healthSourceIds.getOrPut(key) { sortedSetOf() }.add(it) }
             }
             if (detail.contains("kind=energy")) field(detail, "id")?.let { id ->
                 val key = keyFor(id)
@@ -313,7 +320,7 @@ fun main() {
             }
         }
         val attackCsv = buildString {
-            appendLine("archive,pcap,target_entity_id,attack_action_count,attack_flag_values,first_attack_ms,last_attack_ms,event3_position_samples,first_position_x,first_position_y,last_position_x,last_position_y,min_x,max_x,min_y,max_y,event123_mobile_type,event123_name,known_player_spawn,leave_observed,health_observations,min_current_health,max_current_health,last_current_health,energy_observations,min_current_energy,max_current_energy,last_current_energy,interpretation")
+            appendLine("archive,pcap,target_entity_id,attack_action_count,attack_flag_values,first_attack_ms,last_attack_ms,event3_position_samples,first_position_x,first_position_y,last_position_x,last_position_y,min_x,max_x,min_y,max_y,event123_mobile_type,event123_name,known_player_spawn,leave_observed,leave_after_last_attack,health_observations,health_delta_samples,sum_health_delta,health_source_entity_ids,min_current_health,max_current_health,last_current_health,energy_observations,min_current_energy,max_current_energy,last_current_energy,interpretation")
             for ((key, values) in attacks.toSortedMap()) {
                 val parts = key.split("\u001f")
                 val ordered = values.sortedBy { it.t }
@@ -330,7 +337,11 @@ fun main() {
                     ys.minOrNull()?.toString() ?: "", ys.maxOrNull()?.toString() ?: "",
                     event123Types[key] ?: "", event123Names[key] ?: "",
                     (key in playerIds).toString(), (key in leaveKeys).toString(),
+                    ((leaveTimes[key] ?: Long.MIN_VALUE) > (ordered.lastOrNull()?.t ?: Long.MAX_VALUE)).toString(),
                     (healthCounts[key] ?: 0).toString(),
+                    (healthDeltaSamples[key]?.size ?: 0).toString(),
+                    healthDeltaSamples[key]?.sum()?.toString() ?: "",
+                    healthSourceIds[key]?.joinToString("|") ?: "",
                     healthCurrentSamples[key]?.minOrNull()?.toString() ?: "",
                     healthCurrentSamples[key]?.maxOrNull()?.toString() ?: "",
                     healthCurrentSamples[key]?.lastOrNull()?.toString() ?: "",
@@ -340,6 +351,14 @@ fun main() {
                     energyCurrentSamples[key]?.lastOrNull()?.toString() ?: "",
                     when {
                         key in playerIds -> "player_spawn_known_do_not_classify_as_mob"
+                        (leaveTimes[key] ?: Long.MIN_VALUE) > (ordered.lastOrNull()?.t ?: Long.MAX_VALUE) &&
+                            (healthCurrentSamples[key]?.minOrNull() ?: Double.POSITIVE_INFINITY) <= 5.0 ->
+                            "health_at_or_below_5_then_leave_after_attack_strong_defeat_candidate"
+                        (leaveTimes[key] ?: Long.MIN_VALUE) > (ordered.lastOrNull()?.t ?: Long.MAX_VALUE) &&
+                            (healthCurrentSamples[key]?.isNotEmpty() == true) ->
+                            "health_updates_then_leave_after_attack_defeat_likely_not_confirmed"
+                        (leaveTimes[key] ?: Long.MIN_VALUE) > (ordered.lastOrNull()?.t ?: Long.MAX_VALUE) ->
+                            "leave_after_attack_but_no_target_health_samples_defeat_unconfirmed"
                         event123Types.containsKey(key) -> "event123_mobile_entity_attack_target_kill_not_proven"
                         positions.isNotEmpty() -> "attack_target_with_plausible_mode3_movement_kill_not_proven"
                         else -> "attack_target_only_entity_type_unresolved_kill_not_proven"
