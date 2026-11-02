@@ -65,9 +65,13 @@ object AlbionEntityEventMapper {
                     listOf(Observation("move", code, id, x = xy?.first, y = xy?.second))
                 } else emptyList()
             }
-            6, 8 -> {
+            6 -> {
                 val id = number(0) ?: number(6) ?: return emptyList()
                 listOf(Observation("health", code, entityId = id, value = float(2), secondaryValue = float(3)))
+            }
+            8 -> {
+                val id = number(0) ?: number(6) ?: return emptyList()
+                listOf(Observation("energy", code, entityId = id, value = float(2), secondaryValue = float(3)))
             }
             29 -> {
                 val id = number(0) ?: return emptyList()
@@ -116,6 +120,10 @@ object AlbionEntityEventMapper {
             91 -> {
                 val id = number(6) ?: number(0) ?: return emptyList()
                 listOf(Observation("health_regeneration", code, entityId = id, value = float(2), secondaryValue = float(3)))
+            }
+            92 -> {
+                val id = number(6) ?: number(0) ?: return emptyList()
+                listOf(Observation("energy_regeneration", code, entityId = id, value = float(2), secondaryValue = float(3)))
             }
             123 -> {
                 val id = number(0) ?: return emptyList()
