@@ -231,6 +231,46 @@ fun main() {
         }
         File(out, "2026-11-02-pcap-harvestable-nodes.csv").writeText(nodeCsv, Charsets.UTF_8)
 
+        data class ResourcePatternAgg(
+            val family: String, val tier: String, val enchant: String, val mobileType: String,
+            val entities: MutableSet<String> = linkedSetOf(),
+            val captures: MutableSet<String> = linkedSetOf(),
+            var coordinateEntities: Int = 0
+        )
+        val resourcePatterns = linkedMapOf<String, ResourcePatternAgg>()
+        for ((nodeKey, node) in nodes) {
+            val families = node.families.filter { it.isNotBlank() && it != "-1" }.ifEmpty { listOf("unknown") }
+            val tiers = node.tiers.ifEmpty { listOf("unknown") }
+            val enchants = node.enchants.ifEmpty { listOf("unknown") }
+            val mobileTypes = node.mobileTypes.ifEmpty { listOf("unknown") }
+            for (family in families) for (tier in tiers) for (enchant in enchants) for (mobileType in mobileTypes) {
+                val patternKey = listOf(family, tier, enchant, mobileType).joinToString("|")
+                val pattern = resourcePatterns.getOrPut(patternKey) {
+                    ResourcePatternAgg(family, tier, enchant, mobileType)
+                }
+                pattern.entities += nodeKey
+                pattern.captures += node.archive + "/" + node.pcap
+                if (node.coordinates.isNotEmpty()) pattern.coordinateEntities++
+            }
+        }
+        val patternCsv = buildString {
+            appendLine("family,tier,enchantment_raw,mobile_type,unique_entities,distinct_pcaps,entities_with_coordinates,evidence_strength")
+            for (pattern in resourcePatterns.values.sortedWith(
+                compareBy<ResourcePatternAgg> { it.family }.thenBy { it.tier }.thenBy { it.enchant }.thenBy { it.mobileType }
+            )) {
+                val strength = when {
+                    pattern.entities.size >= 5 && pattern.captures.size >= 2 -> "repeated_multi_capture"
+                    pattern.entities.size >= 2 && pattern.captures.size >= 2 -> "multi_capture_provisional"
+                    pattern.entities.size >= 2 -> "single_capture_repeated"
+                    else -> "single_observation"
+                }
+                appendLine(listOf(pattern.family, pattern.tier, pattern.enchant, pattern.mobileType,
+                    pattern.entities.size.toString(), pattern.captures.size.toString(),
+                    pattern.coordinateEntities.toString(), strength).joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-resource-pattern-frequency.csv").writeText(patternCsv, Charsets.UTF_8)
+
         // Preserve and correlate manually labelled overlay lifecycle markers with Event 40 nodes.
         // This is candidate evidence only: time/tier/enchantment overlap does not prove entity identity.
         data class OverlayMiningSample(
