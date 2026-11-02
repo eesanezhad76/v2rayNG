@@ -113,7 +113,7 @@ class AlbionProtocolEvidenceStore(
                 appendLine("candidate event=" + candidate.eventCode + " path=" + candidate.parameterPath + " independent_harvests=" + candidate.independentHarvests + " observations=" + candidate.observations + " distinct_values=" + candidate.distinctValues + " range=" + candidate.minimum + ".." + candidate.maximum)
             }
             details.takeLast(5).forEach { appendLine(it) }
-            append("Candidate parameter paths are not Item ID or Stack Delta mappings. No Ore identity is asserted.")
+            append("No item ID, stack delta, or Ore identity is asserted. Candidate parameter paths are not semantic mappings.")
         }
     }
 
