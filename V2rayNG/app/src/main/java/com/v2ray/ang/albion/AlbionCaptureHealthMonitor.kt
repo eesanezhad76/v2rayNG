@@ -56,6 +56,7 @@ class AlbionCaptureHealthMonitor {
             entityAge > EVENT_STALE_MS -> "ENTITY_STALE"
             snapshotAge == null -> "WAITING_FOR_OVERLAY_SNAPSHOT"
             overlayAge == null -> "WAITING_FOR_OVERLAY_ACCEPTANCE"
+            overlayEntityCount == 0 -> "OVERLAY_EMPTY"
             overlayAge > OVERLAY_STALE_MS -> "OVERLAY_STALE"
             else -> "PIPELINE_ACTIVE"
         }

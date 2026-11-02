@@ -22,6 +22,32 @@ class AlbionPipelineSelfTest {
             kind = "event", dispatchCode = code, realCode = code, parameters = parameters
         )
 
+    @Test fun harvestLifecycleAndInventoryChangesAreRetainedAsRawEvidence() {
+        val evidence = AlbionProtocolEvidenceStore(context())
+        val now = System.currentTimeMillis() + 2_000L
+        evidence.observe(now, 59, mapOf(0 to 777L))
+        evidence.observe(now + 500L, 60, mapOf(0 to 777L))
+        evidence.observe(now + 1_000L, 61, mapOf(0 to 777L))
+        evidence.observe(now + 1_100L, 26, mapOf(0 to 123456, 1 to 1))
+        evidence.flush()
+        val summary = evidence.summaryText()
+        assertTrue(summary.contains("HarvestStart events retained across captures: 1"))
+        assertTrue(summary.contains("HarvestCancel events retained across captures: 1"))
+        assertTrue(summary.contains("HarvestFinished events retained across captures: 1"))
+        assertTrue(summary.contains("Inventory events retained across captures: 1"))
+        assertTrue(summary.contains("No Ore identity is asserted"))
+    }
+
+    @Test fun corruptProtocolEvidenceCacheIsIgnoredAndRebuiltWithoutCrashing() {
+        File(tempDir, "albion-protocol-evidence.json").writeText("{corrupt-json")
+        val evidence = AlbionProtocolEvidenceStore(context())
+        evidence.observe(System.currentTimeMillis() + 2_000L, 61, mapOf(0 to 77L))
+        evidence.flush()
+        val persisted = JSONArray(File(tempDir, "albion-protocol-evidence.json").readText())
+        assertEquals(1, persisted.length())
+        assertEquals(61, persisted.getJSONObject(0).optInt("event_code"))
+    }
+
     @Test fun playerMovementResourceSpawnDepletionReachOverlaySnapshotWithExactEntityId() {
         AlbionEntityEventMapper.reset()
         val store = AlbionLiveKnowledgeStore(context())
