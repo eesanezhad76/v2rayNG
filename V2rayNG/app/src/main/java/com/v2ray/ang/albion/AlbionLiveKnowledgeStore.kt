@@ -76,6 +76,23 @@ class AlbionLiveKnowledgeStore(
             if (x != null && y != null && x.isFinite() && y.isFinite() &&
                 kotlin.math.abs(x) <= MAX_COORDINATE && kotlin.math.abs(y) <= MAX_COORDINATE) {
                 record.put("x", x).put("y", y)
+                if (observation.kind == "own_player_move") {
+                    val prior = record.optJSONArray("movement_history") ?: JSONArray()
+                    val history = JSONArray()
+                    val start = (prior.length() - MAX_MOVEMENT_POINTS + 1).coerceAtLeast(0)
+                    for (index in start until prior.length()) {
+                        prior.optJSONObject(index)?.let { history.put(JSONObject(it.toString())) }
+                    }
+                    val last = history.optJSONObject(history.length() - 1)
+                    val moved = last == null || kotlin.math.hypot(
+                        x - last.optDouble("x"), y - last.optDouble("y")
+                    ) >= MIN_MOVEMENT_DISTANCE
+                    val elapsed = last == null || timestampMs - last.optLong("time_ms") >= MIN_MOVEMENT_INTERVAL_MS
+                    if (moved || elapsed) {
+                        history.put(JSONObject().put("x", x).put("y", y).put("time_ms", timestampMs))
+                    }
+                    record.put("movement_history", history)
+                }
             }
             if (observation.kind == "resource_state") {
                 record.put("depleted", observation.removed)
@@ -325,6 +342,9 @@ class AlbionLiveKnowledgeStore(
     private companion object {
         const val MAX_RECORDS = 5000
         const val MAX_COORDINATE = 10000.0
+        const val MAX_MOVEMENT_POINTS = 240
+        const val MIN_MOVEMENT_DISTANCE = 0.5
+        const val MIN_MOVEMENT_INTERVAL_MS = 300L
         const val FLUSH_INTERVAL_MS = 2000L
         const val MIN_REPEAT_EVIDENCE_INTERVAL_MS = 500L
         val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
