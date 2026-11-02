@@ -417,8 +417,24 @@ class AlbionCaptureWorker(
         try {
             knowledgeStore?.flush()
             val tapDrops = (dropped() - dropBaseline.get()).coerceAtLeast(0L)
+            val patternReport = AlbionPatternMiner.analyzeDirectory(logFile?.parentFile ?: source.parentFile)
+            val contextForPatterns = appContext
+            if (contextForPatterns != null) {
+                val database = File(contextForPatterns.filesDir, "albion-learned-patterns.json")
+                val temporary = File(contextForPatterns.filesDir, "albion-learned-patterns.json.tmp")
+                val backup = File(contextForPatterns.filesDir, "albion-learned-patterns.json.bak")
+                temporary.writeText(patternReport.asJson().toString(2), Charsets.UTF_8)
+                if (database.exists() && !database.renameTo(backup)) {
+                    error("Cannot preserve previous learned-pattern database")
+                }
+                if (!temporary.renameTo(database)) {
+                    if (backup.exists()) backup.renameTo(database)
+                    error("Cannot commit learned-pattern database")
+                }
+                if (backup.exists()) backup.delete()
+            }
             val report = AlbionCaptureAnalyzer.analyze(source, nativeTapDrops = tapDrops).asText() +
-                AlbionPatternMiner.analyzeDirectory(logFile?.parentFile ?: source.parentFile).asText() + (knowledgeStore?.summaryText() ?: "")
+                patternReport.asText() + (knowledgeStore?.summaryText() ?: "")
             val target = File(source.parentFile, source.nameWithoutExtension + ".report.txt")
             target.writeText(buildString {
                 append(report)
