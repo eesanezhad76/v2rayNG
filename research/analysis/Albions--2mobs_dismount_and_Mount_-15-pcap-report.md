@@ -91,9 +91,11 @@ Truncated records: 0
 Repeated packet payloads: 0
 Gaps over 1 second: 0
 Maximum observed gap (ms): 463
+Native tap dropped copies: not supplied
+Native tap drop rate (%): not available
 Limitation: Packet duplicates are counted, not assumed to be packet loss; retransmission/repetition may be legitimate.
-Limitation: Tap-drop counters are external to PCAP and must be supplied by capture metadata.
 Limitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.
+Limitation: Native tap drops were not supplied; no tap-drop penalty was applied.
 
 Detailed entity/player observations: 1140
   t=1793399513326 event3 id=587958 raw=01dce14899d536df0813b9b5c3d42561432600004040 p4=null p5=null

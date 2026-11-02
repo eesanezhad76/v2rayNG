@@ -40,12 +40,14 @@
   "overlay_delivery_verified": false,
   "quality": {
     "score": 100,
+    "tap_drop_rate_percent": null,
     "timestamp_regressions": 0,
     "records": 1578,
     "grade": "GOOD",
     "truncated_records": 0,
     "duplicate_payloads": 0,
     "gaps_over_one_second": 0,
+    "native_tap_drops": null,
     "maximum_gap_ms": 321
   },
   "schema_version": 1,
