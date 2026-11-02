@@ -1,7 +1,9 @@
 # Full inbox PCAP analysis
 
 Archives: 4
-PCAP files: 22
+Discovered PCAP files: 22
+Unique PCAP files analyzed: 21
+Byte-identical duplicates skipped: 1
 Analysis errors: 0
 
 ## Albion اااستسمنسمنش.zip (3 discovered PCAP files)
