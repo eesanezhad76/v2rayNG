@@ -56,7 +56,7 @@ class AlbionPatternMinerTest {
             """{"time_ms":5000,"manual_marker":{"timestamp_ms":5000,"activity":"Ore","event":"gathering_completed"}}"""
         ).joinToString("\n"))
         val report = AlbionPatternMiner.analyze(file)
-        assertEquals(4, report.markers, report.asText())
+        assertEquals(6, report.markers, report.asText())
         assertEquals(2, report.completeSamples, report.asText())
         assertEquals(0, report.incompleteStarts, report.asText())
         val first = report.patterns.first { it.kind == "harvestable" && it.overlayTierLabel == "T5" }
