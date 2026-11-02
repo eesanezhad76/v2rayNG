@@ -40,6 +40,7 @@ jobs:
           python -m unittest discover -s research/tests -p 'test_*.py' -v
           chmod +x V2rayNG/gradlew
           V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
+          python research/tools/analyze_spatial_alignment.py
       - name: Commit derived evidence
         run: |
           git config user.name "github-actions[bot]"
