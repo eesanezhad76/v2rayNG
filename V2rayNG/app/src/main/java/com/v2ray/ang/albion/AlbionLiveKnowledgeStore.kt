@@ -161,7 +161,7 @@ class AlbionLiveKnowledgeStore(
         val repeated = records.values.count { it.optString("evidence_grade") == "repeated_typed" }
         val ambiguous = records.values.count { it.optString("classification") == "ambiguous_resource_candidate" }
         val evidenceBearing = records.values.filter {
-            it.has("mobile_type_id") || it.optString("last_kind") in RESOURCE_KINDS
+            it.has("family") || it.optString("last_kind") in RESOURCE_KINDS
         }
         val averageEvidenceScore = if (evidenceBearing.isEmpty()) 0 else
             evidenceBearing.sumOf { it.optInt("evidence_score") } / evidenceBearing.size
