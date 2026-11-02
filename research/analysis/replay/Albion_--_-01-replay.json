@@ -1,0 +1,50 @@
+{
+  "pending_fragments": 0,
+  "live_store_replayed": false,
+  "replay_scope": "pcap_photon_protocol18_event_mapper",
+  "warnings": [],
+  "malformed_photon_packets": 0,
+  "event_codes": {
+    "11": 3,
+    "46": 2,
+    "59": 3,
+    "19": 2,
+    "1": 3,
+    "210": 2,
+    "276": 3,
+    "211": 1,
+    "3": 449,
+    "311": 1,
+    "103": 3,
+    "159": 3,
+    "304": 2,
+    "61": 2
+  },
+  "valid_photon_packets": 389,
+  "overlay_delivery_verified": false,
+  "quality": {
+    "score": 100,
+    "timestamp_regressions": 0,
+    "records": 628,
+    "grade": "GOOD",
+    "truncated_records": 0,
+    "duplicate_payloads": 0,
+    "gaps_over_one_second": 0,
+    "maximum_gap_ms": 425
+  },
+  "schema_version": 1,
+  "encrypted_photon_packets": 0,
+  "source_sha256": "99ef31a31f06acad2daecb567d5987d0a5f6db47d59667f1dd654fca36d66781",
+  "ip_packets": 628,
+  "fingerprint": "febb32c94fe063f3f675c008cbe63617521d5ed2794452e037872dbd2edcfb31",
+  "malformed_protocol18_messages": 0,
+  "operation_requests": {},
+  "albion_udp_packets": 389,
+  "entity_kinds": {
+    "player_mounted": 1,
+    "leave": 3,
+    "resource_state": 2
+  },
+  "source_name": "بیکار سوار مونت موندم.pcap",
+  "operation_responses": {}
+}

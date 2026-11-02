@@ -1,0 +1,195 @@
+{
+  "schema_version": 1,
+  "captures": [
+    {
+      "source_sha256": "99ef31a31f06acad2daecb567d5987d0a5f6db47d59667f1dd654fca36d66781",
+      "ip_packets": 628,
+      "quality_score": 100,
+      "fingerprint": "febb32c94fe063f3f675c008cbe63617521d5ed2794452e037872dbd2edcfb31",
+      "malformed_photon_packets": 0,
+      "key": "Albion اااستسمنسمنش.zip::بیکار سوار مونت موندم.pcap",
+      "valid_photon_packets": 389
+    },
+    {
+      "source_sha256": "4ed27ff57802632ad6b08abd43727e6121de4449bda81655cc4f245d37374fc1",
+      "ip_packets": 1811,
+      "quality_score": 100,
+      "fingerprint": "66a08cb797901521e0cdf70110416847911856c75ff4e9d2223c51e5dfd395a5",
+      "malformed_photon_packets": 0,
+      "key": "Albion اااستسمنسمنش.zip::فقط ماب کشتم.pcap",
+      "valid_photon_packets": 1334
+    },
+    {
+      "source_sha256": "193de897f32b256a57e128b47e60607f34c63820db1d2f5660d146511306ff8c",
+      "ip_packets": 604,
+      "quality_score": 100,
+      "fingerprint": "7620835a22fe2b705675e017621891c210cc5b3454b116eb49322d2f21290cf1",
+      "malformed_photon_packets": 0,
+      "key": "Albion اااستسمنسمنش.zip::پیاده شدم اور ماین کردم دوتا قرمز و سوار .pcap",
+      "valid_photon_packets": 327
+    },
+    {
+      "source_sha256": "d6d6e6508e8611809ea70715dad4c4e284cdffabba7e3b20cb443304ab7d66ba",
+      "ip_packets": 1819,
+      "quality_score": 100,
+      "fingerprint": "fecbf308cd855b3e2577f5896d11c0f7966637a8b317efc85d12f29bd18bd8a2",
+      "malformed_photon_packets": 0,
+      "key": "Albion2.zip::2 blue gholem ench 2 killed together and mined besides each other .pcap",
+      "valid_photon_packets": 994
+    },
+    {
+      "source_sha256": "8560fed8045c6ed319e18fc46249334ccbdc95f6401eceaad03b48677d9a13e2",
+      "ip_packets": 1592,
+      "quality_score": 100,
+      "fingerprint": "dfc3b20aa6f7bfe017420c1a1295b7c10b4c2e4701c50a855fda05c9e69e6482",
+      "malformed_photon_packets": 0,
+      "key": "Albion2.zip::6red ores ,each one mined.pcap",
+      "valid_photon_packets": 775
+    },
+    {
+      "source_sha256": "5606346fc9548cf0f93b7269b7f7d50367245ca3bcdd63f51765bf8974c080f0",
+      "ip_packets": 823,
+      "quality_score": 100,
+      "fingerprint": "f03f22956104fa57a0bf72db2b75110d4606220f8b67519baed6e6985cde772b",
+      "malformed_photon_packets": 0,
+      "key": "Albion2.zip::blue enchanted 2 gholem killed and mined .pcap",
+      "valid_photon_packets": 469
+    },
+    {
+      "source_sha256": "d085e9db5bf267042d7f5a9999e1e84394a9bc7de9cf32f694a5eca64b27534f",
+      "ip_packets": 274,
+      "quality_score": 100,
+      "fingerprint": "5feaca7266944b2f655c2f0561044f7f15f529b56212626ca4885065a6cb2bf5",
+      "malformed_photon_packets": 0,
+      "key": "Albion2.zip::blue ore ench1 mined .pcap",
+      "valid_photon_packets": 157
+    },
+    {
+      "source_sha256": "0fbba4850898a6857059a9815194bc35c63279d2a08efb84540348c446437ceb",
+      "ip_packets": 1315,
+      "quality_score": 100,
+      "fingerprint": "4262c8bce07ff3a710e83500651415158399f01d085809667883819dcd261081",
+      "malformed_photon_packets": 0,
+      "key": "Albion2.zip::blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap",
+      "valid_photon_packets": 591
+    },
+    {
+      "source_sha256": "4a2da2df15ca7804c24259f2c12ad7fc873e3292c9b230005ddb78c7c5790846",
+      "ip_packets": 1401,
+      "quality_score": 100,
+      "fingerprint": "f8124ac770714ae6df2909e3e027cbe81614d217eab0576b151a157d2b8897ce",
+      "malformed_photon_packets": 0,
+      "key": "Albion2.zip::red gholem lvl2 ench killed and mines.pcap",
+      "valid_photon_packets": 693
+    },
+    {
+      "source_sha256": "9d879a0496ce875d4b8c230ea3862e67efb7acf6e54976538a2160d84bb9345f",
+      "ip_packets": 750,
+      "quality_score": 100,
+      "fingerprint": "452336536396a4838ad89982376a4f4785d3ec8a52483b516b805d35cac57862",
+      "malformed_photon_packets": 0,
+      "key": "Albion2.zip::red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
+      "valid_photon_packets": 532
+    },
+    {
+      "source_sha256": "3e5e6eb5abb224bcce107cf9d781f558824aa8e86f4088792461c4f43104c7aa",
+      "ip_packets": 421,
+      "quality_score": 100,
+      "fingerprint": "ae1aab03b299db48037341c33976434f9e29553c1f005204c5a08955012a49bd",
+      "malformed_photon_packets": 0,
+      "key": "Albion2.zip::red,ore lvl2.pcap",
+      "valid_photon_packets": 303
+    },
+    {
+      "source_sha256": "2a6359c576f8a797ff92e224db8fc281c5f39a65df2adbbf98b651f58c633683",
+      "ip_packets": 10828,
+      "quality_score": 100,
+      "fingerprint": "054fba5e9f186a88abd6d19aee39e0ec87c1ab8e93f36a4ee2196016890fe4fa",
+      "malformed_photon_packets": 6,
+      "key": "Albion2.zip::went from yellow 5 region to fort sterling, and then to bank and inspectoed a few of my items and equipmentz.pcap",
+      "valid_photon_packets": 972
+    },
+    {
+      "source_sha256": "19ffe62c250932c9fd362d3c726ae36ec9b1c6bc9fd8d21ea2c801bef57b5d7a",
+      "ip_packets": 239,
+      "quality_score": 100,
+      "fingerprint": "ce34689e1545bc11cacb66713167fa128b6913f966cdc01658d0fdf960c1186d",
+      "malformed_photon_packets": 0,
+      "key": "Albions.zip::1 mob dismount and mount .pcap",
+      "valid_photon_packets": 145
+    },
+    {
+      "source_sha256": "78d204804fa5d754a17bce69d367c274b3226e2e5d936897ed92787638272ee6",
+      "ip_packets": 1046,
+      "quality_score": 100,
+      "fingerprint": "525d54aeb94f15db016085424704e97189d8e0b3d8835db76499063f179814bc",
+      "malformed_photon_packets": 0,
+      "key": "Albions.zip::2 times 90degred change direction .pcap",
+      "valid_photon_packets": 733
+    },
+    {
+      "source_sha256": "76dd84c42af7f41138a5d6f31dd3e7c9f346eb2096ed46ddac9d918be8a0e776",
+      "ip_packets": 6533,
+      "quality_score": 100,
+      "fingerprint": "17900328ceec3896864ae3d36f174f1a74b53d05acd5fc3059863346df90e15e",
+      "malformed_photon_packets": 0,
+      "key": "Albions.zip::2mobs dismount and Mount .pcap",
+      "valid_photon_packets": 724
+    },
+    {
+      "source_sha256": "a53285c04f01c28f2180c167daa1b8535a353a879ae04b2bb623fb2fd7766ad4",
+      "ip_packets": 1622,
+      "quality_score": 100,
+      "fingerprint": "9ad9190666f4610c204e13a08885debf8740aae50c16110622616832335c7f48",
+      "malformed_photon_packets": 0,
+      "key": "Albions.zip::gholem dismount kill mine mount.pcap",
+      "valid_photon_packets": 714
+    },
+    {
+      "source_sha256": "0fa88059bcb9a524d7d3d8cb82219dfcb855c9c5d3d29c9de788c072db305b9e",
+      "ip_packets": 2272,
+      "quality_score": 100,
+      "fingerprint": "15f92ae16ccb072bdd08ff1f722de435d9de5eea7224849a1a49eebd1002fb2b",
+      "malformed_photon_packets": 0,
+      "key": "Albions.zip::ore 4 3 red 2 blue .pcap",
+      "valid_photon_packets": 1416
+    },
+    {
+      "source_sha256": "043e0a3f410a2238c6d71438acf638976d3bf3538cb39d62d12ba5f6b3348630",
+      "ip_packets": 1944,
+      "quality_score": 100,
+      "fingerprint": "d8b0599fcb66327cd33029d51af5d4b02fdd152d3296e5307127c8d1fb0bb429",
+      "malformed_photon_packets": 0,
+      "key": "Albions.zip::run and stop.pcap",
+      "valid_photon_packets": 1264
+    },
+    {
+      "source_sha256": "4fcafc2b13d33587559d75497f332f3b97b528c5e1c2de78c0de68ed4dbf7669",
+      "ip_packets": 1578,
+      "quality_score": 100,
+      "fingerprint": "e13fd58cdfeb60a0ded5334c294451817620a71011049670cffc17876bb2ef68",
+      "malformed_photon_packets": 0,
+      "key": "Albions.zip::stopping.pcap",
+      "valid_photon_packets": 1011
+    },
+    {
+      "source_sha256": "d775a9c2f26825d5fd2d107088ad54c1c75d5484f8fe7db71a7eb7673e837826",
+      "ip_packets": 2138,
+      "quality_score": 92,
+      "fingerprint": "7641cff40e46cf986ba06fb73e1f37ad19a3de2a57a85ef2b3abb34d6fd07f04",
+      "malformed_photon_packets": 0,
+      "key": "Albionsskkakaks111.zip::albion-1793620143023.pcap",
+      "valid_photon_packets": 0
+    },
+    {
+      "source_sha256": "24fe295dec3af09c8e6ce45534773838c82f29826198a83f0b8bb39142a6afa0",
+      "ip_packets": 22093,
+      "quality_score": 100,
+      "fingerprint": "c67c5878543f3332ac19fed76d323cd486908f228ee583d760ec30bf73516c9b",
+      "malformed_photon_packets": 0,
+      "key": "Albionsskkakaks111.zip::albion-1793620890462.pcap",
+      "valid_photon_packets": 14975
+    }
+  ],
+  "initialized_from_sha": "00ad079bf6748ca1bd7d0f4b97541db1ebf19998"
+}

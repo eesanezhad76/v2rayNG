@@ -1,0 +1,67 @@
+{
+  "pending_fragments": 0,
+  "live_store_replayed": false,
+  "replay_scope": "pcap_photon_protocol18_event_mapper",
+  "warnings": [],
+  "malformed_photon_packets": 0,
+  "event_codes": {
+    "11": 1,
+    "46": 3,
+    "59": 3,
+    "39": 3,
+    "19": 1,
+    "152": 6,
+    "1": 6,
+    "210": 1,
+    "276": 1,
+    "123": 3,
+    "3": 176,
+    "311": 1,
+    "159": 1,
+    "304": 3,
+    "91": 6,
+    "82": 3,
+    "61": 3,
+    "83": 3,
+    "30": 4,
+    "32": 3
+  },
+  "valid_photon_packets": 157,
+  "overlay_delivery_verified": false,
+  "quality": {
+    "score": 100,
+    "timestamp_regressions": 0,
+    "records": 274,
+    "grade": "GOOD",
+    "truncated_records": 0,
+    "duplicate_payloads": 0,
+    "gaps_over_one_second": 0,
+    "maximum_gap_ms": 533
+  },
+  "schema_version": 1,
+  "encrypted_photon_packets": 0,
+  "source_sha256": "d085e9db5bf267042d7f5a9999e1e84394a9bc7de9cf32f694a5eca64b27534f",
+  "ip_packets": 274,
+  "fingerprint": "5feaca7266944b2f655c2f0561044f7f15f529b56212626ca4885065a6cb2bf5",
+  "malformed_protocol18_messages": 0,
+  "operation_requests": {
+    "22": 16,
+    "52": 4,
+    "53": 1
+  },
+  "albion_udp_packets": 157,
+  "entity_kinds": {
+    "own_player_move": 16,
+    "mob": 3,
+    "move": 16,
+    "leave": 6,
+    "static_resource": 10,
+    "resource_state": 3,
+    "health_regeneration": 6
+  },
+  "source_name": "blue ore ench1 mined .pcap",
+  "operation_responses": {
+    "52": 4,
+    "53": 1
+  }
+}
