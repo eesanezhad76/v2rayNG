@@ -28,14 +28,14 @@ class ReadinessReportTests(unittest.TestCase):
             path = Path(directory)
             report = path / "2026-11-02-all-inbox-pcap-analysis.md"
             report.write_text(
-                "Archives: 4\\nDiscovered PCAP files: 22\\nUnique PCAP files analyzed: 21\\nByte-identical duplicates skipped: 1\\nAnalysis errors: 0\\n",
+                "Archives: 4\nDiscovered PCAP files: 22\nUnique PCAP files analyzed: 21\nByte-identical duplicates skipped: 1\nAnalysis errors: 0\n",
                 encoding="utf-8",
             )
             result = readiness.summarize_pcap_audit(path)
             self.assertEqual("PASS", result["status"])
             self.assertEqual(21, result["unique_pcaps"])
             report.write_text(
-                "Archives: 4\\nDiscovered PCAP files: 22\\nUnique PCAP files analyzed: 21\\nByte-identical duplicates skipped: 1\\nAnalysis errors: 1\\n",
+                "Archives: 4\nDiscovered PCAP files: 22\nUnique PCAP files analyzed: 21\nByte-identical duplicates skipped: 1\nAnalysis errors: 1\n",
                 encoding="utf-8",
             )
             self.assertEqual("FAIL", readiness.summarize_pcap_audit(path)["status"])
@@ -46,16 +46,16 @@ class ReadinessReportTests(unittest.TestCase):
             report = root / "V2rayNG/app/build/reports/albion/apk-signature-verification.txt"
             report.parent.mkdir(parents=True)
             digest = "AB:CD:" + ":".join(["12"] * 30)
-            report.write_text(f"Verifies\\nNumber of signers: 1\\nSigner #1 certificate SHA-256 digest: {digest}\\n", encoding="utf-8")
+            report.write_text(f"Verifies\nNumber of signers: 1\nSigner #1 certificate SHA-256 digest: {digest}\n", encoding="utf-8")
             result = readiness.summarize_signature(root)
             self.assertEqual("PASS", result["status"])
             self.assertEqual("abcd" + "12" * 30, result["certificate_sha256"])
             digest_v2 = "0D:93:" + ":".join(["51"] * 30)
-            report.write_text(f"Verifies\\nNumber of signers: 1\\nV2 Signer: certificate SHA-256 digest: {digest_v2}\\n", encoding="utf-8")
+            report.write_text(f"Verifies\nNumber of signers: 1\nV2 Signer: certificate SHA-256 digest: {digest_v2}\n", encoding="utf-8")
             result = readiness.summarize_signature(root)
             self.assertEqual("PASS", result["status"])
             self.assertEqual("0d93" + "51" * 30, result["certificate_sha256"])
-            report.write_text("Number of signers: 1\\n", encoding="utf-8")
+            report.write_text("Number of signers: 1\n", encoding="utf-8")
             self.assertEqual("FAIL", readiness.summarize_signature(root)["status"])
 
     def test_exit_code_fails_only_on_explicit_fail_not_unverified_gate(self):
