@@ -176,6 +176,7 @@ jobs:
       run: |
         set -euo pipefail
         V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
+        python3 research/tools/analyze_spatial_alignment.py
 
     - name: Test Python analysis, marker FIFO, and readiness logic
       if: always() && github.ref == 'refs/heads/albion-pattern-mining'
