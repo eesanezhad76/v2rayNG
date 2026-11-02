@@ -50,6 +50,9 @@ class AlbionRadarActivity : ComponentActivity() {
     private lateinit var toggle: Button
     private lateinit var export: Button
     private lateinit var copyAll: Button
+    private lateinit var exportDiagnostics: Button
+    private var diagnosticFile: File? = null
+    private var captureTapDrops = 0L
     private var pollJob: Job? = null
     private val captureScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var stopping = false
@@ -65,6 +68,7 @@ class AlbionRadarActivity : ComponentActivity() {
 
     companion object {
         private const val CREATE_PCAP_REQUEST = 7301
+        private const val CREATE_DIAGNOSTICS_REQUEST = 7302
         private const val TAP_CAPACITY = 4096
         private const val MAX_READ_BATCH = 8192
     }
@@ -98,6 +102,11 @@ class AlbionRadarActivity : ComponentActivity() {
             isEnabled = false
             setOnClickListener { copyAllPackets() }
         }
+        exportDiagnostics = Button(this).apply {
+            text = "Export compact replay diagnostics"
+            isEnabled = false
+            setOnClickListener { exportCompactDiagnostics() }
+        }
         analysis = TextView(this).apply {
             textSize = 13f
             typeface = android.graphics.Typeface.MONOSPACE
@@ -121,6 +130,7 @@ class AlbionRadarActivity : ComponentActivity() {
             addView(export, LinearLayout.LayoutParams(0, -2, 1f).apply { leftMargin = 8 })
         }
         root.addView(actions, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
+        root.addView(exportDiagnostics, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(analysis, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 12 })
         root.addView(
             ScrollView(this).apply { addView(packets) },
@@ -138,6 +148,8 @@ class AlbionRadarActivity : ComponentActivity() {
             captureTextFile = existingCapture.log
             reportFile = existingCapture.report
             packetCount = existingCapture.packets
+            captureTapDrops = existingCapture.dropped
+            exportDiagnostics.isEnabled = !existingCapture.running && existingCapture.pcap?.exists() == true
             summary.text = "Packets saved: ${existingCapture.packets} | dropped copies: ${existingCapture.dropped}"
             status.text = "Capture is already running in the VPN daemon."
             observeCapture()
@@ -182,12 +194,14 @@ class AlbionRadarActivity : ComponentActivity() {
                     captureTextFile = s.log
                     reportFile = s.report
                     packetCount = s.packets
+                    captureTapDrops = s.dropped
                     summary.text = "Packets saved: ${s.packets} | tap drops: ${s.dropped} | markers: ${s.markers} | Downloads mirror: ${if (s.mirrorError == null) "active" else "error"} | ${(s.pcap?.length() ?: 0L) / 1024} KB"
                     if (!s.running && s.finished && tapping) {
                         tapping = false
                         toggle.text = "Start full capture"
                         export.isEnabled = s.pcap?.exists() == true
                         copyAll.isEnabled = s.log?.exists() == true
+                        exportDiagnostics.isEnabled = s.pcap?.exists() == true
                         status.text = if (s.error != null)
                             "Capture stopped with an error: ${s.error}. Existing files were finalized."
                         else
@@ -214,6 +228,8 @@ class AlbionRadarActivity : ComponentActivity() {
         toggle.text = "Stop capture"
         export.isEnabled = false
         copyAll.isEnabled = false
+        exportDiagnostics.isEnabled = false
+        captureTapDrops = 0L
         status.text = "Capture runs in the VPN daemon. It continues when this screen is closed."
         observeCapture()
     }
@@ -237,9 +253,11 @@ class AlbionRadarActivity : ComponentActivity() {
             captureTextFile = s?.log ?: captureTextFile
             reportFile = s?.report ?: reportFile
             packetCount = s?.packets ?: packetCount
+            captureTapDrops = s?.dropped ?: captureTapDrops
             toggle.text = "Start full capture"
             export.isEnabled = captureFile?.exists() == true
             copyAll.isEnabled = captureTextFile?.exists() == true
+            exportDiagnostics.isEnabled = captureFile?.exists() == true
             status.text = "Capture stopped. Live files and offline report are in Downloads/AlbionRadar."
             val completedReport = reportFile
             if (completedReport?.exists() == true) {
@@ -293,6 +311,41 @@ class AlbionRadarActivity : ComponentActivity() {
                 status.text = "Saved to Downloads/AlbionCaptures. PCAP and packet log are available in Files."
             } catch (e: Exception) {
                 status.text = "Private capture saved, but publishing to Downloads failed: ${e.message}"
+            }
+        }
+    }
+
+    private fun exportCompactDiagnostics() {
+        val file = captureFile?.takeIf { it.isFile }
+        if (file == null) {
+            status.text = "No completed PCAP is available for replay."
+            return
+        }
+        exportDiagnostics.isEnabled = false
+        status.text = "Replaying PCAP into isolated stores and building compact diagnostics…"
+        captureScope.launch {
+            try {
+                val result = withContext(Dispatchers.IO) {
+                    com.v2ray.ang.albion.AlbionCaptureReplayPipeline.replay(
+                        file, applicationContext, captureTapDrops
+                    )
+                }
+                val output = File(cacheDir, "albion-radar-diagnostics-${System.currentTimeMillis()}.json")
+                withContext(Dispatchers.IO) {
+                    com.v2ray.ang.albion.AlbionCaptureReplayPipeline.writeJson(result, output)
+                }
+                diagnosticFile = output
+                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "application/json"
+                    putExtra(Intent.EXTRA_TITLE, output.name)
+                }
+                status.text = "Replay complete. Choose where to save the compact diagnostic JSON."
+                startActivityForResult(intent, CREATE_DIAGNOSTICS_REQUEST)
+            } catch (e: Exception) {
+                status.text = "Diagnostic replay/export failed: ${e.message ?: "unknown error"}"
+            } finally {
+                exportDiagnostics.isEnabled = captureFile?.isFile == true
             }
         }
     }
@@ -353,6 +406,23 @@ class AlbionRadarActivity : ComponentActivity() {
     @Deprecated("Use Activity Result APIs; retained for compatibility with this diagnostic activity.")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == CREATE_DIAGNOSTICS_REQUEST && resultCode == Activity.RESULT_OK) {
+            val uri: Uri = data?.data ?: return
+            val file = diagnosticFile?.takeIf { it.isFile } ?: return
+            lifecycleScope.launch(Dispatchers.IO) {
+                try {
+                    contentResolver.openOutputStream(uri, "w")?.use { output ->
+                        FileInputStream(file).use { input -> input.copyTo(output, 64 * 1024) }
+                    } ?: throw IllegalStateException("Could not open diagnostic destination")
+                    withContext(Dispatchers.Main) {
+                        status.text = "Compact diagnostics exported. Upload this JSON instead of the full PCAP."
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) { status.text = "Diagnostic export failed: ${e.message}" }
+                }
+            }
+            return
+        }
         if (requestCode != CREATE_PCAP_REQUEST || resultCode != Activity.RESULT_OK) return
         val uri: Uri = data?.data ?: return
         val file = captureFile
