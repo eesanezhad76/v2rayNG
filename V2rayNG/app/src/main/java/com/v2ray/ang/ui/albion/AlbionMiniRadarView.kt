@@ -84,6 +84,31 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         }
         val px = you.optDouble("x")
         val py = you.optDouble("y")
+        val history = you.optJSONArray("movement_history")
+        if (history != null && history.length() > 1) {
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = 1.7f * density
+            paint.color = 0xCC56D6A0.toInt()
+            var previousX: Float? = null
+            var previousY: Float? = null
+            for (index in 0 until history.length()) {
+                val point = history.optJSONObject(index) ?: continue
+                val dx = point.optDouble("x", Double.NaN) - px
+                val dy = point.optDouble("y", Double.NaN) - py
+                if (!dx.isFinite() || !dy.isFinite() || hypot(dx, dy) > range) {
+                    previousX = null
+                    previousY = null
+                    continue
+                }
+                val pointX = cx + (dx / range * radius).toFloat()
+                val pointY = cy + 5f * density - (dy / range * radius).toFloat()
+                if (previousX != null && previousY != null) {
+                    canvas.drawLine(previousX, previousY, pointX, pointY, paint)
+                }
+                previousX = pointX
+                previousY = pointY
+            }
+        }
         val target = chooseTarget(you)
 
         entities.forEach { entity ->
