@@ -131,7 +131,7 @@ class AlbionLiveKnowledgeStore(
             record.put("evidence_reason", evidenceReason(record, conflicts))
             dirty = true
         }
-        // Bound storage and avoid disk I/O for every packet in a busy scene.
+        // Keep a large persistent history while bounding memory and avoiding per-packet disk I/O.
         while (records.size > MAX_RECORDS) {
             val oldest = records.entries.minByOrNull { it.value.optLong("last_seen_ms") } ?: break
             records.remove(oldest.key)
@@ -355,7 +355,7 @@ class AlbionLiveKnowledgeStore(
     }
 
     private companion object {
-        const val MAX_RECORDS = 5000
+        const val MAX_RECORDS = 25000
         const val MAX_COORDINATE = 10000.0
         const val MAX_MOVEMENT_POINTS = 240
         const val MIN_MOVEMENT_DISTANCE = 0.5
