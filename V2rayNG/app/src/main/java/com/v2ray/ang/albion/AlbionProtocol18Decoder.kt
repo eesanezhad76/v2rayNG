@@ -97,7 +97,6 @@ class AlbionProtocol18Decoder {
                     // whenever the server omitted it (not only for Move).
                     if (!params.containsKey(252)) params[252] = dispatch
                     val real = params[252].asInt()
-                    if (dispatch == 3) injectMovePosition(params)
                     out += Message("event", dispatch, real, params)
                 }
             }
