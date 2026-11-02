@@ -29,6 +29,7 @@ object AlbionPatternMiner {
         val kind: String,
         val eventCode: Int?,
         val typeId: Int?,
+        val family: Int?,
         val tier: Int?,
         val enchant: Int?,
         val overlayTierLabel: String?,
@@ -61,6 +62,9 @@ object AlbionPatternMiner {
                 appendLine("#${index + 1} [${p.score}/100] ${p.activity} / ${p.kind}")
                 appendLine("  signature: ${p.signature}")
                 appendLine("  overlay labels: tier=${p.overlayTierLabel ?: "unknown"}, enchant=${p.overlayEnchantLabel ?: "unknown"}")
+                if (p.family != null) appendLine("  resource family: ${p.family}")
+                val inferred = ResourcePatternLearner.infer(ResourcePatternLearner.Observation(p.family, p.tier, p.enchant, p.typeId))
+                appendLine("  catalog inference: resource=${inferred.resourceName.value ?: "unknown"} (${inferred.resourceName.status}), mobile=${inferred.mobileTypeId.value ?: "unknown"} (${inferred.mobileTypeId.status}), enchant=${inferred.enchantmentName.value ?: "unknown"} (${inferred.enchantmentName.status})")
                 if (p.parameterKeys != null) appendLine("  Photon parameter keys: ${p.parameterKeys}")
                 appendLine("  repeated samples: ${p.samples}; distinct entity IDs: ${p.distinctEntities}; observations: ${p.observationCount}")
                 appendLine("  event codes: ${p.eventCodes.toSortedMap()}")
@@ -72,7 +76,7 @@ object AlbionPatternMiner {
 
     private data class Candidate(
         val signature: String, val activity: String, val kind: String,
-        val eventCode: Int?, val typeId: Int?, val tier: Int?, val enchant: Int?,
+        val eventCode: Int?, val typeId: Int?, val family: Int?, val tier: Int?, val enchant: Int?,
         val overlayTierLabel: String?, val overlayEnchantLabel: String?, val parameterKeys: String?,
         val ids: MutableSet<String>, val events: MutableMap<Int, Int>,
         var observations: Int = 0, val sampleIndexes: MutableSet<Int> = linkedSetOf()
@@ -215,13 +219,15 @@ object AlbionPatternMiner {
                 val code = o.optInt("event_code").takeIf { o.has("event_code") }
                 val type = o.optInt("mobile_type_id").takeIf { o.has("mobile_type_id") }
                     ?: o.optInt("type_id").takeIf { o.has("type_id") }
+                val family = o.optInt("type_number").takeIf { o.has("type_number") }
+                    ?: o.optInt("family").takeIf { o.has("family") }
                 val tier = o.optInt("tier").takeIf { o.has("tier") }
                 val enchant = o.optInt("enchant").takeIf { o.has("enchant") }
                     ?: o.optInt("enchantment_raw").takeIf { o.has("enchantment_raw") }
                 val parameterKeys = o.optString("parameter_keys", "").takeIf { it.isNotBlank() }
-                val signature = listOf(sample.activity, kind, code ?: "-", type ?: "-", tier ?: "-", enchant ?: "-", sample.overlayTierLabel ?: "-", sample.overlayEnchantLabel ?: "-", parameterKeys ?: "-").joinToString("|")
+                val signature = listOf(sample.activity, kind, code ?: "-", type ?: "-", family ?: "-", tier ?: "-", enchant ?: "-",  sample.overlayTierLabel ?: "-", sample.overlayEnchantLabel ?: "-", parameterKeys ?: "-").joinToString("|")
                 val c = candidates.getOrPut(signature) {
-                    Candidate(signature, sample.activity, kind, code, type, tier, enchant, sample.overlayTierLabel, sample.overlayEnchantLabel, parameterKeys, linkedSetOf(), linkedMapOf())
+                    Candidate(signature, sample.activity, kind, code, type, family, tier, enchant, sample.overlayTierLabel, sample.overlayEnchantLabel, parameterKeys, linkedSetOf(), linkedMapOf())
                 }
                 c.observations++
                 c.sampleIndexes += sampleIndex
@@ -239,7 +245,7 @@ object AlbionPatternMiner {
             val volumeScore = if (c.observations >= repeated.coerceAtLeast(1) * 2) 10 else 3
             val pairScore = if (repeated >= 2) 10 else 0
             val score = (repeatScore + identityScore + typedScore + volumeScore + pairScore).coerceAtMost(100)
-            Pattern(c.signature, c.activity, c.kind, c.eventCode, c.typeId, c.tier, c.enchant,
+            Pattern(c.signature, c.activity, c.kind, c.eventCode, c.typeId, c.family, c.tier, c.enchant,
                 c.overlayTierLabel, c.overlayEnchantLabel, c.parameterKeys, repeated, c.ids.size, c.observations, c.events.toMap(), repeated, score)
         }.filter { it.samples > 0 }.sortedWith(compareByDescending<Pattern> { it.score }.thenByDescending { it.samples }.thenByDescending { it.observationCount })
         val warnings = mutableListOf<String>()
