@@ -431,7 +431,7 @@ class AlbionCaptureWorker(
     private companion object {
         // Current Photon event enum: InventoryPutItem, InventoryDeleteItem, InventoryState.
         // Payloads are logged verbatim-but-bounded; no stack delta is inferred yet.
-        val INVENTORY_EVENT_CODES = setOf(26, 27, 28)
+        val INVENTORY_EVENT_CODES = (26..37).toSet()
         // HarvestStart, HarvestCancel and HarvestFinished in the current event enum.
         val HARVEST_EVENT_CODES = setOf(59, 60, 61)
     }
