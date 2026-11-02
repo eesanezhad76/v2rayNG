@@ -51,7 +51,8 @@ object AlbionPatternMiner {
         val patterns: List<Pattern>,
         val warnings: List<String>,
         val capturesAnalyzed: Int = 1,
-        val duplicateFilesSkipped: Int = 0
+        val duplicateFilesSkipped: Int = 0,
+        val sourceCaptures: List<String> = emptyList()
     ) {
         fun asText(): String = buildString {
             appendLine()
@@ -61,6 +62,7 @@ object AlbionPatternMiner {
             appendLine("Unclosed sample starts: $incompleteStarts")
             appendLine("Capture files analyzed: $capturesAnalyzed")
             appendLine("Byte-identical capture files skipped: $duplicateFilesSkipped")
+            sourceCaptures.forEach { appendLine("Source capture: $it") }
             appendLine("Confidence is a heuristic evidence score (0-100), NOT a probability.")
             if (patterns.isEmpty()) appendLine("No repeatable labeled pattern found yet.")
             patterns.take(30).forEachIndexed { index, p ->
@@ -108,6 +110,7 @@ object AlbionPatternMiner {
                 .put("generated_at_ms", System.currentTimeMillis())
                 .put("captures_analyzed", capturesAnalyzed)
                 .put("duplicate_files_skipped", duplicateFilesSkipped)
+                .put("source_captures", JSONArray(sourceCaptures))
                 .put("markers", markers)
                 .put("complete_samples", completeSamples)
                 .put("incomplete_starts", incompleteStarts)
@@ -158,6 +161,7 @@ object AlbionPatternMiner {
         val selected = mutableListOf<File>()
         var duplicates = 0
         var unreadable = 0
+        val sourceCaptures = mutableListOf<String>()
         candidates.take(scanLimit).forEach { file ->
             val digest = try {
                 sha256(file)
@@ -169,7 +173,10 @@ object AlbionPatternMiner {
                 duplicates++
                 return@forEach
             }
-            if (selected.size < limit) selected += file
+            if (selected.size < limit) {
+                selected += file
+                sourceCaptures += file.name + ":" + digest
+            }
         }
 
         if (selected.isEmpty()) {
@@ -232,7 +239,8 @@ object AlbionPatternMiner {
             patterns = mergedPatterns,
             warnings = warnings,
             capturesAnalyzed = selected.size,
-            duplicateFilesSkipped = duplicates
+            duplicateFilesSkipped = duplicates,
+            sourceCaptures = sourceCaptures
         )
     }
 
