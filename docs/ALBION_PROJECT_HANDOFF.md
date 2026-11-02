@@ -217,3 +217,50 @@ If nothing was changed, do not create a fake implementation entry; record only a
 - No Kotlin test, Android build, APK artifact, checksum, or device test is confirmed by this commit yet.
 - Next: inspect Build APK workflow run triggered by this commit; verify Gradle success, signing, package ID, checksums and artifacts. Then inspect overlay runtime on Poco F5 for row clipping/touchability/scroll behavior.
 - Next autonomous-learning engineering task: design and test a bounded candidate-signature learner that runs from mapped observations and protocol evidence without marker dependency; keep all unknown semantics as candidates and add tests for false merges, tier/enchantment variation, repeated IDs across sessions, despawn/depletion, and missing coordinates before wiring it into map display.
+
+
+## 2026-11-03 — Online autonomous signature learner and unified marker feedback
+
+### Implementation commits
+- Autonomous learner: `6950f9cb80c43fd181d50daea89ea67534a09540`
+- Capture-worker wiring: `71f59da66bd0bb28fc98b2ebe0b756c3f8fe11b1`
+- Knowledge ZIP export: `50cbabe1fd91487d84b5b3cc306626c9b008b148`
+- Central importer: `bd03f26fa6cae652e4d058f0d28b04e4735bcfaa`
+- Importer merge/backward-compatibility fixes: `c55c4d590fe6bf1e0667f6056dfc6e0645dafbad`
+- Research test: `7ba33db188ada74d0a6b4f28f805a0ea9eae8740`
+- Android learner test: `158deeba39e4580bd51de8f14311f18ab529080e`
+- Bundle export test: `3428dbf0a379ad269d0621a7c43dd692037c9660`
+- Latest learner safety refinement: `31cf099169254bd46065ae8762ed6ed248888678`
+
+### Files changed
+- Added `AlbionAutonomousPatternLearner.kt`.
+- Updated `AlbionCaptureWorker.kt` to feed every decoded Photon event (including empty-parameter events) to the learner, feed manual markers only after both PCAP and JSONL writes are flushed/synced, flush persistent learner state, and include learner summaries in live status and offline report.
+- Updated `AlbionKnowledgeBundle.kt` to export `autonomous-patterns.json` with manifest checksums and counts.
+- Updated `research/tools/ingest_knowledge_bundle.py` to validate/import optional autonomous patterns, retain provenance, union capture-session IDs, and avoid inflating cumulative sighting/sample counts. Old schema-version-1 bundles and old central DBs remain supported.
+- Updated research README and added `AlbionAutonomousPatternLearnerTest.kt`; extended `AlbionKnowledgeBundleTest.kt` and `test_knowledge_bundle_import.py`.
+
+### Behavior and safeguards
+- Learning now runs continuously during ordinary gameplay while full capture is active; it does not require the user to press activity markers for each event.
+- It hashes stable observable event signatures from event code + parameter-key/type shape. It records sightings, capture-session provenance, bounded labels, and heuristic evidence status.
+- Unknown signatures remain unknown candidates. It does not infer an Ore name, mob species, Tier, Enchantment, or item semantics from a signature alone.
+- Optional manual markers add labels to signatures observed around a user-confirmed activity. Labels are associated by activity/Tier/Enchantment and are promoted only to `label_corroborated_candidate` after at least 3 completed samples and evidence from at least 2 capture sessions. This is still a candidate, not proof of protocol semantics.
+- Pre-roll is bounded to 3 seconds; active label windows are bounded to 15 minutes; recent events are capped at 2048, signature records at 5000, exported patterns at 5000, and label signatures at 512 per sample.
+- Persistent writes are periodic/atomic and failures are swallowed so the capture loop is not intentionally interrupted.
+- This learner is deliberately in-process Kotlin; no external ML runtime/model was added. With no verified labeled dataset, an external ML model would risk false classifications and increase APK size/complexity without justified benefit.
+- Manual markers and autonomous learning now share the same capture session, event stream, local persistent cache, ZIP schema and central importer. Markers improve correlation; they are not required for background signature collection.
+
+### Tests and CI
+- Added tests for repeated labeled signatures across two sessions, unknown empty-parameter events, autonomous ZIP member/checksum manifest presence, and cumulative importer deduplication.
+- Tests have been added but have **not yet been confirmed passing** in CI.
+- Build APK workflow run `41541531789` was pending on older HEAD `3e24f34ce7d8d506c28180c526fb3aa33a25fbe4` when last checked; later source/test commits may supersede it. Re-query the newest run after this handoff update.
+- Albion capture ingest workflow run `41541531883` was pending on `3e24f34...`; another ingest run `41541520142` was in progress on `592d5f9...`. Re-query jobs and results; the ingest workflow may commit derived research files.
+- No APK, checksum, successful Gradle test, successful Python test run, or device test is confirmed yet.
+
+### Remaining risks / exact next actions
+1. Re-query branch HEAD, latest Build APK and Albion capture ingest runs; inspect job steps/logs/artifacts.
+2. Confirm Kotlin compilation and all `testPlaystoreDebugUnitTest` tests, especially the new learner and bundle tests.
+3. Confirm Python `unittest discover -s research/tests -p 'test_*.py' -v` passes, including the new cumulative autonomous-signature test.
+4. If CI fails, fix the smallest root cause and add regression coverage; do not declare this APK ready until CI packaging, signature, package ID and SHA-256 checks pass.
+5. After a successful build, field-test on Poco F5: start capture once, play without markers for a while, inspect automatic signature counts, then use occasional Start/Stop labels for the same activity/Tier/Enchantment across at least three samples and two capture sessions.
+6. Export the learned database ZIP and verify that `autonomous-patterns.json` is present, checksummed, and ingested into `research/database/albion-knowledge-bundle-import.json`.
+7. Compare candidate signatures against controlled PCAP evidence before adding semantic event mappings or promoting map labels. No full automatic recognition of every resource/mob is verified.
