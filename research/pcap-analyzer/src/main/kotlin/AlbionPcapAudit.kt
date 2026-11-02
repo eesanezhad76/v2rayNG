@@ -368,6 +368,22 @@ fun main() {
             }
         }
         File(out, "2026-11-02-pcap-attack-target-tracks.csv").writeText(attackCsv, Charsets.UTF_8)
+        val databaseDir = File(repo, "research/database").apply { mkdirs() }
+        val databaseArtifacts = listOf(
+            "2026-11-02-all-inbox-observations.jsonl",
+            "2026-11-02-own-player-movement-timeline.csv",
+            "2026-11-02-pcap-harvestable-nodes.csv",
+            "2026-11-02-pcap-resource-state-timelines.csv",
+            "2026-11-02-pcap-static-resources.csv",
+            "2026-11-02-pcap-mob-lifecycle.csv",
+            "2026-11-02-pcap-health-energy-events.csv",
+            "2026-11-02-pcap-attack-target-tracks.csv"
+        )
+        val exportedDatabaseArtifacts = databaseArtifacts.filter { name ->
+            val source = File(out, name)
+            source.isFile && runCatching { source.copyTo(File(databaseDir, name), overwrite = true) }.isSuccess
+        }
+        println("DATABASE_EXPORT files=" + exportedDatabaseArtifacts.size + "/" + databaseArtifacts.size)
         println("RESOURCE_AUDIT harvestable_nodes=" + nodes.size +
             " state_ids=" + resourceStates.size + " state_only_ids=" + unmatchedStates.size +
             " static_resources=" + staticResources.size + " event123_entities=" + mobs.size +
