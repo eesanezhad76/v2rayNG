@@ -27,7 +27,8 @@ object AlbionCaptureAnalyzer {
         val pendingFragments: Int,
         val warnings: List<String>,
         val checkpoints: List<String>,
-        val detailedObservations: List<String>
+        val detailedObservations: List<String>,
+        val quality: AlbionCaptureQualityReport
     ) {
         fun asText(): String = buildString {
             appendLine("Albion / Photon capture report")
@@ -55,6 +56,7 @@ object AlbionCaptureAnalyzer {
             appendLine("Pending fragmented messages: $pendingFragments")
             appendLine("Manual checkpoints: ${checkpoints.size}")
             checkpoints.forEach { appendLine("  $it") }
+            appendLine(quality.asText())
             appendLine("Detailed entity/player observations: ${detailedObservations.size}")
             detailedObservations.forEach { appendLine("  $it") }
             warnings.forEach { appendLine("Warning: $it") }
@@ -210,7 +212,8 @@ object AlbionCaptureAnalyzer {
         if (malformed > 0) warnings += "Some datagrams on port 5056 did not pass Photon envelope validation."
         return Report(
             packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, typedEvents, malformed,
-            encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending, warnings, checkpoints, detailed
+            encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending,
+            warnings, checkpoints, detailed, AlbionCaptureQualityAnalyzer.analyze(file)
         )
     }
 
