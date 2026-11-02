@@ -93,7 +93,7 @@ The offline analyzer now preserves marker fields (`activity`, `event`, `tier`, a
 
 The current three ZIPs in `research/inbox` contain **zero manual checkpoint packets**, so these correlation exports currently contain headers only. The separate `Albionsskkakaks111.zip` capture described in `2026-11-02-capture-inventory.md` is not present in the current inbox; only its aggregate Markdown inventory is available. Consequently, family 7/14/27 cannot yet be assigned semantic names from marker evidence. This is a missing-source limitation, not a negative mapping result.
 
-When the marked capture is added as a raw PCAP/JSONL source, the new pipeline will FIFO-pair Found/Started/Completed/Depleted markers and produce time/tier/enchantment candidate matches. Candidate matches remain explicitly non-identity evidence unless a runtime entity ID is shared.
+FIFO lifecycle pairing is now implemented in `research/tools/ingest_capture.py`. It uses per-activity queues to pair Found → Started → Completed → Depleted in order, preserves unmatched/orphan events and incomplete cycles, and emits `marker_lifecycles`, `unmatched_marker_events`, and a marker-lifecycle CSV. Synthetic tests cover multiple queued targets, orphan starts, and mob Found→Killed pairs. The current inbox still has no usable manual checkpoint stream, so real marker-to-node association remains unverified. Candidate matches remain explicitly non-identity evidence unless a runtime entity ID is shared.
 
 ## Why a trained classifier is not yet validated
 
