@@ -343,12 +343,13 @@ class AlbionCaptureWorker(
         val nodeAnchor = activeManualNode
         if (nodeAnchor != null && !nodeAnchor.linked && timestampMs - nodeAnchor.timestampMs in 0..10_000L) {
             val manualTier = nodeAnchor.tier.removePrefix("T").toIntOrNull()
-            val candidates = (0 until entityArray.length()).mapNotNull { index ->
-                val entity = entityArray.optJSONObject(index) ?: return@mapNotNull null
-                if (entity.optString("kind") != "harvestable") return@mapNotNull null
-                val networkTier = entity.optInt("tier", -1)
-                if (manualTier != null && networkTier != manualTier) return@mapNotNull null
-                entity
+            val candidates = if (manualTier == null) emptyList() else {
+                (0 until entityArray.length()).mapNotNull { index ->
+                    val entity = entityArray.optJSONObject(index) ?: return@mapNotNull null
+                    if (entity.optString("kind") != "harvestable") return@mapNotNull null
+                    if (entity.optInt("tier", -1) != manualTier) return@mapNotNull null
+                    entity
+                }
             }
             if (candidates.size == 1) {
                 val entity = candidates.single()
