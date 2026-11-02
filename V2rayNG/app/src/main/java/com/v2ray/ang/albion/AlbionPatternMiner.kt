@@ -169,7 +169,25 @@ object AlbionPatternMiner {
                                 target?.observations?.addAll(observations)
                             }
                             closing.forEach { sample ->
-                                if (time <= (sample.endMs ?: time) + EDGE_WINDOW_MS) sample.observations.addAll(observations)
+                                if (time <= (sample.endMs ?: time) + EDGE_WINDOW_MS) {
+                                    // Post-completion packets are retained only when they refer
+                                    // to an entity already observed in this sample (e.g. Event 46).
+                                    val sampleIds = sample.observations.mapNotNull { item ->
+                                        when {
+                                            item.has("entity_id") && !item.isNull("entity_id") -> item.opt("entity_id").toString()
+                                            item.has("id") && !item.isNull("id") -> item.opt("id").toString()
+                                            else -> null
+                                        }
+                                    }.toSet()
+                                    observations.filter { item ->
+                                        val id = when {
+                                            item.has("entity_id") && !item.isNull("entity_id") -> item.opt("entity_id").toString()
+                                            item.has("id") && !item.isNull("id") -> item.opt("id").toString()
+                                            else -> null
+                                        }
+                                        id != null && id in sampleIds
+                                    }.forEach(sample.observations::add)
+                                }
                             }
                         }
                         val iterator = closing.iterator()
