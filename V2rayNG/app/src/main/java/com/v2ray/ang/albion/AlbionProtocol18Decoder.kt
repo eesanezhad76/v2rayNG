@@ -92,6 +92,7 @@ class AlbionProtocol18Decoder {
                     val r = Reader(src, payloadStart, payloadLength)
                     val dispatch = r.byte()
                     val params = r.parameterTable().toMutableMap()
+                    if (dispatch == 3) injectMovePosition(params)
                     // OpenRadar's Protocol18 post-processing contract: parameter 252
                     // is the canonical Albion event code; inject the event dispatch byte
                     // whenever the server omitted it (not only for Move).
