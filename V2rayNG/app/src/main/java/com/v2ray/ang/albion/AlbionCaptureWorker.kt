@@ -216,6 +216,12 @@ class AlbionCaptureWorker(
         appendLine("Capture counters: packets=${packetCount.get()} | tap_drops=${(dropped() - dropBaseline.get()).coerceAtLeast(0)} | non_albion=${nonAlbionCount.get()} | markers=${markerCount.get()}")
     }
 
+    @Synchronized
+    fun flushKnowledgeStores() {
+        knowledgeStore?.flush()
+        protocolEvidenceStore?.flush()
+    }
+
     fun liveKnowledgeJson(): String {
         healthMonitor.recordSnapshot(System.currentTimeMillis())
         return knowledgeStore?.snapshotJson() ?: "[]"
