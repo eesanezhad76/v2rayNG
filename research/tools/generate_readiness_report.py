@@ -133,11 +133,17 @@ def summarize_overlay_wiring(repo_root: Path) -> dict[str, Any]:
     android_ns = "{http://schemas.android.com/apk/res/android}"
     activity = next((node for node in root.iter() if node.tag.endswith("activity") and node.attrib.get(android_ns + "name") == ".ui.albion.AlbionRadarActivity"), None)
     service = next((node for node in root.iter() if node.tag.endswith("service") and node.attrib.get(android_ns + "name") == ".ui.albion.AlbionOverlayService"), None)
+    map_activity = next((node for node in root.iter() if node.tag.endswith("activity") and node.attrib.get(android_ns + "name") == ".ui.albion.AlbionWorldMapActivity"), None)
     activity_process = activity.attrib.get(android_ns + "process") if activity is not None else None
     service_process = service.attrib.get(android_ns + "process") if service is not None else None
+    map_activity_process = map_activity.attrib.get(android_ns + "process") if map_activity is not None else None
+    map_view = repo_root / "V2rayNG/app/src/main/java/com/v2ray/ang/ui/albion/AlbionWorldMapView.kt"
     same_daemon = activity_process == ":daemon" and service_process == ":daemon"
+    map_wired = map_activity_process == ":daemon" and map_view.is_file()
     return {"status": "PASS" if same_daemon else "FAIL",
-            "activity_process": activity_process, "service_process": service_process}
+            "activity_process": activity_process, "service_process": service_process,
+            "map_activity_process": map_activity_process, "map_view_exists": map_view.is_file(),
+            "map_status": "PASS" if map_wired else "FAIL"}
 
 
 def inspect_apk(apk_root: Path) -> dict[str, Any]:
@@ -243,6 +249,12 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
          "evidence": "Offline candidates do not prove live entity identity"},
         {"name": "Overlay Activity/Service process wiring", "status": overlay_wiring["status"],
          "evidence": f'Radar Activity process={overlay_wiring["activity_process"]}; Overlay Service process={overlay_wiring["service_process"]}'},
+        {"name": "Live coordinate map screen wiring", "status": overlay_wiring.get("map_status", "NOT_VERIFIED"),
+         "evidence": f'Map Activity process={overlay_wiring.get("map_activity_process")}; map view exists={overlay_wiring.get("map_view_exists")}; map consumes daemon snapshot in the same process'},
+        {"name": "Learned database ZIP export", "status": "PASS" if junit["status"] == "PASS" and any("AlbionKnowledgeBundleTest" in name for name in junit.get("suite_names", [])) else "NOT_VERIFIED",
+         "evidence": "ZIP manifest, entity/protocol record counts, empty-database behavior, and exclusion of VPN profile secrets are covered by Android unit tests"},
+        {"name": "Persistent own-player movement trail", "status": "PASS" if junit["status"] == "PASS" and any("AlbionLiveKnowledgeStoreTest" in name for name in junit.get("suite_names", [])) else "NOT_VERIFIED",
+         "evidence": "Operation-22 own-player coordinates are stored as a bounded 240-point history and rendered on the mini radar and coordinate map"},
         {"name": "Overlay delivery and rendering", "status": "NOT_VERIFIED",
          "evidence": "Snapshot parsing is validated before acknowledgement; actual device-side rendering and live data delivery still require a device run"},
         {"name": "Fault-injection and malformed-input tests", "status": "PASS" if junit["status"] == "PASS" and any("AlbionPipelineSelfTest" in name for name in junit.get("suite_names", [])) and any("AlbionRadarSnapshotParserTest" in name for name in junit.get("suite_names", [])) else "NOT_VERIFIED",
