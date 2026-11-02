@@ -77,11 +77,15 @@ class KnowledgeBundleImportTests(unittest.TestCase):
             root = pathlib.Path(directory)
             path = root / "bad.zip"
             make_bundle(path, [], [], [])
-            with zipfile.ZipFile(path, "a") as archive:
-                manifest = json.loads(archive.read("manifest.json"))
-                manifest["files"]["live-knowledge.json"]["sha256"] = "0" * 64
-                archive.writestr("manifest.json", json.dumps(manifest))
-            with self.assertRaises(ValueError):
+            with zipfile.ZipFile(path, "r") as archive:
+                members = {name: archive.read(name) for name in archive.namelist()}
+            manifest = json.loads(members["manifest.json"])
+            manifest["files"]["live-knowledge.json"]["sha256"] = "0" * 64
+            members["manifest.json"] = json.dumps(manifest).encode()
+            with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as archive:
+                for name, data in members.items():
+                    archive.writestr(name, data)
+            with self.assertRaisesRegex(ValueError, "SHA-256 mismatch"):
                 ingest.read_bundle(path)
 
 
