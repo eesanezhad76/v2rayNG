@@ -142,7 +142,7 @@ object AlbionPatternMiner {
      * Learns across recent capture sessions while keeping each file's marker windows isolated.
      * Byte-identical copies are counted once; runtime entity IDs are never joined across files.
      */
-    fun analyzeDirectory(directory: File?, maxFiles: Int = 16): Report {
+    fun analyzeDirectory(directory: File?, maxFiles: Int = 32): Report {
         if (directory == null) return Report(0, 0, 0, emptyList(), listOf("Capture directory is missing."), 0, 0)
         if (directory.isFile) return analyze(directory)
         if (!directory.isDirectory) return Report(0, 0, 0, emptyList(), listOf("Capture directory is missing."), 0, 0)
@@ -162,21 +162,20 @@ object AlbionPatternMiner {
         var duplicates = 0
         var unreadable = 0
         val sourceCaptures = mutableListOf<String>()
-        candidates.take(scanLimit).forEach { file ->
+        for (file in candidates.take(scanLimit)) {
             val digest = try {
                 sha256(file)
             } catch (_: Exception) {
                 unreadable++
-                return@forEach
+                continue
             }
             if (!seenHashes.add(digest)) {
                 duplicates++
-                return@forEach
+                continue
             }
-            if (selected.size < limit) {
-                selected += file
-                sourceCaptures += file.name + ":" + digest
-            }
+            selected += file
+            sourceCaptures += file.name + ":" + digest
+            if (selected.size >= limit) break
         }
 
         if (selected.isEmpty()) {
