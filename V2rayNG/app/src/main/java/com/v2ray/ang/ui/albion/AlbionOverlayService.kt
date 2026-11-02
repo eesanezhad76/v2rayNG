@@ -257,7 +257,9 @@ class AlbionOverlayService : Service() {
             renderBody()
         }
         selectors.addView(tierPicker, LinearLayout.LayoutParams(0, dp(36), 1f))
-        selectors.addView(enchantPicker, LinearLayout.LayoutParams(0, dp(36), 1f))
+        if (activities[activityIndex] != "Mobs") {
+            selectors.addView(enchantPicker, LinearLayout.LayoutParams(0, dp(36), 1f))
+        }
         body.addView(selectors)
 
         val activityPicker = pickerButton(activities[activityIndex], activities, { activityIndex }, ::selectActivity)
@@ -297,8 +299,14 @@ class AlbionOverlayService : Service() {
                 .put("event_id", UUID.randomUUID().toString())
                 .put("sequence", eventSequence.incrementAndGet())
                 .put("activity", activities[activityIndex])
+                .put("target_type", when (activities[activityIndex]) {
+                    "Ore", "Wood", "Stone", "Fiber", "Hide" -> "resource_node"
+                    "Mobs" -> "mob"
+                    "PvP" -> "player"
+                    else -> "activity"
+                })
                 .put("tier", tiers[tierIndex])
-                .put("enchantment", enchants[enchantIndex])
+                .put("enchantment", if (activities[activityIndex] == "Mobs") JSONObject.NULL else enchants[enchantIndex])
                 .put("source", "manual_overlay")
             nodeId?.let { json.put("node_id", it) }
             val keys = extra.keys()
