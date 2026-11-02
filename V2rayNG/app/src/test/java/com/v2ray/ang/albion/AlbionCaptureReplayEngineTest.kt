@@ -33,7 +33,7 @@ class AlbionCaptureReplayEngineTest {
         assertTrue(!File(tempDir, "albion-protocol-evidence.json").exists())
         assertTrue(tempDir.listFiles()?.none { it.name.startsWith("albion-replay-") } != false)
         assertTrue(pipeline.replay.report.ipPackets >= 2)
-        assertTrue(pipeline.protocolEvidenceSummary.contains("No Ore identity is asserted"))
+        assertTrue(pipeline.protocolEvidenceSummary.contains("No item ID, stack delta, or Ore identity is asserted"))
 
         val output = File(tempDir, "reports/pipeline.json")
         AlbionCaptureReplayPipeline.writeJson(pipeline, output)
