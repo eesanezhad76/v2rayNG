@@ -1,7 +1,5 @@
 package com.v2ray.ang.albion
 
-import android.content.Context
-import android.content.ContextWrapper
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -20,13 +18,6 @@ object AlbionCaptureReplayEngine {
         val sourceSha256: String,
         val report: AlbionCaptureAnalyzer.Report,
         val fingerprint: String
-    )
-
-    data class PipelineReplayResult(
-        val replay: ReplayResult,
-        val knowledgeSnapshotJson: String,
-        val protocolEvidenceSummary: String,
-        val entityCount: Int
     )
 
     data class ReplayComparison(
@@ -58,39 +49,16 @@ object AlbionCaptureReplayEngine {
 
     /** Decoder singletons are stateful; serialize replays to prevent cross-capture contamination. */
     @Synchronized
-    fun replay(file: File): ReplayResult {
-        require(file.isFile) { "Capture file does not exist: $file" }
-        return replayResult(file, AlbionCaptureAnalyzer.analyze(file))
-    }
+    fun replay(file: File): ReplayResult = replay(file, null)
 
-    /**
-     * Replays through isolated Knowledge/Evidence stores and returns the same JSON
-     * snapshot shape consumed by the overlay. The daemon's persistent stores are untouched.
-     */
+    /** Pure-JVM replay hook; Android stores can consume decoded messages without coupling this engine to Android. */
     @Synchronized
-    fun replayPipeline(file: File, context: Context): PipelineReplayResult {
+    fun replay(
+        file: File,
+        onDecodedMessage: ((Long, AlbionProtocol18Decoder.Message, List<AlbionEntityEventMapper.Observation>) -> Unit)?
+    ): ReplayResult {
         require(file.isFile) { "Capture file does not exist: $file" }
-        val replayDir = File(context.cacheDir, "albion-replay-${System.nanoTime()}")
-        check(replayDir.mkdirs()) { "Cannot create isolated replay directory" }
-        val isolatedContext = object : ContextWrapper(context.applicationContext) {
-            override fun getFilesDir(): File = replayDir
-        }
-        try {
-            val knowledge = AlbionLiveKnowledgeStore(isolatedContext, Long.MIN_VALUE)
-            val evidence = AlbionProtocolEvidenceStore(isolatedContext, Long.MIN_VALUE)
-            val report = AlbionCaptureAnalyzer.analyze(file) { timestamp, message, observations ->
-                if (message.kind == "event" && message.realCode != null) {
-                    evidence.observe(timestamp, message.realCode, message.parameters)
-                }
-                knowledge.observe(timestamp, observations)
-            }
-            val replay = replayResult(file, report)
-            val snapshot = knowledge.snapshotJson()
-            val entityCount = JSONArray(snapshot).length()
-            return PipelineReplayResult(replay, snapshot, evidence.summaryText(), entityCount)
-        } finally {
-            replayDir.deleteRecursively()
-        }
+        return replayResult(file, AlbionCaptureAnalyzer.analyze(file, onDecodedMessage))
     }
 
     private fun replayResult(file: File, report: AlbionCaptureAnalyzer.Report): ReplayResult {
@@ -146,23 +114,6 @@ object AlbionCaptureReplayEngine {
             sameSource, note, packetDelta, photonDelta, malformedDelta, qualityDelta,
             eventDeltas, entityDeltas, signals
         )
-    }
-
-    fun writePipelineJson(result: PipelineReplayResult, destination: File) {
-        destination.parentFile?.mkdirs()
-        val root = JSONObject()
-            .put("schema_version", 1)
-            .put("replay_scope", "pcap_to_photon_to_protocol18_to_event_mapper_to_isolated_knowledge_and_evidence_stores_to_overlay_snapshot")
-            .put("isolated_knowledge_store_replayed", true)
-            .put("daemon_live_store_mutated", false)
-            .put("overlay_delivery_verified", false)
-            .put("source_name", result.replay.sourceName)
-            .put("source_sha256", result.replay.sourceSha256)
-            .put("fingerprint", result.replay.fingerprint)
-            .put("entity_count", result.entityCount)
-            .put("knowledge_snapshot", JSONArray(result.knowledgeSnapshotJson))
-            .put("protocol_evidence_summary", result.protocolEvidenceSummary)
-        destination.writeText(root.toString(2), Charsets.UTF_8)
     }
 
     fun writeJson(result: ReplayResult, destination: File) {

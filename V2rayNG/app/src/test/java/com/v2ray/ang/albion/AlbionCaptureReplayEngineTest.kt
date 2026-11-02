@@ -23,14 +23,14 @@ class AlbionCaptureReplayEngineTest {
     @Test fun replayPipelineUsesIsolatedStoresAndProducesOverlayCompatibleSnapshot() {
         val capture = File(tempDir, "pipeline.pcap")
         writePcap(capture, listOf(byteArrayOf(1, 2, 3), byteArrayOf(4, 5, 6)))
-        val pipeline = AlbionCaptureReplayEngine.replayPipeline(capture, context())
+        val pipeline = AlbionCaptureReplayPipeline.replay(capture, context())
         assertEquals(0, pipeline.entityCount)
         assertEquals("[]", pipeline.knowledgeSnapshotJson)
         assertTrue(pipeline.replay.report.ipPackets >= 2)
         assertTrue(pipeline.protocolEvidenceSummary.contains("No Ore identity is asserted"))
 
         val output = File(tempDir, "reports/pipeline.json")
-        AlbionCaptureReplayEngine.writePipelineJson(pipeline, output)
+        AlbionCaptureReplayPipeline.writeJson(pipeline, output)
         val json = output.readText()
         assertTrue(json.contains("\"isolated_knowledge_store_replayed\": true"))
         assertTrue(json.contains("\"daemon_live_store_mutated\": false"))
