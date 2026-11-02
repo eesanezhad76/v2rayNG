@@ -84,6 +84,7 @@ object AlbionPatternMiner {
         var endMs: Long? = null,
         val overlayTierLabel: String? = null,
         val overlayEnchantLabel: String? = null,
+        var started: Boolean = false,
         val observations: MutableList<JSONObject> = mutableListOf()
     )
 
@@ -127,6 +128,9 @@ object AlbionPatternMiner {
                                 rolling.filter { it.first >= markerTime - EDGE_WINDOW_MS }.forEach { sample.observations.addAll(it.second) }
                                 active.getOrPut(activity) { ArrayDeque() }.addLast(sample)
                             }
+                            "gathering_started" -> {
+                                active[activity]?.firstOrNull { !it.started }?.started = true
+                            }
                             "gathering_completed" -> {
                                 val queue = active[activity] ?: return@forEach
                                 val sample = queue.pollFirst() ?: return@forEach
@@ -156,7 +160,14 @@ object AlbionPatternMiner {
                         if (observations.isNotEmpty()) {
                             rolling.addLast(time to observations)
                             while (rolling.isNotEmpty() && rolling.first().first < time - EDGE_WINDOW_MS) rolling.removeFirst()
-                            active.values.forEach { queue -> queue.forEach { it.observations.addAll(observations) } }
+                            active.values.forEach { queue ->
+                                // Attribute observations only to the currently started target.
+                                // For older captures without Started markers, retain single-target
+                                // compatibility; never spread packets across multiple pending Found targets.
+                                val target = queue.firstOrNull { it.started }
+                                    ?: if (queue.size == 1) queue.peekFirst().also { it.started = true } else null
+                                target?.observations?.addAll(observations)
+                            }
                             closing.forEach { sample ->
                                 if (time <= (sample.endMs ?: time) + EDGE_WINDOW_MS) sample.observations.addAll(observations)
                             }
