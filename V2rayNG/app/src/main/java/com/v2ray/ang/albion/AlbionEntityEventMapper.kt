@@ -14,6 +14,7 @@ object AlbionEntityEventMapper {
         val kind: String,
         val eventCode: Int,
         val entityId: Long? = null,
+        val sourceEntityId: Long? = null,
         val typeId: Int? = null,
         val typeNumber: Int? = null,
         val tier: Int? = null,
@@ -76,19 +77,23 @@ object AlbionEntityEventMapper {
             }
             6 -> {
                 val id = number(0) ?: number(6) ?: return emptyList()
-                listOf(Observation("health", code, entityId = id, value = float(2), secondaryValue = float(3)))
+                listOf(Observation("health", code, entityId = id, sourceEntityId = number(6),
+                    value = float(2), secondaryValue = float(3)))
             }
             7 -> {
-                // HealthUpdates is batched: key 6 contains affected entity IDs,
-                // key 2 contains per-entity health deltas, key 3 the resulting
-                // health values. Keep only exact index-aligned observations.
-                val ids = idList(p[6])
+                // HealthUpdates is batched for one entity (key 0). Key 6 contains
+                // the source/attacker IDs for the aligned health-change samples,
+                // not the entity whose health changed.
+                val targetId = number(0) ?: return emptyList()
+                val sourceIds = idList(p[6])
                 val deltas = floatList(p[2])
                 val resultingHealth = floatList(p[3])
-                if (ids.isEmpty()) return emptyList()
-                ids.mapIndexed { index, id ->
+                val count = maxOf(sourceIds.size, deltas.size, resultingHealth.size)
+                if (count == 0) return emptyList()
+                List(count) { index ->
                     Observation(
-                        "health", code, entityId = id,
+                        "health", code, entityId = targetId,
+                        sourceEntityId = sourceIds.getOrNull(index),
                         value = deltas.getOrNull(index),
                         secondaryValue = resultingHealth.getOrNull(index)
                     )
