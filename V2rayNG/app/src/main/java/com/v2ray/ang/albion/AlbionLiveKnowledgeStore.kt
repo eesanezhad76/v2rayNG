@@ -41,10 +41,22 @@ class AlbionLiveKnowledgeStore(
             record.put("sightings", record.optInt("sightings") + 1)
             record.put("last_event_code", observation.eventCode)
             record.put("last_kind", observation.kind)
-            observation.typeId?.let { record.put("mobile_type_id", it) }
-            observation.typeNumber?.let { record.put("family", it) }
-            observation.tier?.let { if (it in 1..8) record.put("tier", it) }
-            observation.enchant?.let { if (it in 0..4) record.put("enchant", it) }
+            observation.typeId?.let {
+                recordEvidenceValue(record, "mobile_type_id", it)
+                record.put("mobile_type_id", it)
+            }
+            observation.typeNumber?.let {
+                recordEvidenceValue(record, "family", it)
+                record.put("family", it)
+            }
+            observation.tier?.let { if (it in 1..8) {
+                recordEvidenceValue(record, "tier", it)
+                record.put("tier", it)
+            } }
+            observation.enchant?.let { if (it in 0..4) {
+                recordEvidenceValue(record, "enchant", it)
+                record.put("enchant", it)
+            } }
             observation.size?.let { record.put("amount", it) }
             observation.name?.let { record.put("name", it) }
             val x = observation.x?.toDouble()
@@ -66,8 +78,12 @@ class AlbionLiveKnowledgeStore(
                 kotlin.math.abs(targetX) <= MAX_COORDINATE && kotlin.math.abs(targetY) <= MAX_COORDINATE) {
                 record.put("target_x", targetX).put("target_y", targetY)
             }
-            record.put("classification", classification(record))
-            record.put("evidence_grade", evidenceGrade(record))
+            val conflicts = conflictingEvidenceFields(record)
+            record.put("evidence_conflicts", JSONArray(conflicts))
+            record.put("classification", classification(record, conflicts))
+            record.put("evidence_grade", evidenceGrade(record, conflicts))
+            record.put("evidence_score", evidenceScore(record, conflicts))
+            record.put("evidence_reason", evidenceReason(record, conflicts))
             dirty = true
         }
         // Bound storage and avoid disk I/O for every packet in a busy scene.
@@ -131,6 +147,9 @@ class AlbionLiveKnowledgeStore(
         val depleted = records.values.count { it.optBoolean("depleted", false) }
         val corroborated = records.values.count { it.optString("evidence_grade") == "corroborated_same_id" }
         val repeated = records.values.count { it.optString("evidence_grade") == "repeated_typed" }
+        val ambiguous = records.values.count { it.optString("classification") == "ambiguous_resource_candidate" }
+        val averageEvidenceScore = if (records.isEmpty()) 0 else
+            records.values.sumOf { it.optInt("evidence_score") } / records.size
         return buildString {
             appendLine()
             appendLine("Live knowledge cache")
@@ -140,15 +159,35 @@ class AlbionLiveKnowledgeStore(
             appendLine("Entities marked depleted: $depleted")
             appendLine("Corroborated by same-ID resource state: $corroborated")
             appendLine("Repeated typed resource observations: $repeated")
-            appendLine("Evidence grades are ordinal rules, not calibrated probabilities.")
+            appendLine("Ambiguous entities due to conflicting typed evidence: $ambiguous")
+            appendLine("Average evidence score (0-100 heuristic): $averageEvidenceScore")
+            appendLine("Evidence score is an ordinal heuristic, not a calibrated probability.")
             appendLine("Persistent file: ${file.name}")
             appendLine("Classification is conservative; no family-to-Ore guesses are made.")
         }
     }
 
-    private fun evidenceGrade(record: JSONObject): String {
+    private fun recordEvidenceValue(record: JSONObject, field: String, value: Any) {
+        val key = "${field}_evidence"
+        val values = record.optJSONArray(key) ?: JSONArray().also { array ->
+            if (record.has(field)) array.put(record.opt(field).toString())
+        }
+        val normalized = value.toString()
+        if ((0 until values.length()).none { values.optString(it) == normalized } && values.length() < 16) {
+            values.put(normalized)
+        }
+        record.put(key, values)
+    }
+
+    private fun conflictingEvidenceFields(record: JSONObject): List<String> =
+        listOf("mobile_type_id", "family", "tier", "enchant").filter { field ->
+            (record.optJSONArray("${field}_evidence")?.length() ?: 0) > 1
+        }
+
+    private fun evidenceGrade(record: JSONObject, conflicts: List<String>): String {
         val typed = record.has("mobile_type_id") && record.has("tier") && record.has("x") && record.has("y")
         return when {
+            conflicts.isNotEmpty() -> "conflicting_typed_observation"
             typed && record.optBoolean("resource_state_seen", false) -> "corroborated_same_id"
             typed && record.optInt("sightings") >= 3 -> "repeated_typed"
             typed -> "typed_single"
@@ -158,7 +197,31 @@ class AlbionLiveKnowledgeStore(
         }
     }
 
-    private fun classification(record: JSONObject): String = when {
+    private fun evidenceScore(record: JSONObject, conflicts: List<String>): Int {
+        val typed = record.has("mobile_type_id") && record.has("tier") && record.has("x") && record.has("y")
+        return when {
+            conflicts.isNotEmpty() -> 20
+            typed && record.optBoolean("resource_state_seen", false) -> 90
+            typed && record.optInt("sightings") >= 3 -> 75
+            typed -> 55
+            record.optString("last_kind") == "static_resource" && record.optInt("sightings") >= 3 -> 40
+            record.optString("last_kind") == "static_resource" -> 25
+            else -> 0
+        }
+    }
+
+    private fun evidenceReason(record: JSONObject, conflicts: List<String>): String = when {
+        conflicts.isNotEmpty() -> "conflicting_fields=" + conflicts.joinToString(",")
+        record.optString("evidence_grade") == "corroborated_same_id" -> "typed_resource_plus_same_id_state"
+        record.optString("evidence_grade") == "repeated_typed" -> "repeated_typed_observations"
+        record.optString("evidence_grade") == "typed_single" -> "single_typed_resource_observation"
+        record.optString("evidence_grade") == "repeated_candidate" -> "repeated_static_candidate_only"
+        record.optString("evidence_grade") == "candidate" -> "single_static_candidate_only"
+        else -> "insufficient_typed_evidence"
+    }
+
+    private fun classification(record: JSONObject, conflicts: List<String>): String = when {
+        conflicts.isNotEmpty() -> "ambiguous_resource_candidate"
         record.has("mobile_type_id") && record.has("tier") && record.has("x") && record.has("y") ->
             "typed_resource_observation"
         record.optString("last_kind") == "static_resource" && record.has("x") && record.has("y") ->

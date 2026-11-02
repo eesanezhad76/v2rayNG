@@ -132,6 +132,28 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(summary.contains("No item ID, stack delta, or Ore identity is asserted"), summary)
     }
 
+    @Test fun conflictingTypedEvidenceBecomesAmbiguousAndLowersEvidenceScore() {
+        val store = AlbionLiveKnowledgeStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 4321L,
+            typeId = 574, typeNumber = 29, tier = 5, enchant = 1, x = 20f, y = 30f
+        )))
+        val first = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(first.optInt("evidence_score") >= 50)
+
+        store.observe(now + 100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 4321L,
+            typeId = 575, typeNumber = 29, tier = 5, enchant = 1, x = 20f, y = 30f
+        )))
+        val conflicted = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(conflicted.optString("classification") == "ambiguous_resource_candidate")
+        assertTrue(conflicted.optString("evidence_grade") == "conflicting_typed_observation")
+        assertTrue(conflicted.optInt("evidence_score") < first.optInt("evidence_score"))
+        assertTrue(conflicted.optString("evidence_reason").contains("mobile_type_id"))
+        assertTrue(store.summaryText().contains("Ambiguous entities due to conflicting typed evidence: 1"))
+    }
+
     @Test fun rejectsInvalidCoordinatesAndDoesNotPromoteStaticCandidateToTypedOre() {
         val store = AlbionLiveKnowledgeStore(context())
         store.observe(
