@@ -278,4 +278,26 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(history != null && history.length() == 1, player.toString())
         assertTrue(history!!.getJSONObject(0).optDouble("x") == -60.0)
     }
+
+    @Test fun doesNotMergeSameRuntimeEntityIdAcrossCaptureSessionsWithoutZoneIdentity() {
+        val first = AlbionLiveKnowledgeStore(context(), 10_000L)
+        first.observe(10_100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 777L,
+            typeId = 574, typeNumber = 29, tier = 5, enchant = 1, x = 20f, y = 30f
+        )))
+        first.flush()
+
+        val second = AlbionLiveKnowledgeStore(context(), 20_000L)
+        second.observe(20_100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 777L,
+            typeId = 571, typeNumber = 29, tier = 3, enchant = 0, x = -20f, y = -30f
+        )))
+        val current = org.json.JSONArray(second.snapshotJson())
+        assertTrue(current.length() == 1)
+        val record = current.getJSONObject(0)
+        assertTrue(record.optString("entity_id") == "777")
+        assertTrue(record.optInt("tier") == 3)
+        assertTrue(record.optInt("evidence_conflicts") == 0 || record.optJSONArray("evidence_conflicts")?.length() == 0)
+        assertTrue(second.summaryText().contains("Unique tracked entities: 2"))
+    }
 }
