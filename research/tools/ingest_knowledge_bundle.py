@@ -87,11 +87,11 @@ def read_bundle(path):
         }
 
 
-def load_existing():
-    if not OUTPUT.is_file():
+def load_existing(path=OUTPUT):
+    if not path.is_file():
         return {"schema_version": 1, "imported_bundles": [], "entity_observations": [],
                 "protocol_evidence": [], "learned_patterns": []}
-    document = json.loads(OUTPUT.read_text(encoding="utf-8"))
+    document = json.loads(path.read_text(encoding="utf-8"))
     if document.get("schema_version") != 1:
         raise ValueError("Existing central knowledge database has an unsupported schema")
     for key in ("imported_bundles", "entity_observations", "protocol_evidence", "learned_patterns"):
@@ -186,10 +186,7 @@ def main(argv=None):
     parser.add_argument("archives", nargs="+", type=pathlib.Path)
     parser.add_argument("--output", type=pathlib.Path, default=OUTPUT)
     args = parser.parse_args(argv)
-    database = load_existing() if args.output == OUTPUT else {
-        "schema_version": 1, "imported_bundles": [], "entity_observations": [],
-        "protocol_evidence": [], "learned_patterns": []
-    }
+    database = load_existing(args.output)
     imported = skipped = 0
     for path in args.archives:
         if not path.is_file() or path.suffix.lower() != ".zip":
