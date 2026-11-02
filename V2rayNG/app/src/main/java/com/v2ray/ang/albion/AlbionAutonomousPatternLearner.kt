@@ -177,6 +177,6 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
         const val FLUSH_INTERVAL_MS = 3_000L
         const val MIN_REPEATED_SIGHTINGS = 10
         const val MIN_CAPTURE_SESSIONS = 2
-        const val MIN_LABEL_SAMPLES = 2
+        const val MIN_LABEL_SAMPLES = 3
     }
 }
