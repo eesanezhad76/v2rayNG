@@ -160,15 +160,29 @@ jobs:
         ./gradlew licenseFdroidReleaseReport
         ./gradlew assembleRelease -Pandroid.injected.signing.store.file=${{ steps.android_keystore.outputs.filePath }} -Pandroid.injected.signing.store.password=${{ secrets.APP_KEYSTORE_PASSWORD }} -Pandroid.injected.signing.key.alias=${{ secrets.APP_KEYSTORE_ALIAS }} -Pandroid.injected.signing.key.password=${{ secrets.APP_KEY_PASSWORD }}
     
-    - name: Verify debug APK signature
+    - name: Verify all debug APKs and generate SHA-256 manifest
       if: success() && github.ref == 'refs/heads/albion-pattern-mining'
       shell: bash
       run: |
         set -euo pipefail
-        APK="$(find V2rayNG/app/build/outputs/apk/playstore/debug -type f -name '*universal*.apk' -print -quit)"
-        test -n "$APK"
-        mkdir -p V2rayNG/app/build/reports/albion
-        "$ANDROID_HOME/build-tools/37.0.0/apksigner" verify --verbose --print-certs "$APK" 2>&1 | tee V2rayNG/app/build/reports/albion/apk-signature-verification.txt
+        APK_DIR="V2rayNG/app/build/outputs/apk/playstore/debug"
+        REPORT_DIR="V2rayNG/app/build/reports/albion"
+        mkdir -p "$REPORT_DIR"
+        mapfile -t APKS < <(find "$APK_DIR" -maxdepth 1 -type f -name '*.apk' | sort)
+        if [[ "${#APKS[@]}" -ne 5 ]]; then
+          printf 'Expected 5 APKs (4 ABI splits + universal), found %s\\n' "${#APKS[@]}"
+          printf '%s\\n' "${APKS[@]}"
+          exit 1
+        fi
+        : > "$REPORT_DIR/apk-signature-verification.txt"
+        : > "$REPORT_DIR/apk-sha256.txt"
+        for APK in "${APKS[@]}"; do
+          echo "VERIFY: $APK" | tee -a "$REPORT_DIR/apk-signature-verification.txt"
+          "$ANDROID_HOME/build-tools/37.0.0/apksigner" verify --verbose --print-certs "$APK" 2>&1 | tee -a "$REPORT_DIR/apk-signature-verification.txt"
+          "$ANDROID_HOME/build-tools/37.0.0/aapt" dump badging "$APK" | grep -F "package: name='com.v2ray.ang.radar'" >/dev/null
+          sha256sum "$APK" >> "$REPORT_DIR/apk-sha256.txt"
+        done
+        cat "$REPORT_DIR/apk-sha256.txt"
 
     - name: Run offline PCAP replay and audit
       if: success() && github.ref == 'refs/heads/albion-pattern-mining'
@@ -236,6 +250,23 @@ jobs:
       with:
         name: universal-apk
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*universal*.apk
+
+    - name: Upload x86_64 APK
+      uses: actions/upload-artifact@v7
+      if: ${{ success() }}
+      with:
+        name: x86_64-apk
+        path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*x86_64*.apk
+
+    - name: Upload APK verification and SHA-256 manifest
+      uses: actions/upload-artifact@v7
+      if: ${{ always() }}
+      with:
+        name: apk-verification
+        path: |
+          ${{ github.workspace }}/V2rayNG/app/build/reports/albion/apk-signature-verification.txt
+          ${{ github.workspace }}/V2rayNG/app/build/reports/albion/apk-sha256.txt
+        if-no-files-found: warn
 
   sign-and-release:
     needs: build
