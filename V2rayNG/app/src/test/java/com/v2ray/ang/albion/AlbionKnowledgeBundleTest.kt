@@ -20,6 +20,7 @@ class AlbionKnowledgeBundleTest {
     private fun context() = object : ContextWrapper(null as Context?) {
         override fun getApplicationContext(): Context = this
         override fun getFilesDir(): File = tempDir
+        override fun getExternalFilesDir(type: String?): File = tempDir
         override fun getPackageName(): String = "com.v2ray.ang.radar"
     }
 
@@ -32,6 +33,8 @@ class AlbionKnowledgeBundleTest {
             JSONArray().put(JSONObject().put("event_code", 40)).toString()
         )
         File(tempDir, "v2ray-profile.json").writeText("{\"password\":\"must-not-export\"}")
+        val captureDir = File(tempDir, "AlbionCaptures").apply { mkdirs() }
+        File(captureDir, "latest.report.txt").writeText("Pattern Miner: new resource family candidate")
 
         val bytes = ByteArrayOutputStream()
         val summary = AlbionKnowledgeBundle.write(context(), bytes)
@@ -48,6 +51,8 @@ class AlbionKnowledgeBundleTest {
         assertTrue(entries.containsKey("manifest.json"))
         assertTrue(entries.containsKey("live-knowledge.json"))
         assertTrue(entries.containsKey("protocol-evidence.json"))
+        assertTrue(entries.containsKey("pattern-learning-report.txt"))
+        assertTrue(summary.patternReportIncluded)
         val manifest = JSONObject(entries.getValue("manifest.json"))
         assertEquals(AlbionKnowledgeBundle.SCHEMA_VERSION, manifest.optInt("schema_version"))
         assertEquals(1, manifest.optInt("entity_records"))
