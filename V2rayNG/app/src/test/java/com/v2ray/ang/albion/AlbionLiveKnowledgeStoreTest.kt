@@ -104,6 +104,34 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(summary.contains("No item ID, stack delta, or Ore identity is asserted"), summary)
     }
 
+    @Test fun retainsHarvestLifecycleAndDiscoversInventoryShapesWithoutAssertingItemIdentity() {
+        val evidence = AlbionProtocolEvidenceStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        evidence.observe(now, 59, mapOf(0 to 777L))
+        evidence.observe(now + 100L, 60, mapOf(0 to 777L))
+        evidence.observe(now + 200L, 61, mapOf(0 to 777L))
+        evidence.observe(now + 250L, 26, mapOf(0 to 123, 1 to intArrayOf(574, 1, 5)))
+        evidence.observe(now + 300L, 40, mapOf(
+            0 to 777L, 5 to 29, 6 to 574, 7 to 5, 8 to floatArrayOf(20f, 30f), 11 to 1
+        ))
+        val summary = evidence.summaryText()
+        assertTrue(summary.contains("HarvestStart events retained across captures: 1"), summary)
+        assertTrue(summary.contains("HarvestCancel events retained across captures: 1"), summary)
+        assertTrue(summary.contains("HarvestFinished events retained across captures: 1"), summary)
+        assertTrue(summary.contains("Inventory parameter shapes observed: 1"), summary)
+        assertTrue(summary.contains("0=Integer,1=IntArray[3]"), summary)
+        assertTrue(summary.contains("With a nearby typed resource event (candidate only): 1"), summary)
+        assertTrue(summary.contains("No item ID, stack delta, or Ore identity is asserted"), summary)
+    }
+
+    @Test fun corruptEvidenceCacheDoesNotCrashOrCreateFalseInventoryEvidence() {
+        File(tempDir, "albion-protocol-evidence.json").writeText("{broken-json")
+        val evidence = AlbionProtocolEvidenceStore(context())
+        val summary = evidence.summaryText()
+        assertTrue(summary.contains("Inventory events retained across captures: 0"), summary)
+        assertTrue(summary.contains("No item ID, stack delta, or Ore identity is asserted"), summary)
+    }
+
     @Test fun rejectsInvalidCoordinatesAndDoesNotPromoteStaticCandidateToTypedOre() {
         val store = AlbionLiveKnowledgeStore(context())
         store.observe(

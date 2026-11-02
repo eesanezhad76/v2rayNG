@@ -27,14 +27,17 @@ class AlbionProtocolEvidenceStore(context: Context) {
             else -> return
         }
         val payload = JSONObject()
+        val parameterSchema = JSONObject()
         parameters.entries.sortedBy { it.key }.forEach { (key, value) ->
             payload.put(key.toString(), safeValue(value))
+            parameterSchema.put(key.toString(), parameterType(value))
         }
         events.add(JSONObject()
             .put("time_ms", timestampMs)
             .put("event_code", eventCode)
             .put("kind", kind)
-            .put("parameters", payload))
+            .put("parameters", payload)
+            .put("parameter_schema", parameterSchema))
         while (events.size > MAX_EVENTS) events.removeAt(0)
         dirty = true
         if (timestampMs - lastFlushMs >= FLUSH_INTERVAL_MS) flush(timestampMs)
@@ -47,8 +50,21 @@ class AlbionProtocolEvidenceStore(context: Context) {
     fun summaryText(): String {
         val current = events.filter { it.optLong("time_ms") >= sessionStartedMs }
         val inventory = events.filter { it.optString("kind") == "inventory" }
+        val harvestStarted = events.filter {
+            it.optString("kind") == "harvest" && it.optInt("event_code") == 59
+        }
+        val harvestCancelled = events.filter {
+            it.optString("kind") == "harvest" && it.optInt("event_code") == 60
+        }
         val harvestFinished = events.filter {
             it.optString("kind") == "harvest" && it.optInt("event_code") == 61
+        }
+        val inventoryShapes = linkedMapOf<String, Int>()
+        inventory.forEach { event ->
+            val schema = event.optJSONObject("parameter_schema") ?: return@forEach
+            val signature = schema.keys().asSequence().toList().sorted()
+                .joinToString(",") { "$it=${schema.optString(it)}" }
+            if (signature.isNotBlank()) inventoryShapes[signature] = (inventoryShapes[signature] ?: 0) + 1
         }
         val resources = events.filter {
             it.optString("kind") == "resource" && it.optInt("event_code") == 40
@@ -79,7 +95,13 @@ class AlbionProtocolEvidenceStore(context: Context) {
             appendLine()
             appendLine("PROTOCOL / INVENTORY EVIDENCE (raw; item schema not yet verified)")
             appendLine("Inventory events retained across captures: ${inventory.size}")
+            appendLine("HarvestStart events retained across captures: ${harvestStarted.size}")
+            appendLine("HarvestCancel events retained across captures: ${harvestCancelled.size}")
             appendLine("HarvestFinished events retained across captures: ${harvestFinished.size}")
+            appendLine("Inventory parameter shapes observed: ${inventoryShapes.size}")
+            inventoryShapes.entries.sortedByDescending { it.value }.take(5).forEach { (shape, count) ->
+                appendLine("Inventory shape observations=$count: $shape")
+            }
             appendLine("Events in current capture: ${current.size}")
             appendLine("Inventory events within ${PAIR_WINDOW_MS / 1000}s of HarvestFinished: $paired")
             appendLine("With a nearby typed resource event (candidate only): $resourceCandidates")
@@ -109,6 +131,19 @@ class AlbionProtocolEvidenceStore(context: Context) {
         } catch (_: Exception) {
             // Retain dirty state; capture must continue even if persistence fails.
         }
+    }
+
+    private fun parameterType(value: Any?): String = when (value) {
+        null -> "null"
+        is ByteArray -> "ByteArray[${value.size}]"
+        is IntArray -> "IntArray[${value.size}]"
+        is LongArray -> "LongArray[${value.size}]"
+        is ShortArray -> "ShortArray[${value.size}]"
+        is FloatArray -> "FloatArray[${value.size}]"
+        is DoubleArray -> "DoubleArray[${value.size}]"
+        is Collection<*> -> "${value.javaClass.simpleName}[${value.size}]"
+        is Array<*> -> "Array[${value.size}]"
+        else -> value.javaClass.simpleName
     }
 
     private fun safeValue(value: Any?): Any = when (value) {
