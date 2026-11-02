@@ -99,9 +99,9 @@ Importer behavior implemented:
 
 ### APK build status at handoff creation (2026-11-03)
 - Build workflow run **41536147013** (`Build APK`) targets commit `5ab7482b7bc190a3cdddd3a511e6e799b976a262`.
-- Its last observed state was **pending**, with no job rows returned yet and no artifacts published.
+- A fresh status query on 2026-11-03 showed this run **completed / cancelled**; it produced no confirmed artifacts.
 - The branch HEAD has since moved to `07f0a28b5bb10a67247b4c952a8a7e5da4a946ef` through the automated ingest commit. Therefore run 41536147013 does **not** build the current branch HEAD.
-- An older Build APK run **41535345732** was previously observed in progress at the Gradle step `Build signed isolated radar APK`; the last known job ID was `125586362344`. Its current status must be re-queried; do not repeat the old in-progress state as current fact.
+- Older Build APK run **41535345732** was re-queried on 2026-11-03 and remains **in_progress** (head `aca1a1959cfa054e8096cb89486e9b6818b25ed8`). It was previously observed at the Gradle step `Build signed isolated radar APK`; last known job ID `125586362344`. Its job steps and artifacts still need inspection.
 - No APK artifact or verified SHA-256 manifest had been confirmed at the time of this handoff.
 - The newer build workflow commit `5ab7482...` added checks intended to verify five APK outputs (four ABI splits plus universal), signatures with `apksigner`, package ID with `aapt`, SHA-256 manifest generation, a separate x86_64 artifact, and a verification/checksum artifact. Confirm the actual workflow file and run output before relying on this list.
 - A push that updates this handoff may trigger another APK workflow. Track the newest run rather than assuming an older run represents the new HEAD.
@@ -167,12 +167,24 @@ If nothing was changed, do not create a fake implementation entry; record only a
 
 ### 2026-11-03 — Initial durable handoff created
 - **Starting HEAD:** `07f0a28b5bb10a67247b4c952a8a7e5da4a946ef` (branch query at start of this documentation change).
-- **Ending HEAD:** to be filled after this documentation commit is confirmed.
+- **Ending HEAD:** `77456ba5d9814b80849b1770945fe1ee677f532a` (this handoff commit).
 - **Files changed:** `docs/ALBION_PROJECT_HANDOFF.md` (this file).
 - **Implemented:** Persistent project memory, branch guardrails, evidence-level rules, feature inventory, verification ledger, known limitations, historical bug ledger, and resume checklist.
 - **Tests run:** No source-code tests run; documentation-only change.
-- **CI/build/artifacts:** At the time of inspection, run 41536147013 was pending and had no artifacts; run 41535345732 requires a fresh status check. Ingest run 41536147098 had succeeded with 21 Python tests on parent commit 5ab7482.
+- **CI/build/artifacts:** After the handoff commit, run 41536147013 was confirmed cancelled (no artifacts). Run 41535345732 was still in progress on older commit `aca1a1959cfa054e8096cb89486e9b6818b25ed8`. Ingest run 41536147098 succeeded with 21 Python tests on commit `5ab7482`.
 - **Bugs found and fixes:** None in source code during this documentation-only task.
 - **Regressions or possible breakage:** This commit may trigger a new APK workflow; monitor it. The current pending APK run targets the parent commit, not this new documentation commit.
 - **Not done / remaining:** APK build/signature/artifact verification and all Android field tests remain outstanding.
-- **Next exact action:** Query the new branch HEAD and latest APK workflow run, then inspect the APK build steps and artifacts.
+- **Next exact action:** Inspect job steps/logs/artifacts for run 41535345732; then arrange a fresh APK build for current HEAD `77456ba5d9814b80849b1770945fe1ee677f532a` if no valid current-head build exists.
+
+### 2026-11-03 — Status refresh after handoff commit
+- **Starting HEAD:** `77456ba5d9814b80849b1770945fe1ee677f532a`.
+- **Ending HEAD:** unchanged; documentation status refresh only.
+- **Files changed:** `docs/ALBION_PROJECT_HANDOFF.md`.
+- **Implemented:** Corrected the initial status snapshot using live GitHub queries: run 41536147013 is cancelled (not pending); run 41535345732 is still in progress on older commit `aca1a1959cfa054e8096cb89486e9b6818b25ed8`.
+- **Tests run:** None; status/documentation refresh only.
+- **CI/build/artifacts:** No artifacts confirmed for run 41536147013. The branch currently points to the handoff commit; no newer Build APK run appeared in the latest-runs query.
+- **Bugs found and fixes:** None.
+- **Regressions or possible breakage:** The older build may still be occupying a runner; verify before triggering another build.
+- **Not done / remaining:** Inspect run 41535345732 steps/logs/artifacts and build the current branch HEAD.
+- **Next exact action:** Query job steps and artifacts for run 41535345732, then trigger/verify a build of the current HEAD if needed.
