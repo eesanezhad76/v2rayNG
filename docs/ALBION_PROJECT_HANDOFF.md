@@ -179,7 +179,7 @@ If nothing was changed, do not create a fake implementation entry; record only a
 
 ### 2026-11-03 — Status refresh after handoff commit
 - **Starting HEAD:** `77456ba5d9814b80849b1770945fe1ee677f532a`.
-- **Ending HEAD:** unchanged; documentation status refresh only.
+- **Ending HEAD:** this status-refresh documentation commit (the authoritative exact SHA is the branch HEAD; this entry intentionally avoids a self-referential hash).
 - **Files changed:** `docs/ALBION_PROJECT_HANDOFF.md`.
 - **Implemented:** Corrected the initial status snapshot using live GitHub queries: run 41536147013 is cancelled (not pending); run 41535345732 is still in progress on older commit `aca1a1959cfa054e8096cb89486e9b6818b25ed8`.
 - **Tests run:** None; status/documentation refresh only.
