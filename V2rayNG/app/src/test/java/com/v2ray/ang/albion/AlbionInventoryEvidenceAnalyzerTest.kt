@@ -24,6 +24,11 @@ class AlbionInventoryEvidenceAnalyzerTest {
         assertEquals(3, scalar.observations)
         assertEquals(1.0, scalar.minimum)
         assertEquals(3.0, scalar.maximum)
+        assertEquals(2, scalar.positiveDeltaCount)
+        assertEquals(0, scalar.negativeDeltaCount)
+        assertEquals(0, scalar.zeroDeltaCount)
+        assertEquals(1.0, scalar.minimumDelta)
+        assertEquals(1.0, scalar.maximumDelta)
         assertTrue(candidates.any { it.parameterPath == "2[0]" })
     }
 

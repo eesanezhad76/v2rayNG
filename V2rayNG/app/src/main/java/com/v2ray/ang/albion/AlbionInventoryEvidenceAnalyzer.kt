@@ -16,12 +16,19 @@ object AlbionInventoryEvidenceAnalyzer {
         val observations: Int,
         val distinctValues: Int,
         val minimum: Double,
-        val maximum: Double
+        val maximum: Double,
+        val positiveDeltaCount: Int,
+        val negativeDeltaCount: Int,
+        val zeroDeltaCount: Int,
+        val minimumDelta: Double?,
+        val maximumDelta: Double?
     )
+
+    private data class NumericObservation(val inventoryTimeMs: Long, val value: Double)
 
     private data class Accumulator(
         val harvestTimes: MutableSet<Long> = linkedSetOf(),
-        val values: MutableList<Double> = mutableListOf()
+        val values: MutableList<NumericObservation> = mutableListOf()
     )
 
     fun analyze(
@@ -35,7 +42,9 @@ object AlbionInventoryEvidenceAnalyzer {
         }
         if (finishes.isEmpty()) return emptyList()
         val accumulators = linkedMapOf<String, Accumulator>()
-        events.filter { it.optString("kind") == "inventory" }.forEach { inventory ->
+        events.filter { it.optString("kind") == "inventory" }
+            .sortedBy { it.optLong("time_ms", Long.MAX_VALUE) }
+            .forEach { inventory ->
             val inventoryTime = inventory.optLong("time_ms", -1L)
             if (inventoryTime < 0L) return@forEach
             val finish = finishes.minByOrNull { abs(it.optLong("time_ms") - inventoryTime) }
@@ -46,7 +55,7 @@ object AlbionInventoryEvidenceAnalyzer {
             val parameters = inventory.optJSONObject("parameters") ?: return@forEach
             val keys = parameters.keys().asSequence().toList().sortedBy { it.toIntOrNull() ?: Int.MAX_VALUE }
             keys.forEach { key ->
-                collectNumeric(parameters.opt(key), key, eventCode, finishTime, accumulators)
+                collectNumeric(parameters.opt(key), key, eventCode, inventoryTime, finishTime, accumulators)
             }
         }
         return accumulators.mapNotNull { (key, accumulator) ->
@@ -54,7 +63,8 @@ object AlbionInventoryEvidenceAnalyzer {
                 return@mapNotNull null
             }
             val split = key.split("|", limit = 2)
-            val values = accumulator.values
+            val values = accumulator.values.sortedBy { it.inventoryTimeMs }.map { it.value }
+            val deltas = values.zipWithNext { previous, next -> next - previous }
             Candidate(
                 eventCode = split[0].toInt(),
                 parameterPath = split[1],
@@ -62,7 +72,12 @@ object AlbionInventoryEvidenceAnalyzer {
                 observations = values.size,
                 distinctValues = values.toSet().size,
                 minimum = values.minOrNull() ?: return@mapNotNull null,
-                maximum = values.maxOrNull() ?: return@mapNotNull null
+                maximum = values.maxOrNull() ?: return@mapNotNull null,
+                positiveDeltaCount = deltas.count { it > 0.0 },
+                negativeDeltaCount = deltas.count { it < 0.0 },
+                zeroDeltaCount = deltas.count { it == 0.0 },
+                minimumDelta = deltas.minOrNull(),
+                maximumDelta = deltas.maxOrNull()
             )
         }.sortedWith(compareByDescending<Candidate> { it.independentHarvests }
             .thenByDescending { it.observations }
@@ -74,6 +89,7 @@ object AlbionInventoryEvidenceAnalyzer {
         value: Any?,
         path: String,
         eventCode: Int,
+        inventoryTime: Long,
         harvestTime: Long,
         accumulators: MutableMap<String, Accumulator>
     ) {
@@ -84,12 +100,12 @@ object AlbionInventoryEvidenceAnalyzer {
                     val key = "$eventCode|$path"
                     val accumulator = accumulators.getOrPut(key) { Accumulator() }
                     accumulator.harvestTimes.add(harvestTime)
-                    accumulator.values.add(number)
+                    accumulator.values.add(NumericObservation(inventoryTime, number))
                 }
             }
             is JSONArray -> {
                 for (index in 0 until minOf(value.length(), 128)) {
-                    collectNumeric(value.opt(index), "$path[$index]", eventCode, harvestTime, accumulators)
+                    collectNumeric(value.opt(index), "$path[$index]", eventCode, inventoryTime, harvestTime, accumulators)
                 }
             }
         }

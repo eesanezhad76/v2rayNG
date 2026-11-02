@@ -110,7 +110,7 @@ class AlbionProtocolEvidenceStore(
             appendLine("With a nearby typed resource event (candidate only): $resourceCandidates")
             appendLine("Repeated harvest-correlated numeric parameter candidates (unclassified): " + numericCandidates.size)
             numericCandidates.take(10).forEach { candidate ->
-                appendLine("candidate event=" + candidate.eventCode + " path=" + candidate.parameterPath + " independent_harvests=" + candidate.independentHarvests + " observations=" + candidate.observations + " distinct_values=" + candidate.distinctValues + " range=" + candidate.minimum + ".." + candidate.maximum)
+                appendLine("candidate event=" + candidate.eventCode + " path=" + candidate.parameterPath + " independent_harvests=" + candidate.independentHarvests + " observations=" + candidate.observations + " distinct_values=" + candidate.distinctValues + " range=" + candidate.minimum + ".." + candidate.maximum + " deltas(+/-/0)=" + candidate.positiveDeltaCount + "/" + candidate.negativeDeltaCount + "/" + candidate.zeroDeltaCount + " delta_range=" + candidate.minimumDelta + ".." + candidate.maximumDelta)
             }
             details.takeLast(5).forEach { appendLine(it) }
             append("No item ID, stack delta, or Ore identity is asserted. Candidate parameter paths are not semantic mappings.")
