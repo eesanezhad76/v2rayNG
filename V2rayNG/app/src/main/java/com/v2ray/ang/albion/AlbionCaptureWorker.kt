@@ -423,6 +423,9 @@ class AlbionCaptureWorker(
                 val database = File(contextForPatterns.filesDir, "albion-learned-patterns.json")
                 val temporary = File(contextForPatterns.filesDir, "albion-learned-patterns.json.tmp")
                 val backup = File(contextForPatterns.filesDir, "albion-learned-patterns.json.bak")
+                if (backup.exists()) {
+                    if (database.exists()) backup.delete() else backup.renameTo(database)
+                }
                 temporary.writeText(patternReport.asJson().toString(2), Charsets.UTF_8)
                 if (database.exists() && !database.renameTo(backup)) {
                     error("Cannot preserve previous learned-pattern database")
