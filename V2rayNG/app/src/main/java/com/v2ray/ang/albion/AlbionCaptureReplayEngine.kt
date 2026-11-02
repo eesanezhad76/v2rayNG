@@ -22,6 +22,8 @@ object AlbionCaptureReplayEngine {
 
     data class ReplayComparison(
         val identicalFingerprint: Boolean,
+        val sameSourceCapture: Boolean,
+        val comparisonNote: String,
         val ipPacketDelta: Int,
         val validPhotonPacketDelta: Int,
         val malformedPhotonPacketDelta: Int,
@@ -33,6 +35,8 @@ object AlbionCaptureReplayEngine {
         fun asText(): String = buildString {
             appendLine("Replay comparison")
             appendLine("Identical fingerprint: $identicalFingerprint")
+            appendLine("Same source capture: $sameSourceCapture")
+            appendLine(comparisonNote)
             appendLine("IP packet delta: $ipPacketDelta")
             appendLine("Valid Photon packet delta: $validPhotonPacketDelta")
             appendLine("Malformed Photon packet delta: $malformedPhotonPacketDelta")
@@ -58,11 +62,17 @@ object AlbionCaptureReplayEngine {
             report.eventCodes.toSortedMap().forEach { (key, value) -> append(key).append(':').append(value).append(';') }
             report.entityKinds.toSortedMap().forEach { (key, value) -> append(key).append(':').append(value).append(';') }
             append(report.quality.score).append('|').append(report.quality.grade)
+            append('|').append(report.quality.timestampRegressions)
+            append('|').append(report.quality.truncatedRecords)
+            report.checkpoints.forEach { append("|M:").append(it) }
+            report.detailedObservations.forEach { append("|D:").append(it) }
+            report.warnings.forEach { append("|W:").append(it) }
         }
-        return ReplayResult(file.name, sourceHash, report, sha256(canonical.toByteArray()))
+        return ReplayResult(file.name, sourceHash, report, sha256(canonical.toByteArray(Charsets.UTF_8)))
     }
 
     fun compare(previous: ReplayResult, current: ReplayResult): ReplayComparison {
+        val sameSource = previous.sourceSha256 == current.sourceSha256
         val eventDeltas = (previous.report.eventCodes.keys + current.report.eventCodes.keys)
             .associateWith { (current.report.eventCodes[it] ?: 0) - (previous.report.eventCodes[it] ?: 0) }
             .filterValues { it != 0 }
@@ -73,7 +83,7 @@ object AlbionCaptureReplayEngine {
         val photonDelta = current.report.validPhotonPackets - previous.report.validPhotonPackets
         val malformedDelta = current.report.malformedPhotonPackets - previous.report.malformedPhotonPackets
         val qualityDelta = current.report.quality.score - previous.report.quality.score
-        val signals = buildList {
+        val signals = if (!sameSource) emptyList() else buildList {
             if (packetDelta < 0) add("IP packet count decreased by ${-packetDelta}.")
             if (photonDelta < 0) add("Valid Photon packet count decreased by ${-photonDelta}.")
             if (malformedDelta > 0) add("Malformed Photon packet count increased by $malformedDelta.")
@@ -85,9 +95,13 @@ object AlbionCaptureReplayEngine {
                 add("Mapped entity kind $kind count decreased by ${-delta}.")
             }
         }
+        val note = if (sameSource)
+            "Same source PCAP: output deltas are eligible for regression evaluation."
+        else
+            "Different source PCAPs: deltas are descriptive only, not algorithm regressions."
         return ReplayComparison(
             previous.fingerprint == current.fingerprint,
-            packetDelta, photonDelta, malformedDelta, qualityDelta,
+            sameSource, note, packetDelta, photonDelta, malformedDelta, qualityDelta,
             eventDeltas, entityDeltas, signals
         )
     }

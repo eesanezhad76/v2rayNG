@@ -27,6 +27,7 @@ class AlbionCaptureWorker(
     private val running = AtomicBoolean(false)
     private val stopMutex = Mutex()
     private val packetCount = AtomicLong(0)
+    private val healthMonitor = AlbionCaptureHealthMonitor()
     private val protocol18 = AlbionProtocol18Decoder()
     @Volatile private var pcapFile: File? = null
     @Volatile private var logFile: File? = null
@@ -207,10 +208,23 @@ class AlbionCaptureWorker(
 
     fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), (dropped() - dropBaseline.get()).coerceAtLeast(0), pcapFile, logFile, failure, publicPcapUri, publicLogUri, mirrorFailure, markerCount.get(), nonAlbionCount.get(), reportFile)
 
-    fun liveKnowledgeSnapshot(): String = (knowledgeStore?.snapshotText()
-        ?: "Live knowledge unavailable: capture has not initialized.") + (protocolEvidenceStore?.summaryText() ?: "")
+    fun liveKnowledgeSnapshot(): String = buildString {
+        append(knowledgeStore?.snapshotText()
+            ?: "Live knowledge unavailable: capture has not initialized.")
+        append(protocolEvidenceStore?.summaryText() ?: "")
+        append(healthMonitor.snapshot(System.currentTimeMillis(), running.get()).asText())
+        appendLine("Capture counters: packets=${packetCount.get()} | tap_drops=${(dropped() - dropBaseline.get()).coerceAtLeast(0)} | non_albion=${nonAlbionCount.get()} | markers=${markerCount.get()}")
+    }
 
-    fun liveKnowledgeJson(): String = knowledgeStore?.snapshotJson() ?: "[]"
+    fun liveKnowledgeJson(): String {
+        healthMonitor.recordSnapshot(System.currentTimeMillis())
+        return knowledgeStore?.snapshotJson() ?: "[]"
+    }
+
+    fun markOverlaySnapshotDelivered(snapshotJson: String) {
+        val entityCount = try { JSONArray(snapshotJson).length() } catch (_: Exception) { 0 }
+        healthMonitor.recordOverlayAccepted(System.currentTimeMillis(), entityCount)
+    }
 
     @Synchronized private fun writePacket(packet: ByteArray, timestampMs: Long, decoded: AlbionPhotonPacketDecoder.Result?) {
         val out = pcap ?: return
@@ -220,12 +234,14 @@ class AlbionCaptureWorker(
         out.writeInt(Integer.reverseBytes(packet.size))
         out.write(packet)
         packetCount.incrementAndGet()
+        healthMonitor.recordPacket(timestampMs)
         if (decoded == null) nonAlbionCount.incrementAndGet()
         val messages = if (decoded?.photon == true && decoded.photonPayload != null) protocol18.receiveDatagram(decoded.photonPayload) else emptyList()
         val messageArray = JSONArray()
         val photonEventAnalysis = JSONArray()
         messages.forEach { message ->
             if (message.kind == "event" && message.realCode != null) {
+                healthMonitor.recordValidEvent(timestampMs)
                 protocolEvidenceStore?.observe(timestampMs, message.realCode, message.parameters)
             }
             val item = JSONObject()
@@ -278,6 +294,7 @@ class AlbionCaptureWorker(
             }
         }
         val observations = messages.flatMap { AlbionEntityEventMapper.map(it) }
+        if (observations.isNotEmpty()) healthMonitor.recordMappedEntity(timestampMs)
         knowledgeStore?.observe(timestampMs, observations)
         val entityArray = JSONArray()
         observations.forEach { entity ->

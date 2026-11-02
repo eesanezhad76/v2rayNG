@@ -389,6 +389,11 @@ object CoreServiceManager {
     fun getAlbionLiveKnowledgeJson(): String =
         albionCaptureWorker?.liveKnowledgeJson() ?: "[]"
 
+    /** Acknowledges that the daemon overlay view accepted this coordinate snapshot. */
+    fun acknowledgeAlbionOverlaySnapshot(snapshotJson: String) {
+        albionCaptureWorker?.markOverlaySnapshotDelivered(snapshotJson)
+    }
+
     fun stopAlbionCapture() {
         getService()?.getSharedPreferences(ALBION_CAPTURE_PREFS, Context.MODE_PRIVATE)
             ?.edit()?.putBoolean(ALBION_AUTO_START, false)?.apply()

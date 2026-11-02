@@ -86,6 +86,11 @@ object AlbionCaptureQualityAnalyzer {
                 val fraction: Int
                 val captured: Int
                 val original: Int
+                if (input.available() == 0) break
+                if (input.available() < 16) {
+                    malformedHeaders++
+                    break
+                }
                 try {
                     seconds = readInt(input, little)
                     fraction = readInt(input, little)
@@ -98,7 +103,7 @@ object AlbionCaptureQualityAnalyzer {
                     malformedHeaders++
                     break
                 }
-                if (file.length() - filePointerEstimate(input, file) < captured) {
+                if (input.available() < captured) {
                     truncated++
                     break
                 }
@@ -170,7 +175,4 @@ object AlbionCaptureQualityAnalyzer {
     private fun readInt(input: DataInputStream, little: Boolean): Int =
         if (little) Integer.reverseBytes(input.readInt()) else input.readInt()
 
-    // DataInputStream has no public position; available() is reliable for this buffered file stream.
-    private fun filePointerEstimate(input: DataInputStream, file: File): Long =
-        file.length() - input.available().toLong()
 }

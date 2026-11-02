@@ -30,16 +30,29 @@ class AlbionCaptureReplayEngineTest {
     }
 
     @Test fun comparisonFlagsARegressionWithoutInventingEntityIdentity() {
-        val captureA = File(tempDir, "a.pcap")
-        val captureB = File(tempDir, "b.pcap")
-        writePcap(captureA, listOf(byteArrayOf(1), byteArrayOf(2), byteArrayOf(3), byteArrayOf(4), byteArrayOf(5)))
-        writePcap(captureB, listOf(byteArrayOf(1), byteArrayOf(2)))
-        val previous = AlbionCaptureReplayEngine.replay(captureA)
-        val current = AlbionCaptureReplayEngine.replay(captureB)
+        val capture = File(tempDir, "same-source.pcap")
+        writePcap(capture, listOf(byteArrayOf(1), byteArrayOf(2), byteArrayOf(3), byteArrayOf(4), byteArrayOf(5)))
+        val previous = AlbionCaptureReplayEngine.replay(capture)
+        val degradedReport = previous.report.copy(ipPackets = previous.report.ipPackets - 3)
+        val current = previous.copy(report = degradedReport, fingerprint = "synthetic-regression")
         val diff = AlbionCaptureReplayEngine.compare(previous, current)
         assertFalse(diff.identicalFingerprint)
+        assertTrue(diff.sameSourceCapture)
         assertEquals(-3, diff.ipPacketDelta)
         assertTrue(diff.regressionSignals.any { it.contains("IP packet count decreased") })
+    }
+
+    @Test fun differentSourceCapturesProduceDescriptiveDeltasNotRegressionClaims() {
+        val firstFile = File(tempDir, "first.pcap")
+        val secondFile = File(tempDir, "second.pcap")
+        writePcap(firstFile, listOf(byteArrayOf(1), byteArrayOf(2), byteArrayOf(3)))
+        writePcap(secondFile, listOf(byteArrayOf(1), byteArrayOf(2)))
+        val first = AlbionCaptureReplayEngine.replay(firstFile)
+        val second = AlbionCaptureReplayEngine.replay(secondFile)
+        val diff = AlbionCaptureReplayEngine.compare(first, second)
+        assertFalse(diff.sameSourceCapture)
+        assertTrue(diff.regressionSignals.isEmpty())
+        assertTrue(diff.comparisonNote.contains("descriptive only"))
     }
 
     private fun writePcap(file: File, packets: List<ByteArray>) {

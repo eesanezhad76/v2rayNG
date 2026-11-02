@@ -44,7 +44,9 @@ class AlbionOverlayService : Service() {
             if (::liveStatus.isInitialized) liveStatus.text = CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
             if (::radarView.isInitialized) {
                 radarView.setTargetFilter(tiers[tierIndex].drop(1).toInt(), enchantIndex)
-                radarView.setSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
+                val snapshot = CoreServiceManager.getAlbionLiveKnowledgeJson()
+                radarView.setSnapshot(snapshot)
+                CoreServiceManager.acknowledgeAlbionOverlaySnapshot(snapshot)
             }
             refreshHandler.postDelayed(this, 1500L)
         }

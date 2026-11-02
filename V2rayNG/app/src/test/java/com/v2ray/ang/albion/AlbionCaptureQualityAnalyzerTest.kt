@@ -49,6 +49,15 @@ class AlbionCaptureQualityAnalyzerTest {
         assertTrue(report.score < 100)
     }
 
+    @Test fun countsPartialRecordHeaderAsMalformed() {
+        val file = File(tempDir, "partial-header.pcap")
+        writePcap(file, listOf(Record(1_000L, byteArrayOf(1))))
+        FileOutputStream(file, true).use { it.write(byteArrayOf(1, 2, 3)) }
+        val report = AlbionCaptureQualityAnalyzer.analyze(file)
+        assertEquals(1, report.packetRecords)
+        assertEquals(1, report.malformedRecordHeaders)
+    }
+
     @Test fun reportsEmptyFileWithoutThrowing() {
         val report = AlbionCaptureQualityAnalyzer.analyze(File(tempDir, "empty.pcap").apply { writeBytes(byteArrayOf()) })
         assertEquals("NO_DATA", report.grade)
