@@ -67,4 +67,21 @@ class AlbionPatternMinerTest {
         assertEquals(1, second.distinctEntities)
     }
 
+    @Test fun doesNotAttachPacketsObservedBeforeFoundMarker() {
+        val file = File(tempDir, "pre-marker.jsonl")
+        file.writeText(listOf(
+            """{"time_ms":1000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":801,"mobile_type_id":574,"tier":5,"enchant":1}]}""",
+            """{"time_ms":2000,"manual_marker":{"timestamp_ms":2000,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"E1"}}""",
+            """{"time_ms":2500,"manual_marker":{"timestamp_ms":2500,"activity":"Ore","event":"gathering_started"}}""",
+            """{"time_ms":3000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":802,"mobile_type_id":574,"tier":5,"enchant":1}]}""",
+            """{"time_ms":4000,"manual_marker":{"timestamp_ms":4000,"activity":"Ore","event":"gathering_completed"}}"""
+        ).joinToString("\n"))
+        val report = AlbionPatternMiner.analyze(file)
+        assertEquals(1, report.completeSamples, report.asText())
+        val pattern = report.patterns.first { it.kind == "harvestable" }
+        assertEquals(1, pattern.distinctEntities)
+        assertTrue(pattern.signature.contains("574"))
+        assertTrue(!pattern.signature.contains("801"))
+    }
+
 }
