@@ -104,21 +104,22 @@ def summarize_pcap_audit(analysis_dir: Path) -> dict[str, Any]:
 
 
 def summarize_spatial_alignment(repo_root: Path) -> dict[str, Any]:
-    database = repo_root / "research/database"
-    candidates = []
-    if database.is_dir():
-        for path in database.glob("*.json"):
-            try:
-                document = json.loads(path.read_text(encoding="utf-8"))
-                alignment = document.get("spatial_alignment")
-                if isinstance(alignment, dict):
-                    candidates.append((int(alignment.get("player_position_samples", 0)), path.name, alignment))
-            except (OSError, json.JSONDecodeError, TypeError, ValueError):
-                continue
-    if not candidates:
+    report_path = repo_root / "research/analysis/2026-11-02-spatial-alignment.json"
+    if not report_path.is_file():
         return {"status": "NOT_VERIFIED", "source": None}
-    _, source, alignment = max(candidates, key=lambda row: row[0])
-    return {"status": alignment.get("status", "NOT_VERIFIED"), "source": source, **alignment}
+    try:
+        document = json.loads(report_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {"status": "NOT_VERIFIED", "source": report_path.name}
+    captures = document.get("captures") if isinstance(document, dict) else None
+    if not isinstance(captures, list) or not captures:
+        return {"status": "NOT_VERIFIED", "source": report_path.name}
+    best = max(captures, key=lambda row: int(row.get("player_position_samples", 0)))
+    return {
+        "status": best.get("status", "NOT_VERIFIED"),
+        "source": str(best.get("archive", "")) + " / " + str(best.get("pcap", "")),
+        **best,
+    }
 
 
 def summarize_signature(repo_root: Path) -> dict[str, Any]:
