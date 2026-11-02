@@ -7,7 +7,8 @@ package com.v2ray.ang.albion
  */
 object AlbionEntityEventMapper {
     private val knownNonPlayerEntities = LinkedHashSet<Long>()
-    fun reset() = knownNonPlayerEntities.clear()
+    private val knownPlayerEntities = LinkedHashMap<Long, String?>()
+    fun reset() { knownNonPlayerEntities.clear(); knownPlayerEntities.clear() }
 
     data class Observation(
         val kind: String,
@@ -51,14 +52,18 @@ object AlbionEntityEventMapper {
             1 -> {
                 val id = number(0) ?: return emptyList()
                 knownNonPlayerEntities.remove(id)
+                knownPlayerEntities.remove(id)
                 listOf(Observation("leave", code, entityId = id, removed = true))
             }
             3 -> {
                 val id = number(0) ?: return emptyList()
-                if (!knownNonPlayerEntities.contains(id)) return emptyList()
                 val xy = if (p[4] is Number && p[5] is Number)
                     (p[4] as Number).toFloat() to (p[5] as Number).toFloat() else null
-                listOf(Observation("move", code, id, x = xy?.first, y = xy?.second))
+                if (knownPlayerEntities.containsKey(id)) {
+                    listOf(Observation("player_move", code, id, x = xy?.first, y = xy?.second, name = knownPlayerEntities[id]))
+                } else if (knownNonPlayerEntities.contains(id)) {
+                    listOf(Observation("move", code, id, x = xy?.first, y = xy?.second))
+                } else emptyList()
             }
             6, 8 -> {
                 val id = number(0) ?: number(6) ?: return emptyList()
@@ -66,7 +71,9 @@ object AlbionEntityEventMapper {
             }
             29 -> {
                 val id = number(0) ?: return emptyList()
-                listOf(Observation("player_spawn", code, entityId = id, name = p[1] as? String))
+                val playerName = p[1] as? String
+                knownPlayerEntities[id] = playerName
+                listOf(Observation("player_spawn", code, entityId = id, name = playerName))
             }
             39 -> {
                 val ids = idList(p[0])
