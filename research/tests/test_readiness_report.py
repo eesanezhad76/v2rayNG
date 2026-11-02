@@ -69,6 +69,26 @@ class ReadinessReportTests(unittest.TestCase):
             "checks": [{"name": "APK", "status": "PASS"}],
         }))
 
+    def test_not_verified_does_not_fail_ci_but_explicit_fail_does(self):
+        report = {
+            "overall_status": "NOT_READY_FOR_FIELD_TEST",
+            "commit_sha": "test",
+            "workflow_run_id": "0",
+            "checks": [{"name": "Live capture", "status": "NOT_VERIFIED", "evidence": "Device test pending"}],
+        }
+        with unittest.mock.patch.object(readiness, "build_report", return_value=report), \\
+             unittest.mock.patch.object(readiness, "write_report"):
+            self.assertEqual(0, readiness.main())
+
+        failed_report = {
+            **report,
+            "overall_status": "BLOCKED",
+            "checks": [{"name": "APK build", "status": "FAIL", "evidence": "APK missing"}],
+        }
+        with unittest.mock.patch.object(readiness, "build_report", return_value=failed_report), \\
+             unittest.mock.patch.object(readiness, "write_report"):
+            self.assertEqual(1, readiness.main())
+
     def test_replay_requires_baseline_and_rejects_review_required_outputs(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory)
