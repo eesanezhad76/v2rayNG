@@ -112,7 +112,7 @@ Detailed entity/player observations: 868
   t=1793403545278 kind=raw_health_energy_event code=8 params={0:644195, 1:48790366, 2:-41.0, 3:261.0, 4:7, 5:644195, 6:3575, 252:8}
   t=1793403545278 kind=energy id=644195 value=-41.0 secondary_value=261.0
   t=1793403545278 kind=raw_health_energy_event code=91 params={0:644195, 1:48790367, 2:2329.0, 3:2329.0, 6:639290003457386716, 252:91}
-  t=1793403545278 kind=health_regeneration id=639290003457386716 value=2329.0 secondary_value=2329.0
+  t=1793403545278 kind=health_regeneration id=644195 value=2329.0 secondary_value=2329.0
   t=1793403545350 event3 id=613701 raw=03361693fcde36df080fb9a9c17c53b343ba00004040986dafc1c445b343 p4=null p5=null
   t=1793403545485 event3 id=613701 raw=03035ca2fcde36df08a418acc1c74db343ba00004040986dafc1c445b343 p4=null p5=null
   t=1793403545541 outbound_request op=22 params={0=639290003455862643 1=[17.585354, 324.20578] 2=212.57332 3=[18.009615, 323.29443] 4=11.0 253=22}
@@ -121,7 +121,7 @@ Detailed entity/player observations: 868
   t=1793403545541 kind=own_player_move x=18.009613037109375 y=323.2943420410156 heading=155.03651428222656 target_x=18.009614944458008 target_y=323.29443359375 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793403545542 event3 id=644195 raw=0113327dfcde36df08daf0c5b4e022cacd7a0000b040 p4=null p5=null
   t=1793403545542 kind=raw_health_energy_event code=91 params={0:644195, 1:48790367, 2:2329.0, 3:2329.0, 6:639290003457386716, 252:91}
-  t=1793403545542 kind=health_regeneration id=639290003457386716 value=2329.0 secondary_value=2329.0
+  t=1793403545542 kind=health_regeneration id=644195 value=2329.0 secondary_value=2329.0
   t=1793403545542 kind=raw_health_energy_event code=8 params={0:644195, 1:48790366, 2:-41.0, 3:261.0, 4:7, 5:644195, 6:3575, 252:8}
   t=1793403545542 kind=energy id=644195 value=-41.0 secondary_value=261.0
   t=1793403545542 event3 id=644195 raw=0113327dfcde36df08daf0c5b4e022cacd750000b040 p4=null p5=null
@@ -423,7 +423,7 @@ Detailed entity/player observations: 868
   t=1793403553512 event3 id=645014 raw=09f5357201df36df087b14f241858bb343ca0000803f p4=null p5=null
   t=1793403553512 kind=move id=645014
   t=1793403553512 kind=raw_health_energy_event code=91 params={0:636743, 1:48798605, 2:2691.0, 3:2691.0, 6:639290003539768821, 252:91}
-  t=1793403553512 kind=health_regeneration id=639290003539768821 value=2691.0 secondary_value=2691.0
+  t=1793403553512 kind=health_regeneration id=636743 value=2691.0 secondary_value=2691.0
   t=1793403553512 event3 id=645014 raw=07ed1f7301df36df084577f141b993b343dc0000803f63f0eb418dddb34347b70900 p4=null p5=null
   t=1793403553512 kind=move id=645014
   t=1793403553564 event3 id=644919 raw=03630c7101df36df084c06aa51f1b6ed3dbe66663441b0b58751afbfed3d p4=null p5=null
@@ -472,7 +472,7 @@ Detailed entity/player observations: 868
   t=1793403554410 event3 id=645014 raw=051937fd01df36df0863f0eb418dddb343dc0000803f47b70900 p4=null p5=null
   t=1793403554410 kind=move id=645014
   t=1793403554518 kind=raw_health_energy_event code=91 params={0:636743, 1:48799578, 2:2386.0, 3:2386.0, 6:639290003549500812, 252:91}
-  t=1793403554518 kind=health_regeneration id=639290003549500812 value=2386.0 secondary_value=2386.0
+  t=1793403554518 kind=health_regeneration id=636743 value=2386.0 secondary_value=2386.0
   t=1793403554518 event3 id=644919 raw=03e3c00402df36df08c3479a50398ced3dc4666634419c70cc50cf9ced3d p4=null p5=null
   t=1793403554518 kind=player_move id=644919 name=GaIamar raw_hex=03e3c00402df36df08c3479a50398ced3dc4666634419c70cc50cf9ced3d coord_source=unvalidated_event3_payload
   t=1793403554569 event3 id=645014 raw=0705950c02df36df0863f0eb418dddb3435a0000f04028ec0a42ebefb14347b70900 p4=null p5=null
@@ -531,7 +531,7 @@ Detailed entity/player observations: 868
   t=1793403555907 event3 id=644380 raw=03914adf02df36df08c738ea4110db9b43036666e63f20d6ea41de609c43 p4=null p5=null
   t=1793403555907 kind=resource_state id=2950 amount=1
   t=1793403555907 kind=raw_health_energy_event code=91 params={0:636743, 1:48801001, 2:2691.0, 3:2691.0, 6:639290003563724637, 252:91}
-  t=1793403555907 kind=health_regeneration id=639290003563724637 value=2691.0 secondary_value=2691.0
+  t=1793403555907 kind=health_regeneration id=636743 value=2691.0 secondary_value=2691.0
   t=1793403555959 event3 id=645014 raw=05e064e302df36df0828ec0a42ebefb1435a0000f04047b70900 p4=null p5=null
   t=1793403555959 kind=move id=645014
   t=1793403556015 event3 id=644919 raw=038372e402df36df08e6cd87d1ed64e33db466663441d6a3aad124b0ec3d p4=null p5=null
@@ -540,7 +540,7 @@ Detailed entity/player observations: 868
   t=1793403556015 kind=health id=636743 value=-47.0 secondary_value=2644.0
   t=1793403556015 event3 id=644380 raw=032ca8ee02df36df08cc53ea410af29b43036666e63f20d6ea41de609c43 p4=null p5=null
   t=1793403556015 kind=raw_health_energy_event code=91 params={0:636743, 1:48801115, 2:2345.0, 3:2386.0, 6:639290003564866321, 252:91}
-  t=1793403556015 kind=health_regeneration id=639290003564866321 value=2345.0 secondary_value=2386.0
+  t=1793403556015 kind=health_regeneration id=636743 value=2345.0 secondary_value=2386.0
   t=1793403556117 event3 id=644919 raw=03e3e4f802df36df086130add1c1a8ec3daf6666344164ecb0d169e8ec3d p4=null p5=null
   t=1793403556117 kind=player_move id=644919 name=GaIamar raw_hex=03e3e4f802df36df086130add1c1a8ec3daf6666344164ecb0d169e8ec3d coord_source=unvalidated_event3_payload
   t=1793403556117 event3 id=644380 raw=03f021fe02df36df08d16eea4104099c43036666e63f20d6ea41de609c43 p4=null p5=null
@@ -553,7 +553,7 @@ Detailed entity/player observations: 868
   t=1793403556428 event3 id=644380 raw=0374222c03df36df08e0bfea41f24d9c43036666e63f20d6ea41de609c43 p4=null p5=null
   t=1793403556530 event3 id=644380 raw=0106863b03df36df0820d6ea41de609c43036666e63f p4=null p5=null
   t=1793403556530 kind=raw_health_energy_event code=91 params={0:636743, 1:48801627, 2:2645.0, 3:2691.0, 6:639290003569990607, 252:91}
-  t=1793403556530 kind=health_regeneration id=639290003569990607 value=2645.0 secondary_value=2691.0
+  t=1793403556530 kind=health_regeneration id=636743 value=2645.0 secondary_value=2691.0
   t=1793403556530 kind=raw_health_energy_event code=8 params={0:636743, 1:48801627, 2:-18.0, 3:224.0, 4:7, 5:636743, 6:3770, 252:8}
   t=1793403556530 kind=energy id=636743 value=-18.0 secondary_value=224.0
   t=1793403557006 kind=raw_health_energy_event code=6 params={0:645014, 1:48801949, 2:-72.0, 3:1014.0, 4:1, 5:5, 6:636743, 7:3773, 252:6}
@@ -728,7 +728,7 @@ Detailed entity/player observations: 868
   t=1793403563962 kind=raw_health_energy_event code=8 params={0:636743, 1:48808995, 2:9.0, 3:203.0, 4:8, 5:645014, 252:8}
   t=1793403563962 kind=energy id=636743 value=9.0 secondary_value=203.0
   t=1793403563962 kind=raw_health_energy_event code=91 params={0:636743, 1:48808995, 2:2504.0, 3:2691.0, 5:70.050156, 6:639290003643664522, 252:91}
-  t=1793403563962 kind=health_regeneration id=639290003643664522 value=2504.0 secondary_value=2691.0
+  t=1793403563962 kind=health_regeneration id=636743 value=2504.0 secondary_value=2691.0
   t=1793403564021 event3 id=629807 raw=0370baac07df36df08b8579f4150bf9f43a3000040407f9c9d4109a79f43 p4=null p5=null
   t=1793403564084 kind=raw_health_energy_event code=6 params={0:645014, 1:48808995, 2:-25.0, 4:1, 5:0, 6:636743, 7:-1, 252:6}
   t=1793403564084 kind=health id=645014 value=-25.0
@@ -864,7 +864,7 @@ Detailed entity/player observations: 868
   t=1793403568864 event3 id=592825 raw=03de0a980adf36df08d0738242b74fb44300000040404e7c824218a3b543 p4=null p5=null
   t=1793403568914 kind=leave id=645014 removed=true
   t=1793403568965 kind=raw_health_energy_event code=91 params={0:636743, 1:48814045, 2:2386.0, 3:2386.0, 5:66.86605, 6:639290003694164602, 252:91}
-  t=1793403568965 kind=health_regeneration id=639290003694164602 value=2386.0 secondary_value=2386.0
+  t=1793403568965 kind=health_regeneration id=636743 value=2386.0 secondary_value=2386.0
   t=1793403568965 event3 id=629807 raw=03f161a80adf36df0860ea9c4149829f438c000040403dc29141fa349d43 p4=null p5=null
   t=1793403568965 event3 id=592825 raw=036924a90adf36df08c67482421e76b44300000040404e7c824218a3b543 p4=null p5=null
   t=1793403569068 event3 id=629807 raw=0325c9b70adf36df0841389c41895d9f438c000040403dc29141fa349d43 p4=null p5=null
@@ -895,7 +895,7 @@ Detailed entity/player observations: 868
   t=1793403570381 event3 id=541151 raw=03c0bf7a0bdf36df089e3f774227e3a0430b0000404020e478427d98a143 p4=null p5=null
   t=1793403570381 kind=resource_state id=2950 amount=0
   t=1793403570381 kind=raw_health_energy_event code=91 params={0:636743, 1:48815454, 2:2691.0, 3:2691.0, 5:70.050156, 6:639290003708259844, 252:91}
-  t=1793403570381 kind=health_regeneration id=639290003708259844 value=2691.0 secondary_value=2691.0
+  t=1793403570381 kind=health_regeneration id=636743 value=2691.0 secondary_value=2691.0
   t=1793403570492 event3 id=629807 raw=03bf1e890bdf36df08cc2c9341c97f9d438c000040403dc29141fa349d43 p4=null p5=null
   t=1793403570492 event3 id=541151 raw=031a088a0bdf36df08259577420808a1430b0000404020e478427d98a143 p4=null p5=null
   t=1793403570545 event3 id=629807 raw=03c382980bdf36df08b07a9241095b9d438c000040403dc29141fa349d43 p4=null p5=null
