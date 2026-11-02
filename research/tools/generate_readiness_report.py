@@ -114,7 +114,7 @@ def summarize_spatial_alignment(repo_root: Path) -> dict[str, Any]:
     captures = document.get("captures") if isinstance(document, dict) else None
     if not isinstance(captures, list) or not captures:
         return {"status": "NOT_VERIFIED", "source": report_path.name}
-    best = max(captures, key=lambda row: int(row.get("player_position_samples", 0)))
+    best = max(captures, key=lambda row: (row.get("status") == "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE", int(row.get("player_position_samples", 0)), int(row.get("typed_resource_nodes", 0))))
     return {
         "status": best.get("status", "NOT_VERIFIED"),
         "source": str(best.get("archive", "")) + " / " + str(best.get("pcap", "")),
