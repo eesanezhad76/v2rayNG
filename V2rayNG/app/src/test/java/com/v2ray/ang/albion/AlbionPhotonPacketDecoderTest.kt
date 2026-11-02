@@ -243,6 +243,20 @@ class AlbionPhotonPacketDecoderTest {
         assertEquals("Exit", observation.name)
     }
 
+    @Test fun protocol18ResetClearsFragmentStateAndCounters() {
+        val decoder = AlbionProtocol18Decoder()
+        val message = byteArrayOf(0, 4, 1, 1, 252.toByte(), 4, 39, 0)
+        val first = fragmentDatagram(91, message.size, 0, message.copyOfRange(0, 4))
+        assertTrue(decoder.receiveDatagram(first).isEmpty())
+        assertEquals(1, decoder.stats().fragmentsPending)
+        decoder.receiveDatagram(byteArrayOf(1, 2))
+        assertEquals(1, decoder.stats().malformed)
+        decoder.reset()
+        assertEquals(0, decoder.stats().fragmentsPending)
+        assertEquals(0, decoder.stats().malformed)
+        assertEquals(0, decoder.stats().encrypted)
+    }
+
     private fun fragmentDatagram(sequence: Int, totalLength: Int, fragmentOffset: Int, chunk: ByteArray): ByteArray {
         val commandLength = 12 + 20 + chunk.size
         val datagram = ByteArray(12 + commandLength)
