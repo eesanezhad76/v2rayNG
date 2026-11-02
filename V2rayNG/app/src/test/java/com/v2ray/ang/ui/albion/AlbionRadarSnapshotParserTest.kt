@@ -20,6 +20,23 @@ class AlbionRadarSnapshotParserTest {
         assertNull(AlbionRadarSnapshotParser.parse("""[null]"""))
     }
 
+    @Test fun prefersEvidenceBackedLabelsAndKeepsUnknownMobTypesUnclassified() {
+        val mappedOre = org.json.JSONObject(
+            """{"last_kind":"harvestable","family":29,"mobile_type_id":574,"resource_inference":{"resource_name":{"value":"Ore","status":"CAPTURE_CORROBORATED","confidence":0.98}}}"""
+        )
+        assertEquals("Ore", AlbionRadarSnapshotParser.labelForEntity(mappedOre))
+        val conflictedOre = org.json.JSONObject(
+            """{"last_kind":"harvestable","family":29,"resource_inference":{"resource_name":{"value":null,"status":"CONFLICT","confidence":0.0}}}"""
+        )
+        assertEquals("Resource F29", AlbionRadarSnapshotParser.labelForEntity(conflictedOre))
+        assertEquals("Mob ID482", AlbionRadarSnapshotParser.labelForEntity(
+            org.json.JSONObject("""{"last_kind":"mob","mobile_type_id":482}""")
+        ))
+        assertEquals("Golem", AlbionRadarSnapshotParser.labelForEntity(
+            org.json.JSONObject("""{"last_kind":"mob","mobile_type_id":482,"name":"Golem"}""")
+        ))
+    }
+
     @Test fun dropsInvalidOrOutOfRangeCoordinatesWithoutPassingThemToTheView() {
         val parsed = AlbionRadarSnapshotParser.parse(
             """[

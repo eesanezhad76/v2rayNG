@@ -40,6 +40,11 @@ Never mix raw evidence with production code. Unknown values must remain unknown.
 - Current code change: connect ResourcePatternLearner output into persistent live knowledge records as a separate `resource_inference` object with catalog version, value/status/confidence/reason; preserve raw packet fields and suppress inference when evidence conflicts. Add regression coverage and verify the current APK workflow before calling it ready.
 - Latest workflow evidence at handoff edit: capture-ingest run 41525742713 succeeded on source SHA b028ee35818201b1b1a525c9b806f7718614fa5a; APK build run 41525742789 was still building passive-tap libv2ray AAR on that SHA. The branch may advance when ingest commits derived research outputs; re-query current HEAD and CI before relying on these values.
 
+## 2B. Overlay label integration
+- The mini radar now consumes provenance-aware resource inference labels for its selected target; conflicting/unknown mappings fall back to numeric family/type labels.
+- Mob dots display the directly observed name when present, otherwise a neutral `Mob ID<n>` label. This is a raw type identifier, not a guessed species name.
+- Parser label tests cover corroborated Ore inference, conflict fallback, named mobs, and unknown mob type labels.
+
 ## 3. Existing capture facts (2026-11-02 capture)
 Archive supplied in chat: `Albionsskkakaks111.zip`.
 Primary JSONL: `albion-1793620890462.jsonl`.

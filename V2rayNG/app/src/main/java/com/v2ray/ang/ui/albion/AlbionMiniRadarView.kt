@@ -106,6 +106,11 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, 3.5f * density, paint)
+            if (kind == "mob") {
+                paint.textSize = 8f * density
+                paint.color = 0xFFFFD5D5.toInt()
+                canvas.drawText(AlbionRadarSnapshotParser.labelForEntity(entity), x + 5f * density, y + 10f * density, paint)
+            }
             if (candidateOnly) {
                 paint.textSize = 8f * density
                 canvas.drawText("?", x + 4f * density, y - 3f * density, paint)
@@ -131,11 +136,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             canvas.drawCircle(tx, ty, 8f * density, paint)
             paint.style = Paint.Style.FILL
             paint.textSize = 10f * density
-            val family = target.optInt("family", -1)
-            val type = target.optInt("mobile_type_id", -1)
-            val code = if (family >= 0) "F$family" else if (type >= 0) "ID$type" else "RESOURCE"
+            val label = AlbionRadarSnapshotParser.labelForEntity(target)
             val evidenceScore = target.optInt("evidence_score", 0)
-            canvas.drawText("$code  T$targetTier E$targetEnchant  ${distance.roundToInt()}m  EV$evidenceScore",
+            canvas.drawText("$label  T$targetTier E$targetEnchant  ${distance.roundToInt()}m  EV$evidenceScore",
                 7f * density, 15f * density, paint)
         } else {
             paint.style = Paint.Style.FILL

@@ -11,6 +11,34 @@ object AlbionRadarSnapshotParser {
         val invalidCoordinateCount: Int
     )
 
+    /**
+     * Prefers a provenance-backed catalog label. Raw numeric identifiers remain a fallback,
+     * and conflicting/unknown inference is never presented as a confirmed semantic name.
+     */
+    fun labelForEntity(item: JSONObject): String {
+        val kind = item.optString("last_kind")
+        if (kind == "own_player_move") return "YOU"
+        if (kind == "mob") {
+            val name = item.optString("name").takeIf { it.isNotBlank() && it != "null" }
+            if (name != null) return name
+            return if (item.has("mobile_type_id")) "Mob ID${item.optInt("mobile_type_id")}" else "Mob"
+        }
+        if (kind in setOf("static_resource", "harvestable", "resource_state")) {
+            val inference = item.optJSONObject("resource_inference")?.optJSONObject("resource_name")
+            val inferredName = inference?.optString("value")?.takeIf {
+                it.isNotBlank() && it != "null" &&
+                    inference.optString("status") !in setOf("CONFLICT", "UNKNOWN") &&
+                    inference.optDouble("confidence", 0.0) > 0.0
+            }
+            if (inferredName != null) return inferredName
+            if (item.has("family")) return "Resource F${item.optInt("family")}"
+            if (item.has("mobile_type_id")) return "Resource ID${item.optInt("mobile_type_id")}"
+            return if (kind == "static_resource") "Resource candidate" else "Resource"
+        }
+        if (kind == "player_move") return item.optString("name").takeIf { it.isNotBlank() } ?: "Player"
+        return kind.ifBlank { "Unknown entity" }
+    }
+
     fun parse(json: String): ParsedSnapshot? {
         val array = try { JSONArray(json) } catch (_: Exception) { return null }
         val accepted = ArrayList<JSONObject>(array.length())
