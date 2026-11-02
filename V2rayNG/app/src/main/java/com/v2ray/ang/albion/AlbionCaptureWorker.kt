@@ -38,6 +38,7 @@ class AlbionCaptureWorker(
     @Volatile private var publicReportUri: Uri? = null
     @Volatile private var appContext: Context? = null
     @Volatile private var knowledgeStore: AlbionLiveKnowledgeStore? = null
+    @Volatile private var protocolEvidenceStore: AlbionProtocolEvidenceStore? = null
     @Volatile private var pcapFileStream: FileOutputStream? = null
     @Volatile private var logFileStream: FileOutputStream? = null
     private val markerCount = AtomicLong(0)
@@ -61,6 +62,7 @@ class AlbionCaptureWorker(
             val txt = File(dir, "albion-$stamp.jsonl")
             appContext = context.applicationContext
             knowledgeStore = AlbionLiveKnowledgeStore(context.applicationContext)
+            protocolEvidenceStore = AlbionProtocolEvidenceStore(context.applicationContext)
             pcapFileStream = FileOutputStream(raw)
             logFileStream = FileOutputStream(txt)
             pcap = DataOutputStream(BufferedOutputStream(pcapFileStream!!, 262144)).also(::writeHeader)
@@ -205,8 +207,8 @@ class AlbionCaptureWorker(
 
     fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), (dropped() - dropBaseline.get()).coerceAtLeast(0), pcapFile, logFile, failure, publicPcapUri, publicLogUri, mirrorFailure, markerCount.get(), nonAlbionCount.get(), reportFile)
 
-    fun liveKnowledgeSnapshot(): String = knowledgeStore?.snapshotText()
-        ?: "Live knowledge unavailable: capture has not initialized."
+    fun liveKnowledgeSnapshot(): String = (knowledgeStore?.snapshotText()
+        ?: "Live knowledge unavailable: capture has not initialized.") + (protocolEvidenceStore?.summaryText() ?: "")
 
     fun liveKnowledgeJson(): String = knowledgeStore?.snapshotJson() ?: "[]"
 
@@ -223,6 +225,9 @@ class AlbionCaptureWorker(
         val messageArray = JSONArray()
         val photonEventAnalysis = JSONArray()
         messages.forEach { message ->
+            if (message.kind == "event" && message.realCode != null) {
+                protocolEvidenceStore?.observe(timestampMs, message.realCode, message.parameters)
+            }
             val item = JSONObject()
             item.put("kind", message.kind)
             item.put("dispatch", message.dispatchCode)
@@ -416,6 +421,7 @@ class AlbionCaptureWorker(
 
     @Synchronized private fun closeFiles() {
         knowledgeStore?.flush()
+        protocolEvidenceStore?.flush()
         flushFiles()
         try { pcap?.close() } catch (_: Throwable) {}
         try { log?.close() } catch (_: Throwable) {}
