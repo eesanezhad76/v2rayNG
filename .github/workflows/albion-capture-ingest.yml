@@ -40,6 +40,10 @@ jobs:
             echo "No capture ZIP in inbox; validating ingest code."
           fi
           python -m unittest discover -s research/tests -p 'test_*.py' -v
+          cd V2rayNG
+          chmod +x ./gradlew
+          ./gradlew :app:testPlaystoreDebugUnitTest --no-daemon
+          cd ..
       - name: Commit derived evidence
         run: |
           git config user.name "github-actions[bot]"
