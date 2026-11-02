@@ -57,7 +57,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
         val mobs = entities.count { it.optString("last_kind") == "mob" }
         val position = if (you == null) "Player position: waiting for movement" else
             "Player position: %.1f, %.1f".format(java.util.Locale.US, you.optDouble("x"), you.optDouble("y"))
-        return "$position | entities=${entities.size} resources=$resources mobs=$mobs invalid=$invalidCount | zone/terrain: not decoded"
+        return "$position | entities=${entities.size} resources=$resources mobs=$mobs invalid=$invalidCount | zone/terrain and player-resource alignment: not verified"
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -82,7 +82,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
         paint.style = Paint.Style.FILL
         paint.color = 0xFFB8C8D5.toInt()
         paint.textSize = 10f * density
-        canvas.drawText("LOCAL COORDINATE MAP  •  no terrain data", 10f * density, 18f * density, paint)
+        canvas.drawText("LOCAL COORDINATE MAP  •  zone/terrain and player-resource alignment unverified", 10f * density, 18f * density, paint)
 
         if (you == null) {
             paint.textSize = 13f * density
@@ -143,6 +143,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
         canvas.drawText("YOU  ${"%.1f".format(java.util.Locale.US, px)}, ${"%.1f".format(java.util.Locale.US, py)}", centerX + 9f * density, centerY + 4f * density, paint)
         paint.color = 0xFFB8C8D5.toInt()
         paint.textSize = 9f * density
+        canvas.drawText("YOU=green  resource=gold  candidate=grey  mob=red  player=blue", 10f * density, height - 24f * density, paint)
         canvas.drawText("Pinch: zoom  •  Drag: pan  •  1 grid = 20 coordinate units", 10f * density, height - 10f * density, paint)
     }
 
