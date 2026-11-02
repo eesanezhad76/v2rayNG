@@ -89,6 +89,24 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(snapshot.contains("proximity alone is not confirmation"), snapshot)
     }
 
+    @Test fun catalogMobileTypeConflictDowngradesLiveEntityAndExcludesItFromConfirmedClass() {
+        val store = AlbionLiveKnowledgeStore(context())
+        store.observe(System.currentTimeMillis() + 1_000L, listOf(
+            AlbionEntityEventMapper.Observation(
+                kind = "harvestable", eventCode = 40, entityId = 8804L,
+                typeId = 574, typeNumber = 29, tier = 4, enchant = 1, x = 20f, y = 30f
+            )
+        ))
+        val record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(record.optString("classification") == "ambiguous_resource_candidate")
+        assertTrue(record.optString("evidence_grade") == "conflicting_typed_observation")
+        assertTrue(record.optInt("evidence_score") == 20)
+        assertTrue(record.optString("evidence_conflicts").contains("resource_catalog_mobile_type_mapping"))
+        val mobile = record.optJSONObject("resource_inference")?.optJSONObject("mobile_type_id")
+        assertTrue(mobile?.optString("status") == "CONFLICT")
+        assertTrue(!record.optString("classification").equals("typed_resource_observation"))
+    }
+
     @Test fun gradesExactIdResourceStateAsCorroboratingEvidence() {
         val store = AlbionLiveKnowledgeStore(context())
         val now = System.currentTimeMillis() + 1_000L

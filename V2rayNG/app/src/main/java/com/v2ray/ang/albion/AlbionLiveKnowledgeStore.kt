@@ -90,9 +90,14 @@ class AlbionLiveKnowledgeStore(
                 kotlin.math.abs(targetX) <= MAX_COORDINATE && kotlin.math.abs(targetY) <= MAX_COORDINATE) {
                 record.put("target_x", targetX).put("target_y", targetY)
             }
-            val conflicts = conflictingEvidenceFields(record)
-            record.put("evidence_conflicts", JSONArray(conflicts))
+            val conflicts = conflictingEvidenceFields(record).toMutableList()
             updateResourceInference(record, conflicts)
+            val inferredMobileStatus = record.optJSONObject("resource_inference")
+                ?.optJSONObject("mobile_type_id")?.optString("status")
+            if (inferredMobileStatus == ResourcePatternLearner.Status.CONFLICT.name) {
+                conflicts.add("resource_catalog_mobile_type_mapping")
+            }
+            record.put("evidence_conflicts", JSONArray(conflicts))
             record.put("classification", classification(record, conflicts))
             record.put("evidence_grade", evidenceGrade(record, conflicts))
             record.put("evidence_score", evidenceScore(record, conflicts))
