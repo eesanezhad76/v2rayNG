@@ -89,6 +89,21 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(snapshot.contains("[depleted]"), snapshot)
     }
 
+    @Test fun correlatesInventoryEventWithHarvestFinishAndNearbyTypedResourceWithoutClaimingOreIdentity() {
+        val evidence = AlbionProtocolEvidenceStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        evidence.observe(now, 40, mapOf(
+            0 to 777L, 5 to 574, 7 to 5, 8 to floatArrayOf(20f, 30f), 11 to 1
+        ))
+        evidence.observe(now + 1_000L, 61, mapOf(0 to 777L))
+        evidence.observe(now + 2_000L, 26, mapOf(0 to 123, 1 to intArrayOf(574, 1, 5)))
+        val summary = evidence.summaryText()
+        assertTrue(summary.contains("Inventory events this capture: 1"), summary)
+        assertTrue(summary.contains("With a nearby typed resource event (candidate only): 1"), summary)
+        assertTrue(summary.contains("type=574 tier=5"), summary)
+        assertTrue(summary.contains("No item ID, stack delta, or Ore identity is asserted"), summary)
+    }
+
     @Test fun rejectsInvalidCoordinatesAndDoesNotPromoteStaticCandidateToTypedOre() {
         val store = AlbionLiveKnowledgeStore(context())
         store.observe(
