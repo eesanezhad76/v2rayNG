@@ -255,4 +255,27 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(history != null && history.length() >= 2, player.toString())
         assertTrue(history!!.getJSONObject(history.length() - 1).optDouble("x") == 12.0)
     }
+
+    @Test fun startsNewPlayerTrailAtEachCaptureSessionBoundary() {
+        val firstSession = System.currentTimeMillis() + 1_000L
+        val first = AlbionLiveKnowledgeStore(context(), firstSession)
+        first.observe(firstSession + 100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "own_player_move", eventCode = 22, entityId = -1L, x = 10f, y = 20f
+        )))
+        first.observe(firstSession + 600L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "own_player_move", eventCode = 22, entityId = -1L, x = 12f, y = 23f
+        )))
+        first.flush()
+
+        val secondSession = firstSession + 2_000L
+        val second = AlbionLiveKnowledgeStore(context(), secondSession)
+        second.observe(secondSession + 100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "own_player_move", eventCode = 22, entityId = -1L, x = -60f, y = 240f
+        )))
+        val snapshot = org.json.JSONArray(second.snapshotJson())
+        val player = snapshot.getJSONObject(0)
+        val history = player.optJSONArray("movement_history")
+        assertTrue(history != null && history.length() == 1, player.toString())
+        assertTrue(history!!.getJSONObject(0).optDouble("x") == -60.0)
+    }
 }
