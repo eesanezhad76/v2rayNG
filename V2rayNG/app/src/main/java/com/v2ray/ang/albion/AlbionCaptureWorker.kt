@@ -446,10 +446,17 @@ class AlbionCaptureWorker(
         if (!source.exists()) return
         try {
             val report = AlbionCaptureAnalyzer.analyze(source).asText()
+            val patternFiles = source.parentFile?.listFiles()
+                ?.filter { it.isFile && it.name.startsWith("albion-") && it.extension.equals("jsonl", ignoreCase = true) }
+                .orEmpty()
+                .ifEmpty { listOfNotNull(logFile) }
+            val patternReport = AlbionPatternMiner.analyze(patternFiles).asText()
             val target = File(source.parentFile, source.nameWithoutExtension + ".report.txt")
             target.writeText(buildString {
                 append(report)
-                appendLine("\nCapture integrity")
+                appendLine()
+                appendLine(patternReport)
+                appendLine("Capture integrity")
                 appendLine("PCAP records (TUN packets + checkpoints): ${packetCount.get() + markerCount.get()}")
                 appendLine("Native tap dropped copies: ${(dropped() - dropBaseline.get()).coerceAtLeast(0)}")
                 appendLine("Manual checkpoints: ${markerCount.get()}")
