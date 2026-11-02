@@ -1,0 +1,152 @@
+{
+  "archive": "Albion2.zip",
+  "bytes": 989701,
+  "sha256": "bcbd82dbf8afa5d82f4e7ae26911b313b843604e7f1e8c0e6077b423e19ba242",
+  "members": [
+    {
+      "name": "went from yellow 5 region to fort sterling, and then to bank and inspectoed a few of my items and equipmentz.pcap",
+      "bytes": 1323681,
+      "compressed_bytes": 592649
+    },
+    {
+      "name": "blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap",
+      "bytes": 162581,
+      "compressed_bytes": 71143
+    },
+    {
+      "name": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
+      "bytes": 113080,
+      "compressed_bytes": 43151
+    },
+    {
+      "name": "blue ore ench1 mined .pcap",
+      "bytes": 35743,
+      "compressed_bytes": 13119
+    },
+    {
+      "name": "2 blue gholem ench 2 killed together and mined besides each other .pcap",
+      "bytes": 227927,
+      "compressed_bytes": 80354
+    },
+    {
+      "name": "red gholem lvl2 ench killed and mines.pcap",
+      "bytes": 181683,
+      "compressed_bytes": 65316
+    },
+    {
+      "name": "blue enchanted 2 gholem killed and mined .pcap",
+      "bytes": 99124,
+      "compressed_bytes": 35769
+    },
+    {
+      "name": "6red ores ,each one mined.pcap",
+      "bytes": 187943,
+      "compressed_bytes": 67770
+    },
+    {
+      "name": "red,ore lvl2.pcap",
+      "bytes": 49445,
+      "compressed_bytes": 18512
+    }
+  ],
+  "notes": [],
+  "pcaps": [
+    {
+      "name": "went from yellow 5 region to fort sterling, and then to bank and inspectoed a few of my items and equipmentz.pcap",
+      "bytes": 1323681,
+      "magic": "d4c3b2a1",
+      "sha256": "2a6359c576f8a797ff92e224db8fc281c5f39a65df2adbbf98b651f58c633683",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap",
+      "bytes": 162581,
+      "magic": "d4c3b2a1",
+      "sha256": "0fbba4850898a6857059a9815194bc35c63279d2a08efb84540348c446437ceb",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
+      "bytes": 113080,
+      "magic": "d4c3b2a1",
+      "sha256": "9d879a0496ce875d4b8c230ea3862e67efb7acf6e54976538a2160d84bb9345f",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "blue ore ench1 mined .pcap",
+      "bytes": 35743,
+      "magic": "d4c3b2a1",
+      "sha256": "d085e9db5bf267042d7f5a9999e1e84394a9bc7de9cf32f694a5eca64b27534f",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "2 blue gholem ench 2 killed together and mined besides each other .pcap",
+      "bytes": 227927,
+      "magic": "d4c3b2a1",
+      "sha256": "d6d6e6508e8611809ea70715dad4c4e284cdffabba7e3b20cb443304ab7d66ba",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "red gholem lvl2 ench killed and mines.pcap",
+      "bytes": 181683,
+      "magic": "d4c3b2a1",
+      "sha256": "4a2da2df15ca7804c24259f2c12ad7fc873e3292c9b230005ddb78c7c5790846",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "blue enchanted 2 gholem killed and mined .pcap",
+      "bytes": 99124,
+      "magic": "d4c3b2a1",
+      "sha256": "5606346fc9548cf0f93b7269b7f7d50367245ca3bcdd63f51765bf8974c080f0",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "6red ores ,each one mined.pcap",
+      "bytes": 187943,
+      "magic": "d4c3b2a1",
+      "sha256": "8560fed8045c6ed319e18fc46249334ccbdc95f6401eceaad03b48677d9a13e2",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "red,ore lvl2.pcap",
+      "bytes": 49445,
+      "magic": "d4c3b2a1",
+      "sha256": "3e5e6eb5abb224bcce107cf9d781f558824aa8e86f4088792461c4f43104c7aa",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    }
+  ],
+  "jsonl": [],
+  "text_hints": {
+    "straight_then_stop": 0,
+    "ninety_degree_turns": 0,
+    "resource_nodes": 0,
+    "troll_golem_mob": 0
+  }
+}

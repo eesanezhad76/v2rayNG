@@ -1,0 +1,62 @@
+{
+  "archive": "Albion اااستسمنسمنش.zip",
+  "bytes": 165627,
+  "sha256": "1284882bfa527ce6fa02becd77324f58204e9c770dc4c138e0267f0ce4cf28ba",
+  "members": [
+    {
+      "name": "پیاده شدم اور ماین کردم دوتا قرمز و سوار .pcap",
+      "bytes": 74003,
+      "compressed_bytes": 29003
+    },
+    {
+      "name": "فقط ماب کشتم.pcap",
+      "bytes": 303950,
+      "compressed_bytes": 110423
+    },
+    {
+      "name": "بیکار سوار مونت موندم.pcap",
+      "bytes": 72574,
+      "compressed_bytes": 25605
+    }
+  ],
+  "notes": [],
+  "pcaps": [
+    {
+      "name": "پیاده شدم اور ماین کردم دوتا قرمز و سوار .pcap",
+      "bytes": 74003,
+      "magic": "d4c3b2a1",
+      "sha256": "193de897f32b256a57e128b47e60607f34c63820db1d2f5660d146511306ff8c",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "فقط ماب کشتم.pcap",
+      "bytes": 303950,
+      "magic": "d4c3b2a1",
+      "sha256": "4ed27ff57802632ad6b08abd43727e6121de4449bda81655cc4f245d37374fc1",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "بیکار سوار مونت موندم.pcap",
+      "bytes": 72574,
+      "magic": "d4c3b2a1",
+      "sha256": "99ef31a31f06acad2daecb567d5987d0a5f6db47d59667f1dd654fca36d66781",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    }
+  ],
+  "jsonl": [],
+  "text_hints": {
+    "straight_then_stop": 0,
+    "ninety_degree_turns": 0,
+    "resource_nodes": 0,
+    "troll_golem_mob": 0
+  }
+}
