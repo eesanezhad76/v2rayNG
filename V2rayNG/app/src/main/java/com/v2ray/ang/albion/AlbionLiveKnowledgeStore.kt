@@ -115,8 +115,8 @@ class AlbionLiveKnowledgeStore(context: Context) {
             records.values.forEach { array.put(it) }
             val temp = File(file.parentFile, file.name + ".tmp")
             temp.writeText(array.toString(), Charsets.UTF_8)
-            if (file.exists() && !file.delete()) error("Cannot replace knowledge cache")
-            if (!temp.renameTo(file)) error("Cannot finalize knowledge cache")
+            // renameTo is atomic on the app data filesystem and replaces the prior snapshot.
+            if (!temp.renameTo(file)) error("Cannot atomically replace knowledge cache")
             dirty = false
             lastFlushMs = nowMs
         } catch (_: Exception) {
