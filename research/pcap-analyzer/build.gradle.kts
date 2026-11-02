@@ -13,7 +13,8 @@ sourceSets {
             "com/v2ray/ang/albion/AlbionPhotonPacketDecoder.kt",
             "com/v2ray/ang/albion/AlbionProtocol18Decoder.kt",
             "com/v2ray/ang/albion/AlbionEntityEventMapper.kt",
-            "com/v2ray/ang/albion/AlbionPhotonEventDecoder.kt"
+            "com/v2ray/ang/albion/AlbionPhotonEventDecoder.kt",
+            "AlbionPcapAudit.kt"
         )
     }
 }
