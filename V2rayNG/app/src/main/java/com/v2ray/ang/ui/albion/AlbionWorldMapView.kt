@@ -142,7 +142,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
         canvas.drawText("YOU  ${"%.1f".format(java.util.Locale.US, px)}, ${"%.1f".format(java.util.Locale.US, py)}", centerX + 9f * density, centerY + 4f * density, paint)
         paint.color = 0xFFB8C8D5.toInt()
         paint.textSize = 9f * density
-        canvas.drawText("YOU=green  resource=gold  candidate=grey  mob=red  player=blue", 10f * density, height - 24f * density, paint)
+        canvas.drawText("YOU=green  resource=gold  candidate=grey  mob=red  other-player pins withheld", 10f * density, height - 24f * density, paint)
         canvas.drawText("Pinch: zoom  •  Drag: pan  •  1 grid = 20 coordinate units", 10f * density, height - 10f * density, paint)
     }
 
