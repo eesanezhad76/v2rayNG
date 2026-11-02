@@ -2,7 +2,11 @@ name: Albion capture ingest
 on:
   push:
     branches: [albion-pattern-mining]
-    paths: ['research/inbox/**']
+    paths:
+      - 'research/inbox/**'
+      - 'research/tools/**'
+      - 'research/tests/**'
+      - '.github/workflows/albion-capture-ingest.yml'
   workflow_dispatch:
 permissions:
   contents: write
@@ -23,14 +27,13 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          shopt -s nullglob
+          shopt -s nullglob globstar
           zips=(research/inbox/*.zip research/inbox/**/*.zip)
-          if [ ${#zips[@]} -eq 0 ]; then
-            echo "No ZIPs in research/inbox; running validation tests only."
-            python -m unittest discover -s research/tests -p 'test_*.py' -v
-            exit 0
+          if [ ${#zips[@]} -gt 0 ]; then
+            python research/tools/ingest_capture.py "${zips[@]}"
+          else
+            echo "No capture ZIP in inbox; validating ingest code."
           fi
-          python research/tools/ingest_capture.py "${zips[@]}"
           python -m unittest discover -s research/tests -p 'test_*.py' -v
       - name: Commit derived evidence
         run: |
