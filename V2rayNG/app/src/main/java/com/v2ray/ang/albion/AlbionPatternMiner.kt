@@ -45,7 +45,7 @@ object AlbionPatternMiner {
                 candidates.forEach { candidate ->
                     appendLine(
                         "  ${candidate.fieldPath} | captures=${candidate.independentCaptures}" +
-                            " | occurrences=${candidate.occurrences} | distinct_values=${candidate.distinctValues}" +
+                            " | occurrences=${candidate.occurrences} | distinct_values_observed_at_most_32=${candidate.distinctValues}" +
                             " | recurrence_score=${String.format(Locale.US, "%.2f", candidate.recurrenceScore)}" +
                             " | examples=${candidate.examples.joinToString(prefix = "[", postfix = "]")}"
                     )
@@ -164,7 +164,7 @@ object AlbionPatternMiner {
                 val candidate = output.getOrPut(path) { MutableCandidate() }
                 candidate.captures += captureId
                 candidate.occurrences++
-                if (candidate.values.size < MAX_EXAMPLES && candidate.values.size < MAX_STORED_VALUES) {
+                if (candidate.values.size < MAX_STORED_VALUES) {
                     candidate.values += value.toString().take(MAX_VALUE_LENGTH)
                 }
             }
