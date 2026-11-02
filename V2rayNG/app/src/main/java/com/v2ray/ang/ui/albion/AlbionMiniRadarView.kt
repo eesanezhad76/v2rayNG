@@ -111,8 +111,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val dx = target.optDouble("x") - px
             val dy = target.optDouble("y") - py
             val distance = hypot(dx, dy)
-            val tx = cx + (dx / range * radius).toFloat()
-            val ty = cy + 5f * density - (dy / range * radius).toFloat()
+            val scale = if (distance > range) range / distance else 1.0
+            val tx = cx + (dx * scale / range * radius).toFloat()
+            val ty = cy + 5f * density - (dy * scale / range * radius).toFloat()
             paint.color = 0xFFFFD45C.toInt()
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 2f * density
