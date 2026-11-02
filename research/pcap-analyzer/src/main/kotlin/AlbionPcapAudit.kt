@@ -1,5 +1,6 @@
 import com.v2ray.ang.albion.AlbionCaptureAnalyzer
 import java.io.File
+import java.security.MessageDigest
 import java.util.zip.ZipInputStream
 import org.json.JSONObject
 
@@ -14,7 +15,10 @@ fun main() {
     val index = mutableListOf<String>()
     val allDetails = mutableListOf<Triple<String, String, String>>()
     var total = 0
+    var uniquePcapTotal = 0
+    var duplicatePcapTotal = 0
     var failed = 0
+    val duplicatePcapRows = mutableListOf<String>()
     try {
         for (archive in archives) {
             val dir = File(temp, archive.nameWithoutExtension).apply { mkdirs() }
@@ -40,10 +44,28 @@ fun main() {
             }
             val pcaps = dir.walkTopDown().filter { it.isFile && it.extension.equals("pcap", true) }.sortedBy { it.name }.toList()
             println("ARCHIVE " + archive.name + " PCAPS " + pcaps.size)
-            index += "## " + archive.name + " (" + pcaps.size + " PCAP files)"
+            index += "## " + archive.name + " (" + pcaps.size + " discovered PCAP files)"
+            val seenHashes = linkedMapOf<String, String>()
             for (pcap in pcaps) {
                 total++
-                val text = try {
+                val digest = MessageDigest.getInstance("SHA-256")
+                pcap.inputStream().buffered().use { input ->
+                    val buffer = ByteArray(65536)
+                    while (true) {
+                        val n = input.read(buffer)
+                        if (n < 0) break
+                        digest.update(buffer, 0, n)
+                    }
+                }
+                val contentHash = digest.digest().joinToString("") { "%02x".format(it.toInt() and 0xff) }
+                val duplicateOf = seenHashes.putIfAbsent(contentHash, pcap.name)
+                val text = if (duplicateOf != null) {
+                    duplicatePcapTotal++
+                    duplicatePcapRows += listOf(archive.name, pcap.name, contentHash, duplicateOf)
+                        .joinToString(",") { "\"" + it.replace("\"", "\"\"") + "\"" }
+                    "DUPLICATE_PCAP: byte-identical to " + duplicateOf + "; excluded from aggregate observations to prevent double counting."
+                } else try {
+                    uniquePcapTotal++
                     val report = AlbionCaptureAnalyzer.analyze(pcap)
                     report.detailedObservations.forEach { allDetails += Triple(archive.name, pcap.name, it) }
                     report.asText()
@@ -63,6 +85,10 @@ fun main() {
         }
         File(out, "2026-11-02-all-inbox-pcap-analysis.md").writeText(
             "# Full inbox PCAP analysis\n\nArchives: " + archives.size + "\nPCAP files: " + total + "\nAnalysis errors: " + failed + "\n\n" + index.joinToString("\n\n"),
+            Charsets.UTF_8
+        )
+        File(out, "2026-11-02-pcap-duplicate-inventory.csv").writeText(
+            (listOf("archive,duplicate_pcap,sha256,canonical_pcap") + duplicatePcapRows).joinToString("\\n") + "\\n",
             Charsets.UTF_8
         )
         File(out, "2026-11-02-all-inbox-observations.jsonl").writeText(
