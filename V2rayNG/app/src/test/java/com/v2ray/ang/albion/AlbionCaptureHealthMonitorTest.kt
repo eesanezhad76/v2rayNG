@@ -29,6 +29,8 @@ class AlbionCaptureHealthMonitorTest {
         monitor.recordValidEvent(1_100L)
         assertEquals("WAITING_FOR_MAPPED_ENTITIES", monitor.snapshot(1_200L, true).status)
         monitor.recordMappedEntity(1_250L)
+        monitor.recordPacket(30_000L)
+        monitor.recordValidEvent(30_100L)
         assertEquals("ENTITY_STALE", monitor.snapshot(40_000L, true).status)
     }
 
