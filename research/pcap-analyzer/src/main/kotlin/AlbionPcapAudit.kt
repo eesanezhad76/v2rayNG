@@ -84,11 +84,11 @@ fun main() {
             }
         }
         File(out, "2026-11-02-all-inbox-pcap-analysis.md").writeText(
-            "# Full inbox PCAP analysis\n\nArchives: " + archives.size + "\nPCAP files: " + total + "\nAnalysis errors: " + failed + "\n\n" + index.joinToString("\n\n"),
+            "# Full inbox PCAP analysis\n\nArchives: " + archives.size + "\nDiscovered PCAP files: " + total + "\nUnique PCAP files analyzed: " + uniquePcapTotal + "\nByte-identical duplicates skipped: " + duplicatePcapTotal + "\nAnalysis errors: " + failed + "\n\n" + index.joinToString("\n\n"),
             Charsets.UTF_8
         )
         File(out, "2026-11-02-pcap-duplicate-inventory.csv").writeText(
-            (listOf("archive,duplicate_pcap,sha256,canonical_pcap") + duplicatePcapRows).joinToString("\\n") + "\\n",
+            (listOf("archive,duplicate_pcap,sha256,canonical_pcap") + duplicatePcapRows).joinToString("\n") + "\n",
             Charsets.UTF_8
         )
         File(out, "2026-11-02-all-inbox-observations.jsonl").writeText(
@@ -295,7 +295,7 @@ fun main() {
         )
         val familyEvidence = linkedMapOf<String, FamilyEvidence>()
         val correlationCsv = buildString {
-            appendLine("archive,pcap,activity,found_ms,started_ms,completed_ms,depleted_ms,tier_label,enchantment_label,candidate_node_count,candidate_families,candidate_entity_ids,match_status")
+            appendLine("archive,pcap,activity,found_ms,started_ms,completed_ms,depleted_ms,tier_label,enchantment_label,candidate_node_count,candidate_families,candidate_entity_ids,candidate_evidence_details,match_status")
             for (sample in markerSamples) {
                 val tierNumber = sample.tierLabel?.removePrefix("T")?.toIntOrNull()
                 val enchantNumber = when (sample.enchantLabel?.uppercase()?.replace(" ", "")) {
@@ -337,7 +337,24 @@ fun main() {
                     sample.startedMs?.toString() ?: "", sample.completedMs?.toString() ?: "", sample.depletedMs?.toString() ?: "",
                     sample.tierLabel ?: "", sample.enchantLabel ?: "", candidates.size.toString(),
                     familyCounts.entries.sortedBy { it.key }.joinToString("|") { it.key + ":" + it.value },
-                    candidates.joinToString("|") { it.id }, status).joinToString(",") { csvCell(it) })
+                    candidates.joinToString("|") { it.id },
+                    candidates.sortedBy { node ->
+                        when {
+                            sample.foundMs < node.first -> node.first - sample.foundMs
+                            sample.foundMs > node.last -> sample.foundMs - node.last
+                            else -> 0L
+                        }
+                    }.joinToString(";") { node ->
+                        val gap = when {
+                            sample.foundMs < node.first -> node.first - sample.foundMs
+                            sample.foundMs > node.last -> sample.foundMs - node.last
+                            else -> 0L
+                        }
+                        listOf(node.id, node.families.joinToString("|"), node.tiers.joinToString("|"),
+                            node.enchants.joinToString("|"), node.mobileTypes.joinToString("|"),
+                            node.coordinates.joinToString("|"), node.first.toString(), node.last.toString(), gap.toString())
+                            .joinToString(":")
+                    }, status).joinToString(",") { csvCell(it) })
             }
         }
         File(out, "2026-11-02-overlay-family-correlation.csv").writeText(correlationCsv, Charsets.UTF_8)
