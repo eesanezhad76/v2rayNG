@@ -68,7 +68,7 @@ class ReadinessReportTests(unittest.TestCase):
             "checks": [{"name": "Gradle tests", "status": "FAIL"}],
         }))
         self.assertEqual(0, readiness.report_exit_code({
-            "overall_status": "READY_FOR_FIELD_TEST",
+            "overall_status": "READY_FOR_CONTROLLED_FIELD_TEST",
             "checks": [{"name": "APK", "status": "PASS"}],
         }))
         self.assertEqual(2, readiness.report_exit_code({
