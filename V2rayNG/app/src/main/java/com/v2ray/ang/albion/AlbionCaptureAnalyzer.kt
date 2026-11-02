@@ -164,6 +164,7 @@ object AlbionCaptureAnalyzer {
                                         detailed += buildString {
                                             append("t=").append(packetTimeMs).append(" kind=").append(observation.kind)
                                             observation.entityId?.let { append(" id=").append(it) }
+                                            observation.sourceEntityId?.let { append(" source_entity_id=").append(it) }
                                             observation.name?.let { append(" name=").append(it) }
                                             observation.x?.let { append(" x=").append(it) }
                                             observation.y?.let { append(" y=").append(it) }
