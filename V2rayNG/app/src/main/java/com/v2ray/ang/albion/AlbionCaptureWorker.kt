@@ -23,7 +23,8 @@ class AlbionCaptureWorker(
     private val disableTap: () -> Unit,
     private val queueDepth: () -> Int = { -1 },
     private val queueCapacity: () -> Int = { -1 },
-    private val tapEnabled: () -> Boolean = { false }
+    private val tapEnabled: () -> Boolean = { false },
+    private val recoverTap: () -> Boolean = { false }
 ) {
     data class Snapshot(val running: Boolean, val finished: Boolean, val packets: Long, val dropped: Long, val pcap: File?, val log: File?, val error: String?, val publicPcap: Uri? = null, val publicLog: Uri? = null, val mirrorError: String? = null, val markers: Long = 0, val nonAlbion: Long = 0, val report: File? = null)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -108,10 +109,20 @@ class AlbionCaptureWorker(
                             lastFlush = now
                         }
                         if (now - lastHealth >= 5_000_000_000L) {
+                            var tapOk = try { tapEnabled() } catch (_: Throwable) { false }
+                            var recoveryAttempted = false
+                            var recoverySucceeded = false
+                            if (!tapOk && running.get()) {
+                                recoveryAttempted = true
+                                recoverySucceeded = try { recoverTap() } catch (_: Throwable) { false }
+                                tapOk = recoverySucceeded || try { tapEnabled() } catch (_: Throwable) { false }
+                            }
                             synchronized(this@AlbionCaptureWorker) {
                                 log?.write(JSONObject().put("record_type", "capture_health")
                                     .put("time_ms", System.currentTimeMillis())
-                                    .put("tap_enabled", try { tapEnabled() } catch (_: Throwable) { false })
+                                    .put("tap_enabled", tapOk)
+                                    .put("tap_recovery_attempted", recoveryAttempted)
+                                    .put("tap_recovery_succeeded", recoverySucceeded)
                                     .put("queue_depth", try { queueDepth() } catch (_: Throwable) { -1 })
                                     .put("queue_capacity", try { queueCapacity() } catch (_: Throwable) { -1 })
                                     .put("tap_dropped_total", dropped()).put("packets_written", packetCount.get()).toString())
