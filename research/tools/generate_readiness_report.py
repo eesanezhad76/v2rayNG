@@ -210,6 +210,8 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
          "evidence": "Automated stage-by-stage freshness, empty-overlay, stale-entity, and inactive-capture checks"},
         {"name": "Capture quality scoring", "status": quality_status,
          "evidence": f'{quality_rows}/{unique} unique captures have quality score and grade'},
+        {"name": "Native tap-drop quality scoring", "status": "PASS" if junit["status"] == "PASS" and any("AlbionCaptureQualityAnalyzerTest" in name for name in junit.get("suite_names", [])) else "NOT_VERIFIED",
+         "evidence": "Worker-supplied native tap queue drops contribute to quality score; this is explicitly not interpreted as network packet loss"},
         {"name": "APK signing verification", "status": signature["status"],
          "evidence": f'apksigner verification; signers={signature["signers"]}; certificate SHA-256={signature.get("certificate_sha256") or "unavailable"}'},
         {"name": "Live packet capture", "status": "NOT_VERIFIED",
