@@ -1,0 +1,176 @@
+#!/usr/bin/env python3
+"""Compare own-player and typed resource coordinates within each replayed PCAP only."""
+import argparse
+import json
+import math
+import pathlib
+import re
+from collections import defaultdict
+
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+DEFAULT_INPUT = ROOT / "research/analysis/2026-11-02-all-inbox-observations.jsonl"
+DEFAULT_JSON = ROOT / "research/analysis/2026-11-02-spatial-alignment.json"
+DEFAULT_MD = ROOT / "research/analysis/2026-11-02-spatial-alignment.md"
+FIELD_RE = re.compile(r"([A-Za-z_]+)=([^\s]+)")
+
+
+def parse_fields(detail):
+    return {match.group(1): match.group(2) for match in FIELD_RE.finditer(str(detail or ""))}
+
+
+def finite_coordinate(value):
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return None
+    if not math.isfinite(number) or abs(number) > 10000:
+        return None
+    return number
+
+
+def percentile(values, fraction):
+    ordered = sorted(values)
+    if not ordered:
+        return None
+    return ordered[min(len(ordered) - 1, int((len(ordered) - 1) * fraction))]
+
+
+def analyze_rows(rows):
+    grouped = defaultdict(lambda: {"player": [], "nodes": defaultdict(set), "rows": 0})
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        archive = str(row.get("archive") or "")
+        pcap = str(row.get("pcap") or "")
+        if not archive or not pcap:
+            continue
+        group = grouped[(archive, pcap)]
+        group["rows"] += 1
+        fields = parse_fields(row.get("detail"))
+        kind = fields.get("kind")
+        x = finite_coordinate(fields.get("x"))
+        y = finite_coordinate(fields.get("y"))
+        if x is None or y is None:
+            continue
+        if kind == "own_player_move":
+            group["player"].append((x, y))
+        elif kind == "harvestable":
+            entity_id = fields.get("id")
+            if entity_id not in (None, "", "null"):
+                group["nodes"][entity_id].add((round(x, 3), round(y, 3)))
+
+    captures = []
+    for (archive, pcap), group in sorted(grouped.items()):
+        player = group["player"]
+        node_sets = group["nodes"]
+        conflicts = sorted(entity_id for entity_id, coords in node_sets.items() if len(coords) > 1)
+        nodes = [next(iter(coords)) for entity_id, coords in sorted(node_sets.items()) if len(coords) == 1]
+        if len(player) < 10 or len(nodes) < 3:
+            status = "NOT_VERIFIED"
+            distances = []
+            player_bounds = None
+            node_bounds = None
+            overlap = False
+        else:
+            px = [point[0] for point in player]
+            py = [point[1] for point in player]
+            nx = [point[0] for point in nodes]
+            ny = [point[1] for point in nodes]
+            player_bounds = {"min_x": min(px), "max_x": max(px), "min_y": min(py), "max_y": max(py)}
+            node_bounds = {"min_x": min(nx), "max_x": max(nx), "min_y": min(ny), "max_y": max(ny)}
+            overlap = not (max(px) < min(nx) or max(nx) < min(px) or max(py) < min(ny) or max(ny) < min(py))
+            distances = [
+                min(math.hypot(node_x - player_x, node_y - player_y) for player_x, player_y in player)
+                for node_x, node_y in nodes
+            ]
+            median = percentile(distances, 0.5)
+            p90 = percentile(distances, 0.9)
+            plausible = overlap and median <= 100.0 and p90 <= 250.0
+            status = "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" if plausible else "NOT_VERIFIED"
+
+        median = percentile(distances, 0.5)
+        p90 = percentile(distances, 0.9)
+        captures.append({
+            "archive": archive,
+            "pcap": pcap,
+            "status": status,
+            "evidence_grade": "single_capture_spatial_heuristic_only",
+            "replay_observation_rows": group["rows"],
+            "player_position_samples": len(player),
+            "typed_resource_nodes": len(nodes),
+            "resource_entity_ids_with_coordinate_conflicts": conflicts,
+            "player_bounds": player_bounds,
+            "resource_bounds": node_bounds,
+            "bounding_boxes_overlap": overlap,
+            "nearest_resource_to_player_path_distance_median": round(median, 3) if median is not None else None,
+            "nearest_resource_to_player_path_distance_p90": round(p90, 3) if p90 is not None else None,
+            "nodes_within_100_units_of_player_path": sum(distance <= 100.0 for distance in distances),
+            "warning": "Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity."
+        })
+
+    overall = "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" if any(
+        capture["status"] == "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" for capture in captures
+    ) else "NOT_VERIFIED"
+    return {
+        "schema_version": 1,
+        "overall_status": overall,
+        "capture_scope": "archive_and_pcap_grouped_independently; no cross-capture joins",
+        "captures": captures,
+        "warning": "A plausible result supports local coordinate alignment only. It is not a world-map or zone-identity proof."
+    }
+
+
+def read_rows(path):
+    with path.open(encoding="utf-8", errors="replace") as source:
+        for line in source:
+            try:
+                yield json.loads(line)
+            except json.JSONDecodeError:
+                continue
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=pathlib.Path, default=DEFAULT_INPUT)
+    parser.add_argument("--json-output", type=pathlib.Path, default=DEFAULT_JSON)
+    parser.add_argument("--markdown-output", type=pathlib.Path, default=DEFAULT_MD)
+    args = parser.parse_args()
+    if not args.input.is_file():
+        raise SystemExit("Missing replay observations file: " + str(args.input))
+    report = analyze_rows(read_rows(args.input))
+    args.json_output.parent.mkdir(parents=True, exist_ok=True)
+    args.json_output.write_text(json.dumps(report, indent=2), encoding="utf-8")
+    lines = [
+        "# Same-capture player/resource coordinate alignment",
+        "",
+        "Overall: " + report["overall_status"],
+        "",
+        report["warning"],
+        "",
+    ]
+    for capture in report["captures"]:
+        lines += [
+            "## " + capture["archive"] + " / " + capture["pcap"],
+            "",
+            "- Status: " + capture["status"],
+            "- Player position samples: " + str(capture["player_position_samples"]),
+            "- Typed Event-40 resource nodes: " + str(capture["typed_resource_nodes"]),
+            "- Bounding boxes overlap: " + str(capture["bounding_boxes_overlap"]),
+            "- Median nearest-node distance: " + str(capture["nearest_resource_to_player_path_distance_median"]),
+            "- P90 nearest-node distance: " + str(capture["nearest_resource_to_player_path_distance_p90"]),
+            "- Node IDs with coordinate conflicts: " + str(len(capture["resource_entity_ids_with_coordinate_conflicts"])),
+            "- Warning: " + capture["warning"],
+            "",
+        ]
+    args.markdown_output.parent.mkdir(parents=True, exist_ok=True)
+    args.markdown_output.write_text("\n".join(lines), encoding="utf-8")
+    print(json.dumps({
+        "overall_status": report["overall_status"],
+        "captures": len(report["captures"]),
+        "plausible_captures": sum(c["status"] == "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" for c in report["captures"]),
+        "json": str(args.json_output),
+    }, sort_keys=True))
+
+
+if __name__ == "__main__":
+    main()
