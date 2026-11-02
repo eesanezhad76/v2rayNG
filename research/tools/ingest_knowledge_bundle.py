@@ -16,6 +16,7 @@ ANALYSIS = ROOT / "research/analysis"
 FORMAT = "albion-radar-knowledge"
 SCHEMA_VERSION = 1
 REQUIRED_FILES = ("live-knowledge.json", "protocol-evidence.json", "learned-patterns.json")
+OPTIONAL_FILES = ("autonomous-patterns.json",)
 MAX_MEMBER_BYTES = 64 * 1024 * 1024
 MAX_TOTAL_BYTES = 128 * 1024 * 1024
 OUTPUT = DATABASE / "albion-knowledge-bundle-import.json"
@@ -58,7 +59,7 @@ def read_bundle(path):
         if not isinstance(files, dict):
             raise ValueError(f"{path.name}: manifest files object missing")
         payloads = {}
-        for name in REQUIRED_FILES:
+        for name in REQUIRED_FILES + tuple(name for name in OPTIONAL_FILES if name in by_name or name in files):
             info = by_name.get(name)
             metadata = files.get(name)
             if info is None or not isinstance(metadata, dict):
@@ -72,10 +73,13 @@ def read_bundle(path):
         entities = json.loads(payloads["live-knowledge.json"].decode("utf-8"))
         protocol = json.loads(payloads["protocol-evidence.json"].decode("utf-8"))
         patterns = json.loads(payloads["learned-patterns.json"].decode("utf-8"))
+        autonomous = json.loads(payloads.get("autonomous-patterns.json", b"[]").decode("utf-8"))
         if not isinstance(entities, list) or not isinstance(protocol, list):
             raise ValueError(f"{path.name}: entity/protocol payloads must be arrays")
         if not isinstance(patterns, dict) or not isinstance(patterns.get("patterns", []), list):
             raise ValueError(f"{path.name}: learned-pattern payload must be an object with a patterns array")
+        if not isinstance(autonomous, list):
+            raise ValueError(f"{path.name}: autonomous-pattern payload must be an array")
         return {
             "archive": path.name,
             "archive_sha256": archive_hash,
@@ -84,17 +88,18 @@ def read_bundle(path):
             "protocol_events": protocol,
             "patterns": patterns.get("patterns", []),
             "pattern_database": patterns,
+            "autonomous_patterns": autonomous,
         }
 
 
 def load_existing(path=OUTPUT):
     if not path.is_file():
         return {"schema_version": 1, "imported_bundles": [], "entity_observations": [],
-                "protocol_evidence": [], "learned_patterns": []}
+                "protocol_evidence": [], "learned_patterns": [], "autonomous_patterns": []}
     document = json.loads(path.read_text(encoding="utf-8"))
     if document.get("schema_version") != 1:
         raise ValueError("Existing central knowledge database has an unsupported schema")
-    for key in ("imported_bundles", "entity_observations", "protocol_evidence", "learned_patterns"):
+    for key in ("imported_bundles", "entity_observations", "protocol_evidence", "learned_patterns", "autonomous_patterns"):
         if not isinstance(document.get(key), list):
             raise ValueError(f"Existing central database field is invalid: {key}")
     return document
@@ -113,6 +118,7 @@ def merge_bundle(database, bundle):
         "entity_records_in_export": len(bundle["entity_records"]),
         "protocol_events_in_export": len(bundle["protocol_events"]),
         "patterns_in_export": len(bundle["patterns"]),
+        "autonomous_patterns_in_export": len(bundle.get("autonomous_patterns", [])),
     })
 
     entities = {row["record_key"]: row for row in database["entity_observations"]}
@@ -175,6 +181,39 @@ def merge_bundle(database, bundle):
             else:
                 current["source_bundles"] = sorted(sources)
 
+
+    autonomous = {row["signature"]: row for row in database["autonomous_patterns"] if row.get("signature")}
+    for pattern in bundle.get("autonomous_patterns", []):
+        if not isinstance(pattern, dict) or not pattern.get("signature"):
+            continue
+        signature = str(pattern["signature"])
+        current = autonomous.get(signature)
+        if current is None:
+            autonomous[signature] = {**pattern, "source_bundles": [bundle_hash]}
+            continue
+        sources = set(current.get("source_bundles", []))
+        sources.add(bundle_hash)
+        # Cumulative exports are snapshots: union session provenance, but never sum sightings.
+        sessions = set(current.get("capture_sessions", []))
+        sessions.update(pattern.get("capture_sessions", []))
+        current["capture_sessions"] = sorted(sessions)
+        if int(pattern.get("sightings", 0) or 0) > int(current.get("sightings", 0) or 0):
+            replacement = {**pattern, "source_bundles": sorted(sources)}
+            replacement["capture_sessions"] = sorted(sessions)
+            autonomous[signature] = replacement
+        else:
+            current["source_bundles"] = sorted(sources)
+        # Preserve the strongest completed label evidence per label key.
+        labels = {row.get("label_key"): row for row in current.get("labels", []) if isinstance(row, dict)}
+        for label in pattern.get("labels", []):
+            if not isinstance(label, dict) or not label.get("label_key"):
+                continue
+            key = label["label_key"]
+            if key not in labels or int(label.get("completed_samples", 0) or 0) > int(labels[key].get("completed_samples", 0) or 0):
+                labels[key] = dict(label)
+        current["labels"] = [labels[key] for key in sorted(labels)]
+
+    database["autonomous_patterns"] = sorted(autonomous.values(), key=lambda row: row["signature"])
     database["entity_observations"] = sorted(entities.values(), key=lambda row: row["record_key"])
     database["protocol_evidence"] = sorted(protocol.values(), key=lambda row: (row.get("time_ms", 0), row["evidence_key"]))
     database["learned_patterns"] = sorted(patterns.values(), key=lambda row: row["signature"])
@@ -208,6 +247,7 @@ def main(argv=None):
         "session_scoped_entity_records": len(database["entity_observations"]),
         "deduplicated_protocol_events": len(database["protocol_evidence"]),
         "unique_pattern_signatures": len(database["learned_patterns"]),
+        "autonomous_event_signatures": len(database["autonomous_patterns"]),
         "database": str(args.output),
     }
     report = ANALYSIS / "albion-knowledge-bundle-import.md"
