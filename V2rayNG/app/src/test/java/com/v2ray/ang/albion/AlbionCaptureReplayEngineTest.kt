@@ -25,6 +25,9 @@ class AlbionCaptureReplayEngineTest {
         writePcap(capture, listOf(byteArrayOf(1, 2, 3), byteArrayOf(4, 5, 6)))
         val pipeline = AlbionCaptureReplayPipeline.replay(capture, context())
         assertEquals(0, pipeline.entityCount)
+        assertEquals(0, pipeline.overlayAcceptedEntityCount)
+        assertEquals(0, pipeline.invalidCoordinateCount)
+        assertTrue(pipeline.overlaySnapshotValid)
         assertEquals("[]", pipeline.knowledgeSnapshotJson)
         assertTrue(pipeline.replay.report.ipPackets >= 2)
         assertTrue(pipeline.protocolEvidenceSummary.contains("No Ore identity is asserted"))
@@ -35,6 +38,8 @@ class AlbionCaptureReplayEngineTest {
         assertTrue(json.contains("\"isolated_knowledge_store_replayed\": true"))
         assertTrue(json.contains("\"daemon_live_store_mutated\": false"))
         assertTrue(json.contains("\"overlay_delivery_verified\": false"))
+        assertTrue(json.contains("\"overlay_snapshot_valid\": true"))
+        assertTrue(json.contains("\"overlay_accepted_entity_count\": 0"))
     }
 
     @Test fun replayIsDeterministicAndWritesAuditableScopeMetadata() {
