@@ -106,12 +106,18 @@ object AlbionCaptureAnalyzer {
                     // Recognize them before link-layer decoding so a PCAP link-type mismatch
                     // cannot silently discard our own annotation packets.
                     if (isCheckpointPacket(frame)) {
-                        parseCheckpoint(frame)?.let { checkpoints += it }
+                        parseCheckpoint(frame)?.let { marker ->
+                            checkpoints += marker
+                            detailed += marker
+                        }
                         continue
                     }
                     val ip = extractIpPacket(frame, linkType) ?: continue
                     if (isCheckpointPacket(ip)) {
-                        parseCheckpoint(ip)?.let { checkpoints += it }
+                        parseCheckpoint(ip)?.let { marker ->
+                            checkpoints += marker
+                            detailed += marker
+                        }
                         continue
                     }
                     val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(ip) ?: continue
@@ -237,8 +243,22 @@ object AlbionCaptureAnalyzer {
     private fun parseCheckpoint(ip: ByteArray): String? {
         return try {
             val marker = AlbionCaptureMarker.parse(ip)
-            marker.optString("activity", "Unknown") + ": " +
-                marker.optString("event", "event") + " @ " + marker.optLong("timestamp_ms")
+            fun safe(value: String): String = value.replace(Regex("\\s+"), "_").replace("=", "_")
+            buildString {
+                append("t=").append(marker.optLong("timestamp_ms"))
+                append(" kind=manual_marker")
+                append(" activity=").append(safe(marker.optString("activity", "Unknown")))
+                append(" event=").append(safe(marker.optString("event", "event")))
+                marker.optString("tier", "").takeIf { it.isNotBlank() && it != "null" }?.let {
+                    append(" tier=").append(safe(it))
+                }
+                marker.optString("enchantment", "").takeIf { it.isNotBlank() && it != "null" }?.let {
+                    append(" enchantment=").append(safe(it))
+                }
+                marker.optString("target_id", "").takeIf { it.isNotBlank() && it != "null" }?.let {
+                    append(" target_id=").append(safe(it))
+                }
+            }
         } catch (_: Exception) { null }
     }
 
