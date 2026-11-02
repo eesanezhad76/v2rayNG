@@ -51,4 +51,14 @@ jobs:
           git add research/database research/analysis
           if git diff --cached --quiet; then echo "No derived changes"; exit 0; fi
           git commit -m "data(albion): ingest uploaded capture evidence"
-          git push origin albion-pattern-mining
+          # A user may push while this analysis is running. Rebase our derived
+          # evidence commit onto the newer branch tip and retry; never force-push.
+          for attempt in 1 2 3; do
+            if git push origin albion-pattern-mining; then
+              exit 0
+            fi
+            git fetch origin albion-pattern-mining
+            git rebase origin/albion-pattern-mining
+          done
+          echo "Unable to fast-forward derived evidence after three safe retries."
+          exit 1
