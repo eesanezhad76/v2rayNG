@@ -202,7 +202,13 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
             quality_rows = 0
     quality_status = "PASS" if unique > 0 and quality_rows == unique else "NOT_VERIFIED"
 
+    python_tests_status = env.get("ALBION_PYTHON_TESTS_STATUS", "NOT_VERIFIED")
+    if python_tests_status not in {"PASS", "FAIL"}:
+        python_tests_status = "NOT_VERIFIED"
+
     checks = [
+        {"name": "Python offline-analysis, FIFO marker, and readiness tests", "status": python_tests_status,
+         "evidence": "The full research/tests suite covers ZIP safety, exact-ID joins, FIFO marker lifecycle pairing, metadata-conflict retention, and readiness-report exit policy"},
         {"name": "Android APK build and packaging", "status": apk.get("status", "FAIL"),
          "evidence": f"APK SHA-256: {apk.get('sha256', 'unavailable')}; size: {apk.get('size_bytes', 0)} bytes"},
         {"name": "Gradle unit tests", "status": junit["status"],

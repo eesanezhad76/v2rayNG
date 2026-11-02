@@ -177,9 +177,13 @@ jobs:
         set -euo pipefail
         V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
 
-    - name: Test Albion readiness report logic
+    - name: Test Python analysis, marker FIFO, and readiness logic
       if: always() && github.ref == 'refs/heads/albion-pattern-mining'
-      run: python3 -m unittest discover -s research/tests -p 'test_readiness_report.py' -v
+      shell: bash
+      run: |
+        echo "ALBION_PYTHON_TESTS_STATUS=FAIL" >> "$GITHUB_ENV"
+        python3 -m unittest discover -s research/tests -p 'test_*.py' -v
+        echo "ALBION_PYTHON_TESTS_STATUS=PASS" >> "$GITHUB_ENV"
 
     - name: Generate Albion readiness report
       if: always() && github.ref == 'refs/heads/albion-pattern-mining'
