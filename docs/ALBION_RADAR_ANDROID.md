@@ -27,6 +27,9 @@ The Kotlin worker writes PCAP and JSONL files under the app-specific `AlbionCapt
 - Encrypted Photon and Protocol18 payloads are counted separately from malformed packets; they are not decrypted.
 - Known entity events are mapped to typed observations for resources, harvestables, resource state, mobs, player lifecycle, health and dungeon exits.
 - Unknown events are logged/inventoried rather than guessed.
+- Offline reports classify packet direction using the server-side port: source port 5056 is inbound; destination port 5056 is outbound.
+- Protocol18 fragment buffers and diagnostic counters reset at the beginning of each capture, preventing state leakage between sessions.
+- The report performs bounded cross-capture numeric-path discovery across `photon_event_analysis`, `event_state_changes` and `entities`. A candidate must recur in at least three distinct JSONL capture files; array indices are normalized, nested objects are traversed, and the score measures recurrence only—not semantic certainty. It does not claim that a field is an item ID or inventory count.
 
 This does not yet establish a complete player-position decoder, zone-coordinate transform, or live map UI. Event interpretation still requires validation against real PCAPs captured during gameplay.
 
@@ -34,7 +37,7 @@ This does not yet establish a complete player-position decoder, zone-coordinate 
 
 1. Run the race-enabled Go tests for the native TUN tap.
 2. Run Kotlin unit tests, including encrypted-packet classification and Protocol18 fragment reassembly.
-3. Build the Android AAR and debug APK for all configured ABIs.
+3. Build the Android AAR and debug APK for all configured ABIs. The reliability branch now triggers this workflow, runs Kotlin unit tests, checks for the arm64 APK, publishes separate ABI artifacts, and uploads SHA-256 checksums.
 4. Install the arm64 APK on a physical Android device and verify that normal VPN traffic remains unaffected.
 5. Capture while idle, moving, gathering, fighting mobs and changing zones; inspect PCAP, JSONL, drop counters and decoder statistics.
 6. Force activity recreation, network handover, VPN stop/start and process restart; verify capture resumes only when the persisted opt-in is enabled and files remain readable.
