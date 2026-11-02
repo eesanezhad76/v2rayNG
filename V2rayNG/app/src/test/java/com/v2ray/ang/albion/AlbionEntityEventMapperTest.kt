@@ -14,6 +14,31 @@ class AlbionEntityEventMapperTest {
         )
 
     @Test
+    fun mapsOwnPlayerPositionFromOutboundMoveOperation22() {
+        AlbionEntityEventMapper.reset()
+        val move = AlbionProtocol18Decoder.Message(
+            kind = "request",
+            dispatchCode = 0,
+            realCode = 22,
+            parameters = mapOf(
+                1 to listOf(-293.07f, 314.89f),
+                2 to 303.76f,
+                3 to listOf(-292.25f, 314.31f),
+                4 to 11.0f,
+                253 to 22
+            ),
+            operationCode = 22
+        )
+        val observation = AlbionEntityEventMapper.map(move).single()
+        assertEquals("own_player_move", observation.kind)
+        assertEquals(-1L, observation.entityId)
+        assertEquals(-293.07f, observation.x)
+        assertEquals(314.89f, observation.y)
+        assertEquals(303.76f, observation.heading)
+        assertEquals(11.0f, observation.speed)
+    }
+
+    @Test
     fun mapsHealthUpdateSeparatelyFromEnergyUpdate() {
         AlbionEntityEventMapper.reset()
         val health = AlbionEntityEventMapper.map(
