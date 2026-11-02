@@ -83,6 +83,123 @@ fun main() {
             }
         }
         File(out, "2026-11-02-own-player-movement-timeline.csv").writeText(csv, Charsets.UTF_8)
+
+        data class NodeAgg(
+            val archive: String, val pcap: String, val id: String,
+            val mobileTypes: MutableSet<String> = sortedSetOf(),
+            val families: MutableSet<String> = sortedSetOf(),
+            val tiers: MutableSet<String> = sortedSetOf(),
+            val enchants: MutableSet<String> = sortedSetOf(),
+            val coordinates: MutableSet<String> = sortedSetOf(),
+            var first: Long = Long.MAX_VALUE,
+            var last: Long = Long.MIN_VALUE,
+            var observations: Int = 0
+        )
+        fun field(detail: String, key: String): String? =
+            Regex("(?:^| )" + Regex.escape(key) + "=([^ ]+)").find(detail)?.groupValues?.get(1)
+        fun csvCell(value: String): String = "\"" + value.replace("\"", "\"\"") + "\""
+        val nodes = linkedMapOf<String, NodeAgg>()
+        val resourceStates = linkedMapOf<String, MutableList<Pair<Long, String>>>()
+        val staticResources = mutableListOf<String>()
+        data class MobAgg(
+            val archive: String, val pcap: String, val id: String,
+            var mobileType: String = "", var enchant: String = "",
+            var name: String = "", var x: String = "", var y: String = "",
+            var first: Long = Long.MAX_VALUE, var last: Long = Long.MIN_VALUE,
+            var spawnObservations: Int = 0, var movementObservations: Int = 0,
+            var healthObservations: Int = 0, var stateObservations: Int = 0,
+            var leaveAfterSeen: Boolean = false
+        )
+        val mobs = linkedMapOf<String, MobAgg>()
+        fun scopedKey(archive: String, pcap: String, id: String) = archive + "\u001f" + pcap + "\u001f" + id
+        for ((archive, pcap, detail) in allDetails) {
+            val kind = field(detail, "kind") ?: continue
+            val id = field(detail, "id") ?: continue
+            val t = field(detail, "t")?.toLongOrNull() ?: 0L
+            val key = scopedKey(archive, pcap, id)
+            when (kind) {
+                "harvestable" -> {
+                    val node = nodes.getOrPut(key) { NodeAgg(archive, pcap, id) }
+                    node.observations++
+                    node.first = minOf(node.first, t)
+                    node.last = maxOf(node.last, t)
+                    field(detail, "mobileType")?.let { node.mobileTypes += it }
+                    field(detail, "family")?.let { node.families += it }
+                    field(detail, "tier")?.let { node.tiers += it }
+                    field(detail, "enchant")?.let { node.enchants += it }
+                    val x = field(detail, "x"); val y = field(detail, "y")
+                    if (x != null && y != null) node.coordinates += "$x,$y"
+                }
+                "resource_state" -> {
+                    val value = field(detail, "amount") ?: if (detail.contains("removed=true")) "removed" else "null"
+                    resourceStates.getOrPut(key) { mutableListOf() }.add(t to value)
+                }
+                "static_resource" -> {
+                    staticResources += listOf(archive, pcap, t.toString(), id,
+                        field(detail, "x") ?: "", field(detail, "y") ?: "").joinToString(",") { csvCell(it) }
+                }
+                "mob" -> {
+                    val mob = mobs.getOrPut(key) { MobAgg(archive, pcap, id) }
+                    mob.spawnObservations++
+                    mob.first = minOf(mob.first, t); mob.last = maxOf(mob.last, t)
+                    mob.mobileType = field(detail, "mobileType") ?: mob.mobileType
+                    mob.enchant = field(detail, "enchant") ?: mob.enchant
+                    mob.name = field(detail, "name") ?: mob.name
+                    mob.x = field(detail, "x") ?: mob.x; mob.y = field(detail, "y") ?: mob.y
+                }
+                "move" -> mobs[key]?.let { it.movementObservations++; it.last = maxOf(it.last, t) }
+                "health" -> mobs[key]?.let { it.healthObservations++; it.last = maxOf(it.last, t) }
+                "mob_state" -> mobs[key]?.let { it.stateObservations++; it.last = maxOf(it.last, t) }
+                "leave" -> mobs[key]?.let { it.leaveAfterSeen = true; it.last = maxOf(it.last, t) }
+            }
+        }
+        val nodeCsv = buildString {
+            appendLine("archive,pcap,entity_id,mobile_type_ids,type_numbers,tiers,enchantment_raw_values,coordinates,first_seen_ms,last_seen_ms,observation_count,state_event_count,state_values,identity_scope")
+            for ((key, node) in nodes.toSortedMap()) {
+                val states = resourceStates[key].orEmpty().sortedBy { it.first }
+                val values = listOf(node.archive, node.pcap, node.id,
+                    node.mobileTypes.joinToString("|"), node.families.joinToString("|"),
+                    node.tiers.joinToString("|"), node.enchants.joinToString("|"),
+                    node.coordinates.joinToString("|"), node.first.toString(), node.last.toString(),
+                    node.observations.toString(), states.size.toString(),
+                    states.joinToString(">") { it.second }, "archive+pcap+runtime_entity_id")
+                appendLine(values.joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-pcap-harvestable-nodes.csv").writeText(nodeCsv, Charsets.UTF_8)
+        val unmatchedStates = resourceStates.filterKeys { !nodes.containsKey(it) }
+        val stateCsv = buildString {
+            appendLine("archive,pcap,entity_id,first_state_ms,last_state_ms,state_event_count,state_values,has_event40_location")
+            for ((key, states) in resourceStates.toSortedMap()) {
+                val parts = key.split("\u001f")
+                val ordered = states.sortedBy { it.first }
+                val vals = listOf(parts[0], parts[1], parts[2], ordered.firstOrNull()?.first?.toString() ?: "",
+                    ordered.lastOrNull()?.first?.toString() ?: "", ordered.size.toString(),
+                    ordered.joinToString(">") { it.second }, if (nodes.containsKey(key)) "true" else "false")
+                appendLine(vals.joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-pcap-resource-state-timelines.csv").writeText(stateCsv, Charsets.UTF_8)
+        File(out, "2026-11-02-pcap-static-resources.csv").writeText(
+            listOf("archive,pcap,timestamp_ms,entity_id,x,y") + staticResources,
+            Charsets.UTF_8
+        )
+        val mobCsv = buildString {
+            appendLine("archive,pcap,entity_id,mobile_type_id,enchantment,name,x,y,first_seen_ms,last_seen_ms,spawn_observations,movement_observations,health_observations,state_observations,left_after_seen,interpretation")
+            for ((_, mob) in mobs.toSortedMap()) {
+                val values = listOf(mob.archive, mob.pcap, mob.id, mob.mobileType, mob.enchant,
+                    mob.name, mob.x, mob.y, mob.first.toString(), mob.last.toString(),
+                    mob.spawnObservations.toString(), mob.movementObservations.toString(),
+                    mob.healthObservations.toString(), mob.stateObservations.toString(),
+                    mob.leaveAfterSeen.toString(),
+                    if (mob.leaveAfterSeen) "entity_leave_observed_not_proof_of_kill" else "no_leave_observed_in_capture")
+                appendLine(values.joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-pcap-mob-lifecycle.csv").writeText(mobCsv, Charsets.UTF_8)
+        println("RESOURCE_AUDIT harvestable_nodes=" + nodes.size +
+            " state_ids=" + resourceStates.size + " state_only_ids=" + unmatchedStates.size +
+            " static_resources=" + staticResources.size + " mobs=" + mobs.size)
         println("OBSERVATIONS total=" + allDetails.size + " own_player_move=" + movements.size)
         println("PCAP_AUDIT_COMPLETE archives=" + archives.size + " pcaps=" + total + " errors=" + failed)
         require(total > 0) { "No PCAP files were analyzed" }
