@@ -1,16 +1,17 @@
 # Capture inventory — 2026-11-02
 
-Source archive: `Albionsskkakaks111.zip` (provided in chat; raw ZIP has not yet been committed to GitHub). Primary JSONL: `albion-1793620890462.jsonl`. Secondary capture `albion-1793620143023.jsonl` contains no UDP/5056 game packets and is not useful for entity inventory.
+Source archive: `Albionsskkakaks111.zip`; primary JSONL: `albion-1793620890462.jsonl`. Secondary JSONL `albion-1793620143023.jsonl` contains no UDP/5056 game packets.
 
 ## Primary capture
 - 22,093 JSONL rows / IP packet records.
-- 14,975 UDP packets involving Albion port 5056; all observed packets have valid Photon envelopes.
-- Event 40 resource snapshots: 77 observations, 51 unique runtime node IDs.
-- Event 46 state updates: 146 observations; 13 IDs overlap Event 40 nodes, and 44 IDs have state updates but no Event 40 location snapshot in this capture.
-- Event 123 living-entity observations: 448.
+- 14,975 UDP packets involving Albion port 5056.
+- Event 40: 77 observations, 51 unique runtime node IDs.
+- Event 46: 146 updates across 65 unique runtime IDs; 13 IDs join exactly to Event 40 nodes; 52 state IDs have no Event 40 location snapshot in this capture.
+- Event 123: 448 living-entity observations.
 - Manual markers: 175 total; 21 target_found, 21 gathering_started, 20 gathering_completed, 20 node_depleted.
 
 ## 51 unique Event 40 nodes by family/tier/enchantment
+
 | family | tier | enchant raw | unique nodes |
 |---:|---:|---:|---:|
 | 29 | 3 | 0 | 3 |
@@ -27,17 +28,18 @@ Source archive: `Albionsskkakaks111.zip` (provided in chat; raw ZIP has not yet 
 | 7 | 5 | 1 | 5 |
 | 7 | 5 | 2 | 1 |
 
-## Important interpretation
-- The 51 count is distinct Event 40 runtime IDs, not packet observations.
-- Event 40 `type_id` in this decoder is the resource family number; it is not the mobile code.
-- Previously cross-checked Ore family 29 mobile codes: T3=571, T4=573, T5=574. These are recorded in the machine dataset with explicit cross-capture provenance. Other families remain unknown.
-- Event 46 updates are linked only when runtime IDs match exactly. A state-only ID is preserved separately; it is not assigned a guessed location or resource family.
-- Raw state transitions may include resets/reappearance. They are preserved as timelines and are not flattened into a simplistic depleted/not-depleted flag.
-- Three located nodes have a complete 4→3→2→1→0 Event 46 sequence: IDs 39075, 39460, 39464.
+The database file stores each unique node's runtime ID, mobile code, family, tier, enchantment, coordinates, first/last timestamps, observation count, sizes and exact-ID state timeline.
 
-## Next analysis tasks
-1. Correlate all manual marker cycles with runtime node IDs using time windows plus exact family/tier/enchantment and state evidence; preserve ambiguity.
-2. Resolve mobile codes for families 7, 14 and 27 from additional captures or protocol evidence.
-3. Investigate why 44 Event 46 IDs lack Event 40 snapshots; these may represent previously known nodes outside the snapshot window.
-4. Continue own-player movement extraction separately from arbitrary Event 3 movement.
-5. Use repeated captures before promoting any new resource-code mapping to production.
+## Interpretation
+- Counts are unique Event 40 runtime IDs, not packet occurrences.
+- Event 40 `type_number` is the resource family; it is not the mobile code.
+- Ore family 29 codes cross-checked in earlier work: T3=571, T4=573, T5=574. Other families remain unknown in this capture.
+- Event 46 timelines are joined only by exact runtime ID. The 52 state-only IDs are retained separately; no coordinates or resource names are guessed.
+- Three located nodes have complete 4→3→2→1→0 transitions: IDs 39075, 39460 and 39464. Other transitions, including resets/reappearance, are preserved verbatim.
+
+## Follow-up
+1. Correlate all marker cycles to IDs without forcing ambiguous matches.
+2. Resolve family 7/14/27 mobile codes from further captures.
+3. Investigate 52 state-only IDs.
+4. Extract own-player movement independently from arbitrary Event 3 movement.
+5. Promote mappings only after independent capture corroboration and regression tests.
