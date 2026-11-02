@@ -13,12 +13,17 @@ ingest = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(ingest)
 
 
-def make_bundle(path, entities, protocol, patterns, exported_at=100):
+def make_bundle(path, entities, protocol, patterns, exported_at=100, autonomous=None):
     payloads = {
         "live-knowledge.json": json.dumps(entities).encode(),
         "protocol-evidence.json": json.dumps(protocol).encode(),
         "learned-patterns.json": json.dumps({"schema_version": 1, "patterns": patterns}).encode(),
     }
+    if autonomous is not None:
+        payloads["autonomous-patterns.json"] = json.dumps(autonomous).encode()
+    # Keep every payload checksum-covered by the manifest.
+    payloads.update({
+    })
     manifest = {
         "format": "albion-radar-knowledge",
         "schema_version": 1,
@@ -71,6 +76,28 @@ class KnowledgeBundleImportTests(unittest.TestCase):
             self.assertEqual(2, len(database["entity_observations"]))
             self.assertEqual({"1000:77", "2000:77"},
                              {row["record_key"] for row in database["entity_observations"]})
+
+
+    def test_autonomous_signatures_import_and_cumulative_exports_do_not_inflate_counts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            first, second, output = root / "first.zip", root / "second.zip", root / "central.json"
+            signature = {
+                "signature": "abc123", "event_code": 40, "sightings": 12,
+                "capture_sessions": ["session-a"], "status": "repeated_single_session_candidate",
+                "labels": [{"label_key": "Ore|T3|E1", "completed_samples": 2}],
+            }
+            make_bundle(first, [], [], [], 1000, [signature])
+            newer = dict(signature, sightings=15, capture_sessions=["session-a", "session-b"])
+            make_bundle(second, [], [], [], 2000, [newer])
+            ingest.main([str(first), str(second), "--output", str(output)])
+            database = json.loads(output.read_text())
+            self.assertEqual(1, len(database["autonomous_patterns"]))
+            imported = database["autonomous_patterns"][0]
+            self.assertEqual(15, imported["sightings"])
+            self.assertEqual(["session-a", "session-b"], imported["capture_sessions"])
+            self.assertEqual(2, imported["labels"][0]["completed_samples"])
+            self.assertEqual(2, len(imported["source_bundles"]))
 
     def test_checksum_mismatch_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
