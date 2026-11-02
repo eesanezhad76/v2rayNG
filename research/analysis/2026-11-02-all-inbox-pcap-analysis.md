@@ -60062,3 +60062,5 @@ Detailed entity/player observations: 34863
 
 ### newtest ores and one gholem tier 4 normal .pcap
 DUPLICATE_PCAP: byte-identical to albion-1793620890462.pcap; excluded from aggregate observations to prevent double counting.
+
+PCAP_AUDIT_COMPLETE archives=4 pcaps=22 unique=21 duplicates=1 errors=0
