@@ -386,6 +386,9 @@ object CoreServiceManager {
         albionCaptureWorker?.liveKnowledgeSnapshot()
             ?: "Live knowledge: start capture to populate observations."
 
+    fun getAlbionLiveKnowledgeJson(): String =
+        albionCaptureWorker?.liveKnowledgeJson() ?: "[]"
+
     fun stopAlbionCapture() {
         getService()?.getSharedPreferences(ALBION_CAPTURE_PREFS, Context.MODE_PRIVATE)
             ?.edit()?.putBoolean(ALBION_AUTO_START, false)?.apply()
