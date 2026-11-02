@@ -229,6 +229,8 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
          "evidence": "Committed PCAPs are replayed into isolated Inventory/Harvest evidence stores; repeated numeric paths and adjacent deltas remain unclassified candidates, not Item ID or stack mappings"},
         {"name": "Entity evidence ambiguity and conflict scoring", "status": "PASS" if junit["status"] == "PASS" and any("AlbionLiveKnowledgeStoreTest" in name for name in junit.get("suite_names", [])) else "NOT_VERIFIED",
          "evidence": "Conflicting type/family/tier/enchant evidence is downgraded to ambiguous; duplicate bursts are not counted as repeated independent sightings; scores are heuristics, not probabilities"},
+        {"name": "Provenance-aware resource identity catalog", "status": "PASS" if junit["status"] == "PASS" and any("ResourcePatternLearnerTest" in name for name in junit.get("suite_names", [])) and any("AlbionRadarSnapshotParserTest" in name for name in junit.get("suite_names", [])) else "NOT_VERIFIED",
+         "evidence": "Family 29 is labelled Ore from independent capture evidence; T3-T5 mobile types are bounded to observed mappings; unknown -1 mobile-type sentinel is not treated as a real ID; inferred names carry visible provenance markers"},
         {"name": "Inventory Item ID and Stack Delta mapping", "status": "NOT_VERIFIED",
          "evidence": "Candidate parameter paths are not semantic mappings; real item IDs and stack deltas still require independent live evidence"},
         {"name": "Live spatial correlation", "status": "NOT_VERIFIED",
