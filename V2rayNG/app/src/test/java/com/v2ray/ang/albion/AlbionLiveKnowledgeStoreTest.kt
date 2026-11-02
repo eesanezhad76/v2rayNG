@@ -238,4 +238,21 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(summary.contains("Static resource candidates (not confirmed Ore): 0"), summary)
         assertTrue(summary.contains("Typed resource observations: 0"), summary)
     }
+
+    @Test fun retainsBoundedOwnPlayerMovementTrailForRadarRendering() {
+        val store = AlbionLiveKnowledgeStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "own_player_move", eventCode = 22, entityId = -1L, x = 10f, y = 20f
+        )))
+        store.observe(now + 500L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "own_player_move", eventCode = 22, entityId = -1L, x = 12f, y = 23f
+        )))
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        val player = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
+            .first { it.optString("last_kind") == "own_player_move" }
+        val history = player.optJSONArray("movement_history")
+        assertTrue(history != null && history.length() >= 2, player.toString())
+        assertTrue(history!!.getJSONObject(history.length() - 1).optDouble("x") == 12.0)
+    }
 }
