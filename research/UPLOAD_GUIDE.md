@@ -36,24 +36,36 @@ Do not extract or rename files inside the archive before uploading. If you have 
 
 ## What happens after upload
 
-The `Albion capture ingest` GitHub Actions workflow is configured to run when files under `research/inbox/` change on `albion-pattern-mining`.
+The `Albion capture ingest` GitHub Actions workflow runs when capture ZIPs or relevant decoder/analyzer code change on `albion-pattern-mining`.
 
-It should:
-1. Download the repository.
-2. Safely extract the ZIP.
-3. Parse JSONL records and preserve source archives.
-4. Extract/deduplicate Event 40 node IDs.
-5. Link Event 46 updates only by exact runtime entity ID.
-6. Keep state-only IDs and ambiguous markers separate.
-7. Write normalized JSON/CSV under `research/database/`.
-8. Write a capture report under `research/analysis/`.
-9. Run tests under `research/tests/`.
-10. Commit derived outputs back to `albion-pattern-mining`.
+**Important: you do not need to upload PCAPs to ChatGPT.** The workflow runs on GitHub's runner, so ZIPs larger than the chat upload limit can still be analyzed there. Every `.pcap` inside every ZIP in `research/inbox/` is extracted temporarily and passed to the standalone Kotlin/JVM analyzer. It uses the same Kotlin Photon packet and Protocol18 decoder classes used by the Android app; it is not a generic filename-only scanner and it does not depend on JSONL being present.
+
+The workflow now:
+1. Checks the archive inventory and extracts available README/note text.
+2. Safely extracts each PCAP from every ZIP while leaving the original ZIP unchanged.
+3. Decodes the PCAP link/IP/UDP/Photon envelope and Protocol18 messages with the project's Kotlin decoder.
+4. Records operation requests, including Move (22) and AttackStart (23).
+5. Exports the local player's outbound movement coordinate timeline.
+6. Extracts Event 39 static resources, Event 40 harvestable nodes, Event 46 state changes and joins them only by exact runtime ID inside the same capture.
+7. Preserves Event 123 mobile/living entities, health/energy events (6/7/8/91/92), attacker/source IDs, and Leave events for combat correlation.
+8. Writes normalized CSV/JSONL databases under `research/database/`.
+9. Writes a full-inbox report and individual per-PCAP forensic reports under `research/analysis/`.
+10. Runs Python validation tests and the standalone Kotlin analyzer, then commits derived evidence to `albion-pattern-mining`.
+
+The primary normalized files include:
+- `2026-11-02-own-player-movement-timeline.csv`
+- `2026-11-02-pcap-harvestable-nodes.csv`
+- `2026-11-02-pcap-resource-state-timelines.csv`
+- `2026-11-02-pcap-static-resources.csv`
+- `2026-11-02-pcap-mob-lifecycle.csv`
+- `2026-11-02-pcap-health-energy-events.csv`
+- `2026-11-02-pcap-attack-target-tracks.csv`
+- `2026-11-02-all-inbox-observations.jsonl`
 
 Check workflow runs here:
 https://github.com/eesanezhad76/v2rayNG/actions/workflows/albion-capture-ingest.yml
 
-A successful upload commit does not itself mean analysis succeeded. Wait for the workflow conclusion to be **success**. If it fails, send me the Actions run URL or a screenshot/log; do not keep uploading duplicates.
+A successful upload commit does not itself mean analysis succeeded. Wait for the workflow conclusion to be **success**. If it fails, send me the Actions run URL or a screenshot/log; do not keep uploading duplicates. The report distinguishes decoded facts from uncertain interpretations: for example, Leave means the server removed an entity from local visibility and is not by itself proof of death.
 
 ## Where test material belongs
 
