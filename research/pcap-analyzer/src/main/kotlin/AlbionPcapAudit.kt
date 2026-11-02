@@ -101,21 +101,35 @@ fun main() {
         val nodes = linkedMapOf<String, NodeAgg>()
         val resourceStates = linkedMapOf<String, MutableList<Pair<Long, String>>>()
         val staticResources = mutableListOf<String>()
+        val rawHealthEnergyEvents = mutableListOf<String>()
         data class MobAgg(
             val archive: String, val pcap: String, val id: String,
             var mobileType: String = "", var enchant: String = "",
             var name: String = "", var x: String = "", var y: String = "",
             var first: Long = Long.MAX_VALUE, var last: Long = Long.MIN_VALUE,
             var spawnObservations: Int = 0, var movementObservations: Int = 0,
-            var healthObservations: Int = 0, var stateObservations: Int = 0,
+            var healthObservations: Int = 0, var energyObservations: Int = 0,
+            var healthRegenerationObservations: Int = 0, var energyRegenerationObservations: Int = 0,
+            var stateObservations: Int = 0,
+            var minObservedHealth: Double? = null, var maxObservedHealth: Double? = null,
+            var lastObservedHealth: Double? = null,
+            var minObservedEnergy: Double? = null, var maxObservedEnergy: Double? = null,
+            var lastObservedEnergy: Double? = null,
+            var lastHealthRegeneration: Double? = null, var lastEnergyRegeneration: Double? = null,
             var leaveAfterSeen: Boolean = false
         )
         val mobs = linkedMapOf<String, MobAgg>()
         fun scopedKey(archive: String, pcap: String, id: String) = archive + "\u001f" + pcap + "\u001f" + id
         for ((archive, pcap, detail) in allDetails) {
             val kind = field(detail, "kind") ?: continue
-            val id = field(detail, "id") ?: continue
             val t = field(detail, "t")?.toLongOrNull() ?: 0L
+            if (kind == "raw_health_energy_event") {
+                val code = Regex("code=(\\d+)").find(detail)?.groupValues?.get(1) ?: ""
+                rawHealthEnergyEvents += listOf(archive, pcap, t.toString(), code, detail)
+                    .joinToString(",") { csvCell(it) }
+                continue
+            }
+            val id = field(detail, "id") ?: continue
             val key = scopedKey(archive, pcap, id)
             when (kind) {
                 "harvestable" -> {
@@ -148,7 +162,30 @@ fun main() {
                     mob.x = field(detail, "x") ?: mob.x; mob.y = field(detail, "y") ?: mob.y
                 }
                 "move" -> mobs[key]?.let { it.movementObservations++; it.last = maxOf(it.last, t) }
-                "health" -> mobs[key]?.let { it.healthObservations++; it.last = maxOf(it.last, t) }
+                "health" -> mobs[key]?.let { mob ->
+                    mob.healthObservations++; mob.last = maxOf(mob.last, t)
+                    field(detail, "secondary_value")?.toDoubleOrNull()?.let { hp ->
+                        mob.minObservedHealth = mob.minObservedHealth?.let { minOf(it, hp) } ?: hp
+                        mob.maxObservedHealth = mob.maxObservedHealth?.let { maxOf(it, hp) } ?: hp
+                        mob.lastObservedHealth = hp
+                    }
+                }
+                "energy" -> mobs[key]?.let { mob ->
+                    mob.energyObservations++; mob.last = maxOf(mob.last, t)
+                    field(detail, "secondary_value")?.toDoubleOrNull()?.let { energy ->
+                        mob.minObservedEnergy = mob.minObservedEnergy?.let { minOf(it, energy) } ?: energy
+                        mob.maxObservedEnergy = mob.maxObservedEnergy?.let { maxOf(it, energy) } ?: energy
+                        mob.lastObservedEnergy = energy
+                    }
+                }
+                "health_regeneration" -> mobs[key]?.let { mob ->
+                    mob.healthRegenerationObservations++; mob.last = maxOf(mob.last, t)
+                    mob.lastHealthRegeneration = field(detail, "secondary_value")?.toDoubleOrNull() ?: mob.lastHealthRegeneration
+                }
+                "energy_regeneration" -> mobs[key]?.let { mob ->
+                    mob.energyRegenerationObservations++; mob.last = maxOf(mob.last, t)
+                    mob.lastEnergyRegeneration = field(detail, "secondary_value")?.toDoubleOrNull() ?: mob.lastEnergyRegeneration
+                }
                 "mob_state" -> mobs[key]?.let { it.stateObservations++; it.last = maxOf(it.last, t) }
                 "leave" -> mobs[key]?.let { it.leaveAfterSeen = true; it.last = maxOf(it.last, t) }
             }
@@ -185,18 +222,27 @@ fun main() {
             Charsets.UTF_8
         )
         val mobCsv = buildString {
-            appendLine("archive,pcap,entity_id,mobile_type_id,enchantment,name,x,y,first_seen_ms,last_seen_ms,spawn_observations,movement_observations,health_observations,state_observations,left_after_seen,interpretation")
+            appendLine("archive,pcap,entity_id,mobile_type_id,enchantment,name,x,y,first_seen_ms,last_seen_ms,spawn_observations,movement_observations,health_observations,energy_observations,health_regeneration_observations,energy_regeneration_observations,min_observed_health,max_observed_health,last_observed_health,min_observed_energy,max_observed_energy,last_observed_energy,last_health_regeneration,last_energy_regeneration,state_observations,left_after_seen,interpretation")
             for ((_, mob) in mobs.toSortedMap()) {
                 val values = listOf(mob.archive, mob.pcap, mob.id, mob.mobileType, mob.enchant,
                     mob.name, mob.x, mob.y, mob.first.toString(), mob.last.toString(),
                     mob.spawnObservations.toString(), mob.movementObservations.toString(),
-                    mob.healthObservations.toString(), mob.stateObservations.toString(),
-                    mob.leaveAfterSeen.toString(),
+                    mob.healthObservations.toString(), mob.energyObservations.toString(),
+                    mob.healthRegenerationObservations.toString(), mob.energyRegenerationObservations.toString(),
+                    mob.minObservedHealth?.toString() ?: "", mob.maxObservedHealth?.toString() ?: "",
+                    mob.lastObservedHealth?.toString() ?: "", mob.minObservedEnergy?.toString() ?: "",
+                    mob.maxObservedEnergy?.toString() ?: "", mob.lastObservedEnergy?.toString() ?: "",
+                    mob.lastHealthRegeneration?.toString() ?: "", mob.lastEnergyRegeneration?.toString() ?: "",
+                    mob.stateObservations.toString(), mob.leaveAfterSeen.toString(),
                     if (mob.leaveAfterSeen) "entity_leave_observed_not_proof_of_kill" else "no_leave_observed_in_capture")
                 appendLine(values.joinToString(",") { csvCell(it) })
             }
         }
         File(out, "2026-11-02-pcap-mob-lifecycle.csv").writeText(mobCsv, Charsets.UTF_8)
+        File(out, "2026-11-02-pcap-health-energy-events.csv").writeText(
+            (listOf("archive,pcap,timestamp_ms,event_code,raw_detail") + rawHealthEnergyEvents).joinToString("\\n") + "\\n",
+            Charsets.UTF_8
+        )
 
         data class AttackSample(val t: Long, val flag: String, val requestId: String)
         data class PositionSample(val t: Long, val x: Double, val y: Double)
