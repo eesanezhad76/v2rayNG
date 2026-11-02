@@ -49,7 +49,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val px = player.optDouble("x")
         val py = player.optDouble("y")
         return entities.asSequence()
-             .filter { it.optString("last_kind") in setOf("harvestable", "resource_state") }
+            .filter { it.optString("last_kind") in setOf("harvestable", "resource_state") }
             .filter { it.optString("classification") == "typed_resource_observation" }
             .filter { it.optString("evidence_grade") != "conflicting_typed_observation" }
             .filter { !it.optBoolean("depleted", false) && validPoint(it) }
