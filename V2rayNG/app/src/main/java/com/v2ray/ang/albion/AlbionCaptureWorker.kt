@@ -37,6 +37,7 @@ class AlbionCaptureWorker(
     @Volatile private var publicLogUri: Uri? = null
     @Volatile private var publicReportUri: Uri? = null
     @Volatile private var appContext: Context? = null
+    @Volatile private var knowledgeStore: AlbionLiveKnowledgeStore? = null
     @Volatile private var pcapFileStream: FileOutputStream? = null
     @Volatile private var logFileStream: FileOutputStream? = null
     private val markerCount = AtomicLong(0)
@@ -59,6 +60,7 @@ class AlbionCaptureWorker(
             val raw = File(dir, "albion-$stamp.pcap")
             val txt = File(dir, "albion-$stamp.jsonl")
             appContext = context.applicationContext
+            knowledgeStore = AlbionLiveKnowledgeStore(context.applicationContext)
             pcapFileStream = FileOutputStream(raw)
             logFileStream = FileOutputStream(txt)
             pcap = DataOutputStream(BufferedOutputStream(pcapFileStream!!, 262144)).also(::writeHeader)
@@ -151,7 +153,7 @@ class AlbionCaptureWorker(
                 val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
                 writePacket(packet, System.currentTimeMillis(), decoded)
             }
-            synchronized(this@AlbionCaptureWorker) { flushFiles(); closeFiles() }
+            synchronized(this@AlbionCaptureWorker) { knowledgeStore?.flush(); flushFiles(); closeFiles() }
             withContext(Dispatchers.IO) {
                 generateOfflineReport()
                 while (mirrorInProgress.get()) delay(10)
@@ -257,8 +259,10 @@ class AlbionCaptureWorker(
                 photonEventAnalysis.put(eventItem)
             }
         }
+        val observations = messages.flatMap { AlbionEntityEventMapper.map(it) }
+        knowledgeStore?.observe(timestampMs, observations)
         val entityArray = JSONArray()
-        messages.flatMap { AlbionEntityEventMapper.map(it) }.forEach { entity ->
+        observations.forEach { entity ->
             val item = JSONObject()
             item.put("kind", entity.kind)
             item.put("event_code", entity.eventCode)
@@ -347,7 +351,8 @@ class AlbionCaptureWorker(
         val source = pcapFile ?: return
         if (!source.exists()) return
         try {
-            val report = AlbionCaptureAnalyzer.analyze(source).asText() + AlbionPatternMiner.analyze(logFile).asText()
+            knowledgeStore?.flush()
+            val report = AlbionCaptureAnalyzer.analyze(source).asText() + AlbionPatternMiner.analyze(logFile).asText() + (knowledgeStore?.summaryText() ?: "")
             val target = File(source.parentFile, source.nameWithoutExtension + ".report.txt")
             target.writeText(buildString {
                 append(report)
@@ -373,6 +378,7 @@ class AlbionCaptureWorker(
     }
 
     @Synchronized private fun closeFiles() {
+        knowledgeStore?.flush()
         flushFiles()
         try { pcap?.close() } catch (_: Throwable) {}
         try { log?.close() } catch (_: Throwable) {}
