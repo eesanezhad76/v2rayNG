@@ -13,7 +13,7 @@ class AlbionInboxPcapAuditTest {
         output.mkdirs()
         val archives = inbox.walkTopDown().filter { it.isFile && it.extension.equals("zip", true) }.toList()
         assertTrue(archives.isNotEmpty(), "No capture ZIP archives found in research/inbox")
-        val temp = createTempDir(prefix = "albion-pcap-audit-")
+        val temp = kotlin.io.path.createTempDirectory("albion-pcap-audit-").toFile()
         try {
             var totalPcaps = 0
             val index = mutableListOf<String>()
