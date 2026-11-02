@@ -156,7 +156,7 @@ object AlbionCaptureAnalyzer {
                                 }
                                 AlbionEntityEventMapper.map(message).forEach { observation ->
                                     entities[observation.kind] = (entities[observation.kind] ?: 0) + 1
-                                    if (observation.kind in setOf("player_spawn", "player_move", "static_resource", "harvestable", "resource_state", "mob", "mob_state", "player_mounted", "move")) {
+                                    if (observation.kind in setOf("player_spawn", "player_move", "static_resource", "harvestable", "resource_state", "mob", "mob_state", "player_mounted", "move", "leave", "health", "health_regeneration")) {
                                         detailed += buildString {
                                             append("t=").append(packetTimeMs).append(" kind=").append(observation.kind)
                                             observation.entityId?.let { append(" id=").append(it) }
