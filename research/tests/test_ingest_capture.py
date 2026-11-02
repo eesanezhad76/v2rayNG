@@ -124,4 +124,27 @@ class IngestTests(unittest.TestCase):
    out=self.run_ingest(rows,d)
    self.assertEqual(out["counts"]["unique_event40_nodes"],1)
    self.assertEqual(out["nodes"][0]["state_timeline"][0]["size"],4)
+
+ def test_same_capture_player_and_resource_coordinates_are_measured_as_candidate_only(self):
+  with tempfile.TemporaryDirectory() as td:
+   d=pathlib.Path(td)
+   rows=[]
+   for i in range(20):
+    rows.append({"time_ms":1000+i*100,"entities":[{"kind":"own_player_move","event_code":22,"entity_id":-1,"x":float(i),"y":float(i)}]})
+   for i,(x,y) in enumerate([(4.0,5.0),(10.0,11.0),(17.0,18.0)]):
+    rows.append({"time_ms":4000+i,"entities":[{"kind":"harvestable","event_code":40,"entity_id":700+i,"type_number":29,"tier":5,"x":x,"y":y}]})
+   out=self.run_ingest(rows,d)
+   alignment=out["spatial_alignment"]
+   self.assertEqual("PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",alignment["status"])
+   self.assertEqual("single_capture_spatial_heuristic_only",alignment["evidence_grade"])
+   self.assertEqual(20,alignment["player_position_samples"])
+   self.assertEqual(3,alignment["resource_nodes"])
+   self.assertIn("does not prove",alignment["warning"])
+
+ def test_spatial_alignment_stays_unverified_when_player_and_resource_ranges_are_separate(self):
+  player=[(float(i),float(i)) for i in range(20)]
+  resources={"1":(1000.0,1000.0),"2":(1100.0,1100.0),"3":(1200.0,1200.0)}
+  result=ingest_capture.analyze_spatial_alignment(player,resources)
+  self.assertEqual("NOT_VERIFIED",result["status"])
+  self.assertFalse(result["bounding_boxes_overlap"])
 if __name__=="__main__":unittest.main()
