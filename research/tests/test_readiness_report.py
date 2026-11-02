@@ -71,6 +71,10 @@ class ReadinessReportTests(unittest.TestCase):
             "overall_status": "READY_FOR_CONTROLLED_FIELD_TEST",
             "checks": [{"name": "APK", "status": "PASS"}],
         }))
+        self.assertEqual(0, readiness.report_exit_code({
+            "overall_status": "READY_FOR_CONTROLLED_FIELD_TEST",
+            "checks": [{"name": "APK", "status": "PASS"}],
+        }, require_ready=True))
         self.assertEqual(2, readiness.report_exit_code({
             "overall_status": "NOT_READY_FOR_FIELD_TEST",
             "checks": [{"name": "Live capture", "status": "NOT_VERIFIED"}],
