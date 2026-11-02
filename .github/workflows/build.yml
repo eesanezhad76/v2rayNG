@@ -19,7 +19,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-radar-final-v2
   cancel-in-progress: true
 
 jobs:
