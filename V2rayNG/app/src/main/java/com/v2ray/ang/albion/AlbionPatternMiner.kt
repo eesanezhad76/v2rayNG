@@ -89,7 +89,7 @@ object AlbionPatternMiner {
 
     fun analyze(file: File?): Report {
         if (file == null || !file.isFile) return Report(0, 0, 0, emptyList(), listOf("JSONL capture file is missing."))
-        val active = linkedMapOf<String, MutableSample>()
+        val active = linkedMapOf<String, ArrayDeque<MutableSample>>()
         val closing = mutableListOf<MutableSample>()
         val completed = mutableListOf<Sample>()
         val rolling = ArrayDeque<Pair<Long, List<JSONObject>>>()
@@ -121,15 +121,16 @@ object AlbionPatternMiner {
                         val activity = m.optString("activity", "Unknown")
                         when (m.optString("event", "")) {
                             "target_found" -> {
-                                active.remove(activity)?.let { incomplete++ }
                                 val tierLabel = m.optString("tier", "").takeIf { it.isNotBlank() && it != "null" }
                                 val enchantLabel = m.optString("enchantment", "").takeIf { it.isNotBlank() && it != "null" }
                                 val sample = MutableSample(activity, markerTime, overlayTierLabel = tierLabel, overlayEnchantLabel = enchantLabel)
                                 rolling.filter { it.first >= markerTime - EDGE_WINDOW_MS }.forEach { sample.observations.addAll(it.second) }
-                                active[activity] = sample
+                                active.getOrPut(activity) { ArrayDeque() }.addLast(sample)
                             }
                             "gathering_completed" -> {
-                                val sample = active.remove(activity) ?: return@forEach
+                                val queue = active[activity] ?: return@forEach
+                                val sample = queue.pollFirst() ?: return@forEach
+                                if (queue.isEmpty()) active.remove(activity)
                                 if (markerTime <= sample.startMs || markerTime - sample.startMs > MAX_SESSION_MS) {
                                     incomplete++
                                 } else {
@@ -155,7 +156,7 @@ object AlbionPatternMiner {
                         if (observations.isNotEmpty()) {
                             rolling.addLast(time to observations)
                             while (rolling.isNotEmpty() && rolling.first().first < time - EDGE_WINDOW_MS) rolling.removeFirst()
-                            active.values.forEach { it.observations.addAll(observations) }
+                            active.values.forEach { queue -> queue.forEach { it.observations.addAll(observations) } }
                             closing.forEach { sample ->
                                 if (time <= (sample.endMs ?: time) + EDGE_WINDOW_MS) sample.observations.addAll(observations)
                             }
@@ -175,7 +176,7 @@ object AlbionPatternMiner {
                 }
             }
         }
-        incomplete += active.size
+        incomplete += active.values.sumOf { it.size }
         closing.forEach(::finish)
 
         val candidates = linkedMapOf<String, Candidate>()
