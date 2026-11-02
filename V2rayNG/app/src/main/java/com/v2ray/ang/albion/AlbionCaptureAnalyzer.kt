@@ -129,9 +129,14 @@ object AlbionCaptureAnalyzer {
                                         "response" -> responses[code] = (responses[code] ?: 0) + 1
                                     }
                                 }
-                                if (message.kind == "request" && message.operationCode in setOf(22, 23, 24, 54, 199, 554)) {
+                                if (message.kind == "event" && message.realCode == 3) {
+                                    val raw = message.parameters[1] as? ByteArray
+                                    val hex = raw?.take(128)?.joinToString("") { "%02x".format(it) } ?: "null"
+                                    detailed += "t=" + packetTimeMs + " event3 id=" + message.parameters[0] + " raw=" + hex + " p4=" + message.parameters[4] + " p5=" + message.parameters[5]
+                                }
+                                if (message.kind == "request" && message.realCode in setOf(22, 23, 24, 54, 199, 554)) {
                                     val params = message.parameters.entries.sortedBy { it.key }.joinToString(" ") { (key, value) -> key.toString() + "=" + describeValue(value) }
-                                    detailed += "t=" + packetTimeMs + " outbound_request op=" + message.operationCode + " params={" + params + "}"
+                                    detailed += "t=" + packetTimeMs + " outbound_request op=" + message.realCode + " params={" + params + "}"
                                 }
                                 AlbionEntityEventMapper.map(message).forEach { observation ->
                                     entities[observation.kind] = (entities[observation.kind] ?: 0) + 1
