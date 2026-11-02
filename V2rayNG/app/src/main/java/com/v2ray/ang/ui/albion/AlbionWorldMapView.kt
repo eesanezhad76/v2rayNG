@@ -6,9 +6,7 @@ import android.graphics.Paint
 import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
-import org.json.JSONArray
 import org.json.JSONObject
-import kotlin.math.abs
 
 /** Pan/zoom coordinate map for observed game coordinates; no terrain is fabricated. */
 class AlbionWorldMapView(context: Context) : View(context) {
