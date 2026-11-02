@@ -45,6 +45,10 @@ class AlbionCaptureWorker(
     @Volatile private var pcapFileStream: FileOutputStream? = null
     @Volatile private var logFileStream: FileOutputStream? = null
     private val markerCount = AtomicLong(0)
+    // Track each side independently so a retry after a partial PCAP/JSONL write does not
+    // duplicate the PCAP marker or silently omit the JSONL marker.
+    private val pcapMarkerIds = HashSet<String>()
+    private val jsonlMarkerIds = HashSet<String>()
     private data class ManualNodeAnchor(val nodeId: String, val activity: String, val tier: String, val enchantment: String, val timestampMs: Long, var linked: Boolean = false)
     @Volatile private var activeManualNode: ManualNodeAnchor? = null
     private val nonAlbionCount = AtomicLong(0)
@@ -74,6 +78,8 @@ class AlbionCaptureWorker(
             publicLogUri = createDownloadsEntry(context, txt.name, "application/x-ndjson")
             mirrorFailure = null
             markerCount.set(0)
+            pcapMarkerIds.clear()
+            jsonlMarkerIds.clear()
             activeManualNode = null
             nonAlbionCount.set(0)
             publicReportUri = null
@@ -214,19 +220,28 @@ class AlbionCaptureWorker(
             return false
         }
         return try {
-            // Validate and serialize both representations before touching either output stream.
+            // Each output is tracked separately. If one stream fails after the other was
+            // durably written, retry only the missing side rather than duplicating the marker.
+            val markerId = marker.optString("marker_id")
+            val stableId = markerId.takeIf { it.isNotBlank() }
             val jsonLine = JSONObject().put("time_ms", timestampMs)
                 .put("manual_marker", marker).toString() + "\n"
-            out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
-            out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
-            out.writeInt(Integer.reverseBytes(packet.size))
-            out.writeInt(Integer.reverseBytes(packet.size))
-            out.write(packet)
-            out.flush()
-            pcapFileStream?.fd?.sync()
-            log?.write(jsonLine)
-            log?.flush()
-            logFileStream?.fd?.sync()
+            if (stableId == null || !pcapMarkerIds.contains(stableId)) {
+                out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
+                out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
+                out.writeInt(Integer.reverseBytes(packet.size))
+                out.writeInt(Integer.reverseBytes(packet.size))
+                out.write(packet)
+                out.flush()
+                pcapFileStream?.fd?.sync()
+                if (stableId != null) pcapMarkerIds.add(stableId)
+            }
+            if (stableId == null || !jsonlMarkerIds.contains(stableId)) {
+                log?.write(jsonLine)
+                log?.flush()
+                logFileStream?.fd?.sync()
+                if (stableId != null) jsonlMarkerIds.add(stableId)
+            }
             val event = marker.optString("event")
             val node = marker.optString("node_id")
             if (event == "target_found" && node.isNotBlank()) {
