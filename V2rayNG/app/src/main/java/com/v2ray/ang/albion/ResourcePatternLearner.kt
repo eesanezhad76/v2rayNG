@@ -1,0 +1,103 @@
+package com.v2ray.ang.albion
+
+/**
+ * Conservative, evidence-backed inference for resource fields.
+ * Predictions are kept separate from packet facts. This is a deterministic
+ * first-stage catalog, not a statistically trained classifier.
+ */
+object ResourcePatternLearner {
+    const val CATALOG_VERSION = "2026-11-02.1"
+
+    data class Observation(
+        val family: Int?,
+        val tier: Int?,
+        val enchantRaw: Int?,
+        val mobileTypeId: Int?
+    )
+
+    data class FieldInference(
+        val value: String?,
+        val status: Status,
+        val confidence: Double,
+        val reason: String
+    )
+
+    enum class Status {
+        PACKET_CONFIRMED,
+        CAPTURE_CORROBORATED,
+        PROVISIONAL_MAPPING,
+        CONFLICT,
+        UNKNOWN
+    }
+
+    data class Result(
+        val resourceName: FieldInference,
+        val mobileTypeId: FieldInference,
+        val enchantmentName: FieldInference
+    )
+
+    private val oreMobileTypes = mapOf(3 to 571, 4 to 573, 5 to 574)
+    private val enchantmentNames = mapOf(0 to "Normal", 1 to "E1", 2 to "E2")
+
+    fun infer(observation: Observation): Result {
+        val resource = when (observation.family) {
+            29 -> FieldInference(
+                value = "Ore",
+                status = Status.CAPTURE_CORROBORATED,
+                confidence = 0.98,
+                reason = "Family 29 is repeatedly observed in independently labelled Ore captures."
+            )
+            null -> unknown("Family number is absent.")
+            else -> unknown("Family " + observation.family + " has no verified semantic name in the current capture set.")
+        }
+
+        val expectedMobile = if (observation.family == 29) {
+            observation.tier?.let(oreMobileTypes::get)
+        } else null
+        val mobile = when {
+            observation.mobileTypeId != null && expectedMobile != null && observation.mobileTypeId != expectedMobile ->
+                FieldInference(
+                    value = null,
+                    status = Status.CONFLICT,
+                    confidence = 0.0,
+                    reason = "Observed mobile type " + observation.mobileTypeId + " conflicts with family 29 / T" + observation.tier + ", for which captures show " + expectedMobile + "."
+                )
+            observation.mobileTypeId != null ->
+                FieldInference(
+                    value = observation.mobileTypeId.toString(),
+                    status = Status.PACKET_CONFIRMED,
+                    confidence = 1.0,
+                    reason = "Mobile type was directly decoded from the packet."
+                )
+            expectedMobile != null ->
+                FieldInference(
+                    value = expectedMobile.toString(),
+                    status = Status.CAPTURE_CORROBORATED,
+                    confidence = 0.95,
+                    reason = "Family 29 tier-to-mobile mapping is corroborated across independent captures; this value was inferred, not read from this node's packet."
+                )
+            else -> unknown("No verified family/tier rule supplies a mobile type.")
+        }
+
+        val enchantment = observation.enchantRaw?.let(enchantmentNames::get)?.let { name ->
+            FieldInference(
+                value = name,
+                status = if (observation.enchantRaw == 0) Status.CAPTURE_CORROBORATED else Status.PROVISIONAL_MAPPING,
+                confidence = if (observation.enchantRaw == 0) 0.95 else 0.85,
+                reason = "Raw enchantment " + observation.enchantRaw + " is mapped by repeated agreement with manually labelled capture scenarios; semantic mapping remains provisional."
+            )
+        } ?: unknown(
+            if (observation.enchantRaw == null) "Enchantment raw value is absent; it is not inferred from location, tier, or state count."
+            else "Raw enchantment " + observation.enchantRaw + " has no validated label."
+        )
+
+        return Result(resource, mobile, enchantment)
+    }
+
+    private fun unknown(reason: String) = FieldInference(
+        value = null,
+        status = Status.UNKNOWN,
+        confidence = 0.0,
+        reason = reason
+    )
+}
