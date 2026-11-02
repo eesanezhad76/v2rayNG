@@ -41,6 +41,27 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(summary.contains("Typed resource observations: 1"), summary)
     }
 
+    @Test fun liveSnapshotIncludesTypedResourcesAndValidatedPlayerMovement() {
+        val store = AlbionLiveKnowledgeStore(context())
+        store.observe(
+            3_000L,
+            listOf(
+                AlbionEntityEventMapper.Observation(
+                    kind = "harvestable", eventCode = 40, entityId = 901L,
+                    typeId = 574, typeNumber = 29, tier = 5, x = 20f, y = 30f
+                ),
+                AlbionEntityEventMapper.Observation(
+                    kind = "player_move", eventCode = 3, entityId = 77L,
+                    x = 21f, y = 31f
+                )
+            )
+        )
+        val snapshot = store.snapshotText()
+        assertTrue(snapshot.contains("Resource T5"), snapshot)
+        assertTrue(snapshot.contains("Player movement"), snapshot)
+        assertTrue(snapshot.contains("proximity alone is not confirmation"), snapshot)
+    }
+
     @Test fun rejectsInvalidCoordinatesAndDoesNotPromoteStaticCandidateToTypedOre() {
         val store = AlbionLiveKnowledgeStore(context())
         store.observe(
