@@ -240,7 +240,7 @@ fun main() {
         }
         File(out, "2026-11-02-pcap-mob-lifecycle.csv").writeText(mobCsv, Charsets.UTF_8)
         File(out, "2026-11-02-pcap-health-energy-events.csv").writeText(
-            (listOf("archive,pcap,timestamp_ms,event_code,raw_detail") + rawHealthEnergyEvents).joinToString("\\n") + "\\n",
+            (listOf("archive,pcap,timestamp_ms,event_code,raw_detail") + rawHealthEnergyEvents).joinToString("\n") + "\n",
             Charsets.UTF_8
         )
 
