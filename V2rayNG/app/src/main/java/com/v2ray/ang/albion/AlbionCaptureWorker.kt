@@ -205,6 +205,9 @@ class AlbionCaptureWorker(
 
     fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), (dropped() - dropBaseline.get()).coerceAtLeast(0), pcapFile, logFile, failure, publicPcapUri, publicLogUri, mirrorFailure, markerCount.get(), nonAlbionCount.get(), reportFile)
 
+    fun liveKnowledgeSnapshot(): String = knowledgeStore?.snapshotText()
+        ?: "Live knowledge unavailable: capture has not initialized."
+
     @Synchronized private fun writePacket(packet: ByteArray, timestampMs: Long, decoded: AlbionPhotonPacketDecoder.Result?) {
         val out = pcap ?: return
         out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
