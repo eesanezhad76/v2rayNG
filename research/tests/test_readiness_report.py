@@ -86,7 +86,7 @@ class ReadinessReportTests(unittest.TestCase):
             "checks": [{"name": "Live capture", "status": "NOT_VERIFIED", "evidence": "Device test pending"}],
         }
         with mock.patch.object(readiness, "build_report", return_value=report), mock.patch.object(readiness, "write_report", return_value=(Path("report.md"), Path("report.json"))):
-            self.assertEqual(0, readiness.main())
+            self.assertEqual(0, readiness.main([]))
 
         failed_report = {
             **report,
@@ -94,7 +94,7 @@ class ReadinessReportTests(unittest.TestCase):
             "checks": [{"name": "APK build", "status": "FAIL", "evidence": "APK missing"}],
         }
         with mock.patch.object(readiness, "build_report", return_value=failed_report), mock.patch.object(readiness, "write_report", return_value=(Path("report.md"), Path("report.json"))):
-            self.assertEqual(1, readiness.main())
+            self.assertEqual(1, readiness.main([]))
 
     def test_replay_requires_baseline_and_rejects_review_required_outputs(self):
         with tempfile.TemporaryDirectory() as directory:
