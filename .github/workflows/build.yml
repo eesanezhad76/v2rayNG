@@ -14,13 +14,21 @@ on:
       - albion-decoder-radar-rebuild
       - albion-integrity-autosave
       - albion-pattern-mining
+    # Capture-ingest commits update derived evidence only. They must not queue
+    # redundant APK builds; source, tests, decoder and workflow changes still do.
+    paths-ignore:
+      - 'research/inbox/**'
+      - 'research/database/**'
+      - 'research/analysis/**'
 
 permissions:
   contents: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  # Keep the active build alive. GitHub retains only the newest pending run
+  # for this group, preventing every code push from cancelling a build mid-step.
+  cancel-in-progress: false
 
 jobs:
   build:
