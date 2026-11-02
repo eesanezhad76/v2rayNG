@@ -57,7 +57,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
         val mobs = entities.count { it.optString("last_kind") == "mob" }
         val position = if (you == null) "Player position: waiting for movement" else
             "Player position: %.1f, %.1f".format(java.util.Locale.US, you.optDouble("x"), you.optDouble("y"))
-        return "$position | entities=${entities.size} resources=$resources mobs=$mobs invalid=$invalidCount | zone/terrain and player-resource alignment: not verified"
+        return "$position | entities=${entities.size} resources=$resources mobs=$mobs invalid=$invalidCount | zone/terrain and player-resource alignment: not verified; other-player coordinates withheld (Event 3 unvalidated)"
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -82,7 +82,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
         paint.style = Paint.Style.FILL
         paint.color = 0xFFB8C8D5.toInt()
         paint.textSize = 10f * density
-        canvas.drawText("LOCAL COORDINATE MAP  •  zone/terrain and player-resource alignment unverified", 10f * density, 18f * density, paint)
+        canvas.drawText("LOCAL MAP  •  terrain/zone and player-resource alignment unverified", 10f * density, 18f * density, paint)
 
         if (you == null) {
             paint.textSize = 13f * density
@@ -124,7 +124,6 @@ class AlbionWorldMapView(context: Context) : View(context) {
             paint.style = Paint.Style.FILL
             paint.color = when {
                 kind == "mob" -> 0xFFFF6666.toInt()
-                kind == "player_move" -> 0xFF6AB8FF.toInt()
                 candidate -> 0xFF9AA6AF.toInt()
                 else -> 0xFFFFC45C.toInt()
             }
@@ -175,6 +174,6 @@ class AlbionWorldMapView(context: Context) : View(context) {
 
     companion object {
         private val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
-        private val DISPLAY_KINDS = RESOURCE_KINDS + setOf("mob", "player_move", "own_player_move")
+        private val DISPLAY_KINDS = RESOURCE_KINDS + setOf("mob", "own_player_move")
     }
 }
