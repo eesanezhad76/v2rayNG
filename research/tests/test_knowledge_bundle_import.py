@@ -21,9 +21,6 @@ def make_bundle(path, entities, protocol, patterns, exported_at=100, autonomous=
     }
     if autonomous is not None:
         payloads["autonomous-patterns.json"] = json.dumps(autonomous).encode()
-    # Keep every payload checksum-covered by the manifest.
-    payloads.update({
-    })
     manifest = {
         "format": "albion-radar-knowledge",
         "schema_version": 1,
