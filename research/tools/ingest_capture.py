@@ -23,6 +23,13 @@ RESOURCE_ACTIVITIES={"Ore","Wood","Stone","Fiber","Hide"}
 RESOURCE_EVENTS={"target_found","gathering_started","gathering_completed","node_depleted"}
 def pair_manual_markers(markers):
  """FIFO-pair manual resource and mob markers without inventing runtime entity IDs."""
+ def compare_metadata(cycle,marker,event):
+  conflicts=cycle.setdefault("metadata_conflicts",[])
+  for field in ("tier","enchantment"):
+   before=cycle.get(field);after=marker.get(field)
+   if before not in (None,"") and after not in (None,"") and str(before)!=str(after):
+    item=f"{field}:{before}->{after}@{event}"
+    if item not in conflicts:conflicts.append(item)
  states=collections.defaultdict(lambda:{"pending":collections.deque(),"active":collections.deque(),"completed":collections.deque()})
  mob_pending=collections.defaultdict(collections.deque)
  lifecycles=[]; unmatched=[]
@@ -39,32 +46,32 @@ def pair_manual_markers(markers):
   if activity in RESOURCE_ACTIVITIES and event in RESOURCE_EVENTS:
    queue=states[activity]
    if event=="target_found":
-    queue["pending"].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":None,"completed_ms":None,"depleted_ms":None})
+    queue["pending"].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":None,"completed_ms":None,"depleted_ms":None,"metadata_conflicts":[]})
    elif event=="gathering_started":
     if queue["pending"]:
-     cycle=queue["pending"].popleft();cycle["started_ms"]=timestamp;queue["active"].append(cycle)
+     cycle=queue["pending"].popleft();compare_metadata(cycle,marker,event);cycle["started_ms"]=timestamp;queue["active"].append(cycle)
     else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"start_without_found"})
    elif event=="gathering_completed":
     if queue["active"]:
-     cycle=queue["active"].popleft();cycle["completed_ms"]=timestamp;queue["completed"].append(cycle)
+     cycle=queue["active"].popleft();compare_metadata(cycle,marker,event);cycle["completed_ms"]=timestamp;queue["completed"].append(cycle)
     else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"completion_without_start"})
    elif event=="node_depleted":
     if queue["completed"]:
-     cycle=queue["completed"].popleft();cycle["depleted_ms"]=timestamp;cycle["status"]="COMPLETE";lifecycles.append(cycle)
+     cycle=queue["completed"].popleft();compare_metadata(cycle,marker,event);cycle["depleted_ms"]=timestamp;cycle["status"]="COMPLETE" if not cycle["metadata_conflicts"] else "COMPLETE_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
     else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"depletion_without_completion"})
   elif activity=="Mobs" and event=="target_found":
-   mob_pending[activity].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":None,"completed_ms":None,"depleted_ms":None})
+   mob_pending[activity].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":None,"completed_ms":None,"depleted_ms":None,"metadata_conflicts":[]})
   elif activity=="Mobs" and event=="mob_killed":
    if mob_pending[activity]:
     cycle=mob_pending[activity].popleft();cycle["mob_killed_ms"]=timestamp;cycle["status"]="TARGET_FOUND_TO_KILLED";lifecycles.append(cycle)
    else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"mob_kill_without_target_found"})
  for activity,queue in states.items():
   for cycle in queue["pending"]:
-   cycle["status"]="FOUND_NOT_STARTED";lifecycles.append(cycle)
+   cycle["status"]="FOUND_NOT_STARTED" if not cycle["metadata_conflicts"] else "FOUND_NOT_STARTED_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
   for cycle in queue["active"]:
-   cycle["status"]="STARTED_NOT_COMPLETED";lifecycles.append(cycle)
+   cycle["status"]="STARTED_NOT_COMPLETED" if not cycle["metadata_conflicts"] else "STARTED_NOT_COMPLETED_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
   for cycle in queue["completed"]:
-   cycle["status"]="COMPLETED_NOT_DEPLETED";lifecycles.append(cycle)
+   cycle["status"]="COMPLETED_NOT_DEPLETED" if not cycle["metadata_conflicts"] else "COMPLETED_NOT_DEPLETED_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
  for queue in mob_pending.values():
   for cycle in queue:
    cycle["status"]="TARGET_FOUND_NOT_KILLED";lifecycles.append(cycle)
@@ -107,7 +114,7 @@ def analyze(path):
  marker_lifecycles,unmatched_markers=pair_manual_markers(markers)
  resource_cycles=[x for x in marker_lifecycles if x["activity"] in RESOURCE_ACTIVITIES]
  stem=path.stem; ordered=sorted(nodes.values(),key=lambda n:(n["type_number"] or -1,n["tier"] or -1,n["enchant"] or 0,n["entity_id"]))
- doc={"dataset_id":stem,"source_file":path.name,"source_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"counts":{"jsonl_rows":rows,"malformed_lines":bad,"udp_5056_packets":packet5056,"event40_observations":sum(n["observations"] for n in ordered),"unique_event40_nodes":len(ordered),"event46_updates":sum(map(len,states.values())),"event46_state_ids":len(states),"event46_exact_joins":sum(bool(n["state_timeline"]) for n in ordered),"state_only_ids":len(state_only),"event123_living_entity_observations":event123,"manual_markers":len(markers),"resource_marker_cycles":len(resource_cycles),"complete_resource_marker_cycles":sum(x["status"]=="COMPLETE" for x in resource_cycles),"incomplete_resource_marker_cycles":sum(x["status"]!="COMPLETE" for x in resource_cycles),"mob_marker_pairs":sum(x["status"]=="TARGET_FOUND_TO_KILLED" for x in marker_lifecycles),"unmatched_marker_events":len(unmatched_markers)},"nodes":ordered,"state_only_entities":state_only,"manual_markers":markers,"marker_lifecycles":marker_lifecycles,"unmatched_marker_events":unmatched_markers}
+ doc={"dataset_id":stem,"source_file":path.name,"source_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"counts":{"jsonl_rows":rows,"malformed_lines":bad,"udp_5056_packets":packet5056,"event40_observations":sum(n["observations"] for n in ordered),"unique_event40_nodes":len(ordered),"event46_updates":sum(map(len,states.values())),"event46_state_ids":len(states),"event46_exact_joins":sum(bool(n["state_timeline"]) for n in ordered),"state_only_ids":len(state_only),"event123_living_entity_observations":event123,"manual_markers":len(markers),"resource_marker_cycles":len(resource_cycles),"complete_resource_marker_cycles":sum(x["status"]=="COMPLETE" for x in resource_cycles),"incomplete_resource_marker_cycles":sum(x["status"]!="COMPLETE" for x in resource_cycles),"mob_marker_pairs":sum(x["status"]=="TARGET_FOUND_TO_KILLED" for x in marker_lifecycles),"unmatched_marker_events":len(unmatched_markers),"marker_metadata_conflicts":sum(bool(x.get("metadata_conflicts")) for x in marker_lifecycles)},"nodes":ordered,"state_only_entities":state_only,"manual_markers":markers,"marker_lifecycles":marker_lifecycles,"unmatched_marker_events":unmatched_markers}
  DB.mkdir(parents=True,exist_ok=True);ANALYSIS.mkdir(parents=True,exist_ok=True)
  (DB/(stem+".json")).write_text(json.dumps(doc,indent=2),encoding="utf-8")
  fields=["entity_id","mobile_type_id","type_number","tier","enchant","x","y","first_seen_ms","last_seen_ms","observations","sizes_seen","state_timeline"]
@@ -115,10 +122,11 @@ def analyze(path):
   w=csv.DictWriter(f,fieldnames=fields);w.writeheader()
   for n in ordered:
    x=n.copy();x["sizes_seen"]=";".join(map(str,x["sizes_seen"]));x["state_timeline"]=json.dumps(x["state_timeline"],separators=(",",":"));w.writerow(x)
- marker_fields=["activity","tier","enchantment","found_ms","started_ms","completed_ms","depleted_ms","mob_killed_ms","status","identity_scope"]
+ marker_fields=["activity","tier","enchantment","found_ms","started_ms","completed_ms","depleted_ms","mob_killed_ms","status","metadata_conflicts","identity_scope"]
  with (DB/(stem+"-marker-lifecycles.csv")).open("w",newline="",encoding="utf-8") as f:
   w=csv.DictWriter(f,fieldnames=marker_fields);w.writeheader()
-  for cycle in marker_lifecycles:w.writerow(cycle)
+  for cycle in marker_lifecycles:
+   row=cycle.copy();row["metadata_conflicts"]=";".join(row.get("metadata_conflicts",[]));w.writerow(row)
  summary=doc["counts"]
  (ANALYSIS/(stem+".md")).write_text("# Capture ingest: "+stem+"\n\n"+"\n".join("- "+k+": "+str(v) for k,v in summary.items())+"\n\nState updates join only by exact runtime entity ID. Marker lifecycles are FIFO-paired but remain manual annotations without runtime entity identity. State-only IDs remain separate.\n",encoding="utf-8")
  return doc

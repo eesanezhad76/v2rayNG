@@ -68,6 +68,22 @@ class IngestTests(unittest.TestCase):
    self.assertEqual(1,out["counts"]["unmatched_marker_events"])
    self.assertEqual("start_without_found",out["unmatched_marker_events"][0]["reason"])
 
+ def test_marker_metadata_changes_are_preserved_as_ambiguous_not_silently_paired(self):
+  with tempfile.TemporaryDirectory() as td:
+   d=pathlib.Path(td)
+   markers=[
+    {"timestamp_ms":10,"activity":"Ore","event":"target_found","tier":"T4","enchantment":"E1"},
+    {"timestamp_ms":20,"activity":"Ore","event":"gathering_started","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":30,"activity":"Ore","event":"gathering_completed","tier":"T4","enchantment":"E1"},
+    {"timestamp_ms":40,"activity":"Ore","event":"node_depleted","tier":"T4","enchantment":"E1"}
+   ]
+   out=self.run_ingest([{"time_ms":m["timestamp_ms"],"manual_marker":m} for m in markers],d)
+   cycle=out["marker_lifecycles"][0]
+   self.assertEqual("COMPLETE_WITH_METADATA_CONFLICT",cycle["status"])
+   self.assertIn("tier:T4->T5@gathering_started",cycle["metadata_conflicts"])
+   self.assertEqual(0,out["counts"]["complete_resource_marker_cycles"])
+   self.assertEqual(1,out["counts"]["marker_metadata_conflicts"])
+
  def test_manual_mob_markers_pair_found_to_killed_without_claiming_entity_id(self):
   with tempfile.TemporaryDirectory() as td:
    d=pathlib.Path(td)
