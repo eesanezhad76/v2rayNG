@@ -30,6 +30,7 @@ The Kotlin worker writes PCAP and JSONL files under the app-specific `AlbionCapt
 - Offline reports classify packet direction using the server-side port: source port 5056 is inbound; destination port 5056 is outbound.
 - Protocol18 fragment buffers and diagnostic counters reset at the beginning of each capture, preventing state leakage between sessions.
 - The report performs bounded cross-capture numeric-path discovery across `photon_event_analysis`, `event_state_changes` and `entities`. A candidate must recur in at least three distinct JSONL capture files; array indices are normalized, nested objects are traversed, and the score measures recurrence only—not semantic certainty. It does not claim that a field is an item ID or inventory count.
+- Manual resource-node correlation is restricted to resource-node markers and exact, known tier matches. It links only when one harvestable candidate is present; ambiguous batches are recorded as unresolved rather than arbitrarily selecting the first entity.
 
 This does not yet establish a complete player-position decoder, zone-coordinate transform, or live map UI. Event interpretation still requires validation against real PCAPs captured during gameplay.
 
