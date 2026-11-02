@@ -45,8 +45,10 @@ class AlbionOverlayService : Service() {
             if (::radarView.isInitialized) {
                 radarView.setTargetFilter(tiers[tierIndex].drop(1).toInt(), enchantIndex)
                 val snapshot = CoreServiceManager.getAlbionLiveKnowledgeJson()
-                radarView.setSnapshot(snapshot)
-                CoreServiceManager.acknowledgeAlbionOverlaySnapshot(snapshot)
+                val acceptedEntityCount = radarView.setSnapshot(snapshot)
+                if (acceptedEntityCount != null) {
+                    CoreServiceManager.acknowledgeAlbionOverlaySnapshot(acceptedEntityCount)
+                }
             }
             refreshHandler.postDelayed(this, 1500L)
         }

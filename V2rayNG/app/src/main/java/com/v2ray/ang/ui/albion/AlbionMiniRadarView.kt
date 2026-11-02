@@ -25,16 +25,17 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         invalidate()
     }
 
-    fun setSnapshot(json: String) {
-        entities = try {
-            val array = JSONArray(json)
-            buildList {
-                for (i in 0 until array.length()) {
-                    array.optJSONObject(i)?.let { add(JSONObject(it.toString())) }
-                }
-            }
-        } catch (_: Exception) { emptyList() }
+    /** Returns the number of coordinate records installed, or null for a malformed snapshot. */
+    fun setSnapshot(json: String): Int? {
+        val parsed = AlbionRadarSnapshotParser.parse(json)
+        if (parsed == null) {
+            entities = emptyList()
+            invalidate()
+            return null
+        }
+        entities = parsed.entities
         invalidate()
+        return entities.size
     }
 
     private fun validPoint(item: JSONObject): Boolean =

@@ -144,7 +144,7 @@ fun main() {
             }
         }
         File(out, "2026-11-02-all-inbox-pcap-analysis.md").writeText(
-            "# Full inbox PCAP analysis\n\nArchives: " + archives.size + "\nDiscovered PCAP files: " + total + "\nUnique PCAP files analyzed: " + uniquePcapTotal + "\nByte-identical duplicates skipped: " + duplicatePcapTotal + "\nAnalysis errors: " + failed + "\n\n" + index.joinToString("\n\n"),
+            "# Full inbox PCAP analysis\n\nArchives: " + archives.size + "\nDiscovered PCAP files: " + total + "\nUnique PCAP files analyzed: " + uniquePcapTotal + "\nByte-identical duplicates skipped: " + duplicatePcapTotal + "\nAnalysis errors: " + failed + "\n\n" + index.joinToString("\n\n") + "\n\nPCAP_AUDIT_COMPLETE archives=" + archives.size + " pcaps=" + total + " unique=" + uniquePcapTotal + " duplicates=" + duplicatePcapTotal + " errors=" + failed,
             Charsets.UTF_8
         )
         File(out, "2026-11-02-pcap-duplicate-inventory.csv").writeText(

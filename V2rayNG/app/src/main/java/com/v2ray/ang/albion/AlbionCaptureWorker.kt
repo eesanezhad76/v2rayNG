@@ -221,9 +221,8 @@ class AlbionCaptureWorker(
         return knowledgeStore?.snapshotJson() ?: "[]"
     }
 
-    fun markOverlaySnapshotDelivered(snapshotJson: String) {
-        val entityCount = try { JSONArray(snapshotJson).length() } catch (_: Exception) { 0 }
-        healthMonitor.recordOverlayAccepted(System.currentTimeMillis(), entityCount)
+    fun markOverlaySnapshotDelivered(acceptedEntityCount: Int) {
+        healthMonitor.recordOverlayAccepted(System.currentTimeMillis(), acceptedEntityCount.coerceAtLeast(0))
     }
 
     @Synchronized private fun writePacket(packet: ByteArray, timestampMs: Long, decoded: AlbionPhotonPacketDecoder.Result?) {

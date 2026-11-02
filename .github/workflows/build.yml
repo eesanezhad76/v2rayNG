@@ -152,6 +152,23 @@ jobs:
         ./gradlew licenseFdroidReleaseReport
         ./gradlew assembleRelease -Pandroid.injected.signing.store.file=${{ steps.android_keystore.outputs.filePath }} -Pandroid.injected.signing.store.password=${{ secrets.APP_KEYSTORE_PASSWORD }} -Pandroid.injected.signing.key.alias=${{ secrets.APP_KEYSTORE_ALIAS }} -Pandroid.injected.signing.key.password=${{ secrets.APP_KEY_PASSWORD }}
     
+    - name: Verify debug APK signature
+      if: success() && github.ref == 'refs/heads/albion-pattern-mining'
+      shell: bash
+      run: |
+        set -euo pipefail
+        APK="$(find V2rayNG/app/build/outputs/apk/playstore/debug -type f -name '*universal*.apk' -print -quit)"
+        test -n "$APK"
+        mkdir -p V2rayNG/app/build/reports/albion
+        "$ANDROID_HOME/build-tools/37.0.0/apksigner" verify --verbose --print-certs "$APK" 2>&1 | tee V2rayNG/app/build/reports/albion/apk-signature-verification.txt
+
+    - name: Run offline PCAP replay and audit
+      if: success() && github.ref == 'refs/heads/albion-pattern-mining'
+      shell: bash
+      run: |
+        set -euo pipefail
+        V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
+
     - name: Generate Albion readiness report
       if: always() && github.ref == 'refs/heads/albion-pattern-mining'
       run: python3 research/tools/generate_readiness_report.py
