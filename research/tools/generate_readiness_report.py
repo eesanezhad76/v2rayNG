@@ -111,7 +111,7 @@ def summarize_signature(repo_root: Path) -> dict[str, Any]:
     signers = int(signer_match.group(1)) if signer_match else 0
     verified = bool(re.search(r"\bVerifies\b", text)) and signers > 0
     cert_match = re.search(
-        r"(?:Signer #1|V2 Signer): certificate SHA-256 digest:\s*([0-9a-fA-F:]+)",
+        r"(?:Signer #1:?\s*|V2 Signer:\s*)certificate SHA-256 digest:\s*([0-9a-fA-F:]+)",
         text,
     )
     certificate_sha256 = cert_match.group(1).replace(":", "").lower() if cert_match else None
