@@ -36,6 +36,16 @@ In the Ore-labeled capture, resource-family number 29 repeatedly appears in harv
 
 These five IDs form a tight cluster (roughly 5.5 game units across). All five have the same **mobile_type_id=574**, family number 29, T5, enchant raw 0. The three nodes 36602/36601/36607 were observed at size 0. The other two have stronger depletion evidence: event 46 updated ID 39460 at 1793621336592, 1337138, 1337674, 1338205, 1338742 with size 4,3,2,1,0; ID 39464 at 1793621339723, 1340285, 1340827, 1341321, 1341879 with size 4,3,2,1,0. The exact runtime ID remains constant through each five-step depletion sequence. This proves these two individual nodes were harvested down to zero during the capture. It does not yet prove which exact Found marker belongs to each ID, because the server snapshots for these five entities occur after the manual marker sequence.
 
+Ore mobile-type codes directly observed in this capture (same family number 29):
+
+| Tier | Enchant observed | mobile_type_id | Evidence |
+|---:|---:|---:|---|
+| T3 | Normal | **571** | Event 40 harvestable observations |
+| T4 | Normal | **573** | Event 40 harvestable observations |
+| T5 | Normal and E1 | **574** | Event 40 harvestable observations; the five-node cluster is T5 Normal |
+
+Thus the code progression for Ore in this capture is T3=571, T4=573, T5=574. These are mobile type codes, not runtime node IDs. Other resource families had `mobile_type_id=-1` in this capture, so their exact mobile type codes were not decoded reliably.
+
 Additional resource family/tier combinations were decoded in the same capture:
 - Family 29: T3, T4, T5 (Ore-labeled context).
 - Family 14: T4 and T5.
