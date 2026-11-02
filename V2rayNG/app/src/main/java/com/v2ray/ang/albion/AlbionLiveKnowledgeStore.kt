@@ -77,6 +77,12 @@ class AlbionLiveKnowledgeStore(
                 kotlin.math.abs(x) <= MAX_COORDINATE && kotlin.math.abs(y) <= MAX_COORDINATE) {
                 record.put("x", x).put("y", y)
                 if (observation.kind == "own_player_move") {
+                    val movementSession = record.optLong("movement_session_started_ms", Long.MIN_VALUE)
+                    if (movementSession < sessionStartedMs) {
+                        // Never connect paths across captures when zone identity is unknown.
+                        record.put("movement_session_started_ms", sessionStartedMs)
+                        record.put("movement_history", JSONArray())
+                    }
                     val prior = record.optJSONArray("movement_history") ?: JSONArray()
                     val history = JSONArray()
                     val start = (prior.length() - MAX_MOVEMENT_POINTS + 1).coerceAtLeast(0)
