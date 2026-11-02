@@ -1,0 +1,260 @@
+# PCAP analysis: Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap
+
+Albion / Photon capture report
+IP packets in file: 750
+UDP packets involving port 5056: 532
+Valid Photon envelopes: 532
+Inbound to local device: 184
+Outbound from local device: 348
+Photon command types (transport commands, not Albion events):
+  command 1: 362
+  command 5: 11
+  command 6: 351
+  command 7: 560
+  command 11: 48
+Protocol18 Albion event codes:
+  event 1: 28
+  event 3: 568
+  event 6: 12
+  event 7: 1
+  event 8: 12
+  event 11: 29
+  event 13: 5
+  event 14: 11
+  event 18: 11
+  event 19: 49
+  event 21: 5
+  event 22: 3
+  event 24: 8
+  event 29: 2
+  event 30: 9
+  event 32: 2
+  event 35: 2
+  event 39: 7
+  event 40: 4
+  event 46: 6
+  event 59: 6
+  event 61: 6
+  event 82: 2
+  event 83: 2
+  event 91: 8
+  event 95: 3
+  event 96: 1
+  event 113: 3
+  event 123: 6
+  event 140: 1
+  event 152: 4
+  event 159: 2
+  event 210: 11
+  event 211: 1
+  event 276: 2
+  event 277: 7
+  event 304: 6
+  event 311: 6
+Operation requests:
+  operation 22: 43
+  operation 52: 3
+  operation 53: 1
+  operation 199: 7
+Operation responses:
+  operation 52: 3
+  operation 53: 1
+Mapped entity observations:
+  harvestable: 4
+  health: 24
+  health_regeneration: 8
+  leave: 28
+  mob: 6
+  move: 131
+  player_mounted: 1
+  player_move: 10
+  player_spawn: 2
+  resource_state: 6
+  static_resource: 16
+Typed Photon event observations:
+  living_entity: 6
+  resource: 6
+  resource_state: 6
+Malformed / unrecognized Photon envelopes: 0
+Encrypted Photon packets: 0
+Encrypted Protocol18 messages: 2
+Malformed Protocol18 messages: 0
+Pending fragmented messages: 0
+Manual checkpoints: 0
+Detailed entity/player observations: 176
+  t=1793403453144 kind=mob id=639541 x=-182.66028 y=358.94568 mobileType=2489 enchant=0
+  t=1793403453144 kind=harvestable id=2749 x=-179.5 y=367.5 mobileType=-1 family=14 tier=4 enchant=1 amount=3
+  t=1793403453144 kind=static_resource id=1656 x=-179.5 y=319.5
+  t=1793403453144 kind=static_resource id=2644 x=-180.0 y=338.0
+  t=1793403453144 kind=static_resource id=3524 x=-178.0 y=374.0
+  t=1793403453144 kind=static_resource id=9 x=-178.0 y=393.0
+  t=1793403453256 kind=move id=639541
+  t=1793403453374 kind=move id=639541
+  t=1793403453436 kind=move id=639541
+  t=1793403453542 kind=move id=639541
+  t=1793403453666 kind=move id=639541 x=-186.23141 y=357.80835
+  t=1793403453731 kind=move id=639541 x=-185.49248 y=357.93652
+  t=1793403453858 kind=move id=639541 x=-184.75354 y=358.0647
+  t=1793403453969 kind=move id=639541 x=-184.0146 y=358.19287
+  t=1793403454072 kind=move id=639541 x=-183.27567 y=358.32104
+  t=1793403454072 kind=mob id=240159 x=-174.88309 y=321.32394 mobileType=482 enchant=0
+  t=1793403454072 kind=harvestable id=2672 x=-172.0 y=342.0 mobileType=-1 family=7 tier=5 enchant=1 amount=5
+  t=1793403454072 kind=static_resource id=1819 x=-170.5 y=333.5
+  t=1793403454072 kind=static_resource id=3869 x=-167.0 y=333.0
+  t=1793403454072 kind=static_resource id=3877 x=-173.0 y=333.0
+  t=1793403454072 kind=static_resource id=2504 x=-171.0 y=337.0
+  t=1793403454126 kind=move id=639541 x=-182.53673 y=358.44922
+  t=1793403454243 kind=move id=639541 x=-181.79779 y=358.5774
+  t=1793403454319 kind=move id=639541 x=-181.05885 y=358.70557
+  t=1793403454436 kind=move id=639541 x=-180.31992 y=358.83374
+  t=1793403454547 kind=move id=639541 x=-179.58098 y=358.9619
+  t=1793403454656 kind=move id=639541 x=-178.84204 y=359.0901
+  t=1793403454765 kind=move id=639541 x=-178.1031 y=359.21826
+  t=1793403454928 kind=move id=639541 x=-177.36417 y=359.34644
+  t=1793403454928 kind=move id=639541 x=-176.62521 y=359.4746
+  t=1793403455028 kind=move id=639541 x=-175.88626 y=359.60278
+  t=1793403455136 kind=move id=639541 x=-175.14731 y=359.73096
+  t=1793403455277 kind=move id=639541 x=-174.40836 y=359.85913
+  t=1793403455330 kind=move id=639541
+  t=1793403455433 kind=move id=639541 x=-173.6694 y=359.9871
+  t=1793403455537 kind=move id=639541 x=-173.3828 y=360.03134
+  t=1793403455641 kind=move id=639541 x=-173.09619 y=360.0756
+  t=1793403455743 kind=move id=639541 x=-172.80959 y=360.11984
+  t=1793403455846 kind=move id=639541 x=-172.52298 y=360.1641
+  t=1793403455939 kind=move id=639541 x=-172.23637 y=360.20834
+  t=1793403456056 kind=move id=639541 x=-171.94977 y=360.2526
+  t=1793403456109 kind=move id=639541 x=-171.66316 y=360.29684
+  t=1793403456251 kind=move id=639541 x=-171.37656 y=360.3411
+  t=1793403456344 kind=move id=639541 x=-171.08995 y=360.38535
+  t=1793403456442 kind=move id=639541 x=-170.80334 y=360.4296
+  t=1793403456535 kind=move id=639541 x=-170.51674 y=360.47385
+  t=1793403456632 kind=move id=639541
+  t=1793403461494 kind=move id=240159 x=-174.88309 y=321.32394
+  t=1793403461494 kind=resource_state id=3735 amount=2
+  t=1793403461543 kind=move id=240159 x=-174.65334 y=321.51685
+  t=1793403461648 kind=move id=240159 x=-174.42358 y=321.70975
+  t=1793403461757 kind=move id=240159 x=-174.19383 y=321.90265
+  t=1793403461858 kind=move id=240159 x=-173.96408 y=322.09555
+  t=1793403461954 kind=move id=240159 x=-173.73433 y=322.28845
+  t=1793403462008 kind=mob id=643416 x=-161.95905 y=351.86304 mobileType=120 enchant=0
+  t=1793403462008 kind=harvestable id=2593 x=-162.0 y=361.0 mobileType=-1 family=7 tier=5 enchant=1 amount=5
+  t=1793403462008 kind=mob id=631542 x=-155.75104 y=375.04605 mobileType=574 enchant=0
+  t=1793403462008 kind=static_resource id=2874 x=-163.0 y=323.0
+  t=1793403462008 kind=static_resource id=3528 x=-158.0 y=317.0
+  t=1793403462008 kind=static_resource id=2653 x=-159.0 y=338.0
+  t=1793403462008 kind=static_resource id=257 x=-158.5 y=360.5
+  t=1793403462008 kind=static_resource id=2596 x=-163.0 y=369.0
+  t=1793403462008 kind=static_resource id=260 x=-161.5 y=377.5
+  t=1793403462061 kind=move id=643416 x=-162.02962 y=351.62317
+  t=1793403462061 kind=move id=240159 x=-173.50458 y=322.48135
+  t=1793403462218 kind=move id=643416 x=-162.10019 y=351.3833
+  t=1793403462218 kind=move id=240159 x=-173.27483 y=322.67426
+  t=1793403462268 kind=move id=643416 x=-162.17076 y=351.14343
+  t=1793403462268 kind=move id=240159 x=-173.04507 y=322.86716
+  t=1793403462362 kind=move id=643416 x=-162.24133 y=350.90356
+  t=1793403462362 kind=move id=240159 x=-172.81532 y=323.06006
+  t=1793403462453 kind=move id=643416
+  t=1793403462453 kind=move id=240159
+  t=1793403462950 kind=move id=639541 x=-170.30914 y=360.5059
+  t=1793403463054 kind=move id=639541 x=-170.54938 y=360.34348
+  t=1793403463172 kind=move id=639541 x=-170.78961 y=360.18106
+  t=1793403463226 kind=move id=639541 x=-171.02986 y=360.01865
+  t=1793403463378 kind=move id=639541 x=-171.27011 y=359.85623
+  t=1793403463476 kind=move id=639541
+  t=1793403464358 kind=player_spawn id=642392 name=ryslan745
+  t=1793403464358 kind=player_move id=642392 name=ryslan745 x=-1.79581491E14 y=-7.0645827E-25
+  t=1793403464415 kind=player_move id=642392 name=ryslan745
+  t=1793403464470 kind=resource_state id=3735 amount=1
+  t=1793403464528 kind=player_move id=642392 name=ryslan745
+  t=1793403464639 kind=player_move id=642392 name=ryslan745
+  t=1793403464699 kind=player_move id=642392 name=ryslan745
+  t=1793403464751 kind=player_move id=642392 name=ryslan745
+  t=1793403464751 kind=player_mounted id=642392
+  t=1793403465603 kind=move id=631542
+  t=1793403465721 kind=move id=631542
+  t=1793403465721 kind=mob id=609313 x=-221.56 y=308.53 mobileType=2510 enchant=0
+  t=1793403465721 kind=static_resource id=2008 x=-206.0 y=306.0
+  t=1793403465776 kind=move id=631542
+  t=1793403465833 kind=player_move id=642392 name=ryslan745
+  t=1793403465833 kind=mob id=633345 x=-250.27 y=341.97 mobileType=2474 enchant=0
+  t=1793403465833 kind=static_resource id=2436 x=-253.0 y=311.0
+  t=1793403466806 kind=move id=240159 x=-172.80211 y=323.07117
+  t=1793403466869 kind=move id=240159 x=-172.94795 y=322.80905
+  t=1793403466982 kind=move id=240159 x=-173.0938 y=322.54694
+  t=1793403467110 kind=move id=240159 x=-173.23964 y=322.28482
+  t=1793403467220 kind=move id=240159 x=-173.38548 y=322.0227
+  t=1793403467272 kind=move id=240159 x=-173.53133 y=321.7606
+  t=1793403467390 kind=move id=240159 x=-173.67717 y=321.49847
+  t=1793403467449 kind=resource_state id=3735 amount=0
+  t=1793403467514 kind=move id=643416 x=-162.2444 y=350.89313
+  t=1793403467514 kind=move id=240159 x=-173.82301 y=321.23636
+  t=1793403467572 kind=move id=643416 x=-162.06374 y=350.72034
+  t=1793403467572 kind=move id=240159 x=-173.96886 y=320.97424
+  t=1793403467733 kind=move id=643416 x=-161.88307 y=350.54755
+  t=1793403467733 kind=move id=240159 x=-174.1147 y=320.71213
+  t=1793403467831 kind=move id=643416 x=-161.70241 y=350.37476
+  t=1793403467831 kind=move id=240159 x=-174.26054 y=320.45
+  t=1793403467882 kind=move id=643416 x=-161.52173 y=350.20193
+  t=1793403467882 kind=move id=240159 x=-174.40639 y=320.1879
+  t=1793403468021 kind=move id=643416 x=-161.34105 y=350.0291
+  t=1793403468021 kind=move id=240159 x=-174.55223 y=319.92578
+  t=1793403468083 kind=move id=643416 x=-161.16037 y=349.8563
+  t=1793403468083 kind=move id=240159 x=-174.69807 y=319.66367
+  t=1793403468216 kind=move id=643416 x=-160.97969 y=349.68347
+  t=1793403468216 kind=move id=240159 x=-174.84392 y=319.40155
+  t=1793403468329 kind=move id=643416 x=-160.79901 y=349.51065
+  t=1793403468329 kind=move id=240159 x=-174.98976 y=319.13943
+  t=1793403468384 kind=move id=643416 x=-160.61833 y=349.33783
+  t=1793403468384 kind=move id=240159 x=-175.1356 y=318.87732
+  t=1793403468494 kind=move id=643416 x=-160.43765 y=349.165
+  t=1793403468494 kind=move id=240159 x=-175.28145 y=318.6152
+  t=1793403468599 kind=move id=643416 x=-160.25699 y=348.9922
+  t=1793403468599 kind=move id=240159 x=-175.42729 y=318.3531
+  t=1793403468700 kind=move id=643416 x=-160.07632 y=348.81937
+  t=1793403468700 kind=move id=240159 x=-175.57314 y=318.09097
+  t=1793403468801 kind=move id=643416
+  t=1793403468801 kind=move id=240159 x=-175.71898 y=317.82886
+  t=1793403468912 kind=move id=240159 x=-175.86482 y=317.56674
+  t=1793403469017 kind=move id=240159 x=-176.01067 y=317.30463
+  t=1793403469136 kind=move id=240159
+  t=1793403469961 kind=resource_state id=1801 amount=0
+  t=1793403470750 kind=resource_state id=2503 amount=1
+  t=1793403471397 kind=move id=639541 x=-171.37688 y=359.7841
+  t=1793403471454 kind=move id=639541 x=-171.6291 y=359.9272
+  t=1793403471636 kind=move id=639541 x=-171.88133 y=360.07028
+  t=1793403471689 kind=move id=639541
+  t=1793403471960 kind=move id=643416 x=-159.94492 y=348.69366
+  t=1793403472082 kind=move id=643416 x=-160.19255 y=348.7279
+  t=1793403472141 kind=move id=643416 x=-160.44019 y=348.76215
+  t=1793403472256 kind=move id=643416 x=-160.68782 y=348.7964
+  t=1793403472362 kind=move id=643416 x=-160.93547 y=348.83066
+  t=1793403472462 kind=move id=643416 x=-161.1831 y=348.8649
+  t=1793403472575 kind=move id=643416 x=-161.43076 y=348.89917
+  t=1793403472630 kind=move id=643416 x=-161.67839 y=348.9334
+  t=1793403472787 kind=move id=643416 x=-161.92604 y=348.96768
+  t=1793403472838 kind=move id=643416 x=-162.17368 y=349.00192
+  t=1793403472984 kind=move id=643416 x=-162.42133 y=349.0362
+  t=1793403473096 kind=move id=643416 x=-162.66896 y=349.07043
+  t=1793403473155 kind=move id=643416 x=-162.91661 y=349.1047
+  t=1793403473262 kind=move id=643416 x=-163.16425 y=349.13895
+  t=1793403473376 kind=move id=643416 x=-163.4119 y=349.17322
+  t=1793403473469 kind=move id=643416 x=-163.65953 y=349.20746
+  t=1793403473526 kind=move id=643416 x=-163.90718 y=349.24173
+  t=1793403473672 kind=move id=643416 x=-164.15482 y=349.27597
+  t=1793403473729 kind=move id=643416 x=-164.40247 y=349.31024
+  t=1793403473889 kind=move id=643416 x=-164.6501 y=349.34448
+  t=1793403473947 kind=move id=643416 x=-164.89775 y=349.37875
+  t=1793403474058 kind=move id=643416 x=-165.14539 y=349.413
+  t=1793403474118 kind=resource_state id=2503 amount=0
+  t=1793403474175 kind=move id=643416 x=-165.39304 y=349.44727
+  t=1793403474288 kind=move id=643416
+  t=1793403475464 kind=harvestable id=644242 x=-229.33603 y=334.49588 mobileType=571 family=29 tier=3 enchant=0 amount=3
+  t=1793403475776 kind=move id=240159 x=-176.12521 y=317.09875
+  t=1793403475882 kind=move id=240159 x=-176.02034 y=317.37982
+  t=1793403475936 kind=player_spawn id=642392 name=ryslan745
+  t=1793403475936 kind=player_move id=642392 name=ryslan745 x=4.0854244E-9 y=1.12090614E-13
+  t=1793403475989 kind=move id=240159 x=-175.91547 y=317.6609
+  t=1793403476080 kind=player_move id=642392 name=ryslan745 x=4.1685584E-9 y=1.119216E-13
+  t=1793403476143 kind=move id=240159 x=-175.8106 y=317.94196
+  t=1793403476217 kind=move id=240159 x=-175.70572 y=318.22302
+  t=1793403476217 kind=player_move id=642392 name=ryslan745 x=4.1388053E-9 y=1.1197328E-13
