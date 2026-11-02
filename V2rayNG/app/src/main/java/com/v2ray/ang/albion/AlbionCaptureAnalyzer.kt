@@ -129,6 +129,10 @@ object AlbionCaptureAnalyzer {
                                         "response" -> responses[code] = (responses[code] ?: 0) + 1
                                     }
                                 }
+                                if (message.kind == "event" && message.realCode in setOf(6, 7, 8, 91, 92)) {
+                                    detailed += "t=" + packetTimeMs + " kind=raw_health_energy_event code=" +
+                                        message.realCode + " params=" + describeValue(message.parameters)
+                                }
                                 if (message.kind == "event" && message.realCode == 3) {
                                     val raw = message.parameters[1] as? ByteArray
                                     val hex = raw?.take(128)?.joinToString("") { "%02x".format(it) } ?: "null"
@@ -156,7 +160,7 @@ object AlbionCaptureAnalyzer {
                                 }
                                 AlbionEntityEventMapper.map(message).forEach { observation ->
                                     entities[observation.kind] = (entities[observation.kind] ?: 0) + 1
-                                    if (observation.kind in setOf("player_spawn", "player_move", "static_resource", "harvestable", "resource_state", "mob", "mob_state", "player_mounted", "move", "leave", "health", "health_regeneration")) {
+                                    if (observation.kind in setOf("player_spawn", "player_move", "static_resource", "harvestable", "resource_state", "mob", "mob_state", "player_mounted", "move", "leave", "health", "energy", "health_regeneration", "energy_regeneration")) {
                                         detailed += buildString {
                                             append("t=").append(packetTimeMs).append(" kind=").append(observation.kind)
                                             observation.entityId?.let { append(" id=").append(it) }
@@ -168,6 +172,8 @@ object AlbionCaptureAnalyzer {
                                             observation.tier?.let { append(" tier=").append(it) }
                                             observation.enchant?.let { append(" enchant=").append(it) }
                                             observation.size?.let { append(" amount=").append(it) }
+                                            observation.value?.let { append(" value=").append(it) }
+                                            observation.secondaryValue?.let { append(" secondary_value=").append(it) }
                                             if (observation.removed) append(" removed=true")
                                             if (observation.kind == "player_move") {
                                                 val raw = message.parameters[1] as? ByteArray
