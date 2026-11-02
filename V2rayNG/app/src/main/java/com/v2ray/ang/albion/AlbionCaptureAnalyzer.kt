@@ -174,7 +174,18 @@ object AlbionCaptureAnalyzer {
             if (headerLength < 20 || headerLength >= ip.size) null
             else {
                 val marker = AlbionCaptureMarker.parsePayload(ip, headerLength, ip.size - headerLength) ?: return null
-                "${marker.optString("activity", "Unknown")}: ${marker.optString("event", "event")} @ ${marker.optLong("timestamp_ms")}"
+                val activity = marker.optString("activity", "Unknown")
+                val targetType = marker.optString("target_type", "unspecified")
+                val event = marker.optString("event", "event")
+                val tier = marker.optString("tier", "")
+                val enchantment = marker.opt("enchantment")?.toString()?.takeUnless { it == "null" || it == "0" || it.isBlank() }
+                buildString {
+                    append("${activity} [${targetType}]: ${event}")
+                    if (tier.isNotBlank()) append(" | tier=${tier}")
+                    if (enchantment != null && targetType != "mob") append(" | enchantment=${enchantment}")
+                    marker.optString("node_id").takeIf { it.isNotBlank() }?.let { append(" | target_id=${it}") }
+                    append(" @ ${marker.optLong("timestamp_ms")}")
+                }
             }
         } catch (_: Exception) { null }
     }
