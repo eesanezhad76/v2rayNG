@@ -7,6 +7,7 @@ on:
       - 'research/tools/**'
       - 'research/tests/**'
       - 'research/pcap-analyzer/**'
+      - 'V2rayNG/app/src/main/java/com/v2ray/ang/albion/**'
       - '.github/workflows/albion-capture-ingest.yml'
   workflow_dispatch:
 permissions:
