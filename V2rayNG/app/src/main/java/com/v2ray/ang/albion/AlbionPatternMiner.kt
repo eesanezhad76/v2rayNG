@@ -5,6 +5,7 @@ import org.json.JSONObject
 import org.json.JSONTokener
 import java.io.File
 import java.util.ArrayDeque
+import java.security.MessageDigest
 
 /**
  * Learns repeatable, label-correlated packet observations from the JSONL capture.
@@ -48,7 +49,9 @@ object AlbionPatternMiner {
         val completeSamples: Int,
         val incompleteStarts: Int,
         val patterns: List<Pattern>,
-        val warnings: List<String>
+        val warnings: List<String>,
+        val capturesAnalyzed: Int = 1,
+        val duplicateFilesSkipped: Int = 0
     ) {
         fun asText(): String = buildString {
             appendLine()
@@ -56,6 +59,8 @@ object AlbionPatternMiner {
             appendLine("Overlay markers read: $markers")
             appendLine("Complete Found -> Done sample windows: $completeSamples")
             appendLine("Unclosed sample starts: $incompleteStarts")
+            appendLine("Capture files analyzed: $capturesAnalyzed")
+            appendLine("Byte-identical capture files skipped: $duplicateFilesSkipped")
             appendLine("Confidence is a heuristic evidence score (0-100), NOT a probability.")
             if (patterns.isEmpty()) appendLine("No repeatable labeled pattern found yet.")
             patterns.take(30).forEachIndexed { index, p ->
@@ -91,6 +96,120 @@ object AlbionPatternMiner {
         var started: Boolean = false,
         val observations: MutableList<JSONObject> = mutableListOf()
     )
+
+    /**
+     * Learns across recent capture sessions while keeping each file's marker windows isolated.
+     * Byte-identical copies are counted once; runtime entity IDs are never joined across files.
+     */
+    fun analyzeDirectory(directory: File?, maxFiles: Int = 16): Report {
+        if (directory == null) return Report(0, 0, 0, emptyList(), listOf("Capture directory is missing."), 0, 0)
+        if (directory.isFile) return analyze(directory)
+        if (!directory.isDirectory) return Report(0, 0, 0, emptyList(), listOf("Capture directory is missing."), 0, 0)
+
+        val candidates = directory.listFiles()
+            ?.filter { it.isFile && it.extension.equals("jsonl", ignoreCase = true) }
+            ?.sortedWith(compareByDescending<File> { it.lastModified() }.thenByDescending { it.name })
+            .orEmpty()
+        if (candidates.isEmpty()) {
+            return Report(0, 0, 0, emptyList(), listOf("No JSONL capture files found."), 0, 0)
+        }
+
+        val limit = maxFiles.coerceIn(1, 64)
+        val scanLimit = (limit * 3).coerceAtLeast(limit)
+        val seenHashes = HashSet<String>()
+        val selected = mutableListOf<File>()
+        var duplicates = 0
+        var unreadable = 0
+        candidates.take(scanLimit).forEach { file ->
+            val digest = try {
+                sha256(file)
+            } catch (_: Exception) {
+                unreadable++
+                return@forEach
+            }
+            if (!seenHashes.add(digest)) {
+                duplicates++
+                return@forEach
+            }
+            if (selected.size < limit) selected += file
+        }
+
+        if (selected.isEmpty()) {
+            return Report(0, 0, 0, emptyList(), listOf("No readable JSONL capture files found."), 0, duplicates)
+        }
+
+        val reports = selected.map(::analyze)
+        val grouped = reports.flatMap { it.patterns }.groupBy { it.signature }
+        val mergedPatterns = grouped.values.map { rows ->
+            val first = rows.first()
+            val samples = rows.sumOf { it.samples }
+            // IDs are scoped to each capture; retain the largest per-capture count rather than
+            // claiming that IDs are globally unique across zones or sessions.
+            val distinctEntities = rows.maxOfOrNull { it.distinctEntities } ?: 0
+            val observations = rows.sumOf { it.observationCount }
+            val events = linkedMapOf<Int, Int>()
+            rows.forEach { pattern ->
+                pattern.eventCodes.forEach { (code, count) -> events[code] = (events[code] ?: 0) + count }
+            }
+            val repeatScore = samples.coerceAtMost(10) * 5
+            val identityScore = if (distinctEntities >= 2) 15 else if (distinctEntities == 1) 8 else 0
+            val typedScore = (if (first.eventCode != null) 10 else 0) +
+                (if (first.typeId != null) 10 else 0) +
+                (if (first.tier != null) 5 else 0) +
+                (if (first.enchant != null) 5 else 0)
+            val volumeScore = if (observations >= samples.coerceAtLeast(1) * 2) 10 else 3
+            val pairScore = if (samples >= 2) 10 else 0
+            first.copy(
+                samples = samples,
+                distinctEntities = distinctEntities,
+                observationCount = observations,
+                eventCodes = events,
+                completePairs = rows.sumOf { it.completePairs },
+                score = (repeatScore + identityScore + typedScore + volumeScore + pairScore).coerceAtMost(100)
+            )
+        }.sortedWith(compareByDescending<Pattern> { it.score }.thenByDescending { it.samples }.thenByDescending { it.observationCount })
+
+        val markers = reports.sumOf { it.markers }
+        val complete = reports.sumOf { it.completeSamples }
+        val incomplete = reports.sumOf { it.incompleteStarts }
+        val warnings = reports.flatMap { it.warnings }.filterNot {
+            it.startsWith("No complete Found") ||
+                it.startsWith("Fewer than 10 complete samples") ||
+                it.startsWith("No signature has repeated") ||
+                it.startsWith("No decoded entity observations")
+        }.distinct().toMutableList()
+        if (unreadable > 0) warnings += "$unreadable capture files could not be fingerprinted and were skipped."
+        if (candidates.size > scanLimit) warnings += "Only the newest $scanLimit files were scanned to select up to $limit independent captures."
+        if (complete == 0) warnings += "No complete Found -> Done marker pairs across the selected captures."
+        if (complete in 1..9) warnings += "Fewer than 10 complete samples across captures: pattern scores remain preliminary."
+        if (mergedPatterns.none { it.samples >= 3 }) warnings += "No signature has repeated across at least 3 independent labeled samples yet."
+        if (mergedPatterns.isEmpty()) warnings += "No decoded entity observations were available in labeled windows."
+        warnings += "Entity IDs are scoped per capture; cross-capture pattern aggregation does not merge runtime entity identities."
+        if (duplicates > 0) warnings += "$duplicates byte-identical capture copies were excluded from independent sample counts."
+
+        return Report(
+            markers = markers,
+            completeSamples = complete,
+            incompleteStarts = incomplete,
+            patterns = mergedPatterns,
+            warnings = warnings,
+            capturesAnalyzed = selected.size,
+            duplicateFilesSkipped = duplicates
+        )
+    }
+
+    private fun sha256(file: File): String {
+        val digest = MessageDigest.getInstance("SHA-256")
+        file.inputStream().buffered().use { input ->
+            val buffer = ByteArray(64 * 1024)
+            while (true) {
+                val count = input.read(buffer)
+                if (count < 0) break
+                digest.update(buffer, 0, count)
+            }
+        }
+        return digest.digest().joinToString("") { "%02x".format(it) }
+    }
 
     fun analyze(file: File?): Report {
         if (file == null || !file.isFile) return Report(0, 0, 0, emptyList(), listOf("JSONL capture file is missing."))
