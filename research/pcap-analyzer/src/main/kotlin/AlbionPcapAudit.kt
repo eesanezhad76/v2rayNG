@@ -9,7 +9,7 @@ fun main() {
     require(inbox.isDirectory) { "Missing research/inbox at " + inbox }
     val archives = inbox.walkTopDown().filter { it.isFile && it.extension.equals("zip", true) }.sortedBy { it.name }.toList()
     require(archives.isNotEmpty()) { "No ZIP archives found in research/inbox" }
-    val temp = createTempDir(prefix = "albion-pcap-audit-")
+    val temp = kotlin.io.path.createTempDirectory("albion-pcap-audit-").toFile()
     val index = mutableListOf<String>()
     var total = 0
     var failed = 0
