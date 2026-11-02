@@ -316,7 +316,7 @@ def write_report(repo_root: Path, report: dict[str, Any]) -> tuple[Path, Path]:
 
 
 def report_exit_code(report: dict[str, Any], require_ready: bool = False) -> int:
-    """Fail broken checks; optionally fail closed on any NOT_VERIFIED field-readiness gate."""
+    """Fail broken preflight checks; optionally require readiness for a controlled device field test."""
     if any(check["status"] == "FAIL" for check in report["checks"]):
         return 1
     if require_ready and report["overall_status"] != "READY_FOR_CONTROLLED_FIELD_TEST":
