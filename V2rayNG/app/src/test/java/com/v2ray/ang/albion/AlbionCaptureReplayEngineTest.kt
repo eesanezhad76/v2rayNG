@@ -29,6 +29,9 @@ class AlbionCaptureReplayEngineTest {
         assertEquals(0, pipeline.invalidCoordinateCount)
         assertTrue(pipeline.overlaySnapshotValid)
         assertEquals("[]", pipeline.knowledgeSnapshotJson)
+        assertTrue(!File(tempDir, "albion-live-knowledge.json").exists())
+        assertTrue(!File(tempDir, "albion-protocol-evidence.json").exists())
+        assertTrue(tempDir.listFiles()?.none { it.name.startsWith("albion-replay-") } != false)
         assertTrue(pipeline.replay.report.ipPackets >= 2)
         assertTrue(pipeline.protocolEvidenceSummary.contains("No Ore identity is asserted"))
 
