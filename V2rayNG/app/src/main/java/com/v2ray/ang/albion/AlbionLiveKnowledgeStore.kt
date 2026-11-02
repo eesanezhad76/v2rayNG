@@ -17,6 +17,7 @@ class AlbionLiveKnowledgeStore(context: Context) {
     private val records = LinkedHashMap<String, JSONObject>()
     private var dirty = false
     private var lastFlushMs = 0L
+    private val sessionStartedMs = System.currentTimeMillis()
 
     init {
         load()
@@ -80,7 +81,7 @@ class AlbionLiveKnowledgeStore(context: Context) {
     fun snapshotJson(): String {
         val array = JSONArray()
         records.values
-            .filter { it.has("x") && it.has("y") }
+            .filter { it.optLong("last_seen_ms") >= sessionStartedMs && it.has("x") && it.has("y") }
             .sortedByDescending { it.optLong("last_seen_ms") }
             .take(200)
             .forEach { array.put(JSONObject(it.toString())) }
@@ -90,7 +91,8 @@ class AlbionLiveKnowledgeStore(context: Context) {
     @Synchronized
     fun snapshotText(): String {
         val recent = records.values
-            .filter { it.optString("last_kind") in setOf("static_resource", "harvestable", "resource_state", "player_move", "own_player_move", "mob") }
+            .filter { it.optLong("last_seen_ms") >= sessionStartedMs &&
+                it.optString("last_kind") in setOf("static_resource", "harvestable", "resource_state", "player_move", "own_player_move", "mob") }
             .sortedByDescending { it.optLong("last_seen_ms") }
             .take(8)
         if (recent.isEmpty()) return "Live entities: waiting for decoded game observations"
