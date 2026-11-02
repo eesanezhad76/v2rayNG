@@ -25,8 +25,16 @@ def sha256(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def sha256_file(path):
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def read_bundle(path):
-    archive_hash = sha256(path.read_bytes())
+    archive_hash = sha256_file(path)
     with zipfile.ZipFile(path) as archive:
         members = [item for item in archive.infolist() if not item.is_dir()]
         names = [item.filename for item in members]
