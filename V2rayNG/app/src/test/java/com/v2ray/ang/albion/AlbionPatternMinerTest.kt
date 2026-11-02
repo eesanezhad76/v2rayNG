@@ -106,6 +106,8 @@ class AlbionPatternMinerTest {
         assertEquals(2, report.capturesAnalyzed, report.asText())
         assertEquals(1, report.duplicateFilesSkipped, report.asText())
         assertEquals(2, report.completeSamples, report.asText())
+        assertEquals(2, report.sourceCaptures.size)
+        assertTrue(report.sourceCaptures.all { it.contains(":") })
         val pattern = report.patterns.first { it.kind == "harvestable" && it.activity == "Ore" }
         assertEquals(2, pattern.samples)
         // Runtime IDs are capture-scoped; never claim cross-capture entity identity.
