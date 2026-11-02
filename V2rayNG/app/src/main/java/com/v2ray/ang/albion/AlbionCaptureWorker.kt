@@ -40,6 +40,7 @@ class AlbionCaptureWorker(
     @Volatile private var appContext: Context? = null
     @Volatile private var knowledgeStore: AlbionLiveKnowledgeStore? = null
     @Volatile private var protocolEvidenceStore: AlbionProtocolEvidenceStore? = null
+    @Volatile private var autonomousPatternLearner: AlbionAutonomousPatternLearner? = null
     @Volatile private var pcapFileStream: FileOutputStream? = null
     @Volatile private var logFileStream: FileOutputStream? = null
     private val markerCount = AtomicLong(0)
@@ -64,6 +65,7 @@ class AlbionCaptureWorker(
             appContext = context.applicationContext
             knowledgeStore = AlbionLiveKnowledgeStore(context.applicationContext)
             protocolEvidenceStore = AlbionProtocolEvidenceStore(context.applicationContext)
+            autonomousPatternLearner = AlbionAutonomousPatternLearner(context.applicationContext, stamp.toString())
             pcapFileStream = FileOutputStream(raw)
             logFileStream = FileOutputStream(txt)
             pcap = DataOutputStream(BufferedOutputStream(pcapFileStream!!, 262144)).also(::writeHeader)
@@ -194,6 +196,7 @@ class AlbionCaptureWorker(
             textLog.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", marker).toString())
             textLog.newLine()
             markerCount.incrementAndGet()
+            autonomousPatternLearner?.observeMarker(marker, timestampMs)
             out.flush()
             pcapFileStream?.fd?.sync()
             textLog.flush()
@@ -212,6 +215,7 @@ class AlbionCaptureWorker(
         append(knowledgeStore?.snapshotText()
             ?: "Live knowledge unavailable: capture has not initialized.")
         append(protocolEvidenceStore?.summaryText() ?: "")
+        append(autonomousPatternLearner?.summaryText() ?: "")
         append(healthMonitor.snapshot(System.currentTimeMillis(), running.get()).asText())
         appendLine("Capture counters: packets=${packetCount.get()} | tap_drops=${(dropped() - dropBaseline.get()).coerceAtLeast(0)} | non_albion=${nonAlbionCount.get()} | markers=${markerCount.get()}")
     }
@@ -220,6 +224,7 @@ class AlbionCaptureWorker(
     fun flushKnowledgeStores() {
         knowledgeStore?.flush()
         protocolEvidenceStore?.flush()
+        autonomousPatternLearner?.flush()
     }
 
     fun liveKnowledgeJson(): String {
@@ -248,6 +253,7 @@ class AlbionCaptureWorker(
             if (message.kind == "event" && message.realCode != null) {
                 healthMonitor.recordValidEvent(timestampMs)
                 protocolEvidenceStore?.observe(timestampMs, message.realCode, message.parameters)
+                autonomousPatternLearner?.observe(timestampMs, message.realCode, message.parameters)
             }
             val item = JSONObject()
             item.put("kind", message.kind)
@@ -416,6 +422,7 @@ class AlbionCaptureWorker(
         if (!source.exists()) return
         try {
             knowledgeStore?.flush()
+            autonomousPatternLearner?.flush()
             val tapDrops = (dropped() - dropBaseline.get()).coerceAtLeast(0L)
             val patternReport = AlbionPatternMiner.analyzeDirectory(logFile?.parentFile ?: source.parentFile)
             val contextForPatterns = appContext
@@ -465,6 +472,7 @@ class AlbionCaptureWorker(
     @Synchronized private fun closeFiles() {
         knowledgeStore?.flush()
         protocolEvidenceStore?.flush()
+        autonomousPatternLearner?.flush()
         flushFiles()
         try { pcap?.close() } catch (_: Throwable) {}
         try { log?.close() } catch (_: Throwable) {}
