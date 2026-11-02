@@ -1,0 +1,4149 @@
+{
+  "dataset_id": "albion-1793620890462",
+  "source_file": "albion-1793620890462.jsonl",
+  "source_sha256": "e1bdb875323beaa781481d61f094896803ba418e5d680b1d245d3e5593da693d",
+  "counts": {
+    "jsonl_rows": 22093,
+    "malformed_lines": 0,
+    "udp_5056_packets": 14975,
+    "event40_observations": 154,
+    "unique_event40_nodes": 51,
+    "event46_updates": 292,
+    "event46_state_ids": 65,
+    "event46_exact_joins": 13,
+    "state_only_ids": 52,
+    "event123_living_entity_observations": 896,
+    "manual_markers": 175
+  },
+  "nodes": [
+    {
+      "entity_id": 3728,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -203,
+      "y": -117,
+      "first_seen_ms": 1793621084340,
+      "last_seen_ms": 1793621084340,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2877,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 58,
+      "y": 370,
+      "first_seen_ms": 1793621349788,
+      "last_seen_ms": 1793621349788,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2885,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": -354,
+      "y": -201,
+      "first_seen_ms": 1793621120359,
+      "last_seen_ms": 1793621120359,
+      "observations": 2,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2970,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": -287,
+      "y": -157,
+      "first_seen_ms": 1793621112246,
+      "last_seen_ms": 1793621112246,
+      "observations": 2,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621120666,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621120666,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2975,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": -379,
+      "y": -217,
+      "first_seen_ms": 1793621123708,
+      "last_seen_ms": 1793621123708,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2981,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 360,
+      "y": 254,
+      "first_seen_ms": 1793621410501,
+      "last_seen_ms": 1793621410501,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2956,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 2,
+      "x": -387,
+      "y": -69,
+      "first_seen_ms": 1793621148357,
+      "last_seen_ms": 1793621148357,
+      "observations": 2,
+      "sizes_seen": [
+        4
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3001,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -284.5,
+      "y": 302.5,
+      "first_seen_ms": 1793620960598,
+      "last_seen_ms": 1793620961701,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3013,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": 277.5,
+      "y": 228.5,
+      "first_seen_ms": 1793621385364,
+      "last_seen_ms": 1793621385364,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3031,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": 296.5,
+      "y": 221.5,
+      "first_seen_ms": 1793621387188,
+      "last_seen_ms": 1793621534190,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3043,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -277.5,
+      "y": 273.5,
+      "first_seen_ms": 1793620957694,
+      "last_seen_ms": 1793621216325,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2997,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 2,
+      "x": -359.5,
+      "y": 9.5,
+      "first_seen_ms": 1793621175746,
+      "last_seen_ms": 1793621175746,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2594,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": -328.5,
+      "y": -148.5,
+      "first_seen_ms": 1793621116278,
+      "last_seen_ms": 1793621148238,
+      "observations": 6,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621124097,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621124097,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621125167,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621125167,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621126226,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621126226,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2634,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": 81.5,
+      "y": 335.5,
+      "first_seen_ms": 1793621352019,
+      "last_seen_ms": 1793621352019,
+      "observations": 2,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3240,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 315,
+      "y": 203,
+      "first_seen_ms": 1793621389178,
+      "last_seen_ms": 1793621389178,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3252,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 352,
+      "y": 268,
+      "first_seen_ms": 1793621408515,
+      "last_seen_ms": 1793621542225,
+      "observations": 4,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621425460,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621425460,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621426511,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621426511,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621427577,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621427577,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621463222,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621463222,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621494639,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621494639,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621509661,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621509661,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621538241,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621538241,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3270,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -202,
+      "y": -149,
+      "first_seen_ms": 1793621087973,
+      "last_seen_ms": 1793621087973,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621100388,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621100388,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621101461,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621101461,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621102520,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621102520,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3266,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 2,
+      "x": 307,
+      "y": 211,
+      "first_seen_ms": 1793621388125,
+      "last_seen_ms": 1793621533317,
+      "observations": 4,
+      "sizes_seen": [
+        2,
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621402340,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621402340,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621403406,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621403406,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2740,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -201,
+      "y": 322,
+      "first_seen_ms": 1793620969421,
+      "last_seen_ms": 1793621234038,
+      "observations": 4,
+      "sizes_seen": [
+        1,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621005940,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621005940,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621020956,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621020956,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2761,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -12,
+      "y": 369,
+      "first_seen_ms": 1793621326987,
+      "last_seen_ms": 1793621326987,
+      "observations": 2,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621343505,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621343505,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2770,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -314,
+      "y": -157,
+      "first_seen_ms": 1793621114077,
+      "last_seen_ms": 1793621114077,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2771,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -196,
+      "y": 307,
+      "first_seen_ms": 1793620969421,
+      "last_seen_ms": 1793621233077,
+      "observations": 4,
+      "sizes_seen": [
+        3,
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621020632,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621020632,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621023005,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621023005,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621025379,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621025379,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621063887,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621063887,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621244367,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621244367,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2779,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -287,
+      "y": -165,
+      "first_seen_ms": 1793621112246,
+      "last_seen_ms": 1793621112246,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2788,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -379,
+      "y": -24,
+      "first_seen_ms": 1793621153668,
+      "last_seen_ms": 1793621153668,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2807,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -382,
+      "y": -129,
+      "first_seen_ms": 1793621121050,
+      "last_seen_ms": 1793621127625,
+      "observations": 4,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621141830,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621141830,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 36522,
+      "mobile_type_id": 571,
+      "type_number": 29,
+      "tier": 3,
+      "enchant": 0,
+      "x": -255,
+      "y": 187,
+      "first_seen_ms": 1793620909578,
+      "last_seen_ms": 1793621040684,
+      "observations": 4,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 36684,
+      "mobile_type_id": 571,
+      "type_number": 29,
+      "tier": 3,
+      "enchant": 0,
+      "x": -278,
+      "y": 142,
+      "first_seen_ms": 1793620911092,
+      "last_seen_ms": 1793621196932,
+      "observations": 6,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 37205,
+      "mobile_type_id": 571,
+      "type_number": 29,
+      "tier": 3,
+      "enchant": 0,
+      "x": -278.80453,
+      "y": 140.20535,
+      "first_seen_ms": 1793620911092,
+      "last_seen_ms": 1793621196932,
+      "observations": 6,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 36931,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 0,
+      "x": -368.20758,
+      "y": -16.431292,
+      "first_seen_ms": 1793621153668,
+      "last_seen_ms": 1793621153668,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 37494,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 0,
+      "x": 84.364395,
+      "y": 335.6079,
+      "first_seen_ms": 1793621352019,
+      "last_seen_ms": 1793621352019,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 37506,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 0,
+      "x": 84.14031,
+      "y": 338.19824,
+      "first_seen_ms": 1793621352019,
+      "last_seen_ms": 1793621352019,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 37723,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 0,
+      "x": -283.9689,
+      "y": 43.7322,
+      "first_seen_ms": 1793621061265,
+      "last_seen_ms": 1793621187038,
+      "observations": 6,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 37977,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 0,
+      "x": 104.5,
+      "y": 319,
+      "first_seen_ms": 1793621355115,
+      "last_seen_ms": 1793621355115,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 40288,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 0,
+      "x": 365.91742,
+      "y": 280.3512,
+      "first_seen_ms": 1793621468265,
+      "last_seen_ms": 1793621468265,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621480432,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621480432,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621481238,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621481238,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621482062,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621482062,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 34970,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -255.50969,
+      "y": 367.44763,
+      "first_seen_ms": 1793620999208,
+      "last_seen_ms": 1793620999208,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 35640,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -379.54163,
+      "y": -137.07784,
+      "first_seen_ms": 1793621121050,
+      "last_seen_ms": 1793621126745,
+      "observations": 4,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 35912,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -385.21075,
+      "y": -188.12741,
+      "first_seen_ms": 1793621122361,
+      "last_seen_ms": 1793621122361,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 36114,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -377.53906,
+      "y": -194.65962,
+      "first_seen_ms": 1793621121050,
+      "last_seen_ms": 1793621121050,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 36151,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -250.0755,
+      "y": 367.18414,
+      "first_seen_ms": 1793620999208,
+      "last_seen_ms": 1793620999208,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 36181,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -329.24545,
+      "y": -157.60585,
+      "first_seen_ms": 1793621116278,
+      "last_seen_ms": 1793621148238,
+      "observations": 6,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 36325,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -296.96597,
+      "y": -157.06807,
+      "first_seen_ms": 1793621113148,
+      "last_seen_ms": 1793621113148,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 36336,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -144.38414,
+      "y": 377.3119,
+      "first_seen_ms": 1793621252440,
+      "last_seen_ms": 1793621252440,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 36601,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -59.388638,
+      "y": 379.95303,
+      "first_seen_ms": 1793621320290,
+      "last_seen_ms": 1793621320290,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 36602,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -57.225784,
+      "y": 382.6596,
+      "first_seen_ms": 1793621320290,
+      "last_seen_ms": 1793621333147,
+      "observations": 8,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 36607,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -54.53227,
+      "y": 381.69806,
+      "first_seen_ms": 1793621321256,
+      "last_seen_ms": 1793621333163,
+      "observations": 6,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 36644,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -354,
+      "y": -204,
+      "first_seen_ms": 1793621120359,
+      "last_seen_ms": 1793621120359,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 39074,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -186.8367,
+      "y": 321.33316,
+      "first_seen_ms": 1793621248907,
+      "last_seen_ms": 1793621248907,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 39075,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -184.44713,
+      "y": 318.84918,
+      "first_seen_ms": 1793621249260,
+      "last_seen_ms": 1793621249260,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621253988,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621253988,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621254525,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621254525,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621255055,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621255055,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621255576,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621255576,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621256105,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621256105,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 39460,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -57.849297,
+      "y": 380.3329,
+      "first_seen_ms": 1793621334341,
+      "last_seen_ms": 1793621334341,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621336592,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621336592,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621337138,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621337138,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621337674,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621337674,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621338205,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621338205,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621338742,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621338742,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 39464,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": -56.407993,
+      "y": 382.80316,
+      "first_seen_ms": 1793621335768,
+      "last_seen_ms": 1793621335768,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793621339723,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621339723,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621340285,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621340285,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621340827,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621340827,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621341321,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621341321,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621341879,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621341879,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 35507,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 1,
+      "x": -377.10596,
+      "y": -85.0937,
+      "first_seen_ms": 1793621131331,
+      "last_seen_ms": 1793621131331,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    }
+  ],
+  "state_only_entities": [
+    {
+      "entity_id": 3909,
+      "state_timeline": [
+        {
+          "time_ms": 1793620896475,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620896475,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620911479,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620911479,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620938380,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620938380,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3239,
+      "state_timeline": [
+        {
+          "time_ms": 1793620918481,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620918481,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620919543,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620919543,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620920611,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620920611,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620953027,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620953027,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621212864,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621212864,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 4145,
+      "state_timeline": [
+        {
+          "time_ms": 1793620921763,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620921763,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620939202,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620939202,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621055755,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621055755,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3254,
+      "state_timeline": [
+        {
+          "time_ms": 1793620932106,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620932106,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620933201,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620933201,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620933549,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620933549,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620934286,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620934286,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620952834,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620952834,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3914,
+      "state_timeline": [
+        {
+          "time_ms": 1793620949649,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620949649,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620950431,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620950431,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620951153,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620951153,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2791,
+      "state_timeline": [
+        {
+          "time_ms": 1793620979067,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620979067,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620981475,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620981475,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793620983823,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620983823,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2626,
+      "state_timeline": [
+        {
+          "time_ms": 1793620979860,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793620979860,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621245738,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621245738,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2691,
+      "state_timeline": [
+        {
+          "time_ms": 1793621029525,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621029525,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3811,
+      "state_timeline": [
+        {
+          "time_ms": 1793621062341,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621062341,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3947,
+      "state_timeline": [
+        {
+          "time_ms": 1793621068659,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621068659,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3995,
+      "state_timeline": [
+        {
+          "time_ms": 1793621069063,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621069063,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3753,
+      "state_timeline": [
+        {
+          "time_ms": 1793621070477,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621070477,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3930,
+      "state_timeline": [
+        {
+          "time_ms": 1793621073156,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621073156,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2724,
+      "state_timeline": [
+        {
+          "time_ms": 1793621110840,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621110840,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621111896,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621111896,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 521,
+      "state_timeline": [
+        {
+          "time_ms": 1793621116939,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621116939,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2643,
+      "state_timeline": [
+        {
+          "time_ms": 1793621119887,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621119887,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621120954,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621120954,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3041,
+      "state_timeline": [
+        {
+          "time_ms": 1793621127823,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621127823,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2721,
+      "state_timeline": [
+        {
+          "time_ms": 1793621129506,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621129506,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621130555,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621130555,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2695,
+      "state_timeline": [
+        {
+          "time_ms": 1793621144985,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621144985,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3261,
+      "state_timeline": [
+        {
+          "time_ms": 1793621152485,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621152485,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621167989,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621167989,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621169072,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621169072,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621170130,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621170130,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2780,
+      "state_timeline": [
+        {
+          "time_ms": 1793621154365,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621154365,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2730,
+      "state_timeline": [
+        {
+          "time_ms": 1793621158376,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621158376,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621159447,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621159447,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621160484,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621160484,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621161583,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621161583,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2734,
+      "state_timeline": [
+        {
+          "time_ms": 1793621162912,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621162912,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621163961,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621163961,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2601,
+      "state_timeline": [
+        {
+          "time_ms": 1793621165668,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621165668,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621179328,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621179328,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621180411,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621180411,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2707,
+      "state_timeline": [
+        {
+          "time_ms": 1793621166359,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621166359,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621167452,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621167452,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 1426,
+      "state_timeline": [
+        {
+          "time_ms": 1793621166931,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621166931,
+          "size": 4,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 657,
+      "state_timeline": [
+        {
+          "time_ms": 1793621173489,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621173489,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2642,
+      "state_timeline": [
+        {
+          "time_ms": 1793621176806,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621176806,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621177893,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621177893,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3255,
+      "state_timeline": [
+        {
+          "time_ms": 1793621193839,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621193839,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2763,
+      "state_timeline": [
+        {
+          "time_ms": 1793621266414,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621266414,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621286119,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621286119,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621288488,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621288488,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2743,
+      "state_timeline": [
+        {
+          "time_ms": 1793621268864,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621268864,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621270115,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621270115,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2717,
+      "state_timeline": [
+        {
+          "time_ms": 1793621276864,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621276864,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621279221,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621279221,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621294222,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621294222,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621303121,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621303121,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2737,
+      "state_timeline": [
+        {
+          "time_ms": 1793621296581,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621296581,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621311568,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621311568,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2727,
+      "state_timeline": [
+        {
+          "time_ms": 1793621310156,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621310156,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621312530,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621312530,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2805,
+      "state_timeline": [
+        {
+          "time_ms": 1793621321604,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621321604,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621322665,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621322665,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2774,
+      "state_timeline": [
+        {
+          "time_ms": 1793621342391,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621342391,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621344954,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621344954,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2787,
+      "state_timeline": [
+        {
+          "time_ms": 1793621352019,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621352019,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2603,
+      "state_timeline": [
+        {
+          "time_ms": 1793621353115,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621353115,
+          "size": 4,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2757,
+      "state_timeline": [
+        {
+          "time_ms": 1793621357983,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621357983,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3272,
+      "state_timeline": [
+        {
+          "time_ms": 1793621360504,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621360504,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3256,
+      "state_timeline": [
+        {
+          "time_ms": 1793621361627,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621361627,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2595,
+      "state_timeline": [
+        {
+          "time_ms": 1793621363026,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621363026,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2896,
+      "state_timeline": [
+        {
+          "time_ms": 1793621363639,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621363639,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621363899,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621363899,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3176,
+      "state_timeline": [
+        {
+          "time_ms": 1793621409988,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621409988,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621410320,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621410320,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2635,
+      "state_timeline": [
+        {
+          "time_ms": 1793621411628,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621411628,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3196,
+      "state_timeline": [
+        {
+          "time_ms": 1793621426044,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621426044,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621462902,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621462902,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621497381,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621497381,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621532237,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621532237,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2776,
+      "state_timeline": [
+        {
+          "time_ms": 1793621428933,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621428933,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621535838,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621535838,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3150,
+      "state_timeline": [
+        {
+          "time_ms": 1793621437762,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621437762,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621475464,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621475464,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621493362,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621493362,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621524939,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621524939,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 4232,
+      "state_timeline": [
+        {
+          "time_ms": 1793621437823,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621437823,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793621512745,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621512745,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2778,
+      "state_timeline": [
+        {
+          "time_ms": 1793621481016,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621481016,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2793,
+      "state_timeline": [
+        {
+          "time_ms": 1793621510154,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621510154,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2806,
+      "state_timeline": [
+        {
+          "time_ms": 1793621525122,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793621525122,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    }
+  ],
+  "manual_markers": [
+    {
+      "timestamp_ms": 1793620890608,
+      "elapsed_realtime_ms": 10948139,
+      "event": "capture_started",
+      "activity": "Capture",
+      "source": "capture_worker"
+    },
+    {
+      "timestamp_ms": 1793620915594,
+      "elapsed_realtime_ms": 10973124,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620916536,
+      "elapsed_realtime_ms": 10974067,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620921505,
+      "elapsed_realtime_ms": 10979036,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620922508,
+      "elapsed_realtime_ms": 10980039,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620927592,
+      "elapsed_realtime_ms": 10985123,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620930400,
+      "elapsed_realtime_ms": 10987931,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620935788,
+      "elapsed_realtime_ms": 10993319,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620936449,
+      "elapsed_realtime_ms": 10993979,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620944401,
+      "elapsed_realtime_ms": 11001932,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620944557,
+      "elapsed_realtime_ms": 11002087,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T6",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620944708,
+      "elapsed_realtime_ms": 11002239,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T7",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620945098,
+      "elapsed_realtime_ms": 11002630,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T8",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620945413,
+      "elapsed_realtime_ms": 11002943,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T2",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620945844,
+      "elapsed_realtime_ms": 11003375,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620947719,
+      "elapsed_realtime_ms": 11005250,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620948345,
+      "elapsed_realtime_ms": 11005876,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620951849,
+      "elapsed_realtime_ms": 11009380,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620952651,
+      "elapsed_realtime_ms": 11010182,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620973042,
+      "elapsed_realtime_ms": 11030573,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620973177,
+      "elapsed_realtime_ms": 11030708,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620974913,
+      "elapsed_realtime_ms": 11032443,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620976193,
+      "elapsed_realtime_ms": 11033724,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620984501,
+      "elapsed_realtime_ms": 11042032,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620986063,
+      "elapsed_realtime_ms": 11043594,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620998125,
+      "elapsed_realtime_ms": 11055656,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621000943,
+      "elapsed_realtime_ms": 11058474,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621002805,
+      "elapsed_realtime_ms": 11060336,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621006489,
+      "elapsed_realtime_ms": 11064020,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621007591,
+      "elapsed_realtime_ms": 11065122,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621016525,
+      "elapsed_realtime_ms": 11074055,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621017334,
+      "elapsed_realtime_ms": 11074865,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621027027,
+      "elapsed_realtime_ms": 11084558,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621027628,
+      "elapsed_realtime_ms": 11085159,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621092351,
+      "elapsed_realtime_ms": 11149882,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T6",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621092513,
+      "elapsed_realtime_ms": 11150044,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T7",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621092938,
+      "elapsed_realtime_ms": 11150469,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T8",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621093165,
+      "elapsed_realtime_ms": 11150695,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T2",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621093690,
+      "elapsed_realtime_ms": 11151221,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621095249,
+      "elapsed_realtime_ms": 11152780,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621097283,
+      "elapsed_realtime_ms": 11154813,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621098569,
+      "elapsed_realtime_ms": 11156100,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621103716,
+      "elapsed_realtime_ms": 11161247,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621104289,
+      "elapsed_realtime_ms": 11161820,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621133476,
+      "elapsed_realtime_ms": 11191006,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621134988,
+      "elapsed_realtime_ms": 11192519,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621138686,
+      "elapsed_realtime_ms": 11196216,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621142232,
+      "elapsed_realtime_ms": 11199763,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621143299,
+      "elapsed_realtime_ms": 11200830,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621143824,
+      "elapsed_realtime_ms": 11201354,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621158429,
+      "elapsed_realtime_ms": 11215960,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T6",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621158565,
+      "elapsed_realtime_ms": 11216096,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T7",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621158721,
+      "elapsed_realtime_ms": 11216252,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T8",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621159362,
+      "elapsed_realtime_ms": 11216892,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T2",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621159518,
+      "elapsed_realtime_ms": 11217049,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621159934,
+      "elapsed_realtime_ms": 11217465,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621161388,
+      "elapsed_realtime_ms": 11218919,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E3",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621161537,
+      "elapsed_realtime_ms": 11219068,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621161687,
+      "elapsed_realtime_ms": 11219218,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621163531,
+      "elapsed_realtime_ms": 11221062,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621165769,
+      "elapsed_realtime_ms": 11223300,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621170735,
+      "elapsed_realtime_ms": 11228266,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621171856,
+      "elapsed_realtime_ms": 11229386,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621236719,
+      "elapsed_realtime_ms": 11294249,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621238085,
+      "elapsed_realtime_ms": 11295615,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621241281,
+      "elapsed_realtime_ms": 11298812,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621245195,
+      "elapsed_realtime_ms": 11302726,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621245779,
+      "elapsed_realtime_ms": 11303309,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621258152,
+      "elapsed_realtime_ms": 11315683,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621258305,
+      "elapsed_realtime_ms": 11315835,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E3",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621258439,
+      "elapsed_realtime_ms": 11315970,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621260195,
+      "elapsed_realtime_ms": 11317726,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621261187,
+      "elapsed_realtime_ms": 11318717,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621262149,
+      "elapsed_realtime_ms": 11319680,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621263165,
+      "elapsed_realtime_ms": 11320696,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621264543,
+      "elapsed_realtime_ms": 11322074,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621266974,
+      "elapsed_realtime_ms": 11324505,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621270797,
+      "elapsed_realtime_ms": 11328327,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621271537,
+      "elapsed_realtime_ms": 11329068,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621273431,
+      "elapsed_realtime_ms": 11330961,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621280507,
+      "elapsed_realtime_ms": 11338037,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621281038,
+      "elapsed_realtime_ms": 11338569,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621283104,
+      "elapsed_realtime_ms": 11340634,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621293472,
+      "elapsed_realtime_ms": 11351003,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621298035,
+      "elapsed_realtime_ms": 11355566,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621298456,
+      "elapsed_realtime_ms": 11355987,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621299976,
+      "elapsed_realtime_ms": 11357507,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621304788,
+      "elapsed_realtime_ms": 11362318,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621305212,
+      "elapsed_realtime_ms": 11362743,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621307145,
+      "elapsed_realtime_ms": 11364675,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621313017,
+      "elapsed_realtime_ms": 11370547,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621313553,
+      "elapsed_realtime_ms": 11371083,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621337519,
+      "elapsed_realtime_ms": 11395050,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621338341,
+      "elapsed_realtime_ms": 11395872,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621340506,
+      "elapsed_realtime_ms": 11398036,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621344054,
+      "elapsed_realtime_ms": 11401585,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621345011,
+      "elapsed_realtime_ms": 11402542,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621393291,
+      "elapsed_realtime_ms": 11450822,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T6",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621393433,
+      "elapsed_realtime_ms": 11450964,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T7",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621393580,
+      "elapsed_realtime_ms": 11451111,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T8",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621393747,
+      "elapsed_realtime_ms": 11451278,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T2",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621394344,
+      "elapsed_realtime_ms": 11451875,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621394584,
+      "elapsed_realtime_ms": 11452114,
+      "event": "tier_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621395320,
+      "elapsed_realtime_ms": 11452851,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621395799,
+      "elapsed_realtime_ms": 11453330,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E3",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621396170,
+      "elapsed_realtime_ms": 11453701,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621396295,
+      "elapsed_realtime_ms": 11453826,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621396453,
+      "elapsed_realtime_ms": 11453984,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621397952,
+      "elapsed_realtime_ms": 11455483,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621400269,
+      "elapsed_realtime_ms": 11457799,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621404124,
+      "elapsed_realtime_ms": 11461654,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621404658,
+      "elapsed_realtime_ms": 11462189,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621419711,
+      "elapsed_realtime_ms": 11477242,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E3",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621419851,
+      "elapsed_realtime_ms": 11477382,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621420307,
+      "elapsed_realtime_ms": 11477838,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621421495,
+      "elapsed_realtime_ms": 11479026,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621423512,
+      "elapsed_realtime_ms": 11481043,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621429607,
+      "elapsed_realtime_ms": 11487138,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621430117,
+      "elapsed_realtime_ms": 11487648,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621441629,
+      "elapsed_realtime_ms": 11499159,
+      "event": "activity_selected",
+      "activity": "Wood",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621442393,
+      "elapsed_realtime_ms": 11499923,
+      "event": "activity_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621442608,
+      "elapsed_realtime_ms": 11500138,
+      "event": "activity_selected",
+      "activity": "Other",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621443807,
+      "elapsed_realtime_ms": 11501338,
+      "event": "activity_selected",
+      "activity": "Travel",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621444382,
+      "elapsed_realtime_ms": 11501913,
+      "event": "activity_selected",
+      "activity": "PvP",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621445024,
+      "elapsed_realtime_ms": 11502555,
+      "event": "activity_selected",
+      "activity": "Mobs",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621445743,
+      "elapsed_realtime_ms": 11503274,
+      "event": "activity_selected",
+      "activity": "Hide",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621446367,
+      "elapsed_realtime_ms": 11503898,
+      "event": "activity_selected",
+      "activity": "Fiber",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621446933,
+      "elapsed_realtime_ms": 11504464,
+      "event": "activity_selected",
+      "activity": "Stone",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621447597,
+      "elapsed_realtime_ms": 11505128,
+      "event": "activity_selected",
+      "activity": "Wood",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621448778,
+      "elapsed_realtime_ms": 11506309,
+      "event": "activity_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621449420,
+      "elapsed_realtime_ms": 11506951,
+      "event": "activity_selected",
+      "activity": "Other",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621450145,
+      "elapsed_realtime_ms": 11507676,
+      "event": "activity_selected",
+      "activity": "Travel",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621450785,
+      "elapsed_realtime_ms": 11508315,
+      "event": "activity_selected",
+      "activity": "PvP",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621451415,
+      "elapsed_realtime_ms": 11508945,
+      "event": "activity_selected",
+      "activity": "Mobs",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621454932,
+      "elapsed_realtime_ms": 11512463,
+      "event": "enchantment_selected",
+      "activity": "Mobs",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621455111,
+      "elapsed_realtime_ms": 11512642,
+      "event": "enchantment_selected",
+      "activity": "Mobs",
+      "tier": "T4",
+      "enchantment": "E3",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621455509,
+      "elapsed_realtime_ms": 11513040,
+      "event": "enchantment_selected",
+      "activity": "Mobs",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621458722,
+      "elapsed_realtime_ms": 11516253,
+      "event": "target_found",
+      "activity": "Mobs",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621470263,
+      "elapsed_realtime_ms": 11527794,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621473705,
+      "elapsed_realtime_ms": 11531236,
+      "event": "activity_selected",
+      "activity": "PvP",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621474408,
+      "elapsed_realtime_ms": 11531939,
+      "event": "activity_selected",
+      "activity": "Travel",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621475015,
+      "elapsed_realtime_ms": 11532546,
+      "event": "activity_selected",
+      "activity": "Other",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621475666,
+      "elapsed_realtime_ms": 11533197,
+      "event": "activity_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621478267,
+      "elapsed_realtime_ms": 11535798,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621479087,
+      "elapsed_realtime_ms": 11536617,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621483189,
+      "elapsed_realtime_ms": 11540720,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621483619,
+      "elapsed_realtime_ms": 11541150,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621488669,
+      "elapsed_realtime_ms": 11546200,
+      "event": "enchantment_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621489610,
+      "elapsed_realtime_ms": 11547141,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621492330,
+      "elapsed_realtime_ms": 11549861,
+      "event": "gathering_started",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621496676,
+      "elapsed_realtime_ms": 11554206,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621497391,
+      "elapsed_realtime_ms": 11554922,
+      "event": "node_depleted",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621509751,
+      "elapsed_realtime_ms": 11567282,
+      "event": "activity_selected",
+      "activity": "Other",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621512336,
+      "elapsed_realtime_ms": 11569867,
+      "event": "activity_selected",
+      "activity": "Travel",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621517079,
+      "elapsed_realtime_ms": 11574610,
+      "event": "tier_selected",
+      "activity": "Travel",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621517458,
+      "elapsed_realtime_ms": 11574989,
+      "event": "tier_selected",
+      "activity": "Travel",
+      "tier": "T6",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621517658,
+      "elapsed_realtime_ms": 11575189,
+      "event": "tier_selected",
+      "activity": "Travel",
+      "tier": "T7",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621518231,
+      "elapsed_realtime_ms": 11575761,
+      "event": "tier_selected",
+      "activity": "Travel",
+      "tier": "T8",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621520043,
+      "elapsed_realtime_ms": 11577574,
+      "event": "activity_event",
+      "activity": "Travel",
+      "tier": "T8",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621521356,
+      "elapsed_realtime_ms": 11578887,
+      "event": "tier_selected",
+      "activity": "Travel",
+      "tier": "T2",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621521964,
+      "elapsed_realtime_ms": 11579495,
+      "event": "tier_selected",
+      "activity": "Travel",
+      "tier": "T3",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621522489,
+      "elapsed_realtime_ms": 11580020,
+      "event": "tier_selected",
+      "activity": "Travel",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621523238,
+      "elapsed_realtime_ms": 11580768,
+      "event": "activity_selected",
+      "activity": "PvP",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621523848,
+      "elapsed_realtime_ms": 11581379,
+      "event": "activity_selected",
+      "activity": "Mobs",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621524993,
+      "elapsed_realtime_ms": 11582523,
+      "event": "activity_selected",
+      "activity": "Hide",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621525924,
+      "elapsed_realtime_ms": 11583454,
+      "event": "activity_selected",
+      "activity": "Fiber",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621526822,
+      "elapsed_realtime_ms": 11584353,
+      "event": "activity_selected",
+      "activity": "Stone",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621527159,
+      "elapsed_realtime_ms": 11584690,
+      "event": "activity_selected",
+      "activity": "Wood",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621527562,
+      "elapsed_realtime_ms": 11585093,
+      "event": "activity_selected",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621528235,
+      "elapsed_realtime_ms": 11585766,
+      "event": "activity_selected",
+      "activity": "Other",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621530229,
+      "elapsed_realtime_ms": 11587760,
+      "event": "activity_selected",
+      "activity": "Travel",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621532147,
+      "elapsed_realtime_ms": 11589678,
+      "event": "activity_start",
+      "activity": "Travel",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621547304,
+      "elapsed_realtime_ms": 11604835,
+      "event": "activity_end",
+      "activity": "Travel",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621554375,
+      "elapsed_realtime_ms": 11611906,
+      "event": "overlay_collapsed",
+      "activity": "Travel",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793621565750,
+      "elapsed_realtime_ms": 11623281,
+      "event": "capture_stopping",
+      "activity": "Capture",
+      "source": "capture_worker"
+    }
+  ]
+}

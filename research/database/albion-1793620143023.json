@@ -1,0 +1,45 @@
+{
+  "dataset_id": "albion-1793620143023",
+  "source_file": "albion-1793620143023.jsonl",
+  "source_sha256": "0ad5d9a4177fa7690eb54298178ba551acd9fb4777a3c37920f5a8bf4ee5df3e",
+  "counts": {
+    "jsonl_rows": 2138,
+    "malformed_lines": 0,
+    "udp_5056_packets": 0,
+    "event40_observations": 0,
+    "unique_event40_nodes": 0,
+    "event46_updates": 0,
+    "event46_state_ids": 0,
+    "event46_exact_joins": 0,
+    "state_only_ids": 0,
+    "event123_living_entity_observations": 0,
+    "manual_markers": 3
+  },
+  "nodes": [],
+  "state_only_entities": [],
+  "manual_markers": [
+    {
+      "timestamp_ms": 1793620143183,
+      "elapsed_realtime_ms": 10200714,
+      "event": "capture_started",
+      "activity": "Capture",
+      "source": "capture_worker"
+    },
+    {
+      "timestamp_ms": 1793620147466,
+      "elapsed_realtime_ms": 10204997,
+      "event": "overlay_started",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793620187418,
+      "elapsed_realtime_ms": 10244949,
+      "event": "capture_stopping",
+      "activity": "Capture",
+      "source": "capture_worker"
+    }
+  ]
+}
