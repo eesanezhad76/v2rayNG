@@ -41,7 +41,7 @@ class AlbionOverlayService : Service() {
     private var nodeId: String? = null
     private lateinit var title: TextView
     private lateinit var body: LinearLayout
-    private val activities = listOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Mobs", "PvP", "Travel", "Other")
+    private val activities = listOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Mobs", "Resource Giants", "PvP", "Travel", "Other")
     private val tiers = listOf("T2", "T3", "T4", "T5", "T6", "T7", "T8")
     private val enchants = listOf("Normal", "E1", "E2", "E3")
     private val eventSequence = AtomicLong(0)
@@ -268,6 +268,7 @@ class AlbionOverlayService : Service() {
         val events = when (activities[activityIndex]) {
             "Ore", "Wood", "Stone", "Fiber", "Hide" -> listOf("Found" to "target_found", "Start" to "gathering_started", "Done" to "gathering_completed", "Empty" to "node_depleted")
             "Mobs" -> listOf("Seen" to "target_found", "Killed" to "mob_killed")
+            "Resource Giants" -> listOf("Seen" to "resource_giant_spotted", "Killed" to "resource_giant_killed")
             "PvP" -> listOf("Player" to "player_spotted", "Fight" to "pvp_started", "End" to "pvp_ended")
             else -> listOf("Start" to "activity_start", "Event" to "activity_event", "End" to "activity_end")
         }
@@ -302,6 +303,7 @@ class AlbionOverlayService : Service() {
                 .put("target_type", when (activities[activityIndex]) {
                     "Ore", "Wood", "Stone", "Fiber", "Hide" -> "resource_node"
                     "Mobs" -> "mob"
+                    "Resource Giants" -> "resource_giant"
                     "PvP" -> "player"
                     else -> "activity"
                 })
