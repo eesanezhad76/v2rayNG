@@ -387,7 +387,7 @@ class AlbionRadarActivity : ComponentActivity() {
                     type = "application/zip"
                     putExtra(Intent.EXTRA_TITLE, output.name)
                 }
-                status.text = "Database ready: ${summary.entityRecords} entities, ${summary.protocolEvents} protocol events, pattern report=${summary.patternReportIncluded}. Choose a destination."
+                status.text = "Database ready: ${summary.entityRecords} entities, ${summary.protocolEvents} protocol events, learned pattern DB=${summary.patternDatabaseIncluded}, latest report=${summary.patternReportIncluded}. Choose a destination."
                 startActivityForResult(intent, CREATE_KNOWLEDGE_BUNDLE_REQUEST)
             } catch (e: Exception) {
                 status.text = "Knowledge database export failed: ${e.message ?: "unknown error"}"
