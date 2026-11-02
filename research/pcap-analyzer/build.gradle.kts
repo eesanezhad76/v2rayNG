@@ -10,6 +10,7 @@ sourceSets {
         kotlin.include(
             "com/v2ray/ang/albion/AlbionCaptureAnalyzer.kt",
             "com/v2ray/ang/albion/AlbionCaptureQualityAnalyzer.kt",
+            "com/v2ray/ang/albion/AlbionCaptureReplayEngine.kt",
             "com/v2ray/ang/albion/AlbionCaptureMarker.kt",
             "com/v2ray/ang/albion/AlbionPhotonPacketDecoder.kt",
             "com/v2ray/ang/albion/AlbionProtocol18Decoder.kt",

@@ -1,7 +1,8 @@
-import com.v2ray.ang.albion.AlbionCaptureAnalyzer
+import com.v2ray.ang.albion.AlbionCaptureReplayEngine
 import java.io.File
 import java.security.MessageDigest
 import java.util.zip.ZipInputStream
+import org.json.JSONArray
 import org.json.JSONObject
 
 fun main() {
@@ -19,6 +20,21 @@ fun main() {
     var duplicatePcapTotal = 0
     var failed = 0
     val duplicatePcapRows = mutableListOf<String>()
+    val replayDir = File(out, "replay").apply { mkdirs() }
+    val baselineFile = File(out, "2026-11-02-pcap-replay-baseline.json")
+    val baselineByKey = linkedMapOf<String, JSONObject>()
+    val baselineExists = baselineFile.isFile
+    if (baselineExists) {
+        val baselineRoot = JSONObject(baselineFile.readText(Charsets.UTF_8))
+        val baselineCaptures = baselineRoot.optJSONArray("captures") ?: JSONArray()
+        for (i in 0 until baselineCaptures.length()) {
+            val row = baselineCaptures.optJSONObject(i) ?: continue
+            val key = row.optString("key")
+            if (key.isNotBlank()) baselineByKey[key] = row
+        }
+    }
+    val replayRows = JSONArray()
+    val baselineRows = JSONArray()
     try {
         for (archive in archives) {
             val dir = File(temp, archive.nameWithoutExtension).apply { mkdirs() }
@@ -59,6 +75,7 @@ fun main() {
                 }
                 val contentHash = digest.digest().joinToString("") { "%02x".format(it.toInt() and 0xff) }
                 val duplicateOf = seenHashes.putIfAbsent(contentHash, pcap.name)
+                var replayResult: AlbionCaptureReplayEngine.ReplayResult? = null
                 val text = if (duplicateOf != null) {
                     duplicatePcapTotal++
                     duplicatePcapRows += listOf(archive.name, pcap.name, contentHash, duplicateOf)
@@ -66,7 +83,9 @@ fun main() {
                     "DUPLICATE_PCAP: byte-identical to " + duplicateOf + "; excluded from aggregate observations to prevent double counting."
                 } else try {
                     uniquePcapTotal++
-                    val report = AlbionCaptureAnalyzer.analyze(pcap)
+                    val replay = AlbionCaptureReplayEngine.replay(pcap)
+                    replayResult = replay
+                    val report = replay.report
                     report.detailedObservations.forEach { allDetails += Triple(archive.name, pcap.name, it) }
                     report.asText()
                 } catch (e: Throwable) {
@@ -75,6 +94,47 @@ fun main() {
                 }
                 val safe = (archive.nameWithoutExtension + "--" + pcap.nameWithoutExtension)
                     .replace(Regex("[^A-Za-z0-9._-]+"), "_").take(110) + "-" + total.toString().padStart(2, '0')
+                val replayKey = archive.name + "::" + pcap.name
+                when {
+                    duplicateOf != null -> replayRows.put(JSONObject()
+                        .put("key", replayKey).put("source_sha256", contentHash)
+                        .put("status", "DUPLICATE_SKIPPED").put("duplicate_of", duplicateOf))
+                    replayResult == null -> replayRows.put(JSONObject()
+                        .put("key", replayKey).put("source_sha256", contentHash)
+                        .put("status", "ANALYSIS_ERROR"))
+                    else -> {
+                        val replay = replayResult!!
+                        val report = replay.report
+                        val previous = baselineByKey[replayKey]
+                        val baselineStatus = when {
+                            !baselineExists -> "BASELINE_INITIALIZED"
+                            previous == null -> "NEW_CAPTURE_REVIEW"
+                            previous.optString("source_sha256") != replay.sourceSha256 -> "SOURCE_CHANGED_REVIEW_REQUIRED"
+                            previous.optString("fingerprint") == replay.fingerprint -> "STABLE"
+                            else -> "OUTPUT_CHANGED_REVIEW_REQUIRED"
+                        }
+                        val row = JSONObject()
+                            .put("key", replayKey)
+                            .put("source_sha256", replay.sourceSha256)
+                            .put("fingerprint", replay.fingerprint)
+                            .put("status", baselineStatus)
+                            .put("ip_packets", report.ipPackets)
+                            .put("valid_photon_packets", report.validPhotonPackets)
+                            .put("malformed_photon_packets", report.malformedPhotonPackets)
+                            .put("quality_score", report.quality.score)
+                            .put("quality_grade", report.quality.grade)
+                        replayRows.put(row)
+                        if (!baselineExists) baselineRows.put(JSONObject()
+                            .put("key", replayKey)
+                            .put("source_sha256", replay.sourceSha256)
+                            .put("fingerprint", replay.fingerprint)
+                            .put("ip_packets", report.ipPackets)
+                            .put("valid_photon_packets", report.validPhotonPackets)
+                            .put("malformed_photon_packets", report.malformedPhotonPackets)
+                            .put("quality_score", report.quality.score))
+                        AlbionCaptureReplayEngine.writeJson(replay, File(replayDir, safe + "-replay.json"))
+                    }
+                }
                 File(out, safe + "-pcap-report.md").writeText(
                     "# PCAP analysis: " + archive.name + " / " + pcap.name + "\n\n" + text,
                     Charsets.UTF_8
@@ -91,6 +151,37 @@ fun main() {
             (listOf("archive,duplicate_pcap,sha256,canonical_pcap") + duplicatePcapRows).joinToString("\n") + "\n",
             Charsets.UTF_8
         )
+        val replayIndex = JSONObject()
+            .put("schema_version", 1)
+            .put("generated_from_sha", System.getenv("GITHUB_SHA") ?: "local")
+            .put("baseline_file", baselineFile.name)
+            .put("captures", replayRows)
+        File(out, "2026-11-02-pcap-replay-index.json").writeText(replayIndex.toString(2), Charsets.UTF_8)
+        if (!baselineExists && failed == 0 && baselineRows.length() == uniquePcapTotal) {
+            baselineFile.writeText(JSONObject()
+                .put("schema_version", 1)
+                .put("initialized_from_sha", System.getenv("GITHUB_SHA") ?: "local")
+                .put("captures", baselineRows).toString(2), Charsets.UTF_8)
+        }
+        val replayStatuses = linkedMapOf<String, Int>()
+        for (i in 0 until replayRows.length()) {
+            val status = replayRows.optJSONObject(i)?.optString("status") ?: "UNKNOWN"
+            replayStatuses[status] = (replayStatuses[status] ?: 0) + 1
+        }
+        val changedStatuses = setOf("OUTPUT_CHANGED_REVIEW_REQUIRED", "SOURCE_CHANGED_REVIEW_REQUIRED", "NEW_CAPTURE_REVIEW", "ANALYSIS_ERROR")
+        val regressionText = buildString {
+            appendLine("# Offline replay baseline comparison")
+            appendLine()
+            appendLine("Unique PCAPs analyzed: $uniquePcapTotal")
+            appendLine("Byte-identical duplicates skipped: $duplicatePcapTotal")
+            appendLine("Analysis errors: $failed")
+            appendLine("Baseline: " + if (baselineExists) "existing baseline; unchanged" else if (baselineFile.isFile) "initialized" else "not initialized because analysis had errors")
+            replayStatuses.toSortedMap().forEach { (status, count) -> appendLine("- $status: $count") }
+            appendLine()
+            appendLine("Changed fingerprints are review-required signals, not automatic proof of an algorithm defect.")
+            appendLine("Different source hashes are never treated as algorithm regressions.")
+        }
+        File(out, "2026-11-02-replay-regression-report.md").writeText(regressionText, Charsets.UTF_8)
         File(out, "2026-11-02-all-inbox-observations.jsonl").writeText(
             allDetails.joinToString("\n") { (archive, pcap, detail) ->
                 JSONObject().put("archive", archive).put("pcap", pcap).put("detail", detail).toString()
