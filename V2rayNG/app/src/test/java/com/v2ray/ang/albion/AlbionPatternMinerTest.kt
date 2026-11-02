@@ -46,6 +46,20 @@ class AlbionPatternMinerTest {
         assertTrue(report.candidates.any { it.fieldPath == "entities[].values[].amount" })
     }
 
+    @Test fun byteIdenticalCopiesDoNotCountAsIndependentCaptures() {
+        val original = """{"entities":[{"id":17,"tier":6}]}"""
+        val files = listOf(
+            File(tempDir, "capture-original.jsonl").apply { writeText(original) },
+            File(tempDir, "capture-copy-renamed.jsonl").apply { writeText(original) },
+            File(tempDir, "capture-two.jsonl").apply { writeText("""{"entities":[{"id":17,"tier":7}]}""") },
+            File(tempDir, "capture-three.jsonl").apply { writeText("""{"entities":[{"id":17,"tier":8}]}""") }
+        )
+        val report = AlbionPatternMiner.analyze(files)
+        assertEquals(1, report.duplicateFilesSkipped)
+        val tier = report.candidates.single { it.fieldPath == "entities[].tier" }
+        assertEquals(3, tier.independentCaptures)
+    }
+
     @Test fun enforcesRecordCapAndReportsTruncatedFiles() {
         val file = File(tempDir, "long.jsonl").apply {
             writeText(

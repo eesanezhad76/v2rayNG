@@ -3,6 +3,7 @@ package com.v2ray.ang.albion
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
+import java.security.MessageDigest
 import java.util.Locale
 
 /**
@@ -26,6 +27,7 @@ object AlbionPatternMiner {
         val recordsAnalyzed: Int,
         val malformedLines: Int,
         val truncatedFiles: List<String>,
+        val duplicateFilesSkipped: Int,
         val minimumIndependentCaptures: Int,
         val candidates: List<Candidate>
     ) {
@@ -34,6 +36,7 @@ object AlbionPatternMiner {
             appendLine("Capture files analyzed: $filesAnalyzed")
             appendLine("JSONL records analyzed: $recordsAnalyzed")
             appendLine("Malformed JSONL records skipped: $malformedLines")
+            appendLine("Byte-identical duplicate capture files skipped: $duplicateFilesSkipped")
             appendLine("Minimum independent captures per candidate: $minimumIndependentCaptures")
             if (truncatedFiles.isNotEmpty()) {
                 appendLine("Capture files limited by record cap: ${truncatedFiles.joinToString()}")
@@ -68,14 +71,31 @@ object AlbionPatternMiner {
         maxRecordsPerFile: Int = 20_000
     ): Report {
         require(minimumIndependentCaptures >= 1) { "minimumIndependentCaptures must be positive" }
-        require(maxFiles >= 1) { "maxFiles must be positive" }
-        require(maxRecordsPerFile >= 1) { "maxRecordsPerFile must be positive" }
+        require(maxFiles in 1..MAX_FILES) { "maxFiles must be between 1 and $MAX_FILES" }
+        require(maxRecordsPerFile in 1..MAX_RECORDS_PER_FILE) {
+            "maxRecordsPerFile must be between 1 and $MAX_RECORDS_PER_FILE"
+        }
 
-        val selected = captureFiles
+        // Inspect a bounded recent window, newest first. Identical file contents do not count
+        // as independent evidence even if copied or renamed into separate files.
+        val candidates = captureFiles
             .filter { it.isFile && it.extension.equals("jsonl", ignoreCase = true) }
             .distinctBy { runCatching { it.canonicalPath }.getOrDefault(it.absolutePath) }
-            .sortedBy { it.lastModified() }
-            .takeLast(maxFiles)
+            .sortedByDescending { it.lastModified() }
+            .take(maxFiles * 3)
+        val selected = mutableListOf<File>()
+        val seenFingerprints = HashSet<String>()
+        var duplicateFilesSkipped = 0
+        for (file in candidates) {
+            val fingerprint = fingerprint(file)
+            if (fingerprint != null && !seenFingerprints.add(fingerprint)) {
+                duplicateFilesSkipped++
+                continue
+            }
+            selected += file
+            if (selected.size >= maxFiles) break
+        }
+
         val observations = LinkedHashMap<String, MutableCandidate>()
         var records = 0
         var malformed = 0
@@ -145,6 +165,7 @@ object AlbionPatternMiner {
             recordsAnalyzed = records,
             malformedLines = malformed,
             truncatedFiles = truncated,
+            duplicateFilesSkipped = duplicateFilesSkipped,
             minimumIndependentCaptures = minimumIndependentCaptures,
             candidates = candidates
         )
@@ -185,6 +206,21 @@ object AlbionPatternMiner {
             is Array<*> -> value.take(MAX_ARRAY_ITEMS).forEach { walk(it, "$path[]", captureId, output, depth + 1) }
         }
     }
+
+    private fun fingerprint(file: File): String? = runCatching {
+        val digest = MessageDigest.getInstance("SHA-256")
+        file.inputStream().buffered().use { input ->
+            val buffer = ByteArray(8192)
+            while (true) {
+                val count = input.read(buffer)
+                if (count < 0) break
+                digest.update(buffer, 0, count)
+            }
+        }
+        digest.digest().joinToString("") { byte ->
+            "%02x".format(Locale.US, byte.toInt() and 0xff)
+        }
+    }.getOrNull()
 
     private val ANALYZED_ROOTS = listOf("photon_event_analysis", "event_state_changes", "entities")
     private const val MAX_FILES = 10

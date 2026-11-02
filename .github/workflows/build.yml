@@ -25,6 +25,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
     - name: Checkout code
@@ -138,6 +139,7 @@ jobs:
         encodedString: ${{ secrets.APP_KEYSTORE_BASE64 }}
 
     - name: Build signed isolated radar APK
+      timeout-minutes: 25
       if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-reliability-ux')
       run: |
         cd ${{ github.workspace }}/V2rayNG
@@ -150,7 +152,20 @@ jobs:
         test -d "$APK_DIR"
         find "$APK_DIR" -maxdepth 1 -type f -name '*.apk' -print -quit | grep -q .
         find "$APK_DIR" -maxdepth 1 -type f -name '*arm64-v8a*.apk' -print -quit | grep -q .
+        for abi in arm64-v8a armeabi-v7a x86 x86_64 universal; do
+          count=$(find "$APK_DIR" -maxdepth 1 -type f -name "*_${abi}.apk" | wc -l)
+          test "$count" -eq 1
+        done
+        mapfile -t APK_FILES < <(find "$APK_DIR" -maxdepth 1 -type f -name '*.apk' -print)
+        test "${#APK_FILES[@]}" -eq 5
+        for apk in "${APK_FILES[@]}"; do
+          test -s "$apk"
+          "$ANDROID_HOME/build-tools/37.0.0/apksigner" verify --verbose "$apk"
+          package=$("$ANDROID_HOME/build-tools/37.0.0/aapt" dump badging "$apk" | sed -n "s/^package: name='\\([^']*\\)'.*/\\1/p" | head -n 1)
+          test "$package" = "com.v2ray.ang.radar"
+        done
         (cd "$APK_DIR" && sha256sum ./*.apk > SHA256SUMS.txt)
+        (cd "$APK_DIR" && sha256sum --check SHA256SUMS.txt)
 
     - name: Build signed APK
       if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-reliability-ux')

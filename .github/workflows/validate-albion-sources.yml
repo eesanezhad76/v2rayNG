@@ -1,9 +1,9 @@
 name: Validate Albion sources (no APK) # final reliability validation
 
+# Manual diagnostic only. The main Build APK workflow already builds the same
+# native AAR, runs Kotlin unit tests, compiles the app, and assembles/verifies APKs.
+# Keeping this manual avoids duplicating two expensive native builds on every push.
 on:
-  push:
-    branches:
-      - albion-reliability-ux
   workflow_dispatch:
 
 permissions:
