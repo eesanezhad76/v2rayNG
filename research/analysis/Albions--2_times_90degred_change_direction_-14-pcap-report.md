@@ -65,7 +65,7 @@ Encrypted Protocol18 messages: 3
 Malformed Protocol18 messages: 0
 Pending fragmented messages: 0
 Manual checkpoints: 0
-Detailed entity/player observations: 1389
+Detailed entity/player observations: 1497
   t=1793399203085 event3 id=542033 raw=0336a75ae0d436df08dfa177c26928714374000040401aa771c2cbdf7143 p4=null p5=null
   t=1793399203140 event3 id=542033 raw=0300fe69e0d436df08d78c76c2994971432e000040401aa771c2cbdf7143 p4=null p5=null
   t=1793399203239 event3 id=542033 raw=03104e79e0d436df08cf7775c2c96a71432e000040401aa771c2cbdf7143 p4=null p5=null
@@ -86,6 +86,7 @@ Detailed entity/player observations: 1389
   t=1793399203874 outbound_request op=22 params={0=639289960043872643 1=[-57.692154, 243.33716] 2=39.358646 3=[-56.96896, 244.21889] 4=11.0 253=22}
   t=1793399203874 kind=own_player_move x=-57.69215393066406 y=243.337158203125 heading=39.358646392822266 target_x=-56.96895980834961 target_y=244.21888732910156 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399203988 event3 id=580571 raw=03ce96e4e0d436df08d99686c2be34884349000020401c898fc2a33e8743 p4=null p5=null
+  t=1793399203988 kind=health id=580571
   t=1793399203988 event3 id=595858 raw=036232e5e0d436df08a60085c12a5a434340cdcc4c40464b38c158634343 p4=null p5=null
   t=1793399203989 outbound_request op=22 params={0=639289960044962643 1=[-57.046288, 244.34367] 2=26.527702 3=[-56.79996, 244.83713] 4=11.0 253=22}
   t=1793399203989 kind=own_player_move x=-57.046287536621094 y=244.3436737060547 heading=26.52770233154297 target_x=-56.79996109008789 target_y=244.83712768554688 speed=11.0 source=outbound_photon_operation_22_param_1
@@ -97,6 +98,9 @@ Detailed entity/player observations: 1389
   t=1793399204190 event3 id=595858 raw=0308ea03e1d436df08e7c37fc1505b434340cdcc4c40464b38c158634343 p4=null p5=null
   t=1793399204190 outbound_request op=22 params={0=639289960047092643 1=[-57.044617, 246.59697] 2=340.756 3=[-57.3915, 247.59062] 4=11.0 253=22}
   t=1793399204190 kind=own_player_move x=-57.04461669921875 y=246.5969696044922 heading=340.7560119628906 target_x=-57.39149856567383 target_y=247.5906219482422 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399204239 kind=leave id=595858 removed=true
+  t=1793399204239 kind=leave id=571045 removed=true
+  t=1793399204239 kind=leave id=287 removed=true
   t=1793399204239 kind=harvestable id=594213 x=-18.003815 y=294.19574 mobileType=574 family=29 tier=5 enchant=0 amount=0
   t=1793399204239 kind=static_resource id=1807 x=-102.5 y=291.5
   t=1793399204239 kind=static_resource id=2355 x=-100.5 y=290.5
@@ -134,6 +138,9 @@ Detailed entity/player observations: 1389
   t=1793399205074 event3 id=583529 raw=0337ff8de1d436df08d9f38fc226238443c19a993940884d90c2a9238443 p4=null p5=null
   t=1793399205126 outbound_request op=22 params={0=639289960056272643 1=[-58.37602, 256.52872] 2=353.75592 3=[-58.49649, 257.62982] 4=11.0 253=22}
   t=1793399205126 kind=own_player_move x=-58.37601852416992 y=256.5287170410156 heading=353.75592041015625 target_x=-58.496490478515625 target_y=257.62982177734375 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399205182 kind=leave id=593363 removed=true
+  t=1793399205182 kind=leave id=4044 removed=true
+  t=1793399205182 kind=leave id=3191 removed=true
   t=1793399205182 kind=mob id=529559 x=-67.47834 y=304.4056 mobileType=482 enchant=0
   t=1793399205182 kind=static_resource id=934 x=-36.0 y=298.0
   t=1793399205182 kind=static_resource id=935 x=-41.5 y=296.5
@@ -165,6 +172,9 @@ Detailed entity/player observations: 1389
   t=1793399206020 kind=own_player_move x=-59.83378982543945 y=265.5306701660156 heading=358.0368957519531 target_x=-59.853050231933594 target_y=266.092529296875 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399206127 outbound_request op=22 params={0=639289960065992643 1=[-59.834538, 266.6416] 2=0.62411827 3=[-59.823788, 267.62796] 4=11.0 253=22}
   t=1793399206127 kind=own_player_move x=-59.834537506103516 y=266.6416015625 heading=0.6241182684898376 target_x=-59.823787689208984 target_y=267.6279602050781 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399206127 kind=leave id=4155 removed=true
+  t=1793399206127 kind=leave id=2772 removed=true
+  t=1793399206127 kind=leave id=533906 removed=true
   t=1793399206127 kind=mob id=529716 x=-83.223236 y=311.30527 mobileType=482 enchant=0
   t=1793399206127 kind=static_resource id=1767 x=-70.5 y=309.5
   t=1793399206127 kind=static_resource id=1768 x=-68.5 y=310.5
@@ -185,6 +195,8 @@ Detailed entity/player observations: 1389
   t=1793399206887 kind=own_player_move x=-59.15292739868164 y=275.392333984375 heading=4.701515197753906 target_x=-59.06929016113281 target_y=276.4093322753906 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399206998 outbound_request op=22 params={0=639289960075142643 1=[-59.047436, 276.675] 2=4.701577 3=[-59.002262, 277.22427] 4=11.0 253=22}
   t=1793399206998 kind=own_player_move x=-59.04743576049805 y=276.67498779296875 heading=4.701577186584473 target_x=-59.002262115478516 target_y=277.2242736816406 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399207053 kind=leave id=3236 removed=true
+  t=1793399207053 kind=leave id=1783 removed=true
   t=1793399207053 kind=mob id=593660 x=-98.68902 y=320.81946 mobileType=120 enchant=0
   t=1793399207053 kind=mob id=529601 x=-70.374985 y=323.98022 mobileType=482 enchant=0
   t=1793399207053 kind=static_resource id=1645 x=-91.5 y=321.5
@@ -225,6 +237,8 @@ Detailed entity/player observations: 1389
   t=1793399207963 kind=own_player_move x=-58.17369842529297 y=287.2984619140625 heading=4.701772212982178 target_x=-58.05808639526367 target_y=288.70416259765625 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399208018 event3 id=529559 raw=03fe9051e3d436df087ff289c236439843c300004040488790c2de649843 p4=null p5=null
   t=1793399208018 kind=move id=529559
+  t=1793399208018 kind=leave id=4099 removed=true
+  t=1793399208018 kind=leave id=4149 removed=true
   t=1793399208018 kind=mob id=530904 x=-55.47912 y=325.20868 mobileType=482 enchant=0
   t=1793399208018 kind=static_resource id=536 x=-61.0 y=327.0
   t=1793399208018 kind=static_resource id=824 x=-48.0 y=327.0
@@ -251,6 +265,7 @@ Detailed entity/player observations: 1389
   t=1793399208457 event3 id=529559 raw=0350d78ee3d436df08f7568cc2724f9843c300004040488790c2de649843 p4=null p5=null
   t=1793399208457 kind=move id=529559
   t=1793399208457 event3 id=583529 raw=01e5728fe3d436df08e1e48fc21a5b8443129a993940 p4=null p5=null
+  t=1793399208457 kind=health id=580571
   t=1793399208569 event3 id=529559 raw=03be1e9ee3d436df0815f08cc281529843c300004040488790c2de649843 p4=null p5=null
   t=1793399208569 kind=move id=529559
   t=1793399208569 outbound_request op=22 params={0=639289960090512643 1=[-57.66664, 293.5259] 2=4.486579 3=[-57.55028, 295.00888] 4=11.0 253=22}
@@ -267,6 +282,8 @@ Detailed entity/player observations: 1389
   t=1793399208853 kind=move id=529559
   t=1793399208854 outbound_request op=22 params={0=639289960093742643 1=[-57.393124, 297.06845] 2=3.9353259 3=[-57.303852, 298.36612] 4=11.0 253=22}
   t=1793399208854 kind=own_player_move x=-57.393123626708984 y=297.0684509277344 heading=3.935325860977173 target_x=-57.30385208129883 target_y=298.3661193847656 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399208910 kind=leave id=542033 removed=true
+  t=1793399208910 kind=leave id=304 removed=true
   t=1793399208910 kind=mob id=582232 x=-100.00822 y=342.76035 mobileType=2474 enchant=0
   t=1793399208910 kind=harvestable id=2693 x=-23.0 y=339.0 mobileType=-1 family=7 tier=5 enchant=1 amount=3
   t=1793399208910 kind=static_resource id=780 x=-28.5 y=340.5
@@ -322,6 +339,8 @@ Detailed entity/player observations: 1389
   t=1793399209752 kind=own_player_move x=-56.80752182006836 y=306.6433410644531 heading=3.4965999126434326 target_x=-56.774635314941406 target_y=307.1815490722656 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399209752 event3 id=593660 raw=0398fa56e4d436df08efbfc5c258aa9f438500002040d006c6c26a1c9f43 p4=null p5=null
   t=1793399209752 kind=move id=593660
+  t=1793399209811 kind=leave id=579404 removed=true
+  t=1793399209811 kind=leave id=3304 removed=true
   t=1793399209811 kind=mob id=594132 x=-79.37456 y=350.82938 mobileType=2486 enchant=0
   t=1793399209811 kind=mob id=593404 x=-83.97 y=346.73 mobileType=2510 enchant=0
   t=1793399209811 kind=static_resource id=1673 x=-87.5 y=350.5
@@ -365,6 +384,12 @@ Detailed entity/player observations: 1389
   t=1793399210599 kind=own_player_move x=-55.99869918823242 y=315.7928466796875 heading=5.309081554412842 target_x=-55.91961669921875 target_y=316.6438903808594 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399210696 outbound_request op=22 params={0=639289960111892643 1=[-55.644577, 316.5884] 2=359.9562 3=[-55.777874, 317.41757] 4=11.0 253=22}
   t=1793399210696 kind=own_player_move x=-55.64457702636719 y=316.5884094238281 heading=359.9562072753906 target_x=-55.77787399291992 target_y=317.4175720214844 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399210696 kind=leave id=2388 removed=true
+  t=1793399210696 kind=leave id=575781 removed=true
+  t=1793399210696 kind=leave id=312 removed=true
+  t=1793399210696 kind=leave id=583529 removed=true
+  t=1793399210696 kind=leave id=3303 removed=true
+  t=1793399210696 kind=leave id=4228 removed=true
   t=1793399210696 kind=mob id=457676 x=-73.77886 y=364.54794 mobileType=482 enchant=0
   t=1793399210696 kind=mob id=591224 x=-61.53 y=357.44 mobileType=2486 enchant=0
   t=1793399210696 kind=mob id=593406 x=-57.9701 y=362.45886 mobileType=2471 enchant=0
@@ -386,6 +411,7 @@ Detailed entity/player observations: 1389
   t=1793399211213 kind=move id=529716
   t=1793399211267 outbound_request op=22 params={0=639289960117482643 1=[-54.79213, 322.48004] 2=5.308559 3=[-54.74092, 323.0311] 4=11.0 253=22}
   t=1793399211267 kind=own_player_move x=-54.79212951660156 y=322.48004150390625 heading=5.308558940887451 target_x=-54.74092102050781 target_y=323.0310974121094 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399211325 kind=leave id=582232 removed=true
   t=1793399211325 kind=harvestable id=2676 x=-7.0 y=293.0 mobileType=-1 family=7 tier=5 enchant=1 amount=5
   t=1793399211325 kind=static_resource id=846 x=-13.5 y=278.5
   t=1793399211325 kind=static_resource id=2708 x=-11.0 y=278.0
@@ -420,6 +446,8 @@ Detailed entity/player observations: 1389
   t=1793399211633 event3 id=580571 raw=03ca1477e5d436df081c898fc2a33e8743af000020407e3e8ec2d5668743 p4=null p5=null
   t=1793399211686 outbound_request op=22 params={0=639289960121812643 1=[-54.351448, 327.22302] 2=5.3090596 3=[-54.29127, 327.8706] 4=11.0 253=22}
   t=1793399211686 kind=own_player_move x=-54.35144805908203 y=327.2230224609375 heading=5.3090596199035645 target_x=-54.2912712097168 target_y=327.87060546875 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399211740 kind=leave id=3079 removed=true
+  t=1793399211740 kind=leave id=580571 removed=true
   t=1793399211740 kind=static_resource id=229 x=-85.5 y=367.5
   t=1793399211740 kind=static_resource id=230 x=-80.5 y=368.5
   t=1793399211740 kind=static_resource id=2610 x=-83.0 y=367.0
@@ -450,6 +478,7 @@ Detailed entity/player observations: 1389
   t=1793399212052 kind=move id=530904
   t=1793399212052 event3 id=529716 raw=03492cb4e5d436df08cd47a9c20b9f9c43e60000404054c6abc244799d43 p4=null p5=null
   t=1793399212052 kind=move id=529716
+  t=1793399212052 kind=health id=593660
   t=1793399212106 outbound_request op=22 params={0=639289960126162643 1=[-53.908745, 331.9878] 2=5.308905 3=[-53.849606, 332.6242] 4=11.0 253=22}
   t=1793399212106 kind=own_player_move x=-53.90874481201172 y=331.98779296875 heading=5.308905124664307 target_x=-53.849605560302734 target_y=332.62420654296875 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399212106 event3 id=530904 raw=010794c3e5d436df080f8961c2f027a343dc00004040 p4=null p5=null
@@ -472,6 +501,14 @@ Detailed entity/player observations: 1389
   t=1793399212518 kind=move id=529716
   t=1793399212574 outbound_request op=22 params={0=639289960130802643 1=[-53.492344, 337.07455] 2=3.2409 3=[-53.4649, 337.55914] 4=11.0 253=22}
   t=1793399212574 kind=own_player_move x=-53.49234390258789 y=337.0745544433594 heading=3.2409000396728516 target_x=-53.464900970458984 target_y=337.55914306640625 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399212625 kind=leave id=2411 removed=true
+  t=1793399212625 kind=leave id=596296 removed=true
+  t=1793399212625 kind=leave id=4107 removed=true
+  t=1793399212625 kind=leave id=2375 removed=true
+  t=1793399212625 kind=leave id=3428 removed=true
+  t=1793399212625 kind=leave id=2583 removed=true
+  t=1793399212625 kind=leave id=3426 removed=true
+  t=1793399212625 kind=leave id=4002 removed=true
   t=1793399212677 event3 id=529716 raw=03243410e6d436df08f367abc205599d43e60000404054c6abc244799d43 p4=null p5=null
   t=1793399212677 kind=move id=529716
   t=1793399212677 outbound_request op=22 params={0=639289960131872643 1=[-53.42473, 338.2495] 2=3.291638 3=[-53.391186, 338.83273] 4=11.0 253=22}
@@ -494,6 +531,8 @@ Detailed entity/player observations: 1389
   t=1793399213332 kind=own_player_move x=-53.62201690673828 y=345.541015625 heading=355.77020263671875 target_x=-53.667537689208984 target_y=346.1565856933594 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399213435 outbound_request op=22 params={0=639289960139522643 1=[-53.703968, 346.64902] 2=355.77014 3=[-53.755184, 347.3415] 4=11.0 253=22}
   t=1793399213435 kind=own_player_move x=-53.7039680480957 y=346.6490173339844 heading=355.7701416015625 target_x=-53.755184173583984 target_y=347.34149169921875 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399213540 kind=leave id=594213 removed=true
+  t=1793399213540 kind=leave id=3427 removed=true
   t=1793399213590 outbound_request op=22 params={0=639289960140682643 1=[-53.800743, 347.9213] 2=354.90115 3=[-53.85657, 348.54697] 4=11.0 253=22}
   t=1793399213590 kind=own_player_move x=-53.800743103027344 y=347.9212951660156 heading=354.9011535644531 target_x=-53.856571197509766 target_y=348.5469665527344 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399213698 outbound_request op=22 params={0=639289960141732643 1=[-54.540207, 348.59915] 2=277.43185 3=[-55.15026, 348.6787] 4=11.0 253=22}
@@ -536,6 +575,9 @@ Detailed entity/player observations: 1389
   t=1793399215046 kind=move id=457676
   t=1793399215097 outbound_request op=22 params={0=639289960155952643 1=[-67.01242, 345.2087] 2=258.60675 3=[-67.58481, 345.09335] 4=11.0 253=22}
   t=1793399215097 kind=own_player_move x=-67.01242065429688 y=345.2087097167969 heading=258.60675048828125 target_x=-67.58480834960938 target_y=345.0933532714844 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399215146 kind=leave id=3356 removed=true
+  t=1793399215146 kind=leave id=2398 removed=true
+  t=1793399215146 kind=leave id=4282 removed=true
   t=1793399215146 kind=mob id=530277 x=-114.46359 y=322.7446 mobileType=482 enchant=0
   t=1793399215146 kind=mob id=581821 x=-112.20846 y=350.7026 mobileType=2486 enchant=0
   t=1793399215146 kind=static_resource id=1928 x=-108.5 y=306.5
@@ -620,6 +662,11 @@ Detailed entity/player observations: 1389
   t=1793399215941 kind=move id=593660
   t=1793399215991 outbound_request op=22 params={0=639289960164772643 1=[-76.52327, 343.2925] 2=258.60767 3=[-77.18223, 343.15973] 4=11.0 253=22}
   t=1793399215991 kind=own_player_move x=-76.52326965332031 y=343.2925109863281 heading=258.607666015625 target_x=-77.1822280883789 target_y=343.15972900390625 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399215993 kind=leave id=4091 removed=true
+  t=1793399215993 kind=leave id=3355 removed=true
+  t=1793399215993 kind=leave id=584048 removed=true
+  t=1793399215993 kind=leave id=1242 removed=true
+  t=1793399215993 kind=leave id=546230 removed=true
   t=1793399215993 kind=harvestable id=593407 x=-117.0916 y=296.6099 mobileType=573 family=29 tier=4 enchant=0 amount=0
   t=1793399215993 kind=static_resource id=2885 x=-116.0 y=300.0
   t=1793399215993 kind=static_resource id=2913 x=-117.0 y=303.0
@@ -764,6 +811,8 @@ Detailed entity/player observations: 1389
   t=1793399217831 kind=own_player_move x=-96.53568267822266 y=339.484375 heading=259.65673828125 target_x=-97.15332794189453 target_y=339.37164306640625 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399217880 event3 id=594132 raw=03e34c2ee9d436df084dcc9fc233c1ae43b39a9939401bcda0c277acae43 p4=null p5=null
   t=1793399217880 kind=move id=594132
+  t=1793399217880 kind=leave id=589339 removed=true
+  t=1793399217880 kind=leave id=3050 removed=true
   t=1793399217880 kind=mob id=585442 x=-142.39183 y=311.40833 mobileType=482 enchant=0
   t=1793399217880 kind=mob id=597274 x=-137.45157 y=371.13812 mobileType=574 enchant=0
   t=1793399217880 kind=harvestable id=589235 x=-139.80334 y=365.25 mobileType=574 family=29 tier=5 enchant=0 amount=0
@@ -883,6 +932,12 @@ Detailed entity/player observations: 1389
   t=1793399218848 kind=move id=457676
   t=1793399218848 outbound_request op=22 params={0=639289960193212643 1=[-107.27526, 337.55286] 2=260.2564 3=[-108.26924, 337.3822] 4=11.0 253=22}
   t=1793399218848 kind=own_player_move x=-107.27526092529297 y=337.5528564453125 heading=260.25640869140625 target_x=-108.26924133300781 target_y=337.3822021484375 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399218848 kind=leave id=593406 removed=true
+  t=1793399218848 kind=leave id=3363 removed=true
+  t=1793399218848 kind=leave id=530904 removed=true
+  t=1793399218848 kind=leave id=537 removed=true
+  t=1793399218848 kind=leave id=4146 removed=true
+  t=1793399218848 kind=leave id=4192 removed=true
   t=1793399218848 kind=harvestable id=594537 x=-151.5 y=367.5 mobileType=574 family=29 tier=5 enchant=0 amount=0
   t=1793399218848 kind=harvestable id=594536 x=-152.51385 y=367.96793 mobileType=574 family=29 tier=5 enchant=1 amount=0
   t=1793399218848 kind=static_resource id=1680 x=-150.5 y=300.5
@@ -938,6 +993,10 @@ Detailed entity/player observations: 1389
   t=1793399219607 kind=own_player_move x=-115.75881958007812 y=336.131103515625 heading=260.6595153808594 target_x=-116.75357818603516 target_y=335.9674987792969 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399219718 outbound_request op=22 params={0=639289960202282643 1=[-117.11555, 335.90756] 2=260.64694 3=[-118.474014, 335.68384] 4=11.0 253=22}
   t=1793399219718 kind=own_player_move x=-117.11554718017578 y=335.9075622558594 heading=260.6469421386719 target_x=-118.47401428222656 target_y=335.683837890625 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399219772 kind=leave id=591224 removed=true
+  t=1793399219772 kind=leave id=3364 removed=true
+  t=1793399219772 kind=leave id=529601 removed=true
+  t=1793399219772 kind=leave id=529559 removed=true
   t=1793399219772 kind=mob id=588041 x=-155.3376 y=300.78528 mobileType=482 enchant=0
   t=1793399219772 kind=harvestable id=2653 x=-159.0 y=338.0 mobileType=-1 family=7 tier=5 enchant=1 amount=5
   t=1793399219772 kind=mob id=592488 x=-161.8688 y=349.7398 mobileType=120 enchant=0
@@ -955,6 +1014,7 @@ Detailed entity/player observations: 1389
   t=1793399220061 kind=own_player_move x=-120.89335632324219 y=335.2893981933594 heading=260.7511901855469 target_x=-122.14401245117188 target_y=335.0857849121094 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399220183 outbound_request op=22 params={0=639289960206912643 1=[-122.142426, 335.08926] 2=260.96368 3=[-122.545784, 335.02515] 4=11.0 253=22}
   t=1793399220183 kind=own_player_move x=-122.14242553710938 y=335.0892639160156 heading=260.96368408203125 target_x=-122.54578399658203 target_y=335.025146484375 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399220244 kind=health id=592488
   t=1793399220305 outbound_request op=22 params={0=639289960208072643 1=[-123.40297, 334.8912] 2=261.2335 3=[-124.3569, 334.74414] 4=11.0 253=22}
   t=1793399220305 kind=own_player_move x=-123.40296936035156 y=334.8912048339844 heading=261.2334899902344 target_x=-124.35690307617188 target_y=334.744140625 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399220418 outbound_request op=22 params={0=639289960209132643 1=[-124.555435, 334.71414] 2=261.26666 3=[-125.089424, 334.63214] 4=11.0 253=22}
@@ -971,6 +1031,12 @@ Detailed entity/player observations: 1389
   t=1793399220581 kind=static_resource id=2355 x=-100.5 y=290.5
   t=1793399220631 outbound_request op=22 params={0=639289960211432643 1=[-127.056076, 334.32974] 2=261.2654 3=[-127.814026, 334.21335] 4=11.0 253=22}
   t=1793399220631 kind=own_player_move x=-127.05607604980469 y=334.3297424316406 heading=261.2654113769531 target_x=-127.81402587890625 target_y=334.2133483886719 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399220688 kind=leave id=4107 removed=true
+  t=1793399220688 kind=leave id=457676 removed=true
+  t=1793399220688 kind=leave id=3283 removed=true
+  t=1793399220688 kind=leave id=525 removed=true
+  t=1793399220688 kind=leave id=1686 removed=true
+  t=1793399220688 kind=leave id=1769 removed=true
   t=1793399220688 kind=mob id=240159 x=-173.55565 y=321.7247 mobileType=482 enchant=0
   t=1793399220688 kind=harvestable id=2504 x=-171.0 y=337.0 mobileType=-1 family=27 tier=5 enchant=2 amount=3
   t=1793399220688 kind=player_spawn id=589591 name=TripLoId
@@ -998,6 +1064,15 @@ Detailed entity/player observations: 1389
   t=1793399221426 kind=own_player_move x=-135.656982421875 y=333.0113220214844 heading=261.3381652832031 target_x=-136.58847045898438 target_y=332.8694152832031 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399221539 outbound_request op=22 params={0=639289960220492643 1=[-136.90755, 332.82068] 2=261.33746 3=[-137.79593, 332.68536] 4=11.0 253=22}
   t=1793399221539 kind=own_player_move x=-136.9075469970703 y=332.8206787109375 heading=261.33746337890625 target_x=-137.79592895507812 target_y=332.68536376953125 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399221593 kind=leave id=3427 removed=true
+  t=1793399221593 kind=leave id=3426 removed=true
+  t=1793399221593 kind=leave id=3284 removed=true
+  t=1793399221593 kind=leave id=593404 removed=true
+  t=1793399221593 kind=leave id=594132 removed=true
+  t=1793399221593 kind=leave id=1833 removed=true
+  t=1793399221593 kind=leave id=3395 removed=true
+  t=1793399221593 kind=leave id=529716 removed=true
+  t=1793399221593 kind=leave id=4145 removed=true
   t=1793399221593 kind=mob id=559450 x=-184.41849 y=286.13266 mobileType=482 enchant=0
   t=1793399221593 kind=static_resource id=1656 x=-179.5 y=319.5
   t=1793399221593 kind=static_resource id=1657 x=-180.5 y=321.5
@@ -1019,6 +1094,7 @@ Detailed entity/player observations: 1389
   t=1793399221884 kind=move id=240159
   t=1793399221884 event3 id=593660 raw=03793994ebd436df089616c9c2eed89f43df00002040e25cc6c2b170a043 p4=null p5=null
   t=1793399221884 kind=move id=593660
+  t=1793399221884 kind=health id=593660
   t=1793399221942 event3 id=240159 raw=0383699febd436df08cf002ec399a9a043a200004040e7e931c381ea9e43 p4=null p5=null
   t=1793399221942 kind=move id=240159
   t=1793399222003 outbound_request op=22 params={0=639289960224762643 1=[-141.56071, 332.18286] 2=262.8233 3=[-143.00357, 332.00116] 4=11.0 253=22}
@@ -1057,6 +1133,16 @@ Detailed entity/player observations: 1389
   t=1793399222505 kind=move id=240159
   t=1793399222505 event3 id=593660 raw=03df78f0ebd436df0836d3c6c2f456a0432300002040e25cc6c2b170a043 p4=null p5=null
   t=1793399222505 kind=move id=593660
+  t=1793399222505 kind=leave id=596296 removed=true
+  t=1793399222505 kind=leave id=3428 removed=true
+  t=1793399222505 kind=leave id=4046 removed=true
+  t=1793399222505 kind=leave id=593660 removed=true
+  t=1793399222505 kind=leave id=569721 removed=true
+  t=1793399222505 kind=leave id=3100 removed=true
+  t=1793399222505 kind=leave id=3277 removed=true
+  t=1793399222505 kind=leave id=3278 removed=true
+  t=1793399222505 kind=leave id=4056 removed=true
+  t=1793399222505 kind=leave id=3122 removed=true
   t=1793399222505 kind=harvestable id=2438 x=-190.0 y=289.0 mobileType=-1 family=27 tier=5 enchant=1 amount=1
   t=1793399222505 kind=mob id=591705 x=-190.69 y=316.78 mobileType=2477 enchant=0
   t=1793399222505 kind=harvestable id=595202 x=-193.98557 y=356.4469 mobileType=574 family=29 tier=5 enchant=0 amount=0
@@ -1106,6 +1192,8 @@ Detailed entity/player observations: 1389
   t=1793399223213 kind=move id=240159
   t=1793399223213 event3 id=588041 raw=0181c55becd436df086dff1ac3408196432800004040 p4=null p5=null
   t=1793399223213 kind=move id=588041
+  t=1793399223213 kind=leave id=559450 removed=true
+  t=1793399223213 kind=leave id=1950 removed=true
   t=1793399223213 outbound_request op=22 params={0=639289960236962643 1=[-146.88829, 336.8596] 2=12.653625 3=[-146.36127, 339.20728] 4=11.0 253=22}
   t=1793399223213 kind=own_player_move x=-146.88829040527344 y=336.8595886230469 heading=12.653624534606934 target_x=-146.36126708984375 target_y=339.207275390625 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399223326 outbound_request op=22 params={0=639289960238142643 1=[-146.73315, 338.1482] 2=6.2066545 3=[-146.38594, 341.34116] 4=11.0 253=22}
@@ -1158,6 +1246,12 @@ Detailed entity/player observations: 1389
   t=1793399224097 kind=move id=597274
   t=1793399224149 outbound_request op=22 params={0=639289960246202643 1=[-145.71666, 346.9559] 2=6.633199 3=[-145.64789, 347.5473] 4=11.0 253=22}
   t=1793399224149 kind=own_player_move x=-145.71665954589844 y=346.9559020996094 heading=6.633199214935303 target_x=-145.64788818359375 target_y=347.54730224609375 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399224150 kind=leave id=4232 removed=true
+  t=1793399224150 kind=leave id=4065 removed=true
+  t=1793399224150 kind=leave id=593407 removed=true
+  t=1793399224150 kind=leave id=3040 removed=true
+  t=1793399224150 kind=leave id=3389 removed=true
+  t=1793399224150 kind=leave id=4040 removed=true
   t=1793399224199 event3 id=581821 raw=03413af5ecd436df089b10dcc279a4ae43fb9a9939404d42dcc2b012af43 p4=null p5=null
   t=1793399224199 kind=move id=581821
   t=1793399224199 event3 id=597274 raw=032561f5ecd436df08d57d0ac3fe3bb94391cdcc4c40103e0bc3c767b843 p4=null p5=null
@@ -1200,6 +1294,9 @@ Detailed entity/player observations: 1389
   t=1793399224790 kind=move id=597274
   t=1793399224849 outbound_request op=22 params={0=639289960253322643 1=[-144.81195, 354.73566] 2=6.634372 3=[-144.69295, 355.75882] 4=11.0 253=22}
   t=1793399224849 kind=own_player_move x=-144.81195068359375 y=354.73565673828125 heading=6.634372234344482 target_x=-144.6929473876953 target_y=355.7588195800781 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399224906 kind=leave id=595202 removed=true
+  t=1793399224906 kind=leave id=591705 removed=true
+  t=1793399224906 kind=leave id=3207 removed=true
   t=1793399224906 kind=mob id=593660 x=-99.18141 y=320.8804 mobileType=120 enchant=0
   t=1793399224906 kind=static_resource id=2502 x=-99.0 y=382.0
   t=1793399224906 kind=static_resource id=184 x=-100.5 y=385.5
@@ -1207,6 +1304,12 @@ Detailed entity/player observations: 1389
   t=1793399224959 kind=own_player_move x=-144.6861572265625 y=355.8174133300781 heading=6.634005546569824 target_x=-144.60768127441406 target_y=356.4920349121094 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399225060 outbound_request op=22 params={0=639289960255572643 1=[-144.52603, 357.19415] 2=6.633502 3=[-144.41718, 358.13022] 4=11.0 253=22}
   t=1793399225060 kind=own_player_move x=-144.52603149414062 y=357.19415283203125 heading=6.633502006530762 target_x=-144.41717529296875 target_y=358.1302185058594 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399225118 kind=leave id=2800 removed=true
+  t=1793399225118 kind=leave id=1682 removed=true
+  t=1793399225118 kind=leave id=1669 removed=true
+  t=1793399225118 kind=leave id=588041 removed=true
+  t=1793399225118 kind=leave id=2780 removed=true
+  t=1793399225118 kind=leave id=4078 removed=true
   t=1793399225172 outbound_request op=22 params={0=639289960256722643 1=[-144.38208, 358.45093] 2=6.5368986 3=[-144.27359, 359.39777] 4=11.0 253=22}
   t=1793399225172 kind=own_player_move x=-144.382080078125 y=358.450927734375 heading=6.536898612976074 target_x=-144.27359008789062 target_y=359.39776611328125 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399225302 outbound_request op=22 params={0=639289960257962643 1=[-144.22551, 359.80594] 2=6.6287456 3=[-144.17075, 360.27704] 4=11.0 253=22}
@@ -1219,6 +1322,7 @@ Detailed entity/player observations: 1389
   t=1793399225644 kind=own_player_move x=-144.23623657226562 y=363.1647644042969 heading=12.99413013458252 target_x=-143.8959197998047 target_y=363.9490051269531 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793399225703 outbound_request op=22 params={0=639289960261822643 1=[-144.36446, 363.26904] 2=11.383677 3=[-144.36446, 363.26904] 4=11.0 253=22}
   t=1793399225703 kind=own_player_move x=-144.3644561767578 y=363.26904296875 heading=11.383676528930664 target_x=-144.3644561767578 target_y=363.26904296875 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793399226405 kind=health id=595074
   t=1793399227121 event3 id=592488 raw=03bc27b2eed436df086ade21c3b2deae4368000020406de41fc369fdad43 p4=null p5=null
   t=1793399227121 kind=move id=592488
   t=1793399227221 event3 id=592488 raw=03d375c1eed436df089fae21c36ac9ae435e000020406de41fc369fdad43 p4=null p5=null
@@ -1267,6 +1371,7 @@ Detailed entity/player observations: 1389
   t=1793399228134 kind=move id=593660
   t=1793399228134 event3 id=597274 raw=03a55f4cefd436df08f63a0bc3adb9b84301cdcc4c40b12e0bc3effdb943 p4=null p5=null
   t=1793399228134 kind=move id=597274
+  t=1793399228134 kind=health id=593660
   t=1793399228238 event3 id=530277 raw=03e25157efd436df08512be1c228c99f432d000040408dd4dfc222f49f43 p4=null p5=null
   t=1793399228238 kind=move id=530277
   t=1793399228238 event3 id=592488 raw=015ea85befd436df086de41fc369fdad435e00002040 p4=null p5=null
@@ -1372,6 +1477,7 @@ Detailed entity/player observations: 1389
   t=1793399231258 outbound_request op=199 params={0=639289960315512643 1=593017 253=199}
   t=1793399231312 event3 id=595074 raw=032bfc27f1d436df0890b63bc3c32ab44342000020401c0139c30c5db243 p4=null p5=null
   t=1793399231312 kind=move id=595074
+  t=1793399231312 kind=health id=595074
   t=1793399231366 event3 id=595074 raw=03773f37f1d436df0822903bc32d11b44366000020401c0139c30c5db243 p4=null p5=null
   t=1793399231366 kind=move id=595074
   t=1793399231366 event3 id=592488 raw=035b6637f1d436df086de41fc369fdad435e0000204031ee21c315c6ae43 p4=null p5=null
@@ -1380,6 +1486,7 @@ Detailed entity/player observations: 1389
   t=1793399231471 kind=move id=595074
   t=1793399231471 event3 id=592488 raw=0333ad46f1d436df08291720c3ec10ae43db0000204031ee21c315c6ae43 p4=null p5=null
   t=1793399231471 kind=move id=592488
+  t=1793399231471 kind=health id=595074
   t=1793399231577 event3 id=595074 raw=0358ef55f1d436df0846433bc301deb34366000020401c0139c30c5db243 p4=null p5=null
   t=1793399231577 kind=move id=595074
   t=1793399231577 event3 id=592488 raw=033b1656f1d436df08e54920c36f24ae43db0000204031ee21c315c6ae43 p4=null p5=null
@@ -1423,6 +1530,7 @@ Detailed entity/player observations: 1389
   t=1793399232489 kind=move id=585442
   t=1793399232489 event3 id=592488 raw=019919e0f1d436df0831ee21c315c6ae43db00002040 p4=null p5=null
   t=1793399232489 kind=move id=592488
+  t=1793399232544 kind=leave id=589235 removed=true
   t=1793399232544 event3 id=595074 raw=037b55eff1d436df08fac239c325deb24366000020401c0139c30c5db243 p4=null p5=null
   t=1793399232544 kind=move id=595074
   t=1793399232544 event3 id=585442 raw=037b55eff1d436df0829bd0ec3a3249b439c000040409fbb12c3c9b89843 p4=null p5=null
