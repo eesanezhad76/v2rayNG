@@ -1,6 +1,7 @@
 import json,pathlib,tempfile,unittest,zipfile,subprocess,sys
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 SCRIPT=ROOT/"research/tools/ingest_capture.py"
+sys.path.insert(0,str(SCRIPT.parent));import ingest_capture
 class IngestTests(unittest.TestCase):
  def run_ingest(self,rows,d):
   src=d/"sample.jsonl";src.write_text("\n".join(json.dumps(x) for x in rows),encoding="utf-8")
