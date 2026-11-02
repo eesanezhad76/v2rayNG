@@ -1,6 +1,7 @@
 import com.v2ray.ang.albion.AlbionCaptureAnalyzer
 import java.io.File
 import java.util.zip.ZipInputStream
+import org.json.JSONObject
 
 fun main() {
     val repo = File(System.getProperty("user.dir")).canonicalFile
@@ -11,6 +12,7 @@ fun main() {
     require(archives.isNotEmpty()) { "No ZIP archives found in research/inbox" }
     val temp = kotlin.io.path.createTempDirectory("albion-pcap-audit-").toFile()
     val index = mutableListOf<String>()
+    val allDetails = mutableListOf<Triple<String, String, String>>()
     var total = 0
     var failed = 0
     try {
@@ -43,6 +45,7 @@ fun main() {
                 total++
                 val text = try {
                     val report = AlbionCaptureAnalyzer.analyze(pcap)
+                    report.detailedObservations.forEach { allDetails += Triple(archive.name, pcap.name, it) }
                     report.asText()
                 } catch (e: Throwable) {
                     failed++
@@ -62,6 +65,25 @@ fun main() {
             "# Full inbox PCAP analysis\n\nArchives: " + archives.size + "\nPCAP files: " + total + "\nAnalysis errors: " + failed + "\n\n" + index.joinToString("\n\n"),
             Charsets.UTF_8
         )
+        File(out, "2026-11-02-all-inbox-observations.jsonl").writeText(
+            allDetails.joinToString("\n") { (archive, pcap, detail) ->
+                JSONObject().put("archive", archive).put("pcap", pcap).put("detail", detail).toString()
+            } + "\n",
+            Charsets.UTF_8
+        )
+        val movements = allDetails.filter { it.third.contains("kind=own_player_move ") }
+        val csv = buildString {
+            appendLine("archive,pcap,timestamp_ms,x,y,heading,target_x,target_y,speed,source")
+            for ((archive, pcap, detail) in movements) {
+                val fields = Regex("([A-Za-z_]+)=([^\\\\s]+)").findAll(detail).associate { it.groupValues[1] to it.groupValues[2] }
+                val values = listOf(archive, pcap, fields["t"] ?: "", fields["x"] ?: "", fields["y"] ?: "",
+                    fields["heading"] ?: "", fields["target_x"] ?: "", fields["target_y"] ?: "",
+                    fields["speed"] ?: "", fields["source"] ?: "")
+                appendLine(values.joinToString(",") { "\"" + it.replace("\"", "\"\"") + "\"" })
+            }
+        }
+        File(out, "2026-11-02-own-player-movement-timeline.csv").writeText(csv, Charsets.UTF_8)
+        println("OBSERVATIONS total=" + allDetails.size + " own_player_move=" + movements.size)
         println("PCAP_AUDIT_COMPLETE archives=" + archives.size + " pcaps=" + total + " errors=" + failed)
         require(total > 0) { "No PCAP files were analyzed" }
     } finally {
