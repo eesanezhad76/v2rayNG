@@ -25,11 +25,15 @@ object AlbionEntityEventMapper {
         val name: String? = null,
         val removed: Boolean = false,
         val value: Float? = null,
-        val secondaryValue: Float? = null
+        val secondaryValue: Float? = null,
+        val heading: Float? = null,
+        val speed: Float? = null,
+        val targetX: Float? = null,
+        val targetY: Float? = null
     )
 
     fun map(message: AlbionProtocol18Decoder.Message): List<Observation> {
-        if (message.kind != "event") return emptyList()
+        if (message.kind != "event" && message.kind != "request") return emptyList()
         val p = message.parameters
         val code = message.realCode ?: return emptyList()
         fun number(key: Int) = (p[key] as? Number)?.toLong()
@@ -42,6 +46,24 @@ object AlbionEntityEventMapper {
                 (value[0] as Number).toFloat() to (value[1] as Number).toFloat() else null
             else -> null
         }
+        if (message.kind == "request") {
+            if (code != 22) return emptyList()
+            val position = pair(p[1]) ?: return emptyList()
+            val target = pair(p[3])
+            val x = position.first
+            val y = position.second
+            if (!x.isFinite() || !y.isFinite() ||
+                kotlin.math.abs(x) > 10000f || kotlin.math.abs(y) > 10000f) return emptyList()
+            val heading = float(2)?.takeIf { it.isFinite() && it >= 0f && it <= 360f }
+            val speed = float(4)?.takeIf { it.isFinite() && it >= 0f && it <= 100f }
+            return listOf(Observation(
+                kind = "own_player_move", eventCode = code, entityId = -1L,
+                x = x, y = y, name = "YOU", heading = heading, speed = speed,
+                targetX = target?.first?.takeIf { it.isFinite() && kotlin.math.abs(it) <= 10000f },
+                targetY = target?.second?.takeIf { it.isFinite() && kotlin.math.abs(it) <= 10000f }
+            ))
+        }
+        if (message.kind != "event") return emptyList()
         fun idList(value: Any?): List<Long> = when (value) {
             is ShortArray -> value.map { it.toLong() }
             is IntArray -> value.map { it.toLong() }
