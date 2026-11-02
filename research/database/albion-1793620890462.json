@@ -19,7 +19,14 @@
     "incomplete_resource_marker_cycles": 0,
     "mob_marker_pairs": 1,
     "unmatched_marker_events": 1,
-    "marker_metadata_conflicts": 0
+    "marker_metadata_conflicts": 0,
+    "own_player_position_samples": 0
+  },
+  "spatial_alignment": {
+    "status": "NOT_VERIFIED",
+    "evidence_grade": "insufficient_samples",
+    "player_position_samples": 0,
+    "resource_nodes": 1359
   },
   "nodes": [
     {
