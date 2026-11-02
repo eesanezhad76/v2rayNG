@@ -197,9 +197,99 @@ fun main() {
             }
         }
         File(out, "2026-11-02-pcap-mob-lifecycle.csv").writeText(mobCsv, Charsets.UTF_8)
+
+        data class AttackSample(val t: Long, val flag: String, val requestId: String)
+        data class PositionSample(val t: Long, val x: Double, val y: Double)
+        val attacks = linkedMapOf<String, MutableList<AttackSample>>()
+        val targetPositions = linkedMapOf<String, MutableList<PositionSample>>()
+        val playerIds = mutableSetOf<String>()
+        val event123Types = mutableMapOf<String, String>()
+        val event123Names = mutableMapOf<String, String>()
+        val leaveKeys = mutableSetOf<String>()
+        val healthCounts = mutableMapOf<String, Int>()
+        fun littleFloat(hex: String, byteOffset: Int): Double? {
+            val start = byteOffset * 2
+            if (start + 8 > hex.length) return null
+            return try {
+                val b0 = hex.substring(start, start + 2).toInt(16)
+                val b1 = hex.substring(start + 2, start + 4).toInt(16)
+                val b2 = hex.substring(start + 4, start + 6).toInt(16)
+                val b3 = hex.substring(start + 6, start + 8).toInt(16)
+                val bits = b0 or (b1 shl 8) or (b2 shl 16) or (b3 shl 24)
+                java.lang.Float.intBitsToFloat(bits).toDouble().takeIf { it.isFinite() && kotlin.math.abs(it) <= 10000.0 }
+            } catch (_: Exception) { null }
+        }
+        for ((archive, pcap, detail) in allDetails) {
+            val t = field(detail, "t")?.toLongOrNull() ?: 0L
+            val keyFor = { id: String -> scopedKey(archive, pcap, id) }
+            if (detail.contains("kind=player_spawn")) {
+                field(detail, "id")?.let { playerIds += keyFor(it) }
+            }
+            if (detail.contains("kind=mob")) {
+                val id = field(detail, "id")
+                if (id != null) {
+                    val key = keyFor(id)
+                    field(detail, "mobileType")?.let { event123Types[key] = it }
+                    field(detail, "name")?.let { event123Names[key] = it }
+                }
+            }
+            if (detail.contains("kind=leave")) field(detail, "id")?.let { leaveKeys += keyFor(it) }
+            if (detail.contains("kind=health")) field(detail, "id")?.let { id ->
+                val key = keyFor(id); healthCounts[key] = (healthCounts[key] ?: 0) + 1
+            }
+            if (detail.contains("outbound_request op=23")) {
+                val target = field(detail, "1")
+                if (target != null) {
+                    val requestId = field(detail, "0") ?: ""
+                    val flag = field(detail, "2") ?: ""
+                    attacks.getOrPut(keyFor(target)) { mutableListOf() }.add(AttackSample(t, flag, requestId))
+                }
+            }
+            if (detail.contains(" event3 id=")) {
+                val id = Regex("event3 id=(\\d+)").find(detail)?.groupValues?.get(1)
+                val raw = Regex("raw=([0-9a-fA-F]+)").find(detail)?.groupValues?.get(1)?.lowercase()
+                if (id != null && raw != null && raw.length >= 34 && raw.take(2) == "03") {
+                    val x = littleFloat(raw, 9); val y = littleFloat(raw, 13)
+                    if (x != null && y != null) {
+                        targetPositions.getOrPut(keyFor(id)) { mutableListOf() }.add(PositionSample(t, x, y))
+                    }
+                }
+            }
+        }
+        val attackCsv = buildString {
+            appendLine("archive,pcap,target_entity_id,attack_action_count,attack_flag_values,first_attack_ms,last_attack_ms,event3_position_samples,first_position_x,first_position_y,last_position_x,last_position_y,min_x,max_x,min_y,max_y,event123_mobile_type,event123_name,known_player_spawn,leave_observed,health_observations,interpretation")
+            for ((key, values) in attacks.toSortedMap()) {
+                val parts = key.split("\u001f")
+                val ordered = values.sortedBy { it.t }
+                val positions = targetPositions[key].orEmpty().sortedBy { it.t }
+                val xs = positions.map { it.x }; val ys = positions.map { it.y }
+                val vals = listOf(
+                    parts[0], parts[1], parts[2], ordered.size.toString(),
+                    ordered.map { it.flag }.distinct().joinToString("|"),
+                    ordered.firstOrNull()?.t?.toString() ?: "", ordered.lastOrNull()?.t?.toString() ?: "",
+                    positions.size.toString(), positions.firstOrNull()?.x?.toString() ?: "",
+                    positions.firstOrNull()?.y?.toString() ?: "", positions.lastOrNull()?.x?.toString() ?: "",
+                    positions.lastOrNull()?.y?.toString() ?: "",
+                    xs.minOrNull()?.toString() ?: "", xs.maxOrNull()?.toString() ?: "",
+                    ys.minOrNull()?.toString() ?: "", ys.maxOrNull()?.toString() ?: "",
+                    event123Types[key] ?: "", event123Names[key] ?: "",
+                    (key in playerIds).toString(), (key in leaveKeys).toString(),
+                    (healthCounts[key] ?: 0).toString(),
+                    when {
+                        key in playerIds -> "player_spawn_known_do_not_classify_as_mob"
+                        event123Types.containsKey(key) -> "event123_mobile_entity_attack_target_kill_not_proven"
+                        positions.isNotEmpty() -> "attack_target_with_plausible_mode3_movement_kill_not_proven"
+                        else -> "attack_target_only_entity_type_unresolved_kill_not_proven"
+                    }
+                )
+                appendLine(vals.joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-pcap-attack-target-tracks.csv").writeText(attackCsv, Charsets.UTF_8)
         println("RESOURCE_AUDIT harvestable_nodes=" + nodes.size +
             " state_ids=" + resourceStates.size + " state_only_ids=" + unmatchedStates.size +
-            " static_resources=" + staticResources.size + " mobs=" + mobs.size)
+            " static_resources=" + staticResources.size + " event123_entities=" + mobs.size +
+            " attack_targets=" + attacks.size + " tracked_attack_target_positions=" + targetPositions.size)
         println("OBSERVATIONS total=" + allDetails.size + " own_player_move=" + movements.size)
         println("PCAP_AUDIT_COMPLETE archives=" + archives.size + " pcaps=" + total + " errors=" + failed)
         require(total > 0) { "No PCAP files were analyzed" }
