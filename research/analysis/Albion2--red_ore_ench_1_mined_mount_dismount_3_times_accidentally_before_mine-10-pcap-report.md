@@ -939,8 +939,8 @@ Detailed entity/player observations: 932
   t=1793403474058 event3 id=643416 raw=0319b414d2de36df08382525c3ddb4ae43c600002040ed9b25c313bdae43 p4=null p5=null
   t=1793403474058 kind=move id=643416
   t=1793403474058 kind=raw_health_energy_event code=7 params={0:632062, 1:[48718945, 48719068], 2:[-117.0, -42.0], 3:[136.0, 94.0], 4:bytes[2]=0202, 5:bytes[2]=0305, 6:[638332, 638332], 7:[4006, 3216], 252:7}
-  t=1793403474058 kind=health id=638332 value=-117.0 secondary_value=136.0
-  t=1793403474058 kind=health id=638332 value=-42.0 secondary_value=94.0
+  t=1793403474058 kind=health id=632062 value=-117.0 secondary_value=136.0
+  t=1793403474058 kind=health id=632062 value=-42.0 secondary_value=94.0
   t=1793403474118 kind=resource_state id=2503 amount=0
   t=1793403474118 kind=raw_health_energy_event code=91 params={0:636743, 1:48719154, 2:2691.0, 3:2691.0, 5:70.050156, 6:639290002745260921, 252:91}
   t=1793403474118 kind=health_regeneration id=636743 value=2691.0 secondary_value=2691.0

@@ -226,8 +226,8 @@ Detailed entity/player observations: 744
   t=1793399620093 event3 id=600258 raw=0d05c4eed8d536df084668bfc3579b7d43488fc2353f780c0900 p4=null p5=null
   t=1793399620195 event3 id=600258 raw=07ed39fdd8d536df082d71bfc3fa9e7d43c88fc2353ffca6bfc3f6b47d43780c0900 p4=null p5=null
   t=1793399620285 kind=raw_health_energy_event code=7 params={0:600258, 1:[44865164, 44865287], 2:[-204.0, -72.0], 3:[659.0, 587.0], 4:bytes[2]=0101, 5:bytes[2]=0205, 6:[593016, 593016], 7:[3775, 3773], 252:7}
-  t=1793399620285 kind=health id=593016 value=-204.0 secondary_value=659.0
-  t=1793399620285 kind=health id=593016 value=-72.0 secondary_value=587.0
+  t=1793399620285 kind=health id=600258 value=-204.0 secondary_value=659.0
+  t=1793399620285 kind=health id=600258 value=-72.0 secondary_value=587.0
   t=1793399620285 event3 id=600258 raw=07f58d0cd9d536df08147abfc39da27d43c88fc2353ffca6bfc3f6b47d43780c0900 p4=null p5=null
   t=1793399620395 event3 id=600258 raw=0783dd1bd9d536df08fb82bfc340a67d43c88fc2353ffca6bfc3f6b47d43780c0900 p4=null p5=null
   t=1793399620395 kind=leave id=601799 removed=true
