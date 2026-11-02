@@ -2,7 +2,6 @@ plugins {
     kotlin("jvm") version "2.4.21"
     application
 }
-repositories { mavenCentral() }
 dependencies { implementation("org.json:json:20240303") }
 kotlin { jvmToolchain(17) }
 sourceSets {
