@@ -36,6 +36,23 @@ class AlbionInventoryEvidenceAnalyzerTest {
         assertTrue(candidates.any { it.parameterPath == "2[0]" })
     }
 
+    @Test fun discoversNumericPathsInsideNestedParameterTables() {
+        val events = mutableListOf<JSONObject>()
+        repeat(3) { index ->
+            val finish = 5_000L + index * 20_000L
+            events += JSONObject().put("kind", "harvest").put("event_code", 61).put("time_ms", finish)
+            events += JSONObject().put("kind", "inventory").put("event_code", 26)
+                .put("time_ms", finish + 250L)
+                .put("parameters", JSONObject().put("3", JSONObject().put("0", index + 10)))
+        }
+        val candidate = AlbionInventoryEvidenceAnalyzer.analyze(events)
+            .single { it.parameterPath == "3.0" }
+        assertEquals(3, candidate.independentHarvests)
+        assertEquals(3, candidate.observations)
+        assertEquals(10.0, candidate.minimum)
+        assertEquals(12.0, candidate.maximum)
+    }
+
     @Test fun doesNotPromoteOneOrTwoHarvestsIntoARepeatedSchemaCandidate() {
         val events = mutableListOf<JSONObject>()
         repeat(2) { index ->

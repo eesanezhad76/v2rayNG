@@ -108,6 +108,15 @@ object AlbionInventoryEvidenceAnalyzer {
                     collectNumeric(value.opt(index), "$path[$index]", eventCode, inventoryTime, harvestTime, accumulators)
                 }
             }
+            is JSONObject -> {
+                // Photon parameter values can contain nested tables. Preserve the full
+                // numeric path instead of silently dropping nested inventory evidence.
+                val keys = value.keys().asSequence().toList()
+                    .sortedBy { it.toIntOrNull() ?: Int.MAX_VALUE }
+                keys.forEach { key ->
+                    collectNumeric(value.opt(key), "$path.$key", eventCode, inventoryTime, harvestTime, accumulators)
+                }
+            }
         }
     }
 }
