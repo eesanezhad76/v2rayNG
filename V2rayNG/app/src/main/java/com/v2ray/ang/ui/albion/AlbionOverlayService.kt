@@ -101,6 +101,11 @@ class AlbionOverlayService : Service() {
                         true
                     }
                     MotionEvent.ACTION_CANCEL -> {
+                        record("picker_cancelled", JSONObject().put("selection_field", when {
+                            values === tiers -> "tier"
+                            values === enchants -> "enchantment"
+                            else -> "activity"
+                        }))
                         dismissSwipePicker()
                         true
                     }
@@ -275,15 +280,15 @@ class AlbionOverlayService : Service() {
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         events.forEach { (label, event) ->
             row.addView(button(label) {
-                if (event == "target_found" && activities[activityIndex] in listOf("Ore", "Wood", "Stone", "Fiber", "Hide")) {
+                val createsTarget = event == "target_found" ||
+                    event == "resource_giant_spotted" || event == "player_spotted"
+                if (createsTarget) {
                     nodeId = UUID.randomUUID().toString()
-                    record(event, JSONObject().put("node_created", true))
+                    record(event, JSONObject().put("target_created", true))
                 } else {
-                    if (nodeId == null && activities[activityIndex] in listOf("Ore", "Wood", "Stone", "Fiber", "Hide")) {
-                        nodeId = UUID.randomUUID().toString()
-                    }
                     record(event)
-                    if (event == "node_depleted" || event == "gathering_completed" || event == "mob_killed") nodeId = null
+                    if (event == "node_depleted" || event == "gathering_completed" ||
+                        event == "mob_killed" || event == "resource_giant_killed" || event == "pvp_ended") nodeId = null
                 }
             }, LinearLayout.LayoutParams(0, dp(38), 1f))
         }
