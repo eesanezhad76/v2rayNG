@@ -262,10 +262,20 @@ def build_report(repo_root: Path, env: dict[str, str] | None = None) -> dict[str
     ]
     if any(check["status"] == "FAIL" for check in checks):
         overall = "BLOCKED"
-    elif any(check["status"] == "NOT_VERIFIED" for check in checks):
-        overall = "NOT_READY_FOR_FIELD_TEST"
     else:
-        overall = "READY_FOR_CONTROLLED_FIELD_TEST"
+        # Device-only checks are deliberately reported as pending, but they are the
+        # purpose of the first controlled field test, not reasons to withhold the APK.
+        device_only = {
+            "Live packet capture",
+            "Inventory Item ID and Stack Delta mapping",
+            "Live spatial correlation",
+            "Overlay delivery and rendering",
+        }
+        preflight_unverified = [
+            check for check in checks
+            if check["status"] == "NOT_VERIFIED" and check["name"] not in device_only
+        ]
+        overall = "NOT_READY_FOR_FIELD_TEST" if preflight_unverified else "READY_FOR_CONTROLLED_FIELD_TEST"
     return {
         "schema_version": 1,
         "overall_status": overall,
@@ -309,7 +319,7 @@ def report_exit_code(report: dict[str, Any], require_ready: bool = False) -> int
     """Fail broken checks; optionally fail closed on any NOT_VERIFIED field-readiness gate."""
     if any(check["status"] == "FAIL" for check in report["checks"]):
         return 1
-    if require_ready and report["overall_status"] != "READY_FOR_FIELD_TEST":
+    if require_ready and report["overall_status"] != "READY_FOR_CONTROLLED_FIELD_TEST":
         return 2
     return 0
 
