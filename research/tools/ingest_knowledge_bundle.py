@@ -99,6 +99,7 @@ def load_existing(path=OUTPUT):
     document = json.loads(path.read_text(encoding="utf-8"))
     if document.get("schema_version") != 1:
         raise ValueError("Existing central knowledge database has an unsupported schema")
+    document.setdefault("autonomous_patterns", [])
     for key in ("imported_bundles", "entity_observations", "protocol_evidence", "learned_patterns", "autonomous_patterns"):
         if not isinstance(document.get(key), list):
             raise ValueError(f"Existing central database field is invalid: {key}")
@@ -196,13 +197,7 @@ def merge_bundle(database, bundle):
         # Cumulative exports are snapshots: union session provenance, but never sum sightings.
         sessions = set(current.get("capture_sessions", []))
         sessions.update(pattern.get("capture_sessions", []))
-        current["capture_sessions"] = sorted(sessions)
-        if int(pattern.get("sightings", 0) or 0) > int(current.get("sightings", 0) or 0):
-            replacement = {**pattern, "source_bundles": sorted(sources)}
-            replacement["capture_sessions"] = sorted(sessions)
-            autonomous[signature] = replacement
-        else:
-            current["source_bundles"] = sorted(sources)
+        sessions.update(pattern.get("capture_sessions", []))
         # Preserve the strongest completed label evidence per label key.
         labels = {row.get("label_key"): row for row in current.get("labels", []) if isinstance(row, dict)}
         for label in pattern.get("labels", []):
@@ -211,6 +206,11 @@ def merge_bundle(database, bundle):
             key = label["label_key"]
             if key not in labels or int(label.get("completed_samples", 0) or 0) > int(labels[key].get("completed_samples", 0) or 0):
                 labels[key] = dict(label)
+        if int(pattern.get("sightings", 0) or 0) > int(current.get("sightings", 0) or 0):
+            current = {**pattern, "source_bundles": sorted(sources)}
+            autonomous[signature] = current
+        current["capture_sessions"] = sorted(sessions)
+        current["source_bundles"] = sorted(sources)
         current["labels"] = [labels[key] for key in sorted(labels)]
 
     database["autonomous_patterns"] = sorted(autonomous.values(), key=lambda row: row["signature"])
