@@ -25,10 +25,12 @@ object AlbionRadarSnapshotParser {
         }
         if (kind in setOf("static_resource", "harvestable", "resource_state")) {
             val inference = item.optJSONObject("resource_inference")?.optJSONObject("resource_name")
+            val inferenceStatus = inference?.optString("status")
+            val inferenceConfidence = inference?.optDouble("confidence", 0.0) ?: 0.0
             val inferredName = inference?.optString("value")?.takeIf {
                 it.isNotBlank() && it != "null" &&
-                    inference?.optString("status") !in setOf("CONFLICT", "UNKNOWN") &&
-                    (inference?.optDouble("confidence", 0.0) ?: 0.0) > 0.0
+                    inferenceStatus != "CONFLICT" && inferenceStatus != "UNKNOWN" &&
+                    inferenceConfidence > 0.0
             }
             if (inferredName != null) return inferredName
             if (item.has("family")) return "Resource F${item.optInt("family")}"
