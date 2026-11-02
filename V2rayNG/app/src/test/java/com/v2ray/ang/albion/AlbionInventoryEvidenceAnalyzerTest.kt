@@ -29,6 +29,10 @@ class AlbionInventoryEvidenceAnalyzerTest {
         assertEquals(0, scalar.zeroDeltaCount)
         assertEquals(1.0, scalar.minimumDelta)
         assertEquals(1.0, scalar.maximumDelta)
+        val outOfOrder = AlbionInventoryEvidenceAnalyzer.analyze(events.reversed())
+            .single { it.parameterPath == "1" }
+        assertEquals(scalar.positiveDeltaCount, outOfOrder.positiveDeltaCount)
+        assertEquals(scalar.minimumDelta, outOfOrder.minimumDelta)
         assertTrue(candidates.any { it.parameterPath == "2[0]" })
     }
 
