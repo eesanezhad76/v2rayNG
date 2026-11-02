@@ -46,6 +46,16 @@ class AlbionCaptureHealthMonitorTest {
         assertEquals("PIPELINE_ACTIVE", monitor.snapshot(1_400L, true).status)
     }
 
+    @Test fun staleEmptyOverlayIsNotMisreportedAsMerelyEmpty() {
+        val monitor = AlbionCaptureHealthMonitor()
+        monitor.recordPacket(1_000L)
+        monitor.recordValidEvent(1_100L)
+        monitor.recordMappedEntity(1_150L)
+        monitor.recordSnapshot(1_200L)
+        monitor.recordOverlayAccepted(1_250L, 0)
+        assertEquals("OVERLAY_STALE", monitor.snapshot(12_000L, true).status)
+    }
+
     @Test fun detectsStalePacketsAndInactiveCapture() {
         val monitor = AlbionCaptureHealthMonitor()
         monitor.recordPacket(1_000L)
