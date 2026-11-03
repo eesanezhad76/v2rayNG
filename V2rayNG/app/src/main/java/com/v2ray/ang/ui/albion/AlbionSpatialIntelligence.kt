@@ -12,6 +12,28 @@ import kotlin.math.roundToInt
  */
 object AlbionSpatialIntelligence {
     private val resourceKinds = setOf("static_resource", "harvestable", "resource_state")
+    private val ORE_ELEMENTAL_TYPE_IDS = setOf(571, 573, 574)
+
+    /** Stable TypeIDs from the research dictionary outrank variable display labels. */
+    fun isOreElemental(item: JSONObject): Boolean {
+        val typeId = item.optInt("mobile_type_id", -1)
+        if (typeId in ORE_ELEMENTAL_TYPE_IDS) return true
+        return item.optString("type_unique_name").contains("ORE_MOUNTAIN", ignoreCase = true) ||
+            item.optString("localization_tag").contains("OREELEMENTAL", ignoreCase = true) ||
+            item.optString("name").contains("Ore Elemental", ignoreCase = true)
+    }
+
+    /** Do not let a stale/manual Troll label override a packet-identified Ore Elemental. */
+    fun isTrollMob(item: JSONObject): Boolean {
+        if (isOreElemental(item)) return false
+        val label = (item.optString("name") + " " + item.optString("type_unique_name") + " " +
+            item.optString("localization_tag")).lowercase()
+        if (label.contains("troll")) return true
+        val marker = item.optString("marker_activity")
+        val confidence = item.optString("marker_match_confidence").uppercase()
+        return marker.equals("Troll", ignoreCase = true) &&
+            confidence in setOf("HIGH", "CONFIRMED", "USER_CONFIRMED")
+    }
 
     /** Collapse duplicate observations at the same half-unit coordinate without merging distinct typed resources. */
     fun deduplicate(entities: List<JSONObject>): List<JSONObject> {
