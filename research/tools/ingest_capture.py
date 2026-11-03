@@ -125,6 +125,113 @@ def refresh_existing_marker_lifecycles():
    encoding="utf-8")
   refreshed+=1
  return refreshed
+
+def finite_number(value):
+ try:
+  number=float(value)
+  return number if math.isfinite(number) and abs(number)<=10000 else None
+ except (TypeError,ValueError):
+  return None
+
+def correlate_mob_markers(lifecycles,mobs,player_positions,player_moves,health_events):
+ """Attach evidence-ranked mob candidates to manual Mob/Troll markers without claiming packet identity."""
+ local_player_ids=set()
+ for move in player_moves:
+  if move.get("entity_id") is None or move.get("x") is None or move.get("y") is None:continue
+  nearby=[p for p in player_positions if abs(p["time_ms"]-move["time_ms"])<=1500]
+  if not nearby:continue
+  nearest=min(nearby,key=lambda p:abs(p["time_ms"]-move["time_ms"]))
+  if math.hypot(move["x"]-nearest["x"],move["y"]-nearest["y"])<=3.0:
+   local_player_ids.add(str(move["entity_id"]))
+ for health in health_events:
+  health["source_is_local_player"]=str(health.get("source_entity_id")) in local_player_ids
+  mob=mobs.get(str(health.get("entity_id")))
+  if mob is not None:
+   mob["health_timeline"].append(health.copy())
+   mob["health_event_count"]=len(mob["health_timeline"])
+   if health.get("source_is_local_player"):mob["player_damage_events"]=mob.get("player_damage_events",0)+1
+ for mob in mobs.values():
+  positions=mob.get("positions",[])
+  if positions:
+   latest=max(positions,key=lambda p:p["time_ms"])
+   mob["x"]=latest["x"];mob["y"]=latest["y"];mob["last_position_ms"]=latest["time_ms"]
+  mob["last_kind"]="mob"
+  mob["classification"]="observed_mob"
+  mob["manual_marker_matches"]=[]
+  mob["positions"]=sorted(positions,key=lambda p:p["time_ms"])[-120:]
+  mob["health_timeline"]=sorted(mob.get("health_timeline",[]),key=lambda h:h["time_ms"])[-160:]
+ for cycle in lifecycles:
+  if cycle.get("activity") not in {"Mobs","Troll"}:continue
+  start=cycle.get("found_ms")
+  if not isinstance(start,int):continue
+  finish=cycle.get("mob_killed_ms") or start+12000
+  nearby_player=min(player_positions,key=lambda p:abs(p["time_ms"]-start)) if player_positions else None
+  player_gap=abs(nearby_player["time_ms"]-start) if nearby_player else None
+  if player_gap is not None and player_gap>2000:nearby_player=None
+  candidates=[]
+  for mob in mobs.values():
+   positions=mob.get("positions",[])
+   if not positions:continue
+   position=min(positions,key=lambda p:abs(p["time_ms"]-start))
+   position_gap=abs(position["time_ms"]-start)
+   if position_gap>5000:continue
+   health=[h for h in mob.get("health_timeline",[]) if start-500<=h["time_ms"]<=finish+500]
+   local_hits=[h for h in health if h.get("source_is_local_player")]
+   name=str(mob.get("name") or "")
+   troll_name="troll" in name.lower()
+   distance=math.hypot(position["x"]-nearby_player["x"],position["y"]-nearby_player["y"]) if nearby_player else None
+   if distance is not None and distance>55 and not local_hits:continue
+   if not health and distance is None:continue
+   candidates.append({
+    "entity_id":str(mob["entity_id"]),"name":name or ("Troll candidate" if cycle["activity"]=="Troll" else "Mob candidate"),
+    "mobile_type_id":mob.get("mobile_type_id"),"enchant":mob.get("enchant"),
+    "x":position["x"],"y":position["y"],"position_ms":position["time_ms"],
+    "position_gap_ms":position_gap,"distance_from_player":round(distance,2) if distance is not None else None,
+    "health_events_in_window":len(health),"player_damage_events":len(local_hits),
+    "name_matches_troll":troll_name
+   })
+  candidates.sort(key=lambda c:(c["player_damage_events"]>0,c["name_matches_troll"],c["distance_from_player"] is not None,-(c["distance_from_player"] or 9999),-c["position_gap_ms"]),reverse=True)
+  correlation={
+   "player_position":({"x":nearby_player["x"],"y":nearby_player["y"],"time_ms":nearby_player["time_ms"],"gap_ms":player_gap} if nearby_player else None),
+   "local_player_entity_ids_inferred":sorted(local_player_ids),
+   "candidate_count":len(candidates),"candidates":candidates[:5],
+   "identity_proven":False,
+   "method":"same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation"
+  }
+  if candidates:
+   best=candidates[0]
+   local_damage=best["player_damage_events"]>0
+   named_troll=best["name_matches_troll"]
+   distance=best["distance_from_player"]
+   if local_damage and (cycle["activity"]!="Troll" or named_troll) and (distance is None or distance<=45):
+    confidence="HIGH"
+   elif local_damage or (cycle["activity"]=="Troll" and named_troll and distance is not None and distance<=25):
+    confidence="MEDIUM"
+   else:
+    confidence="LOW"
+   if len(candidates)>1 and not local_damage and candidates[1]["name_matches_troll"]==named_troll:
+    d1=candidates[1]["distance_from_player"];d0=distance
+    if d0 is not None and d1 is not None and abs(d1-d0)<3:confidence="AMBIGUOUS"
+   correlation.update({"best_candidate":best,"confidence":confidence,"status":"CANDIDATE_"+confidence})
+   mob=mobs.get(str(best["entity_id"]))
+   if mob is not None:
+    match={"activity":cycle["activity"],"found_ms":start,"mob_killed_ms":cycle.get("mob_killed_ms"),
+           "confidence":confidence,"tier":cycle.get("tier"),"enchantment":cycle.get("enchantment"),
+           "identity_proven":False}
+    mob["manual_marker_matches"].append(match)
+    if confidence in {"HIGH","MEDIUM"}:
+     mob["marker_activity"]=cycle["activity"]
+     mob["marker_match_confidence"]=confidence
+     mob["marker_tier"]=cycle.get("tier")
+     mob["marker_enchantment"]=cycle.get("enchantment")
+    else:
+     mob["marker_activity_candidate"]=cycle["activity"]
+     mob["marker_match_confidence"]=confidence
+  else:
+   correlation.update({"confidence":"NONE","status":"NO_SPATIAL_CANDIDATE"})
+  cycle["spatial_correlation"]=correlation
+ return local_player_ids
+
 def analyze(path):
  nodes={}; states=collections.defaultdict(list); markers=[]; rows=bad=event123=0; packet5056=0
  with path.open(encoding="utf-8",errors="replace") as f:
