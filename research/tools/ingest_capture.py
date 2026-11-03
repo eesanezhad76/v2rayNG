@@ -67,7 +67,7 @@ def pair_manual_markers(markers):
     else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"depletion_without_completion"})
   elif activity in {"Mob","Mobs","Troll"} and event=="target_found":
    mob_pending[activity].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":None,"completed_ms":None,"depleted_ms":None,"metadata_conflicts":[]})
-  elif activity in {"Mobs","Troll"} and event=="mob_killed":
+  elif activity in {"Mob","Mobs","Troll"} and event=="mob_killed":
    if mob_pending[activity]:
     cycle=mob_pending[activity].popleft();cycle["mob_killed_ms"]=timestamp;cycle["status"]="TARGET_FOUND_TO_KILLED";lifecycles.append(cycle)
    else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"mob_kill_without_target_found"})
