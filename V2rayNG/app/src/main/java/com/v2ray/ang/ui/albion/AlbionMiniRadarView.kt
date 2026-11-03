@@ -329,6 +329,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             paint.style = Paint.Style.FILL
             paint.color = when {
                 depleted || entity.optBoolean("left", false) -> 0xFF697782.toInt()
+                kind == "mob" && AlbionSpatialIntelligence.isOreElemental(entity) -> 0xFFB58CFF.toInt()
+                kind == "mob" && AlbionSpatialIntelligence.isOreElemental(entity) -> 0xFFB58CFF.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
                 candidate -> 0xFF9AA6AF.toInt()
                 kind in RESOURCE_KINDS && entity.optInt("enchant", 0) > 0 -> 0xFFB58CFF.toInt()
@@ -480,7 +482,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     }
 
     companion object {
-        val DEFAULT_FILTERS = setOf("category_ore")
+        val DEFAULT_FILTERS = setOf("category_ore", "category_ore_elemental")
         private val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
         private val DISPLAY_KINDS = RESOURCE_KINDS + setOf("mob")
         private const val MAX_UNCLASSIFIED_CANDIDATE_PINS = 40
