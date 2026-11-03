@@ -91,10 +91,11 @@ def validate(root: Path) -> dict:
 
     index_ids = set(mobile)
     dictionary_ids = set(dictionary)
-    if dictionary_ids != index_ids:
-        missing = sorted(index_ids - dictionary_ids)
-        extra = sorted(dictionary_ids - index_ids)
-        raise ValueError(f"mobile dictionary/index ID mismatch; missing={missing}, extra={extra}")
+    missing_dictionary_ids = sorted(index_ids - dictionary_ids)
+    if missing_dictionary_ids:
+        raise ValueError(f"mobile dictionary is missing observed IDs: {missing_dictionary_ids}")
+    # The external dictionary is intentionally broader than the 64 IDs observed
+    # in this capture corpus. Coverage is measured against observed IDs only.
 
     crosswalk_path = research / "albion-mobile-type-crosswalk-2026-11-03.csv"
     with crosswalk_path.open("r", encoding="utf-8-sig", newline="") as stream:
