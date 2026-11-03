@@ -41,7 +41,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
     private fun isTroll(item: JSONObject): Boolean {
         val label = (item.optString("name") + " " + AlbionRadarSnapshotParser.labelForEntity(item)).lowercase()
-        return label.contains("troll")
+        return label.contains("troll") || item.optString("marker_activity") == "Troll" ||
+            item.optString("marker_activity_candidate") == "Troll"
     }
 
     private fun passesFilters(item: JSONObject): Boolean {
@@ -49,7 +50,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val node = kind in RESOURCE_KINDS
         val mob = kind == "mob"
         val troll = mob && isTroll(item)
-        val enchant = item.optInt("enchant", 0)
+        val enchant = item.optInt("enchant", item.optInt("marker_enchant", 0))
         val categoryEnabled = when {
             node && enchant > 0 -> "enchanted_nodes" in enabledFilters
             node -> "normal_nodes" in enabledFilters
@@ -61,7 +62,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         if (!categoryEnabled) return false
         val tierFilters = enabledFilters.filter { it.startsWith("tier_") }
             .mapNotNull { it.removePrefix("tier_").toIntOrNull() }.toSet()
-        if (tierFilters.isNotEmpty() && item.optInt("tier", -1) !in tierFilters) return false
+        if (tierFilters.isNotEmpty() && item.optInt("tier", item.optInt("marker_tier", -1)) !in tierFilters) return false
         val enchantFilters = enabledFilters.filter { it.startsWith("enchant_") }
             .mapNotNull { it.removePrefix("enchant_").toIntOrNull() }.toSet()
         if (enchantFilters.isNotEmpty() && enchant !in enchantFilters) return false
