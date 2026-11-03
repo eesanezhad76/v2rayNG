@@ -129,15 +129,13 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         }
         val selectedCategories = enabledFilters.filter { it.startsWith("category_") }
             .map { it.removePrefix("category_") }.toSet()
-        val anyResourceCategorySelected = selectedCategories.any {
-            it in setOf("ore", "wood", "stone", "fiber", "hide", "unknown_resource")
-        }
+        // Unknown Event 39 candidates must never leak into selected resource categories.
+        // They can be numerous (and are intentionally drawn grey), so show them only
+        // when the user explicitly enables "Unclassified Resources". Once Event 40
+        // supplies a type/family/name, the same entity is classified and follows its
+        // real category filter normally.
         val categoryEnabled = when {
-            node -> "category_$resourceCategory" in enabledFilters ||
-                // Event 39 supplies resource IDs and coordinates before Event 40 supplies
-                // type/tier metadata. Keep these live candidates visible instead of
-                // silently dropping every node while its category is still unknown.
-                (resourceCategory == "unknown_resource" && anyResourceCategorySelected)
+            node -> "category_$resourceCategory" in enabledFilters
             mob -> mobCategory in selectedCategories || (mobCategory == "other_mob" && "category_mobs" in enabledFilters)
             else -> false
         }
