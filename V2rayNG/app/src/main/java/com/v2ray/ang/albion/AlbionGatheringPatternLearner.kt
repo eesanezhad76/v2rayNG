@@ -22,6 +22,7 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
         val expectedTier = label.optString("tier").removePrefix("T").toIntOrNull() ?: return
         observations.filter { it.kind == "harvestable" }.forEach { observation ->
             val family = observation.typeNumber ?: return@forEach
+            if (family !in VERIFIED_FAMILIES_BY_ACTIVITY[label.optString("activity")].orEmpty()) return@forEach
             val tier = observation.tier ?: return@forEach
             val rawEnchant = observation.enchant ?: return@forEach
             val x = observation.x ?: return@forEach
@@ -156,5 +157,6 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
         const val MIN_SAMPLES = 3
         const val MIN_SESSIONS = 2
         val GATHERING_ACTIVITIES = setOf("Ore", "Wood", "Stone", "Fiber", "Hide")
+        val VERIFIED_FAMILIES_BY_ACTIVITY = mapOf("Ore" to setOf(29))
     }
 }
