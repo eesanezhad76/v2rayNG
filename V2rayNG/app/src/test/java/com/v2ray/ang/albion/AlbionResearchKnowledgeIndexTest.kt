@@ -11,6 +11,11 @@ class AlbionResearchKnowledgeIndexTest {
     private fun fixture(): String = """
         {
           "schema_version": 1,
+          "generated_from": {
+            "source_branch": "albion-pattern-mining",
+            "resource_csv_blob_sha": "resource-sha",
+            "mobile_csv_blob_sha": "mobile-sha"
+          },
           "totals": {
             "resource_observations": 331,
             "resource_families": 2,
@@ -62,6 +67,23 @@ class AlbionResearchKnowledgeIndexTest {
         assertEquals(2, snapshot?.resourceFamilyCount)
         assertEquals(2, snapshot?.mobileTypeCount)
         assertEquals("KNOW 331R/2330M", snapshot?.statusLabel())
+    }
+
+    @Test
+    fun exposesExactMobileDictionaryCoverageAndSourceProvenance() {
+        val snapshot = AlbionResearchKnowledgeIndex.parse(fixture())!!
+        val dictionary = JSONObject("""{"482":{"display_name":"Mountain Rabbit"}}""")
+        val coverage = snapshot.mobileDictionaryCoverage(dictionary)
+        assertEquals(1, coverage.matched)
+        assertEquals(2, coverage.expected)
+        assertEquals("1/2", coverage.label())
+        assertEquals(setOf("482", "571"), snapshot.mobileTypeIds())
+
+        val rabbit = JSONObject("""{"last_kind":"mob","mobile_type_id":482}""")
+        snapshot.annotate(rabbit)
+        assertEquals(1, rabbit.optInt("research_catalog_schema_version"))
+        assertEquals("albion-pattern-mining", rabbit.optString("research_catalog_source_branch"))
+        assertEquals("mobile-sha", rabbit.optString("research_catalog_source_blob_sha"))
     }
 
     @Test
