@@ -49,6 +49,15 @@ class AlbionSpatialIntelligenceTest {
     }
 
     @Test
+    fun researchConfirmedOreElementalMobCanBeGatheringTarget() {
+        val elemental = resource("ore-elemental", "mob", 10.0, 12.0, typeId = 574, tier = 5)
+            .put("research_catalog_harvestable", true)
+        assertTrue(AlbionSpatialIntelligence.isNavigableResource(elemental))
+        elemental.put("depleted", true)
+        assertFalse(AlbionSpatialIntelligence.isNavigableResource(elemental))
+    }
+
+    @Test
     fun trollLabelDoesNotTurnOreElementalIntoTroll() {
         val elemental = resource("ore", "mob", 1.0, 2.0, typeId = 574)
             .put("marker_activity", "Troll")
