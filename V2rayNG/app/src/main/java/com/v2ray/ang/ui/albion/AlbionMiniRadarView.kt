@@ -64,11 +64,12 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         // Snapshot JSON parsing can be expensive on large sessions; callers may invoke this
         // from the capture worker. Only publish the immutable parsed list on the UI thread.
         val parsed = AlbionRadarSnapshotParser.parse(json) ?: return null
-        val acceptedCount = parsed.entities.size
+        val spatiallyDeduplicated = AlbionSpatialIntelligence.deduplicate(parsed.entities)
+        val acceptedCount = spatiallyDeduplicated.size
         post {
             // Live coordinates belong to the active capture. Never merge historical catalog
             // coordinates into the player-centered map until zone identity is verified.
-            entities = parsed.entities
+            entities = spatiallyDeduplicated
             filterCacheDirty = true
             invalidate()
         }
@@ -175,11 +176,14 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         return true
     }
 
-    private fun visibleEntities(): List<JSONObject> {
+    private fun visibleEntities(playerX: Double? = null, playerY: Double? = null): List<JSONObject> {
         if (filterCacheDirty) {
-            visibleCache = entities.filter {
+            val filtered = entities.filter {
                 it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) && passesFilters(it)
             }
+            visibleCache = if (playerX != null && playerY != null)
+                AlbionSpatialIntelligence.limitUnclassifiedCandidates(filtered, playerX, playerY, MAX_UNCLASSIFIED_CANDIDATE_PINS)
+            else filtered
             catalogVisibleCache = catalogEntities.filter {
                 it.optString("last_kind") in DISPLAY_KINDS &&
                     it.optString("last_kind") != "own_player_move" && validPoint(it) && passesFilters(it)
@@ -261,8 +265,10 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             }
         }
 
-        val visible = visibleEntities()
-        if (lockedTargetId != null && visible.none { it.optString("entity_id") == lockedTargetId && !it.optBoolean("depleted", false) }) {
+        val visible = visibleEntities(px, py)
+        if (lockedTargetId != null && visible.none {
+                it.optString("entity_id") == lockedTargetId && AlbionSpatialIntelligence.isNavigableResource(it)
+            }) {
             lockedTargetId = null
         }
         val outside = ArrayList<Pair<JSONObject, Double>>()
@@ -288,7 +294,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, (if (distance > range) 2.5f else 3.2f) * density, paint)
-            if (kind in RESOURCE_KINDS && distance <= range && !depleted) nearbyNodes.add(entity to distance)
+            if (AlbionSpatialIntelligence.isNavigableResource(entity) && distance <= range) nearbyNodes.add(entity to distance)
             if (kind == "mob" && distance <= range) {
                 paint.style = Paint.Style.FILL
                 paint.textSize = 7f * density
@@ -310,8 +316,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         var nearestTarget: Pair<JSONObject, Double>? = null
         // One linear pass replaces sorting the entire resource set every frame.
         visible.forEach { entity ->
-            if (entity.optString("last_kind") in RESOURCE_KINDS &&
-                !entity.optBoolean("depleted", false) && !entity.optBoolean("left", false)) {
+            if (AlbionSpatialIntelligence.isNavigableResource(entity)) {
                 val candidate = entity to hypot(entity.optDouble("x") - px, entity.optDouble("y") - py)
                 if (entity.optString("entity_id") == lockedTargetId) locked = candidate
                 if (nearestTarget == null || candidate.second < nearestTarget!!.second) nearestTarget = candidate
@@ -385,7 +390,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         canvas.drawText("YOU", cx + 6f * density, cy - 5f * density, paint)
         paint.color = 0xFFB8C8D5.toInt()
         paint.textSize = 7f * density
-        canvas.drawText("${visible.size} pins • ${nearbyNodes.size} nodes • zone?", 6f * density, height - 5f * density, paint)
+        val candidatePins = visible.count { it.optString("last_kind") == "static_resource" && !it.has("family") && !it.has("tier") }
+        canvas.drawText("${visible.size} pins • ${nearbyNodes.size} navigable • candidates≤$MAX_UNCLASSIFIED_CANDIDATE_PINS • zone?", 6f * density, height - 5f * density, paint)
     }
 
     private fun drawCatalogOverview(canvas: Canvas, cx: Float, cy: Float, radius: Float) {
@@ -430,5 +436,6 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val DEFAULT_FILTERS = setOf("category_ore")
         private val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
         private val DISPLAY_KINDS = RESOURCE_KINDS + setOf("mob")
+        private const val MAX_UNCLASSIFIED_CANDIDATE_PINS = 40
     }
 }
