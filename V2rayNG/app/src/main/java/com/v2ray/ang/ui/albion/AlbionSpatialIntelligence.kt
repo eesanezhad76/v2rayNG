@@ -70,7 +70,14 @@ object AlbionSpatialIntelligence {
         if (kind == "mob") {
             // Living resource creatures (e.g. Ore Elementals) arrive as mob observations.
             // Require explicit harvestability from the matched research dictionary.
-            return item.optBoolean("research_catalog_harvestable", false) &&
+            // The research corpus is authoritative when it has an explicit value;
+            // otherwise use the broader external TypeID dictionary so its harvestable
+            // creatures are also navigable. A research-confirmed false must override
+            // any conflicting external metadata (e.g. Mountain Rabbit TypeID 482).
+            val harvestable = if (item.has("research_catalog_harvestable"))
+                item.optBoolean("research_catalog_harvestable", false)
+            else item.optBoolean("is_harvestable_mob", false)
+            return harvestable &&
                 item.optInt("mobile_type_id", -1) > 0 &&
                 item.optInt("tier", -1) in 1..8
         }
