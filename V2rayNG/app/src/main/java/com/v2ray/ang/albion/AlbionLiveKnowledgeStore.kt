@@ -230,11 +230,15 @@ class AlbionLiveKnowledgeStore(
         }
         val averageEvidenceScore = if (evidenceBearing.isEmpty()) 0 else
             evidenceBearing.sumOf { it.optInt("evidence_score") } / evidenceBearing.size
+        val currentSessionMapEntities = records.values.count { record ->
+            record.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                record.has("x") && record.has("y")
+        }
         return buildString {
             appendLine()
             appendLine("Live knowledge cache")
             appendLine("Unique tracked entities: ${records.size}")
-            appendLine("Current-session map entities: ${records.values.count { it.optLong(\"session_started_ms\", Long.MIN_VALUE) == sessionStartedMs && it.has(\"x\") && it.has(\"y\") }}")
+            appendLine("Current-session map entities: $currentSessionMapEntities")
             appendLine("Typed resource observations: $typed")
             appendLine("Static resource candidates (not confirmed Ore): $candidates")
             appendLine("Entities marked depleted: $depleted")
