@@ -1,0 +1,3857 @@
+{
+  "schema_version": 1,
+  "dataset": "albion-1793682590317",
+  "source_archive": "AlbionRadar.zip",
+  "generated_from": {
+    "nodes_csv_sha": "e84780c50955b1411bada1d242c3174b6c7283ef",
+    "marker_lifecycles_sha": "19a47cc0c4213861749db517771e190dc46107dc"
+  },
+  "coordinate_semantics": "Event 40 entity coordinates; game-space coordinates, not screen pixels. Static catalog is capture/zone scoped; do not mix across zones without zone identity.",
+  "node_count": 83,
+  "marker_count": 56,
+  "confirmed_user_target": {
+    "entity_id": "2788",
+    "tier": 5,
+    "enchant": 3,
+    "x": -379,
+    "y": -24,
+    "confidence": "user-confirmed temporal/state correlation",
+    "notes": "User confirmed the first T5.3 marker was correct. The second candidate (2610) remains unconfirmed and is not merged."
+  },
+  "entities": [
+    {
+      "entity_id": "3719",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": 154,
+      "y": 198,
+      "first_seen_ms": 1793683004093,
+      "last_seen_ms": 1793684362088,
+      "observations": 24,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3736",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -135,
+      "y": -193,
+      "first_seen_ms": 1793684428436,
+      "last_seen_ms": 1793684784616,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3741",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": 228,
+      "y": 58,
+      "first_seen_ms": 1793683792558,
+      "last_seen_ms": 1793683792558,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3748",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": 314,
+      "y": 223,
+      "first_seen_ms": 1793682791929,
+      "last_seen_ms": 1793682844313,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3757",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -284,
+      "y": 29,
+      "first_seen_ms": 1793685068133,
+      "last_seen_ms": 1793685068133,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3784",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -318,
+      "y": -348,
+      "first_seen_ms": 1793684614924,
+      "last_seen_ms": 1793684614924,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3790",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -325,
+      "y": -340,
+      "first_seen_ms": 1793684613865,
+      "last_seen_ms": 1793684613865,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3809",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -209,
+      "y": -233,
+      "first_seen_ms": 1793684628292,
+      "last_seen_ms": 1793684651733,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3828",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -79,
+      "y": 149,
+      "first_seen_ms": 1793684134242,
+      "last_seen_ms": 1793684390815,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3754",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 4,
+      "enchant": 2,
+      "x": -318,
+      "y": 49,
+      "first_seen_ms": 1793685007114,
+      "last_seen_ms": 1793685050222,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3794",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 4,
+      "enchant": 2,
+      "x": -11,
+      "y": -249,
+      "first_seen_ms": 1793684771134,
+      "last_seen_ms": 1793684771134,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2873",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": -117,
+      "y": 148,
+      "first_seen_ms": 1793684134242,
+      "last_seen_ms": 1793684394898,
+      "observations": 6,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2889",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 42,
+      "y": 363,
+      "first_seen_ms": 1793684165565,
+      "last_seen_ms": 1793684165565,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2894",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": -71,
+      "y": -263,
+      "first_seen_ms": 1793684776786,
+      "last_seen_ms": 1793684776786,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2911",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 161,
+      "y": 174,
+      "first_seen_ms": 1793684313740,
+      "last_seen_ms": 1793684360711,
+      "observations": 4,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2936",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": -123,
+      "y": -137,
+      "first_seen_ms": 1793684025064,
+      "last_seen_ms": 1793684902197,
+      "observations": 8,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2938",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 11,
+      "y": 331,
+      "first_seen_ms": 1793684163906,
+      "last_seen_ms": 1793684217300,
+      "observations": 4,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2950",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 138,
+      "y": 160,
+      "first_seen_ms": 1793683004539,
+      "last_seen_ms": 1793684362881,
+      "observations": 10,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2957",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": -331,
+      "y": -169,
+      "first_seen_ms": 1793684528240,
+      "last_seen_ms": 1793684938841,
+      "observations": 4,
+      "sizes_seen": [
+        2,
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2961",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 122,
+      "y": 364,
+      "first_seen_ms": 1793684194315,
+      "last_seen_ms": 1793684194315,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2951",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 5,
+      "enchant": 2,
+      "x": -248,
+      "y": -250,
+      "first_seen_ms": 1793684621591,
+      "last_seen_ms": 1793684673962,
+      "observations": 4,
+      "sizes_seen": [
+        4
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2973",
+      "mobile_type_id": -1,
+      "family": 7,
+      "tier": 5,
+      "enchant": 2,
+      "x": 191,
+      "y": -385,
+      "first_seen_ms": 1793684744726,
+      "last_seen_ms": 1793684744726,
+      "observations": 2,
+      "sizes_seen": [
+        2
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2997",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -359.5,
+      "y": 9.5,
+      "first_seen_ms": 1793684968122,
+      "last_seen_ms": 1793684968122,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2999",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -141.5,
+      "y": -308.5,
+      "first_seen_ms": 1793684709832,
+      "last_seen_ms": 1793684715090,
+      "observations": 4,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684712551,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684712551,
+          "size": 1,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3012",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -19.5,
+      "y": 139.5,
+      "first_seen_ms": 1793683377110,
+      "last_seen_ms": 1793684383983,
+      "observations": 6,
+      "sizes_seen": [
+        3,
+        1
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3015",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -101.5,
+      "y": -111.5,
+      "first_seen_ms": 1793684020010,
+      "last_seen_ms": 1793684903837,
+      "observations": 8,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684470862,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684470862,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684471123,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684471123,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3016",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -329.5,
+      "y": 40.5,
+      "first_seen_ms": 1793685006941,
+      "last_seen_ms": 1793685007067,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3023",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": 219.5,
+      "y": 172.5,
+      "first_seen_ms": 1793682843430,
+      "last_seen_ms": 1793683711844,
+      "observations": 10,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683730978,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683730978,
+          "size": 3,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3028",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -119.5,
+      "y": -311.5,
+      "first_seen_ms": 1793684710786,
+      "last_seen_ms": 1793684710786,
+      "observations": 2,
+      "sizes_seen": [
+        2
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684721632,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684721632,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684723675,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684723675,
+          "size": 2,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3032",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": 66.5,
+      "y": 246.5,
+      "first_seen_ms": 1793683581871,
+      "last_seen_ms": 1793683593852,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3037",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": 49.5,
+      "y": -170.5,
+      "first_seen_ms": 1793684003720,
+      "last_seen_ms": 1793684003720,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3039",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": 94.5,
+      "y": 236.5,
+      "first_seen_ms": 1793683592741,
+      "last_seen_ms": 1793683592741,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2987",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 2,
+      "x": 139.5,
+      "y": 335.5,
+      "first_seen_ms": 1793684195408,
+      "last_seen_ms": 1793684245200,
+      "observations": 4,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684196477,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684196477,
+          "size": 1,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2992",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 2,
+      "x": -111.5,
+      "y": 28.5,
+      "first_seen_ms": 1793684039731,
+      "last_seen_ms": 1793684403895,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3007",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 4,
+      "enchant": 2,
+      "x": -129.5,
+      "y": -150.5,
+      "first_seen_ms": 1793684026156,
+      "last_seen_ms": 1793684867794,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2618",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": 159.5,
+      "y": -338.5,
+      "first_seen_ms": 1793684741589,
+      "last_seen_ms": 1793684741589,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2619",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": 7.5,
+      "y": 172.5,
+      "first_seen_ms": 1793684151425,
+      "last_seen_ms": 1793684381260,
+      "observations": 6,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683402122,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683402122,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683521163,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683521163,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683614519,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683614519,
+          "size": 2,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2630",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": 43.5,
+      "y": -356.5,
+      "first_seen_ms": 1793684727186,
+      "last_seen_ms": 1793684727186,
+      "observations": 2,
+      "sizes_seen": [
+        2
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2643",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": -317.5,
+      "y": -149.5,
+      "first_seen_ms": 1793684527491,
+      "last_seen_ms": 1793684938658,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2646",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": 157.5,
+      "y": -340.5,
+      "first_seen_ms": 1793684741589,
+      "last_seen_ms": 1793684741589,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2610",
+      "mobile_type_id": -1,
+      "family": 14,
+      "tier": 5,
+      "enchant": 3,
+      "x": 117.5,
+      "y": 349.5,
+      "first_seen_ms": 1793684194315,
+      "last_seen_ms": 1793684206058,
+      "observations": 4,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "305214",
+      "mobile_type_id": 482,
+      "family": 20,
+      "tier": 1,
+      "enchant": 0,
+      "x": 182.69072,
+      "y": 145.17781,
+      "first_seen_ms": 1793684315935,
+      "last_seen_ms": 1793684317579,
+      "observations": 4,
+      "sizes_seen": [
+        2
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3162",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -127,
+      "y": 59,
+      "first_seen_ms": 1793684043205,
+      "last_seen_ms": 1793684400666,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684056248,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684056248,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684057913,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684057913,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684058381,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684058381,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684100135,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684100135,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684116510,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684116510,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3168",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -205,
+      "y": -184,
+      "first_seen_ms": 1793684494258,
+      "last_seen_ms": 1793684913071,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3189",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -199,
+      "y": -254,
+      "first_seen_ms": 1793684630825,
+      "last_seen_ms": 1793684630825,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684666453,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684666453,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684668500,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684668500,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684669049,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684669049,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684685262,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684685262,
+          "size": 1,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3205",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 88,
+      "y": -301,
+      "first_seen_ms": 1793684760750,
+      "last_seen_ms": 1793684760750,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3208",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 52,
+      "y": 219,
+      "first_seen_ms": 1793683510033,
+      "last_seen_ms": 1793684372512,
+      "observations": 10,
+      "sizes_seen": [
+        3,
+        2,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683628262,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683628262,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683629337,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683629337,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683630385,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683630385,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683652426,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683652426,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683667570,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683667570,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683682692,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683682692,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684289777,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684289777,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684290778,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684290778,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684291662,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684291662,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3212",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 77,
+      "y": 237,
+      "first_seen_ms": 1793683583137,
+      "last_seen_ms": 1793684371315,
+      "observations": 12,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683649582,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683649582,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683651084,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683651084,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683651733,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683651733,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683670781,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683670781,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683682399,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683682399,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684275326,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684275326,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684277006,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684277006,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684277465,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684277465,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684375008,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684375008,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3222",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -231,
+      "y": -258,
+      "first_seen_ms": 1793684623885,
+      "last_seen_ms": 1793684653874,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684683258,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684683258,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684683736,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684683736,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684685267,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684685267,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3225",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 217,
+      "y": 58,
+      "first_seen_ms": 1793683792558,
+      "last_seen_ms": 1793683792558,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683811074,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683811074,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683812026,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683812026,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683813045,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683813045,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683854989,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683854989,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3236",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -217,
+      "y": -270,
+      "first_seen_ms": 1793684626174,
+      "last_seen_ms": 1793684653618,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684676632,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684676632,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684676748,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684676748,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684677721,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684677721,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3255",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -293,
+      "y": 65,
+      "first_seen_ms": 1793685063082,
+      "last_seen_ms": 1793685063082,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3269",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 135,
+      "y": 359,
+      "first_seen_ms": 1793684195408,
+      "last_seen_ms": 1793684195408,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3226",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 2,
+      "x": 211,
+      "y": -377,
+      "first_seen_ms": 1793684749538,
+      "last_seen_ms": 1793684749757,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3231",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 2,
+      "x": 53,
+      "y": -212,
+      "first_seen_ms": 1793684003720,
+      "last_seen_ms": 1793684771134,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "3270",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 4,
+      "enchant": 2,
+      "x": -202,
+      "y": -149,
+      "first_seen_ms": 1793684491603,
+      "last_seen_ms": 1793684907061,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684503832,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684503832,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684505745,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684505745,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684505997,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684505997,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684922913,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684922913,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684924865,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684924865,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684925002,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684925002,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684925008,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684925008,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2699",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": 14,
+      "y": 323,
+      "first_seen_ms": 1793684162840,
+      "last_seen_ms": 1793684217300,
+      "observations": 4,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684164446,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684164446,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684180435,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684180435,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2702",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": 43,
+      "y": 197,
+      "first_seen_ms": 1793684154462,
+      "last_seen_ms": 1793684376815,
+      "observations": 6,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683530669,
+          "size": 5,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683530669,
+          "size": 5,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683604277,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683604277,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683606756,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683606756,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683608987,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683608987,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683611354,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683611354,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683613708,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683613708,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684282277,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684282277,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2704",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -18,
+      "y": 158,
+      "first_seen_ms": 1793683377110,
+      "last_seen_ms": 1793684150812,
+      "observations": 6,
+      "sizes_seen": [
+        5,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683459554,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683459554,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683461738,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683461738,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683464121,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683464121,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683466417,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683466417,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683468765,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683468765,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2716",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -117,
+      "y": -153,
+      "first_seen_ms": 1793684025064,
+      "last_seen_ms": 1793684867794,
+      "observations": 6,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684446747,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684446747,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2725",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": 172,
+      "y": 162,
+      "first_seen_ms": 1793682934840,
+      "last_seen_ms": 1793683695626,
+      "observations": 24,
+      "sizes_seen": [
+        1,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683013614,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683013614,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683028655,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683028655,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683174872,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683174872,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683269661,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683269661,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683269975,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683269975,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683698789,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683698789,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683700053,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683700053,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683762600,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683762600,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2728",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -265,
+      "y": -284,
+      "first_seen_ms": 1793684619778,
+      "last_seen_ms": 1793684679642,
+      "observations": 6,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684694748,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684694748,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2739",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": 96,
+      "y": -192,
+      "first_seen_ms": 1793683976472,
+      "last_seen_ms": 1793683976472,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683993054,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683993054,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683995415,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683995415,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683997740,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683997740,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2789",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -262,
+      "y": -167,
+      "first_seen_ms": 1793684513991,
+      "last_seen_ms": 1793684931895,
+      "observations": 8,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2795",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": 208,
+      "y": 150,
+      "first_seen_ms": 1793682853319,
+      "last_seen_ms": 1793683288283,
+      "observations": 4,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793682888186,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682888186,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682986389,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682986389,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682988551,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682988551,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682990921,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682990921,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682993286,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682993286,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683012869,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683012869,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2803",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -378,
+      "y": -208,
+      "first_seen_ms": 1793684534488,
+      "last_seen_ms": 1793684944859,
+      "observations": 6,
+      "sizes_seen": [
+        2,
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684592173,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684592173,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684594484,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684594484,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2751",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 2,
+      "x": -379,
+      "y": -223,
+      "first_seen_ms": 1793684535953,
+      "last_seen_ms": 1793684945836,
+      "observations": 6,
+      "sizes_seen": [
+        1,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684564017,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684564017,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684595251,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684595251,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684951037,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684951037,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2780",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 2,
+      "x": -372,
+      "y": -93,
+      "first_seen_ms": 1793684956878,
+      "last_seen_ms": 1793684956878,
+      "observations": 2,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "2788",
+      "mobile_type_id": -1,
+      "family": 27,
+      "tier": 5,
+      "enchant": 3,
+      "x": -379,
+      "y": -24,
+      "first_seen_ms": 1793684963241,
+      "last_seen_ms": 1793684963241,
+      "observations": 2,
+      "sizes_seen": [
+        4
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684987986,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684987986,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684991185,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684991185,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684992457,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684992457,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684994752,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684994752,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793685010058,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793685010058,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "typed_resource_family_unresolved",
+      "user_confirmed_target": true,
+      "user_confirmation": "User confirmed this is the first T5.3 target; identity is temporal/state-correlated, not packet-ID linked"
+    },
+    {
+      "entity_id": "302129",
+      "mobile_type_id": 571,
+      "family": 29,
+      "tier": 3,
+      "enchant": 0,
+      "x": 245.46109,
+      "y": 149.17644,
+      "first_seen_ms": 1793682893546,
+      "last_seen_ms": 1793682893546,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793682920948,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682920948,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682921045,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682921045,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682921468,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682921468,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "302138",
+      "mobile_type_id": 571,
+      "family": 29,
+      "tier": 3,
+      "enchant": 0,
+      "x": 245.61713,
+      "y": 150.96967,
+      "first_seen_ms": 1793682894396,
+      "last_seen_ms": 1793682894396,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793682918497,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682918497,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682918854,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682918854,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682919388,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682919388,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "306085",
+      "mobile_type_id": 573,
+      "family": 29,
+      "tier": 4,
+      "enchant": 0,
+      "x": -103.358795,
+      "y": -200.92363,
+      "first_seen_ms": 1793684822070,
+      "last_seen_ms": 1793684822070,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684848745,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684848745,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684849483,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684849483,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684850165,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684850165,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "306151",
+      "mobile_type_id": 573,
+      "family": 29,
+      "tier": 4,
+      "enchant": 0,
+      "x": -104.10992,
+      "y": -203.23515,
+      "first_seen_ms": 1793684831588,
+      "last_seen_ms": 1793684831588,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "301987",
+      "mobile_type_id": 573,
+      "family": 29,
+      "tier": 4,
+      "enchant": 1,
+      "x": -211.55112,
+      "y": -208.15007,
+      "first_seen_ms": 1793684513797,
+      "last_seen_ms": 1793684931467,
+      "observations": 14,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684639882,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684639882,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684641179,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684641179,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684643353,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684643353,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684645138,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684645138,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "305501",
+      "mobile_type_id": 573,
+      "family": 29,
+      "tier": 4,
+      "enchant": 1,
+      "x": -128.09059,
+      "y": -184.78079,
+      "first_seen_ms": 1793684447980,
+      "last_seen_ms": 1793684784616,
+      "observations": 4,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684454662,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684454662,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684455725,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684455725,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684456269,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684456269,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "306077",
+      "mobile_type_id": 573,
+      "family": 29,
+      "tier": 4,
+      "enchant": 1,
+      "x": -101.53295,
+      "y": -200.20668,
+      "first_seen_ms": 1793684811602,
+      "last_seen_ms": 1793684811602,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684840650,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684840650,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684841543,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684841543,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684842833,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684842833,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684843145,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684843145,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "306463",
+      "mobile_type_id": 573,
+      "family": 29,
+      "tier": 4,
+      "enchant": 1,
+      "x": -369.76013,
+      "y": 18.35737,
+      "first_seen_ms": 1793685024332,
+      "last_seen_ms": 1793685024332,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793685045652,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793685045652,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793685045781,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793685045781,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793685045816,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793685045816,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "304746",
+      "mobile_type_id": 573,
+      "family": 29,
+      "tier": 4,
+      "enchant": 2,
+      "x": 86.154335,
+      "y": 333.52985,
+      "first_seen_ms": 1793684191438,
+      "last_seen_ms": 1793684210939,
+      "observations": 4,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "302538",
+      "mobile_type_id": 574,
+      "family": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": 135.85773,
+      "y": 164.08553,
+      "first_seen_ms": 1793683068962,
+      "last_seen_ms": 1793683316898,
+      "observations": 4,
+      "sizes_seen": [
+        5,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683077510,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683077510,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683079044,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683079044,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683079873,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683079873,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683080954,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683080954,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683082370,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683082370,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "304121",
+      "mobile_type_id": 574,
+      "family": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": 216.69873,
+      "y": 154.8621,
+      "first_seen_ms": 1793683750710,
+      "last_seen_ms": 1793684325929,
+      "observations": 4,
+      "sizes_seen": [
+        5,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683778544,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683778544,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683779903,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683779903,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683781062,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683781062,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683781650,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683781650,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683782174,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683782174,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683783661,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683783661,
+          "size": 0,
+          "removed": null
+        }
+      ],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "304505",
+      "mobile_type_id": 574,
+      "family": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": 252.53777,
+      "y": -72.410614,
+      "first_seen_ms": 1793683943513,
+      "last_seen_ms": 1793683943513,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "303710",
+      "mobile_type_id": 574,
+      "family": 29,
+      "tier": 5,
+      "enchant": 1,
+      "x": 16.864986,
+      "y": 189.75003,
+      "first_seen_ms": 1793683533316,
+      "last_seen_ms": 1793684378544,
+      "observations": 10,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    },
+    {
+      "entity_id": "304910",
+      "mobile_type_id": 574,
+      "family": 29,
+      "tier": 5,
+      "enchant": 1,
+      "x": -123.87384,
+      "y": 128.2205,
+      "first_seen_ms": 1793684129868,
+      "last_seen_ms": 1793684394898,
+      "observations": 6,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [],
+      "source": "Event40/Event46 forensic catalog",
+      "last_kind": "static_resource",
+      "classification": "unclassified_resource_candidate",
+      "evidence_grade": "family_29_ore_candidate",
+      "user_confirmed_target": false
+    }
+  ],
+  "markers": [
+    {
+      "activity": "Troll",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "found_ms": 1793682886554,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793682898043,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "found_ms": 1793682917101,
+      "started_ms": null,
+      "completed_ms": 1793682922942,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793682952265,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793682966199,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793682982097,
+      "started_ms": null,
+      "completed_ms": 1793682995623,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793683010058,
+      "started_ms": null,
+      "completed_ms": 1793683015702,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793683058877,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683069698,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793683060545,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683538385,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793683075262,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683110324,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683124587,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683146266,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683228310,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683240641,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683247568,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683255799,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683285105,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683422191,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683444393,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683422626,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683752879,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793683456162,
+      "started_ms": null,
+      "completed_ms": 1793683470091,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683482654,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683853964,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793683522531,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683770024,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683541517,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683914323,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793683560595,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793683601106,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683623887,
+      "started_ms": null,
+      "completed_ms": 1793683631778,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683646918,
+      "started_ms": null,
+      "completed_ms": 1793684000180,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683647775,
+      "started_ms": null,
+      "completed_ms": 1793683653197,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683665845,
+      "started_ms": null,
+      "completed_ms": 1793683669126,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683678603,
+      "started_ms": null,
+      "completed_ms": 1793683683242,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683721690,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793683930767,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793683769504,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793684450342,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793683778836,
+      "started_ms": null,
+      "completed_ms": 1793683784024,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683809110,
+      "started_ms": null,
+      "completed_ms": 1793683815563,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683824425,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793684125554,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683873051,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793684896033,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793683989953,
+      "started_ms": null,
+      "completed_ms": 1793683998908,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684054377,
+      "started_ms": null,
+      "completed_ms": 1793684059733,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684075235,
+      "started_ms": null,
+      "completed_ms": 1793684181154,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793684090492,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793684896098,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793684176607,
+      "started_ms": null,
+      "completed_ms": 1793684180736,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684273250,
+      "started_ms": null,
+      "completed_ms": 1793684278202,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684287585,
+      "started_ms": null,
+      "completed_ms": 1793684293676,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684440098,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793684450538,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684453054,
+      "started_ms": null,
+      "completed_ms": 1793684457101,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "found_ms": 1793684501961,
+      "started_ms": null,
+      "completed_ms": 1793684506762,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E2",
+      "found_ms": 1793684559750,
+      "started_ms": null,
+      "completed_ms": 1793684564521,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "found_ms": 1793684575000,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684578350,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684664429,
+      "started_ms": null,
+      "completed_ms": 1793684668989,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684796905,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793684815557,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684822035,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793684823032,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684841973,
+      "started_ms": null,
+      "completed_ms": 1793684843537,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793684861796,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "TARGET_FOUND_NOT_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "found_ms": 1793684920455,
+      "started_ms": null,
+      "completed_ms": 1793684925468,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E3",
+      "found_ms": 1793684976521,
+      "started_ms": null,
+      "completed_ms": 1793684997480,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E3",
+      "found_ms": 1793684984182,
+      "started_ms": null,
+      "completed_ms": 1793684997446,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "COMPLETE",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793685016047,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": 1793685045961,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793685016228,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "TARGET_FOUND_NOT_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    },
+    {
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793685040937,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "mob_killed_ms": null,
+      "status": "TARGET_FOUND_NOT_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "position_status": "not_yet_spatially_correlated"
+    }
+  ]
+}
