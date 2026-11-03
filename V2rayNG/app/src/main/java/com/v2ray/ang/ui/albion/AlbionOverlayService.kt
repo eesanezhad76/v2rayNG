@@ -137,7 +137,7 @@ class AlbionOverlayService : Service() {
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         values.forEach { value ->
             row.addView(button(value, value == selected || selected.split("|").contains(value)) { onPick(value) },
-                LinearLayout.LayoutParams(-2, dp(27)).apply { rightMargin = dp(2) })
+                LinearLayout.LayoutParams(-2, dp(30)).apply { rightMargin = dp(2) })
         }
         return HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(row) }
     }
@@ -161,8 +161,8 @@ class AlbionOverlayService : Service() {
             maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END; includeFontPadding = false
         }
         head.addView(title, LinearLayout.LayoutParams(0, dp(27), 1f))
-        head.addView(button("MAP") { if (radarRoot == null) buildRadarWindow() }, LinearLayout.LayoutParams(dp(36), dp(27)))
-        head.addView(button("−") { expanded = !expanded; renderBody() }, LinearLayout.LayoutParams(dp(27), dp(27)))
+        head.addView(button("MAP") { if (radarRoot == null) buildRadarWindow() }, LinearLayout.LayoutParams(dp(36), dp(28)))
+        head.addView(button("−") { expanded = !expanded; renderBody() }, LinearLayout.LayoutParams(dp(27), dp(28)))
         head.addView(button("×") { stopSelf() }, LinearLayout.LayoutParams(dp(27), dp(27)))
         panel.addView(head)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
