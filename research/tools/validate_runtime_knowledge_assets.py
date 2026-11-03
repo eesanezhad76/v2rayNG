@@ -43,7 +43,8 @@ def validate(root: Path) -> dict:
     dictionary_path = assets / "albion-mobile-type-dictionary.json"
     static_path = assets / "albion-static-catalog.json"
     index = _json(index_path)
-    dictionary = _json(dictionary_path).get("entries")
+    dictionary_root = _json(dictionary_path)
+    dictionary = dictionary_root.get("entries")
     static = _json(static_path)
     bundle_path = research / "albion-knowledge-bundle-import.json"
     bundle_database = _json(bundle_path)
@@ -55,6 +56,11 @@ def validate(root: Path) -> dict:
 
     if not isinstance(dictionary, dict):
         raise ValueError("mobile type dictionary has no entries object")
+    dictionary_source = dictionary_root.get("source", {})
+    if dictionary_source.get("repository") != "Nouuu/Albion-Online-OpenRadar":
+        raise ValueError("external OpenRadar dictionary provenance is missing")
+    if dictionary_source.get("mapping") != "server TypeID = array index + 16":
+        raise ValueError("external TypeID offset provenance is missing")
 
     totals = index.get("totals", {})
     families = index.get("resource_families", {})
@@ -105,6 +111,21 @@ def validate(root: Path) -> dict:
         raise ValueError("mobile type crosswalk does not cover the exact 64 indexed IDs")
     if any(row.get("dictionary_match", "").lower() != "true" for row in crosswalk):
         raise ValueError("one or more observed mobile IDs do not match the external dictionary")
+
+    historical_mobile_ids = {
+        str(row["mobile_type_id"]) for row in bundle_database.get("entity_observations", [])
+        if row.get("last_kind") == "mob" and row.get("mobile_type_id") is not None
+    }
+    missing_historical_ids = sorted(historical_mobile_ids - dictionary_ids)
+    if missing_historical_ids:
+        raise ValueError(f"external dictionary is missing historical mobile TypeIDs: {missing_historical_ids}")
+    historical_resource_families = {
+        str(row["family"]) for row in bundle_database.get("entity_observations", [])
+        if row.get("last_kind") in {"static_resource", "harvestable", "resource_state"}
+        and row.get("family") is not None
+    }
+    if not historical_resource_families.issubset(set(families)):
+        raise ValueError("historical resource families are not covered by the runtime research index")
 
     rabbit = mobile.get("482", {})
     if rabbit.get("names") != {"Mountain Rabbit": 469} or rabbit.get("harvestable_values") != {"False": 469}:
@@ -186,6 +207,10 @@ def validate(root: Path) -> dict:
         "mobile_entity_observations": EXPECTED_MOBILE_OBSERVATIONS,
         "mobile_type_ids": len(index_ids),
         "dictionary_coverage": f"{len(dictionary_ids & index_ids)}/{len(index_ids)}",
+        "external_dictionary_entries": len(dictionary),
+        "historical_mobile_type_ids": len(historical_mobile_ids),
+        "historical_mobile_dictionary_coverage": f"{len(historical_mobile_ids - set(missing_historical_ids))}/{len(historical_mobile_ids)}",
+        "historical_resource_families": sorted(historical_resource_families, key=int),
         "saved_catalog": {"entities": len(entities), "nodes": len(resource_rows), "mobs": len(mob_rows), "markers": len(markers)},
         "confirmed_t53_target": "2788",
         "historical_knowledge": {
