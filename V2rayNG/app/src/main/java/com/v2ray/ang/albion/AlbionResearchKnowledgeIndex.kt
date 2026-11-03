@@ -96,6 +96,19 @@ object AlbionResearchKnowledgeIndex {
             entity.put("research_catalog_family_types", evidence.optJSONObject("resource_types")?.names() ?: JSONArray())
             entity.put("research_catalog_family_mapping_statuses", evidence.optJSONObject("mapping_statuses")?.names() ?: JSONArray())
             entity.put("research_catalog_family_tiers", evidence.optJSONArray("tiers") ?: JSONArray())
+            val types = evidence.optJSONObject("resource_types")
+            val statuses = evidence.optJSONObject("mapping_statuses")
+            if (types != null && types.length() == 1 && statuses != null && statuses.length() == 1) {
+                val type = types.keys().asSequence().first()
+                val status = statuses.keys().asSequence().first()
+                entity.put("research_catalog_resource_type", type)
+                entity.put("research_catalog_resource_mapping_status", status)
+                entity.put("research_catalog_resource_mapping_observations", evidence.optInt("observation_count"))
+                entity.put("research_catalog_resource_mapping_capture_count", evidence.optJSONArray("captures")?.length() ?: 0)
+                resourceTypeEvidence(family)?.let {
+                    entity.put("research_catalog_resource_mapping_confidence", it.confidence)
+                }
+            }
             entity.put("research_catalog_source", "complete_research_resource_catalog")
             resourceCatalogBlobSha?.let { entity.put("research_catalog_source_blob_sha", it) }
         }
