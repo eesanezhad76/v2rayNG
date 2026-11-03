@@ -132,7 +132,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             confidence in setOf("HIGH", "CONFIRMED", "USER_CONFIRMED")
     }
 
-    private fun passesFilters(item: JSONObject, filters: Set<String> = filters): Boolean {
+    private fun passesFilters(item: JSONObject, filters: Set<String> = this.enabledFilters): Boolean {
         val kind = item.optString("last_kind")
         val node = kind in RESOURCE_KINDS
         val mob = kind == "mob"
