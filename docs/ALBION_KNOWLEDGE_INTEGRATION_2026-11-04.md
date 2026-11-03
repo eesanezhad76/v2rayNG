@@ -141,3 +141,13 @@ Completed a source-and-corpus audit before attempting coordinate projection:
 Decision: no coordinate-jump threshold, entity-churn heuristic, or guessed event code is allowed to create a zone boundary. Those signals are not specific enough and could corrupt the spatial index. Session-scoped runtime IDs and the separation of historical/live coordinates remain in force. Cross-zone projection remains disabled.
 
 The full audit and the exact capture needed to unlock implementation are documented in `docs/ALBION_ZONE_IDENTITY_AUDIT_2026-11-04.md`. A controlled capture spanning a known zone transition is now the required evidence input. This is a completed audit stage, not a completed zone detector.
+
+
+### Phase 4 follow-up — Event 2 candidate instrumentation
+
+- Compared all nine distinct PCAP reports in `Albion2.zip`.
+- The user-described yellow-zone-to-Fort-Sterling capture contains 3 Event 2 observations; the other 8 captures contain 0.
+- This is a candidate correlation only. A single transition capture cannot establish semantics.
+- `AlbionCaptureAnalyzer` now records Event 2 timestamps and decoded parameter values as `unmapped_event_candidate` diagnostics without changing entity mapping.
+- `AlbionPcapAudit` exports a focused Markdown/JSONL candidate report, and the APK workflow uploads it as `zone-event-candidates` after offline replay.
+- The next successful workflow run is needed to inspect the actual Event 2 parameter shapes. No zone boundary or map identity is implemented yet.
