@@ -151,3 +151,14 @@ The full audit and the exact capture needed to unlock implementation are documen
 - `AlbionCaptureAnalyzer` now records Event 2 timestamps and decoded parameter values as `unmapped_event_candidate` diagnostics without changing entity mapping.
 - `AlbionPcapAudit` exports a focused Markdown/JSONL candidate report, and the APK workflow uploads it as `zone-event-candidates` after offline replay.
 - The next successful workflow run is needed to inspect the actual Event 2 parameter shapes. No zone boundary or map identity is implemented yet.
+
+## Phase 5 — Manual zone marker added (2026-11-04)
+
+- Added `ZONE ARRIVAL • MARK` to the Albion overlay controls.
+- Marker records wall-clock and elapsed-realtime timestamps, `zone_transition_observed`, `manual_zone_transition`, and `manual_overlay` provenance.
+- Offline PCAP analyzer retains `marker_type` in the manual checkpoint output.
+- Added `AlbionCaptureAnalyzerTest.preservesManualZoneTransitionCheckpoint`.
+- Added `research/tests/__init__.py` so Python unittest discovery can import the test directory.
+- Updated workflow concurrency so validation runs on this integration branch queue rather than cancel each other on every follow-up commit.
+- This is a timestamped manual ground-truth aid only; no automatic zone detection or cross-zone projection is enabled.
+- Next field capture: start PCAP before travel, tap ZONE ARRIVAL immediately after the new zone loads, repeat on return to a known zone if practical, and stop capture after a short stable interval.
