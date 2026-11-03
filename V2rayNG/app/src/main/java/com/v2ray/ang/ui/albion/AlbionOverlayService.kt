@@ -105,8 +105,11 @@ class AlbionOverlayService : Service() {
                     if (::liveStatus.isInitialized) {
                         val dictionaryCoverage = researchKnowledge?.mobileDictionaryCoverage(mobileTypeDictionary)
                         val dictionaryStatus = dictionaryCoverage?.let { " • D${it.label()}" } ?: " • D?/?"
+                        val historicalStatus = historicalKnowledge?.let {
+                            " • H${it.entityRecordCount}E/${it.protocolEventCount}P/${it.learnedPatternCount}L/${it.autonomousSignatureCount}A"
+                        } ?: " • H?/?/?/?"
                         liveStatus.text = (researchKnowledge?.statusLabel() ?: "KNOW unavailable") +
-                            dictionaryStatus + " • MAP $catalogNodeCount/$catalogMarkerCount • " + statusText.take(150)
+                            dictionaryStatus + historicalStatus + " • MAP $catalogNodeCount/$catalogMarkerCount • " + statusText.take(80)
                     }
                     snapshotRefreshInFlight.set(false)
                     if (controlsRoot != null || radarRoot != null) refreshHandler.postDelayed(this, 1200L)
@@ -197,9 +200,9 @@ class AlbionOverlayService : Service() {
         panel.addView(head)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         liveStatus = TextView(this).apply {
-            text = "Capture waiting"; setTextColor(0xFFE3EDF5.toInt()); textSize = 8f
+            text = "Capture waiting"; setTextColor(0xFFE3EDF5.toInt()); textSize = 7f
             typeface = Typeface.MONOSPACE; setPadding(dp(2), dp(2), dp(2), dp(1))
-            maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END; includeFontPadding = false
+            maxLines = 2; ellipsize = android.text.TextUtils.TruncateAt.END; includeFontPadding = false
         }
         panel.addView(body)
         panel.tag = "controls"
