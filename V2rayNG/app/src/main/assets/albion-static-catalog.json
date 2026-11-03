@@ -3773,7 +3773,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "HIGH",
       "marker_tier": 3,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 42,
+      "health_min": 42
     },
     {
       "entity_id": "catalog:mob:4552",
@@ -4166,7 +4168,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "HIGH",
       "marker_tier": null,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 34,
+      "health_min": 34
     },
     {
       "entity_id": "catalog:mob:292229",
@@ -4534,7 +4538,9 @@
       "marker_activity_candidate": "Mobs",
       "marker_match_confidence": "LOW",
       "marker_tier": null,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 45,
+      "health_min": 45
     },
     {
       "entity_id": "catalog:mob:287338",
@@ -4681,7 +4687,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "HIGH",
       "marker_tier": null,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 95,
+      "health_min": 95
     },
     {
       "entity_id": "218633",
@@ -4741,7 +4749,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "HIGH",
       "marker_tier": 5,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 16,
+      "health_min": 16
     },
     {
       "entity_id": "catalog:mob:297348",
@@ -4830,7 +4840,9 @@
       "marker_activity_candidate": "Mobs",
       "marker_match_confidence": "LOW",
       "marker_tier": null,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 117,
+      "health_min": 117
     },
     {
       "entity_id": "catalog:mob:4820",
@@ -5227,7 +5239,9 @@
       "targeted_by_player": true,
       "target_source": "outbound Photon operation 23 target request",
       "target_entity_id_proven": true,
-      "marker_matches": []
+      "marker_matches": [],
+      "health_value": 1,
+      "health_min": 1
     },
     {
       "entity_id": "278071",
@@ -5263,7 +5277,9 @@
       "targeted_by_player": true,
       "target_source": "outbound Photon operation 23 target request",
       "target_entity_id_proven": true,
-      "marker_matches": []
+      "marker_matches": [],
+      "health_value": 17,
+      "health_min": 17
     },
     {
       "entity_id": "catalog:mob:262383",
@@ -5391,7 +5407,9 @@
       "marker_activity_candidate": "Mobs",
       "marker_match_confidence": "LOW",
       "marker_tier": null,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 23,
+      "health_min": 23
     },
     {
       "entity_id": "catalog:mob:242316",
@@ -6035,7 +6053,9 @@
       "targeted_by_player": true,
       "target_source": "outbound Photon operation 23 target request",
       "target_entity_id_proven": true,
-      "marker_matches": []
+      "marker_matches": [],
+      "health_value": 15,
+      "health_min": 15
     },
     {
       "entity_id": "catalog:mob:255146",
@@ -6107,7 +6127,8 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "HIGH",
       "marker_tier": 5,
-      "marker_enchant": 1
+      "marker_enchant": 1,
+      "health_min": 16
     },
     {
       "entity_id": "catalog:mob:199098",
@@ -6196,7 +6217,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "HIGH",
       "marker_tier": null,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 95,
+      "health_min": 95
     },
     {
       "entity_id": "249501",
@@ -6232,7 +6255,9 @@
       "targeted_by_player": true,
       "target_source": "outbound Photon operation 23 target request",
       "target_entity_id_proven": true,
-      "marker_matches": []
+      "marker_matches": [],
+      "health_value": 74,
+      "health_min": 74
     },
     {
       "entity_id": "catalog:mob:4815",
@@ -6287,7 +6312,9 @@
       "targeted_by_player": true,
       "target_source": "outbound Photon operation 23 target request",
       "target_entity_id_proven": true,
-      "marker_matches": []
+      "marker_matches": [],
+      "health_value": 55,
+      "health_min": 55
     },
     {
       "entity_id": "254857",
@@ -6347,7 +6374,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "HIGH",
       "marker_tier": null,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 39,
+      "health_min": 39
     },
     {
       "entity_id": "catalog:mob:284046",
@@ -7311,7 +7340,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "HIGH",
       "marker_tier": null,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 8,
+      "health_min": 8
     },
     {
       "entity_id": "catalog:mob:283843",
@@ -7439,7 +7470,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "MEDIUM",
       "marker_tier": null,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 93,
+      "health_min": 93
     },
     {
       "entity_id": "304011",
@@ -7487,7 +7520,9 @@
       "targeted_by_player": true,
       "target_source": "outbound Photon operation 23 target request",
       "target_entity_id_proven": true,
-      "marker_matches": []
+      "marker_matches": [],
+      "health_value": 59,
+      "health_min": 59
     },
     {
       "entity_id": "catalog:mob:288592",
@@ -9424,7 +9459,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "MEDIUM",
       "marker_tier": 4,
-      "marker_enchant": 1
+      "marker_enchant": 1,
+      "health_value": 7,
+      "health_min": 7
     },
     {
       "entity_id": "213231",
@@ -9460,7 +9497,9 @@
       "targeted_by_player": true,
       "target_source": "outbound Photon operation 23 target request",
       "target_entity_id_proven": true,
-      "marker_matches": []
+      "marker_matches": [],
+      "health_value": 70,
+      "health_min": 45
     },
     {
       "entity_id": "273225",
@@ -9511,7 +9550,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "MEDIUM",
       "marker_tier": null,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 46,
+      "health_min": 46
     },
     {
       "entity_id": "295979",
@@ -9562,7 +9603,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "HIGH",
       "marker_tier": 4,
-      "marker_enchant": 1
+      "marker_enchant": 1,
+      "health_value": 60,
+      "health_min": 60
     },
     {
       "entity_id": "304657",
@@ -9598,7 +9641,9 @@
       "targeted_by_player": true,
       "target_source": "outbound Photon operation 23 target request",
       "target_entity_id_proven": true,
-      "marker_matches": []
+      "marker_matches": [],
+      "health_value": 36,
+      "health_min": 10
     },
     {
       "entity_id": "catalog:mob:203804",
@@ -10219,7 +10264,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "MEDIUM",
       "marker_tier": null,
-      "marker_enchant": 0
+      "marker_enchant": 0,
+      "health_value": 41,
+      "health_min": 41
     },
     {
       "entity_id": "catalog:mob:4491",
@@ -11682,7 +11729,9 @@
       "targeted_by_player": true,
       "target_source": "outbound Photon operation 23 target request",
       "target_entity_id_proven": true,
-      "marker_matches": []
+      "marker_matches": [],
+      "health_value": 17,
+      "health_min": 17
     },
     {
       "entity_id": "catalog:mob:305397",
@@ -11847,7 +11896,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "HIGH",
       "marker_tier": 4,
-      "marker_enchant": 1
+      "marker_enchant": 1,
+      "health_value": 134,
+      "health_min": 134
     },
     {
       "entity_id": "catalog:mob:103052",
@@ -15631,7 +15682,9 @@
       "marker_activity_candidate": null,
       "marker_match_confidence": "HIGH",
       "marker_tier": 5,
-      "marker_enchant": 1
+      "marker_enchant": 1,
+      "health_value": 15,
+      "health_min": 15
     },
     {
       "entity_id": "catalog:mob:306388",
