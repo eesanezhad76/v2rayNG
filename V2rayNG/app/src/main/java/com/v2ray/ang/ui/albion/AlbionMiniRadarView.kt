@@ -16,6 +16,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private var catalogEntities: List<JSONObject> = emptyList()
     private var enabledFilters: Set<String> = DEFAULT_FILTERS
     private var catalogOverviewMode = false
+    private var lockedTargetId: String? = null
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
     private val range = 130.0
@@ -105,25 +106,31 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             ?.optJSONObject("resource_name")?.optString("value")?.lowercase().orEmpty()
         val rawName = (item.optString("name") + " " + resourceName + " " +
             AlbionRadarSnapshotParser.labelForEntity(item)).lowercase()
+        val markerActivity = item.optString("marker_activity").ifBlank {
+            item.optString("marker_activity_candidate")
+        }.lowercase()
         val resourceCategory = when {
-            item.optBoolean("user_confirmed_target", false) || item.optInt("family", -1) == 29 || rawName.contains("ore") || rawName.contains("ore candidate") -> "ore"
-            rawName.contains("wood") || rawName.contains("tree") || rawName.contains("logs") -> "wood"
-            rawName.contains("stone") || rawName.contains("rock") -> "stone"
-            rawName.contains("fiber") || rawName.contains("cotton") || rawName.contains("flax") -> "fiber"
-            rawName.contains("hide") || rawName.contains("animal") || rawName.contains("beast") -> "hide"
+            item.optBoolean("user_confirmed_target", false) || item.optInt("family", -1) == 29 ||
+                rawName.contains("ore") || rawName.contains("ore candidate") || markerActivity == "ore" -> "ore"
+            rawName.contains("wood") || rawName.contains("tree") || rawName.contains("logs") || markerActivity == "wood" -> "wood"
+            rawName.contains("stone") || rawName.contains("rock") || markerActivity == "stone" -> "stone"
+            rawName.contains("fiber") || rawName.contains("cotton") || rawName.contains("flax") || markerActivity == "fiber" -> "fiber"
+            rawName.contains("hide") || rawName.contains("animal") || rawName.contains("beast") || markerActivity == "hide" -> "hide"
             else -> "unknown_resource"
         }
+        val mobType = item.optString("mob_category").lowercase()
         val mobCategory = when {
             troll -> "troll"
             oreElemental -> "ore_elemental"
-            rawName.contains("bird") || rawName.contains("wolf") || rawName.contains("boar") ||
+            mobType.contains("animal") || mobType.contains("harvest") ||
+                rawName.contains("bird") || rawName.contains("wolf") || rawName.contains("boar") ||
                 rawName.contains("bear") || rawName.contains("deer") || rawName.contains("animal") -> "animal"
             else -> "other_mob"
         }
         val selectedCategories = enabledFilters.filter { it.startsWith("category_") }
             .map { it.removePrefix("category_") }.toSet()
         val categoryEnabled = when {
-            node -> resourceCategory != "unknown_resource" && "category_$resourceCategory" in enabledFilters
+            node -> "category_$resourceCategory" in enabledFilters
             mob -> mobCategory in selectedCategories || (mobCategory == "other_mob" && "category_mobs" in enabledFilters)
             else -> false
         }
@@ -170,9 +177,25 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             drawCatalogOverview(canvas, cx, cy, radius)
             return
         }
-        val px = you.optDouble("x")
-        val py = you.optDouble("y")
+        // Median of a few recent samples suppresses single-frame coordinate jitter
+        // without the lag of a long moving average.
         val history = you.optJSONArray("movement_history")
+        val recentPlayerPoints = ArrayList<Pair<Double, Double>>()
+        if (history != null) {
+            for (i in (history.length() - 5).coerceAtLeast(0) until history.length()) {
+                val point = history.optJSONObject(i) ?: continue
+                val hx = point.optDouble("x", Double.NaN)
+                val hy = point.optDouble("y", Double.NaN)
+                if (hx.isFinite() && hy.isFinite()) recentPlayerPoints.add(hx to hy)
+            }
+        }
+        recentPlayerPoints.add(you.optDouble("x") to you.optDouble("y"))
+        fun median(values: List<Double>): Double {
+            val sorted = values.sorted()
+            return sorted[sorted.size / 2]
+        }
+        val px = if (recentPlayerPoints.size >= 3) median(recentPlayerPoints.map { it.first }) else you.optDouble("x")
+        val py = if (recentPlayerPoints.size >= 3) median(recentPlayerPoints.map { it.second }) else you.optDouble("y")
         if (history != null && history.length() > 1) {
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 1.4f * density
@@ -196,6 +219,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val visible = entities.asSequence()
             .filter { it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) && passesFilters(it) }
             .toList()
+        if (lockedTargetId != null && visible.none { it.optString("entity_id") == lockedTargetId && !it.optBoolean("depleted", false) }) {
+            lockedTargetId = null
+        }
         val outside = ArrayList<Pair<JSONObject, Double>>()
         val nearbyNodes = ArrayList<Pair<JSONObject, Double>>()
         visible.forEach { entity ->
@@ -237,7 +263,32 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             if (distance > range) outside.add(entity to distance)
         }
 
-        val nearestNodes = nearbyNodes.sortedBy { it.second }.take(5)
+        val nearestOrdered = nearbyNodes.sortedBy { it.second }
+        val locked = lockedTargetId?.let { id -> nearestOrdered.firstOrNull { it.first.optString("entity_id") == id } }
+        val chosenTarget = when {
+            locked != null && !locked.first.optBoolean("depleted", false) -> locked
+            nearestOrdered.isNotEmpty() -> nearestOrdered.first().also { lockedTargetId = it.first.optString("entity_id") }
+            else -> null
+        }
+        if (chosenTarget != null) {
+            val target = chosenTarget.first
+            val dx = target.optDouble("x") - px
+            val dy = target.optDouble("y") - py
+            val distance = chosenTarget.second
+            val factor = if (distance > range) range / distance else 1.0
+            val tx = cx + (dx * factor / range * radius).toFloat()
+            val ty = cy - (dy * factor / range * radius).toFloat()
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = 1.8f * density
+            paint.color = 0xFF55E6FF.toInt()
+            canvas.drawLine(cx, cy, tx, ty, paint)
+            canvas.drawCircle(tx, ty, 8f * density, paint)
+            paint.style = Paint.Style.FILL
+            paint.textSize = 8f * density
+            paint.color = 0xFF55E6FF.toInt()
+            canvas.drawText("TARGET " + distance.roundToInt(), 6f * density, 22f * density, paint)
+        } else lockedTargetId = null
+        val nearestNodes = nearestOrdered.take(5)
         paint.style = Paint.Style.FILL
         paint.textSize = 7f * density
         paint.color = 0xFFFFE0A6.toInt()
