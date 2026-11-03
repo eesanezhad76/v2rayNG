@@ -51,6 +51,7 @@ class AlbionOverlayService : Service() {
     private var enchant = "Normal"
     private var enabledFilters = AlbionMiniRadarView.DEFAULT_FILTERS.toMutableSet()
     private var catalogEntities = JSONArray()
+    private var mobileTypeDictionary = JSONObject()
     private var catalogNodeCount = 0
     private var catalogMarkerCount = 0
     private val refreshHandler = Handler(Looper.getMainLooper())
@@ -313,6 +314,10 @@ class AlbionOverlayService : Service() {
             catalogNodeCount = data.optInt("node_count", catalogEntities.length())
             catalogMarkerCount = data.optInt("marker_count", 0)
         } catch (_: Exception) { catalogEntities = JSONArray() }
+        try {
+            val typeData = assets.open("albion-mobile-type-dictionary.json").bufferedReader().use { JSONObject(it.readText()) }
+            mobileTypeDictionary = typeData.optJSONObject("entries") ?: JSONObject()
+        } catch (_: Exception) { mobileTypeDictionary = JSONObject() }
     }
 
     private fun mergeCatalogAndLive(liveJson: String): String {
@@ -323,6 +328,7 @@ class AlbionOverlayService : Service() {
             val node = JSONObject(source.toString())
             if (!node.has("x") || !node.has("y")) continue
             node.put("entity_id", "catalog:${source.optString("entity_id")}")
+            applyMobTypeInfo(node)
             if (node.optString("last_kind").isBlank()) node.put("last_kind", "static_resource")
             if (node.optString("last_kind") == "static_resource") {
                 val timeline = node.optJSONArray("state_timeline")
@@ -332,8 +338,26 @@ class AlbionOverlayService : Service() {
             }
             merged.put(node)
         }
-        for (i in 0 until live.length()) live.optJSONObject(i)?.let { merged.put(JSONObject(it.toString())) }
+        for (i in 0 until live.length()) live.optJSONObject(i)?.let {
+            val liveEntity = JSONObject(it.toString())
+            applyMobTypeInfo(liveEntity)
+            merged.put(liveEntity)
+        }
         return merged.toString()
+    }
+
+    private fun applyMobTypeInfo(entity: JSONObject) {
+        if (entity.optString("last_kind") != "mob") return
+        val info = mobileTypeDictionary.optJSONObject(entity.optString("mobile_type_id")) ?: return
+        if (entity.optString("name").isBlank() || entity.optString("name") == "null")
+            entity.put("name", info.optString("display_name"))
+        if (!entity.has("tier")) entity.put("tier", info.optInt("tier", -1))
+        entity.put("mob_category", info.optString("category"))
+        entity.put("type_unique_name", info.optString("unique_name"))
+        entity.put("localization_tag", info.optString("localization_tag"))
+        entity.put("mob_danger", info.optString("danger"))
+        entity.put("max_health", info.optInt("max_health", 0))
+        entity.put("is_harvestable_mob", info.optBoolean("is_harvestable", false))
     }
 
     private fun label(value: String) = TextView(this).apply {
