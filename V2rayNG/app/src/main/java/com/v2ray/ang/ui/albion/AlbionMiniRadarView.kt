@@ -14,7 +14,7 @@ import java.util.LinkedHashMap
 class AlbionMiniRadarView(context: Context) : View(context) {
     private var entities: List<JSONObject> = emptyList()
     private var catalogEntities: List<JSONObject> = emptyList()
-    private var enabledFilters: Set<String> = DEFAULT_FILTERS
+    @Volatile private var enabledFilters: Set<String> = DEFAULT_FILTERS
     private var catalogOverviewMode = false
     private var lockedTargetId: String? = null
     // Filtering is independent of player position. Cache it between snapshots/filter changes
@@ -66,11 +66,28 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val parsed = AlbionRadarSnapshotParser.parse(json) ?: return null
         val spatiallyDeduplicated = AlbionSpatialIntelligence.deduplicate(parsed.entities)
         val acceptedCount = spatiallyDeduplicated.size
+        // Move JSON classification/filter work off the UI thread. The overlay shares
+        // the app's main thread; doing this on every 1.2s refresh can cause visible jank.
+        val filterSnapshot = enabledFilters
+        val liveFiltered = spatiallyDeduplicated.filter {
+            it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) && passesFilters(it, filterSnapshot)
+        }
+        val catalogFiltered = catalogEntities.filter {
+            it.optString("last_kind") in DISPLAY_KINDS &&
+                it.optString("last_kind") != "own_player_move" && validPoint(it) && passesFilters(it, filterSnapshot)
+        }
         post {
             // Live coordinates belong to the active capture. Never merge historical catalog
             // coordinates into the player-centered map until zone identity is verified.
             entities = spatiallyDeduplicated
-            filterCacheDirty = true
+            if (enabledFilters == filterSnapshot) {
+                visibleCache = liveFiltered
+                catalogVisibleCache = catalogFiltered
+                filterCacheDirty = false
+            } else {
+                // A filter changed while the worker was preparing this snapshot.
+                filterCacheDirty = true
+            }
             invalidate()
         }
         return acceptedCount
@@ -115,7 +132,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             confidence in setOf("HIGH", "CONFIRMED", "USER_CONFIRMED")
     }
 
-    private fun passesFilters(item: JSONObject): Boolean {
+    private fun passesFilters(item: JSONObject, filters: Set<String> = filters): Boolean {
         val kind = item.optString("last_kind")
         val node = kind in RESOURCE_KINDS
         val mob = kind == "mob"
@@ -162,7 +179,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 rawName.contains("bear") || rawName.contains("deer") || rawName.contains("animal") -> "animal"
             else -> "other_mob"
         }
-        val selectedCategories = enabledFilters.filter { it.startsWith("category_") }
+        val selectedCategories = filters.filter { it.startsWith("category_") }
             .map { it.removePrefix("category_") }.toSet()
         // Unknown Event 39 candidates must never leak into selected resource categories.
         // They can be numerous (and are intentionally drawn grey), so show them only
@@ -170,19 +187,19 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         // supplies a type/family/name, the same entity is classified and follows its
         // real category filter normally.
         val categoryEnabled = when {
-            node -> "category_$resourceCategory" in enabledFilters
-            mob -> mobCategory in selectedCategories || (mobCategory == "other_mob" && "category_mobs" in enabledFilters)
+            node -> "category_$resourceCategory" in filters
+            mob -> mobCategory in selectedCategories || (mobCategory == "other_mob" && "category_mobs" in filters)
             else -> false
         }
         if (!categoryEnabled) return false
-        val tierFilters = enabledFilters.filter { it.startsWith("tier_") }
+        val tierFilters = filters.filter { it.startsWith("tier_") }
             .mapNotNull { it.removePrefix("tier_").toIntOrNull() }.toSet()
         val markerTier = item.optInt("marker_tier", -1)
         val effectiveTier = if (markerTier >= 0) markerTier else item.optInt("tier", -1)
         // Event 39 candidates can arrive before typed tier metadata.
         // Unknown tier is not proof that a node is outside the selected tier range.
         if (tierFilters.isNotEmpty() && effectiveTier >= 0 && effectiveTier !in tierFilters) return false
-        val enchantFilters = enabledFilters.filter { it.startsWith("enchant_") }
+        val enchantFilters = filters.filter { it.startsWith("enchant_") }
             .mapNotNull { it.removePrefix("enchant_").toIntOrNull() }.toSet()
         // Enchantment is a resource-node property; never hide mobs (e.g. blue golems/trolls) because they have no enchantment.
         // Unknown resource enchantment (-1) remains visible until the packet/catalog provides a reliable value.
