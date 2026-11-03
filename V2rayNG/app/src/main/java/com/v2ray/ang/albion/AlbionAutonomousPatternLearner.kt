@@ -51,7 +51,8 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
     @Synchronized fun observeMarker(marker: JSONObject, timestampMs: Long) {
         when (marker.optString("event")) {
             "target_found", "activity_start", "pvp_started", "movement_started" -> {
-                closeActive(timestampMs)
+                // A replacement START is not an END: discard the incomplete prior label.
+                activeLabel = null
                 val label = JSONObject().put("activity", marker.optString("activity", "Unknown"))
                     .put("tier", marker.optString("tier", "")).put("enchantment", marker.optString("enchantment", ""))
                     .put("started_at_ms", timestampMs).put("signatures", JSONArray()).put("event_count", 0)
