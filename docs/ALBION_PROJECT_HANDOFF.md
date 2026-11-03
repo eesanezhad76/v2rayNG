@@ -264,3 +264,32 @@ If nothing was changed, do not create a fake implementation entry; record only a
 5. After a successful build, field-test on Poco F5: start capture once, play without markers for a while, inspect automatic signature counts, then use occasional Start/Stop labels for the same activity/Tier/Enchantment across at least three samples and two capture sessions.
 6. Export the learned database ZIP and verify that `autonomous-patterns.json` is present, checksummed, and ingested into `research/database/albion-knowledge-bundle-import.json`.
 7. Compare candidate signatures against controlled PCAP evidence before adding semantic event mappings or promoting map labels. No full automatic recognition of every resource/mob is verified.
+
+## 2026-11-03 continuation — current verified work
+
+Branch: `albion-pattern-mining`  
+Latest observed HEAD: `a74b3bea3cc04241209a18bc0ea0a39a8063d906`.
+
+Changes made after the previous handoff snapshot:
+- `3bdff0dad0cfb9f83bac4c6bb7e015582886c45d`: repaired malformed Kotlin knowledge-bundle test source.
+- `a8d5a5c3603cd8a7509975eb21578f92ebbbfe2b`: added a dedicated `Troll` activity choice to the overlay. Troll shares the mob Start/Killed actions, while the existing tier (T2–T8) and enchantment (Normal/E1/E2/E3) selectors remain visible because only Mobs/PvP/Move/Other hide those rows. This is UI tagging only; it does not prove Troll event semantics.
+- `a74b3bea3cc04241209a18bc0ea0a39a8063d906`: removed a duplicate union operation for autonomous capture-session provenance in the central knowledge importer. No intended data behavior change.
+
+Verification at this update:
+- The current branch head is `a74b3bea3cc04241209a18bc0ea0a39a8063d906`.
+- Build APK run `41578331030` targets the older commit `70f0485a6389bbf32c040f113ce14fc4a8c9fc21`; it is still running and had reached “Run offline PCAP replay and audit” at the last status query. It is NOT a build of current HEAD.
+- Run `41578346841` targets `3bdff0dad0cfb9f83bac4c6bb7e015582886c45d` and was queued/pending at the last status query; it does not include the later Troll/importer commits.
+- No APK artifacts, SHA-256 manifest, final readiness report, or successful latest-HEAD CI result have been confirmed yet.
+- The importer test file `research/tests/test_knowledge_bundle_import.py` includes tests for cumulative export deduplication, cross-session entity separation, autonomous signature/session provenance merge without count inflation, and checksum rejection. Test execution for the latest HEAD is still pending CI evidence.
+- The overlay currently offers T2–T8, not T1. Albion gathering resource tiers start at T2 in this UI design. Verify the actual game/UI usability on Poco F5; source inspection is not a device test.
+- The structural autonomous learner still cannot assign a semantic resource/mob name by itself. Do not dynamically promote an unknown event signature into Ore/Mob/Troll without independently validated field evidence and a mapping test.
+- The central importer only merges ZIPs after a user exports and submits them; it is not a live server/database update during gameplay.
+
+Next required work:
+1. Query the new Build APK run triggered by latest HEAD and verify every step, artifacts, package ID, signatures, ABI and SHA-256 manifest.
+2. Inspect readiness report and offline replay audit; fix any failures and rerun.
+3. Add/verify regression coverage for overlay marker labels and learner correlation (including Troll|tier|enchantment).
+4. Review dynamic mapping architecture. Keep unknown structural signatures as candidates until validated against controlled PCAPs; then add explicit mapping + fixture tests.
+5. Confirm central-ingest workflow handles the latest knowledge-bundle schema and never inflates cumulative counters.
+6. Device test on Poco F5: VPN routing, capture start/stop, overlay permissions/layout, marker FIFO, export ZIP, app restart persistence, battery/performance, and real gameplay correlation.
+7. Only after successful latest-HEAD CI and device test, label APK “ready for field testing”; only after controlled live captures should semantic detection be marked verified.
