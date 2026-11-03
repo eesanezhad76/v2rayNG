@@ -99,25 +99,27 @@ object AlbionHistoricalKnowledgeIndex {
         null
     }
 
-    fun parse(entityJson: String, protocolJson: String, learnedJson: String, manifestJson: String): Snapshot? =
-        try {
+    fun parse(entityJson: String, protocolJson: String, learnedJson: String, manifestJson: String): Snapshot? {
+        return try {
             val entities = JSONObject(entityJson)
             val protocols = JSONArray(protocolJson)
             val learned = JSONArray(learnedJson)
             val manifest = JSONObject(manifestJson)
-            val mobile = entities.optJSONObject("mobile_types") ?: return null
-            val families = entities.optJSONObject("resource_families") ?: return null
+            val mobile = entities.optJSONObject("mobile_types")
+            val families = entities.optJSONObject("resource_families")
             val entityCount = manifest.optInt("entity_records", -1)
             val protocolCount = manifest.optInt("protocol_events", -1)
             val learnedCount = manifest.optInt("learned_patterns", -1)
             val autonomousCount = manifest.optInt("autonomous_signatures", -1)
-            if (entities.optInt("schema_version", -1) != 1 ||
+            if (mobile == null || families == null ||
+                entities.optInt("schema_version", -1) != 1 ||
                 manifest.optInt("schema_version", -1) != 1 ||
                 entityCount < 0 || protocolCount < 0 || learnedCount < 0 || autonomousCount < 0 ||
                 entities.optInt("entity_record_count", -1) != entityCount ||
-                learned.length() != learnedCount) return null
-            Snapshot(entityCount, protocolCount, learnedCount, autonomousCount, protocols.length(), mobile, families, learned)
+                learned.length() != learnedCount) null
+            else Snapshot(entityCount, protocolCount, learnedCount, autonomousCount, protocols.length(), mobile, families, learned)
         } catch (_: Exception) {
             null
         }
+    }
 }
