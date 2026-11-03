@@ -79,7 +79,7 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
     fun summaryText(): String {
         val eligible = eligibleMappings().size
         val samples = patterns.values.sumOf { it.optInt("samples") }
-        return "\nGathering pattern learner: $samples labelled node samples | $eligible validated enchant mappings | active samples ${activeSamples.size}"
+        return "\nGATHER learn $samples/$eligible | active ${activeSamples.size}"
     }
 
     private fun eligibleMappings(): Map<String, String> {
