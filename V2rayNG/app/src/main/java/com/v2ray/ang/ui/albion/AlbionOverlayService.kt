@@ -179,7 +179,9 @@ class AlbionOverlayService : Service() {
                 put("timestamp_ms", now)
                 put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
                 put("event", event); put("activity", activity)
-                put("tier", tier); put("enchantment", enchant)
+                if (activity in setOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Troll")) {
+                    put("tier", tier); put("enchantment", enchant)
+                }
                 put("source", "manual_overlay")
             }.toString()
             val saved = CoreServiceManager.appendAlbionCaptureMarker(AlbionCaptureMarker.build(json), now)
