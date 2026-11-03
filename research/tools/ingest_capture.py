@@ -89,7 +89,7 @@ def pair_manual_markers(markers):
 def write_marker_lifecycle_csv(stem,marker_lifecycles):
  marker_fields=["activity","tier","enchantment","found_ms","started_ms","completed_ms","depleted_ms","mob_killed_ms","status","metadata_conflicts","identity_scope"]
  with (DB/(stem+"-marker-lifecycles.csv")).open("w",newline="",encoding="utf-8") as f:
-  w=csv.DictWriter(f,fieldnames=marker_fields);w.writeheader()
+  w=csv.DictWriter(f,fieldnames=marker_fields,extrasaction="ignore");w.writeheader()
   for cycle in marker_lifecycles:
    row=cycle.copy();row["metadata_conflicts"]=";".join(row.get("metadata_conflicts",[]));w.writerow(row)
 def refresh_existing_marker_lifecycles():
