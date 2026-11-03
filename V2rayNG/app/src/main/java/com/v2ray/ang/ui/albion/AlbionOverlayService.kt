@@ -102,8 +102,10 @@ class AlbionOverlayService : Service() {
                 refreshHandler.post {
                     acceptedCount?.let(CoreServiceManager::acknowledgeAlbionOverlaySnapshot)
                     if (::liveStatus.isInitialized) {
+                        val dictionaryCoverage = researchKnowledge?.mobileDictionaryCoverage(mobileTypeDictionary)
+                        val dictionaryStatus = dictionaryCoverage?.let { " • D${it.label()}" } ?: " • D?/?"
                         liveStatus.text = (researchKnowledge?.statusLabel() ?: "KNOW unavailable") +
-                            " • MAP $catalogNodeCount/$catalogMarkerCount • " + statusText.take(170)
+                            dictionaryStatus + " • MAP $catalogNodeCount/$catalogMarkerCount • " + statusText.take(150)
                     }
                     snapshotRefreshInFlight.set(false)
                     if (controlsRoot != null || radarRoot != null) refreshHandler.postDelayed(this, 1200L)
