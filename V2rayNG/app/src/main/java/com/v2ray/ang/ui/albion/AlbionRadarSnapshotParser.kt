@@ -38,18 +38,26 @@ object AlbionRadarSnapshotParser {
                     inferenceStatus != "CONFLICT" && inferenceStatus != "UNKNOWN" &&
                     inferenceConfidence > 0.0
             }
+            val tierLabel = item.optInt("tier", -1).takeIf { it in 2..8 }?.let { " T$it" } ?: ""
+            val enchantInference = item.optJSONObject("resource_inference")?.optJSONObject("enchantment_name")
+            val enchantValue = enchantInference?.optString("value")?.takeIf { it.startsWith("E") }
+            val enchantStatus = enchantInference?.optString("status")
+            val enchantLabel = enchantValue?.let { " $it" + if (enchantStatus == "PROVISIONAL_MAPPING") "?" else "" }
+                ?: item.optInt("enchant", -1).takeIf { it in 1..3 }?.let { " E$it?" } ?: ""
+            val suffix = tierLabel + enchantLabel
             if (inferredName != null) {
-                return when (inferenceStatus) {
+                val name = when (inferenceStatus) {
                     "PACKET_CONFIRMED" -> inferredName
                     "CAPTURE_CORROBORATED" -> "$inferredName*"
                     "PROVISIONAL_MAPPING" -> "$inferredName?"
                     else -> inferredName
                 }
+                return name + suffix
             }
-            if (item.optInt("family", -1) == 29) return "Ore candidate F29"
-            if (item.has("family")) return "Resource F${item.optInt("family")}"
-            if (item.has("mobile_type_id")) return "Resource ID${item.optInt("mobile_type_id")}"
-            return if (kind == "static_resource") "Resource candidate" else "Resource"
+            if (item.optInt("family", -1) == 29) return "Ore candidate F29$suffix"
+            if (item.has("family")) return "Resource F${item.optInt("family")}$suffix"
+            if (item.has("mobile_type_id")) return "Resource ID${item.optInt("mobile_type_id")}$suffix"
+            return (if (kind == "static_resource") "Resource candidate" else "Resource") + suffix
         }
         if (kind == "player_move") return item.optString("name").takeIf { it.isNotBlank() } ?: "Player"
         return kind.ifBlank { "Unknown entity" }
