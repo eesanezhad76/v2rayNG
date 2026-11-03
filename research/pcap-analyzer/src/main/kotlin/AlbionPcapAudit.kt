@@ -859,7 +859,8 @@ fun main() {
             "2026-11-02-pcap-static-resources.csv",
             "2026-11-02-pcap-mob-lifecycle.csv",
             "2026-11-02-pcap-health-energy-events.csv",
-            "2026-11-02-pcap-attack-target-tracks.csv"
+            "2026-11-02-pcap-attack-target-tracks.csv",
+            "2026-11-02-overlay-mob-attack-correlation.csv"
         )
         val exportedDatabaseArtifacts = databaseArtifacts.filter { name ->
             val source = File(out, name)
