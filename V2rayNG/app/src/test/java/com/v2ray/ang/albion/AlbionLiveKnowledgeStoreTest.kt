@@ -300,4 +300,29 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(record.optInt("evidence_conflicts") == 0 || record.optJSONArray("evidence_conflicts")?.length() == 0)
         assertTrue(second.summaryText().contains("Unique tracked entities: 2"))
     }
+    @Test fun keepsKilledMobIdentityAndHealthAfterLeaveEvent() {
+        val store = AlbionLiveKnowledgeStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 9901L,
+            typeId = 701, enchant = 1, x = 42f, y = -17f, name = "Forest Troll"
+        )))
+        store.observe(now + 100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "health", eventCode = 7, entityId = 9901L,
+            sourceEntityId = 77L, value = -25f, secondaryValue = 75f
+        )))
+        store.observe(now + 200L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "leave", eventCode = 1, entityId = 9901L, removed = true
+        )))
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        val mob = snapshot.getJSONObject(0)
+        assertTrue(mob.optString("last_kind") == "mob", mob.toString())
+        assertTrue(mob.optString("name") == "Forest Troll", mob.toString())
+        assertTrue(mob.optBoolean("left"), mob.toString())
+        assertTrue(mob.optBoolean("health_observed"), mob.toString())
+        assertTrue(mob.optDouble("health_value") == 75.0, mob.toString())
+        assertTrue(mob.optDouble("health_delta") == -25.0, mob.toString())
+        assertTrue(mob.optString("last_health_source_entity_id") == "77", mob.toString())
+    }
+
 }
