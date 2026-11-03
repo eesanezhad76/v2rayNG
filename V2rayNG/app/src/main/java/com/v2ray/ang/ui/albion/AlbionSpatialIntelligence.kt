@@ -15,7 +15,7 @@ object AlbionSpatialIntelligence {
 
     /** Collapse duplicate observations at the same half-unit coordinate without merging distinct typed resources. */
     fun deduplicate(entities: List<JSONObject>): List<JSONObject> {
-        val nonResources = entities.filter { it.optString("last_kind") !in resourceKinds }.toMutableList()
+        val retained = entities.filter { it.optString("last_kind") !in resourceKinds }.toMutableList()
         val resources = entities.filter {
             it.optString("last_kind") in resourceKinds &&
                 it.has("x") && it.has("y") &&
@@ -26,16 +26,15 @@ object AlbionSpatialIntelligence {
             val typed = group.filter { isTypedResource(it) }
             if (typed.isEmpty()) {
                 // Event 39 can repeat the same untyped candidate under different runtime IDs.
-                nonResources.add(group.maxByOrNull { it.optLong("last_seen_ms") }!!)
+                retained.add(group.maxByOrNull { it.optLong("last_seen_ms") }!!)
             } else {
                 // A typed observation supersedes an Event 39-only candidate at the same point.
-                val signatures = typed.groupBy { typedSignature(it) }
-                signatures.values.forEach { sameType ->
-                    nonResources.add(sameType.maxByOrNull { it.optLong("last_seen_ms") }!!)
-                }
+                // Keep every distinct typed runtime ID. Same coordinates/type are not proof
+                // that two independently identified live entities are the same game object.
+                retained.addAll(typed)
             }
         }
-        return nonResources
+        return retained
     }
 
     /** Only typed harvestable observations or explicitly user-confirmed targets may guide gathering. */
@@ -75,10 +74,6 @@ object AlbionSpatialIntelligence {
 
     private fun coordinateKey(item: JSONObject): String =
         "${(item.optDouble("x") * 2.0).roundToInt()}:${(item.optDouble("y") * 2.0).roundToInt()}"
-
-    private fun typedSignature(item: JSONObject): String =
-        listOf(item.optInt("family", -1), item.optInt("mobile_type_id", -1),
-            item.optInt("tier", -1), item.optInt("enchant", -1)).joinToString(":")
 
     private fun distanceSquared(item: JSONObject, x: Double, y: Double): Double {
         val dx = item.optDouble("x") - x
