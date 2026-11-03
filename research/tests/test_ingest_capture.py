@@ -99,6 +99,21 @@ class IngestTests(unittest.TestCase):
    self.assertEqual("TARGET_FOUND_TO_KILLED",out["marker_lifecycles"][0]["status"])
    self.assertEqual("manual_marker_only_no_runtime_entity_id",out["marker_lifecycles"][0]["identity_scope"])
 
+ def test_troll_start_to_killed_markers_are_paired(self):
+  with tempfile.TemporaryDirectory() as td:
+   d=pathlib.Path(td)
+   markers=[
+    {"timestamp_ms":100,"activity":"Troll","event":"target_found","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":200,"activity":"Troll","event":"mob_killed","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":300,"activity":"Troll","event":"target_found","tier":"T4","enchantment":"Normal"}
+   ]
+   out=self.run_ingest([{"time_ms":m["timestamp_ms"],"manual_marker":m} for m in markers],d)
+   self.assertEqual(1,out["counts"]["mob_marker_pairs"])
+   troll=[x for x in out["marker_lifecycles"] if x["activity"]=="Troll"]
+   self.assertEqual("TARGET_FOUND_TO_KILLED",troll[0]["status"])
+   self.assertEqual("TARGET_FOUND_NOT_KILLED",troll[1]["status"])
+   self.assertEqual(1,out["counts"]["incomplete_mob_marker_cycles"])
+
  def test_refresh_existing_database_rebuilds_marker_lifecycle_metadata(self):
   with tempfile.TemporaryDirectory() as td:
    d=pathlib.Path(td);db=d/"research/database";db.mkdir(parents=True)
