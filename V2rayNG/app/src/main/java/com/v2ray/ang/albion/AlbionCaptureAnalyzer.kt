@@ -281,6 +281,9 @@ object AlbionCaptureAnalyzer {
                 marker.optString("target_id", "").takeIf { it.isNotBlank() && it != "null" }?.let {
                     append(" target_id=").append(safe(it))
                 }
+                marker.optString("marker_type", "").takeIf { it.isNotBlank() && it != "null" }?.let {
+                    append(" marker_type=").append(safe(it))
+                }
             }
         } catch (_: Exception) { null }
     }
