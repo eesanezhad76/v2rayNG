@@ -150,7 +150,7 @@ def main():
         else: resource_type_counts[resource_type]+=1
         tier_conflict=bool(mobile_harvestable and tiers and str(mobile_entry.get("tier")) not in tiers)
         user_confirmed=(row.get("archive")=="AlbionRadar.zip" and row.get("pcap")=="albion-1793682590317.pcap" and str(row.get("entity_id"))=="2788")
-        coords=split_values(row.get("coordinates"))
+        coords=[x.strip() for x in str(row.get("coordinates","")).split(",") if x.strip()]
         enriched_nodes.append({
           "archive":row.get("archive",""),"pcap":row.get("pcap",""),"entity_id":row.get("entity_id",""),
           "type_number":number if number is not None else "|".join(nums),"resource_type":resource_type,
