@@ -21,6 +21,12 @@ class RadarEnrichmentTests(unittest.TestCase):
             old_db, old_analysis, old_asset = radar.DB, radar.ANALYSIS, radar.ASSET
             radar.DB, radar.ANALYSIS = db, analysis
             radar.ASSET = assets / "albion-static-catalog.json"
+            (db / "albion-mobile-type-dictionary.json").write_text(json.dumps({
+                "entries": {"573": {"display_name": "Ore Elemental", "tier": 3,
+                                    "category": "critter", "unique_name": "T3_MOB_CRITTER_ORE_MOUNTAIN_RED",
+                                    "localization_tag": "@MOB_T3_MOB_CRITTER_FOREST_RED_OREELEMENTAL",
+                                    "max_health": 856, "danger": "normal", "is_harvestable": True}}
+            }), encoding="utf-8")
             try:
                 catalog = {
                     "dataset": radar.DATASET, "node_count": 83, "node_count": 83,
@@ -67,8 +73,11 @@ class RadarEnrichmentTests(unittest.TestCase):
                 saved = json.loads((db / (radar.DATASET + "-catalog.json")).read_text(encoding="utf-8"))
                 target = next(x for x in saved["entities"] if x.get("source_entity_id") == "57301")
                 self.assertEqual("Troll", target["marker_activity"])
-                self.assertEqual("Troll #573", target["name"])
+                self.assertEqual("Ore Elemental", target["name"])
                 self.assertEqual(10.5, target["x"])
+                self.assertEqual(3, target["tier"])
+                self.assertEqual(5, target["marker_tier"])
+                self.assertEqual("critter", target["mob_category"])
                 self.assertTrue(target["targeted_by_player"])
                 self.assertFalse(saved["markers"][0]["attack_target_correlation"]["identity_proven"])
                 self.assertTrue((assets / "albion-static-catalog.json").is_file())
