@@ -1,3 +1,4 @@
+import hashlib
 import json
 import sys
 import tempfile
@@ -65,6 +66,8 @@ class HistoricalKnowledgeSeedTest(unittest.TestCase):
             manifest = json.loads((root / "V2rayNG/app/src/main/assets/albion-historical-knowledge-manifest.json").read_text())
             self.assertEqual(70, manifest["learned_patterns"])
             self.assertEqual(4599, manifest["protocol_events"])
+            self.assertEqual(hashlib.sha256(source.read_bytes()).hexdigest(), manifest["source_sha256"])
+            self.assertTrue(all(Path(output).is_relative_to(root) for output in report["outputs"]))
 
 
 if __name__ == "__main__":
