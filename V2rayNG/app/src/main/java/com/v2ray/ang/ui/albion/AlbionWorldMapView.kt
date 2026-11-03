@@ -10,9 +10,9 @@ import org.json.JSONObject
 
 /** Pan/zoom coordinate map for observed game coordinates; no terrain is fabricated. */
 class AlbionWorldMapView(context: Context) : View(context) {
-    private var entities: List<JSONObject> = emptyList()
-    private var player: JSONObject? = null
-    private var invalidCount = 0
+    @Volatile private var entities: List<JSONObject> = emptyList()
+    @Volatile private var player: JSONObject? = null
+    @Volatile private var invalidCount = 0
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
     private var pixelsPerUnit = 2.4f * density
@@ -40,14 +40,15 @@ class AlbionWorldMapView(context: Context) : View(context) {
             entities = emptyList()
             player = null
             invalidCount = 0
-            invalidate()
+            postInvalidate()
             return false
         }
         entities = parsed.entities
         invalidCount = parsed.invalidCoordinateCount
         player = entities.filter { it.optString("last_kind") == "own_player_move" }
             .maxByOrNull { it.optLong("last_seen_ms") }
-        invalidate()
+        // This snapshot may be decoded on the map data worker thread.
+        postInvalidate()
         return true
     }
 
