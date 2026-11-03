@@ -12,6 +12,7 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.IBinder
 import android.os.Handler
+import android.os.HandlerThread
 import android.os.Looper
 import android.provider.Settings
 import android.view.Gravity
@@ -30,6 +31,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import com.v2ray.ang.albion.AlbionCaptureMarker
 import com.v2ray.ang.core.CoreServiceManager
+import java.util.concurrent.atomic.AtomicBoolean
 
 /** Two independently movable, compact overlay windows: activity controls and navigation radar. */
 class AlbionOverlayService : Service() {
@@ -57,6 +59,9 @@ class AlbionOverlayService : Service() {
     private var catalogNodeCount = 0
     private var catalogMarkerCount = 0
     private val refreshHandler = Handler(Looper.getMainLooper())
+    private val snapshotThread = HandlerThread("AlbionRadarSnapshot").apply { start() }
+    private val snapshotHandler = Handler(snapshotThread.looper)
+    private val snapshotRefreshInFlight = AtomicBoolean(false)
     private val activities = listOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Mob", "Troll", "PvP", "Move", "Other")
     private val tiers = (2..8).map { "T$it" }
     private val enchants = listOf("Normal", "E1", "E2", "E3")
@@ -77,18 +82,30 @@ class AlbionOverlayService : Service() {
     private val refreshLiveSnapshot = object : Runnable {
         override fun run() {
             if (controlsRoot == null && radarRoot == null) return
-            val live = enrichLiveSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
-            if (::radarView.isInitialized && radarRoot != null) {
-                // Count delivery only after the snapshot parser accepted and installed it.
-                radarView.setLiveSnapshot(live)?.let { acceptedCount ->
-                    CoreServiceManager.acknowledgeAlbionOverlaySnapshot(acceptedCount)
+            if (!snapshotRefreshInFlight.compareAndSet(false, true)) {
+                refreshHandler.postDelayed(this, 1200L)
+                return
+            }
+            snapshotHandler.post {
+                var acceptedCount: Int? = null
+                var statusText = "Live snapshot unavailable"
+                try {
+                    val live = enrichLiveSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
+                    if (::radarView.isInitialized) acceptedCount = radarView.setLiveSnapshot(live)
+                    statusText = CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
+                        .replace('\n', ' ').replace('\r', ' ')
+                } catch (error: Exception) {
+                    statusText = "Snapshot error: ${error.message ?: error.javaClass.simpleName}"
+                }
+                refreshHandler.post {
+                    acceptedCount?.let(CoreServiceManager::acknowledgeAlbionOverlaySnapshot)
+                    if (::liveStatus.isInitialized) {
+                        liveStatus.text = "DB $catalogNodeCount/$catalogMarkerCount • " + statusText.take(220)
+                    }
+                    snapshotRefreshInFlight.set(false)
+                    if (controlsRoot != null || radarRoot != null) refreshHandler.postDelayed(this, 1200L)
                 }
             }
-            if (::liveStatus.isInitialized) {
-                val status = CoreServiceManager.getAlbionLiveKnowledgeSnapshot().replace('\n', ' ').replace('\r', ' ')
-                liveStatus.text = "DB $catalogNodeCount/$catalogMarkerCount • " + status.take(220)
-            }
-            refreshHandler.postDelayed(this, 1200L)
         }
     }
 
@@ -282,11 +299,10 @@ class AlbionOverlayService : Service() {
             body.addView(choiceRow(activities, activity) { activity = it; renderBody() })
             title.text = "ALBION • $activity"
             if (activity !in setOf("Mob", "Mobs", "PvP", "Move", "Other")) {
-                body.addView(label("TIER / ENCHANT"))
-                body.addView(choiceRow(tiers + enchants, tier + "|" + enchant) {
-                    if (it.startsWith("T")) tier = it else enchant = it
-                    renderBody()
-                })
+                body.addView(label("TIER"))
+                body.addView(choiceRow(tiers, tier) { tier = it; renderBody() })
+                body.addView(label("ENCHANT"))
+                body.addView(choiceRow(enchants, enchant) { enchant = it; renderBody() })
             }
             val actions = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
             val first = if (activity == "Move") "MOVE +" else "START"
@@ -456,6 +472,8 @@ class AlbionOverlayService : Service() {
 
     override fun onDestroy() {
         refreshHandler.removeCallbacks(refreshLiveSnapshot)
+        snapshotHandler.removeCallbacksAndMessages(null)
+        snapshotThread.quitSafely()
         try { controlsRoot?.let { wm.removeView(it) } } catch (_: Exception) { }
         try { radarRoot?.let { wm.removeView(it) } } catch (_: Exception) { }
         controlsRoot = null; radarRoot = null; controlsParams = null; radarParams = null
