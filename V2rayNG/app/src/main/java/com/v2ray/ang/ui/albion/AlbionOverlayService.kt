@@ -166,11 +166,19 @@ class AlbionOverlayService : Service() {
             setOnClickListener { action() }
         }
 
-    private fun choiceRow(values: List<String>, selected: String, onPick: (String) -> Unit): HorizontalScrollView {
+    private fun enchantColorForLabel(value: String): Int = when (value) {
+        "E1" -> 0xFF35D06F.toInt()
+        "E2" -> 0xFF3994FF.toInt()
+        "E3" -> 0xFFB56BFF.toInt()
+        else -> 0xFFE3EDF5.toInt()
+    }
+
+    private fun choiceRow(values: List<String>, selected: String, onPick: (String) -> Unit, colorForValue: ((String) -> Int)? = null): HorizontalScrollView {
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         values.forEach { value ->
-            row.addView(button(value, value == selected || selected.split("|").contains(value)) { onPick(value) },
-                LinearLayout.LayoutParams(-2, dp(30)).apply { rightMargin = dp(2) })
+            val choice = button(value, value == selected || selected.split("|").contains(value)) { onPick(value) }
+            colorForValue?.let { choice.setTextColor(it(value)) }
+            row.addView(choice, LinearLayout.LayoutParams(-2, dp(30)).apply { rightMargin = dp(2) })
         }
         return HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(row) }
     }
@@ -315,7 +323,7 @@ class AlbionOverlayService : Service() {
                 body.addView(label("TIER"))
                 body.addView(choiceRow(tiers, tier) { tier = it; renderBody() })
                 body.addView(label("ENCHANT"))
-                body.addView(choiceRow(enchants, enchant) { enchant = it; renderBody() })
+                body.addView(choiceRow(enchants, enchant, { enchant = it; renderBody() }, ::enchantColorForLabel))
             }
             val actions = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
             val first = if (activity == "Move") "MOVE +" else "START"
@@ -359,8 +367,15 @@ class AlbionOverlayService : Service() {
         filterPanel.addView(label("2 • TIER (NONE = ALL)"))
         filterOptions.drop(10).take(8).forEach { (key, label) ->
             val check = CheckBox(this).apply {
-                text = label; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
-                buttonTintList = ColorStateList.valueOf(0xFF80D8FF.toInt())
+                text = label; textSize = 9f
+                val tint = when (key) {
+                    "enchant_1" -> 0xFF35D06F.toInt()
+                    "enchant_2" -> 0xFF3994FF.toInt()
+                    "enchant_3" -> 0xFFB56BFF.toInt()
+                    else -> 0xFF80D8FF.toInt()
+                }
+                setTextColor(if (key.startsWith("enchant_")) tint else 0xFFE3EDF5.toInt())
+                buttonTintList = ColorStateList.valueOf(tint)
                 isChecked = key in enabledFilters; minHeight = dp(24); includeFontPadding = false
                 setOnCheckedChangeListener { _, checked ->
                     if (checked) enabledFilters.add(key) else enabledFilters.remove(key)
@@ -372,8 +387,15 @@ class AlbionOverlayService : Service() {
         filterPanel.addView(label("3 • ENCHANTMENT (NONE = ALL)"))
         filterOptions.drop(18).forEach { (key, label) ->
             val check = CheckBox(this).apply {
-                text = label; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
-                buttonTintList = ColorStateList.valueOf(0xFF80D8FF.toInt())
+                text = label; textSize = 9f
+                val tint = when (key) {
+                    "enchant_1" -> 0xFF35D06F.toInt()
+                    "enchant_2" -> 0xFF3994FF.toInt()
+                    "enchant_3" -> 0xFFB56BFF.toInt()
+                    else -> 0xFF80D8FF.toInt()
+                }
+                setTextColor(if (key.startsWith("enchant_")) tint else 0xFFE3EDF5.toInt())
+                buttonTintList = ColorStateList.valueOf(tint)
                 isChecked = key in enabledFilters; minHeight = dp(24); includeFontPadding = false
                 setOnCheckedChangeListener { _, checked ->
                     if (checked) enabledFilters.add(key) else enabledFilters.remove(key)
