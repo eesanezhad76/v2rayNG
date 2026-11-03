@@ -69,7 +69,8 @@ class AlbionOverlayService : Service() {
         "category_troll" to "Trolls",
         "category_ore_elemental" to "Ore Elementals",
         "category_animal" to "Other Animals",
-        "category_mobs" to "Other Mobs"
+        "category_mobs" to "Other Mobs",
+        "category_unknown_resource" to "Unclassified Resources"
     ) + (2..8).map { "tier_$it" to "T$it" } +
         listOf("enchant_0" to "Normal", "enchant_1" to "E1", "enchant_2" to "E2", "enchant_3" to "E3")
 
@@ -124,10 +125,10 @@ class AlbionOverlayService : Service() {
 
     private fun button(label: String, selected: Boolean = false, action: () -> Unit) =
         Button(this).apply {
-            text = label; textSize = 8f; isAllCaps = false
+            text = label; textSize = if (label.length > 5) 7f else 8f; isAllCaps = false
             minWidth = 0; minimumWidth = 0; minHeight = 0; minimumHeight = 0
             setPadding(dp(1), 0, dp(1), 0); includeFontPadding = false
-            maxLines = 1; isSingleLine = true; gravity = Gravity.CENTER
+            maxLines = 1; isSingleLine = true; gravity = Gravity.CENTER; textScaleX = 0.92f
             ellipsize = android.text.TextUtils.TruncateAt.END
             if (selected) setTextColor(0xFF80D8FF.toInt())
             setOnClickListener { action() }
@@ -302,7 +303,7 @@ class AlbionOverlayService : Service() {
     private fun renderFilters() {
         filterPanel.removeAllViews()
         filterPanel.addView(label("1 • RESOURCE / TARGET TYPE"))
-        filterOptions.take(9).forEach { (key, label) ->
+        filterOptions.take(10).forEach { (key, label) ->
             val check = CheckBox(this).apply {
                 text = label; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
                 buttonTintList = ColorStateList.valueOf(0xFF80D8FF.toInt())
@@ -315,8 +316,8 @@ class AlbionOverlayService : Service() {
             }
             filterPanel.addView(check, LinearLayout.LayoutParams(-1, dp(24)))
         }
-        filterPanel.addView(label("2 • TIER"))
-        filterOptions.drop(9).take(7).forEach { (key, label) ->
+        filterPanel.addView(label("2 • TIER (NONE = ALL)"))
+        filterOptions.drop(10).take(7).forEach { (key, label) ->
             val check = CheckBox(this).apply {
                 text = label; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
                 buttonTintList = ColorStateList.valueOf(0xFF80D8FF.toInt())
@@ -328,8 +329,8 @@ class AlbionOverlayService : Service() {
             }
             filterPanel.addView(check, LinearLayout.LayoutParams(-1, dp(24)))
         }
-        filterPanel.addView(label("3 • ENCHANTMENT"))
-        filterOptions.drop(16).forEach { (key, label) ->
+        filterPanel.addView(label("3 • ENCHANTMENT (NONE = ALL)"))
+        filterOptions.drop(17).forEach { (key, label) ->
             val check = CheckBox(this).apply {
                 text = label; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
                 buttonTintList = ColorStateList.valueOf(0xFF80D8FF.toInt())
