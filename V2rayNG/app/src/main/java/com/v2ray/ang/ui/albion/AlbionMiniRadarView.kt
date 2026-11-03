@@ -318,7 +318,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     }
 
     companion object {
-        val DEFAULT_FILTERS = setOf("normal_nodes", "enchanted_nodes", "targeted_mobs", "trolls", "enchanted_trolls")
+        val DEFAULT_FILTERS = setOf("category_ore")
         private val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
         private val DISPLAY_KINDS = RESOURCE_KINDS + setOf("mob")
     }
