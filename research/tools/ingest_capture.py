@@ -270,6 +270,7 @@ def analyze(path):
      if x is not None and y is not None:mob["positions"].append({"time_ms":int(t or 0),"x":x,"y":y})
     elif k=="leave" and key in mobs:
      mobs[key]["left"]=True;mobs[key]["left_ms"]=t
+     if t is not None:mobs[key]["last_seen_ms"]=max(mobs[key].get("last_seen_ms") or t,t)
     elif k=="harvestable":
      n=nodes.setdefault(key,{"entity_id":ident,"mobile_type_id":e.get("mobile_type_id"),"type_number":e.get("type_number"),"tier":e.get("tier"),"enchant":e.get("enchant",0),"x":e.get("x"),"y":e.get("y"),"first_seen_ms":t,"last_seen_ms":t,"observations":0,"sizes_seen":[],"state_timeline":[]})
      n["first_seen_ms"]=t if n["first_seen_ms"] is None else min(n["first_seen_ms"],t)
