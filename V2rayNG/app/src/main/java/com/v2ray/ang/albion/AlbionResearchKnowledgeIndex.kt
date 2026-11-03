@@ -15,6 +15,14 @@ object AlbionResearchKnowledgeIndex {
     private const val ASSET_NAME = "albion-research-knowledge-index.json"
     private val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
 
+    data class ResourceTypeEvidence(
+        val value: String,
+        val status: String,
+        val confidence: Double,
+        val observationCount: Int,
+        val captureCount: Int
+    )
+
     data class Snapshot internal constructor(
         val resourceObservationCount: Int,
         val mobileEntityObservationCount: Int,
@@ -25,6 +33,33 @@ object AlbionResearchKnowledgeIndex {
     ) {
         fun statusLabel(): String =
             "KNOW ${resourceObservationCount}R/${mobileEntityObservationCount}M"
+
+        /**
+         * Returns only unanimous, explicitly classified resource-family evidence.
+         * Unknown or mixed mappings stay unresolved; provisional reference mappings
+         * remain provisional and are never promoted by observation count alone.
+         */
+        fun resourceTypeEvidence(family: Int?): ResourceTypeEvidence? {
+            if (family == null) return null
+            val evidence = resourceFamilies.optJSONObject(family.toString()) ?: return null
+            val types = evidence.optJSONObject("resource_types") ?: return null
+            if (types.length() != 1) return null
+            val type = types.keys().asSequence().firstOrNull()?.takeIf { it != "unknown" } ?: return null
+            val statuses = evidence.optJSONObject("mapping_statuses") ?: return null
+            if (statuses.length() != 1) return null
+            val status = statuses.keys().asSequence().firstOrNull() ?: return null
+            if (status !in setOf("REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", "PACKET_CONFIRMED_LIVING_RESOURCE")) return null
+            val observations = evidence.optInt("observation_count", 0)
+            val captures = evidence.optJSONArray("captures")?.length() ?: 0
+            if (observations <= 0 || captures <= 0) return null
+            return ResourceTypeEvidence(
+                value = type,
+                status = status,
+                confidence = if (status == "PACKET_CONFIRMED_LIVING_RESOURCE") 0.98 else 0.90,
+                observationCount = observations,
+                captureCount = captures
+            )
+        }
 
         /** Adds provenance/evidence counters; never replaces packet facts or display names. */
         fun annotate(entity: JSONObject) {
