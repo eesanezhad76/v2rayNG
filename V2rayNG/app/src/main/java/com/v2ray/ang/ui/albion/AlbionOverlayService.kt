@@ -45,7 +45,7 @@ class AlbionOverlayService : Service() {
             refreshHandler.postDelayed(this, 1800L)
         }
     }
-    private val activities = listOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Mobs", "PvP", "Move", "Other")
+    private val activities = listOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Mobs", "Troll", "PvP", "Move", "Other")
     private val tiers = (2..8).map { "T$it" }
     private val enchants = listOf("Normal", "E1", "E2", "E3")
 
@@ -148,7 +148,7 @@ class AlbionOverlayService : Service() {
                 actions.addView(button("Start") { tag("target_found") }, LinearLayout.LayoutParams(0, dp(38), 1f))
                 actions.addView(button("Stop") { tag("gathering_completed") }, LinearLayout.LayoutParams(0, dp(38), 1f))
             }
-            "Mobs" -> {
+            "Mobs", "Troll" -> {
                 actions.addView(button("Start") { tag("target_found") }, LinearLayout.LayoutParams(0, dp(38), 1f))
                 actions.addView(button("Killed") { tag("mob_killed") }, LinearLayout.LayoutParams(0, dp(38), 1f))
             }
