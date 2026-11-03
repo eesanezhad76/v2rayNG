@@ -43,7 +43,10 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
   name=(row.get("event123_name") or mob.get("name") or type_info.get("display_name") or "").strip()
   x=num(row,"last_position_x")
   y=num(row,"last_position_y")
-  if x is None or y is None:x,y=num(mob,"x"),num(mob,"y")
+  position_source="Event3 target movement"
+  if x is None or y is None:
+   x,y=num(mob,"x"),num(mob,"y")
+   position_source="Event123 last observed mob position"
   targets.append({
    "entity_id":eid,"mobile_type_id":mobile,"name":name,"x":x,"y":y,
    "tier":type_info.get("tier"),"mob_category":type_info.get("category"),
@@ -52,6 +55,7 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
    "loot_type":type_info.get("loot_type"),"is_harvestable_mob":type_info.get("is_harvestable",False),
    "first_seen_ms":num(mob,"first_seen_ms",num(row,"first_attack_ms")),
    "last_seen_ms":num(mob,"last_seen_ms",num(row,"last_attack_ms")),
+   "position_source":position_source,"position_last_seen_ms":num(mob,"last_seen_ms"),
    "first_attack_ms":num(row,"first_attack_ms"),"last_attack_ms":num(row,"last_attack_ms"),
    "attack_action_count":num(row,"attack_action_count",0),"attack_flag_values":row.get("attack_flag_values",""),
    "event3_position_samples":num(row,"event3_position_samples",0),
