@@ -76,6 +76,16 @@ class AlbionResearchKnowledgeIndexTest {
     }
 
     @Test
+    fun keepsHideFamilySeparateFromNonHarvestableMountainRabbitType() {
+        val snapshot = AlbionResearchKnowledgeIndex.parse(fixture())!!
+        val resource = JSONObject("""{"last_kind":"static_resource","family":20,"mobile_type_id":482}""")
+        snapshot.annotate(resource)
+        assertEquals(7, resource.optInt("research_catalog_family_observations"))
+        assertEquals("Hide", resource.optJSONArray("research_catalog_family_types")?.optString(0))
+        assertFalse(resource.has("research_catalog_harvestable"))
+    }
+
+    @Test
     fun annotatesMountainRabbitAsNonHarvestableAndDoesNotPromoteItsName() {
         val snapshot = AlbionResearchKnowledgeIndex.parse(fixture())!!
         val rabbit = JSONObject("""{"last_kind":"mob","mobile_type_id":482}""")
