@@ -33,6 +33,7 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
     - name: Checkout code
@@ -93,7 +94,8 @@ jobs:
       uses: actions/setup-go@v6
       with:
         go-version-file: AndroidLibXrayLite/go.mod
-        cache: false
+        cache: true
+        cache-dependency-path: AndroidLibXrayLite/go.sum
 
     - name: Build passive-tap libv2ray AAR
       if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining')
@@ -110,8 +112,12 @@ jobs:
         mkdir -p ../V2rayNG/app/libs
         gomobile init
         go mod tidy
-        go test -race github.com/xtls/xray-core/proxy/tun
         gomobile bind -v -androidapi 24 -trimpath -ldflags='-s -w -buildid= -checklinkname=0' -o ../V2rayNG/app/libs/libv2ray.aar ./
+
+    - name: Test passive-tap tun package
+      if: success() && (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining')
+      working-directory: AndroidLibXrayLite
+      run: go test github.com/xtls/xray-core/proxy/tun
 
     - name: Fetch AndroidLibXrayLite tag
       if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining')
