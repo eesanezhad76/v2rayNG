@@ -52,12 +52,16 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
         when (marker.optString("event")) {
             "target_found", "activity_start", "pvp_started", "movement_started" -> {
                 // A replacement START is not an END: discard the incomplete prior label.
+                // Do not carry pre-roll events across activity boundaries (e.g. Ore -> Mob).
+                val replacingIncompleteActivity = activeLabel != null
                 activeLabel = null
                 val label = JSONObject().put("activity", marker.optString("activity", "Unknown"))
                     .put("tier", marker.optString("tier", "")).put("enchantment", marker.optString("enchantment", ""))
                     .put("started_at_ms", timestampMs).put("signatures", JSONArray()).put("event_count", 0)
-                recent.filter { timestampMs >= it.first && timestampMs - it.first <= PRE_ROLL_MS }
-                    .forEach { pair -> label.optJSONArray("signatures")?.let { addUnique(it, pair.second, MAX_LABEL_SIGNATURES) } }
+                if (!replacingIncompleteActivity) {
+                    recent.filter { timestampMs >= it.first && timestampMs - it.first <= PRE_ROLL_MS }
+                        .forEach { pair -> label.optJSONArray("signatures")?.let { addUnique(it, pair.second, MAX_LABEL_SIGNATURES) } }
+                }
                 activeLabel = label
             }
             "gathering_completed", "mob_killed", "activity_end", "pvp_ended", "movement_completed" -> closeActive(timestampMs)
