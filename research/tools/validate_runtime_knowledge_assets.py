@@ -45,6 +45,8 @@ def validate(root: Path) -> dict:
     index = _json(index_path)
     dictionary = _json(dictionary_path).get("entries")
     static = _json(static_path)
+    bundle_database = _json(research / "albion-knowledge-bundle-import.json")
+    historical_seed = _json(assets / "albion-historical-autonomous-patterns.json")
 
     if not isinstance(dictionary, dict):
         raise ValueError("mobile type dictionary has no entries object")
@@ -136,6 +138,24 @@ def validate(root: Path) -> dict:
     if (target.get("family"), target.get("tier"), target.get("enchant"), target.get("x"), target.get("y")) != (27, 5, 3, -379, -24):
         raise ValueError("user-confirmed T5.3 target 2788 provenance/coordinates changed")
 
+    expected_bundle_counts = {
+        "imported_bundles": 4,
+        "entity_observations": 9522,
+        "protocol_evidence": 4599,
+        "learned_patterns": 70,
+        "autonomous_patterns": 296,
+    }
+    for key, expected in expected_bundle_counts.items():
+        if len(bundle_database.get(key, [])) != expected:
+            raise ValueError(f"historical knowledge bundle {key} count mismatch")
+    seed_signatures = {row.get("signature") for row in historical_seed if isinstance(row, dict)}
+    source_signatures = {row.get("signature") for row in bundle_database["autonomous_patterns"] if isinstance(row, dict)}
+    if len(historical_seed) != 296 or seed_signatures != source_signatures:
+        raise ValueError("historical autonomous seed does not exactly cover imported signatures")
+    if any(row.get("evidence_semantics") !=
+           "historical signature evidence only; no semantic event classification" for row in historical_seed):
+        raise ValueError("historical seed contains an unsupported semantic promotion")
+
     coordinate_policy = generated.get("coordinate_policy", "")
     if "verified zone/session transform" not in coordinate_policy:
         raise ValueError("historical coordinate safety policy is missing")
@@ -149,6 +169,13 @@ def validate(root: Path) -> dict:
         "dictionary_coverage": f"{len(dictionary_ids & index_ids)}/{len(index_ids)}",
         "saved_catalog": {"entities": len(entities), "nodes": len(resource_rows), "mobs": len(mob_rows), "markers": len(markers)},
         "confirmed_t53_target": "2788",
+        "historical_knowledge": {
+            "bundles": len(bundle_database["imported_bundles"]),
+            "entity_records": len(bundle_database["entity_observations"]),
+            "protocol_events": len(bundle_database["protocol_evidence"]),
+            "learned_patterns": len(bundle_database["learned_patterns"]),
+            "autonomous_signatures_seeded": len(historical_seed),
+        },
         "historical_coordinates_projected": False,
     }
 
