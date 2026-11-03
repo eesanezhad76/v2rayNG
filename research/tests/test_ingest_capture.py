@@ -117,6 +117,23 @@ class IngestTests(unittest.TestCase):
    csv_text=(db/"legacy-marker-lifecycles.csv").read_text(encoding="utf-8")
    self.assertIn("metadata_conflicts",csv_text.splitlines()[0])
 
+ def test_current_overlay_start_end_pair_is_a_complete_resource_cycle(self):
+  with tempfile.TemporaryDirectory() as td:
+   d=pathlib.Path(td)
+   markers=[
+    {"timestamp_ms":100,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"E3"},
+    {"timestamp_ms":25000,"activity":"Ore","event":"gathering_completed","tier":"T5","enchantment":"E3"}
+   ]
+   out=self.run_ingest([{"time_ms":m["timestamp_ms"],"manual_marker":m} for m in markers],d)
+   self.assertEqual(1,out["counts"]["complete_resource_marker_cycles"])
+   self.assertEqual(0,out["counts"]["incomplete_resource_marker_cycles"])
+   cycle=out["marker_lifecycles"][0]
+   self.assertEqual("COMPLETE",cycle["status"])
+   self.assertEqual(100,cycle["found_ms"])
+   self.assertEqual(25000,cycle["completed_ms"])
+   self.assertEqual("T5",cycle["tier"])
+   self.assertEqual("E3",cycle["enchantment"])
+
  def test_legacy_event_analysis_schema_still_supported(self):
   with tempfile.TemporaryDirectory() as td:
    d=pathlib.Path(td)
