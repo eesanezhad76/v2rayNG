@@ -129,8 +129,15 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         }
         val selectedCategories = enabledFilters.filter { it.startsWith("category_") }
             .map { it.removePrefix("category_") }.toSet()
+        val anyResourceCategorySelected = selectedCategories.any {
+            it in setOf("ore", "wood", "stone", "fiber", "hide", "unknown_resource")
+        }
         val categoryEnabled = when {
-            node -> "category_$resourceCategory" in enabledFilters
+            node -> "category_$resourceCategory" in enabledFilters ||
+                // Event 39 supplies resource IDs and coordinates before Event 40 supplies
+                // type/tier metadata. Keep these live candidates visible instead of
+                // silently dropping every node while its category is still unknown.
+                (resourceCategory == "unknown_resource" && anyResourceCategorySelected)
             mob -> mobCategory in selectedCategories || (mobCategory == "other_mob" && "category_mobs" in enabledFilters)
             else -> false
         }
@@ -139,7 +146,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             .mapNotNull { it.removePrefix("tier_").toIntOrNull() }.toSet()
         val markerTier = item.optInt("marker_tier", -1)
         val effectiveTier = if (markerTier >= 0) markerTier else item.optInt("tier", -1)
-        if (tierFilters.isNotEmpty() && effectiveTier !in tierFilters) return false
+        // Event 39 candidates can arrive before typed tier metadata.
+        // Unknown tier is not proof that a node is outside the selected tier range.
+        if (tierFilters.isNotEmpty() && effectiveTier >= 0 && effectiveTier !in tierFilters) return false
         val enchantFilters = enabledFilters.filter { it.startsWith("enchant_") }
             .mapNotNull { it.removePrefix("enchant_").toIntOrNull() }.toSet()
         // Enchantment is a resource-node property; never hide mobs (e.g. blue golems/trolls) because they have no enchantment.
