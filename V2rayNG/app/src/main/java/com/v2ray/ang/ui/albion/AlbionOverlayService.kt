@@ -61,15 +61,17 @@ class AlbionOverlayService : Service() {
     private val tiers = (2..8).map { "T$it" }
     private val enchants = listOf("Normal", "E1", "E2", "E3")
     private val filterOptions = listOf(
-        "normal_nodes" to "Normal nodes",
-        "enchanted_nodes" to "Enchanted nodes",
-        "targeted_mobs" to "Player-targeted mobs",
-        "ore_elementals" to "Ore Elementals",
-        "mobs" to "Other visible mobs",
-        "trolls" to "Trolls",
-        "enchanted_trolls" to "Enchanted Trolls"
-    ) + (2..8).map { "tier_$it" to "Tier T$it" } +
-        listOf("enchant_1" to "Enchant E1", "enchant_2" to "Enchant E2", "enchant_3" to "Enchant E3")
+        "category_ore" to "Ore",
+        "category_wood" to "Wood / Trees",
+        "category_stone" to "Stone",
+        "category_fiber" to "Fiber",
+        "category_hide" to "Hide / Animals",
+        "category_troll" to "Trolls",
+        "category_ore_elemental" to "Ore Elementals",
+        "category_animal" to "Other Animals",
+        "category_mobs" to "Other Mobs"
+    ) + (2..8).map { "tier_$it" to "T$it" } +
+        listOf("enchant_0" to "Normal", "enchant_1" to "E1", "enchant_2" to "E2", "enchant_3" to "E3")
 
     private val refreshLiveSnapshot = object : Runnable {
         override fun run() {
@@ -122,9 +124,11 @@ class AlbionOverlayService : Service() {
 
     private fun button(label: String, selected: Boolean = false, action: () -> Unit) =
         Button(this).apply {
-            text = label; textSize = 9f; isAllCaps = false
+            text = label; textSize = 8f; isAllCaps = false
             minWidth = 0; minimumWidth = 0; minHeight = 0; minimumHeight = 0
-            setPadding(dp(3), 0, dp(3), 0); includeFontPadding = false; maxLines = 1
+            setPadding(dp(1), 0, dp(1), 0); includeFontPadding = false
+            maxLines = 1; isSingleLine = true; gravity = Gravity.CENTER
+            ellipsize = android.text.TextUtils.TruncateAt.END
             if (selected) setTextColor(0xFF80D8FF.toInt())
             setOnClickListener { action() }
         }
@@ -297,12 +301,39 @@ class AlbionOverlayService : Service() {
 
     private fun renderFilters() {
         filterPanel.removeAllViews()
-        filterOptions.forEach { (key, label) ->
+        filterPanel.addView(label("1 • RESOURCE / TARGET TYPE"))
+        filterOptions.take(9).forEach { (key, label) ->
             val check = CheckBox(this).apply {
                 text = label; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
                 buttonTintList = ColorStateList.valueOf(0xFF80D8FF.toInt())
                 isChecked = key in enabledFilters; minHeight = dp(24); setPadding(dp(2), 0, 0, 0)
                 includeFontPadding = false
+                setOnCheckedChangeListener { _, checked ->
+                    if (checked) enabledFilters.add(key) else enabledFilters.remove(key)
+                    radarView.setFilters(enabledFilters)
+                }
+            }
+            filterPanel.addView(check, LinearLayout.LayoutParams(-1, dp(24)))
+        }
+        filterPanel.addView(label("2 • TIER"))
+        filterOptions.drop(9).take(7).forEach { (key, label) ->
+            val check = CheckBox(this).apply {
+                text = label; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
+                buttonTintList = ColorStateList.valueOf(0xFF80D8FF.toInt())
+                isChecked = key in enabledFilters; minHeight = dp(24); includeFontPadding = false
+                setOnCheckedChangeListener { _, checked ->
+                    if (checked) enabledFilters.add(key) else enabledFilters.remove(key)
+                    radarView.setFilters(enabledFilters)
+                }
+            }
+            filterPanel.addView(check, LinearLayout.LayoutParams(-1, dp(24)))
+        }
+        filterPanel.addView(label("3 • ENCHANTMENT"))
+        filterOptions.drop(16).forEach { (key, label) ->
+            val check = CheckBox(this).apply {
+                text = label; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
+                buttonTintList = ColorStateList.valueOf(0xFF80D8FF.toInt())
+                isChecked = key in enabledFilters; minHeight = dp(24); includeFontPadding = false
                 setOnCheckedChangeListener { _, checked ->
                     if (checked) enabledFilters.add(key) else enabledFilters.remove(key)
                     radarView.setFilters(enabledFilters)
