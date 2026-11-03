@@ -58,6 +58,7 @@ class AlbionOverlayService : Service() {
     private var catalogEntities = JSONArray()
     private var mobileTypeDictionary = JSONObject()
     private var researchKnowledge: AlbionResearchKnowledgeIndex.Snapshot? = null
+    private var historicalKnowledge: com.v2ray.ang.albion.AlbionHistoricalKnowledgeIndex.Snapshot? = null
     private var catalogNodeCount = 0
     private var catalogMarkerCount = 0
     private val refreshHandler = Handler(Looper.getMainLooper())
