@@ -191,7 +191,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private fun drawCatalogOverview(canvas: Canvas, cx: Float, cy: Float, radius: Float) {
         val points = entities.filter {
             it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) &&
-                it.optString("last_kind") != "own_player_move"
+                it.optString("last_kind") != "own_player_move" && passesFilters(it)
         }
         if (points.isEmpty()) return
         val minX = points.minOf { it.optDouble("x") }
