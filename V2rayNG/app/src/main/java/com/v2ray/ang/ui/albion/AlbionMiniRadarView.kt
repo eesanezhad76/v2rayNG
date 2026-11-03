@@ -106,7 +106,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val rawName = (item.optString("name") + " " + resourceName + " " +
             AlbionRadarSnapshotParser.labelForEntity(item)).lowercase()
         val resourceCategory = when {
-            item.optInt("family", -1) == 29 || rawName.contains("ore") || rawName.contains("ore candidate") -> "ore"
+            item.optBoolean("user_confirmed_target", false) || item.optInt("family", -1) == 29 || rawName.contains("ore") || rawName.contains("ore candidate") -> "ore"
             rawName.contains("wood") || rawName.contains("tree") || rawName.contains("logs") -> "wood"
             rawName.contains("stone") || rawName.contains("rock") -> "stone"
             rawName.contains("fiber") || rawName.contains("cotton") || rawName.contains("flax") -> "fiber"
