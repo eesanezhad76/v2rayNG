@@ -1,5 +1,2 @@
 overlay_activity,candidate_family,samples_with_single_family,distinct_pcaps,candidate_nodes,evidence_status
-"Ore","14","1","1","1","provisional_candidate_mapping"
-"Ore","27","7","3","10","repeated_candidate_mapping"
-"Ore","29","8","3","12","repeated_candidate_mapping"
-"Ore","7","3","2","5","repeated_candidate_mapping"
+"Ore","29","25","5","33","repeated_candidate_mapping"
