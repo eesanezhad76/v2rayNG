@@ -45,8 +45,13 @@ def validate(root: Path) -> dict:
     index = _json(index_path)
     dictionary = _json(dictionary_path).get("entries")
     static = _json(static_path)
-    bundle_database = _json(research / "albion-knowledge-bundle-import.json")
+    bundle_path = research / "albion-knowledge-bundle-import.json"
+    bundle_database = _json(bundle_path)
     historical_seed = _json(assets / "albion-historical-autonomous-patterns.json")
+    historical_entities = _json(assets / "albion-historical-entity-evidence.json")
+    historical_protocol = _json(assets / "albion-historical-protocol-shapes.json")
+    historical_learned = _json(assets / "albion-historical-learned-patterns.json")
+    historical_manifest = _json(assets / "albion-historical-knowledge-manifest.json")
 
     if not isinstance(dictionary, dict):
         raise ValueError("mobile type dictionary has no entries object")
@@ -156,6 +161,19 @@ def validate(root: Path) -> dict:
            "historical signature evidence only; no semantic event classification" for row in historical_seed):
         raise ValueError("historical seed contains an unsupported semantic promotion")
 
+    if historical_entities.get("entity_record_count") != 9522 or historical_entities.get("source_bundle_count") != 4:
+        raise ValueError("historical entity evidence index count mismatch")
+    if historical_manifest.get("entity_records") != 9522 or historical_manifest.get("protocol_events") != 4599:
+        raise ValueError("historical knowledge manifest count mismatch")
+    if historical_manifest.get("learned_patterns") != 70 or historical_manifest.get("autonomous_signatures") != 296:
+        raise ValueError("historical pattern manifest count mismatch")
+    if historical_manifest.get("source_sha256") != hashlib.sha256(bundle_path.read_bytes()).hexdigest():
+        raise ValueError("historical runtime assets were generated from a different bundle database")
+    if len(historical_learned) != 70:
+        raise ValueError("historical learned-pattern reference asset is incomplete")
+    if sum(row.get("observations", 0) for row in historical_protocol) > 4599:
+        raise ValueError("historical protocol shape observations exceed source event count")
+
     coordinate_policy = generated.get("coordinate_policy", "")
     if "verified zone/session transform" not in coordinate_policy:
         raise ValueError("historical coordinate safety policy is missing")
@@ -175,6 +193,10 @@ def validate(root: Path) -> dict:
             "protocol_events": len(bundle_database["protocol_evidence"]),
             "learned_patterns": len(bundle_database["learned_patterns"]),
             "autonomous_signatures_seeded": len(historical_seed),
+            "mobile_type_groups": len(historical_entities.get("mobile_types", {})),
+            "resource_family_groups": len(historical_entities.get("resource_families", {})),
+            "protocol_shape_groups": len(historical_protocol),
+            "learned_pattern_reference_rows": len(historical_learned),
         },
         "historical_coordinates_projected": False,
     }
