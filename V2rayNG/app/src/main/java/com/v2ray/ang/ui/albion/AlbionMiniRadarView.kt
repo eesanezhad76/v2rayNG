@@ -523,6 +523,13 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, if (entity.optBoolean("user_confirmed_target", false)) 4f * density else 2.4f * density, paint)
+            if (kind == "activity_marker") {
+                paint.color = 0xFFFFC45C.toInt()
+                paint.textSize = 6f * density
+                canvas.drawText(entity.optString("marker_activity").take(8),
+                    (x + 3f * density).coerceAtMost(width - 36f * density),
+                    (y - 3f * density).coerceAtLeast(8f * density), paint)
+            }
             if (entity.optBoolean("user_confirmed_target", false)) {
                 paint.color = 0xFF55E6FF.toInt()
                 paint.textSize = 8f * density
