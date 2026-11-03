@@ -160,7 +160,7 @@ def build(root: Path) -> dict:
 
     learned_output = []
     for row in learned_patterns:
-        if not isinstance(row, dict):
+        if not isinstance(row, dict) or not row:
             continue
         learned_output.append({
             key: row[key] for key in (
