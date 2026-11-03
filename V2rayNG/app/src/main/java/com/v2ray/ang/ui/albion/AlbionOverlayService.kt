@@ -14,6 +14,7 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
@@ -30,6 +31,8 @@ import com.v2ray.ang.core.CoreServiceManager
 class AlbionOverlayService : Service() {
     private lateinit var wm: WindowManager
     private var root: LinearLayout? = null
+    private lateinit var radarView: AlbionMiniRadarView
+    private var windowParams: WindowManager.LayoutParams? = null
     private var expanded = true
     private var activity = "Ore"
     private var tier = "T3"
@@ -38,11 +41,17 @@ class AlbionOverlayService : Service() {
     private lateinit var body: LinearLayout
     private lateinit var liveStatus: TextView
     private val refreshHandler = Handler(Looper.getMainLooper())
+    private var dragStartX = 0f
+    private var dragStartY = 0f
+    private var dragWindowX = 0
+    private var dragWindowY = 0
     private val refreshLiveSnapshot = object : Runnable {
         override fun run() {
             if (root == null) return
+            val snapshot = CoreServiceManager.getAlbionLiveKnowledgeJson()
+            if (::radarView.isInitialized) radarView.setSnapshot(snapshot)
             if (::liveStatus.isInitialized) liveStatus.text = CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
-            refreshHandler.postDelayed(this, 1800L)
+            refreshHandler.postDelayed(this, 1200L)
         }
     }
     private val activities = listOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Mobs", "Troll", "PvP", "Move", "Other")
@@ -107,6 +116,8 @@ class AlbionOverlayService : Service() {
         head.addView(button("−") { expanded = !expanded; renderBody() }, LinearLayout.LayoutParams(dp(32), dp(32)))
         head.addView(button("×") { stopSelf() }, LinearLayout.LayoutParams(dp(32), dp(32)))
         panel.addView(head)
+        radarView = AlbionMiniRadarView(this)
+        panel.addView(radarView, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, dp(176)))
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         liveStatus = TextView(this).apply {
             text = "Automatic capture learning: waiting for capture"
@@ -120,7 +131,20 @@ class AlbionOverlayService : Service() {
         val params = WindowManager.LayoutParams(dp(290), WindowManager.LayoutParams.WRAP_CONTENT, type,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT).apply { gravity = Gravity.TOP or Gravity.START; x = dp(4); y = dp(105) }
+        windowParams = params
         wm.addView(panel, params)
+        head.setOnTouchListener { _, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> { dragStartX = event.rawX; dragStartY = event.rawY; dragWindowX = params.x; dragWindowY = params.y; true }
+                MotionEvent.ACTION_MOVE -> {
+                    params.x = dragWindowX + (event.rawX - dragStartX).toInt()
+                    params.y = dragWindowY + (event.rawY - dragStartY).toInt()
+                    try { wm.updateViewLayout(panel, params) } catch (_: Exception) { }
+                    true
+                }
+                else -> false
+            }
+        }
         renderBody()
         refreshHandler.removeCallbacks(refreshLiveSnapshot)
         refreshHandler.post(refreshLiveSnapshot)
@@ -196,6 +220,7 @@ class AlbionOverlayService : Service() {
         refreshHandler.removeCallbacks(refreshLiveSnapshot)
         try { root?.let { wm.removeView(it) } } catch (_: Exception) { }
         root = null
+        windowParams = null
         stopForeground(STOP_FOREGROUND_REMOVE)
         super.onDestroy()
     }
