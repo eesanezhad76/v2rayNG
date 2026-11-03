@@ -34,7 +34,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   # Latest source commit wins. Cancel a stale build rather than leaving the
   # newest APK build queued behind a hung gomobile/Go dependency compilation.
-  cancel-in-progress: true
+  # Keep the dedicated integration branch's validation run alive while follow-up commits queue.
+  cancel-in-progress: ${{ github.ref != 'refs/heads/albion-knowledge-integration-2026-11-04' }}
 
 jobs:
   build:
