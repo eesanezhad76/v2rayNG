@@ -107,3 +107,22 @@ The coordinate-free research index is now consumed by the persistent live knowle
 - If the research asset is unavailable, the resolver retains its prior conservative fallback behavior.
 
 A regression test verifies that family evidence reaches the resolver and that provisional evidence is not promoted. CI must pass before this phase is build-verified.
+
+
+## Phase 3 — Spatial intelligence and safe gathering targets (2026-11-04)
+
+Implemented on the isolated integration branch:
+
+- Added `AlbionSpatialIntelligence` for live-snapshot spatial safeguards.
+- Deduplicates Event 39 candidate pins at the same half-unit coordinate; when a typed Event 40 resource exists at that point, the typed record supersedes the untyped candidate.
+- Distinct typed resources at the same coordinate are preserved unless their family/type/tier/enchantment signature is identical.
+- Gathering navigation now accepts only typed `harvestable`/`resource_state` observations with a valid mobile Type ID and tier, or an explicit user-confirmed target. Untyped Event 39 candidates, conflicted records, depleted nodes, and departed entities cannot become the nearest gathering target.
+- When the user explicitly enables unclassified resources, the mini-radar displays at most the 40 nearest untyped candidates, recalculated against the current player position. This limits visual clutter without deleting evidence from the live knowledge store.
+- The radar continues to keep historical saved-catalog coordinates separate from active-session coordinates. No cross-zone coordinate transform is assumed.
+
+Regression tests cover candidate/typed deduplication, preservation of distinct typed resources, navigation eligibility, conflict/depletion exclusion, and the 40-candidate display cap.
+
+Remaining spatial limitations:
+- The protocol pipeline still does not establish a verified zone identity/coordinate transform. A same-session zone transition cannot be safely inferred from coordinates alone; cross-zone historical projection remains disabled.
+- This phase does not claim automatic pathfinding or a tested in-game route. It improves which live node may be selected and prevents untyped candidates from being presented as gathering destinations.
+- CI and APK verification are still required before device testing.
