@@ -224,6 +224,8 @@ def correlate_mob_markers(lifecycles,mobs,player_positions,player_moves,health_e
      mob["marker_match_confidence"]=confidence
      mob["marker_tier"]=cycle.get("tier")
      mob["marker_enchantment"]=cycle.get("enchantment")
+     mob["marker_enchant"]=int(str(cycle.get("enchantment") or "E0").replace("E","")) if str(cycle.get("enchantment") or "E0").replace("E","").isdigit() else 0
+     if not mob.get("name") and cycle["activity"]=="Troll":mob["name"]="Troll candidate"
     else:
      mob["marker_activity_candidate"]=cycle["activity"]
      mob["marker_match_confidence"]=confidence
@@ -297,8 +299,62 @@ def analyze(path):
   for n in ordered:
    x=n.copy();x["sizes_seen"]=";".join(map(str,x["sizes_seen"]));x["state_timeline"]=json.dumps(x["state_timeline"],separators=(",",":"));w.writerow(x)
  write_marker_lifecycle_csv(stem,marker_lifecycles)
+ # A single catalog feeds the Android radar and remains inspectable beside the uploaded ZIP.
+ catalog_entities=[]
+ for node in ordered:
+  timeline=node.get("state_timeline") or []
+  latest_size=timeline[-1].get("size") if timeline else None
+  catalog_entities.append({
+   "entity_id":"catalog:node:"+str(node["entity_id"]),"source_entity_id":node["entity_id"],
+   "last_kind":"static_resource","family":node.get("type_number"),"mobile_type_id":node.get("mobile_type_id"),
+   "tier":node.get("tier"),"enchant":node.get("enchant",0),"x":node.get("x"),"y":node.get("y"),
+   "first_seen_ms":node.get("first_seen_ms"),"last_seen_ms":node.get("last_seen_ms"),
+   "observations":node.get("observations"),"state_timeline":timeline,"depleted":latest_size==0,
+   "classification":"unclassified_resource_candidate",
+   "evidence_grade":"family_29_ore_candidate" if node.get("type_number")==29 else "typed_resource_family_unresolved",
+   "user_confirmed_target":str(node["entity_id"])=="2788",
+   "user_confirmation":"First T5.3 target confirmed by user; temporal/state correlation" if str(node["entity_id"])=="2788" else None
+  })
+ for mob in mobs.values():
+  if finite_number(mob.get("x")) is None or finite_number(mob.get("y")) is None:continue
+  item={k:v for k,v in mob.items() if k not in {"positions","health_timeline"}}
+  item["entity_id"]="catalog:mob:"+str(mob["entity_id"])
+  item["source_entity_id"]=str(mob["entity_id"])
+  item["last_kind"]="mob"
+  item["classification"]="observed_mob"
+  if mob.get("health_timeline"):
+   latest_health=mob["health_timeline"][-1]
+   if latest_health.get("secondary_value") is not None:item["health_value"]=latest_health.get("secondary_value")
+   if latest_health.get("value") is not None:item["health_delta"]=latest_health.get("value")
+  catalog_entities.append(item)
+ catalog={"schema_version":1,"dataset":stem,"source_archive":pathlib.Path(path).name,
+  "coordinate_semantics":"Capture-local game coordinates. Zone identity is not decoded; do not combine across zones.",
+  "node_count":len(ordered),"mob_count":sum(1 for x in catalog_entities if x.get("last_kind")=="mob"),
+  "marker_count":len(marker_lifecycles),"correlated_mob_marker_count":len(correlated_mob_markers),
+  "confirmed_user_target":{"entity_id":"2788","tier":5,"enchant":3,"x":-379,"y":-24,"confidence":"user-confirmed temporal/state correlation"},
+  "entities":catalog_entities,"markers":marker_lifecycles}
+ catalog_text=json.dumps(catalog,indent=2)
+ (DB/(stem+"-catalog.json")).write_text(catalog_text,encoding="utf-8")
+ (ANALYSIS/(stem+"-overlay-catalog.json")).write_text(catalog_text,encoding="utf-8")
+ if stem=="albion-1793682590317":
+  asset=ROOT/"V2rayNG/app/src/main/assets/albion-static-catalog.json"
+  asset.parent.mkdir(parents=True,exist_ok=True)
+  asset.write_text(catalog_text,encoding="utf-8")
+ mob_fields=["entity_id","mobile_type_id","name","enchant","x","y","first_seen_ms","last_seen_ms","health_event_count","player_damage_events","left","marker_activity","marker_match_confidence"]
+ with (DB/(stem+"-mob-entities.csv")).open("w",newline="",encoding="utf-8") as f:
+  w=csv.DictWriter(f,fieldnames=mob_fields);w.writeheader()
+  for mob in sorted(mobs.values(),key=lambda m:str(m.get("entity_id"))):w.writerow({k:mob.get(k) for k in mob_fields})
+ correlation_fields=["activity","found_ms","mob_killed_ms","status","best_entity_id","best_name","best_x","best_y","confidence","candidate_count","identity_proven"]
+ with (DB/(stem+"-mob-marker-spatial-correlation.csv")).open("w",newline="",encoding="utf-8") as f:
+  w=csv.DictWriter(f,fieldnames=correlation_fields);w.writeheader()
+  for cycle in mob_marker_cycles:
+   corr=cycle.get("spatial_correlation",{});best=corr.get("best_candidate") or {}
+   w.writerow({"activity":cycle.get("activity"),"found_ms":cycle.get("found_ms"),"mob_killed_ms":cycle.get("mob_killed_ms"),
+    "status":corr.get("status"),"best_entity_id":best.get("entity_id"),"best_name":best.get("name"),
+    "best_x":best.get("x"),"best_y":best.get("y"),"confidence":corr.get("confidence"),
+    "candidate_count":corr.get("candidate_count"),"identity_proven":corr.get("identity_proven",False)})
  summary=doc["counts"]
- (ANALYSIS/(stem+".md")).write_text("# Capture ingest: "+stem+"\n\n"+"\n".join("- "+k+": "+str(v) for k,v in summary.items())+"\n\nState updates join only by exact runtime entity ID. Marker lifecycles are FIFO-paired but remain manual annotations without runtime entity identity. State-only IDs remain separate.\n",encoding="utf-8")
+ (ANALYSIS/(stem+".md")).write_text("# Capture ingest: "+stem+"\n\n"+"\n".join("- "+k+": "+str(v) for k,v in summary.items())+"\n\nEvent 123 mob entities, Event 6/7 health observations, Event 22 player positions and manual Mob/Troll markers are correlated within this PCAP only. Candidate matches are evidence-ranked and never asserted as exact runtime identity. State updates join only by exact runtime entity ID; state-only IDs remain separate.\n",encoding="utf-8")
  return doc
 def main():
  ap=argparse.ArgumentParser()
