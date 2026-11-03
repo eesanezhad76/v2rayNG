@@ -126,11 +126,17 @@ class AlbionOverlayService : Service() {
     private fun button(label: String, selected: Boolean = false, action: () -> Unit) =
         Button(this).apply {
             text = label; textSize = if (label.length > 5) 7f else 8f; isAllCaps = false
-            minWidth = 0; minimumWidth = 0; minHeight = 0; minimumHeight = 0
-            setPadding(dp(1), 0, dp(1), 0); includeFontPadding = false
-            maxLines = 1; isSingleLine = true; gravity = Gravity.CENTER; textScaleX = 0.92f
+            minWidth = 0; minimumWidth = dp(30); minHeight = 0; minimumHeight = dp(28)
+            setPadding(dp(4), 0, dp(4), 0); includeFontPadding = false
+            maxLines = 1; isSingleLine = true; gravity = Gravity.CENTER; textScaleX = 0.90f
             ellipsize = android.text.TextUtils.TruncateAt.END
-            if (selected) setTextColor(0xFF80D8FF.toInt())
+            setTextColor(if (selected) 0xFF80D8FF.toInt() else 0xFFEAF1F5.toInt())
+            background = GradientDrawable().apply {
+                setColor(if (selected) 0xFF263E50.toInt() else 0xFF202D38.toInt())
+                cornerRadius = dp(5).toFloat()
+                setStroke(dp(1), if (selected) 0xFF62BCE5.toInt() else 0xFF536777.toInt())
+            }
+            stateListAnimator = null
             setOnClickListener { action() }
         }
 
