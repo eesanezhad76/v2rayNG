@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T17:24:11.212240+00:00",
+  "generated_at_utc": "2026-11-03T17:27:02.006703+00:00",
   "branch": "albion-pattern-mining",
   "source_archives": [
     {
@@ -962,7 +962,7 @@
   },
   "tables": [
     {
-      "path": "research/analysis/2026-11-02-all-inbox-observations.jsonl",
+      "path": "research/database/2026-11-02-all-inbox-observations.jsonl",
       "bytes": 64380965,
       "sha256": "817be766f8606c4e453973b1f0df282ab51572d4ac43f4414f16be443da9f0b0"
     },
