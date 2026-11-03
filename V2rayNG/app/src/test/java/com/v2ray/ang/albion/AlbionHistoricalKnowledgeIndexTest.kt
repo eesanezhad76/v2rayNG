@@ -18,7 +18,7 @@ class AlbionHistoricalKnowledgeIndexTest {
         val protocols = """[{"event_code":40,"kind":"resource","parameter_schema":"0=Long","observations":9,"source_bundle_count":2}]"""
         val learned = """[{"signature":"pattern-a","activity":"Ore","family":29,"tier":5,"enchant":1,
           "overlay_enchant_label":"E1","samples":3,"complete_pairs":3,"heuristic_score":72,"source_bundles":["a","b"]}]"""
-        val manifest = """{"schema_version":1,"entity_records":100,"protocol_events":200,
+        val manifest = """{"schema_version":1,"source_bundle_count":4,"entity_records":100,"protocol_events":200,
           "learned_patterns":1,"autonomous_signatures":4}"""
         return AlbionHistoricalKnowledgeIndex.parse(entities, protocols, learned, manifest)!!
     }
@@ -50,6 +50,7 @@ class AlbionHistoricalKnowledgeIndexTest {
     @Test
     fun reportsHistoricalCorpusWithoutAssigningProtocolSemantics() {
         val summary = snapshot().summaryText()
+        assertTrue(summary.contains("4 bundles"))
         assertTrue(summary.contains("100 entities"))
         assertTrue(summary.contains("200 protocol events"))
         assertTrue(summary.contains("1 learned patterns"))
