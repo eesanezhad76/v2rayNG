@@ -1,7 +1,8 @@
 overlay_activity,candidate_family,samples_with_single_family,distinct_pcaps,candidate_nodes,evidence_status
 "Mobs","29","1","1","1","provisional_candidate_mapping"
 "Ore","14","1","1","1","provisional_candidate_mapping"
-"Ore","27","5","2","8","repeated_candidate_mapping"
-"Ore","29","7","2","11","repeated_candidate_mapping"
-"Ore","7","1","1","2","provisional_candidate_mapping"
+"Ore","27","7","3","10","repeated_candidate_mapping"
+"Ore","29","8","3","12","repeated_candidate_mapping"
+"Ore","7","3","2","5","repeated_candidate_mapping"
+"Troll","27","1","1","1","provisional_candidate_mapping"
 "Troll","29","3","1","4","provisional_candidate_mapping"

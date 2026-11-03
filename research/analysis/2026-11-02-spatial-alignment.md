@@ -191,6 +191,50 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity.
 
+## AlbionRadar6json.zip / albion-1793718210678.pcap
+
+- Status: NOT_VERIFIED
+- Player position samples: 0
+- Typed Event-40 resource nodes: 0
+- Bounding boxes overlap: False
+- Median nearest-node distance: None
+- P90 nearest-node distance: None
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity.
+
+## AlbionRadar6json.zip / albion-1793718347142.pcap
+
+- Status: NOT_VERIFIED
+- Player position samples: 0
+- Typed Event-40 resource nodes: 0
+- Bounding boxes overlap: False
+- Median nearest-node distance: None
+- P90 nearest-node distance: None
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity.
+
+## AlbionRadar6json.zip / albion-1793718370435.pcap
+
+- Status: NOT_VERIFIED
+- Player position samples: 0
+- Typed Event-40 resource nodes: 0
+- Bounding boxes overlap: False
+- Median nearest-node distance: None
+- P90 nearest-node distance: None
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity.
+
+## AlbionRadar6json.zip / albion-1793718384341.pcap
+
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
+- Player position samples: 9703
+- Typed Event-40 resource nodes: 93
+- Bounding boxes overlap: True
+- Median nearest-node distance: 9.065
+- P90 nearest-node distance: 42.889
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity.
+
 ## Albions.zip / 1 mob dismount and mount .pcap
 
 - Status: NOT_VERIFIED

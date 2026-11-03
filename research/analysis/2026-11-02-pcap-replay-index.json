@@ -189,6 +189,50 @@
       "status": "NEW_CAPTURE_REVIEW"
     },
     {
+      "source_sha256": "24f33744db2374ccaef3240021b1e691b109b2a7e974b0dc7d19419596ee6e10",
+      "quality_grade": "FAIR",
+      "ip_packets": 3647,
+      "quality_score": 80,
+      "fingerprint": "00b679fb97700e09488c2a79c1915532b76beb6261926eab610442266a2650f3",
+      "malformed_photon_packets": 0,
+      "key": "AlbionRadar6json.zip::albion-1793718210678.pcap",
+      "valid_photon_packets": 0,
+      "status": "NEW_CAPTURE_REVIEW"
+    },
+    {
+      "source_sha256": "212ee0e173dc6edcce7014092fe4091f7df42ded99a5feb82c530db512d6f0bc",
+      "quality_grade": "GOOD",
+      "ip_packets": 5447,
+      "quality_score": 100,
+      "fingerprint": "7f902457aecdab3d57f6af8c0a33485b3da32c603efb4ed24c8a749cbedcac73",
+      "malformed_photon_packets": 0,
+      "key": "AlbionRadar6json.zip::albion-1793718347142.pcap",
+      "valid_photon_packets": 0,
+      "status": "NEW_CAPTURE_REVIEW"
+    },
+    {
+      "source_sha256": "200819903e6352af5bf92c919b459eef38a750df6dca9acfdeeeb8ed949cca51",
+      "quality_grade": "GOOD",
+      "ip_packets": 523,
+      "quality_score": 100,
+      "fingerprint": "d75074cc48e254cbf6c6c7cdaad3b371dcd38b8089d8aeb4cc47d6c24a876788",
+      "malformed_photon_packets": 0,
+      "key": "AlbionRadar6json.zip::albion-1793718370435.pcap",
+      "valid_photon_packets": 0,
+      "status": "NEW_CAPTURE_REVIEW"
+    },
+    {
+      "source_sha256": "e1455b1a7a444bf516233daf41718bfc32db1257cf80ca20e37c85d9a9625498",
+      "quality_grade": "FAIR",
+      "ip_packets": 56067,
+      "quality_score": 80,
+      "fingerprint": "c29a4a656ece63fed8fa580360ab4c33e1b18856453d22b7eaa7b1d3d55e0064",
+      "malformed_photon_packets": 6,
+      "key": "AlbionRadar6json.zip::albion-1793718384341.pcap",
+      "valid_photon_packets": 38427,
+      "status": "NEW_CAPTURE_REVIEW"
+    },
+    {
       "source_sha256": "19ffe62c250932c9fd362d3c726ae36ec9b1c6bc9fd8d21ea2c801bef57b5d7a",
       "quality_grade": "GOOD",
       "ip_packets": 239,
@@ -294,6 +338,6 @@
       "status": "DUPLICATE_SKIPPED"
     }
   ],
-  "generated_from_sha": "391a2146dd7986b1f28f19567e812b8b9f9a656a",
+  "generated_from_sha": "bb758b8bbe6f3b4cd99e61506ddbc0e9d787d141",
   "baseline_file": "2026-11-02-pcap-replay-baseline.json"
 }

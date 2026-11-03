@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "dataset": "albion-1793718347142",
+  "source_archive": "albion-1793718347142.jsonl",
+  "coordinate_semantics": "Capture-local game coordinates. Zone identity is not decoded; do not combine across zones.",
+  "node_count": 0,
+  "mob_count": 0,
+  "marker_count": 0,
+  "correlated_mob_marker_count": 0,
+  "confirmed_user_target": null,
+  "entities": [],
+  "markers": []
+}
