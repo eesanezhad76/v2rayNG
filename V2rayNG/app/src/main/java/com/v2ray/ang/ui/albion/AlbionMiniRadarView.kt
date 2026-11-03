@@ -317,14 +317,17 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 if (nearestTarget == null || candidate.second < nearestTarget!!.second) nearestTarget = candidate
             }
         }
+        // Freeze the mutable scan results into stable locals before smart-cast decisions.
+        val nearest = nearestTarget
+        val currentLock = locked
         // Keep a target stable while approaching, but switch when another resource is
         // materially closer (12 world units) or the locked resource is no longer available.
-        val chosenTarget = when {
-            nearestTarget == null -> null
-            locked == null -> nearestTarget
-            nearestTarget.first.optString("entity_id") != locked.first.optString("entity_id") &&
-                nearestTarget.second + 12.0 < locked.second -> nearestTarget
-            else -> locked
+        val chosenTarget: Pair<JSONObject, Double>? = when {
+            nearest == null -> null
+            currentLock == null -> nearest
+            nearest.first.optString("entity_id") != currentLock.first.optString("entity_id") &&
+                nearest.second + 12.0 < currentLock.second -> nearest
+            else -> currentLock
         }
         lockedTargetId = chosenTarget?.first?.optString("entity_id")
         if (chosenTarget != null) {
