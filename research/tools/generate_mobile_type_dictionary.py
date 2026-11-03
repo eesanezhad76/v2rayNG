@@ -58,8 +58,9 @@ def build(root: Path):
         if entries[str(raw_id)]["observation_count"] <= 0:
             raise ValueError(f"TypeID {raw_id} has no evidence")
     expected = int(index.get("totals", {}).get("mobile_type_ids", -1))
-    if len(entries) != expected:
-        raise ValueError(f"expected {expected} TypeIDs, generated {len(entries)}")
+    missing = sorted(set(mobile) - set(entries))
+    if len(mobile) != expected or missing:
+        raise ValueError(f"expected {expected} observed TypeIDs; missing dictionary entries: {missing}")
     if "482" in entries:
         entries["482"]["is_harvestable"] = False
     for type_id in ("571", "573", "574"):
