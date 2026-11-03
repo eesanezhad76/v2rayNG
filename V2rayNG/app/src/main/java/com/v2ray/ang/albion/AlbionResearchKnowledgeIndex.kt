@@ -74,20 +74,23 @@ object AlbionResearchKnowledgeIndex {
     }
 
     /** Public for deterministic unit tests and offline validation. */
-    fun parse(json: String): Snapshot? = try {
-        val root = JSONObject(json)
-        if (root.optInt("schema_version", -1) != 1) return null
-        val totals = root.optJSONObject("totals") ?: return null
-        val resources = root.optJSONObject("resource_families") ?: return null
-        val mobs = root.optJSONObject("mobile_types") ?: return null
-        val resourceCount = totals.optInt("resource_observations", -1)
-        val mobileCount = totals.optInt("mobile_entity_observations", -1)
-        val familyCount = totals.optInt("resource_families", -1)
-        val typeCount = totals.optInt("mobile_type_ids", -1)
-        if (resourceCount <= 0 || mobileCount <= 0 || familyCount != resources.length() ||
-            typeCount != mobs.length()) return null
-        Snapshot(resourceCount, mobileCount, familyCount, typeCount, resources, mobs)
-    } catch (_: Exception) {
-        null
+    fun parse(json: String): Snapshot? {
+        return try {
+            val root = JSONObject(json)
+            val totals = root.optJSONObject("totals")
+            val resources = root.optJSONObject("resource_families")
+            val mobs = root.optJSONObject("mobile_types")
+            if (root.optInt("schema_version", -1) != 1 || totals == null ||
+                resources == null || mobs == null) return null
+            val resourceCount = totals.optInt("resource_observations", -1)
+            val mobileCount = totals.optInt("mobile_entity_observations", -1)
+            val familyCount = totals.optInt("resource_families", -1)
+            val typeCount = totals.optInt("mobile_type_ids", -1)
+            if (resourceCount <= 0 || mobileCount <= 0 || familyCount != resources.length() ||
+                typeCount != mobs.length()) return null
+            Snapshot(resourceCount, mobileCount, familyCount, typeCount, resources, mobs)
+        } catch (_: Exception) {
+            null
+        }
     }
 }
