@@ -26,9 +26,9 @@ permissions:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  # Keep the active build alive. GitHub retains only the newest pending run
-  # for this group, preventing every code push from cancelling a build mid-step.
-  cancel-in-progress: false
+  # Latest source commit wins. Cancel a stale build rather than leaving the
+  # newest APK build queued behind a hung gomobile/Go dependency compilation.
+  cancel-in-progress: true
 
 jobs:
   build:
