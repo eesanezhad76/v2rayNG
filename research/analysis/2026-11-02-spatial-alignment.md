@@ -1,6 +1,6 @@
 # Same-capture player/resource coordinate alignment
 
-Overall: NOT_VERIFIED
+Overall: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 
 A plausible result supports local coordinate alignment only. It is not a world-map or zone-identity proof.
 
@@ -17,12 +17,12 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 
 ## Albion اااستسمنسمنش.zip / فقط ماب کشتم.pcap
 
-- Status: NOT_VERIFIED
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 - Player position samples: 361
 - Typed Event-40 resource nodes: 4
-- Bounding boxes overlap: False
-- Median nearest-node distance: None
-- P90 nearest-node distance: None
+- Bounding boxes overlap: True
+- Median nearest-node distance: 44.205
+- P90 nearest-node distance: 51.041
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
@@ -39,12 +39,12 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 
 ## Albion2.zip / 2 blue gholem ench 2 killed together and mined besides each other .pcap
 
-- Status: NOT_VERIFIED
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 - Player position samples: 143
 - Typed Event-40 resource nodes: 4
-- Bounding boxes overlap: False
-- Median nearest-node distance: None
-- P90 nearest-node distance: None
+- Bounding boxes overlap: True
+- Median nearest-node distance: 1.784
+- P90 nearest-node distance: 53.679
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
@@ -105,12 +105,12 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 
 ## Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap
 
-- Status: NOT_VERIFIED
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 - Player position samples: 43
 - Typed Event-40 resource nodes: 4
-- Bounding boxes overlap: False
-- Median nearest-node distance: None
-- P90 nearest-node distance: None
+- Bounding boxes overlap: True
+- Median nearest-node distance: 43.536
+- P90 nearest-node distance: 43.536
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
@@ -138,12 +138,12 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 
 ## AlbionRadar.zip / albion-1793682590317.pcap
 
-- Status: NOT_VERIFIED
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 - Player position samples: 14811
 - Typed Event-40 resource nodes: 83
-- Bounding boxes overlap: False
-- Median nearest-node distance: None
-- P90 nearest-node distance: None
+- Bounding boxes overlap: True
+- Median nearest-node distance: 46.188
+- P90 nearest-node distance: 55.313
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
@@ -171,23 +171,23 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 
 ## AlbionRadar2.zip / albion-1793699283778.pcap
 
-- Status: NOT_VERIFIED
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 - Player position samples: 3942
 - Typed Event-40 resource nodes: 19
-- Bounding boxes overlap: False
-- Median nearest-node distance: None
-- P90 nearest-node distance: None
+- Bounding boxes overlap: True
+- Median nearest-node distance: 48.025
+- P90 nearest-node distance: 56.917
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
 ## AlbionRadar5.zip / albion-1793712506879.pcap
 
-- Status: NOT_VERIFIED
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 - Player position samples: 4626
 - Typed Event-40 resource nodes: 30
-- Bounding boxes overlap: False
-- Median nearest-node distance: None
-- P90 nearest-node distance: None
+- Bounding boxes overlap: True
+- Median nearest-node distance: 48.607
+- P90 nearest-node distance: 60.465
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
@@ -226,12 +226,12 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 
 ## AlbionRadar6json.zip / albion-1793718384341.pcap
 
-- Status: NOT_VERIFIED
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 - Player position samples: 9703
 - Typed Event-40 resource nodes: 93
-- Bounding boxes overlap: False
-- Median nearest-node distance: None
-- P90 nearest-node distance: None
+- Bounding boxes overlap: True
+- Median nearest-node distance: 48.051
+- P90 nearest-node distance: 57.803
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
@@ -248,23 +248,23 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 
 ## Albions.zip / 2 times 90degred change direction .pcap
 
-- Status: NOT_VERIFIED
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 - Player position samples: 203
 - Typed Event-40 resource nodes: 15
-- Bounding boxes overlap: False
-- Median nearest-node distance: None
-- P90 nearest-node distance: None
+- Bounding boxes overlap: True
+- Median nearest-node distance: 54.232
+- P90 nearest-node distance: 60.561
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
 ## Albions.zip / 2mobs dismount and Mount .pcap
 
-- Status: NOT_VERIFIED
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 - Player position samples: 121
 - Typed Event-40 resource nodes: 3
-- Bounding boxes overlap: False
-- Median nearest-node distance: None
-- P90 nearest-node distance: None
+- Bounding boxes overlap: True
+- Median nearest-node distance: 58.961
+- P90 nearest-node distance: 58.961
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
@@ -292,12 +292,12 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 
 ## Albions.zip / run and stop.pcap
 
-- Status: NOT_VERIFIED
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 - Player position samples: 233
 - Typed Event-40 resource nodes: 14
-- Bounding boxes overlap: False
-- Median nearest-node distance: None
-- P90 nearest-node distance: None
+- Bounding boxes overlap: True
+- Median nearest-node distance: 53.054
+- P90 nearest-node distance: 59.93
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
@@ -325,11 +325,11 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 
 ## Albionsskkakaks111.zip / albion-1793620890462.pcap
 
-- Status: NOT_VERIFIED
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
 - Player position samples: 3346
 - Typed Event-40 resource nodes: 51
-- Bounding boxes overlap: False
-- Median nearest-node distance: None
-- P90 nearest-node distance: None
+- Bounding boxes overlap: True
+- Median nearest-node distance: 45.071
+- P90 nearest-node distance: 55.007
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.

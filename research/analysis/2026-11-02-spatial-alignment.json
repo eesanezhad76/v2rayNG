@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "overall_status": "NOT_VERIFIED",
+  "overall_status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
   "capture_scope": "archive_and_pcap_grouped_independently; time-aligned player/node observations only; no cross-capture joins",
   "captures": [
     {
@@ -24,19 +24,29 @@
     {
       "archive": "Albion \u0627\u0627\u0627\u0633\u062a\u0633\u0645\u0646\u0633\u0645\u0646\u0634.zip",
       "pcap": "\u0641\u0642\u0637 \u0645\u0627\u0628 \u06a9\u0634\u062a\u0645.pcap",
-      "status": "NOT_VERIFIED",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
       "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
       "replay_observation_rows": 2992,
       "player_position_samples": 361,
       "typed_resource_nodes": 4,
       "resource_entity_ids_with_coordinate_conflicts": [],
-      "player_bounds": null,
-      "resource_bounds": null,
-      "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "player_bounds": {
+        "min_x": -301.0350341796875,
+        "max_x": -277.2760925292969,
+        "min_y": 58.73162078857422,
+        "max_y": 89.026123046875
+      },
+      "resource_bounds": {
+        "min_x": -342.5,
+        "max_x": -242.0,
+        "min_y": 30.229,
+        "max_y": 129.0
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 4,
       "temporal_tolerance_ms": 5000,
-      "median_nearest_player_distance_at_node_observation": null,
-      "p90_nearest_player_distance_at_node_observation": null,
+      "median_nearest_player_distance_at_node_observation": 44.205,
+      "p90_nearest_player_distance_at_node_observation": 51.041,
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     },
     {
@@ -60,19 +70,29 @@
     {
       "archive": "Albion2.zip",
       "pcap": "2 blue gholem ench 2 killed together and mined besides each other .pcap",
-      "status": "NOT_VERIFIED",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
       "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
       "replay_observation_rows": 1744,
       "player_position_samples": 143,
       "typed_resource_nodes": 4,
       "resource_entity_ids_with_coordinate_conflicts": [],
-      "player_bounds": null,
-      "resource_bounds": null,
-      "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "player_bounds": {
+        "min_x": -275.77862548828125,
+        "max_x": -256.68914794921875,
+        "min_y": 106.28853607177734,
+        "max_y": 139.1251983642578
+      },
+      "resource_bounds": {
+        "min_x": -309.651,
+        "max_x": -260.563,
+        "min_y": 75.729,
+        "max_y": 110.635
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 4,
       "temporal_tolerance_ms": 5000,
-      "median_nearest_player_distance_at_node_observation": null,
-      "p90_nearest_player_distance_at_node_observation": null,
+      "median_nearest_player_distance_at_node_observation": 1.784,
+      "p90_nearest_player_distance_at_node_observation": 53.679,
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     },
     {
@@ -87,7 +107,7 @@
       "player_bounds": null,
       "resource_bounds": null,
       "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "temporal_player_node_pairs": 1,
       "temporal_tolerance_ms": 5000,
       "median_nearest_player_distance_at_node_observation": null,
       "p90_nearest_player_distance_at_node_observation": null,
@@ -105,7 +125,7 @@
       "player_bounds": null,
       "resource_bounds": null,
       "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "temporal_player_node_pairs": 2,
       "temporal_tolerance_ms": 5000,
       "median_nearest_player_distance_at_node_observation": null,
       "p90_nearest_player_distance_at_node_observation": null,
@@ -141,7 +161,7 @@
       "player_bounds": null,
       "resource_bounds": null,
       "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "temporal_player_node_pairs": 1,
       "temporal_tolerance_ms": 5000,
       "median_nearest_player_distance_at_node_observation": null,
       "p90_nearest_player_distance_at_node_observation": null,
@@ -159,7 +179,7 @@
       "player_bounds": null,
       "resource_bounds": null,
       "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "temporal_player_node_pairs": 2,
       "temporal_tolerance_ms": 5000,
       "median_nearest_player_distance_at_node_observation": null,
       "p90_nearest_player_distance_at_node_observation": null,
@@ -168,19 +188,29 @@
     {
       "archive": "Albion2.zip",
       "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
-      "status": "NOT_VERIFIED",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
       "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
       "replay_observation_rows": 932,
       "player_position_samples": 43,
       "typed_resource_nodes": 4,
       "resource_entity_ids_with_coordinate_conflicts": [],
-      "player_bounds": null,
-      "resource_bounds": null,
-      "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "player_bounds": {
+        "min_x": -231.29815673828125,
+        "max_x": -202.68235778808594,
+        "min_y": 353.09246826171875,
+        "max_y": 359.205078125
+      },
+      "resource_bounds": {
+        "min_x": -229.336,
+        "max_x": -162.0,
+        "min_y": 334.496,
+        "max_y": 367.5
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 3,
       "temporal_tolerance_ms": 5000,
-      "median_nearest_player_distance_at_node_observation": null,
-      "p90_nearest_player_distance_at_node_observation": null,
+      "median_nearest_player_distance_at_node_observation": 43.536,
+      "p90_nearest_player_distance_at_node_observation": 43.536,
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     },
     {
@@ -195,7 +225,7 @@
       "player_bounds": null,
       "resource_bounds": null,
       "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "temporal_player_node_pairs": 1,
       "temporal_tolerance_ms": 5000,
       "median_nearest_player_distance_at_node_observation": null,
       "p90_nearest_player_distance_at_node_observation": null,
@@ -222,19 +252,29 @@
     {
       "archive": "AlbionRadar.zip",
       "pcap": "albion-1793682590317.pcap",
-      "status": "NOT_VERIFIED",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
       "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
       "replay_observation_rows": 122965,
       "player_position_samples": 14811,
       "typed_resource_nodes": 83,
       "resource_entity_ids_with_coordinate_conflicts": [],
-      "player_bounds": null,
-      "resource_bounds": null,
-      "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "player_bounds": {
+        "min_x": -381.9416198730469,
+        "max_x": 295.5122375488281,
+        "min_y": -382.8958740234375,
+        "max_y": 361.66827392578125
+      },
+      "resource_bounds": {
+        "min_x": -379.0,
+        "max_x": 314.0,
+        "min_y": -385.0,
+        "max_y": 364.0
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 83,
       "temporal_tolerance_ms": 5000,
-      "median_nearest_player_distance_at_node_observation": null,
-      "p90_nearest_player_distance_at_node_observation": null,
+      "median_nearest_player_distance_at_node_observation": 46.188,
+      "p90_nearest_player_distance_at_node_observation": 55.313,
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     },
     {
@@ -276,37 +316,57 @@
     {
       "archive": "AlbionRadar2.zip",
       "pcap": "albion-1793699283778.pcap",
-      "status": "NOT_VERIFIED",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
       "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
       "replay_observation_rows": 35139,
       "player_position_samples": 3942,
       "typed_resource_nodes": 19,
       "resource_entity_ids_with_coordinate_conflicts": [],
-      "player_bounds": null,
-      "resource_bounds": null,
-      "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "player_bounds": {
+        "min_x": -381.8504943847656,
+        "max_x": -5.417780876159668,
+        "min_y": -283.34942626953125,
+        "max_y": 201.156494140625
+      },
+      "resource_bounds": {
+        "min_x": -376.217,
+        "max_x": -6.5,
+        "min_y": -308.0,
+        "max_y": 180.0
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 19,
       "temporal_tolerance_ms": 5000,
-      "median_nearest_player_distance_at_node_observation": null,
-      "p90_nearest_player_distance_at_node_observation": null,
+      "median_nearest_player_distance_at_node_observation": 48.025,
+      "p90_nearest_player_distance_at_node_observation": 56.917,
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     },
     {
       "archive": "AlbionRadar5.zip",
       "pcap": "albion-1793712506879.pcap",
-      "status": "NOT_VERIFIED",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
       "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
       "replay_observation_rows": 36803,
       "player_position_samples": 4626,
       "typed_resource_nodes": 30,
       "resource_entity_ids_with_coordinate_conflicts": [],
-      "player_bounds": null,
-      "resource_bounds": null,
-      "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "player_bounds": {
+        "min_x": -347.19482421875,
+        "max_x": -47.13621520996094,
+        "min_y": -333.299072265625,
+        "max_y": 117.76435089111328
+      },
+      "resource_bounds": {
+        "min_x": -380.5,
+        "max_x": -25.296,
+        "min_y": -312.0,
+        "max_y": 141.0
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 30,
       "temporal_tolerance_ms": 5000,
-      "median_nearest_player_distance_at_node_observation": null,
-      "p90_nearest_player_distance_at_node_observation": null,
+      "median_nearest_player_distance_at_node_observation": 48.607,
+      "p90_nearest_player_distance_at_node_observation": 60.465,
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     },
     {
@@ -366,19 +426,29 @@
     {
       "archive": "AlbionRadar6json.zip",
       "pcap": "albion-1793718384341.pcap",
-      "status": "NOT_VERIFIED",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
       "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
       "replay_observation_rows": 88089,
       "player_position_samples": 9703,
       "typed_resource_nodes": 93,
       "resource_entity_ids_with_coordinate_conflicts": [],
-      "player_bounds": null,
-      "resource_bounds": null,
-      "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "player_bounds": {
+        "min_x": -375.5676574707031,
+        "max_x": 382.22216796875,
+        "min_y": -357.5375671386719,
+        "max_y": 386.98785400390625
+      },
+      "resource_bounds": {
+        "min_x": -379.0,
+        "max_x": 386.0,
+        "min_y": -317.0,
+        "max_y": 387.0
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 93,
       "temporal_tolerance_ms": 5000,
-      "median_nearest_player_distance_at_node_observation": null,
-      "p90_nearest_player_distance_at_node_observation": null,
+      "median_nearest_player_distance_at_node_observation": 48.051,
+      "p90_nearest_player_distance_at_node_observation": 57.803,
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     },
     {
@@ -402,37 +472,57 @@
     {
       "archive": "Albions.zip",
       "pcap": "2 times 90degred change direction .pcap",
-      "status": "NOT_VERIFIED",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
       "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
       "replay_observation_rows": 1506,
       "player_position_samples": 203,
       "typed_resource_nodes": 15,
       "resource_entity_ids_with_coordinate_conflicts": [],
-      "player_bounds": null,
-      "resource_bounds": null,
-      "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "player_bounds": {
+        "min_x": -149.23867797851562,
+        "max_x": -53.32423400878906,
+        "min_y": 241.40896606445312,
+        "max_y": 363.26904296875
+      },
+      "resource_bounds": {
+        "min_x": -193.986,
+        "max_x": -7.0,
+        "min_y": 289.0,
+        "max_y": 367.968
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 15,
       "temporal_tolerance_ms": 5000,
-      "median_nearest_player_distance_at_node_observation": null,
-      "p90_nearest_player_distance_at_node_observation": null,
+      "median_nearest_player_distance_at_node_observation": 54.232,
+      "p90_nearest_player_distance_at_node_observation": 60.561,
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     },
     {
       "archive": "Albions.zip",
       "pcap": "2mobs dismount and Mount .pcap",
-      "status": "NOT_VERIFIED",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
       "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
       "replay_observation_rows": 1140,
       "player_position_samples": 121,
       "typed_resource_nodes": 3,
       "resource_entity_ids_with_coordinate_conflicts": [],
-      "player_bounds": null,
-      "resource_bounds": null,
-      "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "player_bounds": {
+        "min_x": -375.9888000488281,
+        "max_x": -364.8533020019531,
+        "min_y": 266.59942626953125,
+        "max_y": 284.3939514160156
+      },
+      "resource_bounds": {
+        "min_x": -388.0,
+        "max_x": -322.0,
+        "min_y": 227.0,
+        "max_y": 321.0
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 3,
       "temporal_tolerance_ms": 5000,
-      "median_nearest_player_distance_at_node_observation": null,
-      "p90_nearest_player_distance_at_node_observation": null,
+      "median_nearest_player_distance_at_node_observation": 58.961,
+      "p90_nearest_player_distance_at_node_observation": 58.961,
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     },
     {
@@ -447,7 +537,7 @@
       "player_bounds": null,
       "resource_bounds": null,
       "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "temporal_player_node_pairs": 1,
       "temporal_tolerance_ms": 5000,
       "median_nearest_player_distance_at_node_observation": null,
       "p90_nearest_player_distance_at_node_observation": null,
@@ -465,7 +555,7 @@
       "player_bounds": null,
       "resource_bounds": null,
       "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "temporal_player_node_pairs": 2,
       "temporal_tolerance_ms": 5000,
       "median_nearest_player_distance_at_node_observation": null,
       "p90_nearest_player_distance_at_node_observation": null,
@@ -474,19 +564,29 @@
     {
       "archive": "Albions.zip",
       "pcap": "run and stop.pcap",
-      "status": "NOT_VERIFIED",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
       "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
       "replay_observation_rows": 2489,
       "player_position_samples": 233,
       "typed_resource_nodes": 14,
       "resource_entity_ids_with_coordinate_conflicts": [],
-      "player_bounds": null,
-      "resource_bounds": null,
-      "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "player_bounds": {
+        "min_x": -78.86469268798828,
+        "max_x": -52.02134704589844,
+        "min_y": 45.53532791137695,
+        "max_y": 319.42041015625
+      },
+      "resource_bounds": {
+        "min_x": -102.0,
+        "max_x": -6.015,
+        "min_y": 105.285,
+        "max_y": 359.772
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 14,
       "temporal_tolerance_ms": 5000,
-      "median_nearest_player_distance_at_node_observation": null,
-      "p90_nearest_player_distance_at_node_observation": null,
+      "median_nearest_player_distance_at_node_observation": 53.054,
+      "p90_nearest_player_distance_at_node_observation": 59.93,
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     },
     {
@@ -528,19 +628,29 @@
     {
       "archive": "Albionsskkakaks111.zip",
       "pcap": "albion-1793620890462.pcap",
-      "status": "NOT_VERIFIED",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
       "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
       "replay_observation_rows": 34863,
       "player_position_samples": 3346,
       "typed_resource_nodes": 51,
       "resource_entity_ids_with_coordinate_conflicts": [],
-      "player_bounds": null,
-      "resource_bounds": null,
-      "bounding_boxes_overlap": false,
-      "temporal_player_node_pairs": 0,
+      "player_bounds": {
+        "min_x": -386.3223876953125,
+        "max_x": 371.88055419921875,
+        "min_y": -191.65135192871094,
+        "max_y": 382.7960205078125
+      },
+      "resource_bounds": {
+        "min_x": -387.0,
+        "max_x": 365.917,
+        "min_y": -217.0,
+        "max_y": 382.803
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 51,
       "temporal_tolerance_ms": 5000,
-      "median_nearest_player_distance_at_node_observation": null,
-      "p90_nearest_player_distance_at_node_observation": null,
+      "median_nearest_player_distance_at_node_observation": 45.071,
+      "p90_nearest_player_distance_at_node_observation": 55.007,
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     }
   ],
