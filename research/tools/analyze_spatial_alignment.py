@@ -52,8 +52,11 @@ def analyze_rows(rows, temporal_tolerance_ms=5000):
         y = finite_coordinate(fields.get("y"))
         if x is None or y is None:
             continue
+        # The replay JSONL schema stores packet time inside the detail string
+        # (t=...), not as a top-level time_ms property. Keep time_ms as a fallback
+        # for unit-test fixtures and any future normalized input schema.
         try:
-            timestamp = int(row.get("time_ms"))
+            timestamp = int(fields.get("t") or row.get("time_ms"))
         except (TypeError, ValueError):
             timestamp = None
         if kind == "own_player_move":
