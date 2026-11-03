@@ -46,6 +46,8 @@ class AlbionOverlayService : Service() {
     private lateinit var filterScroll: ScrollView
     private lateinit var filterButton: Button
     private lateinit var catalogButton: Button
+    private lateinit var nextCatalogButton: Button
+    private lateinit var catalogInfo: TextView
     private var catalogOverviewMode = false
     private var controlsParams: WindowManager.LayoutParams? = null
     private var radarParams: WindowManager.LayoutParams? = null
@@ -55,8 +57,11 @@ class AlbionOverlayService : Service() {
     private var enchant = "Normal"
     private var enabledFilters = AlbionMiniRadarView.DEFAULT_FILTERS.toMutableSet()
     private var catalogEntities = JSONArray()
+    private var catalogCaptures = JSONArray()
+    private var catalogIndex = 0
     private var mobileTypeDictionary = JSONObject()
     private var catalogNodeCount = 0
+    private var catalogMobCount = 0
     private var catalogMarkerCount = 0
     private val refreshHandler = Handler(Looper.getMainLooper())
     private val snapshotThread = HandlerThread("AlbionRadarSnapshot").apply { start() }
@@ -100,7 +105,7 @@ class AlbionOverlayService : Service() {
                 refreshHandler.post {
                     acceptedCount?.let(CoreServiceManager::acknowledgeAlbionOverlaySnapshot)
                     if (::liveStatus.isInitialized) {
-                        liveStatus.text = "DB $catalogNodeCount/$catalogMarkerCount • " + statusText.take(220)
+                        liveStatus.text = "DB ${catalogNodeCount}N/${catalogMobCount}M • " + statusText.take(210)
                     }
                     snapshotRefreshInFlight.set(false)
                     if (controlsRoot != null || radarRoot != null) refreshHandler.postDelayed(this, 1200L)
@@ -229,8 +234,11 @@ class AlbionOverlayService : Service() {
             catalogOverviewMode = !catalogOverviewMode
             radarView.setCatalogOverviewMode(catalogOverviewMode)
             catalogButton.text = if (catalogOverviewMode) "LIVE" else "SAVED"
+            updateCatalogInfo()
         }
         head.addView(catalogButton, LinearLayout.LayoutParams(dp(48), dp(25)))
+        nextCatalogButton = button("1/1") { showNextCatalog() }
+        head.addView(nextCatalogButton, LinearLayout.LayoutParams(dp(38), dp(25)))
         filterButton = button("FILTER") { toggleFilters() }
         head.addView(filterButton, LinearLayout.LayoutParams(dp(54), dp(25)))
         head.addView(button("×") { removeRadarWindow() }, LinearLayout.LayoutParams(dp(25), dp(25)))
@@ -241,6 +249,10 @@ class AlbionOverlayService : Service() {
         }
         radarView.setCatalogSnapshot(catalogEntities.toString())
         panel.addView(radarView, LinearLayout.LayoutParams(dp(224), dp(190)))
+        catalogInfo = label("")
+        catalogInfo.maxLines = 1
+        panel.addView(catalogInfo, LinearLayout.LayoutParams(-1, dp(15)))
+        updateCatalogInfo()
         filterPanel = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL; setPadding(dp(3), dp(2), dp(3), dp(2))
         }
@@ -380,16 +392,63 @@ class AlbionOverlayService : Service() {
     }
 
     private fun loadStaticCatalog() {
-        try {
-            val data = assets.open("albion-static-catalog.json").bufferedReader().use { JSONObject(it.readText()) }
-            catalogEntities = data.optJSONArray("entities") ?: JSONArray()
-            catalogNodeCount = data.optInt("node_count", catalogEntities.length())
-            catalogMarkerCount = data.optInt("marker_count", 0)
-        } catch (_: Exception) { catalogEntities = JSONArray() }
+        // Keep the full external dictionary; the research index is only a capture-scoped supplement.
         try {
             val typeData = assets.open("albion-mobile-type-dictionary.json").bufferedReader().use { JSONObject(it.readText()) }
             mobileTypeDictionary = typeData.optJSONObject("entries") ?: JSONObject()
         } catch (_: Exception) { mobileTypeDictionary = JSONObject() }
+
+        try {
+            val index = assets.open("albion-research-catalog-index.json").bufferedReader().use { JSONObject(it.readText()) }
+            catalogCaptures = index.optJSONArray("captures") ?: JSONArray()
+            if (catalogCaptures.length() > 0) {
+                catalogIndex = 0
+                loadCatalogCapture(catalogIndex)
+                return
+            }
+        } catch (_: Exception) { catalogCaptures = JSONArray() }
+
+        // Backward-compatible fallback for APKs or branches without the grouped index.
+        try {
+            val data = assets.open("albion-static-catalog.json").bufferedReader().use { JSONObject(it.readText()) }
+            catalogEntities = data.optJSONArray("entities") ?: JSONArray()
+            catalogNodeCount = data.optInt("node_count", catalogEntities.length())
+            catalogMobCount = data.optInt("mob_count", 0)
+            catalogMarkerCount = data.optInt("marker_count", 0)
+        } catch (_: Exception) { catalogEntities = JSONArray() }
+    }
+
+    private fun loadCatalogCapture(index: Int) {
+        val capture = catalogCaptures.optJSONObject(index) ?: return
+        catalogEntities = capture.optJSONArray("entities") ?: JSONArray()
+        catalogNodeCount = capture.optInt("node_count", 0)
+        catalogMobCount = capture.optInt("mob_count", 0)
+        catalogMarkerCount = capture.optInt("marker_count", 0)
+        for (i in 0 until catalogEntities.length()) {
+            catalogEntities.optJSONObject(i)?.let { applyMobTypeInfo(it) }
+        }
+        if (::radarView.isInitialized) radarView.setCatalogSnapshot(catalogEntities.toString())
+        if (::nextCatalogButton.isInitialized) nextCatalogButton.text = "${index + 1}/${catalogCaptures.length()}"
+        updateCatalogInfo()
+    }
+
+    private fun showNextCatalog() {
+        if (catalogCaptures.length() == 0) return
+        catalogIndex = (catalogIndex + 1) % catalogCaptures.length()
+        loadCatalogCapture(catalogIndex)
+        catalogOverviewMode = true
+        if (::radarView.isInitialized) radarView.setCatalogOverviewMode(true)
+        if (::catalogButton.isInitialized) catalogButton.text = "LIVE"
+        updateCatalogInfo()
+    }
+
+    private fun updateCatalogInfo() {
+        if (!::catalogInfo.isInitialized) return
+        val capture = catalogCaptures.optJSONObject(catalogIndex)
+        catalogInfo.text = if (capture != null) {
+            "ZONE UNVERIFIED • ${capture.optString("archive")} / ${capture.optString("pcap")}"
+        } else "Saved capture coordinates are local to their source session"
+        catalogInfo.visibility = if (catalogOverviewMode) View.VISIBLE else View.GONE
     }
 
     private fun mergeCatalogAndLive(liveJson: String): String {
