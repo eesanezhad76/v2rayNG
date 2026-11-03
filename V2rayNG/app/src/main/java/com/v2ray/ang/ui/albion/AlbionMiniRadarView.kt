@@ -18,7 +18,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private var catalogOverviewMode = false
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
-    private val range = 90.0
+    private val range = 130.0
 
     fun setCatalogOverviewMode(enabled: Boolean) {
         catalogOverviewMode = enabled
@@ -101,14 +101,32 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             else -> item.optInt("enchant", 0)
         }
         val enchant = if (markerEnchant >= 0) markerEnchant else canonicalEnchant
-        val trollFilter = if (enchant > 0) "enchanted_trolls" in enabledFilters else "trolls" in enabledFilters
-        val mobCategoryEnabled = (troll && trollFilter) ||
-            (targetedMob && "targeted_mobs" in enabledFilters) ||
-            (oreElemental && "ore_elementals" in enabledFilters) ||
-            (!troll && !targetedMob && !oreElemental && "mobs" in enabledFilters)
-        val categoryEnabled = if (node) {
-            if (enchant > 0) "enchanted_nodes" in enabledFilters else "normal_nodes" in enabledFilters
-        } else if (mob) mobCategoryEnabled else false
+        val resourceName = item.optJSONObject("resource_inference")
+            ?.optJSONObject("resource_name")?.optString("value")?.lowercase().orEmpty()
+        val rawName = (item.optString("name") + " " + resourceName + " " +
+            AlbionRadarSnapshotParser.labelForEntity(item)).lowercase()
+        val resourceCategory = when {
+            item.optInt("family", -1) == 29 || rawName.contains("ore") || rawName.contains("ore candidate") -> "ore"
+            rawName.contains("wood") || rawName.contains("tree") || rawName.contains("logs") -> "wood"
+            rawName.contains("stone") || rawName.contains("rock") -> "stone"
+            rawName.contains("fiber") || rawName.contains("cotton") || rawName.contains("flax") -> "fiber"
+            rawName.contains("hide") || rawName.contains("animal") || rawName.contains("beast") -> "hide"
+            else -> "unknown_resource"
+        }
+        val mobCategory = when {
+            troll -> "troll"
+            oreElemental -> "ore_elemental"
+            rawName.contains("bird") || rawName.contains("wolf") || rawName.contains("boar") ||
+                rawName.contains("bear") || rawName.contains("deer") || rawName.contains("animal") -> "animal"
+            else -> "other_mob"
+        }
+        val selectedCategories = enabledFilters.filter { it.startsWith("category_") }
+            .map { it.removePrefix("category_") }.toSet()
+        val categoryEnabled = when {
+            node -> resourceCategory != "unknown_resource" && "category_$resourceCategory" in enabledFilters
+            mob -> mobCategory in selectedCategories || (mobCategory == "other_mob" && "category_mobs" in enabledFilters)
+            else -> false
+        }
         if (!categoryEnabled) return false
         val tierFilters = enabledFilters.filter { it.startsWith("tier_") }
             .mapNotNull { it.removePrefix("tier_").toIntOrNull() }.toSet()
