@@ -31,20 +31,29 @@ def main():
     family_profiles=[]
     for family,rows in sorted(families.items()):
         types=counter(rows,"mobile_type_ids")
-        p={"family":family,"event40_records":len(rows),"mobile_type_ids":types,
+        number=int(family) if family.lstrip("-").isdigit() else None
+        resource_type=("WOOD" if 0<=number<=5 else "ROCK" if 6<=number<=10 else "FIBER" if 11<=number<=15 else "HIDE" if 16<=number<=22 else "ORE" if 23<=number<=27 else None) if number is not None else None
+        p={"type_number":family,"event40_records":len(rows),"mobile_type_ids":types,"resource_type_from_type_number":resource_type,
            "tiers":counter(rows,"tiers"),"enchantment_raw_values":counter(rows,"enchantment_raw_values"),
            "archives":counter(rows,"archive"),"distinct_pcaps":len({(r.get("archive"),r.get("pcap")) for r in rows}),
            "interpretation":"unclassified",
            "evidence_note":"Capture-scoped Event 40 observations; no name inferred from family number alone."}
+        if resource_type:
+            p["interpretation"]="type_number_resource_mapping_candidate"
+            p["evidence_note"]="Type number falls in the public HarvestablesDatabase range mapping; retain as evidence-ranked until marker/state validation."
         if family=="29":
-            p["interpretation"]="confirmed_ore_family"
-            p["evidence_note"]="Independent marker evidence and TypeID dictionary agree: T3/T4/T5 Ore Elemental IDs 571/573/574; loot_type ORE_CRITTER; harvestable=true."
+            p["resource_type_from_type_number"]="ORE_RESOURCE_CREATURE"
+            p["interpretation"]="confirmed_ore_resource_creature"
+            p["evidence_note"]="TypeIDs 571/573/574 resolve to harvestable Ore Elemental T3/T4/T5; loot_type ORE_CRITTER. Living Ore Elemental is distinct from static Ore type numbers 23-27."
         elif family=="27":
-            p["interpretation"]="unknown_family_with_user_confirmed_exception"
-            p["evidence_note"]="Only entity 2788, T5.3 at (-379,-24), is user-confirmed; do not generalize."
+            p["interpretation"]="ore_type_number_candidate"
+            p["evidence_note"]="Type number 27 maps to ORE in HarvestablesDatabase; entity 2788 remains a separately user-confirmed individual target."
         elif family=="20" and set(types)=={"482"}:
-            p["interpretation"]="event40_typeid_conflict_with_mobile_dictionary"
-            p["evidence_note"]="TypeID 482 maps to T1 Mountain Rabbit (harvestable=false), yet these rows were parsed from Event 40 harvestable records. Re-decode raw Event 40 fields; do not classify as resource."
+            p["interpretation"]="hide_type_number_with_nonharvestable_mobile_fallback"
+            p["evidence_note"]="Type number 20 maps to HIDE. TypeID 482 is Mountain Rabbit with is_harvestable=false, so OpenRadar semantics fall back to type_number rather than overriding it."
+        elif family=="28":
+            p["interpretation"]="unresolved_type_number_outside_static_range"
+            p["evidence_note"]="Type number 28 is outside the public static-resource mapping 0-27 and is not covered by the confirmed living-resource mapping; retain unresolved."
         family_profiles.append(p)
     mob_groups=collections.defaultdict(list)
     for r in mobs: mob_groups[str(r.get("mobile_type_id") or "UNKNOWN")].append(r)
@@ -70,6 +79,12 @@ def main():
           "danger":(entry or {}).get("danger",""),"loot_type":(entry or {}).get("loot_type",""),
           "loot_tier":(entry or {}).get("loot_tier",""),"is_harvestable":(entry or {}).get("is_harvestable",""),
           "dictionary_match":bool(entry)})
+    legacy_path=DB/"albion-1793682590317.csv"
+    legacy_rows=read_csv(legacy_path) if legacy_path.exists() else []
+    current_capture=[r for r in nodes if r.get("archive")=="AlbionRadar.zip" and r.get("pcap")=="albion-1793682590317.pcap"]
+    legacy_by_id={str(r.get("entity_id")):str(r.get("type_number")) for r in legacy_rows}
+    validation_pairs=[r for r in current_capture if str(r.get("entity_id")) in legacy_by_id]
+    validation_mismatches=[{"entity_id":r["entity_id"],"pcap_type_number":r.get("type_numbers"),"legacy_type_number":legacy_by_id[str(r["entity_id"])]} for r in validation_pairs if str(r.get("type_numbers"))!=legacy_by_id[str(r["entity_id"])]]
     schema={"entity_observations":field_inventory(entities),"learned_patterns":field_inventory(learned),
             "autonomous_patterns":field_inventory(autonomous),"protocol_evidence":field_inventory(protocol)}
     type_fields={}
@@ -97,9 +112,11 @@ def main():
         "autonomous_pattern_signatures":len(autonomous),"protocol_evidence_records":len(protocol),
         "distinct_event40_families":len(families),"distinct_event123_mobile_type_ids":len(mob_groups)},
       "mobile_type_dictionary_source":dictionary.get("source",{}),
+      "type_number_mapping_source":{"repository":"Nouuu/Albion-Online-OpenRadar","files":["web/scripts/data/HarvestablesDatabase.js","web/scripts/handlers/HarvestablesHandler.js","web/scripts/data/MobsDatabase.js"],"mapping":"0-5 WOOD; 6-10 ROCK; 11-15 FIBER; 16-22 HIDE; 23-27 ORE; living resources override only when MobsDatabase.isHarvestable(TypeID) is true."},
+      "type_number_cross_validation":{"capture":"AlbionRadar.zip/albion-1793682590317.pcap","matched_records":len(validation_pairs),"mismatches":validation_mismatches},
       "mobile_type_dictionary_coverage":{"pcap_distinct_type_ids":len(mob_groups),"mapped_type_ids":mapped,
         "unmapped_type_ids":[p["mobile_type_id"] for p in crosswalk if not p["dictionary_match"]]},
-      "family_profiles":family_profiles,"mobile_type_profiles":mob_profiles,"mobile_type_crosswalk":crosswalk,
+      "type_number_profiles":family_profiles,"mobile_type_profiles":mob_profiles,"mobile_type_crosswalk":crosswalk,
       "knowledge_schema_inventory":schema,"knowledge_type_and_family_field_values":type_fields,
       "weak_filename_context_hints":filename_hints,
       "guardrails":["Runtime IDs are scoped by archive and PCAP/session.",
@@ -118,20 +135,20 @@ def main():
       f"- Knowledge entity records: **{len(entities)}**",f"- Learned patterns: **{len(learned)}**; autonomous patterns: **{len(autonomous)}**; protocol evidence: **{len(protocol)}**",
       f"- Mobile TypeID dictionary coverage: **{mapped}/{len(mob_groups)}** PCAP types mapped",
       f"- Dictionary source: {dictionary.get('source',{}).get('repository','unknown')} at {dictionary.get('source',{}).get('source_commit','unknown')}","",
-      "## Event 40 family profiles","| Family | Records | Mobile Type IDs | Tiers | Enchantment values | Interpretation |","|---:|---:|---|---|---|---|"]
+      "## Event 40 type-number profiles","| Type number | Records | Resource mapping | Mobile Type IDs | Tiers | Interpretation |","|---:|---:|---|---|---|---|"]
     for p in family_profiles:
-        lines.append("| "+p["family"]+" | "+str(p["event40_records"])+" | "+
+        lines.append("| "+p["type_number"]+" | "+str(p["event40_records"])+" | "+str(p.get("resource_type_from_type_number") or "UNRESOLVED")+" | "+
           ", ".join(f"{k} ({v})" for k,v in p["mobile_type_ids"].items())+" | "+
-          ", ".join(f"{k} ({v})" for k,v in p["tiers"].items())+" | "+
-          ", ".join(f"{k} ({v})" for k,v in p["enchantment_raw_values"].items())+" | "+p["interpretation"]+" |")
+          ", ".join(f"{k} ({v})" for k,v in p["tiers"].items())+" | "+p["interpretation"]+" |")
     lines+=["","## Event 123 mobile TypeID crosswalk","| Type ID | Name | Tier | Category | Loot type | Harvestable | PCAP records |","|---:|---|---:|---|---|---|---:|"]
     for p in mob_profiles:
         lines.append(f"| {p['mobile_type_id']} | {p.get('display_name','UNKNOWN')} | {p.get('tier','')} | {p.get('category','')} | {p.get('loot_type','')} | {p.get('is_harvestable','')} | {p['lifecycle_records']} |")
     lines+=["","## Key conflict requiring raw-event re-decode",
-      "- Family 20 has 7 Event 40 rows with TypeID 482, but the game TypeID dictionary maps 482 to T1 Mountain Rabbit, with is_harvestable=false. This is a protocol-field/semantic conflict, not a confirmed resource family.",
-      "- Family 29 is consistent: TypeIDs 571/573/574 resolve to Ore Elemental T3/T4/T5, loot ORE_CRITTER, harvestable=true.",
-      "- Families 7, 14, 27 and 28 have no decoded TypeID in Event 40; their names remain unresolved.",
-      "- Family 27 has only one user-confirmed exception: entity 2788, T5.3 at (-379,-24).",
+      "- Type number 20 maps to HIDE. Its mobile TypeID 482 is Mountain Rabbit and is not harvestable, so the reference OpenRadar handler falls back to type number 20 rather than overriding it.",
+      "- Type number 29 is a separate living Ore Elemental resource mapping: TypeIDs 571/573/574, loot ORE_CRITTER, harvestable=true.",
+      "- Type numbers 7/14/20/27 map to ROCK/FIBER/HIDE/ORE through the public HarvestablesDatabase mapping; 28 remains unresolved.",
+      "- Type-number cross-validation against the independent per-capture ingest for AlbionRadar.zip/albion-1793682590317.pcap: "+str(len(validation_pairs))+" matched rows; "+str(len(validation_mismatches))+" mismatches.",
+      "- Entity 2788, T5.3 at (-379,-24), remains a user-confirmed individual target; do not generalize its confirmation.",
       "","## Knowledge schema reconnaissance",
       "The JSON report records exact fields and common values for type, family, tier, enchantment, classification, resource, name, labels and IDs. Field-name similarity alone is not proof.",
       "","## Weak filename hints"]
