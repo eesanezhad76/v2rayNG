@@ -99,19 +99,22 @@ jobs:
 
     - name: Build passive-tap libv2ray AAR
       if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining')
+      timeout-minutes: 25
       working-directory: AndroidLibXrayLite
       env:
         ANDROID_NDK_HOME: ${{ env.NDK_HOME }}
       run: |
         set -euo pipefail
-        go install golang.org/x/mobile/cmd/gomobile@latest
         export PATH="$PATH:$(go env GOPATH)/bin"
+        if ! command -v gomobile >/dev/null 2>&1; then
+          go install golang.org/x/mobile/cmd/gomobile@latest
+          export PATH="$PATH:$(go env GOPATH)/bin"
+        fi
         mkdir -p assets data
         bash gen_assets.sh download
         cp -v data/*.dat assets/
         mkdir -p ../V2rayNG/app/libs
         gomobile init
-        go mod tidy
         gomobile bind -v -androidapi 24 -trimpath -ldflags='-s -w -buildid= -checklinkname=0' -o ../V2rayNG/app/libs/libv2ray.aar ./
 
     - name: Test passive-tap tun package
