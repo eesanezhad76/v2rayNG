@@ -20,6 +20,7 @@
     "completed_with_metadata_conflict_resource_cycles": 0,
     "incomplete_resource_marker_cycles": 0,
     "mob_marker_pairs": 1,
+    "incomplete_mob_marker_cycles": 0,
     "unmatched_marker_events": 1,
     "marker_metadata_conflicts": 0
   },
