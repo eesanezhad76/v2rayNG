@@ -12,8 +12,8 @@ import org.junit.jupiter.api.io.TempDir
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.util.zip.ZipInputStream
 import java.security.MessageDigest
+import java.util.zip.ZipInputStream
 
 class AlbionKnowledgeBundleTest {
     @TempDir lateinit var tempDir: File
@@ -33,7 +33,10 @@ class AlbionKnowledgeBundleTest {
         File(tempDir, "albion-protocol-evidence.json").writeText(
             JSONArray().put(JSONObject().put("event_code", 40)).toString()
         )
-        File(tempDir, "albion-autonomous-patterns.json").writeText(\n            JSONArray().put(JSONObject().put("signature", "sig-40").put("status", "unknown_candidate")).toString()\n        )\n        File(tempDir, "v2ray-profile.json").writeText("{\"password\":\"must-not-export\"}")
+        File(tempDir, "albion-autonomous-patterns.json").writeText(
+            JSONArray().put(JSONObject().put("signature", "sig-40").put("status", "unknown_candidate")).toString()
+        )
+        File(tempDir, "v2ray-profile.json").writeText("{\"password\":\"must-not-export\"}")
         File(tempDir, "albion-learned-patterns.json").writeText(
             JSONObject().put("schema_version", 1).put("patterns", JSONArray().put(
                 JSONObject().put("signature", "Ore|harvestable|40")
@@ -52,20 +55,25 @@ class AlbionKnowledgeBundleTest {
             }
         }
 
+        val manifest = JSONObject(entries.getValue("manifest.json"))
         assertEquals(1, summary.entityRecords)
         assertEquals(1, summary.protocolEvents)
         assertTrue(entries.containsKey("manifest.json"))
         assertTrue(entries.containsKey("live-knowledge.json"))
         assertTrue(entries.containsKey("protocol-evidence.json"))
-        assertTrue(entries.containsKey("learned-patterns.json"))\n        assertTrue(entries.containsKey("autonomous-patterns.json"))\n        assertEquals(5, manifest.getJSONObject("files").length())
+        assertTrue(entries.containsKey("learned-patterns.json"))
+        assertTrue(entries.containsKey("autonomous-patterns.json"))
+        assertEquals(5, manifest.getJSONObject("files").length())
         assertTrue(entries.containsKey("pattern-learning-report.txt"))
         assertTrue(summary.patternReportIncluded)
         assertTrue(summary.patternDatabaseIncluded)
-        val manifest = JSONObject(entries.getValue("manifest.json"))
         assertEquals(AlbionKnowledgeBundle.SCHEMA_VERSION, manifest.optInt("schema_version"))
         assertEquals(1, manifest.optInt("entity_records"))
-        assertEquals(1, manifest.optInt("protocol_events"))\n        assertEquals(1, manifest.optInt("autonomous_patterns"))
-        val expectedPatternHash = manifest.getJSONObject("files").getJSONObject("learned-patterns.json").getString("sha256")
+        assertEquals(1, manifest.optInt("protocol_events"))
+        assertEquals(1, manifest.optInt("autonomous_patterns"))
+
+        val expectedPatternHash = manifest.getJSONObject("files")
+            .getJSONObject("learned-patterns.json").getString("sha256")
         val actualPatternHash = MessageDigest.getInstance("SHA-256")
             .digest(entries.getValue("learned-patterns.json").toByteArray(Charsets.UTF_8))
             .joinToString("") { "%02x".format(it) }
@@ -77,8 +85,18 @@ class AlbionKnowledgeBundleTest {
     fun exportsEmptyValidBundleWhenNoKnowledgeHasBeenCollected() {
         val bytes = ByteArrayOutputStream()
         val summary = AlbionKnowledgeBundle.write(context(), bytes)
+        val entries = linkedMapOf<String, String>()
+        ZipInputStream(ByteArrayInputStream(bytes.toByteArray())).use { zip ->
+            while (true) {
+                val entry = zip.nextEntry ?: break
+                entries[entry.name] = zip.readBytes().toString(Charsets.UTF_8)
+            }
+        }
+        val manifest = JSONObject(entries.getValue("manifest.json"))
         assertEquals(0, summary.entityRecords)
         assertEquals(0, summary.protocolEvents)
+        assertEquals(0, manifest.optInt("autonomous_patterns"))
+        assertTrue(entries.containsKey("autonomous-patterns.json"))
         assertFalse(summary.patternDatabaseIncluded)
         assertTrue(bytes.size() > 0)
     }
