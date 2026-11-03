@@ -150,6 +150,15 @@ object AlbionCaptureAnalyzer {
                                     val hex = raw?.take(128)?.joinToString("") { "%02x".format(it) } ?: "null"
                                     detailed += "t=" + packetTimeMs + " event3 id=" + message.parameters[0] + " raw=" + hex + " p4=" + message.parameters[4] + " p5=" + message.parameters[5]
                                 }
+                                if (message.kind == "event" && message.realCode == 2) {
+                                    // Event 2 appeared only in the archived capture whose user note
+                                    // explicitly records travel between zones. Preserve its exact
+                                    // decoded parameter shape/value for offline forensic review;
+                                    // do not assign zone-transition semantics here.
+                                    val params = message.parameters.entries.sortedBy { it.key }
+                                        .joinToString(" ") { (key, value) -> key.toString() + "=" + describeValue(value) }
+                                    detailed += "t=" + packetTimeMs + " kind=unmapped_event_candidate code=2 params={" + params + "}"
+                                }
                                 if (message.kind == "request" && message.realCode in setOf(22, 23, 24, 54, 199, 554)) {
                                     val params = message.parameters.entries.sortedBy { it.key }.joinToString(" ") { (key, value) -> key.toString() + "=" + describeValue(value) }
                                     detailed += "t=" + packetTimeMs + " outbound_request op=" + message.realCode + " params={" + params + "}"
