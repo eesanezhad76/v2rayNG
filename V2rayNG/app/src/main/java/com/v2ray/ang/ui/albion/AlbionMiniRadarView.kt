@@ -61,13 +61,18 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     }
 
     fun setLiveSnapshot(json: String): Int? {
+        // Snapshot JSON parsing can be expensive on large sessions; callers may invoke this
+        // from the capture worker. Only publish the immutable parsed list on the UI thread.
         val parsed = AlbionRadarSnapshotParser.parse(json) ?: return null
-        // Live coordinates belong to the active capture. Never merge historical catalog
-        // coordinates into the player-centered map until zone identity is verified.
-        entities = parsed.entities
-        filterCacheDirty = true
-        invalidate()
-        return entities.size
+        val acceptedCount = parsed.entities.size
+        post {
+            // Live coordinates belong to the active capture. Never merge historical catalog
+            // coordinates into the player-centered map until zone identity is verified.
+            entities = parsed.entities
+            filterCacheDirty = true
+            invalidate()
+        }
+        return acceptedCount
     }
 
     private fun entityMergeKey(item: JSONObject): String {
