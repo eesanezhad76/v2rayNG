@@ -518,9 +518,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 entity.optBoolean("user_confirmed_target", false) -> 0xFF55E6FF.toInt()
                 kind == "mob" && AlbionSpatialIntelligence.isOreElemental(entity) -> 0xFFB58CFF.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
-                kind in RESOURCE_KINDS && (entity.optString("research_catalog_resource_mapping_status") == "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL" ||
-                    entity.optString("research_catalog_resource_mapping_status") == "UNRESOLVED" ||
-                    kind == "static_resource") -> 0xFF9AA6AF.toInt()
+                kind == "activity_marker" -> 0xFFFFC45C.toInt()
                 kind in RESOURCE_KINDS -> resourceMarkerColor(entity)
                 else -> 0xFFFFC45C.toInt()
             }
