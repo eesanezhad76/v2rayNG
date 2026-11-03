@@ -8,10 +8,12 @@ import org.json.JSONObject
 import kotlin.math.hypot
 import kotlin.math.min
 import kotlin.math.roundToInt
+import java.util.LinkedHashMap
 
 /** Compact coordinate radar. Off-range entities are projected to the rim with distance labels. */
 class AlbionMiniRadarView(context: Context) : View(context) {
     private var entities: List<JSONObject> = emptyList()
+    private var catalogEntities: List<JSONObject> = emptyList()
     private var enabledFilters: Set<String> = DEFAULT_FILTERS
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
@@ -31,6 +33,33 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         entities = parsed.entities
         invalidate()
         return entities.size
+    }
+
+    /** Parse static catalog once; live refreshes only reparse the current-session snapshot. */
+    fun setCatalogSnapshot(json: String): Int? {
+        val parsed = AlbionRadarSnapshotParser.parse(json) ?: return null
+        catalogEntities = parsed.entities
+        entities = catalogEntities
+        invalidate()
+        return catalogEntities.size
+    }
+
+    fun setLiveSnapshot(json: String): Int? {
+        val parsed = AlbionRadarSnapshotParser.parse(json) ?: return null
+        val merged = LinkedHashMap<String, JSONObject>()
+        catalogEntities.forEach { merged[entityMergeKey(it)] = it }
+        parsed.entities.forEach { merged[entityMergeKey(it)] = it }
+        entities = merged.values.toList()
+        invalidate()
+        return entities.size
+    }
+
+    private fun entityMergeKey(item: JSONObject): String {
+        val kind = if (item.optString("last_kind") in RESOURCE_KINDS) "resource" else item.optString("last_kind")
+        val x = (item.optDouble("x") * 2.0).roundToInt()
+        val y = (item.optDouble("y") * 2.0).roundToInt()
+        return listOf(kind, item.optInt("family", -1), item.optInt("tier", -1),
+            item.optInt("enchant", -1), x, y).joinToString(":")
     }
 
     private fun validPoint(item: JSONObject): Boolean =
