@@ -33,7 +33,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.ref == 'refs/heads/albion-database-integration-completion' && github.run_id || 'shared' }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref == 'refs/heads/albion-database-integration-completion' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04') && github.run_id || 'shared' }}
   # Latest source commit wins. Cancel a stale build rather than leaving the
   # newest APK build queued behind a hung gomobile/Go dependency compilation.
   # Keep the dedicated integration branch's validation run alive while follow-up commits queue.
@@ -49,7 +49,7 @@ jobs:
       uses: actions/checkout@v7
       with:
         submodules: 'recursive'
-        fetch-depth: ${{ github.ref == 'refs/heads/albion-database-integration-completion' && 1 || 0 }}
+        fetch-depth: ${{ (github.ref == 'refs/heads/albion-database-integration-completion' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04') && 1 || 0 }}
 
     - name: Generate historical Albion knowledge seed
       run: python3 research/tools/generate_historical_knowledge_seed.py
