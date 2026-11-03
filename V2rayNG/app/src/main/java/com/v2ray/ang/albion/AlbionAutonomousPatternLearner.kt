@@ -216,7 +216,7 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
                 if (value.isNotBlank() && value != "null") values.add(value)
             }
         }
-        return JSONArray(values.take(limit))
+        return JSONArray(values.takeLast(limit))
     }
 
     private fun mergedLabels(first: JSONArray?, second: JSONArray?): JSONArray {
