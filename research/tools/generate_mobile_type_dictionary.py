@@ -65,6 +65,8 @@ def build(root: Path):
     if "482" in entries:
         entries["482"]["is_harvestable"] = False
     for type_id in ("571", "573", "574"):
+        if type_id not in mobile:
+            continue
         row = entries.get(type_id, {})
         # These packet-observed TypeIDs have an explicit research crosswalk.
         row["display_name"] = "Ore Elemental"
