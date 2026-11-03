@@ -61,12 +61,20 @@ object AlbionSpatialIntelligence {
 
     /** Only typed harvestable observations or explicitly user-confirmed targets may guide gathering. */
     fun isNavigableResource(item: JSONObject): Boolean {
-        if (item.optString("last_kind") !in resourceKinds) return false
+        val kind = item.optString("last_kind")
+        if (kind !in resourceKinds && kind != "mob") return false
         if (item.optBoolean("depleted", false) || item.optBoolean("left", false)) return false
         if (item.optBoolean("user_confirmed_target", false)) return true
-        if (!isTypedResource(item)) return false
         val conflicts = item.optJSONArray("evidence_conflicts")
-        return conflicts == null || conflicts.length() == 0
+        if (conflicts != null && conflicts.length() > 0) return false
+        if (kind == "mob") {
+            // Living resource creatures (e.g. Ore Elementals) arrive as mob observations.
+            // Require explicit harvestability from the matched research dictionary.
+            return item.optBoolean("research_catalog_harvestable", false) &&
+                item.optInt("mobile_type_id", -1) > 0 &&
+                item.optInt("tier", -1) in 1..8
+        }
+        return isTypedResource(item)
     }
 
     /** Candidate-only pins are intentionally capped when the user enables the unclassified layer. */
