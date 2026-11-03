@@ -21,6 +21,8 @@ class RuntimeKnowledgeAssetIntegrationTest(unittest.TestCase):
         self.assertEqual(4599, report["historical_knowledge"]["protocol_events"])
         self.assertEqual(70, report["historical_knowledge"]["learned_patterns"])
         self.assertEqual(296, report["historical_knowledge"]["autonomous_signatures_seeded"])
+        self.assertEqual(70, report["historical_knowledge"]["learned_pattern_reference_rows"])
+        self.assertGreater(report["historical_knowledge"]["protocol_shape_groups"], 0)
         self.assertFalse(report["historical_coordinates_projected"])
 
 
