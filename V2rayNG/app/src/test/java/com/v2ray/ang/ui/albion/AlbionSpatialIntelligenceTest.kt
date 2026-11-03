@@ -1,0 +1,86 @@
+package com.v2ray.ang.ui.albion
+
+import org.json.JSONObject
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.Test
+
+class AlbionSpatialIntelligenceTest {
+    private fun resource(
+        id: String,
+        kind: String,
+        x: Double,
+        y: Double,
+        family: Int? = null,
+        typeId: Int? = null,
+        tier: Int? = null,
+        enchant: Int? = null,
+        lastSeen: Long = 1L
+    ): JSONObject = JSONObject().apply {
+        put("entity_id", id)
+        put("last_kind", kind)
+        put("x", x)
+        put("y", y)
+        put("last_seen_ms", lastSeen)
+        family?.let { put("family", it) }
+        typeId?.let { put("mobile_type_id", it) }
+        tier?.let { put("tier", it) }
+        enchant?.let { put("enchant", it) }
+    }
+
+    @Test
+    fun typedResourceSupersedesEvent39CandidateAtSameCoordinate() {
+        val candidate = resource("event39", "static_resource", 12.0, 18.0)
+        val typed = resource("event40", "harvestable", 12.0, 18.0, 29, 574, 5, 1, 10L)
+        val result = AlbionSpatialIntelligence.deduplicate(listOf(candidate, typed))
+        assertEquals(1, result.size)
+        assertEquals("event40", result.single().optString("entity_id"))
+    }
+
+    @Test
+    fun repeatedUntypedCandidatesAtSameCoordinateCollapseToNewestObservation() {
+        val older = resource("candidate-a", "static_resource", 12.0, 18.0, lastSeen = 10L)
+        val newer = resource("candidate-b", "static_resource", 12.1, 18.1, lastSeen = 20L)
+        val result = AlbionSpatialIntelligence.deduplicate(listOf(older, newer))
+        assertEquals(1, result.size)
+        assertEquals("candidate-b", result.single().optString("entity_id"))
+    }
+
+    @Test
+    fun differentTypedResourcesAtSameCoordinateAreNotSilentlyMerged() {
+        val ore = resource("ore", "harvestable", 12.0, 18.0, 29, 574, 5, 1)
+        val stone = resource("stone", "harvestable", 12.0, 18.0, 7, 701, 5, 0)
+        val result = AlbionSpatialIntelligence.deduplicate(listOf(ore, stone))
+        assertEquals(2, result.size)
+    }
+
+    @Test
+    fun untypedEvent39CandidateCannotBecomeGatheringNavigationTarget() {
+        val candidate = resource("candidate", "static_resource", 10.0, 10.0)
+        val typed = resource("typed", "harvestable", 11.0, 10.0, 29, 574, 5, 1)
+        assertFalse(AlbionSpatialIntelligence.isNavigableResource(candidate))
+        assertTrue(AlbionSpatialIntelligence.isNavigableResource(typed))
+    }
+
+    @Test
+    fun conflictedOrDepletedTypedResourcesCannotBecomeNavigationTargets() {
+        val conflicted = resource("conflict", "harvestable", 1.0, 2.0, 29, 574, 5, 1)
+            .put("evidence_conflicts", org.json.JSONArray().put("tier"))
+        val depleted = resource("depleted", "harvestable", 1.0, 2.0, 29, 574, 5, 1)
+            .put("depleted", true)
+        assertFalse(AlbionSpatialIntelligence.isNavigableResource(conflicted))
+        assertFalse(AlbionSpatialIntelligence.isNavigableResource(depleted))
+    }
+
+    @Test
+    fun candidateLayerIsCappedToNearestForty() {
+        val candidates = (0 until 60).map { index ->
+            resource("c$index", "static_resource", index.toDouble() + 1.0, 0.0)
+        }
+        val result = AlbionSpatialIntelligence.limitUnclassifiedCandidates(candidates, 0.0, 0.0, 40)
+        assertEquals(40, result.size)
+        assertEquals("c0", result.first().optString("entity_id"))
+        assertTrue(result.none { it.optString("entity_id") == "c59" })
+    }
+}
