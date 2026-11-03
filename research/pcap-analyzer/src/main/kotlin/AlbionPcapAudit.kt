@@ -401,8 +401,12 @@ fun main() {
                 }
                 "gathering_completed" -> {
                     val queue = pendingMarkers[key]
+                    // Current overlay has only Start(target_found) and End(gathering_completed).
+                    // Pair End with the most recent still-pending Start; older pending Starts
+                    // remain visible as unmatched candidates rather than being silently discarded.
                     val sample = if (queue == null) null else
-                        queue.firstOrNull { it.startedMs != null } ?: queue.singleOrNull()
+                        queue.firstOrNull { it.startedMs != null && it.completedMs == null }
+                            ?: queue.lastOrNull { it.startedMs == null && it.completedMs == null }
                     if (sample == null) unmatchedCompletions++ else {
                         sample.completedMs = t
                         queue?.remove(sample)
@@ -418,6 +422,11 @@ fun main() {
                 }
             }
         }
+        // Keep unpaired Start markers in spatial/family analysis too. A missing End
+        // must never erase a node the user explicitly marked as visited.
+        val unmatchedFoundMarkers = pendingMarkers.values.sumOf { it.size }
+        markerSamples += pendingMarkers.values.flatten()
+
         val markerCsv = buildString {
             appendLine("archive,pcap,timestamp_ms,activity,event,tier_label,enchantment_label")
             for ((archive, pcap, detail) in markerDetails) {
@@ -580,7 +589,7 @@ fun main() {
             }
         }
         File(out, "2026-11-02-overlay-family-candidate-summary.csv").writeText(familySummaryCsv, Charsets.UTF_8)
-        println("OVERLAY_CORRELATION markers=${markerDetails.size} completed_samples=${markerSamples.size} single_family_candidates=${familyEvidence.size} unmatched_start=$unmatchedStarts unmatched_completed=$unmatchedCompletions unmatched_depleted=$unmatchedDepletions")
+        println("OVERLAY_CORRELATION markers=${markerDetails.size} completed_samples=${markerSamples.size} single_family_candidates=${familyEvidence.size} unmatched_start=$unmatchedStarts unmatched_found=$unmatchedFoundMarkers unmatched_completed=$unmatchedCompletions unmatched_depleted=$unmatchedDepletions")
 
         val unmatchedStates = resourceStates.filterKeys { !nodes.containsKey(it) }
         val stateCsv = buildString {
