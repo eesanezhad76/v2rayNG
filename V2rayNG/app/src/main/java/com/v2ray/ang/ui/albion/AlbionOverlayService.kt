@@ -158,13 +158,19 @@ class AlbionOverlayService : Service() {
             maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END; includeFontPadding = false
         }
         panel.addView(body)
+        panel.tag = "controls"
         controlsRoot = panel
+        val layoutPrefs = getSharedPreferences("albion_overlay_layout", MODE_PRIVATE)
         val type = if (Build.VERSION.SDK_INT >= 26) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE
         val params = WindowManager.LayoutParams(
             dp(218), WindowManager.LayoutParams.WRAP_CONTENT, type,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
-        ).apply { gravity = Gravity.TOP or Gravity.START; x = dp(8); y = dp(90) }
+        ).apply {
+            gravity = Gravity.TOP or Gravity.START
+            x = layoutPrefs.getInt("controls_x", dp(8))
+            y = layoutPrefs.getInt("controls_y", dp(90))
+        }
         controlsParams = params
         wm.addView(panel, params)
         attachDrag(title, panel, params)
@@ -194,13 +200,19 @@ class AlbionOverlayService : Service() {
             isFillViewport = true; visibility = View.GONE; addView(filterPanel)
         }
         panel.addView(filterScroll, LinearLayout.LayoutParams(-1, dp(160)))
+        panel.tag = "radar"
         radarRoot = panel
+        val layoutPrefs = getSharedPreferences("albion_overlay_layout", MODE_PRIVATE)
         val type = if (Build.VERSION.SDK_INT >= 26) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE
         val params = WindowManager.LayoutParams(
             dp(202), WindowManager.LayoutParams.WRAP_CONTENT, type,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
-        ).apply { gravity = Gravity.TOP or Gravity.START; x = dp(8); y = dp(350) }
+        ).apply {
+            gravity = Gravity.TOP or Gravity.START
+            x = layoutPrefs.getInt("radar_x", dp(8))
+            y = layoutPrefs.getInt("radar_y", dp(350))
+        }
         radarParams = params
         wm.addView(panel, params)
         attachDrag(dragTitle, panel, params)
@@ -221,7 +233,12 @@ class AlbionOverlayService : Service() {
                     try { wm.updateViewLayout(target, params) } catch (_: Exception) { }
                     true
                 }
-                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> true
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    val key = target.tag?.toString() ?: "overlay"
+                    getSharedPreferences("albion_overlay_layout", MODE_PRIVATE).edit()
+                        .putInt("${key}_x", params.x).putInt("${key}_y", params.y).apply()
+                    true
+                }
                 else -> false
             }
         }
