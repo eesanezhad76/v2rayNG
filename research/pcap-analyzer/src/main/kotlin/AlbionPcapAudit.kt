@@ -798,8 +798,16 @@ fun main() {
         // Correlate manually tagged Mob/Troll cycles with exact outbound operation-23
         // target IDs. This is ranked evidence, not proof that a particular marker names
         // a particular entity; retain all candidates and ambiguity.
+        val mobileTypeDictionary = runCatching {
+            JSONObject(File(repo, "research/database/albion-mobile-type-dictionary.json").readText(Charsets.UTF_8))
+                .optJSONObject("entries") ?: JSONObject()
+        }.getOrDefault(JSONObject())
+        fun resolvedMobName(typeId: String, eventName: String): String {
+            if (eventName.isNotBlank()) return eventName
+            return mobileTypeDictionary.optJSONObject(typeId)?.optString("display_name", "") ?: ""
+        }
         val mobMarkerCorrelationCsv = buildString {
-            appendLine("archive,pcap,activity,found_ms,mob_killed_ms,candidate_count,best_target_entity_id,mobile_type_id,event123_name,first_attack_ms,last_attack_ms,start_to_attack_delta_ms,health_observations,leave_after_last_attack,confidence,identity_proven,candidate_evidence")
+            appendLine("archive,pcap,activity,found_ms,mob_killed_ms,candidate_count,best_target_entity_id,mobile_type_id,resolved_mob_name,mob_tier,mob_category,first_attack_ms,last_attack_ms,start_to_attack_delta_ms,health_observations,leave_after_last_attack,confidence,identity_proven,candidate_evidence")
             for (sample in markerSamples.filter { it.activity in setOf("Mob", "Mobs", "Troll") }) {
                 val prefix = sample.archive + "\u001f" + sample.pcap + "\u001f"
                 val finishMs = sample.completedMs ?: (sample.foundMs + 15_000L)
@@ -842,8 +850,10 @@ fun main() {
                 }
                 appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
                     sample.completedMs?.toString() ?: "", candidates.size.toString(), best?.id ?: "",
-                    best?.type ?: "", best?.name ?: "", best?.first?.toString() ?: "",
-                    best?.last?.toString() ?: "", best?.delta?.toString() ?: "",
+                    best?.type ?: "", best?.let { resolvedMobName(it.type, it.name) } ?: "",
+                    best?.let { mobileTypeDictionary.optJSONObject(it.type)?.opt("tier")?.toString() ?: "" } ?: "",
+                    best?.let { mobileTypeDictionary.optJSONObject(it.type)?.optString("category", "") ?: "" } ?: "",
+                    best?.first?.toString() ?: "", best?.last?.toString() ?: "", best?.delta?.toString() ?: "",
                     best?.health?.toString() ?: "", best?.leaveAfter?.toString() ?: "",
                     confidence, "false", candidateEvidence).joinToString(",") { csvCell(it) })
             }
