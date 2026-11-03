@@ -222,7 +222,8 @@ def correlate_mob_markers(lifecycles,mobs,player_positions,player_moves,health_e
     if confidence in {"HIGH","MEDIUM"}:
      mob["marker_activity"]=cycle["activity"]
      mob["marker_match_confidence"]=confidence
-     mob["marker_tier"]=cycle.get("tier")
+     raw_tier=str(cycle.get("tier") or "")
+     mob["marker_tier"]=int(raw_tier.replace("T","")) if raw_tier.replace("T","").isdigit() else None
      mob["marker_enchantment"]=cycle.get("enchantment")
      mob["marker_enchant"]=int(str(cycle.get("enchantment") or "E0").replace("E","")) if str(cycle.get("enchantment") or "E0").replace("E","").isdigit() else 0
      if not mob.get("name") and cycle["activity"]=="Troll":mob["name"]="Troll candidate"
