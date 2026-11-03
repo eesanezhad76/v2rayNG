@@ -18,6 +18,7 @@ object AlbionHistoricalKnowledgeIndex {
     private val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
 
     data class Snapshot internal constructor(
+        val sourceBundleCount: Int,
         val entityRecordCount: Int,
         val protocolEventCount: Int,
         val learnedPatternCount: Int,
@@ -28,7 +29,7 @@ object AlbionHistoricalKnowledgeIndex {
         private val learnedPatterns: JSONArray
     ) {
         fun summaryText(): String =
-            "Historical memory: $entityRecordCount entities / $protocolEventCount protocol events / " +
+            "Historical memory: $sourceBundleCount bundles / $entityRecordCount entities / $protocolEventCount protocol events / " +
                 "$learnedPatternCount learned patterns / $autonomousSignatureCount autonomous signatures " +
                 "($protocolShapeCount protocol shapes). Evidence only."
 
@@ -107,6 +108,7 @@ object AlbionHistoricalKnowledgeIndex {
             val manifest = JSONObject(manifestJson)
             val mobile = entities.optJSONObject("mobile_types")
             val families = entities.optJSONObject("resource_families")
+            val bundleCount = manifest.optInt("source_bundle_count", -1)
             val entityCount = manifest.optInt("entity_records", -1)
             val protocolCount = manifest.optInt("protocol_events", -1)
             val learnedCount = manifest.optInt("learned_patterns", -1)
@@ -114,10 +116,10 @@ object AlbionHistoricalKnowledgeIndex {
             if (mobile == null || families == null ||
                 entities.optInt("schema_version", -1) != 1 ||
                 manifest.optInt("schema_version", -1) != 1 ||
-                entityCount < 0 || protocolCount < 0 || learnedCount < 0 || autonomousCount < 0 ||
+                bundleCount < 0 || entityCount < 0 || protocolCount < 0 || learnedCount < 0 || autonomousCount < 0 ||
                 entities.optInt("entity_record_count", -1) != entityCount ||
                 learned.length() != learnedCount) null
-            else Snapshot(entityCount, protocolCount, learnedCount, autonomousCount, protocols.length(), mobile, families, learned)
+            else Snapshot(bundleCount, entityCount, protocolCount, learnedCount, autonomousCount, protocols.length(), mobile, families, learned)
         } catch (_: Exception) {
             null
         }
