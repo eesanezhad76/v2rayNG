@@ -131,6 +131,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             .filter { it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) && passesFilters(it) }
             .toList()
         val outside = ArrayList<Pair<JSONObject, Double>>()
+        val nearbyNodes = ArrayList<Pair<JSONObject, Double>>()
         visible.forEach { entity ->
             val dx = entity.optDouble("x") - px
             val dy = entity.optDouble("y") - py
@@ -148,9 +149,11 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 depleted || entity.optBoolean("left", false) -> 0xFF697782.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
                 candidate -> 0xFF9AA6AF.toInt()
+                kind in RESOURCE_KINDS && entity.optInt("enchant", 0) > 0 -> 0xFFB58CFF.toInt()
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, (if (distance > range) 2.5f else 3.2f) * density, paint)
+            if (kind in RESOURCE_KINDS && distance <= range && !depleted) nearbyNodes.add(entity to distance)
             if (kind == "mob" && distance <= range) {
                 paint.style = Paint.Style.FILL
                 paint.textSize = 7f * density
@@ -168,6 +171,17 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             if (distance > range) outside.add(entity to distance)
         }
 
+        val nearestNodes = nearbyNodes.sortedBy { it.second }.take(5)
+        paint.style = Paint.Style.FILL
+        paint.textSize = 7f * density
+        paint.color = 0xFFFFE0A6.toInt()
+        nearestNodes.forEachIndexed { index, pair ->
+            val node = pair.first
+            val label = AlbionRadarSnapshotParser.labelForEntity(node)
+            val text = "$label ${pair.second.roundToInt()}"
+            canvas.drawText(text.take(22), 5f * density,
+                (12f + index * 9f) * density, paint)
+        }
         val nearestOutside = outside.sortedBy { it.second }.take(4)
         paint.style = Paint.Style.FILL
         paint.textSize = 7.5f * density
@@ -194,7 +208,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         canvas.drawText("YOU", cx + 6f * density, cy - 5f * density, paint)
         paint.color = 0xFFB8C8D5.toInt()
         paint.textSize = 7f * density
-        canvas.drawText("${visible.size} pins • saved zone unverified", 6f * density, height - 5f * density, paint)
+        canvas.drawText("${visible.size} pins • ${nearbyNodes.size} nodes • zone?", 6f * density, height - 5f * density, paint)
     }
 
     private fun drawCatalogOverview(canvas: Canvas, cx: Float, cy: Float, radius: Float) {
