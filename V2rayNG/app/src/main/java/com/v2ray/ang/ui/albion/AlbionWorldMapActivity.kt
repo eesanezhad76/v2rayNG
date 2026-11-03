@@ -14,13 +14,27 @@ class AlbionWorldMapActivity : Activity() {
     private lateinit var mapView: AlbionWorldMapView
     private lateinit var status: TextView
     private val handler = Handler(Looper.getMainLooper())
+    private val dataThread = android.os.HandlerThread("AlbionWorldMapData").apply { start() }
+    private val dataHandler = Handler(dataThread.looper)
+    private val refreshInFlight = java.util.concurrent.atomic.AtomicBoolean(false)
     private val refresh = object : Runnable {
         override fun run() {
             if (!::mapView.isInitialized) return
-            val json = CoreServiceManager.getAlbionLiveKnowledgeJson()
-            val valid = mapView.setSnapshot(json)
-            status.text = if (valid) mapView.statusText() else "Invalid live knowledge snapshot"
-            handler.postDelayed(this, 1500L)
+            if (!refreshInFlight.compareAndSet(false, true)) {
+                handler.postDelayed(this, 1500L)
+                return
+            }
+            dataHandler.post {
+                val valid = runCatching {
+                    mapView.setSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
+                }.getOrDefault(false)
+                val statusText = if (valid) mapView.statusText() else "Invalid live knowledge snapshot"
+                handler.post {
+                    if (::status.isInitialized) status.text = statusText
+                    refreshInFlight.set(false)
+                    if (::mapView.isInitialized) handler.postDelayed(this, 1500L)
+                }
+            }
         }
     }
 
@@ -50,6 +64,8 @@ class AlbionWorldMapActivity : Activity() {
 
     override fun onDestroy() {
         handler.removeCallbacks(refresh)
+        dataHandler.removeCallbacksAndMessages(null)
+        dataThread.quitSafely()
         super.onDestroy()
     }
 }
