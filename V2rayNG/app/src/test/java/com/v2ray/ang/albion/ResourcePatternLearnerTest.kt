@@ -72,7 +72,7 @@ class ResourcePatternLearnerTest {
             ResourcePatternLearner.Observation(family = 20, tier = 4, enchantRaw = 1, mobileTypeId = 573)
         )
         assertEquals("Ore", result.resourceName.value)
-        assertEquals(ResourcePatternLearner.Status.PACKET_CONFIRMED, result.resourceName.status)
+        assertEquals(ResourcePatternLearner.Status.CAPTURE_CORROBORATED, result.resourceName.status)
         assertEquals("573", result.mobileTypeId.value)
         assertEquals(ResourcePatternLearner.Status.PACKET_CONFIRMED, result.mobileTypeId.status)
     }

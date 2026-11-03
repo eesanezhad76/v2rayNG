@@ -68,9 +68,9 @@ object ResourcePatternLearner {
         val resource = when {
             observedLivingResource != null -> FieldInference(
                 value = observedLivingResource.type,
-                status = Status.PACKET_CONFIRMED,
-                confidence = 1.0,
-                reason = "Mobile TypeID " + observedMobileType + " is directly decoded and independently catalogued as a harvestable " + observedLivingResource.type + " resource creature."
+                status = Status.CAPTURE_CORROBORATED,
+                confidence = 0.98,
+                reason = "Mobile TypeID " + observedMobileType + " is directly decoded and independently catalogued as a harvestable " + observedLivingResource.type + " resource creature; the resource name is a catalog inference."
             )
             observation.family == 29 -> FieldInference(
                 value = "Ore",
