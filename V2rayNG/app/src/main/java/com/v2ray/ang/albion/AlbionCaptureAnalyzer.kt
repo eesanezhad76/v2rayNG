@@ -270,6 +270,11 @@ object AlbionCaptureAnalyzer {
             buildString {
                 append("t=").append(marker.optLong("timestamp_ms"))
                 append(" kind=manual_marker")
+                // Preserve both clocks: PCAP packet time is wall-clock epoch time,
+                // while elapsedRealtime is monotonic and supports drift/order audits.
+                if (marker.has("elapsed_realtime_ms")) {
+                    append(" elapsed_realtime_ms=").append(marker.optLong("elapsed_realtime_ms"))
+                }
                 append(" activity=").append(safe(marker.optString("activity", "Unknown")))
                 append(" event=").append(safe(marker.optString("event", "event")))
                 marker.optString("tier", "").takeIf { it.isNotBlank() && it != "null" }?.let {
