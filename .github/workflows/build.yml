@@ -115,6 +115,8 @@ jobs:
         cp -v data/*.dat assets/
         mkdir -p ../V2rayNG/app/libs
         gomobile init
+        # gomobile's Android staging modules depend on a tidied root module graph.
+        go mod tidy
         gomobile bind -v -androidapi 24 -trimpath -ldflags='-s -w -buildid= -checklinkname=0' -o ../V2rayNG/app/libs/libv2ray.aar ./
 
     - name: Test passive-tap tun package
