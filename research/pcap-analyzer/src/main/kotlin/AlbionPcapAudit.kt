@@ -198,6 +198,31 @@ fun main() {
             } + "\n",
             Charsets.UTF_8
         )
+        // Keep the small, explicit Event 2 forensic slice separate from the
+        // much larger all-observations dump. Event 2 is only a candidate signal:
+        // its semantics must be established from repeated transition captures.
+        val zoneEventCandidates = allDetails.filter {
+            it.third.contains("kind=unmapped_event_candidate code=2 ")
+        }
+        File(out, "2026-11-04-zone-event-candidates.jsonl").writeText(
+            zoneEventCandidates.joinToString("\n") { (archive, pcap, detail) ->
+                JSONObject().put("archive", archive).put("pcap", pcap).put("detail", detail).toString()
+            } + if (zoneEventCandidates.isEmpty()) "" else "\n",
+            Charsets.UTF_8
+        )
+        val zoneCandidateSummary = buildString {
+            appendLine("# Unmapped Event 2 candidate inventory")
+            appendLine()
+            appendLine("Candidate observations: ${zoneEventCandidates.size}")
+            appendLine()
+            if (zoneEventCandidates.isEmpty()) appendLine("No Event 2 observations were found.")
+            else zoneEventCandidates.groupBy { it.first to it.second }.forEach { (capture, rows) ->
+                appendLine("- ${capture.first} / ${capture.second}: ${rows.size} observations")
+            }
+            appendLine()
+            appendLine("These are raw decoded observations only. No zone-transition meaning is assigned.")
+        }
+        File(out, "2026-11-04-zone-event-candidates.md").writeText(zoneCandidateSummary, Charsets.UTF_8)
         val movements = allDetails.filter { it.third.contains("kind=own_player_move ") }
         val csv = buildString {
             appendLine("archive,pcap,timestamp_ms,x,y,heading,target_x,target_y,speed,source")
