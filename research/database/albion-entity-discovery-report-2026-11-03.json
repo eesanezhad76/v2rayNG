@@ -19,18 +19,33 @@
     "offset": 16,
     "source_note": "Public OpenRadar mob dump; runtime TypeID mapping follows the source repository's documented offset."
   },
+  "type_number_mapping_source": {
+    "repository": "Nouuu/Albion-Online-OpenRadar",
+    "files": [
+      "web/scripts/data/HarvestablesDatabase.js",
+      "web/scripts/handlers/HarvestablesHandler.js",
+      "web/scripts/data/MobsDatabase.js"
+    ],
+    "mapping": "0-5 WOOD; 6-10 ROCK; 11-15 FIBER; 16-22 HIDE; 23-27 ORE; living resources override only when MobsDatabase.isHarvestable(TypeID) is true."
+  },
+  "type_number_cross_validation": {
+    "capture": "AlbionRadar.zip/albion-1793682590317.pcap",
+    "matched_records": 83,
+    "mismatches": []
+  },
   "mobile_type_dictionary_coverage": {
     "pcap_distinct_type_ids": 64,
     "mapped_type_ids": 64,
     "unmapped_type_ids": []
   },
-  "family_profiles": [
+  "type_number_profiles": [
     {
-      "family": "14",
+      "type_number": "14",
       "event40_records": 47,
       "mobile_type_ids": {
         "-1": 47
       },
+      "resource_type_from_type_number": "FIBER",
       "tiers": {
         "4": 33,
         "5": 14
@@ -51,15 +66,16 @@
         "Albion اااستسمنسمنش.zip": 1
       },
       "distinct_pcaps": 9,
-      "interpretation": "unclassified",
-      "evidence_note": "Capture-scoped Event 40 observations; no name inferred from family number alone."
+      "interpretation": "type_number_resource_mapping_candidate",
+      "evidence_note": "Type number falls in the public HarvestablesDatabase range mapping; retain as evidence-ranked until marker/state validation."
     },
     {
-      "family": "20",
+      "type_number": "20",
       "event40_records": 7,
       "mobile_type_ids": {
         "482": 7
       },
+      "resource_type_from_type_number": "HIDE",
       "tiers": {
         "1": 7
       },
@@ -74,15 +90,16 @@
         "AlbionRadar6json.zip": 1
       },
       "distinct_pcaps": 7,
-      "interpretation": "event40_typeid_conflict_with_mobile_dictionary",
-      "evidence_note": "TypeID 482 maps to T1 Mountain Rabbit (harvestable=false), yet these rows were parsed from Event 40 harvestable records. Re-decode raw Event 40 fields; do not classify as resource."
+      "interpretation": "hide_type_number_with_nonharvestable_mobile_fallback",
+      "evidence_note": "Type number 20 maps to HIDE. TypeID 482 is Mountain Rabbit with is_harvestable=false, so OpenRadar semantics fall back to type_number rather than overriding it."
     },
     {
-      "family": "27",
+      "type_number": "27",
       "event40_records": 88,
       "mobile_type_ids": {
         "-1": 88
       },
+      "resource_type_from_type_number": "ORE",
       "tiers": {
         "4": 51,
         "5": 37
@@ -102,15 +119,16 @@
         "Albion اااستسمنسمنش.zip": 1
       },
       "distinct_pcaps": 9,
-      "interpretation": "unknown_family_with_user_confirmed_exception",
-      "evidence_note": "Only entity 2788, T5.3 at (-379,-24), is user-confirmed; do not generalize."
+      "interpretation": "ore_type_number_candidate",
+      "evidence_note": "Type number 27 maps to ORE in HarvestablesDatabase; entity 2788 remains a separately user-confirmed individual target."
     },
     {
-      "family": "28",
+      "type_number": "28",
       "event40_records": 2,
       "mobile_type_ids": {
         "-1": 2
       },
+      "resource_type_from_type_number": null,
       "tiers": {
         "5": 2
       },
@@ -121,17 +139,18 @@
         "Albions.zip": 2
       },
       "distinct_pcaps": 1,
-      "interpretation": "unclassified",
-      "evidence_note": "Capture-scoped Event 40 observations; no name inferred from family number alone."
+      "interpretation": "unresolved_type_number_outside_static_range",
+      "evidence_note": "Type number 28 is outside the public static-resource mapping 0-27 and is not covered by the confirmed living-resource mapping; retain unresolved."
     },
     {
-      "family": "29",
+      "type_number": "29",
       "event40_records": 100,
       "mobile_type_ids": {
         "574": 59,
         "573": 29,
         "571": 12
       },
+      "resource_type_from_type_number": "ORE_RESOURCE_CREATURE",
       "tiers": {
         "5": 59,
         "4": 29,
@@ -153,15 +172,16 @@
         "Albion اااستسمنسمنش.zip": 1
       },
       "distinct_pcaps": 15,
-      "interpretation": "confirmed_ore_family",
-      "evidence_note": "Independent marker evidence and TypeID dictionary agree: T3/T4/T5 Ore Elemental IDs 571/573/574; loot_type ORE_CRITTER; harvestable=true."
+      "interpretation": "confirmed_ore_resource_creature",
+      "evidence_note": "TypeIDs 571/573/574 resolve to harvestable Ore Elemental T3/T4/T5; loot_type ORE_CRITTER. Living Ore Elemental is distinct from static Ore type numbers 23-27."
     },
     {
-      "family": "7",
+      "type_number": "7",
       "event40_records": 87,
       "mobile_type_ids": {
         "-1": 87
       },
+      "resource_type_from_type_number": "ROCK",
       "tiers": {
         "4": 45,
         "5": 42
@@ -181,8 +201,8 @@
         "Albion2.zip": 4
       },
       "distinct_pcaps": 11,
-      "interpretation": "unclassified",
-      "evidence_note": "Capture-scoped Event 40 observations; no name inferred from family number alone."
+      "interpretation": "type_number_resource_mapping_candidate",
+      "evidence_note": "Type number falls in the public HarvestablesDatabase range mapping; retain as evidence-ranked until marker/state validation."
     }
   ],
   "mobile_type_profiles": [
@@ -3206,29 +3226,7 @@
     "protocol_evidence": {}
   },
   "knowledge_type_and_family_field_values": {
-    "entities.family": [
-      [
-        "27",
-        61
-      ],
-      [
-        "7",
-        61
-      ],
-      [
-        "29",
-        38
-      ],
-      [
-        "14",
-        33
-      ],
-      [
-        "20",
-        2
-      ]
-    ],
-    "entities.mobile_type_id_evidence": [],
+    "entities.family_evidence": [],
     "entities.mobile_type_id": [
       [
         "482",
@@ -3475,7 +3473,30 @@
         1
       ]
     ],
-    "entities.family_evidence": [],
+    "entities.mobile_type_id_evidence": [],
+    "entities.family": [
+      [
+        "27",
+        61
+      ],
+      [
+        "7",
+        61
+      ],
+      [
+        "29",
+        38
+      ],
+      [
+        "14",
+        33
+      ],
+      [
+        "20",
+        2
+      ]
+    ],
+    "learned_patterns.family": [],
     "learned_patterns.type_id": [
       [
         "2489",
@@ -3485,8 +3506,7 @@
         "573",
         1
       ]
-    ],
-    "learned_patterns.family": []
+    ]
   },
   "weak_filename_context_hints": [
     {

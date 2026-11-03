@@ -10,15 +10,15 @@ Profiles every Event 40 family, Event 123 mobile type, and merged Knowledge sche
 - Mobile TypeID dictionary coverage: **64/64** PCAP types mapped
 - Dictionary source: Nouuu/Albion-Online-OpenRadar at 466c70b04e13ed0e8739ba23e6a950f7caf495e5
 
-## Event 40 family profiles
-| Family | Records | Mobile Type IDs | Tiers | Enchantment values | Interpretation |
+## Event 40 type-number profiles
+| Type number | Records | Resource mapping | Mobile Type IDs | Tiers | Interpretation |
 |---:|---:|---|---|---|---|
-| 14 | 47 | -1 (47) | 4 (33), 5 (14) | 1 (35), 2 (9), 3 (2), 1|2 (1) | unclassified |
-| 20 | 7 | 482 (7) | 1 (7) | 0 (7) | event40_typeid_conflict_with_mobile_dictionary |
-| 27 | 88 | -1 (88) | 4 (51), 5 (37) | 1 (78), 2 (8), 3 (2) | unknown_family_with_user_confirmed_exception |
-| 28 | 2 | -1 (2) | 5 (2) | 1 (2) | unclassified |
-| 29 | 100 | 574 (59), 573 (29), 571 (12) | 5 (59), 4 (29), 3 (12) | 0 (71), 1 (22), 2 (7) | confirmed_ore_family |
-| 7 | 87 | -1 (87) | 4 (45), 5 (42) | 1 (71), 2 (15), 3 (1) | unclassified |
+| 14 | 47 | FIBER | -1 (47) | 4 (33), 5 (14) | type_number_resource_mapping_candidate |
+| 20 | 7 | HIDE | 482 (7) | 1 (7) | hide_type_number_with_nonharvestable_mobile_fallback |
+| 27 | 88 | ORE | -1 (88) | 4 (51), 5 (37) | ore_type_number_candidate |
+| 28 | 2 | UNRESOLVED | -1 (2) | 5 (2) | unresolved_type_number_outside_static_range |
+| 29 | 100 | ORE_RESOURCE_CREATURE | 574 (59), 573 (29), 571 (12) | 5 (59), 4 (29), 3 (12) | confirmed_ore_resource_creature |
+| 7 | 87 | ROCK | -1 (87) | 4 (45), 5 (42) | type_number_resource_mapping_candidate |
 
 ## Event 123 mobile TypeID crosswalk
 | Type ID | Name | Tier | Category | Loot type | Harvestable | PCAP records |
@@ -89,10 +89,11 @@ Profiles every Event 40 family, Event 123 mobile type, and merged Knowledge sche
 | 943 | Avalonian Treasure Drone | 5 | treasuredrones | None | False | 1 |
 
 ## Key conflict requiring raw-event re-decode
-- Family 20 has 7 Event 40 rows with TypeID 482, but the game TypeID dictionary maps 482 to T1 Mountain Rabbit, with is_harvestable=false. This is a protocol-field/semantic conflict, not a confirmed resource family.
-- Family 29 is consistent: TypeIDs 571/573/574 resolve to Ore Elemental T3/T4/T5, loot ORE_CRITTER, harvestable=true.
-- Families 7, 14, 27 and 28 have no decoded TypeID in Event 40; their names remain unresolved.
-- Family 27 has only one user-confirmed exception: entity 2788, T5.3 at (-379,-24).
+- Type number 20 maps to HIDE. Its mobile TypeID 482 is Mountain Rabbit and is not harvestable, so the reference OpenRadar handler falls back to type number 20 rather than overriding it.
+- Type number 29 is a separate living Ore Elemental resource mapping: TypeIDs 571/573/574, loot ORE_CRITTER, harvestable=true.
+- Type numbers 7/14/20/27 map to ROCK/FIBER/HIDE/ORE through the public HarvestablesDatabase mapping; 28 remains unresolved.
+- Type-number cross-validation against the independent per-capture ingest for AlbionRadar.zip/albion-1793682590317.pcap: 83 matched rows; 0 mismatches.
+- Entity 2788, T5.3 at (-379,-24), remains a user-confirmed individual target; do not generalize its confirmation.
 
 ## Knowledge schema reconnaissance
 The JSON report records exact fields and common values for type, family, tier, enchantment, classification, resource, name, labels and IDs. Field-name similarity alone is not proof.
