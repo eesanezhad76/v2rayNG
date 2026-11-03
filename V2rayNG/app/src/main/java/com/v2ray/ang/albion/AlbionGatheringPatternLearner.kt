@@ -28,8 +28,9 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
             val y = observation.y ?: return@forEach
             if (tier != expectedTier || !x.isFinite() || !y.isFinite()) return@forEach
             if (activeSamples.size >= MAX_ACTIVE_SAMPLES) return@forEach
-            activeSamples.add(JSONObject().put("family", family).put("tier", tier)
-                .put("raw_enchant", rawEnchant)
+            if (activeSamples.any { it.optString("entity_id") == observation.entityId.toString() }) return@forEach
+            activeSamples.add(JSONObject().put("entity_id", observation.entityId.toString())
+                .put("family", family).put("tier", tier).put("raw_enchant", rawEnchant)
                 .put("label_enchant", normalizeEnchant(label.optString("enchantment")))
                 .put("time_ms", timestampMs))
         }
