@@ -99,6 +99,7 @@ class AlbionProtocolEvidenceStore(
             appendLine()
             appendLine("PROTOCOL / INVENTORY EVIDENCE (raw; item schema not yet verified)")
             historicalKnowledge?.let { appendLine(it.summaryText()) }
+            historicalKnowledge?.let { appendLine(it.protocolShapeSummary()) }
             appendLine("Inventory events retained across captures: ${inventory.size}")
             appendLine("HarvestStart events retained across captures: ${harvestStarted.size}")
             appendLine("HarvestCancel events retained across captures: ${harvestCancelled.size}")
