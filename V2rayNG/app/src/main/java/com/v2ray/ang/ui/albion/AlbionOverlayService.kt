@@ -173,7 +173,7 @@ class AlbionOverlayService : Service() {
         else -> 0xFFE3EDF5.toInt()
     }
 
-    private fun choiceRow(values: List<String>, selected: String, onPick: (String) -> Unit, colorForValue: ((String) -> Int)? = null): HorizontalScrollView {
+    private fun choiceRow(values: List<String>, selected: String, colorForValue: ((String) -> Int)? = null, onPick: (String) -> Unit): HorizontalScrollView {
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         values.forEach { value ->
             val choice = button(value, value == selected || selected.split("|").contains(value)) { onPick(value) }
@@ -369,7 +369,7 @@ class AlbionOverlayService : Service() {
                 body.addView(label("TIER"))
                 body.addView(choiceRow(tiers, tier) { tier = it; renderBody() })
                 body.addView(label("ENCHANT"))
-                body.addView(choiceRow(enchants, enchant, { enchant = it; renderBody() }, ::enchantColorForLabel))
+                body.addView(choiceRow(enchants, enchant, colorForValue = ::enchantColorForLabel) { enchant = it; renderBody() })
             }
             val actions = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
             val first = if (activity == "Move") "MOVE +" else "START"
