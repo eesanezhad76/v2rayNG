@@ -36,7 +36,7 @@ class AlbionRadarSnapshotParserTest {
         val conflictedOre = org.json.JSONObject(
             """{"last_kind":"harvestable","family":29,"resource_inference":{"resource_name":{"value":null,"status":"CONFLICT","confidence":0.0}}}"""
         )
-        assertEquals("Resource F29", AlbionRadarSnapshotParser.labelForEntity(conflictedOre))
+        assertEquals("Ore candidate F29", AlbionRadarSnapshotParser.labelForEntity(conflictedOre))
         assertEquals("Mob ID482", AlbionRadarSnapshotParser.labelForEntity(
             org.json.JSONObject("""{"last_kind":"mob","mobile_type_id":482}""")
         ))
