@@ -135,12 +135,20 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 entity.optString("evidence_grade") == "conflicting_typed_observation"
             paint.style = Paint.Style.FILL
             paint.color = when {
-                depleted -> 0xFF697782.toInt()
+                depleted || entity.optBoolean("left", false) -> 0xFF697782.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
                 candidate -> 0xFF9AA6AF.toInt()
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, (if (distance > range) 2.5f else 3.2f) * density, paint)
+            if (kind == "mob" && distance <= range) {
+                paint.style = Paint.Style.FILL
+                paint.textSize = 7f * density
+                paint.color = 0xFFFFD5D5.toInt()
+                val mobName = AlbionRadarSnapshotParser.labelForEntity(entity).take(14)
+                val hp = if (entity.has("health_value")) " ${entity.optDouble("health_value").roundToInt()}HP" else ""
+                canvas.drawText(mobName + hp, x + 5f * density, y + 9f * density, paint)
+            }
             if (entity.optBoolean("user_confirmed_target", false)) {
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = 2f * density
