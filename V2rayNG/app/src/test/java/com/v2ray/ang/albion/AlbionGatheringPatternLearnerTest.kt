@@ -50,15 +50,34 @@ class AlbionGatheringPatternLearnerTest {
         assertEquals(ResourcePatternLearner.Status.CAPTURE_CORROBORATED, inferred.status)
     }
 
-    @Test fun ignoresOutOfWindowAndOutOfOrderObservations() {
+    @Test fun keepsMarkerSessionOpenUntilExplicitEndAndIgnoresOutOfOrderObservations() {
         val learner = AlbionGatheringPatternLearner(context(), "capture-window")
         start(learner, 10_000L)
         learner.observe(9_999L, listOf(sample(10).copy(enchant = 8)))
-        learner.observe(10_000L + 15 * 60_000L + 1L, listOf(sample(11).copy(enchant = 8)))
-        end(learner, 10_000L + 15 * 60_000L + 2L)
+        learner.observe(10_000L + 16 * 60_000L, listOf(sample(11).copy(enchant = 8)))
+        end(learner, 10_000L + 16 * 60_000L + 1L)
+
+        val second = AlbionGatheringPatternLearner(context(), "capture-window-B")
+        start(second, 20_000L + 16 * 60_000L)
+        second.observe(20_001L + 16 * 60_000L, listOf(sample(12).copy(enchant = 8)))
+        end(second, 20_002L + 16 * 60_000L)
 
         val inferred = ResourcePatternLearner.infer(
             ResourcePatternLearner.Observation(family = 29, tier = 5, enchantRaw = 8, mobileTypeId = null)
+        ).enchantmentName
+        assertEquals("E3", inferred.value)
+        assertEquals(ResourcePatternLearner.Status.CAPTURE_CORROBORATED, inferred.status)
+    }
+
+    @Test fun combatMarkersDiscardAnUnfinishedGatheringCycle() {
+        val learner = AlbionGatheringPatternLearner(context(), "capture-interrupted")
+        start(learner, 30_000L)
+        learner.observe(30_100L, listOf(sample(30).copy(enchant = 9)))
+        learner.observeMarker(org.json.JSONObject().put("event", "pvp_started").put("activity", "Mob"), 30_200L)
+        learner.observeMarker(org.json.JSONObject().put("event", "mob_killed"), 31_000L)
+
+        val inferred = ResourcePatternLearner.infer(
+            ResourcePatternLearner.Observation(family = 29, tier = 5, enchantRaw = 9, mobileTypeId = null)
         ).enchantmentName
         assertEquals(null, inferred.value)
         assertEquals(ResourcePatternLearner.Status.UNKNOWN, inferred.status)
