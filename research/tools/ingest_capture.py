@@ -333,7 +333,7 @@ def analyze(path):
   "coordinate_semantics":"Capture-local game coordinates. Zone identity is not decoded; do not combine across zones.",
   "node_count":len(ordered),"mob_count":sum(1 for x in catalog_entities if x.get("last_kind")=="mob"),
   "marker_count":len(marker_lifecycles),"correlated_mob_marker_count":len(correlated_mob_markers),
-  "confirmed_user_target":{"entity_id":"2788","tier":5,"enchant":3,"x":-379,"y":-24,"confidence":"user-confirmed temporal/state correlation"},
+  "confirmed_user_target":{"entity_id":"2788","tier":5,"enchant":3,"x":-379,"y":-24,"confidence":"user-confirmed temporal/state correlation"} if stem=="albion-1793682590317" else None,
   "entities":catalog_entities,"markers":marker_lifecycles}
  catalog_text=json.dumps(catalog,indent=2)
  (DB/(stem+"-catalog.json")).write_text(catalog_text,encoding="utf-8")
