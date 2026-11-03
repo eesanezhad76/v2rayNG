@@ -288,6 +288,7 @@ class AlbionOverlayService : Service() {
             y = layoutPrefs.getInt("radar_y", dp(350))
         }
         radarParams = params
+        if (params.height > 0) updateRadarContentSize(params)
         wm.addView(panel, params)
         attachDrag(dragTitle, panel, params)
         attachResize(radarResize, panel, params, true)
@@ -337,6 +338,8 @@ class AlbionOverlayService : Service() {
                     val maxHeight = (resources.displayMetrics.heightPixels - params.y).coerceAtLeast(dp(150))
                     params.width = (originWidth + (event.rawX - startX).toInt()).coerceIn(dp(160), maxWidth)
                     params.height = (originHeight + (event.rawY - startY).toInt()).coerceIn(dp(150), maxHeight)
+                    params.x = params.x.coerceIn(0, (resources.displayMetrics.widthPixels - params.width).coerceAtLeast(0))
+                    params.y = params.y.coerceIn(0, (resources.displayMetrics.heightPixels - params.height).coerceAtLeast(0))
                     if (radar && ::radarView.isInitialized) updateRadarContentSize(params)
                     try { wm.updateViewLayout(target, params) } catch (_: Exception) { }
                     true
