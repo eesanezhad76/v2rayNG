@@ -33,3 +33,5 @@ The full external mobile dictionary remains the shared mob enrichment source for
 Added `research/tests/test_overlay_research_catalog_index.py` to verify dictionary coverage, record counts, finite coordinates, capture-scoped IDs, retained marker evidence, and the unverified-zone guardrail.
 
 A GitHub Actions APK build and the Albion ingest/validation workflow were started for this integration. Their final outcomes must be checked before treating the build as complete.
+
+The snapshot label resolver also consumes the research catalog's source-derived resource names. Static reference mappings are marked provisional with a trailing `?`; packet-confirmed living-resource names remain unmarked. This prevents the new catalog records from appearing as anonymous family-only labels in the overlay.
