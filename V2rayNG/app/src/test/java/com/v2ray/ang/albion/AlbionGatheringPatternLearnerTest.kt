@@ -54,7 +54,7 @@ class AlbionGatheringPatternLearnerTest {
         val learner = AlbionGatheringPatternLearner(context(), "capture-window")
         start(learner, 10_000L)
         learner.observe(9_999L, listOf(sample(10).copy(enchant = 8)))
-        learner.observe(10_000L + 16 * 60_000L, listOf(sample(11).copy(enchant = 7)))
+        learner.observe(10_000L + 16 * 60_000L, listOf(sample(11).copy(enchant = 7), sample(13).copy(enchant = 7)))
         end(learner, 10_000L + 16 * 60_000L + 1L)
 
         val second = AlbionGatheringPatternLearner(context(), "capture-window-B")
