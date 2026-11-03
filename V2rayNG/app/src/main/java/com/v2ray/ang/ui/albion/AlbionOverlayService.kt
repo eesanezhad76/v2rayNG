@@ -237,7 +237,7 @@ class AlbionOverlayService : Service() {
             updateCatalogInfo()
         }
         head.addView(catalogButton, LinearLayout.LayoutParams(dp(48), dp(25)))
-        nextCatalogButton = button("1/1") { showNextCatalog() }
+        nextCatalogButton = button("${catalogIndex + 1}/${catalogCaptures.length().coerceAtLeast(1)}") { showNextCatalog() }
         head.addView(nextCatalogButton, LinearLayout.LayoutParams(dp(38), dp(25)))
         filterButton = button("FILTER") { toggleFilters() }
         head.addView(filterButton, LinearLayout.LayoutParams(dp(54), dp(25)))
