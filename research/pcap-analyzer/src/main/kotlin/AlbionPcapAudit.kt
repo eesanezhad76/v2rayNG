@@ -464,11 +464,18 @@ fun main() {
                 // merely because a harvestable node was visible in the same time window.
                 val isResourceActivity = sample.activity in setOf("Ore", "Wood", "Stone", "Fiber", "Hide")
                 val isMobActivity = sample.activity in setOf("Mob", "Mobs", "Troll")
+                // The pattern catalog has a strong, multi-capture mapping for Ore -> family 29.
+                // Unknown family IDs remain in the raw node database but are not promoted to Ore.
+                val expectedResourceFamily = when (sample.activity) {
+                    "Ore" -> "29"
+                    else -> null
+                }
                 val resourceCandidates = if (!isResourceActivity) emptyList() else nodes.values.filter { node ->
                     node.archive == sample.archive && node.pcap == sample.pcap &&
                         node.first <= windowEnd && node.last >= windowStart &&
                         (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
-                        (enchantNumber == null || node.enchants.contains(enchantNumber))
+                        (enchantNumber == null || node.enchants.contains(enchantNumber)) &&
+                        (expectedResourceFamily == null || node.families.contains(expectedResourceFamily))
                 }
                 // Event 123 mob observations are kept in their own entity namespace.
                 // They are temporal candidates only, never resource-family evidence.
