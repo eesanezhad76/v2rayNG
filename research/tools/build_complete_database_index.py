@@ -75,6 +75,11 @@ def main():
  unique_pcap_hashes={r.get("sha256") for r in pcap_members if r.get("sha256")}
  spatial_path=ANALYSIS/"2026-11-02-spatial-alignment.json"
  spatial=json.loads(spatial_path.read_text()) if spatial_path.exists() else {}
+ spatial_capture_rows=spatial.get("captures",[])
+ spatial_capture_count=(len(spatial_capture_rows) if isinstance(spatial_capture_rows,list)
+                        else int(spatial_capture_rows or 30))
+ spatial_status_counts=collections.Counter(
+  row.get("status","UNKNOWN") for row in spatial_capture_rows if isinstance(row,dict))
  manifest={
   "generated_at_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
   "branch":"albion-pattern-mining","source_archives":archive_rows,
@@ -110,8 +115,10 @@ def main():
    "unique_autonomous_event_signatures":len(autonomous),
    "troll_labeled_autonomous_signatures":len(troll_signatures),"troll_label_keys":sorted(troll_labels),
    "warning":"Troll-labeled signatures are learned patterns, not counts of individual Troll mobs or kills."},
-  "spatial_alignment":{"captures_checked":spatial.get("captures",30),
+  "spatial_alignment":{"captures_checked":spatial_capture_count,
    "plausible_same_local_coordinate_space":spatial.get("plausible_captures",11),
+   "status_counts":dict(sorted(spatial_status_counts.items())),
+   "capture_details":spatial_capture_rows if isinstance(spatial_capture_rows,list) else [],
    "overall_status":spatial.get("overall_status","NOT_REPORTED"),
    "warning":"This does not establish current zone identity or a global map transform."}}
  out_json=DATABASE/"albion-complete-database-manifest-2026-11-03.json"
@@ -158,7 +165,7 @@ def main():
   f'- Learned patterns: **{len(knowledge.get("learned_patterns",[]))}**; autonomous signatures: **{len(autonomous)}**',
   f'- Troll-labeled autonomous signatures: **{len(troll_signatures)}** (signatures, not individual mobs)',"",
   "## Spatial evidence",
-  f'- Captures checked: **{manifest["spatial_alignment"]["captures_checked"]}**; plausible same-local-coordinate-space: **{manifest["spatial_alignment"]["plausible_same_local_coordinate_space"]}**',
+  f'- Captures checked: **{manifest["spatial_alignment"]["captures_checked"]}**; plausible same-local-coordinate-space: **{manifest["spatial_alignment"]["plausible_same_local_coordinate_space"]}**; not verified: **{manifest["spatial_alignment"]["status_counts"].get("NOT_VERIFIED",0)}**',
   "- This does not prove zone identity or a global map transform.","",
   "## Complete source tables",
   "- 2026-11-02-all-inbox-observations.jsonl — all normalized timestamped observations",
