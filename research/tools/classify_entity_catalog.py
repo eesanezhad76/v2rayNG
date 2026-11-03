@@ -85,6 +85,29 @@ def main():
     legacy_by_id={str(r.get("entity_id")):str(r.get("type_number")) for r in legacy_rows}
     validation_pairs=[r for r in current_capture if str(r.get("entity_id")) in legacy_by_id]
     validation_mismatches=[{"entity_id":r["entity_id"],"pcap_type_number":r.get("type_numbers"),"legacy_type_number":legacy_by_id[str(r["entity_id"])]} for r in validation_pairs if str(r.get("type_numbers"))!=legacy_by_id[str(r["entity_id"])]]
+    enriched_mobs=[]
+    for row in mobs:
+        entry=dict_entries.get(str(row.get("mobile_type_id","")))
+        merged=dict(row)
+        merged.update({
+          "resolved_mob_name":(entry or {}).get("display_name",""),
+          "mobile_type_unique_name":(entry or {}).get("unique_name",""),
+          "dictionary_tier":(entry or {}).get("tier",""),
+          "dictionary_category":(entry or {}).get("category",""),
+          "dictionary_danger":(entry or {}).get("danger",""),
+          "dictionary_loot_type":(entry or {}).get("loot_type",""),
+          "dictionary_loot_tier":(entry or {}).get("loot_tier",""),
+          "dictionary_is_harvestable":(entry or {}).get("is_harvestable",""),
+          "type_dictionary_match":bool(entry),
+          "name_source":"game_mobile_type_dictionary" if entry else "unresolved"
+        })
+        enriched_mobs.append(merged)
+    mobile_catalog_path=DB/"albion-mobile-entity-catalog-2026-11-03.csv"
+    mobile_fields=list(mobs[0].keys())+["resolved_mob_name","mobile_type_unique_name","dictionary_tier",
+      "dictionary_category","dictionary_danger","dictionary_loot_type","dictionary_loot_tier",
+      "dictionary_is_harvestable","type_dictionary_match","name_source"]
+    with mobile_catalog_path.open("w",encoding="utf-8",newline="") as f:
+        w=csv.DictWriter(f,fieldnames=mobile_fields);w.writeheader();w.writerows(enriched_mobs)
     schema={"entity_observations":field_inventory(entities),"learned_patterns":field_inventory(learned),
             "autonomous_patterns":field_inventory(autonomous),"protocol_evidence":field_inventory(protocol)}
     type_fields={}
@@ -190,6 +213,8 @@ def main():
       "type_number_cross_validation":{"capture":"AlbionRadar.zip/albion-1793682590317.pcap","matched_records":len(validation_pairs),"mismatches":validation_mismatches},
       "mobile_type_dictionary_coverage":{"pcap_distinct_type_ids":len(mob_groups),"mapped_type_ids":mapped,
         "unmapped_type_ids":[p["mobile_type_id"] for p in crosswalk if not p["dictionary_match"]]},
+      "mobile_entity_catalog":{"rows":len(enriched_mobs),"mapped_rows":sum(1 for r in enriched_mobs if r["type_dictionary_match"]),
+        "unmapped_rows":sum(1 for r in enriched_mobs if not r["type_dictionary_match"]),"file":"albion-mobile-entity-catalog-2026-11-03.csv"},
       "type_number_profiles":family_profiles,"mobile_type_profiles":mob_profiles,"mobile_type_crosswalk":crosswalk,
       "resource_node_catalog":{"rows":len(enriched_nodes),"mapped_rows":len(enriched_nodes)-unresolved_node_count,"unresolved_rows":unresolved_node_count,"resource_type_counts":dict(sorted(resource_type_counts.items())),"resource_display_counts":dict(sorted(resource_display_counts.items())),"mapping_status_counts":dict(sorted(mapping_status_counts.items())),"file":"albion-resource-node-catalog-2026-11-03.csv"},
       "knowledge_schema_inventory":schema,"knowledge_type_and_family_field_values":type_fields,
@@ -218,7 +243,10 @@ def main():
     lines+=["","## Event 123 mobile TypeID crosswalk","| Type ID | Name | Tier | Category | Loot type | Harvestable | PCAP records |","|---:|---|---:|---|---|---|---:|"]
     for p in mob_profiles:
         lines.append(f"| {p['mobile_type_id']} | {p.get('display_name','UNKNOWN')} | {p.get('tier','')} | {p.get('category','')} | {p.get('loot_type','')} | {p.get('is_harvestable','')} | {p['lifecycle_records']} |")
-    lines+=["","## Enriched Event 40 node catalog",
+    lines+=["","## Enriched Event 123 mobile entity catalog",
+      f"- Rows: {len(enriched_mobs)}; mapped: {sum(1 for r in enriched_mobs if r[chr(116)+chr(121)+chr(112)+chr(101)+chr(95)+chr(100)+chr(105)+chr(99)+chr(116)+chr(105)+chr(111)+chr(110)+chr(97)+chr(114)+chr(121)+chr(95)+chr(109)+chr(97)+chr(116)+chr(99)+chr(104)])}; unmapped: {sum(1 for r in enriched_mobs if not r[chr(116)+chr(121)+chr(112)+chr(101)+chr(95)+chr(100)+chr(105)+chr(99)+chr(116)+chr(105)+chr(111)+chr(110)+chr(97)+chr(114)+chr(121)+chr(95)+chr(109)+chr(97)+chr(116)+chr(99)+chr(104)])}",
+      "- File: albion-mobile-entity-catalog-2026-11-03.csv",
+      "","## Enriched Event 40 node catalog",
       f"- Rows: {len(enriched_nodes)}; mapped: {len(enriched_nodes)-unresolved_node_count}; unresolved: {unresolved_node_count}",
       "- File: albion-resource-node-catalog-2026-11-03.csv",
       "- Resource display counts: "+", ".join(f"{k}={v}" for k,v in sorted(resource_display_counts.items())),
