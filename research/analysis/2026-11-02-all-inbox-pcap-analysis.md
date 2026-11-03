@@ -1,6 +1,6 @@
 # Full inbox PCAP analysis
 
-Archives: 4
+Archives: 5
 Discovered PCAP files: 22
 Unique PCAP files analyzed: 21
 Byte-identical duplicates skipped: 1
@@ -60105,4 +60105,6 @@ Detailed entity/player observations: 34863
 ### newtest ores and one gholem tier 4 normal .pcap
 DUPLICATE_PCAP: byte-identical to albion-1793620890462.pcap; excluded from aggregate observations to prevent double counting.
 
-PCAP_AUDIT_COMPLETE archives=4 pcaps=22 unique=21 duplicates=1 errors=0
+## albion-knowledge-1793685119365.zip (0 discovered PCAP files)
+
+PCAP_AUDIT_COMPLETE archives=5 pcaps=22 unique=21 duplicates=1 errors=0
