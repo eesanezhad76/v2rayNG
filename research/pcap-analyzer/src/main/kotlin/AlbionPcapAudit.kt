@@ -399,11 +399,14 @@ fun main() {
                     val sample = pendingMarkers[key]?.firstOrNull { it.startedMs == null && it.completedMs == null }
                     if (sample == null) unmatchedStarts++ else sample.startedMs = t
                 }
-                "gathering_completed" -> {
+                "gathering_completed", "mob_killed" -> {
+                    // Overlay uses mob_killed for Mob/Mobs/Troll and gathering_completed
+                    // for gatherables. Reject cross-event pairing even inside one activity key.
+                    val isMobActivity = activity in setOf("Mob", "Mobs", "Troll")
+                    val isMatchingCompletion = if (isMobActivity) field(detail, "event") == "mob_killed"
+                        else field(detail, "event") == "gathering_completed"
+                    if (!isMatchingCompletion) continue
                     val queue = pendingMarkers[key]
-                    // Current overlay has only Start(target_found) and End(gathering_completed).
-                    // Pair End with the most recent still-pending Start; older pending Starts
-                    // remain visible as unmatched candidates rather than being silently discarded.
                     val sample = if (queue == null) null else
                         queue.firstOrNull { it.startedMs != null && it.completedMs == null }
                             ?: queue.lastOrNull { it.startedMs == null && it.completedMs == null }
@@ -460,14 +463,23 @@ fun main() {
                 // Mob/Troll markers must never inherit Ore/Wood/Stone/Fiber/Hide families
                 // merely because a harvestable node was visible in the same time window.
                 val isResourceActivity = sample.activity in setOf("Ore", "Wood", "Stone", "Fiber", "Hide")
-                val candidates = if (!isResourceActivity) emptyList() else nodes.values.filter { node ->
+                val isMobActivity = sample.activity in setOf("Mob", "Mobs", "Troll")
+                val resourceCandidates = if (!isResourceActivity) emptyList() else nodes.values.filter { node ->
                     node.archive == sample.archive && node.pcap == sample.pcap &&
                         node.first <= windowEnd && node.last >= windowStart &&
                         (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
                         (enchantNumber == null || node.enchants.contains(enchantNumber))
                 }
+                // Event 123 mob observations are kept in their own entity namespace.
+                // They are temporal candidates only, never resource-family evidence.
+                val mobCandidates = if (!isMobActivity) emptyList() else mobs.values.filter { mob ->
+                    mob.archive == sample.archive && mob.pcap == sample.pcap &&
+                        mob.first <= windowEnd && mob.last >= windowStart &&
+                        (enchantNumber == null || mob.enchant == enchantNumber)
+                }
+                val candidateCount = if (isMobActivity) mobCandidates.size else resourceCandidates.size
                 val familyCounts = linkedMapOf<String, Int>()
-                candidates.forEach { node ->
+                resourceCandidates.forEach { node ->
                     node.families.filter { it.isNotBlank() && it != "-1" }.forEach { family ->
                         familyCounts[family] = (familyCounts[family] ?: 0) + 1
                     }
@@ -481,7 +493,10 @@ fun main() {
                     evidence.candidateNodes += familyCounts[singleFamily] ?: 0
                 }
                 val status = when {
-                    candidates.isEmpty() -> "no_candidates"
+                    isMobActivity && mobCandidates.isEmpty() -> "no_event123_mob_candidates"
+                    isMobActivity && mobCandidates.size == 1 -> "single_event123_mob_candidate_only"
+                    isMobActivity -> "ambiguous_event123_mob_candidates"
+                    resourceCandidates.isEmpty() -> "no_candidates"
                     tierNumber == null || enchantNumber == null -> "incomplete_overlay_labels"
                     familyCounts.isEmpty() -> "family_unavailable"
                     familyCounts.size == 1 -> "single_family_candidate_only"
@@ -489,10 +504,13 @@ fun main() {
                 }
                 appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
                     sample.startedMs?.toString() ?: "", sample.completedMs?.toString() ?: "", sample.depletedMs?.toString() ?: "",
-                    sample.tierLabel ?: "", sample.enchantLabel ?: "", candidates.size.toString(),
+                    sample.tierLabel ?: "", sample.enchantLabel ?: "", candidateCount.toString(),
                     familyCounts.entries.sortedBy { it.key }.joinToString("|") { it.key + ":" + it.value },
-                    candidates.joinToString("|") { it.id },
-                    candidates.sortedBy { node ->
+                    (if (isMobActivity) mobCandidates.map { it.id } else resourceCandidates.map { it.id }).joinToString("|"),
+                    (if (isMobActivity) mobCandidates.sortedBy { mob ->
+                        when { sample.foundMs < mob.first -> mob.first - sample.foundMs; sample.foundMs > mob.last -> sample.foundMs - mob.last; else -> 0L }
+                    }.joinToString(";") { mob -> listOf(mob.id, mob.mobileType, mob.enchant, mob.name, mob.x, mob.y, mob.first.toString(), mob.last.toString()).joinToString(":") }
+                    else resourceCandidates.sortedBy { node ->
                         when {
                             sample.foundMs < node.first -> node.first - sample.foundMs
                             sample.foundMs > node.last -> sample.foundMs - node.last
@@ -528,6 +546,12 @@ fun main() {
             appendLine("archive,pcap,activity,found_ms,reference_ms,player_position_ms,player_position_gap_ms,player_x,player_y,player_position_source,candidate_rank,entity_id,family,tier,enchantment,mobile_type,ore_x,ore_y,distance_game_units,spatial_evidence")
             for (sample in markerSamples) {
                 val referenceMs = sample.startedMs ?: sample.foundMs
+                if (sample.activity !in setOf("Ore", "Wood", "Stone", "Fiber", "Hide")) {
+                    appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                        referenceMs.toString(), "", "", "", "", "", "", "", "", "", "", "", "", "", "",
+                        "not_a_resource_spatial_candidate").joinToString(",") { csvCell(it) })
+                    continue
+                }
                 val scoped = sample.archive + "::" + sample.pcap
                 val nearestPlayer = playerPositions[scoped].orEmpty().map { it.third }
                     .minByOrNull { kotlin.math.abs(it.t - referenceMs) }
