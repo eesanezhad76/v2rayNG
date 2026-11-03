@@ -19,6 +19,13 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
     fun observe(timestampMs: Long, observations: List<AlbionEntityEventMapper.Observation>) {
         val label = active ?: return
         if (label.optString("activity") !in GATHERING_ACTIVITIES) return
+        val startedAt = label.optLong("started_at_ms", Long.MIN_VALUE)
+        if (timestampMs < startedAt) return
+        if (timestampMs - startedAt > MAX_ACTIVE_WINDOW_MS) {
+            active = null
+            activeSamples.clear()
+            return
+        }
         val expectedTier = label.optString("tier").removePrefix("T").toIntOrNull() ?: return
         observations.filter { it.kind == "harvestable" }.forEach { observation ->
             val family = observation.typeNumber ?: return@forEach
@@ -48,7 +55,8 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
                 activeSamples.clear()
             }
             "gathering_completed", "activity_end" -> {
-                if (active != null && timestampMs > active!!.optLong("started_at_ms")) {
+                if (active != null && timestampMs > active!!.optLong("started_at_ms") &&
+                    timestampMs - active!!.optLong("started_at_ms") <= MAX_ACTIVE_WINDOW_MS) {
                     activeSamples.forEach { sample ->
                         val key = listOf(sample.optInt("family"), sample.optInt("tier"),
                             sample.optInt("raw_enchant"), sample.optString("label_enchant")).joinToString("|")
@@ -153,6 +161,7 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
 
     private companion object {
         const val MAX_ACTIVE_SAMPLES = 500
+        const val MAX_ACTIVE_WINDOW_MS = 15 * 60_000L
         const val MAX_SESSIONS = 20
         const val MIN_SAMPLES = 3
         const val MIN_SESSIONS = 2
