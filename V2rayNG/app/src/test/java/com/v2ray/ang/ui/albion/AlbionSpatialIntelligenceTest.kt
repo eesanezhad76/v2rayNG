@@ -58,6 +58,21 @@ class AlbionSpatialIntelligenceTest {
     }
 
     @Test
+    fun externalDictionaryHarvestableMobCanBeNavigatedWithoutResearchRow() {
+        val mob = resource("external-harvestable", "mob", 4.0, 5.0, typeId = 9001, tier = 6)
+            .put("is_harvestable_mob", true)
+        assertTrue(AlbionSpatialIntelligence.isNavigableResource(mob))
+    }
+
+    @Test
+    fun researchConfirmedNonHarvestableOverridesExternalDictionaryFlag() {
+        val rabbit = resource("rabbit", "mob", 4.0, 5.0, typeId = 482, tier = 1)
+            .put("is_harvestable_mob", true)
+            .put("research_catalog_harvestable", false)
+        assertFalse(AlbionSpatialIntelligence.isNavigableResource(rabbit))
+    }
+
+    @Test
     fun trollLabelDoesNotTurnOreElementalIntoTroll() {
         val elemental = resource("ore", "mob", 1.0, 2.0, typeId = 574)
             .put("marker_activity", "Troll")
