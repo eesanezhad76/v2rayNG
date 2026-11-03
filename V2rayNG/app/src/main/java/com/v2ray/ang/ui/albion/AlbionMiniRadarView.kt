@@ -90,6 +90,20 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             kotlin.math.abs(item.optDouble("x")) <= 10000.0 &&
             kotlin.math.abs(item.optDouble("y")) <= 10000.0
 
+    // Albion's world-map presentation is rotated 45 degrees clockwise; rotate the
+    // radar projection 45 degrees counter-clockwise to keep navigation intuitive.
+    private fun rotateRadarX(x: Float, y: Float, cx: Float, cy: Float): Float {
+        val dx = x - cx
+        val dy = y - cy
+        return cx + (dx * ROTATION_COS - dy * ROTATION_SIN)
+    }
+
+    private fun rotateRadarY(x: Float, y: Float, cx: Float, cy: Float): Float {
+        val dx = x - cx
+        val dy = y - cy
+        return cy + (dx * ROTATION_SIN + dy * ROTATION_COS)
+    }
+
     private fun isTroll(item: JSONObject): Boolean {
         val label = (item.optString("name") + " " + AlbionRadarSnapshotParser.labelForEntity(item)).lowercase()
         if (label.contains("troll")) return true
@@ -258,8 +272,10 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 if (!dx.isFinite() || !dy.isFinite() || hypot(dx, dy) > range) {
                     oldX = null; oldY = null; continue
                 }
-                val x = cx + (dx / range * radius).toFloat()
-                val y = cy - (dy / range * radius).toFloat()
+                val rawX = cx + (dx / range * radius).toFloat()
+                val rawY = cy - (dy / range * radius).toFloat()
+                val x = rotateRadarX(rawX, rawY, cx, cy)
+                val y = rotateRadarY(rawX, rawY, cx, cy)
                 if (oldX != null && oldY != null) canvas.drawLine(oldX, oldY, x, y, paint)
                 oldX = x; oldY = y
             }
@@ -273,13 +289,16 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         }
         val outside = ArrayList<Pair<JSONObject, Double>>()
         val nearbyNodes = ArrayList<Pair<JSONObject, Double>>()
+        var mobLabelsDrawn = 0
         visible.forEach { entity ->
             val dx = entity.optDouble("x") - px
             val dy = entity.optDouble("y") - py
             val distance = hypot(dx, dy)
             val factor = if (distance > range) range / distance else 1.0
-            val x = cx + (dx * factor / range * radius).toFloat()
-            val y = cy - (dy * factor / range * radius).toFloat()
+            val rawX = cx + (dx * factor / range * radius).toFloat()
+            val rawY = cy - (dy * factor / range * radius).toFloat()
+            val x = rotateRadarX(rawX, rawY, cx, cy)
+            val y = rotateRadarY(rawX, rawY, cx, cy)
             val kind = entity.optString("last_kind")
             val depleted = entity.optBoolean("depleted", false)
             val candidate = kind == "static_resource" ||
@@ -295,13 +314,14 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             }
             canvas.drawCircle(x, y, (if (distance > range) 2.5f else 3.2f) * density, paint)
             if (AlbionSpatialIntelligence.isNavigableResource(entity) && distance <= range) nearbyNodes.add(entity to distance)
-            if (kind == "mob" && distance <= range) {
+            if (kind == "mob" && distance <= range && mobLabelsDrawn < MAX_MOB_LABELS) {
                 paint.style = Paint.Style.FILL
                 paint.textSize = 7f * density
                 paint.color = 0xFFFFD5D5.toInt()
                 val mobName = AlbionRadarSnapshotParser.labelForEntity(entity).take(14)
                 val hp = if (entity.has("health_value")) " ${entity.optDouble("health_value").roundToInt()}HP" else ""
                 canvas.drawText(mobName + hp, x + 5f * density, y + 9f * density, paint)
+                mobLabelsDrawn++
             }
             if (entity.optBoolean("user_confirmed_target", false)) {
                 paint.style = Paint.Style.STROKE
@@ -341,8 +361,10 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val dy = target.optDouble("y") - py
             val distance = chosenTarget.second
             val factor = if (distance > range) range / distance else 1.0
-            val tx = cx + (dx * factor / range * radius).toFloat()
-            val ty = cy - (dy * factor / range * radius).toFloat()
+            val rawTx = cx + (dx * factor / range * radius).toFloat()
+            val rawTy = cy - (dy * factor / range * radius).toFloat()
+            val tx = rotateRadarX(rawTx, rawTy, cx, cy)
+            val ty = rotateRadarY(rawTx, rawTy, cx, cy)
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 1.8f * density
             paint.color = 0xFF55E6FF.toInt()
@@ -373,8 +395,10 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val dy = entity.optDouble("y") - py
             val distance = pair.second
             val factor = range / distance
-            val x = cx + (dx * factor / range * radius).toFloat()
-            val y = cy - (dy * factor / range * radius).toFloat()
+            val rawX = cx + (dx * factor / range * radius).toFloat()
+            val rawY = cy - (dy * factor / range * radius).toFloat()
+            val x = rotateRadarX(rawX, rawY, cx, cy)
+            val y = rotateRadarY(rawX, rawY, cx, cy)
             paint.color = if (entity.optBoolean("user_confirmed_target", false)) 0xFF55E6FF.toInt() else 0xFFEAF1F5.toInt()
             val label = if (entity.optBoolean("user_confirmed_target", false)) "T5.3" else
                 "${AlbionRadarSnapshotParser.labelForEntity(entity)} ${distance.roundToInt()}"
@@ -406,8 +430,10 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val span = maxOf(maxX - minX, maxY - minY, 1.0)
         val scale = (radius * 1.65 / span).toFloat()
         points.forEach { entity ->
-            val x = cx + ((entity.optDouble("x") - centerX) * scale).toFloat()
-            val y = cy - ((entity.optDouble("y") - centerY) * scale).toFloat()
+            val rawX = cx + ((entity.optDouble("x") - centerX) * scale).toFloat()
+            val rawY = cy - ((entity.optDouble("y") - centerY) * scale).toFloat()
+            val x = rotateRadarX(rawX, rawY, cx, cy)
+            val y = rotateRadarY(rawX, rawY, cx, cy)
             val kind = entity.optString("last_kind")
             paint.style = Paint.Style.FILL
             paint.color = when {
@@ -436,5 +462,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         private val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
         private val DISPLAY_KINDS = RESOURCE_KINDS + setOf("mob")
         private const val MAX_UNCLASSIFIED_CANDIDATE_PINS = 40
+        private const val MAX_MOB_LABELS = 24
+        private const val ROTATION_COS = 0.70710677f
+        private const val ROTATION_SIN = -0.70710677f
     }
 }
