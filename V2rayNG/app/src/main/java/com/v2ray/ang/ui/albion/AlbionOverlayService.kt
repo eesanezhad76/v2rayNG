@@ -62,6 +62,7 @@ class AlbionOverlayService : Service() {
         "normal_nodes" to "Normal nodes",
         "enchanted_nodes" to "Enchanted nodes",
         "targeted_mobs" to "Player-targeted mobs",
+        "ore_elementals" to "Ore Elementals",
         "mobs" to "Other visible mobs",
         "trolls" to "Trolls",
         "enchanted_trolls" to "Enchanted Trolls"
