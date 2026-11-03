@@ -56,6 +56,14 @@ class AlbionSpatialIntelligenceTest {
     }
 
     @Test
+    fun distinctTypedRuntimeIdsAtSameCoordinateArePreserved() {
+        val first = resource("node-a", "harvestable", 12.0, 18.0, 29, 574, 5, 1)
+        val second = resource("node-b", "harvestable", 12.0, 18.0, 29, 574, 5, 1)
+        val result = AlbionSpatialIntelligence.deduplicate(listOf(first, second))
+        assertEquals(2, result.size)
+    }
+
+    @Test
     fun untypedEvent39CandidateCannotBecomeGatheringNavigationTarget() {
         val candidate = resource("candidate", "static_resource", 10.0, 10.0)
         val typed = resource("typed", "harvestable", 11.0, 10.0, 29, 574, 5, 1)
