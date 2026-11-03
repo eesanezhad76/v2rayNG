@@ -51,7 +51,11 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val mob = kind == "mob"
         val troll = mob && isTroll(item)
         val targetedMob = mob && item.optBoolean("targeted_by_player", false)
-        val oreElemental = mob && item.optBoolean("is_harvestable_mob", false)
+        val oreElemental = mob && (
+            item.optString("name").contains("Ore Elemental", ignoreCase = true) ||
+                item.optString("type_unique_name").contains("ORE_MOUNTAIN", ignoreCase = true) ||
+                item.optString("localization_tag").contains("OREELEMENTAL", ignoreCase = true)
+            )
         val markerEnchant = item.optInt("marker_enchant", -1)
         val enchant = if (markerEnchant >= 0) markerEnchant else item.optInt("enchant", 0)
         val trollFilter = if (enchant > 0) "enchanted_trolls" in enabledFilters else "trolls" in enabledFilters
