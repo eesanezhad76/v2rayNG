@@ -489,9 +489,11 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val kind = entity.optString("last_kind")
             paint.style = Paint.Style.FILL
             paint.color = when {
+                entity.optBoolean("depleted", false) || entity.optBoolean("left", false) -> 0xFF080808.toInt()
                 entity.optBoolean("user_confirmed_target", false) -> 0xFF55E6FF.toInt()
-                entity.optBoolean("depleted", false) || entity.optBoolean("left", false) -> 0xFF697782.toInt()
+                kind == "mob" && AlbionSpatialIntelligence.isOreElemental(entity) -> 0xFFB58CFF.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
+                kind in RESOURCE_KINDS -> enchantColor(enchantLevel(entity))
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, if (entity.optBoolean("user_confirmed_target", false)) 4f * density else 2.4f * density, paint)
