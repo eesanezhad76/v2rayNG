@@ -97,6 +97,14 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
    "mob_killed_ms":cycle.get("mob_killed_ms"),"confidence":confidence,
    "tier":cycle.get("tier"),"enchantment":cycle.get("enchantment"),"identity_proven":False})
  entities=catalog.setdefault("entities",[])
+ for entity in entities:
+  if entity.get("last_kind")!="mob":continue
+  info=type_dictionary.get(str(entity.get("mobile_type_id")), {})
+  if not info:continue
+  if not entity.get("name"):entity["name"]=info.get("display_name")
+  for key in ("tier","category","unique_name","localization_tag","danger","max_health","loot_type","is_harvestable"):
+   value=info.get(key)
+   if value is not None:entity[{"category":"mob_category","unique_name":"type_unique_name","danger":"mob_danger","is_harvestable":"is_harvestable_mob"}.get(key,key)]=value
  by_id={str(e.get("source_entity_id")):e for e in entities
         if e.get("last_kind")=="mob" and e.get("source_entity_id") is not None}
  for target in targets:
