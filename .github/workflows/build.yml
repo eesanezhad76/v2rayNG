@@ -14,6 +14,7 @@ on:
       - albion-decoder-radar-rebuild
       - albion-integrity-autosave
       - albion-pattern-mining
+      - albion-knowledge-integration-2026-11-04
     # Capture-ingest commits update derived evidence only. They must not queue
     # redundant APK builds; source, tests, decoder and workflow changes still do.
     paths-ignore:
@@ -23,7 +24,6 @@ on:
       - 'research/pcap-analyzer/**'
       - 'research/tools/**'
       - 'research/tests/**'
-      - '.github/workflows/build.yml'
       - '.github/workflows/albion-capture-ingest.yml'
       - 'research/**/*.md'
 
@@ -89,7 +89,7 @@ jobs:
         cp -r ${{ github.workspace }}/libs ${{ github.workspace }}/V2rayNG/app
 
     - name: Checkout passive-tap AndroidLibXrayLite
-      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining')
+      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04') || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04')
       run: |
         git -C AndroidLibXrayLite remote set-url origin https://github.com/eesanezhad76/AndroidLibXrayLite.git
         git -C AndroidLibXrayLite fetch --depth=1 origin albion-passive-tap
@@ -131,7 +131,7 @@ jobs:
       run: go test github.com/xtls/xray-core/proxy/tun
 
     - name: Fetch AndroidLibXrayLite tag
-      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining')
+      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && (github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'refs/heads/albion-knowledge-integration-2026-11-04') && github.ref != 'refs/heads/albion-knowledge-integration-2026-11-04')
       run: |
         pushd AndroidLibXrayLite
         CURRENT_TAG=$(git describe --tags --abbrev=0)
