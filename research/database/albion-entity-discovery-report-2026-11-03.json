@@ -1,0 +1,2092 @@
+{
+  "schema_version": 1,
+  "purpose": "Evidence-ranked family/type discovery; no unproven semantic labels.",
+  "counts": {
+    "event40_node_records": 331,
+    "event123_lifecycle_records": 2330,
+    "knowledge_entity_observations": 9522,
+    "learned_pattern_signatures": 70,
+    "autonomous_pattern_signatures": 296,
+    "protocol_evidence_records": 4599,
+    "distinct_event40_families": 6,
+    "distinct_event123_mobile_type_ids": 64
+  },
+  "family_profiles": [
+    {
+      "family": "14",
+      "event40_records": 47,
+      "mobile_type_ids": {
+        "-1": 47
+      },
+      "tiers": {
+        "4": 33,
+        "5": 14
+      },
+      "enchantment_raw_values": {
+        "1": 35,
+        "2": 9,
+        "3": 2,
+        "1|2": 1
+      },
+      "archives": {
+        "AlbionRadar.zip": 19,
+        "AlbionRadar6json.zip": 12,
+        "Albionsskkakaks111.zip": 7,
+        "Albion2.zip": 3,
+        "AlbionRadar5.zip": 3,
+        "AlbionRadar2.zip": 2,
+        "Albion اااستسمنسمنش.zip": 1
+      },
+      "distinct_pcaps": 9,
+      "interpretation": "unclassified",
+      "evidence_note": "Capture-scoped Event 40 observations; no name inferred from family number alone."
+    },
+    {
+      "family": "20",
+      "event40_records": 7,
+      "mobile_type_ids": {
+        "482": 7
+      },
+      "tiers": {
+        "1": 7
+      },
+      "enchantment_raw_values": {
+        "0": 7
+      },
+      "archives": {
+        "Albion2.zip": 2,
+        "Albions.zip": 2,
+        "Albion اااستسمنسمنش.zip": 1,
+        "AlbionRadar.zip": 1,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 7,
+      "interpretation": "type_482_cross_domain_candidate",
+      "evidence_note": "Type 482 also appears in Event 123; require same-session/time/coordinate evidence."
+    },
+    {
+      "family": "27",
+      "event40_records": 88,
+      "mobile_type_ids": {
+        "-1": 88
+      },
+      "tiers": {
+        "4": 51,
+        "5": 37
+      },
+      "enchantment_raw_values": {
+        "1": 78,
+        "2": 8,
+        "3": 2
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 28,
+        "AlbionRadar.zip": 27,
+        "Albionsskkakaks111.zip": 11,
+        "AlbionRadar5.zip": 9,
+        "AlbionRadar2.zip": 6,
+        "Albions.zip": 6,
+        "Albion اااستسمنسمنش.zip": 1
+      },
+      "distinct_pcaps": 9,
+      "interpretation": "unknown_family_with_user_confirmed_exception",
+      "evidence_note": "Only entity 2788, T5.3 at (-379,-24), is user-confirmed; do not generalize."
+    },
+    {
+      "family": "28",
+      "event40_records": 2,
+      "mobile_type_ids": {
+        "-1": 2
+      },
+      "tiers": {
+        "5": 2
+      },
+      "enchantment_raw_values": {
+        "1": 2
+      },
+      "archives": {
+        "Albions.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "interpretation": "unclassified",
+      "evidence_note": "Capture-scoped Event 40 observations; no name inferred from family number alone."
+    },
+    {
+      "family": "29",
+      "event40_records": 100,
+      "mobile_type_ids": {
+        "574": 59,
+        "573": 29,
+        "571": 12
+      },
+      "tiers": {
+        "5": 59,
+        "4": 29,
+        "3": 12
+      },
+      "enchantment_raw_values": {
+        "0": 71,
+        "1": 22,
+        "2": 7
+      },
+      "archives": {
+        "Albionsskkakaks111.zip": 26,
+        "AlbionRadar6json.zip": 19,
+        "Albions.zip": 19,
+        "AlbionRadar.zip": 14,
+        "AlbionRadar5.zip": 10,
+        "Albion2.zip": 6,
+        "AlbionRadar2.zip": 5,
+        "Albion اااستسمنسمنش.zip": 1
+      },
+      "distinct_pcaps": 15,
+      "interpretation": "confirmed_ore_family",
+      "evidence_note": "Independently verified Ore mapping: T3=571, T4=573, T5=574."
+    },
+    {
+      "family": "7",
+      "event40_records": 87,
+      "mobile_type_ids": {
+        "-1": 87
+      },
+      "tiers": {
+        "4": 45,
+        "5": 42
+      },
+      "enchantment_raw_values": {
+        "1": 71,
+        "2": 15,
+        "3": 1
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 33,
+        "AlbionRadar.zip": 22,
+        "AlbionRadar5.zip": 8,
+        "Albions.zip": 7,
+        "Albionsskkakaks111.zip": 7,
+        "AlbionRadar2.zip": 6,
+        "Albion2.zip": 4
+      },
+      "distinct_pcaps": 11,
+      "interpretation": "unclassified",
+      "evidence_note": "Capture-scoped Event 40 observations; no name inferred from family number alone."
+    }
+  ],
+  "mobile_type_profiles": [
+    {
+      "mobile_type_id": "482",
+      "lifecycle_records": 469,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 469
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 216,
+        "AlbionRadar.zip": 94,
+        "Albionsskkakaks111.zip": 53,
+        "AlbionRadar5.zip": 35,
+        "AlbionRadar2.zip": 32,
+        "Albions.zip": 24,
+        "Albion2.zip": 13,
+        "Albion اااستسمنسمنش.zip": 2
+      },
+      "distinct_pcaps": 15,
+      "movement_observations": 26535,
+      "health_observation_records": 1,
+      "leave_observed_records": 437,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2489",
+      "lifecycle_records": 221,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 221
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 91,
+        "AlbionRadar.zip": 66,
+        "Albionsskkakaks111.zip": 35,
+        "AlbionRadar2.zip": 13,
+        "AlbionRadar5.zip": 10,
+        "Albion2.zip": 3,
+        "Albions.zip": 3
+      },
+      "distinct_pcaps": 8,
+      "movement_observations": 8008,
+      "health_observation_records": 91,
+      "leave_observed_records": 213,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2474",
+      "lifecycle_records": 200,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 200
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 72,
+        "AlbionRadar.zip": 50,
+        "Albionsskkakaks111.zip": 32,
+        "AlbionRadar5.zip": 20,
+        "AlbionRadar2.zip": 15,
+        "Albion2.zip": 6,
+        "Albions.zip": 4,
+        "Albion اااستسمنسمنش.zip": 1
+      },
+      "distinct_pcaps": 14,
+      "movement_observations": 4043,
+      "health_observation_records": 165,
+      "leave_observed_records": 192,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "571",
+      "lifecycle_records": 167,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 167
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 66,
+        "AlbionRadar.zip": 46,
+        "Albionsskkakaks111.zip": 21,
+        "AlbionRadar2.zip": 20,
+        "AlbionRadar5.zip": 7,
+        "Albion2.zip": 4,
+        "Albions.zip": 3
+      },
+      "distinct_pcaps": 10,
+      "movement_observations": 12197,
+      "health_observation_records": 29,
+      "leave_observed_records": 157,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "573",
+      "lifecycle_records": 136,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 136
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 60,
+        "AlbionRadar.zip": 33,
+        "AlbionRadar2.zip": 15,
+        "AlbionRadar5.zip": 12,
+        "Albionsskkakaks111.zip": 10,
+        "Albion2.zip": 3,
+        "Albion اااستسمنسمنش.zip": 2,
+        "Albions.zip": 1
+      },
+      "distinct_pcaps": 9,
+      "movement_observations": 12948,
+      "health_observation_records": 182,
+      "leave_observed_records": 129,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2486",
+      "lifecycle_records": 111,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 111
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 28,
+        "AlbionRadar.zip": 23,
+        "Albionsskkakaks111.zip": 18,
+        "AlbionRadar5.zip": 17,
+        "AlbionRadar2.zip": 10,
+        "Albions.zip": 9,
+        "Albion2.zip": 4,
+        "Albion اااستسمنسمنش.zip": 2
+      },
+      "distinct_pcaps": 13,
+      "movement_observations": 3179,
+      "health_observation_records": 8,
+      "leave_observed_records": 101,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "120",
+      "lifecycle_records": 107,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 107
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 31,
+        "AlbionRadar.zip": 29,
+        "Albionsskkakaks111.zip": 13,
+        "AlbionRadar5.zip": 12,
+        "Albions.zip": 9,
+        "AlbionRadar2.zip": 8,
+        "Albion2.zip": 5
+      },
+      "distinct_pcaps": 13,
+      "movement_observations": 6928,
+      "health_observation_records": 4,
+      "leave_observed_records": 94,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2471",
+      "lifecycle_records": 95,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 95
+      },
+      "archives": {
+        "AlbionRadar.zip": 30,
+        "AlbionRadar6json.zip": 23,
+        "Albionsskkakaks111.zip": 15,
+        "AlbionRadar5.zip": 13,
+        "Albions.zip": 6,
+        "AlbionRadar2.zip": 4,
+        "Albion اااستسمنسمنش.zip": 2,
+        "Albion2.zip": 2
+      },
+      "distinct_pcaps": 10,
+      "movement_observations": 1162,
+      "health_observation_records": 0,
+      "leave_observed_records": 89,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2510",
+      "lifecycle_records": 92,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 92
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 38,
+        "AlbionRadar.zip": 25,
+        "Albionsskkakaks111.zip": 13,
+        "AlbionRadar5.zip": 6,
+        "AlbionRadar2.zip": 5,
+        "Albion2.zip": 3,
+        "Albions.zip": 2
+      },
+      "distinct_pcaps": 10,
+      "movement_observations": 1761,
+      "health_observation_records": 42,
+      "leave_observed_records": 87,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "574",
+      "lifecycle_records": 85,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 85
+      },
+      "archives": {
+        "AlbionRadar.zip": 30,
+        "AlbionRadar6json.zip": 28,
+        "Albionsskkakaks111.zip": 15,
+        "Albion2.zip": 5,
+        "AlbionRadar5.zip": 4,
+        "AlbionRadar2.zip": 2,
+        "Albions.zip": 1
+      },
+      "distinct_pcaps": 9,
+      "movement_observations": 6165,
+      "health_observation_records": 299,
+      "leave_observed_records": 80,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2712",
+      "lifecycle_records": 68,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 68
+      },
+      "archives": {
+        "AlbionRadar.zip": 21,
+        "AlbionRadar6json.zip": 19,
+        "AlbionRadar5.zip": 14,
+        "AlbionRadar2.zip": 9,
+        "Albionsskkakaks111.zip": 3,
+        "Albion2.zip": 1,
+        "Albions.zip": 1
+      },
+      "distinct_pcaps": 7,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 67,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2477",
+      "lifecycle_records": 65,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 65
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 30,
+        "AlbionRadar.zip": 19,
+        "AlbionRadar2.zip": 7,
+        "Albionsskkakaks111.zip": 5,
+        "AlbionRadar5.zip": 2,
+        "Albion2.zip": 1,
+        "Albions.zip": 1
+      },
+      "distinct_pcaps": 7,
+      "movement_observations": 2046,
+      "health_observation_records": 219,
+      "leave_observed_records": 64,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2492",
+      "lifecycle_records": 51,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 51
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 23,
+        "AlbionRadar.zip": 17,
+        "Albionsskkakaks111.zip": 5,
+        "AlbionRadar2.zip": 4,
+        "Albion اااستسمنسمنش.zip": 1,
+        "Albion2.zip": 1
+      },
+      "distinct_pcaps": 6,
+      "movement_observations": 1350,
+      "health_observation_records": 47,
+      "leave_observed_records": 49,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2549",
+      "lifecycle_records": 51,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 51
+      },
+      "archives": {
+        "AlbionRadar.zip": 22,
+        "AlbionRadar2.zip": 19,
+        "AlbionRadar5.zip": 10
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 1681,
+      "health_observation_records": 0,
+      "leave_observed_records": 51,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2564",
+      "lifecycle_records": 50,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 50
+      },
+      "archives": {
+        "AlbionRadar.zip": 30,
+        "AlbionRadar2.zip": 13,
+        "AlbionRadar5.zip": 5,
+        "AlbionRadar6json.zip": 2
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 699,
+      "health_observation_records": 0,
+      "leave_observed_records": 50,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2501",
+      "lifecycle_records": 28,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 28
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 11,
+        "AlbionRadar.zip": 9,
+        "Albionsskkakaks111.zip": 4,
+        "AlbionRadar2.zip": 2,
+        "AlbionRadar5.zip": 2
+      },
+      "distinct_pcaps": 5,
+      "movement_observations": 668,
+      "health_observation_records": 61,
+      "leave_observed_records": 28,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2787",
+      "lifecycle_records": 23,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 23
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 17,
+        "AlbionRadar.zip": 6
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 23,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2512",
+      "lifecycle_records": 21,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 21
+      },
+      "archives": {
+        "AlbionRadar5.zip": 7,
+        "AlbionRadar2.zip": 6,
+        "AlbionRadar6json.zip": 5,
+        "AlbionRadar.zip": 3
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 19,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2476",
+      "lifecycle_records": 20,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 20
+      },
+      "archives": {
+        "AlbionRadar2.zip": 8,
+        "AlbionRadar5.zip": 8,
+        "AlbionRadar.zip": 2,
+        "AlbionRadar6json.zip": 2
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 371,
+      "health_observation_records": 0,
+      "leave_observed_records": 20,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2576",
+      "lifecycle_records": 20,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 20
+      },
+      "archives": {
+        "AlbionRadar.zip": 14,
+        "AlbionRadar5.zip": 4,
+        "AlbionRadar2.zip": 2
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 1796,
+      "health_observation_records": 0,
+      "leave_observed_records": 20,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2491",
+      "lifecycle_records": 18,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 18
+      },
+      "archives": {
+        "AlbionRadar5.zip": 6,
+        "AlbionRadar6json.zip": 6,
+        "AlbionRadar2.zip": 4,
+        "AlbionRadar.zip": 2
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 158,
+      "health_observation_records": 0,
+      "leave_observed_records": 16,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2513",
+      "lifecycle_records": 17,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 17
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 8,
+        "AlbionRadar.zip": 5,
+        "AlbionRadar2.zip": 2,
+        "Albionsskkakaks111.zip": 2
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 489,
+      "health_observation_records": 68,
+      "leave_observed_records": 16,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2473",
+      "lifecycle_records": 15,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 15
+      },
+      "archives": {
+        "AlbionRadar5.zip": 6,
+        "AlbionRadar2.zip": 5,
+        "AlbionRadar.zip": 4
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 13,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2535",
+      "lifecycle_records": 15,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 15
+      },
+      "archives": {
+        "AlbionRadar.zip": 8,
+        "AlbionRadar2.zip": 3,
+        "AlbionRadar5.zip": 3,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 108,
+      "health_observation_records": 0,
+      "leave_observed_records": 15,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2563",
+      "lifecycle_records": 14,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 14
+      },
+      "archives": {
+        "AlbionRadar5.zip": 8,
+        "AlbionRadar.zip": 5,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 309,
+      "health_observation_records": 0,
+      "leave_observed_records": 14,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2577",
+      "lifecycle_records": 14,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 14
+      },
+      "archives": {
+        "AlbionRadar.zip": 11,
+        "AlbionRadar2.zip": 2,
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 311,
+      "health_observation_records": 0,
+      "leave_observed_records": 14,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2488",
+      "lifecycle_records": 12,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 12
+      },
+      "archives": {
+        "AlbionRadar5.zip": 5,
+        "AlbionRadar2.zip": 4,
+        "AlbionRadar6json.zip": 2,
+        "AlbionRadar.zip": 1
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 12,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2590",
+      "lifecycle_records": 12,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 12
+      },
+      "archives": {
+        "AlbionRadar.zip": 8,
+        "AlbionRadar2.zip": 3,
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 1218,
+      "health_observation_records": 0,
+      "leave_observed_records": 12,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2802",
+      "lifecycle_records": 11,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 11
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 8,
+        "AlbionRadar.zip": 3
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 11,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2548",
+      "lifecycle_records": 10,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 10
+      },
+      "archives": {
+        "AlbionRadar.zip": 7,
+        "AlbionRadar5.zip": 3
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 83,
+      "health_observation_records": 0,
+      "leave_observed_records": 10,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2539",
+      "lifecycle_records": 9,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 9
+      },
+      "archives": {
+        "AlbionRadar.zip": 5,
+        "AlbionRadar2.zip": 3,
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 4,
+      "health_observation_records": 0,
+      "leave_observed_records": 9,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2494",
+      "lifecycle_records": 8,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 8
+      },
+      "archives": {
+        "AlbionRadar.zip": 3,
+        "AlbionRadar2.zip": 2,
+        "AlbionRadar5.zip": 2,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 684,
+      "health_observation_records": 0,
+      "leave_observed_records": 6,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2715",
+      "lifecycle_records": 8,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 8
+      },
+      "archives": {
+        "AlbionRadar.zip": 3,
+        "AlbionRadar5.zip": 2,
+        "AlbionRadar6json.zip": 2,
+        "AlbionRadar2.zip": 1
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 8,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2490",
+      "lifecycle_records": 7,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 7
+      },
+      "archives": {
+        "AlbionRadar.zip": 4,
+        "AlbionRadar6json.zip": 3
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 7,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "121",
+      "lifecycle_records": 6,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "1": 6
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 4,
+        "Albion2.zip": 1,
+        "AlbionRadar.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 161,
+      "health_observation_records": 0,
+      "leave_observed_records": 5,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2511",
+      "lifecycle_records": 6,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 6
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 5,
+        "AlbionRadar.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 6,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2772",
+      "lifecycle_records": 6,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 6
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 4,
+        "AlbionRadar.zip": 2
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 6,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2503",
+      "lifecycle_records": 5,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 5
+      },
+      "archives": {
+        "AlbionRadar5.zip": 4,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 5,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2792",
+      "lifecycle_records": 5,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 5
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 5
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 5,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2479",
+      "lifecycle_records": 4,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "AlbionRadar2.zip": 2,
+        "AlbionRadar.zip": 1,
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 547,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2502",
+      "lifecycle_records": 4,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 2,
+        "AlbionRadar.zip": 1,
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 559,
+      "health_observation_records": 0,
+      "leave_observed_records": 4,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2475",
+      "lifecycle_records": 3,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 2,
+        "AlbionRadar.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2480",
+      "lifecycle_records": 3,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar.zip": 1,
+        "AlbionRadar2.zip": 1,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 68,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2516",
+      "lifecycle_records": 3,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar.zip": 2,
+        "Albionsskkakaks111.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 508,
+      "health_observation_records": 50,
+      "leave_observed_records": 3,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2634",
+      "lifecycle_records": 3,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 9,
+      "health_observation_records": 2,
+      "leave_observed_records": 3,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2646",
+      "lifecycle_records": 3,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 10,
+      "health_observation_records": 4,
+      "leave_observed_records": 3,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2777",
+      "lifecycle_records": 3,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2807",
+      "lifecycle_records": 3,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2478",
+      "lifecycle_records": 2,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "AlbionRadar.zip": 1,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2493",
+      "lifecycle_records": 2,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "AlbionRadar.zip": 1,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2514",
+      "lifecycle_records": 2,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2515",
+      "lifecycle_records": 2,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "AlbionRadar5.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 129,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2575",
+      "lifecycle_records": 2,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "AlbionRadar.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2642",
+      "lifecycle_records": 2,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "830",
+      "lifecycle_records": 2,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "AlbionRadar.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2495",
+      "lifecycle_records": 1,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "Albionsskkakaks111.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 67,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2504",
+      "lifecycle_records": 1,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2589",
+      "lifecycle_records": 1,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 69,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2592",
+      "lifecycle_records": 1,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 16,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2654",
+      "lifecycle_records": 1,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2662",
+      "lifecycle_records": 1,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar2.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "2682",
+      "lifecycle_records": 1,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar2.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "835",
+      "lifecycle_records": 1,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "Albionsskkakaks111.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    },
+    {
+      "mobile_type_id": "943",
+      "lifecycle_records": 1,
+      "nonempty_names": {},
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 200,
+      "health_observation_records": 22,
+      "leave_observed_records": 1,
+      "warning": "Event 123 lifecycle evidence; leave is not proof of death."
+    }
+  ],
+  "knowledge_schema_inventory": {
+    "entity_observations": {
+      "classification": {
+        "present_in_records": 9520,
+        "top_values": [
+          [
+            "static_resource_candidate",
+            4807
+          ],
+          [
+            "unclassified_observation",
+            4517
+          ],
+          [
+            "typed_resource_observation",
+            194
+          ],
+          [
+            "ambiguous_resource_candidate",
+            1
+          ],
+          [
+            "ambiguous_entity",
+            1
+          ]
+        ]
+      },
+      "enchant": {
+        "present_in_records": 1917,
+        "top_values": [
+          [
+            "0",
+            1743
+          ],
+          [
+            "1",
+            139
+          ],
+          [
+            "2",
+            30
+          ],
+          [
+            "3",
+            5
+          ]
+        ]
+      },
+      "enchant_evidence": {
+        "present_in_records": 1917,
+        "top_values": []
+      },
+      "entity_class": {
+        "present_in_records": 1066,
+        "top_values": [
+          [
+            "mob",
+            1066
+          ]
+        ]
+      },
+      "family": {
+        "present_in_records": 195,
+        "top_values": [
+          [
+            "27",
+            61
+          ],
+          [
+            "7",
+            61
+          ],
+          [
+            "29",
+            38
+          ],
+          [
+            "14",
+            33
+          ],
+          [
+            "20",
+            2
+          ]
+        ]
+      },
+      "family_evidence": {
+        "present_in_records": 195,
+        "top_values": []
+      },
+      "mobile_type_id": {
+        "present_in_records": 1917,
+        "top_values": [
+          [
+            "482",
+            344
+          ],
+          [
+            "2489",
+            170
+          ],
+          [
+            "-1",
+            155
+          ],
+          [
+            "571",
+            138
+          ],
+          [
+            "2474",
+            137
+          ],
+          [
+            "573",
+            120
+          ],
+          [
+            "574",
+            80
+          ],
+          [
+            "120",
+            68
+          ],
+          [
+            "2510",
+            68
+          ],
+          [
+            "2486",
+            61
+          ],
+          [
+            "2471",
+            57
+          ],
+          [
+            "2477",
+            56
+          ],
+          [
+            "2712",
+            49
+          ],
+          [
+            "2564",
+            45
+          ],
+          [
+            "2492",
+            44
+          ],
+          [
+            "2549",
+            41
+          ],
+          [
+            "2787",
+            23
+          ],
+          [
+            "2501",
+            22
+          ],
+          [
+            "2576",
+            16
+          ],
+          [
+            "2513",
+            15
+          ]
+        ]
+      },
+      "mobile_type_id_evidence": {
+        "present_in_records": 1917,
+        "top_values": []
+      },
+      "name": {
+        "present_in_records": 46,
+        "top_values": [
+          [
+            "YOU",
+            3
+          ],
+          [
+            "Folkariks",
+            2
+          ],
+          [
+            "Fqy2Yue",
+            1
+          ],
+          [
+            "EDmars",
+            1
+          ],
+          [
+            "Ezzylone",
+            1
+          ],
+          [
+            "Airsur",
+            1
+          ],
+          [
+            "YukikoMomo",
+            1
+          ],
+          [
+            "cambo06",
+            1
+          ],
+          [
+            "daputana",
+            1
+          ],
+          [
+            "Fredzi0",
+            1
+          ],
+          [
+            "Kreonaddict",
+            1
+          ],
+          [
+            "Godziemba",
+            1
+          ],
+          [
+            "Ekam",
+            1
+          ],
+          [
+            "Hamid061",
+            1
+          ],
+          [
+            "FlorSky",
+            1
+          ],
+          [
+            "007deli007",
+            1
+          ],
+          [
+            "Azabraza",
+            1
+          ],
+          [
+            "MarkusAlexander",
+            1
+          ],
+          [
+            "siyahiboy",
+            1
+          ],
+          [
+            "limpoporo",
+            1
+          ]
+        ]
+      },
+      "resource_inference": {
+        "present_in_records": 5058,
+        "top_values": []
+      },
+      "resource_state_seen": {
+        "present_in_records": 167,
+        "top_values": [
+          [
+            "True",
+            167
+          ]
+        ]
+      },
+      "tier": {
+        "present_in_records": 195,
+        "top_values": [
+          [
+            "4",
+            109
+          ],
+          [
+            "5",
+            78
+          ],
+          [
+            "3",
+            6
+          ],
+          [
+            "1",
+            2
+          ]
+        ]
+      },
+      "tier_evidence": {
+        "present_in_records": 195,
+        "top_values": []
+      },
+      "typed_resource_seen": {
+        "present_in_records": 195,
+        "top_values": [
+          [
+            "True",
+            195
+          ]
+        ]
+      }
+    },
+    "learned_patterns": {
+      "enchant": {
+        "present_in_records": 70,
+        "top_values": [
+          [
+            "0",
+            3
+          ]
+        ]
+      },
+      "family": {
+        "present_in_records": 70,
+        "top_values": []
+      },
+      "overlay_enchant_label": {
+        "present_in_records": 70,
+        "top_values": [
+          [
+            "E2",
+            44
+          ],
+          [
+            "E1",
+            26
+          ]
+        ]
+      },
+      "overlay_tier_label": {
+        "present_in_records": 70,
+        "top_values": [
+          [
+            "T4",
+            70
+          ]
+        ]
+      },
+      "tier": {
+        "present_in_records": 70,
+        "top_values": []
+      },
+      "type_id": {
+        "present_in_records": 70,
+        "top_values": [
+          [
+            "2489",
+            2
+          ],
+          [
+            "573",
+            1
+          ]
+        ]
+      }
+    },
+    "autonomous_patterns": {
+      "labels": {
+        "present_in_records": 296,
+        "top_values": []
+      }
+    },
+    "protocol_evidence": {}
+  },
+  "knowledge_type_and_family_field_values": {
+    "entities.mobile_type_id_evidence": [],
+    "entities.family": [
+      [
+        "27",
+        61
+      ],
+      [
+        "7",
+        61
+      ],
+      [
+        "29",
+        38
+      ],
+      [
+        "14",
+        33
+      ],
+      [
+        "20",
+        2
+      ]
+    ],
+    "entities.family_evidence": [],
+    "entities.mobile_type_id": [
+      [
+        "482",
+        344
+      ],
+      [
+        "2489",
+        170
+      ],
+      [
+        "-1",
+        155
+      ],
+      [
+        "571",
+        138
+      ],
+      [
+        "2474",
+        137
+      ],
+      [
+        "573",
+        120
+      ],
+      [
+        "574",
+        80
+      ],
+      [
+        "120",
+        68
+      ],
+      [
+        "2510",
+        68
+      ],
+      [
+        "2486",
+        61
+      ],
+      [
+        "2471",
+        57
+      ],
+      [
+        "2477",
+        56
+      ],
+      [
+        "2712",
+        49
+      ],
+      [
+        "2564",
+        45
+      ],
+      [
+        "2492",
+        44
+      ],
+      [
+        "2549",
+        41
+      ],
+      [
+        "2787",
+        23
+      ],
+      [
+        "2501",
+        22
+      ],
+      [
+        "2576",
+        16
+      ],
+      [
+        "2513",
+        15
+      ],
+      [
+        "2512",
+        14
+      ],
+      [
+        "2577",
+        13
+      ],
+      [
+        "2535",
+        12
+      ],
+      [
+        "2476",
+        12
+      ],
+      [
+        "2491",
+        12
+      ],
+      [
+        "2590",
+        11
+      ],
+      [
+        "2802",
+        11
+      ],
+      [
+        "2473",
+        9
+      ],
+      [
+        "2539",
+        8
+      ],
+      [
+        "2548",
+        7
+      ],
+      [
+        "2488",
+        7
+      ],
+      [
+        "2490",
+        7
+      ],
+      [
+        "2715",
+        6
+      ],
+      [
+        "2772",
+        6
+      ],
+      [
+        "2563",
+        6
+      ],
+      [
+        "2494",
+        6
+      ],
+      [
+        "2511",
+        6
+      ],
+      [
+        "121",
+        5
+      ],
+      [
+        "2792",
+        5
+      ],
+      [
+        "2480",
+        3
+      ],
+      [
+        "2502",
+        3
+      ],
+      [
+        "2475",
+        3
+      ],
+      [
+        "2479",
+        3
+      ],
+      [
+        "2777",
+        3
+      ],
+      [
+        "2807",
+        3
+      ],
+      [
+        "2646",
+        3
+      ],
+      [
+        "2634",
+        3
+      ],
+      [
+        "830",
+        2
+      ],
+      [
+        "2575",
+        2
+      ],
+      [
+        "2516",
+        2
+      ],
+      [
+        "2493",
+        2
+      ],
+      [
+        "2478",
+        2
+      ],
+      [
+        "2642",
+        2
+      ],
+      [
+        "2514",
+        2
+      ],
+      [
+        "943",
+        1
+      ],
+      [
+        "2592",
+        1
+      ],
+      [
+        "2682",
+        1
+      ],
+      [
+        "2662",
+        1
+      ],
+      [
+        "2503",
+        1
+      ],
+      [
+        "2504",
+        1
+      ],
+      [
+        "2654",
+        1
+      ]
+    ],
+    "learned_patterns.family": [],
+    "learned_patterns.type_id": [
+      [
+        "2489",
+        2
+      ],
+      [
+        "573",
+        1
+      ]
+    ]
+  },
+  "weak_filename_context_hints": [
+    {
+      "family": "14",
+      "archive": "Albion2.zip",
+      "pcap": "6red ores ,each one mined.pcap",
+      "family_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "family": "14",
+      "archive": "Albion2.zip",
+      "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
+      "family_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "family": "14",
+      "archive": "Albion2.zip",
+      "pcap": "red,ore lvl2.pcap",
+      "family_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "family": "20",
+      "archive": "Albions.zip",
+      "pcap": "ore 4 3 red 2 blue .pcap",
+      "family_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "family": "27",
+      "archive": "Albions.zip",
+      "pcap": "2mobs dismount and Mount .pcap",
+      "family_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "family": "29",
+      "archive": "Albion2.zip",
+      "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
+      "family_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "family": "29",
+      "archive": "Albions.zip",
+      "pcap": "2mobs dismount and Mount .pcap",
+      "family_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "family": "29",
+      "archive": "Albions.zip",
+      "pcap": "ore 4 3 red 2 blue .pcap",
+      "family_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "family": "7",
+      "archive": "Albion2.zip",
+      "pcap": "blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap",
+      "family_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "family": "7",
+      "archive": "Albion2.zip",
+      "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
+      "family_records_in_capture": 2,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "family": "7",
+      "archive": "Albions.zip",
+      "pcap": "2mobs dismount and Mount .pcap",
+      "family_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    }
+  ],
+  "guardrails": [
+    "Runtime IDs are scoped by archive and PCAP/session.",
+    "Event 39 static observations are not Event 40 harvestable nodes.",
+    "Event 123 lifecycle rows are not all proven hostile mobs.",
+    "Do not infer a family name from numeric family ID alone.",
+    "Do not join by numeric ID alone; require same capture/session and time/coordinate evidence.",
+    "Do not convert filename hints into confirmed labels.",
+    "Unknown values are retained rather than dropped."
+  ]
+}
