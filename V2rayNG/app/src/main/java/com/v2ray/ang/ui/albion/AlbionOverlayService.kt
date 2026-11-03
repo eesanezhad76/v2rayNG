@@ -133,7 +133,7 @@ class AlbionOverlayService : Service() {
             PixelFormat.TRANSLUCENT).apply { gravity = Gravity.TOP or Gravity.START; x = dp(4); y = dp(105) }
         windowParams = params
         wm.addView(panel, params)
-        head.setOnTouchListener { _, event ->
+        title.setOnTouchListener { _, event ->
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> { dragStartX = event.rawX; dragStartY = event.rawY; dragWindowX = params.x; dragWindowY = params.y; true }
                 MotionEvent.ACTION_MOVE -> {
