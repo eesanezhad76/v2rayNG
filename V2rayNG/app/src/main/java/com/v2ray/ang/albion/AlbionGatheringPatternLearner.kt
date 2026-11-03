@@ -18,6 +18,7 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
     @Synchronized
     fun observe(timestampMs: Long, observations: List<AlbionEntityEventMapper.Observation>) {
         val label = active ?: return
+        if (label.optString("activity") !in GATHERING_ACTIVITIES) return
         val expectedTier = label.optString("tier").removePrefix("T").toIntOrNull() ?: return
         observations.filter { it.kind == "harvestable" }.forEach { observation ->
             val family = observation.typeNumber ?: return@forEach
@@ -151,5 +152,6 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
         const val MAX_SESSIONS = 20
         const val MIN_SAMPLES = 3
         const val MIN_SESSIONS = 2
+        val GATHERING_ACTIVITIES = setOf("Ore", "Wood", "Stone", "Fiber", "Hide")
     }
 }
