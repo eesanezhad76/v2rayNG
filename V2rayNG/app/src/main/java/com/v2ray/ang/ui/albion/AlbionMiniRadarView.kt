@@ -121,16 +121,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         return cy + (dx * ROTATION_SIN + dy * ROTATION_COS)
     }
 
-    private fun isTroll(item: JSONObject): Boolean {
-        val label = (item.optString("name") + " " + AlbionRadarSnapshotParser.labelForEntity(item)).lowercase()
-        if (label.contains("troll")) return true
-        // A nearby/manual marker candidate is not proof of mob identity. Only promote
-        // a marker match when the capture pipeline has an explicit high-confidence result.
-        val marker = item.optString("marker_activity")
-        val confidence = item.optString("marker_match_confidence").uppercase()
-        return marker.equals("Troll", ignoreCase = true) &&
-            confidence in setOf("HIGH", "CONFIRMED", "USER_CONFIRMED")
-    }
+    private fun isTroll(item: JSONObject): Boolean =
+        AlbionSpatialIntelligence.isTrollMob(item)
 
     private fun passesFilters(item: JSONObject, filters: Set<String> = this.enabledFilters): Boolean {
         val kind = item.optString("last_kind")
@@ -138,11 +130,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val mob = kind == "mob"
         val troll = mob && isTroll(item)
         val targetedMob = mob && item.optBoolean("targeted_by_player", false)
-        val oreElemental = mob && (
-            item.optString("name").contains("Ore Elemental", ignoreCase = true) ||
-                item.optString("type_unique_name").contains("ORE_MOUNTAIN", ignoreCase = true) ||
-                item.optString("localization_tag").contains("OREELEMENTAL", ignoreCase = true)
-            )
+        // Prefer the stable game TypeID/research crosswalk; display names and localization
+        // strings vary by packet source and must not decide whether a real node is hidden.
+        val oreElemental = mob && AlbionSpatialIntelligence.isOreElemental(item)
         val markerEnchant = item.optInt("marker_enchant", -1)
         val inferredEnchant = item.optJSONObject("resource_inference")
             ?.optJSONObject("enchantment_name")?.optString("value")
@@ -161,9 +151,16 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val markerActivity = item.optString("marker_activity").ifBlank {
             item.optString("marker_activity_candidate")
         }.lowercase()
+        val family = item.optInt("family", -1)
+        // Stable observed family IDs take precedence over inconsistent display labels.
+        // 28 is deliberately unresolved; 29 is the separately identified living Ore Elemental.
         val resourceCategory = when {
-            item.optBoolean("user_confirmed_target", false) || item.optInt("family", -1) == 29 ||
-                rawName.contains("ore") || rawName.contains("ore candidate") || markerActivity == "ore" -> "ore"
+            item.optBoolean("user_confirmed_target", false) -> "ore"
+            family in 23..27 || family == 29 -> "ore"
+            family == 7 -> "stone"
+            family == 14 -> "fiber"
+            family == 20 -> "hide"
+            rawName.contains("ore") || rawName.contains("ore candidate") || markerActivity == "ore" -> "ore"
             rawName.contains("wood") || rawName.contains("tree") || rawName.contains("logs") || markerActivity == "wood" -> "wood"
             rawName.contains("stone") || rawName.contains("rock") || markerActivity == "stone" -> "stone"
             rawName.contains("fiber") || rawName.contains("cotton") || rawName.contains("flax") || markerActivity == "fiber" -> "fiber"
