@@ -14,6 +14,7 @@ class AlbionProtocolEvidenceStore(
     private val sessionStartedMs: Long = System.currentTimeMillis()
 ) {
     private val file = File(context.applicationContext.filesDir, "albion-protocol-evidence.json")
+    private val historicalKnowledge = AlbionHistoricalKnowledgeIndex.load(context)
     private val events = ArrayList<JSONObject>()
     private var dirty = false
     private var lastFlushMs = 0L
@@ -97,6 +98,7 @@ class AlbionProtocolEvidenceStore(
         return buildString {
             appendLine()
             appendLine("PROTOCOL / INVENTORY EVIDENCE (raw; item schema not yet verified)")
+            historicalKnowledge?.let { appendLine(it.summaryText()) }
             appendLine("Inventory events retained across captures: ${inventory.size}")
             appendLine("HarvestStart events retained across captures: ${harvestStarted.size}")
             appendLine("HarvestCancel events retained across captures: ${harvestCancelled.size}")
