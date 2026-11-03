@@ -29,6 +29,21 @@ The passive Protocol18 decoder does not decrypt encrypted Photon messages. No en
 - The existing research reports do not establish a stable zone/map ID or a coordinate transform shared across captures.
 - Capture/session IDs are already retained in the knowledge pipeline. This prevents accidental cross-capture entity-ID merges, but it does not prove that one long-running capture remains inside one zone.
 
+## Newly identified candidate signal
+
+The existing archive `Albion2.zip` contains nine distinct PCAPs. The report for the capture whose user-provided description says it traveled from a yellow-zone region to Fort Sterling contains **three Event 2 observations**. The other eight PCAPs in the same archive contain **zero Event 2 observations**.
+
+This is a useful correlation, but not proof:
+- the report currently stores only the event-code count, not Event 2 parameter values;
+- there is only one known transition capture in this comparison;
+- the event could be associated with another activity that happened during that capture.
+
+A targeted diagnostic was added to the offline analyzer to preserve the timestamp and decoded parameter values for Event 2 without assigning semantics. The PCAP audit now writes:
+- `research/analysis/2026-11-04-zone-event-candidates.md`
+- `research/analysis/2026-11-04-zone-event-candidates.jsonl`
+
+The APK workflow uploads these as the `zone-event-candidates` artifact after its offline PCAP replay step. The next successful workflow run can reveal the exact three parameter shapes/values for comparison. Event 2 remains an **unmapped candidate**, not a zone detector.
+
 ## Decision
 
 **Do not infer a zone transition from Event 1, coordinate jumps, entity churn, or a quiet period.** Each can occur without a zone change, and treating any of them as a boundary would split valid data or merge unrelated maps unpredictably.
