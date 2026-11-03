@@ -46,7 +46,7 @@ def main():
    with (DATABASE/f"albion-{label}-target-correlation-2026-11-03.csv").open("w",encoding="utf-8",newline="") as target:
     writer=csv.DictWriter(target,fieldnames=list(rows[0].keys())); writer.writeheader(); writer.writerows(rows)
 
- observations_path=ANALYSIS/"2026-11-02-all-inbox-observations.jsonl"
+ observations_path=DATABASE/"2026-11-02-all-inbox-observations.jsonl"
  observation_count=own_move_count=0
  if observations_path.exists():
   with observations_path.open("r",encoding="utf-8") as source:
@@ -115,7 +115,7 @@ def main():
    "overall_status":spatial.get("overall_status","NOT_REPORTED"),
    "warning":"This does not establish current zone identity or a global map transform."}}
  out_json=DATABASE/"albion-complete-database-manifest-2026-11-03.json"
- files=[ANALYSIS/"2026-11-02-all-inbox-observations.jsonl",
+ files=[DATABASE/"2026-11-02-all-inbox-observations.jsonl",
   DATABASE/"2026-11-02-pcap-harvestable-nodes.csv",DATABASE/"2026-11-02-pcap-mob-lifecycle.csv",
   DATABASE/"2026-11-02-pcap-static-resources.csv",DATABASE/"2026-11-02-pcap-attack-target-tracks.csv",
   ANALYSIS/"2026-11-02-overlay-manual-markers.csv",ANALYSIS/"2026-11-02-overlay-mob-attack-correlation.csv",
