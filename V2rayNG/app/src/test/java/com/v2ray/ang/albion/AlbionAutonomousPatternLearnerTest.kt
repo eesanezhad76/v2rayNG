@@ -44,6 +44,19 @@ class AlbionAutonomousPatternLearnerTest {
         assertTrue(secondSession.summaryText().contains("marker-correlated: 1"))
     }
 
+    @Test fun mobFightLabelRemainsOpenUntilExplicitKillMarker() {
+        val learner = AlbionAutonomousPatternLearner(context(), "capture-mob")
+        learner.observeMarker(JSONObject().put("event", "pvp_started").put("activity", "Mob"), 1_000L)
+        learner.observe(16 * 60_000L + 1L, 47, mapOf(0 to 777L, 1 to 0.75f))
+        learner.observeMarker(JSONObject().put("event", "mob_killed"), 16 * 60_000L + 2L)
+
+        val rows = org.json.JSONArray(learner.snapshotJson())
+        assertEquals(1, rows.length())
+        val labels = rows.getJSONObject(0).getJSONArray("labels")
+        assertEquals(1, labels.length())
+        assertEquals(1, labels.getJSONObject(0).getInt("completed_samples"))
+    }
+
     @Test fun eventWithoutParametersIsStillRecordedAsAnUnknownSignature() {
         val learner = AlbionAutonomousPatternLearner(context(), "capture-empty")
         learner.observe(1_000L, 325, emptyMap())
