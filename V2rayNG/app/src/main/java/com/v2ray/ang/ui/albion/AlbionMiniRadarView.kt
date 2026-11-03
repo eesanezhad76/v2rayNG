@@ -19,7 +19,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private var lockedTargetId: String? = null
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
-    private val range = 130.0
+    private val range = 260.0
 
     fun setCatalogOverviewMode(enabled: Boolean) {
         catalogOverviewMode = enabled
@@ -270,11 +270,17 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             .map { it to hypot(it.optDouble("x") - px, it.optDouble("y") - py) }
             .sortedBy { it.second }.toList()
         val locked = lockedTargetId?.let { id -> allResourceTargets.firstOrNull { it.first.optString("entity_id") == id } }
+        val nearestTarget = allResourceTargets.firstOrNull()
+        // Keep a target stable while approaching, but switch when another resource is
+        // materially closer (12 world units) or the locked resource is no longer available.
         val chosenTarget = when {
-            locked != null -> locked
-            allResourceTargets.isNotEmpty() -> allResourceTargets.first().also { lockedTargetId = it.first.optString("entity_id") }
-            else -> null
+            nearestTarget == null -> null
+            locked == null -> nearestTarget
+            nearestTarget.first.optString("entity_id") != locked.first.optString("entity_id") &&
+                nearestTarget.second + 12.0 < locked.second -> nearestTarget
+            else -> locked
         }
+        lockedTargetId = chosenTarget?.first?.optString("entity_id")
         if (chosenTarget != null) {
             val target = chosenTarget.first
             val dx = target.optDouble("x") - px
@@ -291,9 +297,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             paint.style = Paint.Style.FILL
             paint.textSize = 8f * density
             paint.color = 0xFF55E6FF.toInt()
-            canvas.drawText("TARGET " + distance.roundToInt(), 6f * density, 22f * density, paint)
+            canvas.drawText("NEAREST " + distance.roundToInt(), 6f * density, 22f * density, paint)
         } else lockedTargetId = null
-        val nearestNodes = nearestOrdered.take(5)
+        val nearestNodes = nearbyNodes.sortedBy { it.second }.take(5)
         paint.style = Paint.Style.FILL
         paint.textSize = 7f * density
         paint.color = 0xFFFFE0A6.toInt()
