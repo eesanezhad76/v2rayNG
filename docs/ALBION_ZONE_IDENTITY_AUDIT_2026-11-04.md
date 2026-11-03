@@ -72,3 +72,18 @@ The analysis must identify a candidate signal that changes at the transition, re
 - Existing capture corpus: reviewed; no verified zone identity found in the current reports.
 - Android build / Kotlin tests for this branch: **not verified**. Workflow run `41716615223` remains stuck at `Checkout code`; Android SDK setup and Gradle have not started.
 - Real-device zone-transition capture: not yet available.
+
+## Phase 5 — Manual zone-transition ground-truth marker
+
+Added a compact `ZONE ARRIVAL • MARK` control to the Albion overlay. The user should tap it immediately after the game has completed loading into a different zone while PCAP capture is running.
+
+The marker records:
+- wall-clock timestamp and Android elapsed-realtime timestamp;
+- `event=zone_transition_observed`;
+- `activity=Zone`;
+- `marker_type=manual_zone_transition`;
+- `source=manual_overlay`.
+
+The offline analyzer now preserves `marker_type` in the checkpoint report. A JVM test was added to verify that a zone-arrival marker survives PCAP marker parsing and analysis.
+
+This is a manual ground-truth timestamp only. It does not infer a zone ID, does not change runtime entity handling, and does not enable cross-zone coordinate merging. For a useful capture, keep capture running before, during, and after travel; tap once after arrival in each new zone; optionally tap again on return to a previously visited zone.
