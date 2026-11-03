@@ -54,6 +54,18 @@ object AlbionRadarSnapshotParser {
                 }
                 return name + suffix
             }
+            // Research catalog rows carry source-derived names directly instead of a
+            // resource_inference object. Preserve their evidence grade in the label.
+            val catalogName = item.optString("name").takeIf {
+                it.isNotBlank() && it != "null" && it != "Resource"
+            }
+            if (catalogName != null) {
+                val mappingStatus = item.optString("mapping_status")
+                val displayName = if (mappingStatus.contains("PROVISIONAL", ignoreCase = true)) {
+                    "$catalogName?"
+                } else catalogName
+                return displayName + suffix
+            }
             if (item.optInt("family", -1) == 29) return "Ore candidate F29$suffix"
             if (item.has("family")) return "Resource F${item.optInt("family")}$suffix"
             if (item.has("mobile_type_id")) return "Resource ID${item.optInt("mobile_type_id")}$suffix"
