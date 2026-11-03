@@ -18,7 +18,7 @@ class AlbionResearchKnowledgeIndexTest {
           },
           "totals": {
             "resource_observations": 331,
-            "resource_families": 2,
+            "resource_families": 3,
             "mobile_entity_observations": 2330,
             "mobile_type_ids": 2
           },
@@ -29,6 +29,13 @@ class AlbionResearchKnowledgeIndexTest {
               "resource_types": {"Hide": 7},
               "mapping_statuses": {"REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL": 7},
               "tiers": [1]
+            },
+            "28": {
+              "observation_count": 2,
+              "captures": ["capture-a"],
+              "resource_types": {"unknown": 2},
+              "mapping_statuses": {"UNRESOLVED": 2},
+              "tiers": [5]
             },
             "29": {
               "observation_count": 100,
@@ -93,8 +100,20 @@ class AlbionResearchKnowledgeIndexTest {
         snapshot.annotate(entity)
         assertEquals(100, entity.optInt("research_catalog_family_observations"))
         assertEquals(3, entity.optInt("research_catalog_family_capture_count"))
+        assertEquals("Ore", entity.optString("research_catalog_resource_type"))
+        assertEquals("PACKET_CONFIRMED_LIVING_RESOURCE", entity.optString("research_catalog_resource_mapping_status"))
         assertEquals(-10.5, entity.optDouble("x"), 0.0001)
         assertEquals(22.0, entity.optDouble("y"), 0.0001)
+    }
+
+    @Test
+    fun preservesUnresolvedFamilyAsAnExplicitUnclassifiedResource() {
+        val snapshot = AlbionResearchKnowledgeIndex.parse(fixture())!!
+        val unresolved = JSONObject("""{"last_kind":"static_resource","family":28,"x":1.0,"y":2.0}""")
+        snapshot.annotate(unresolved)
+        assertEquals("unknown", unresolved.optString("research_catalog_resource_type"))
+        assertEquals("UNRESOLVED", unresolved.optString("research_catalog_resource_mapping_status"))
+        assertNull(snapshot.resourceTypeEvidence(28))
     }
 
     @Test
