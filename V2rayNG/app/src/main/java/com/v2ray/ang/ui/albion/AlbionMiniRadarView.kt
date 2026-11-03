@@ -145,6 +145,18 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         else -> 0xFFFFC45C.toInt()
     }
 
+    private fun isProvisionalResource(item: JSONObject): Boolean {
+        val status = item.optString("research_catalog_resource_mapping_status")
+        return item.optString("last_kind") == "static_resource" ||
+            status == "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL" ||
+            status == "UNRESOLVED" ||
+            item.optString("classification") == "ambiguous_resource_candidate" ||
+            item.optString("evidence_grade") == "conflicting_typed_observation"
+    }
+
+    private fun resourceMarkerColor(item: JSONObject): Int =
+        if (isProvisionalResource(item)) 0xFF9AA6AF.toInt() else enchantColor(enchantLevel(item))
+
     private fun passesFilters(item: JSONObject, filters: Set<String> = this.enabledFilters): Boolean {
         val kind = item.optString("last_kind")
         val node = kind in RESOURCE_KINDS
@@ -351,12 +363,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val y = rotateRadarY(rawX, rawY, cx, cy)
             val kind = entity.optString("last_kind")
             val depleted = entity.optBoolean("depleted", false)
-            val mappingStatus = entity.optString("research_catalog_resource_mapping_status")
-            val candidate = kind == "static_resource" ||
-                mappingStatus == "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL" ||
-                mappingStatus == "UNRESOLVED" ||
-                entity.optString("classification") == "ambiguous_resource_candidate" ||
-                entity.optString("evidence_grade") == "conflicting_typed_observation"
+            val candidate = isProvisionalResource(entity)
             paint.style = Paint.Style.FILL
             val enchantLevel = enchantLevel(entity)
             paint.color = when {
@@ -420,7 +427,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val rawTy = cy - (dy * factor / range * radius).toFloat()
             val tx = rotateRadarX(rawTx, rawTy, cx, cy)
             val ty = rotateRadarY(rawTx, rawTy, cx, cy)
-            val targetColor = enchantColor(enchantLevel(target))
+            val targetColor = resourceMarkerColor(target)
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 1.8f * density
             paint.color = targetColor
@@ -439,7 +446,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val node = pair.first
             val label = AlbionRadarSnapshotParser.labelForEntity(node)
             val text = "$label ${pair.second.roundToInt()}"
-            paint.color = enchantColor(enchantLevel(node))
+            paint.color = resourceMarkerColor(node)
             canvas.drawText(text.take(22), 5f * density,
                 (12f + index * 9f) * density, paint)
         }
@@ -459,7 +466,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             paint.color = when {
                 entity.optBoolean("depleted", false) || entity.optBoolean("left", false) -> 0xFF080808.toInt()
                 entity.optBoolean("user_confirmed_target", false) -> 0xFF55E6FF.toInt()
-                entity.optString("last_kind") in RESOURCE_KINDS -> enchantColor(enchantLevel(entity))
+                entity.optString("last_kind") in RESOURCE_KINDS -> resourceMarkerColor(entity)
                 else -> 0xFFEAF1F5.toInt()
             }
             val label = if (entity.optBoolean("user_confirmed_target", false)) "T5.3" else
@@ -506,7 +513,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 kind in RESOURCE_KINDS && (entity.optString("research_catalog_resource_mapping_status") == "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL" ||
                     entity.optString("research_catalog_resource_mapping_status") == "UNRESOLVED" ||
                     kind == "static_resource") -> 0xFF9AA6AF.toInt()
-                kind in RESOURCE_KINDS -> enchantColor(enchantLevel(entity))
+                kind in RESOURCE_KINDS -> resourceMarkerColor(entity)
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, if (entity.optBoolean("user_confirmed_target", false)) 4f * density else 2.4f * density, paint)
