@@ -28,6 +28,7 @@ def ench(v):
 def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
  path=DB/(dataset+"-catalog.json")
  catalog=json.loads(path.read_text(encoding="utf-8"))
+ type_dictionary=json.loads((DB/"albion-mobile-type-dictionary.json").read_text(encoding="utf-8")).get("entries",{})
  attacks=[r for r in read_csv(DB/"2026-11-02-pcap-attack-target-tracks.csv")
           if r.get("archive")==archive and r.get("pcap")==pcap and not yes(r.get("known_player_spawn"))]
  mob_rows={str(r.get("entity_id")):r for r in read_csv(DB/"2026-11-02-pcap-mob-lifecycle.csv")
@@ -38,12 +39,17 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
   if not eid:continue
   mob=mob_rows.get(eid,{})
   mobile=num(row,"event123_mobile_type",num(mob,"mobile_type_id"))
-  name=(row.get("event123_name") or mob.get("name") or "").strip()
+  type_info=type_dictionary.get(str(mobile),{})
+  name=(row.get("event123_name") or mob.get("name") or type_info.get("display_name") or "").strip()
   x=num(row,"last_position_x")
   y=num(row,"last_position_y")
   if x is None or y is None:x,y=num(mob,"x"),num(mob,"y")
   targets.append({
    "entity_id":eid,"mobile_type_id":mobile,"name":name,"x":x,"y":y,
+   "tier":type_info.get("tier"),"mob_category":type_info.get("category"),
+   "type_unique_name":type_info.get("unique_name"),"localization_tag":type_info.get("localization_tag"),
+   "mob_danger":type_info.get("danger"),"max_health":type_info.get("max_health"),
+   "loot_type":type_info.get("loot_type"),"is_harvestable_mob":type_info.get("is_harvestable",False),
    "first_seen_ms":num(mob,"first_seen_ms",num(row,"first_attack_ms")),
    "last_seen_ms":num(mob,"last_seen_ms",num(row,"last_attack_ms")),
    "first_attack_ms":num(row,"first_attack_ms"),"last_attack_ms":num(row,"last_attack_ms"),
