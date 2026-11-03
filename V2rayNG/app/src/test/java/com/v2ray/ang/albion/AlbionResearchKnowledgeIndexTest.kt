@@ -13,9 +13,9 @@ class AlbionResearchKnowledgeIndexTest {
           "schema_version": 1,
           "totals": {
             "resource_observations": 331,
-            "resource_families": 6,
+            "resource_families": 2,
             "mobile_entity_observations": 2330,
-            "mobile_type_ids": 64
+            "mobile_type_ids": 2
           },
           "resource_families": {
             "20": {
@@ -59,8 +59,8 @@ class AlbionResearchKnowledgeIndexTest {
         val snapshot = AlbionResearchKnowledgeIndex.parse(fixture())
         assertEquals(331, snapshot?.resourceObservationCount)
         assertEquals(2330, snapshot?.mobileEntityObservationCount)
-        assertEquals(6, snapshot?.resourceFamilyCount)
-        assertEquals(64, snapshot?.mobileTypeCount)
+        assertEquals(2, snapshot?.resourceFamilyCount)
+        assertEquals(2, snapshot?.mobileTypeCount)
         assertEquals("KNOW 331R/2330M", snapshot?.statusLabel())
     }
 
@@ -98,7 +98,7 @@ class AlbionResearchKnowledgeIndexTest {
     @Test
     fun rejectsWrongSchemaAndIncompleteCounts() {
         assertNull(AlbionResearchKnowledgeIndex.parse("""{"schema_version":2}"""))
-        val incomplete = fixture().replace("\"mobile_type_ids\": 64", "\"mobile_type_ids\": 63")
+        val incomplete = fixture().replace("\"mobile_type_ids\": 2", "\"mobile_type_ids\": 1")
         assertNull(AlbionResearchKnowledgeIndex.parse(incomplete))
     }
 }
