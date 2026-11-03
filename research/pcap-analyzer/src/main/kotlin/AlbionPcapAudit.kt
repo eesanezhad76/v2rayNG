@@ -502,15 +502,19 @@ fun main() {
                     familyCounts.size == 1 -> "single_family_candidate_only"
                     else -> "ambiguous_families"
                 }
-                appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
-                    sample.startedMs?.toString() ?: "", sample.completedMs?.toString() ?: "", sample.depletedMs?.toString() ?: "",
-                    sample.tierLabel ?: "", sample.enchantLabel ?: "", candidateCount.toString(),
-                    familyCounts.entries.sortedBy { it.key }.joinToString("|") { it.key + ":" + it.value },
-                    (if (isMobActivity) mobCandidates.map { it.id } else resourceCandidates.map { it.id }).joinToString("|"),
-                    (if (isMobActivity) mobCandidates.sortedBy { mob ->
-                        when { sample.foundMs < mob.first -> mob.first - sample.foundMs; sample.foundMs > mob.last -> sample.foundMs - mob.last; else -> 0L }
-                    }.joinToString(";") { mob -> listOf(mob.id, mob.mobileType, mob.enchant, mob.name, mob.x, mob.y, mob.first.toString(), mob.last.toString()).joinToString(":") }
-                    else resourceCandidates.sortedBy { node ->
+                val candidateDetails = if (isMobActivity) {
+                    mobCandidates.sortedBy { mob ->
+                        when {
+                            sample.foundMs < mob.first -> mob.first - sample.foundMs
+                            sample.foundMs > mob.last -> sample.foundMs - mob.last
+                            else -> 0L
+                        }
+                    }.joinToString(";") { mob ->
+                        listOf(mob.id, mob.mobileType, mob.enchant, mob.name, mob.x, mob.y,
+                            mob.first.toString(), mob.last.toString()).joinToString(":")
+                    }
+                } else {
+                    resourceCandidates.sortedBy { node ->
                         when {
                             sample.foundMs < node.first -> node.first - sample.foundMs
                             sample.foundMs > node.last -> sample.foundMs - node.last
@@ -526,7 +530,14 @@ fun main() {
                             node.enchants.joinToString("|"), node.mobileTypes.joinToString("|"),
                             node.coordinates.joinToString("|"), node.first.toString(), node.last.toString(), gap.toString())
                             .joinToString(":")
-                    }, status).joinToString(",") { csvCell(it) })
+                    }
+                }
+                appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                    sample.startedMs?.toString() ?: "", sample.completedMs?.toString() ?: "", sample.depletedMs?.toString() ?: "",
+                    sample.tierLabel ?: "", sample.enchantLabel ?: "", candidateCount.toString(),
+                    familyCounts.entries.sortedBy { it.key }.joinToString("|") { it.key + ":" + it.value },
+                    (if (isMobActivity) mobCandidates.map { it.id } else resourceCandidates.map { it.id }).joinToString("|"),
+                    candidateDetails, status).joinToString(",") { csvCell(it) })
             }
         }
         File(out, "2026-11-02-overlay-family-correlation.csv").writeText(correlationCsv, Charsets.UTF_8)
