@@ -26,6 +26,7 @@ The PCAP audit extracts outbound Photon operation 23 attack-target requests. The
 For this capture, the current timestamp-window matcher links **21 of 24 Mob/Troll marker cycles** to an attack-target track:
 - **14 HIGH**, **4 MEDIUM**, **3 LOW** confidence links
 - **3 cycles** have no attack-target candidate in the allowed window
+- **7 unique player-targeted entities** are linked to at least one manual Troll marker
 - A target ID is exact from the outbound request; the association between a manual Start/Killed cycle and that target remains evidence-ranked, not packet-proven. Duplicate nearby Start markers can point to the same target.
 
 ### Important type-label finding
