@@ -165,6 +165,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val kind = item.optString("last_kind")
         val node = kind in RESOURCE_KINDS
         val mob = kind == "mob"
+        val activityMarker = kind == "activity_marker"
         val troll = mob && isTroll(item)
         val targetedMob = mob && item.optBoolean("targeted_by_player", false)
         // Prefer the stable game TypeID/research crosswalk; display names and localization
@@ -228,11 +229,13 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         // supplies a type/family/name, the same entity is classified and follows its
         // real category filter normally.
         val categoryEnabled = when {
+            activityMarker -> "category_activity_markers" in filters
             node -> "category_$resourceCategory" in filters
             mob -> mobCategory in selectedCategories || (mobCategory == "other_mob" && "category_mobs" in filters)
             else -> false
         }
         if (!categoryEnabled) return false
+        if (activityMarker) return true
         val tierFilters = filters.filter { it.startsWith("tier_") }
             .mapNotNull { it.removePrefix("tier_").toIntOrNull() }.toSet()
         val markerTier = item.optInt("marker_tier", -1)
@@ -374,6 +377,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 depleted || entity.optBoolean("left", false) -> 0xFF080808.toInt()
                 kind == "mob" && AlbionSpatialIntelligence.isOreElemental(entity) -> 0xFFB58CFF.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
+                kind == "activity_marker" -> 0xFFFFC45C.toInt()
                 candidate -> 0xFF9AA6AF.toInt()
                 kind in RESOURCE_KINDS -> enchantColor(enchantLevel)
                 else -> 0xFFFFC45C.toInt()
@@ -538,7 +542,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     companion object {
         val DEFAULT_FILTERS = setOf("category_ore", "category_ore_elemental")
         private val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
-        private val DISPLAY_KINDS = RESOURCE_KINDS + setOf("mob")
+        private val DISPLAY_KINDS = RESOURCE_KINDS + setOf("mob", "activity_marker")
         private const val MAX_UNCLASSIFIED_CANDIDATE_PINS = 40
         private const val MAX_MOB_LABELS = 24
         private const val ROTATION_COS = 0.70710677f
