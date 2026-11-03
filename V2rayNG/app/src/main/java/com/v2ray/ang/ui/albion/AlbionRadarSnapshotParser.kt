@@ -54,6 +54,15 @@ object AlbionRadarSnapshotParser {
                 }
                 return name + suffix
             }
+            val researchType = item.optString("research_catalog_resource_type")
+                .takeIf { it.isNotBlank() && it != "null" && it != "unknown" }
+            if (researchType != null) {
+                val provisional = item.optString("research_catalog_resource_mapping_status") ==
+                    "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL"
+                return (researchType + if (provisional) "?" else "") + suffix
+            }
+            if (item.optString("research_catalog_resource_mapping_status") == "UNRESOLVED")
+                return "Unresolved F" + item.optInt("family", -1) + suffix
             if (item.optInt("family", -1) == 29) return "Ore candidate F29$suffix"
             if (item.has("family")) return "Resource F${item.optInt("family")}$suffix"
             if (item.has("mobile_type_id")) return "Resource ID${item.optInt("mobile_type_id")}$suffix"
