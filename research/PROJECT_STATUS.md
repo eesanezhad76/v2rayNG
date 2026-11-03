@@ -4,8 +4,8 @@
 
 Repository: eesanezhad76/v2rayNG  
 Branch: albion-pattern-mining  
-Verified head before this maintenance pass: e8e79c1c6380a418fadf409201eb771c82b6324d  
-Latest completed ingest run: 41681834068 / run 248 — SUCCESS
+Latest verified data commit: 21c6d40fcc03772db559c2b08b93b893e33726f8  
+Latest completed full rebuild: 41684119321 — SUCCESS
 
 - All 12 ZIP archives in research/inbox were inventoried.
 - 31 PCAP members were audited; one byte-identical duplicate was excluded from aggregate observations; 30 unique captures were analyzed.
@@ -20,17 +20,22 @@ Latest completed ingest run: 41681834068 / run 248 — SUCCESS
 - Troll-labelled cycles: 15; 10 HIGH, 3 MEDIUM, 2 unmatched. Thirteen rows resolve to Ore Elemental types 571/573/574; there are 10 distinct target IDs because some marker windows point to the same target. None of the 29 marker-to-target associations is marked identity-proven.
 - Knowledge bundles: 4; merged database contains 9,522 session-scoped entity records, 4,599 deduplicated protocol events, 70 learned pattern signatures and 296 autonomous signatures.
 - Spatial alignment: 30 captures checked, 11 plausible same-local-coordinate-space; this does not prove zone identity or a global map transform.
-- Python tests: 29 passed; PCAP analyzer Gradle audit: successful. This was a research ingest, not an APK build or device test.
+- Python tests: 31 passed; PCAP analyzer Gradle audit: successful. The research ingest itself did not build an APK or perform a device test.
+
+
+## APK workflow guardrail
+
+A separate Build APK workflow run (41683439058) was unintentionally triggered by the maintenance commit because the Build APK workflow had not excluded changes to .github/workflows/albion-capture-ingest.yml. It had already progressed through APK build steps and was at offline PCAP replay/audit at the last status check. The paths-ignore list was corrected in commit e585b614cb672d0d6f25a06c1f4bea4b5085d71b to exclude the ingest workflow and research/**/*.md. Future research-only changes should not trigger APK builds. The already-started run cannot be cancelled through the available GitHub integration.
 
 The earlier three-ZIP forensic report is a historical subset, not the current complete inbox status. The consolidated report is generated at research/analysis/2026-11-03-complete-inbox-database-report.md; the machine-readable SHA-256 manifest is research/database/albion-complete-database-manifest-2026-11-03.json.
 
-Preservation defect found for correction: the previous forensic ZIP inventory omitted text members larger than 2 MB and truncated smaller note text at 50,000 characters. The original ZIPs were not modified, and the knowledge-bundle importer had already read the full four knowledge archives. The updated forensic audit retains full text members and SHA-256 values in each JSON inventory; the workflow rebuilds the knowledge database from source ZIPs instead of relying on an old merge state.
+Preservation defect fixed and re-tested: the previous forensic ZIP inventory omitted text members larger than 2 MB and truncated smaller note text at 50,000 characters. Original ZIPs were never modified. The new forensic audit preserves full text members and SHA-256 values in each JSON inventory, including the 3.84 MB file2 pattern report and multi-megabyte live-knowledge files. The knowledge database was rebuilt from all four source bundles: 9,522 session-scoped entity records, 4,599 protocol events, 70 learned patterns and 296 autonomous signatures. A dedicated test verifies that a text member larger than 2 MB is retained without truncation.
 
 
-Last verified against GitHub: 2026-11-02 (UTC session date)
+Last verified against GitHub: 2026-11-03 (UTC session date)
 Repository: `eesanezhad76/v2rayNG`
 Working branch: `albion-pattern-mining`
-Verified branch HEAD before this status commit: `6a74db31af845a31a458ea9091734010bfd22c2e`
+Verified data commit before this status update: `21c6d40fcc03772db559c2b08b93b893e33726f8`
 
 > This file is the operational status snapshot. Update it after every meaningful analysis, implementation, test, or build. The Git history and raw captures remain the evidence of record.
 
