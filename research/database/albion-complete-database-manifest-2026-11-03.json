@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T17:27:02.006703+00:00",
+  "generated_at_utc": "2026-11-03T17:28:52.164171+00:00",
   "branch": "albion-pattern-mining",
   "source_archives": [
     {
@@ -304,7 +304,13 @@
     "warning": "Troll-labeled signatures are learned patterns, not counts of individual Troll mobs or kills."
   },
   "spatial_alignment": {
-    "captures_checked": [
+    "captures_checked": 30,
+    "plausible_same_local_coordinate_space": 11,
+    "status_counts": {
+      "NOT_VERIFIED": 19,
+      "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE": 11
+    },
+    "capture_details": [
       {
         "archive": "Albion اااستسمنسمنش.zip",
         "pcap": "بیکار سوار مونت موندم.pcap",
@@ -956,7 +962,6 @@
         "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
       }
     ],
-    "plausible_same_local_coordinate_space": 11,
     "overall_status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
     "warning": "This does not establish current zone identity or a global map transform."
   },
