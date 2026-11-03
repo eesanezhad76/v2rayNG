@@ -76,6 +76,44 @@ class AlbionAutonomousPatternLearnerTest {
         assertEquals(1, mob.getJSONArray("labels").getJSONObject(0).getInt("completed_samples"))
     }
 
+    @Test fun historicalSignaturesSeedRuntimeMemoryAndMergeWithoutDoubleCounting() {
+        val signature = "a".repeat(64)
+        val label = JSONObject().put("label_key", "Ore|T5|E1")
+            .put("activity", "Ore").put("tier", "T5").put("enchantment", "E1")
+            .put("completed_samples", 3)
+            .put("sample_sessions", org.json.JSONArray().put("historical-A").put("historical-B"))
+        val historical = org.json.JSONArray().put(
+            JSONObject().put("signature", signature).put("event_code", 40)
+                .put("parameter_shape", "0:integer,6:integer")
+                .put("first_seen_ms", 100).put("last_seen_ms", 200).put("sightings", 12)
+                .put("capture_sessions", org.json.JSONArray().put("historical-A").put("historical-B"))
+                .put("labels", org.json.JSONArray().put(label))
+                .put("source_bundles", org.json.JSONArray().put("bundle-sha"))
+                .put("status", "label_corroborated_candidate")
+        )
+        val local = org.json.JSONArray().put(
+            JSONObject().put("signature", signature).put("event_code", 40)
+                .put("parameter_shape", "0:integer,6:integer")
+                .put("first_seen_ms", 50).put("last_seen_ms", 250).put("sightings", 8)
+                .put("capture_sessions", org.json.JSONArray().put("local-session"))
+                .put("labels", org.json.JSONArray())
+        )
+        File(tempDir, "albion-autonomous-patterns.json").writeText(local.toString(), Charsets.UTF_8)
+
+        val learner = AlbionAutonomousPatternLearner(context(), "current-session", historical.toString())
+        val rows = org.json.JSONArray(learner.snapshotJson())
+        assertEquals(1, rows.length())
+        val merged = rows.getJSONObject(0)
+        assertEquals(12, merged.getInt("sightings"), "Cumulative exports must not double-count sightings")
+        assertEquals(50, merged.getLong("first_seen_ms"))
+        assertEquals(250, merged.getLong("last_seen_ms"))
+        assertEquals(3, merged.getJSONArray("capture_sessions").length())
+        assertEquals(1, merged.getJSONArray("labels").length())
+        assertEquals(3, merged.getJSONArray("labels").getJSONObject(0).getInt("completed_samples"))
+        assertEquals("label_corroborated_candidate", merged.getString("status"))
+        assertTrue(File(tempDir, "albion-autonomous-patterns.json").isFile)
+    }
+
     @Test fun eventWithoutParametersIsStillRecordedAsAnUnknownSignature() {
         val learner = AlbionAutonomousPatternLearner(context(), "capture-empty")
         learner.observe(1_000L, 325, emptyMap())
