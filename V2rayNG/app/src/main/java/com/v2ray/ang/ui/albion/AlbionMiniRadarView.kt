@@ -263,11 +263,14 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             if (distance > range) outside.add(entity to distance)
         }
 
-        val nearestOrdered = nearbyNodes.sortedBy { it.second }
-        val locked = lockedTargetId?.let { id -> nearestOrdered.firstOrNull { it.first.optString("entity_id") == id } }
+        val allResourceTargets = visible.asSequence()
+            .filter { it.optString("last_kind") in RESOURCE_KINDS && !it.optBoolean("depleted", false) && !it.optBoolean("left", false) }
+            .map { it to hypot(it.optDouble("x") - px, it.optDouble("y") - py) }
+            .sortedBy { it.second }.toList()
+        val locked = lockedTargetId?.let { id -> allResourceTargets.firstOrNull { it.first.optString("entity_id") == id } }
         val chosenTarget = when {
-            locked != null && !locked.first.optBoolean("depleted", false) -> locked
-            nearestOrdered.isNotEmpty() -> nearestOrdered.first().also { lockedTargetId = it.first.optString("entity_id") }
+            locked != null -> locked
+            allResourceTargets.isNotEmpty() -> allResourceTargets.first().also { lockedTargetId = it.first.optString("entity_id") }
             else -> null
         }
         if (chosenTarget != null) {
