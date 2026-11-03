@@ -171,7 +171,7 @@ def build(root: Path) -> dict:
             ) if key in row
         })
 
-    ASSETS.mkdir(parents=True, exist_ok=True)
+    (root / ASSETS).mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(output, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     (ASSETS / "albion-historical-entity-evidence.json").write_text(
         json.dumps(entity_index, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
