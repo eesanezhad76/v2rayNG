@@ -208,3 +208,19 @@ Never conflate commit, successful CI, APK artifact creation, installation, and p
 10. Report exact commit SHA, tests, workflow/build IDs, artifacts and remaining limitations.
 
 This status is a navigation and continuity document; raw captures, normalized database, test output and Git history are the underlying evidence.
+
+
+## Verified APK build — 2026-11-03
+
+- Replacement Build APK workflow run 41689099098 completed successfully.
+- Build, isolated radar APK signing, SHA-256 manifest generation, offline PCAP replay/audit, Python analysis/marker FIFO/readiness tests, and readiness report generation all completed successfully.
+- Five debug APK variants were uploaded: arm64-v8a, armeabi-v7a, x86, x86_64 and universal. APK verification confirms Android APK Signature Scheme v2 for all five; SHA-256 values are in workflow artifact `apk-verification` (artifact ID 13257098641).
+- This is CI/build verification only. It does not establish successful installation or live capture/overlay behavior on the user's Poco F5; field validation remains pending.
+
+## Data preservation and repository security — 2026-11-03
+
+- The GitHub repository is currently PUBLIC. The current `research/inbox/` tree contains 12 original capture ZIP files. Treat these as potentially sensitive because packet captures can contain session identifiers or other private network metadata; do not add further raw captures, credentials, or private user data to this public repository.
+- Do not claim the raw archive is securely/private backed up yet. A separate PRIVATE repository or encrypted offline/cloud archive is required for raw ZIP/PCAP originals and any third-party source files whose redistribution is permitted. Preserve SHA-256 manifests and original filenames; do not modify originals.
+- Keep a separate derived-knowledge archive for normalized observations, entity/type dictionaries, correlations, protocol-decoding notes, analysis reports, test outputs, and provenance. Third-party datasets/code should be copied only where their license permits redistribution; otherwise preserve source URL, commit/version, license, and SHA-256.
+- Recommended immediate security action: change this repository to PRIVATE in GitHub settings before adding any more capture data. Making it private does not erase prior public exposure or remove data from Git history; if captures are sensitive, review history and rotate any credentials/session tokens that may have been exposed.
+- Archive migration is NOT complete until a private destination is created, raw files are copied and hash-verified, and a restore test succeeds.
