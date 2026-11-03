@@ -86,7 +86,7 @@ class AlbionOverlayService : Service() {
             }
             if (::liveStatus.isInitialized) {
                 val status = CoreServiceManager.getAlbionLiveKnowledgeSnapshot().replace('\n', ' ').replace('\r', ' ')
-                liveStatus.text = "DB $catalogNodeCount nodes/$catalogMarkerCount markers • " + status.take(95)
+                liveStatus.text = "DB $catalogNodeCount/$catalogMarkerCount • " + status.take(220)
             }
             refreshHandler.postDelayed(this, 1200L)
         }
