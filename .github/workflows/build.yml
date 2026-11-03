@@ -20,6 +20,10 @@ on:
       - 'research/inbox/**'
       - 'research/database/**'
       - 'research/analysis/**'
+      - 'research/pcap-analyzer/**'
+      - 'research/tools/**'
+      - 'research/tests/**'
+      - '.github/workflows/build.yml'
 
 permissions:
   contents: write
