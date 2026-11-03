@@ -43,6 +43,8 @@ class AlbionOverlayService : Service() {
     private lateinit var filterPanel: LinearLayout
     private lateinit var filterScroll: ScrollView
     private lateinit var filterButton: Button
+    private lateinit var catalogButton: Button
+    private var catalogOverviewMode = false
     private var controlsParams: WindowManager.LayoutParams? = null
     private var radarParams: WindowManager.LayoutParams? = null
     private var expanded = true
@@ -195,6 +197,12 @@ class AlbionOverlayService : Service() {
             typeface = Typeface.DEFAULT_BOLD; gravity = Gravity.CENTER_VERTICAL; includeFontPadding = false
         }
         head.addView(dragTitle, LinearLayout.LayoutParams(0, dp(25), 1f))
+        catalogButton = button("SAVED") {
+            catalogOverviewMode = !catalogOverviewMode
+            radarView.setCatalogOverviewMode(catalogOverviewMode)
+            catalogButton.text = if (catalogOverviewMode) "LIVE" else "SAVED"
+        }
+        head.addView(catalogButton, LinearLayout.LayoutParams(dp(48), dp(25)))
         filterButton = button("FILTER") { toggleFilters() }
         head.addView(filterButton, LinearLayout.LayoutParams(dp(54), dp(25)))
         head.addView(button("×") { removeRadarWindow() }, LinearLayout.LayoutParams(dp(25), dp(25)))

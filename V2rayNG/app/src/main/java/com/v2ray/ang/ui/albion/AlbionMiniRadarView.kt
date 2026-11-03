@@ -15,9 +15,15 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private var entities: List<JSONObject> = emptyList()
     private var catalogEntities: List<JSONObject> = emptyList()
     private var enabledFilters: Set<String> = DEFAULT_FILTERS
+    private var catalogOverviewMode = false
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
     private val range = 90.0
+
+    fun setCatalogOverviewMode(enabled: Boolean) {
+        catalogOverviewMode = enabled
+        invalidate()
+    }
 
     fun setFilters(filters: Set<String>) {
         enabledFilters = filters.toSet()
@@ -46,10 +52,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
     fun setLiveSnapshot(json: String): Int? {
         val parsed = AlbionRadarSnapshotParser.parse(json) ?: return null
-        val merged = LinkedHashMap<String, JSONObject>()
-        catalogEntities.forEach { merged[entityMergeKey(it)] = it }
-        parsed.entities.forEach { merged[entityMergeKey(it)] = it }
-        entities = merged.values.toList()
+        // Live coordinates belong to the active capture. Never merge historical catalog
+        // coordinates into the player-centered map until zone identity is verified.
+        entities = parsed.entities
         invalidate()
         return entities.size
     }
@@ -130,6 +135,11 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         for (ring in 1..3) canvas.drawCircle(cx, cy, radius * ring / 3f, paint)
         canvas.drawLine(cx - radius, cy, cx + radius, cy, paint)
         canvas.drawLine(cx, cy - radius, cx, cy + radius, paint)
+
+        if (catalogOverviewMode) {
+            drawCatalogOverview(canvas, cx, cy, radius)
+            return
+        }
 
         val you = entities.asSequence()
             .filter { it.optString("last_kind") == "own_player_move" && validPoint(it) }
@@ -250,7 +260,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     }
 
     private fun drawCatalogOverview(canvas: Canvas, cx: Float, cy: Float, radius: Float) {
-        val points = entities.filter {
+        val points = catalogEntities.filter {
             it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) &&
                 it.optString("last_kind") != "own_player_move" && passesFilters(it)
         }
@@ -275,6 +285,13 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, if (entity.optBoolean("user_confirmed_target", false)) 4f * density else 2.4f * density, paint)
+            if (entity.optBoolean("user_confirmed_target", false)) {
+                paint.color = 0xFF55E6FF.toInt()
+                paint.textSize = 8f * density
+                canvas.drawText(AlbionRadarSnapshotParser.labelForEntity(entity),
+                    (x + 5f * density).coerceAtMost(width - 48f * density),
+                    (y - 5f * density).coerceAtLeast(10f * density), paint)
+            }
         }
         paint.style = Paint.Style.FILL
         paint.color = 0xFFB8C8D5.toInt()

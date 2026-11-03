@@ -55,6 +55,13 @@ class AlbionRadarSnapshotParserTest {
         assertEquals("Ore* T5 E3?", AlbionRadarSnapshotParser.labelForEntity(node))
     }
 
+    @Test fun labelsThePreviouslyUserConfirmedT5Enchant3CatalogNode() {
+        val node = org.json.JSONObject(
+            """{"last_kind":"static_resource","tier":5,"enchant":3,"user_confirmed_target":true,"x":-379,"y":-24}"""
+        )
+        assertEquals("T5.3 ✓", AlbionRadarSnapshotParser.labelForEntity(node))
+    }
+
     @Test fun dropsInvalidOrOutOfRangeCoordinatesWithoutPassingThemToTheView() {
         val parsed = AlbionRadarSnapshotParser.parse(
             """[
