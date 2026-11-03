@@ -15,6 +15,7 @@ on:
       - albion-integrity-autosave
       - albion-pattern-mining
       - albion-knowledge-integration-2026-11-04
+      - albion-zone-evidence-phase6
     # Capture-ingest commits update derived evidence only. They must not queue
     # redundant APK builds; source, tests, decoder and workflow changes still do.
     paths-ignore:
