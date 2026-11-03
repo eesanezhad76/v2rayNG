@@ -215,11 +215,11 @@ class AlbionCaptureWorker(
     fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), (dropped() - dropBaseline.get()).coerceAtLeast(0), pcapFile, logFile, failure, publicPcapUri, publicLogUri, mirrorFailure, markerCount.get(), nonAlbionCount.get(), reportFile)
 
     fun liveKnowledgeSnapshot(): String = buildString {
+        append(gatheringPatternLearner?.summaryText() ?: "")
         append(knowledgeStore?.snapshotText()
             ?: "Live knowledge unavailable: capture has not initialized.")
         append(protocolEvidenceStore?.summaryText() ?: "")
         append(autonomousPatternLearner?.summaryText() ?: "")
-        append(gatheringPatternLearner?.summaryText() ?: "")
         append(healthMonitor.snapshot(System.currentTimeMillis(), running.get()).asText())
         appendLine("Capture counters: packets=${packetCount.get()} | tap_drops=${(dropped() - dropBaseline.get()).coerceAtLeast(0)} | non_albion=${nonAlbionCount.get()} | markers=${markerCount.get()}")
     }
