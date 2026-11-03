@@ -15,11 +15,11 @@
     "event123_living_entity_observations": 3798,
     "manual_markers": 105,
     "resource_marker_cycles": 32,
-    "complete_resource_marker_cycles": 0,
-    "incomplete_resource_marker_cycles": 32,
+    "complete_resource_marker_cycles": 8,
+    "incomplete_resource_marker_cycles": 24,
     "mob_marker_pairs": 12,
-    "unmatched_marker_events": 25,
-    "marker_metadata_conflicts": 0
+    "unmatched_marker_events": 0,
+    "marker_metadata_conflicts": 17
   },
   "nodes": [
     {
@@ -4638,10 +4638,10 @@
       "enchantment": "Normal",
       "found_ms": 1793682917101,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793682922942,
       "depleted_ms": null,
       "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4651,10 +4651,12 @@
       "enchantment": "Normal",
       "found_ms": 1793682952265,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793682995623,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "enchantment:Normal->E1@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4664,10 +4666,12 @@
       "enchantment": "Normal",
       "found_ms": 1793682966199,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793683015702,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "enchantment:Normal->E1@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4677,10 +4681,10 @@
       "enchantment": "E1",
       "found_ms": 1793682982097,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793683470091,
       "depleted_ms": null,
       "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4690,10 +4694,12 @@
       "enchantment": "E1",
       "found_ms": 1793683010058,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793683631778,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "tier:T5->T4@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4703,10 +4709,13 @@
       "enchantment": "Normal",
       "found_ms": 1793683075262,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793683653197,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "tier:T5->T4@gathering_completed",
+        "enchantment:Normal->E1@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4794,10 +4803,12 @@
       "enchantment": "E1",
       "found_ms": 1793683456162,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793683669126,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "tier:T5->T4@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4833,10 +4844,12 @@
       "enchantment": "E1",
       "found_ms": 1793683560595,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793683683242,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "tier:T5->T4@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4846,10 +4859,12 @@
       "enchantment": "E1",
       "found_ms": 1793683601106,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793683784024,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "enchantment:E1->Normal@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4859,10 +4874,10 @@
       "enchantment": "E1",
       "found_ms": 1793683623887,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793683815563,
       "depleted_ms": null,
       "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4872,10 +4887,12 @@
       "enchantment": "E1",
       "found_ms": 1793683646918,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793683998908,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "tier:T4->T5@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4885,10 +4902,12 @@
       "enchantment": "E1",
       "found_ms": 1793683647775,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684000180,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "tier:T4->T5@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4898,10 +4917,10 @@
       "enchantment": "E1",
       "found_ms": 1793683665845,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684059733,
       "depleted_ms": null,
       "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4911,10 +4930,12 @@
       "enchantment": "E1",
       "found_ms": 1793683678603,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684180736,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "tier:T4->T5@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4937,10 +4958,12 @@
       "enchantment": "Normal",
       "found_ms": 1793683778836,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684181154,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "enchantment:Normal->E1@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4950,10 +4973,10 @@
       "enchantment": "E1",
       "found_ms": 1793683809110,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684278202,
       "depleted_ms": null,
       "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -4989,10 +5012,12 @@
       "enchantment": "E1",
       "found_ms": 1793683989953,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684293676,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "tier:T5->T4@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -5002,10 +5027,10 @@
       "enchantment": "E1",
       "found_ms": 1793684054377,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684457101,
       "depleted_ms": null,
       "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -5015,10 +5040,12 @@
       "enchantment": "E1",
       "found_ms": 1793684075235,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684506762,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "enchantment:E1->E2@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -5041,10 +5068,12 @@
       "enchantment": "E1",
       "found_ms": 1793684176607,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684564521,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "enchantment:E1->E2@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -5054,10 +5083,10 @@
       "enchantment": "E1",
       "found_ms": 1793684273250,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684668989,
       "depleted_ms": null,
       "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -5067,10 +5096,10 @@
       "enchantment": "E1",
       "found_ms": 1793684287585,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684843537,
       "depleted_ms": null,
       "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -5080,10 +5109,12 @@
       "enchantment": "E1",
       "found_ms": 1793684453054,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684925468,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "enchantment:E1->E2@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -5093,10 +5124,13 @@
       "enchantment": "E2",
       "found_ms": 1793684501961,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684997446,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "tier:T4->T5@gathering_completed",
+        "enchantment:E2->E3@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -5106,10 +5140,12 @@
       "enchantment": "E2",
       "found_ms": 1793684559750,
       "started_ms": null,
-      "completed_ms": null,
+      "completed_ms": 1793684997480,
       "depleted_ms": null,
-      "metadata_conflicts": [],
-      "status": "FOUND_NOT_STARTED",
+      "metadata_conflicts": [
+        "enchantment:E2->E3@gathering_completed"
+      ],
+      "status": "COMPLETE_WITH_METADATA_CONFLICT",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -5218,156 +5254,5 @@
       "mob_killed_ms": null
     }
   ],
-  "unmatched_marker_events": [
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793682922942,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793682995623,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793683015702,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793683470091,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793683631778,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793683653197,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793683669126,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793683683242,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793683784024,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793683815563,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793683998908,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684000180,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684059733,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684180736,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684181154,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684278202,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684293676,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684457101,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684506762,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684564521,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684668989,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684843537,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684925468,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684997446,
-      "reason": "completion_without_start"
-    },
-    {
-      "activity": "Ore",
-      "event": "gathering_completed",
-      "timestamp_ms": 1793684997480,
-      "reason": "completion_without_start"
-    }
-  ]
+  "unmatched_marker_events": []
 }
