@@ -114,6 +114,32 @@ class AlbionAutonomousPatternLearnerTest {
         assertTrue(File(tempDir, "albion-autonomous-patterns.json").isFile)
     }
 
+    @Test fun boundedSessionMergeKeepsNewestCaptureProvenance() {
+        val signature = "c".repeat(64)
+        val historicalSessions = org.json.JSONArray()
+        (0 until 12).forEach { historicalSessions.put("historical-$it") }
+        val historical = org.json.JSONArray().put(
+            JSONObject().put("signature", signature).put("event_code", 40)
+                .put("parameter_shape", "0:integer")
+                .put("first_seen_ms", 10).put("last_seen_ms", 100).put("sightings", 1)
+                .put("capture_sessions", historicalSessions).put("labels", org.json.JSONArray())
+        )
+        val local = org.json.JSONArray().put(
+            JSONObject().put("signature", signature).put("event_code", 40)
+                .put("parameter_shape", "0:integer")
+                .put("first_seen_ms", 20).put("last_seen_ms", 200).put("sightings", 2)
+                .put("capture_sessions", org.json.JSONArray().put("local-newest"))
+                .put("labels", org.json.JSONArray())
+        )
+        File(tempDir, "albion-autonomous-patterns.json").writeText(local.toString(), Charsets.UTF_8)
+
+        val learner = AlbionAutonomousPatternLearner(context(), "current-session", historical.toString())
+        val sessions = org.json.JSONArray(learner.snapshotJson()).getJSONObject(0).getJSONArray("capture_sessions")
+        assertEquals(12, sessions.length())
+        assertTrue((0 until sessions.length()).any { sessions.optString(it) == "local-newest" })
+        assertTrue((0 until sessions.length()).none { sessions.optString(it) == "historical-0" })
+    }
+
     @Test fun eventWithoutParametersIsStillRecordedAsAnUnknownSignature() {
         val learner = AlbionAutonomousPatternLearner(context(), "capture-empty")
         learner.observe(1_000L, 325, emptyMap())
