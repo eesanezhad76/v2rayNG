@@ -172,13 +172,13 @@ def build(root: Path) -> dict:
         })
 
     ASSETS.mkdir(parents=True, exist_ok=True)
-    destination.write_text(json.dumps(output, ensure_ascii=False, separators=(",", ":")) + "\\n", encoding="utf-8")
+    destination.write_text(json.dumps(output, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     (ASSETS / "albion-historical-entity-evidence.json").write_text(
-        json.dumps(entity_index, ensure_ascii=False, separators=(",", ":")) + "\\n", encoding="utf-8")
+        json.dumps(entity_index, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     (ASSETS / "albion-historical-protocol-shapes.json").write_text(
-        json.dumps(protocol_index, ensure_ascii=False, separators=(",", ":")) + "\\n", encoding="utf-8")
+        json.dumps(protocol_index, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     (ASSETS / "albion-historical-learned-patterns.json").write_text(
-        json.dumps(learned_output, ensure_ascii=False, separators=(",", ":")) + "\\n", encoding="utf-8")
+        json.dumps(learned_output, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     source_sha256 = __import__("hashlib").sha256(source.read_bytes()).hexdigest()
     manifest = {
         "schema_version": 1, "source_sha256": source_sha256,
@@ -189,7 +189,7 @@ def build(root: Path) -> dict:
         "policy": "Historical data is evidence-only. Runtime annotations never promote semantic labels or historical coordinates."
     }
     (ASSETS / "albion-historical-knowledge-manifest.json").write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=2) + "\\n", encoding="utf-8")
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return {
         "status": "PASS",
         "source_bundles": len(imported_bundles),
