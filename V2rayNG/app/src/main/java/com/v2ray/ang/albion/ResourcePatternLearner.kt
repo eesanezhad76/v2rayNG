@@ -10,7 +10,7 @@ package com.v2ray.ang.albion
  * resource type number. Predictions remain separate from packet facts.
  */
 object ResourcePatternLearner {
-    const val CATALOG_VERSION = "2026-11-03.2"
+    const val CATALOG_VERSION = "2026-11-04.1"
 
     data class Observation(
         val family: Int?,
