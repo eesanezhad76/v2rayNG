@@ -27,6 +27,23 @@ class SpatialAlignmentTests(unittest.TestCase):
         self.assertEqual(3, capture["temporal_player_node_pairs"])
         self.assertIn("time_aligned", capture["evidence_grade"])
 
+    def test_replay_jsonl_uses_timestamp_embedded_in_detail(self):
+        # Production observations contain t=... inside detail and no top-level time_ms.
+        rows = []
+        for index in range(20):
+            rows.append({
+                "archive": "same.zip", "pcap": "production-schema.pcap",
+                "detail": f"t={index * 1000} kind=own_player_move id=-1 x={index} y={index}",
+            })
+        for index, (x, y, timestamp) in enumerate([(4, 5, 4000), (10, 11, 10000), (17, 18, 17000)]):
+            rows.append({
+                "archive": "same.zip", "pcap": "production-schema.pcap",
+                "detail": f"t={timestamp} kind=harvestable id={700 + index} x={x} y={y}",
+            })
+        capture = spatial.analyze_rows(rows)["captures"][0]
+        self.assertEqual(3, capture["temporal_player_node_pairs"])
+        self.assertEqual("PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE", capture["status"])
+
     def test_distant_in_time_player_path_does_not_create_false_alignment(self):
         rows = []
         for index in range(20):
