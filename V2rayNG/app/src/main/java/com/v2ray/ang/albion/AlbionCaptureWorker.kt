@@ -75,7 +75,13 @@ class AlbionCaptureWorker(
             appContext = context.applicationContext
             knowledgeStore = AlbionLiveKnowledgeStore(context.applicationContext)
             protocolEvidenceStore = AlbionProtocolEvidenceStore(context.applicationContext)
-            autonomousPatternLearner = AlbionAutonomousPatternLearner(context.applicationContext, stamp.toString())
+            val historicalPatternSeed = runCatching {
+                context.assets.open("albion-historical-autonomous-patterns.json")
+                    .bufferedReader(Charsets.UTF_8).use { it.readText() }
+            }.getOrNull()
+            autonomousPatternLearner = AlbionAutonomousPatternLearner(
+                context.applicationContext, stamp.toString(), historicalPatternSeed
+            )
             gatheringPatternLearner = AlbionGatheringPatternLearner(context.applicationContext, stamp.toString())
             pcapFileStream = FileOutputStream(raw)
             logFileStream = FileOutputStream(txt)
