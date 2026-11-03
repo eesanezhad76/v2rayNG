@@ -16,6 +16,8 @@
     "manual_markers": 3,
     "resource_marker_cycles": 0,
     "complete_resource_marker_cycles": 0,
+    "clean_complete_resource_marker_cycles": 0,
+    "completed_with_metadata_conflict_resource_cycles": 0,
     "incomplete_resource_marker_cycles": 0,
     "mob_marker_pairs": 0,
     "unmatched_marker_events": 0,

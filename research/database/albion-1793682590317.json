@@ -15,8 +15,10 @@
     "event123_living_entity_observations": 3798,
     "manual_markers": 105,
     "resource_marker_cycles": 32,
-    "complete_resource_marker_cycles": 8,
-    "incomplete_resource_marker_cycles": 24,
+    "complete_resource_marker_cycles": 25,
+    "clean_complete_resource_marker_cycles": 8,
+    "completed_with_metadata_conflict_resource_cycles": 17,
+    "incomplete_resource_marker_cycles": 7,
     "mob_marker_pairs": 12,
     "unmatched_marker_events": 0,
     "marker_metadata_conflicts": 17
