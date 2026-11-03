@@ -25,6 +25,7 @@ on:
       - 'research/tests/**'
       - '.github/workflows/build.yml'
       - '.github/workflows/albion-capture-ingest.yml'
+      - 'research/**/*.md'
 
 permissions:
   contents: write
