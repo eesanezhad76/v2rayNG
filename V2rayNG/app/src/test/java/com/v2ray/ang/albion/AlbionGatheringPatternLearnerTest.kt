@@ -54,16 +54,16 @@ class AlbionGatheringPatternLearnerTest {
         val learner = AlbionGatheringPatternLearner(context(), "capture-window")
         start(learner, 10_000L)
         learner.observe(9_999L, listOf(sample(10).copy(enchant = 8)))
-        learner.observe(10_000L + 16 * 60_000L, listOf(sample(11).copy(enchant = 8)))
+        learner.observe(10_000L + 16 * 60_000L, listOf(sample(11).copy(enchant = 7)))
         end(learner, 10_000L + 16 * 60_000L + 1L)
 
         val second = AlbionGatheringPatternLearner(context(), "capture-window-B")
         start(second, 20_000L + 16 * 60_000L)
-        second.observe(20_001L + 16 * 60_000L, listOf(sample(12).copy(enchant = 8)))
+        second.observe(20_001L + 16 * 60_000L, listOf(sample(12).copy(enchant = 7)))
         end(second, 20_002L + 16 * 60_000L)
 
         val inferred = ResourcePatternLearner.infer(
-            ResourcePatternLearner.Observation(family = 29, tier = 5, enchantRaw = 8, mobileTypeId = null)
+            ResourcePatternLearner.Observation(family = 29, tier = 5, enchantRaw = 7, mobileTypeId = null)
         ).enchantmentName
         assertEquals("E3", inferred.value)
         assertEquals(ResourcePatternLearner.Status.CAPTURE_CORROBORATED, inferred.status)
