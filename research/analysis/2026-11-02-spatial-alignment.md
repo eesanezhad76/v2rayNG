@@ -180,6 +180,17 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity.
 
+## AlbionRadar5.zip / albion-1793712506879.pcap
+
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
+- Player position samples: 4626
+- Typed Event-40 resource nodes: 30
+- Bounding boxes overlap: True
+- Median nearest-node distance: 24.197
+- P90 nearest-node distance: 48.381
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity.
+
 ## Albions.zip / 1 mob dismount and mount .pcap
 
 - Status: NOT_VERIFIED
