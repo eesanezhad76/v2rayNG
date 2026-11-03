@@ -28,8 +28,24 @@ class AlbionLiveKnowledgeStore(
     @Synchronized
     fun observe(timestampMs: Long, observations: List<AlbionEntityEventMapper.Observation>) {
         observations.forEach { observation ->
-            if (observation.kind !in TRACKED_KINDS) return@forEach
             val id = observation.entityId ?: return@forEach
+            if (observation.kind == "health") {
+                val key = "$sessionStartedMs:$id"
+                val target = records.getOrPut(key) {
+                    JSONObject().put("record_key", key).put("entity_id", id.toString())
+                        .put("session_started_ms", sessionStartedMs).put("first_seen_ms", timestampMs)
+                        .put("sightings", 0)
+                }
+                target.put("last_health_ms", timestampMs)
+                target.put("health_event_count", target.optInt("health_event_count") + 1)
+                observation.secondaryValue?.takeIf { it.isFinite() }?.let { target.put("health_value", it.toDouble()) }
+                observation.value?.takeIf { it.isFinite() }?.let { target.put("health_delta", it.toDouble()) }
+                observation.sourceEntityId?.let { target.put("last_health_source_entity_id", it.toString()) }
+                target.put("health_observed", true)
+                dirty = true
+                return@forEach
+            }
+            if (observation.kind !in TRACKED_KINDS) return@forEach
             val entityId = id.toString()
             // Runtime IDs are only safely unique within a capture session until zone identity is decoded.
             val key = "$sessionStartedMs:$entityId"
@@ -56,7 +72,14 @@ class AlbionLiveKnowledgeStore(
                 record.put("last_sighting_counted_ms", timestampMs)
             }
             record.put("last_event_code", observation.eventCode)
-            record.put("last_kind", observation.kind)
+            if (observation.kind == "leave") {
+                // Keep the last semantic entity kind so killed/vanished mobs remain in the map catalog.
+                record.put("left", true).put("left_ms", timestampMs)
+            } else {
+                record.put("last_kind", observation.kind)
+                record.put("left", false)
+            }
+            if (observation.kind == "mob") record.put("entity_class", "mob")
             observation.typeId?.let {
                 recordEvidenceValue(record, "mobile_type_id", it)
                 record.put("mobile_type_id", it)
@@ -176,13 +199,19 @@ class AlbionLiveKnowledgeStore(
                 val tier = if (record.has("tier")) " T${record.optInt("tier")}" else ""
                 val enchant = if (record.has("enchant") && record.optInt("enchant") > 0) " E${record.optInt("enchant")}" else ""
                 val amount = if (record.has("amount")) " amount=${record.optInt("amount")}" else ""
+                val name = record.optString("name").takeIf { it.isNotBlank() && it != "null" }?.let { " $it" } ?: ""
+                val health = if (record.has("health_value")) " HP=${"%.0f".format(java.util.Locale.US, record.optDouble("health_value"))}" else ""
                 val position = if (record.has("x") && record.has("y")) " (${"%.1f".format(java.util.Locale.US, record.optDouble("x"))}, ${"%.1f".format(java.util.Locale.US, record.optDouble("y"))})" else ""
-                val state = if (record.optBoolean("depleted", false)) " [depleted]" else ""
+                val state = when {
+                    record.optBoolean("depleted", false) -> " [depleted]"
+                    record.optBoolean("left", false) -> " [left]"
+                    else -> ""
+                }
                 val evidence = record.optString("evidence_grade", "unclassified")
                 val evidenceSuffix = if (kind in RESOURCE_KINDS)
                     " [$evidence EV${record.optInt("evidence_score")}/100]"
                 else " [$evidence]"
-                appendLine("$label$tier$enchant$amount$position$state$evidenceSuffix")
+                appendLine("$label$name$tier$enchant$amount$health$position$state$evidenceSuffix")
             }
             append("Showing ${recent.size} recent observations; proximity alone is not confirmation.")
         }
