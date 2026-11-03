@@ -112,6 +112,8 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
    item["marker_enchant"]=ench(best.get("enchantment"))
    if not target["name"]:item["name"]=("Troll" if act=="Troll" else "Mob")+" #"+str(target["mobile_type_id"] or "unknown")
   elif not target["name"]:item["name"]="Mob #"+str(target["mobile_type_id"] or "unknown")
+  if target.get("last_current_health") is not None:item["health_value"]=target["last_current_health"]
+  if target.get("min_current_health") is not None:item["health_min"]=target["min_current_health"]
   item["left"]=bool(item.get("left") or target["leave_observed"])
  catalog["attack_targets"]=targets
  catalog["attack_target_count"]=len(targets)
