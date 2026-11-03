@@ -56,7 +56,7 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
    "leave_after_last_attack":yes(row.get("leave_after_last_attack")),
    "interpretation":row.get("interpretation",""),"targeted_by_player":True,
    "target_source":"outbound Photon operation 23 target request","last_kind":"mob",
-   "classification":"player_attack_target","identity_proven":True,"marker_matches":[]
+   "classification":"player_attack_target","target_entity_id_proven":True,"marker_matches":[]
   })
  cycles=[c for c in catalog.get("markers",[]) if c.get("activity") in {"Mob","Mobs","Troll"}]
  for cycle in cycles:
@@ -68,7 +68,7 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
    first=target.get("first_attack_ms");last=target.get("last_attack_ms")
    if first is None or last is None:continue
    delta=first-start
-   if delta < -2500 or delta > 15000 or last < start-1500 or first > finish+2500:continue
+   if delta < -2500 or delta > 20000 or last < start-1500 or first > finish+2500:continue
    if target["health_observations"]<=0 and not target["leave_after_last_attack"]:continue
    candidates.append((abs(delta),target))
   candidates.sort(key=lambda p:(p[0],-p[1]["health_observations"],-p[1]["attack_action_count"]))
