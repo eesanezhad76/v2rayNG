@@ -88,11 +88,13 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
         }
         val result = LinkedHashMap<String, String>()
         groups.forEach { (base, rows) ->
-            val labels = rows.filter {
-                it.optInt("samples") >= MIN_SAMPLES &&
-                    (it.optJSONArray("capture_sessions")?.length() ?: 0) >= MIN_SESSIONS
+            if (rows.size == 1) {
+                val only = rows.single()
+                if (only.optInt("samples") >= MIN_SAMPLES &&
+                    (only.optJSONArray("capture_sessions")?.length() ?: 0) >= MIN_SESSIONS) {
+                    result[base] = only.optString("label_enchant")
+                }
             }
-            if (labels.size == 1) result[base] = labels.single().optString("label_enchant")
         }
         return result
     }
