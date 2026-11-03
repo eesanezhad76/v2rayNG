@@ -246,6 +246,7 @@ class AlbionOverlayService : Service() {
             catalogEntities.optJSONObject(i)?.let {
                 applyMobTypeInfo(it)
                 researchKnowledge?.annotate(it)
+                historicalKnowledge?.annotate(it)
             }
         }
         radarView.setCatalogSnapshot(catalogEntities.toString())
@@ -437,6 +438,7 @@ class AlbionOverlayService : Service() {
             array.optJSONObject(i)?.let {
                 applyMobTypeInfo(it)
                 researchKnowledge?.annotate(it)
+                historicalKnowledge?.annotate(it)
             }
         }
         return array.toString()
