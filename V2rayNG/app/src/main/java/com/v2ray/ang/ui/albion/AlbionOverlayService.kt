@@ -472,12 +472,18 @@ class AlbionOverlayService : Service() {
             catalogNodeCount = data.optInt("node_count", catalogEntities.length())
             catalogMarkerCount = data.optInt("marker_count", 0)
         } catch (_: Exception) { catalogEntities = JSONArray() }
+        researchKnowledge = AlbionResearchKnowledgeIndex.load(this)
+        historicalKnowledge = com.v2ray.ang.albion.AlbionHistoricalKnowledgeIndex.load(this)
         try {
             val typeData = assets.open("albion-mobile-type-dictionary.json").bufferedReader().use { JSONObject(it.readText()) }
             mobileTypeDictionary = typeData.optJSONObject("entries") ?: JSONObject()
         } catch (_: Exception) { mobileTypeDictionary = JSONObject() }
-        researchKnowledge = AlbionResearchKnowledgeIndex.load(this)
-        historicalKnowledge = com.v2ray.ang.albion.AlbionHistoricalKnowledgeIndex.load(this)
+        // Never leave the overlay with an empty type dictionary: reconstruct the exact
+        // observed TypeID crosswalk from the research asset if the generated asset is absent,
+        // corrupt, or an empty placeholder.
+        if (mobileTypeDictionary.length() == 0) {
+            mobileTypeDictionary = researchKnowledge?.mobileTypeDictionary() ?: JSONObject()
+        }
     }
 
     private fun mergeCatalogAndLive(liveJson: String): String {
