@@ -373,3 +373,17 @@ Next:
 - **Tests run:** None yet. Kotlin compile and offline replay must run in CI before trusting the instrumentation.
 - **CI:** Newest run observed at this update: `41717226340`, head `1ce2640d6f229095abc99a10329ba342a085bda6`, status `pending`; no job steps were available yet. Older run `41716615223` remained stuck at checkout and does not verify this code.
 - **Next exact action:** Wait for a successful build workflow, download `zone-event-candidates`, inspect the three Event 2 parameter payloads and compare their timing with the movement/request stream. Then seek a second controlled zone-transition capture and a same-zone control before assigning semantics.
+
+
+## 2026-11-04 — Phase 5 manual zone-transition ground truth
+
+- Added the overlay control `ZONE ARRIVAL • MARK`; tap immediately after the game finishes loading into a different zone while capture is running.
+- Marker fields: wall-clock timestamp, elapsed-realtime timestamp, `event=zone_transition_observed`, `activity=Zone`, `marker_type=manual_zone_transition`, `source=manual_overlay`.
+- `AlbionCaptureAnalyzer` now retains marker_type in checkpoint output.
+- Added JVM test `preservesManualZoneTransitionCheckpoint`.
+- Added `research/tests/__init__.py` after CI showed unittest discovery could not import `research/tests`.
+- Updated branch workflow concurrency to queue this integration branch's validation runs rather than cancel in-progress runs on every commit.
+- **Validation:** Not yet verified. The run for HEAD `80c1281c` had its checkout cancelled by overlapping commits; Python test discovery then failed because the test directory was not importable, and the readiness script could not be found in the incomplete checkout. The missing package marker and concurrency behavior have been corrected, but require a clean run.
+- **Current HEAD:** `81a99d4e9d84a0861a330f9a8e30e59a18e59ffa`.
+- **PR:** #4 remains open/draft; not merged.
+- **Next:** wait for a clean run at the latest HEAD, inspect Event 2 diagnostic artifact; then use the new manual zone marker in a controlled PCAP spanning a known zone transition and return/revisit.
