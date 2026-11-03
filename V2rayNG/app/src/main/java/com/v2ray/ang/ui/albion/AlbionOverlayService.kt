@@ -325,6 +325,8 @@ class AlbionOverlayService : Service() {
                 LinearLayout.LayoutParams(0, dp(31), 1f).apply { rightMargin = dp(3) })
             actions.addView(button(second) { tag(secondEvent) }, LinearLayout.LayoutParams(0, dp(31), 1f))
             body.addView(actions)
+            body.addView(button("ZONE ARRIVAL • MARK") { tagZoneTransition() },
+                LinearLayout.LayoutParams(-1, dp(27)).apply { topMargin = dp(2) })
         } else {
             body.addView(button("OPEN CONTROLS") { expanded = true; renderBody() }, LinearLayout.LayoutParams(-1, dp(28)))
         }
@@ -472,6 +474,31 @@ class AlbionOverlayService : Service() {
         } catch (e: Exception) {
             title.text = "ALBION • $activity !"
             Toast.makeText(this, "Marker error: ${e.message ?: "unknown"}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    /**
+     * Manual ground-truth checkpoint: tap immediately after the game finishes
+     * loading into a different zone. It records time only; it does not infer
+     * or assign a zone ID from coordinates.
+     */
+    private fun tagZoneTransition() {
+        val now = System.currentTimeMillis()
+        try {
+            val json = JSONObject().apply {
+                put("timestamp_ms", now)
+                put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
+                put("event", "zone_transition_observed")
+                put("activity", "Zone")
+                put("marker_type", "manual_zone_transition")
+                put("source", "manual_overlay")
+            }.toString()
+            val saved = CoreServiceManager.appendAlbionCaptureMarker(AlbionCaptureMarker.build(json), now)
+            title.text = if (saved) "ALBION • ZONE ✓" else "ALBION • ZONE !"
+            if (!saved) Toast.makeText(this, "Zone marker not saved. Capture must be running.", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            title.text = "ALBION • ZONE !"
+            Toast.makeText(this, "Zone marker error: ${e.message ?: "unknown"}", Toast.LENGTH_LONG).show()
         }
     }
 
