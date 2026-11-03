@@ -24,6 +24,7 @@ object AlbionRadarSnapshotParser {
             return if (item.has("mobile_type_id")) "Mob ID${item.optInt("mobile_type_id")}" else "Mob"
         }
         if (kind in setOf("static_resource", "harvestable", "resource_state")) {
+            if (item.optBoolean("user_confirmed_target", false)) return "T5.3 ✓"
             val inference = item.optJSONObject("resource_inference")?.optJSONObject("resource_name")
             val inferenceStatus = inference?.optString("status")
             val inferenceConfidence = inference?.optDouble("confidence", 0.0) ?: 0.0
@@ -40,6 +41,7 @@ object AlbionRadarSnapshotParser {
                     else -> inferredName
                 }
             }
+            if (item.optInt("family", -1) == 29) return "Ore candidate F29"
             if (item.has("family")) return "Resource F${item.optInt("family")}"
             if (item.has("mobile_type_id")) return "Resource ID${item.optInt("mobile_type_id")}"
             return if (kind == "static_resource") "Resource candidate" else "Resource"
