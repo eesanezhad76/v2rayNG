@@ -204,9 +204,9 @@ class AlbionOverlayService : Service() {
         head.addView(title, LinearLayout.LayoutParams(0, dp(27), 1f))
         head.addView(button("MAP") { if (radarRoot == null) buildRadarWindow() }, LinearLayout.LayoutParams(dp(36), dp(28)))
         head.addView(button("−") { expanded = !expanded; renderBody() }, LinearLayout.LayoutParams(dp(27), dp(28)))
+        head.addView(button("×") { stopSelf() }, LinearLayout.LayoutParams(dp(27), dp(27)))
         val controlsResize = button("◢") { }
         head.addView(controlsResize, LinearLayout.LayoutParams(dp(24), dp(27)))
-        head.addView(button("×") { stopSelf() }, LinearLayout.LayoutParams(dp(27), dp(27)))
         panel.addView(head)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         liveStatus = TextView(this).apply {
@@ -253,9 +253,9 @@ class AlbionOverlayService : Service() {
         head.addView(catalogButton, LinearLayout.LayoutParams(dp(48), dp(25)))
         filterButton = button("FILTER") { toggleFilters() }
         head.addView(filterButton, LinearLayout.LayoutParams(dp(54), dp(25)))
+        head.addView(button("×") { removeRadarWindow() }, LinearLayout.LayoutParams(dp(25), dp(25)))
         val radarResize = button("◢") { }
         head.addView(radarResize, LinearLayout.LayoutParams(dp(23), dp(25)))
-        head.addView(button("×") { removeRadarWindow() }, LinearLayout.LayoutParams(dp(25), dp(25)))
         panel.addView(head)
         radarView = AlbionMiniRadarView(this)
         for (i in 0 until catalogEntities.length()) {
@@ -337,15 +337,7 @@ class AlbionOverlayService : Service() {
                     val maxHeight = (resources.displayMetrics.heightPixels - params.y).coerceAtLeast(dp(150))
                     params.width = (originWidth + (event.rawX - startX).toInt()).coerceIn(dp(160), maxWidth)
                     params.height = (originHeight + (event.rawY - startY).toInt()).coerceIn(dp(150), maxHeight)
-                    if (radar && ::radarView.isInitialized) {
-                        val radarHeight = (params.height - dp(205)).coerceAtLeast(dp(90))
-                        radarView.layoutParams = radarView.layoutParams.apply {
-                            width = (params.width - dp(14)).coerceAtLeast(dp(130)); height = radarHeight
-                        }
-                        if (::filterScroll.isInitialized) filterScroll.layoutParams = filterScroll.layoutParams.apply {
-                            height = (params.height - radarHeight - dp(42)).coerceAtLeast(0)
-                        }
-                    }
+                    if (radar && ::radarView.isInitialized) updateRadarContentSize(params)
                     try { wm.updateViewLayout(target, params) } catch (_: Exception) { }
                     true
                 }
@@ -359,6 +351,18 @@ class AlbionOverlayService : Service() {
             }
         }
     }
+    private fun updateRadarContentSize(params: WindowManager.LayoutParams) {
+        val available = (params.height - dp(42)).coerceAtLeast(dp(90))
+        val filterHeight = if (filterScroll.visibility == View.VISIBLE)
+            (available - dp(90)).coerceAtMost(dp(160)) else 0
+        val radarHeight = (available - filterHeight).coerceAtLeast(dp(90))
+        radarView.layoutParams = radarView.layoutParams.apply {
+            width = (params.width - dp(14)).coerceAtLeast(dp(130))
+            height = radarHeight
+        }
+        filterScroll.layoutParams = filterScroll.layoutParams.apply { height = filterHeight }
+    }
+
     private fun renderBody() {
         body.removeAllViews()
         if (expanded) {
@@ -452,7 +456,10 @@ class AlbionOverlayService : Service() {
     private fun toggleFilters() {
         filterScroll.visibility = if (filterScroll.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         filterButton.text = if (filterScroll.visibility == View.VISIBLE) "HIDE" else "FILTER"
-        radarParams?.let { try { radarRoot?.let { root -> wm.updateViewLayout(root, it) } } catch (_: Exception) { } }
+        radarParams?.let {
+            if (it.height > 0) updateRadarContentSize(it)
+            try { radarRoot?.let { root -> wm.updateViewLayout(root, it) } } catch (_: Exception) { }
+        }
     }
 
     private fun loadStaticCatalog() {
