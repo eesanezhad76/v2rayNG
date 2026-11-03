@@ -185,7 +185,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         canvas.drawText("YOU", cx + 6f * density, cy - 5f * density, paint)
         paint.color = 0xFFB8C8D5.toInt()
         paint.textSize = 7f * density
-        canvas.drawText("${visible.size} pins  •  ${outside.size} beyond range", 6f * density, height - 5f * density, paint)
+        canvas.drawText("${visible.size} pins • saved zone unverified", 6f * density, height - 5f * density, paint)
     }
 
     private fun drawCatalogOverview(canvas: Canvas, cx: Float, cy: Float, radius: Float) {
