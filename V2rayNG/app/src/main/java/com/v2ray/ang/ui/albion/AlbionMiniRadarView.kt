@@ -91,8 +91,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             paint.style = Paint.Style.FILL
             paint.color = 0xFFE3EDF5.toInt()
             paint.textSize = 9f * density
-            canvas.drawText("Waiting for live position", 8f * density, cy, paint)
-            drawCatalogHint(canvas)
+            canvas.drawText("No live player position", 8f * density, cy - 8f * density, paint)
+            drawCatalogOverview(canvas, cx, cy, radius)
             return
         }
         val px = you.optDouble("x")
@@ -188,12 +188,37 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         canvas.drawText("${visible.size} pins  •  ${outside.size} beyond range", 6f * density, height - 5f * density, paint)
     }
 
-    private fun drawCatalogHint(canvas: Canvas) {
+    private fun drawCatalogOverview(canvas: Canvas, cx: Float, cy: Float, radius: Float) {
+        val points = entities.filter {
+            it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) &&
+                it.optString("last_kind") != "own_player_move"
+        }
+        if (points.isEmpty()) return
+        val minX = points.minOf { it.optDouble("x") }
+        val maxX = points.maxOf { it.optDouble("x") }
+        val minY = points.minOf { it.optDouble("y") }
+        val maxY = points.maxOf { it.optDouble("y") }
+        val centerX = (minX + maxX) / 2.0
+        val centerY = (minY + maxY) / 2.0
+        val span = maxOf(maxX - minX, maxY - minY, 1.0)
+        val scale = (radius * 1.65 / span).toFloat()
+        points.forEach { entity ->
+            val x = cx + ((entity.optDouble("x") - centerX) * scale).toFloat()
+            val y = cy - ((entity.optDouble("y") - centerY) * scale).toFloat()
+            val kind = entity.optString("last_kind")
+            paint.style = Paint.Style.FILL
+            paint.color = when {
+                entity.optBoolean("user_confirmed_target", false) -> 0xFF55E6FF.toInt()
+                entity.optBoolean("depleted", false) || entity.optBoolean("left", false) -> 0xFF697782.toInt()
+                kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
+                else -> 0xFFFFC45C.toInt()
+            }
+            canvas.drawCircle(x, y, if (entity.optBoolean("user_confirmed_target", false)) 4f * density else 2.4f * density, paint)
+        }
         paint.style = Paint.Style.FILL
         paint.color = 0xFFB8C8D5.toInt()
         paint.textSize = 7f * density
-        val count = entities.count { it.optString("last_kind") == "static_resource" }
-        canvas.drawText("Saved catalog: $count nodes • move to locate", 6f * density, height - 6f * density, paint)
+        canvas.drawText("SAVED CATALOG • NOT PLAYER-CENTERED • ${points.size} pins", 6f * density, height - 6f * density, paint)
     }
 
     companion object {
