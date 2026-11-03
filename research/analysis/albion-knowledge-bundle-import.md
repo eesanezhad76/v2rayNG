@@ -7,6 +7,6 @@
 - deduplicated_protocol_events: 1
 - unique_pattern_signatures: 1
 - autonomous_event_signatures: 0
-- database: /tmp/tmpjdlp8wdl/central.json
+- database: /tmp/tmp5qvvejbr/central.json
 
 Runtime entity IDs remain scoped by capture session. Repeated cumulative exports are deduplicated; sample counts are never summed across exports.

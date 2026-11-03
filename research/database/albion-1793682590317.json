@@ -1,0 +1,5373 @@
+{
+  "dataset_id": "albion-1793682590317",
+  "source_file": "albion-1793682590317.jsonl",
+  "source_sha256": "a4aa186a7b6e20bb9580084c5dee3ec86c60078410a665a814d5fbd79c98a074",
+  "counts": {
+    "jsonl_rows": 81759,
+    "malformed_lines": 0,
+    "udp_5056_packets": 53222,
+    "event40_observations": 396,
+    "unique_event40_nodes": 83,
+    "event46_updates": 422,
+    "event46_state_ids": 79,
+    "event46_exact_joins": 34,
+    "state_only_ids": 45,
+    "event123_living_entity_observations": 3798,
+    "manual_markers": 105,
+    "resource_marker_cycles": 32,
+    "complete_resource_marker_cycles": 0,
+    "incomplete_resource_marker_cycles": 32,
+    "mob_marker_pairs": 12,
+    "unmatched_marker_events": 25,
+    "marker_metadata_conflicts": 0
+  },
+  "nodes": [
+    {
+      "entity_id": 3719,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": 154,
+      "y": 198,
+      "first_seen_ms": 1793683004093,
+      "last_seen_ms": 1793684362088,
+      "observations": 24,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3736,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -135,
+      "y": -193,
+      "first_seen_ms": 1793684428436,
+      "last_seen_ms": 1793684784616,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3741,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": 228,
+      "y": 58,
+      "first_seen_ms": 1793683792558,
+      "last_seen_ms": 1793683792558,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3748,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": 314,
+      "y": 223,
+      "first_seen_ms": 1793682791929,
+      "last_seen_ms": 1793682844313,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3757,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -284,
+      "y": 29,
+      "first_seen_ms": 1793685068133,
+      "last_seen_ms": 1793685068133,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3784,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -318,
+      "y": -348,
+      "first_seen_ms": 1793684614924,
+      "last_seen_ms": 1793684614924,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3790,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -325,
+      "y": -340,
+      "first_seen_ms": 1793684613865,
+      "last_seen_ms": 1793684613865,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3809,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -209,
+      "y": -233,
+      "first_seen_ms": 1793684628292,
+      "last_seen_ms": 1793684651733,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3828,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -79,
+      "y": 149,
+      "first_seen_ms": 1793684134242,
+      "last_seen_ms": 1793684390815,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3754,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 2,
+      "x": -318,
+      "y": 49,
+      "first_seen_ms": 1793685007114,
+      "last_seen_ms": 1793685050222,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3794,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 2,
+      "x": -11,
+      "y": -249,
+      "first_seen_ms": 1793684771134,
+      "last_seen_ms": 1793684771134,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2873,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": -117,
+      "y": 148,
+      "first_seen_ms": 1793684134242,
+      "last_seen_ms": 1793684394898,
+      "observations": 6,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2889,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 42,
+      "y": 363,
+      "first_seen_ms": 1793684165565,
+      "last_seen_ms": 1793684165565,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2894,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": -71,
+      "y": -263,
+      "first_seen_ms": 1793684776786,
+      "last_seen_ms": 1793684776786,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2911,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 161,
+      "y": 174,
+      "first_seen_ms": 1793684313740,
+      "last_seen_ms": 1793684360711,
+      "observations": 4,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2936,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": -123,
+      "y": -137,
+      "first_seen_ms": 1793684025064,
+      "last_seen_ms": 1793684902197,
+      "observations": 8,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2938,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 11,
+      "y": 331,
+      "first_seen_ms": 1793684163906,
+      "last_seen_ms": 1793684217300,
+      "observations": 4,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2950,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 138,
+      "y": 160,
+      "first_seen_ms": 1793683004539,
+      "last_seen_ms": 1793684362881,
+      "observations": 10,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2957,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": -331,
+      "y": -169,
+      "first_seen_ms": 1793684528240,
+      "last_seen_ms": 1793684938841,
+      "observations": 4,
+      "sizes_seen": [
+        2,
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2961,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 1,
+      "x": 122,
+      "y": 364,
+      "first_seen_ms": 1793684194315,
+      "last_seen_ms": 1793684194315,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2951,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 2,
+      "x": -248,
+      "y": -250,
+      "first_seen_ms": 1793684621591,
+      "last_seen_ms": 1793684673962,
+      "observations": 4,
+      "sizes_seen": [
+        4
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2973,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 5,
+      "enchant": 2,
+      "x": 191,
+      "y": -385,
+      "first_seen_ms": 1793684744726,
+      "last_seen_ms": 1793684744726,
+      "observations": 2,
+      "sizes_seen": [
+        2
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2997,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -359.5,
+      "y": 9.5,
+      "first_seen_ms": 1793684968122,
+      "last_seen_ms": 1793684968122,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2999,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -141.5,
+      "y": -308.5,
+      "first_seen_ms": 1793684709832,
+      "last_seen_ms": 1793684715090,
+      "observations": 4,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684712551,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684712551,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3012,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -19.5,
+      "y": 139.5,
+      "first_seen_ms": 1793683377110,
+      "last_seen_ms": 1793684383983,
+      "observations": 6,
+      "sizes_seen": [
+        3,
+        1
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3015,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -101.5,
+      "y": -111.5,
+      "first_seen_ms": 1793684020010,
+      "last_seen_ms": 1793684903837,
+      "observations": 8,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684470862,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684470862,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684471123,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684471123,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3016,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -329.5,
+      "y": 40.5,
+      "first_seen_ms": 1793685006941,
+      "last_seen_ms": 1793685007067,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3023,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": 219.5,
+      "y": 172.5,
+      "first_seen_ms": 1793682843430,
+      "last_seen_ms": 1793683711844,
+      "observations": 10,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683730978,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683730978,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3028,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": -119.5,
+      "y": -311.5,
+      "first_seen_ms": 1793684710786,
+      "last_seen_ms": 1793684710786,
+      "observations": 2,
+      "sizes_seen": [
+        2
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684721632,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684721632,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684723675,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684723675,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3032,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": 66.5,
+      "y": 246.5,
+      "first_seen_ms": 1793683581871,
+      "last_seen_ms": 1793683593852,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3037,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": 49.5,
+      "y": -170.5,
+      "first_seen_ms": 1793684003720,
+      "last_seen_ms": 1793684003720,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3039,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": 94.5,
+      "y": 236.5,
+      "first_seen_ms": 1793683592741,
+      "last_seen_ms": 1793683592741,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2987,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 2,
+      "x": 139.5,
+      "y": 335.5,
+      "first_seen_ms": 1793684195408,
+      "last_seen_ms": 1793684245200,
+      "observations": 4,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684196477,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684196477,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2992,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 2,
+      "x": -111.5,
+      "y": 28.5,
+      "first_seen_ms": 1793684039731,
+      "last_seen_ms": 1793684403895,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3007,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 2,
+      "x": -129.5,
+      "y": -150.5,
+      "first_seen_ms": 1793684026156,
+      "last_seen_ms": 1793684867794,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2618,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": 159.5,
+      "y": -338.5,
+      "first_seen_ms": 1793684741589,
+      "last_seen_ms": 1793684741589,
+      "observations": 2,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2619,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": 7.5,
+      "y": 172.5,
+      "first_seen_ms": 1793684151425,
+      "last_seen_ms": 1793684381260,
+      "observations": 6,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683402122,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683402122,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683521163,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683521163,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683614519,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683614519,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2630,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": 43.5,
+      "y": -356.5,
+      "first_seen_ms": 1793684727186,
+      "last_seen_ms": 1793684727186,
+      "observations": 2,
+      "sizes_seen": [
+        2
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2643,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": -317.5,
+      "y": -149.5,
+      "first_seen_ms": 1793684527491,
+      "last_seen_ms": 1793684938658,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2646,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 5,
+      "enchant": 1,
+      "x": 157.5,
+      "y": -340.5,
+      "first_seen_ms": 1793684741589,
+      "last_seen_ms": 1793684741589,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2610,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 5,
+      "enchant": 3,
+      "x": 117.5,
+      "y": 349.5,
+      "first_seen_ms": 1793684194315,
+      "last_seen_ms": 1793684206058,
+      "observations": 4,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 305214,
+      "mobile_type_id": 482,
+      "type_number": 20,
+      "tier": 1,
+      "enchant": 0,
+      "x": 182.69072,
+      "y": 145.17781,
+      "first_seen_ms": 1793684315935,
+      "last_seen_ms": 1793684317579,
+      "observations": 4,
+      "sizes_seen": [
+        2
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3162,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -127,
+      "y": 59,
+      "first_seen_ms": 1793684043205,
+      "last_seen_ms": 1793684400666,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684056248,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684056248,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684057913,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684057913,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684058381,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684058381,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684100135,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684100135,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684116510,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684116510,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3168,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -205,
+      "y": -184,
+      "first_seen_ms": 1793684494258,
+      "last_seen_ms": 1793684913071,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3189,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -199,
+      "y": -254,
+      "first_seen_ms": 1793684630825,
+      "last_seen_ms": 1793684630825,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684666453,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684666453,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684668500,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684668500,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684669049,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684669049,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684685262,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684685262,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3205,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 88,
+      "y": -301,
+      "first_seen_ms": 1793684760750,
+      "last_seen_ms": 1793684760750,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3208,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 52,
+      "y": 219,
+      "first_seen_ms": 1793683510033,
+      "last_seen_ms": 1793684372512,
+      "observations": 10,
+      "sizes_seen": [
+        3,
+        2,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683628262,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683628262,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683629337,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683629337,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683630385,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683630385,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683652426,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683652426,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683667570,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683667570,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683682692,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683682692,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684289777,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684289777,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684290778,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684290778,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684291662,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684291662,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3212,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 77,
+      "y": 237,
+      "first_seen_ms": 1793683583137,
+      "last_seen_ms": 1793684371315,
+      "observations": 12,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683649582,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683649582,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683651084,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683651084,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683651733,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683651733,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683670781,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683670781,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683682399,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683682399,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684275326,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684275326,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684277006,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684277006,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684277465,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684277465,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684375008,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684375008,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3222,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -231,
+      "y": -258,
+      "first_seen_ms": 1793684623885,
+      "last_seen_ms": 1793684653874,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684683258,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684683258,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684683736,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684683736,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684685267,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684685267,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3225,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 217,
+      "y": 58,
+      "first_seen_ms": 1793683792558,
+      "last_seen_ms": 1793683792558,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683811074,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683811074,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683812026,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683812026,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683813045,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683813045,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683854989,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683854989,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3236,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -217,
+      "y": -270,
+      "first_seen_ms": 1793684626174,
+      "last_seen_ms": 1793684653618,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684676632,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684676632,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684676748,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684676748,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684677721,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684677721,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3255,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": -293,
+      "y": 65,
+      "first_seen_ms": 1793685063082,
+      "last_seen_ms": 1793685063082,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3269,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 1,
+      "x": 135,
+      "y": 359,
+      "first_seen_ms": 1793684195408,
+      "last_seen_ms": 1793684195408,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3226,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 2,
+      "x": 211,
+      "y": -377,
+      "first_seen_ms": 1793684749538,
+      "last_seen_ms": 1793684749757,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3231,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 2,
+      "x": 53,
+      "y": -212,
+      "first_seen_ms": 1793684003720,
+      "last_seen_ms": 1793684771134,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 3270,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 4,
+      "enchant": 2,
+      "x": -202,
+      "y": -149,
+      "first_seen_ms": 1793684491603,
+      "last_seen_ms": 1793684907061,
+      "observations": 4,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684503832,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684503832,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684505745,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684505745,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684505997,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684505997,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684922913,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684922913,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684924865,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684924865,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684925002,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684925002,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684925008,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684925008,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2699,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": 14,
+      "y": 323,
+      "first_seen_ms": 1793684162840,
+      "last_seen_ms": 1793684217300,
+      "observations": 4,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684164446,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684164446,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684180435,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684180435,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2702,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": 43,
+      "y": 197,
+      "first_seen_ms": 1793684154462,
+      "last_seen_ms": 1793684376815,
+      "observations": 6,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683530669,
+          "size": 5,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683530669,
+          "size": 5,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683604277,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683604277,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683606756,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683606756,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683608987,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683608987,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683611354,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683611354,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683613708,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683613708,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684282277,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684282277,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2704,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -18,
+      "y": 158,
+      "first_seen_ms": 1793683377110,
+      "last_seen_ms": 1793684150812,
+      "observations": 6,
+      "sizes_seen": [
+        5,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683459554,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683459554,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683461738,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683461738,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683464121,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683464121,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683466417,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683466417,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683468765,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683468765,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2716,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -117,
+      "y": -153,
+      "first_seen_ms": 1793684025064,
+      "last_seen_ms": 1793684867794,
+      "observations": 6,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684446747,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684446747,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2725,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": 172,
+      "y": 162,
+      "first_seen_ms": 1793682934840,
+      "last_seen_ms": 1793683695626,
+      "observations": 24,
+      "sizes_seen": [
+        1,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683013614,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683013614,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683028655,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683028655,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683174872,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683174872,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683269661,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683269661,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683269975,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683269975,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683698789,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683698789,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683700053,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683700053,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683762600,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683762600,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2728,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -265,
+      "y": -284,
+      "first_seen_ms": 1793684619778,
+      "last_seen_ms": 1793684679642,
+      "observations": 6,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684694748,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684694748,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2739,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": 96,
+      "y": -192,
+      "first_seen_ms": 1793683976472,
+      "last_seen_ms": 1793683976472,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683993054,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683993054,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683995415,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683995415,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683997740,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683997740,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2789,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -262,
+      "y": -167,
+      "first_seen_ms": 1793684513991,
+      "last_seen_ms": 1793684931895,
+      "observations": 8,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2795,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": 208,
+      "y": 150,
+      "first_seen_ms": 1793682853319,
+      "last_seen_ms": 1793683288283,
+      "observations": 4,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793682888186,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682888186,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682986389,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682986389,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682988551,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682988551,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682990921,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682990921,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682993286,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682993286,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683012869,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683012869,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2803,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 1,
+      "x": -378,
+      "y": -208,
+      "first_seen_ms": 1793684534488,
+      "last_seen_ms": 1793684944859,
+      "observations": 6,
+      "sizes_seen": [
+        2,
+        1
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684592173,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684592173,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684594484,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684594484,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2751,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 2,
+      "x": -379,
+      "y": -223,
+      "first_seen_ms": 1793684535953,
+      "last_seen_ms": 1793684945836,
+      "observations": 6,
+      "sizes_seen": [
+        1,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684564017,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684564017,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684595251,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684595251,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684951037,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684951037,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2780,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 2,
+      "x": -372,
+      "y": -93,
+      "first_seen_ms": 1793684956878,
+      "last_seen_ms": 1793684956878,
+      "observations": 2,
+      "sizes_seen": [
+        1
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2788,
+      "mobile_type_id": -1,
+      "type_number": 27,
+      "tier": 5,
+      "enchant": 3,
+      "x": -379,
+      "y": -24,
+      "first_seen_ms": 1793684963241,
+      "last_seen_ms": 1793684963241,
+      "observations": 2,
+      "sizes_seen": [
+        4
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684987986,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684987986,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684991185,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684991185,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684992457,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684992457,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684994752,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684994752,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793685010058,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793685010058,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 302129,
+      "mobile_type_id": 571,
+      "type_number": 29,
+      "tier": 3,
+      "enchant": 0,
+      "x": 245.46109,
+      "y": 149.17644,
+      "first_seen_ms": 1793682893546,
+      "last_seen_ms": 1793682893546,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793682920948,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682920948,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682921045,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682921045,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682921468,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682921468,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 302138,
+      "mobile_type_id": 571,
+      "type_number": 29,
+      "tier": 3,
+      "enchant": 0,
+      "x": 245.61713,
+      "y": 150.96967,
+      "first_seen_ms": 1793682894396,
+      "last_seen_ms": 1793682894396,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793682918497,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682918497,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682918854,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682918854,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682919388,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682919388,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 306085,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 0,
+      "x": -103.358795,
+      "y": -200.92363,
+      "first_seen_ms": 1793684822070,
+      "last_seen_ms": 1793684822070,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684848745,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684848745,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684849483,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684849483,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684850165,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684850165,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 306151,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 0,
+      "x": -104.10992,
+      "y": -203.23515,
+      "first_seen_ms": 1793684831588,
+      "last_seen_ms": 1793684831588,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 301987,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 1,
+      "x": -211.55112,
+      "y": -208.15007,
+      "first_seen_ms": 1793684513797,
+      "last_seen_ms": 1793684931467,
+      "observations": 14,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684639882,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684639882,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684641179,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684641179,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684643353,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684643353,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684645138,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684645138,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 305501,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 1,
+      "x": -128.09059,
+      "y": -184.78079,
+      "first_seen_ms": 1793684447980,
+      "last_seen_ms": 1793684784616,
+      "observations": 4,
+      "sizes_seen": [
+        3,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684454662,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684454662,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684455725,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684455725,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684456269,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684456269,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 306077,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 1,
+      "x": -101.53295,
+      "y": -200.20668,
+      "first_seen_ms": 1793684811602,
+      "last_seen_ms": 1793684811602,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793684840650,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684840650,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684841543,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684841543,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684842833,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684842833,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684843145,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684843145,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 306463,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 1,
+      "x": -369.76013,
+      "y": 18.35737,
+      "first_seen_ms": 1793685024332,
+      "last_seen_ms": 1793685024332,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793685045652,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793685045652,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793685045781,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793685045781,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793685045816,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793685045816,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 304746,
+      "mobile_type_id": 573,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 2,
+      "x": 86.154335,
+      "y": 333.52985,
+      "first_seen_ms": 1793684191438,
+      "last_seen_ms": 1793684210939,
+      "observations": 4,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 302538,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": 135.85773,
+      "y": 164.08553,
+      "first_seen_ms": 1793683068962,
+      "last_seen_ms": 1793683316898,
+      "observations": 4,
+      "sizes_seen": [
+        5,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683077510,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683077510,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683079044,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683079044,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683079873,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683079873,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683080954,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683080954,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683082370,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683082370,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 304121,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": 216.69873,
+      "y": 154.8621,
+      "first_seen_ms": 1793683750710,
+      "last_seen_ms": 1793684325929,
+      "observations": 4,
+      "sizes_seen": [
+        5,
+        0
+      ],
+      "state_timeline": [
+        {
+          "time_ms": 1793683778544,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683778544,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683779903,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683779903,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683781062,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683781062,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683781650,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683781650,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683782174,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683782174,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683783661,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683783661,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 304505,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 0,
+      "x": 252.53777,
+      "y": -72.410614,
+      "first_seen_ms": 1793683943513,
+      "last_seen_ms": 1793683943513,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 303710,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 1,
+      "x": 16.864986,
+      "y": 189.75003,
+      "first_seen_ms": 1793683533316,
+      "last_seen_ms": 1793684378544,
+      "observations": 10,
+      "sizes_seen": [
+        5
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 304910,
+      "mobile_type_id": 574,
+      "type_number": 29,
+      "tier": 5,
+      "enchant": 1,
+      "x": -123.87384,
+      "y": 128.2205,
+      "first_seen_ms": 1793684129868,
+      "last_seen_ms": 1793684394898,
+      "observations": 6,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    }
+  ],
+  "state_only_entities": [
+    {
+      "entity_id": 2777,
+      "state_timeline": [
+        {
+          "time_ms": 1793682856680,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682856680,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682955306,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682955306,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682957637,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682957637,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682972806,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682972806,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682973251,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682973251,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683733852,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683733852,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2792,
+      "state_timeline": [
+        {
+          "time_ms": 1793682933645,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682933645,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683015785,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683015785,
+          "size": 4,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2713,
+      "state_timeline": [
+        {
+          "time_ms": 1793682944758,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682944758,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682944949,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682944949,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683289850,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683289850,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2768,
+      "state_timeline": [
+        {
+          "time_ms": 1793682945740,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682945740,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683030010,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683030010,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684321955,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684321955,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2700,
+      "state_timeline": [
+        {
+          "time_ms": 1793682948611,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682948611,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683020062,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683020062,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683248696,
+          "size": 5,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683248696,
+          "size": 5,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684352850,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684352850,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2736,
+      "state_timeline": [
+        {
+          "time_ms": 1793682955710,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682955710,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682968901,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682968901,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793682971274,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682971274,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683289047,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683289047,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683754306,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683754306,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2732,
+      "state_timeline": [
+        {
+          "time_ms": 1793682985984,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793682985984,
+          "size": 4,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2690,
+      "state_timeline": [
+        {
+          "time_ms": 1793683012276,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683012276,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683163122,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683163122,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683300726,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683300726,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683301175,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683301175,
+          "size": 4,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2798,
+      "state_timeline": [
+        {
+          "time_ms": 1793683368909,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683368909,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683529927,
+          "size": 5,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683529927,
+          "size": 5,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2641,
+      "state_timeline": [
+        {
+          "time_ms": 1793683403806,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683403806,
+          "size": 4,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2631,
+      "state_timeline": [
+        {
+          "time_ms": 1793683416572,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683416572,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684142354,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684142354,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2694,
+      "state_timeline": [
+        {
+          "time_ms": 1793683430518,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683430518,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683514292,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683514292,
+          "size": 4,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683563984,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683563984,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683566341,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683566341,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683570826,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683570826,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683573212,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683573212,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683588249,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683588249,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793683663238,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683663238,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2804,
+      "state_timeline": [
+        {
+          "time_ms": 1793683435941,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683435941,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2735,
+      "state_timeline": [
+        {
+          "time_ms": 1793683445381,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683445381,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2712,
+      "state_timeline": [
+        {
+          "time_ms": 1793683949868,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683949868,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3263,
+      "state_timeline": [
+        {
+          "time_ms": 1793683963298,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683963298,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2799,
+      "state_timeline": [
+        {
+          "time_ms": 1793683987464,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683987464,
+          "size": 4,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2637,
+      "state_timeline": [
+        {
+          "time_ms": 1793683999663,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793683999663,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684000397,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684000397,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2773,
+      "state_timeline": [
+        {
+          "time_ms": 1793684028173,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684028173,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684431258,
+          "size": 5,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684431258,
+          "size": 5,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2698,
+      "state_timeline": [
+        {
+          "time_ms": 1793684073318,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684073318,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684074813,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684074813,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684089634,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684089634,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2715,
+      "state_timeline": [
+        {
+          "time_ms": 1793684142286,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684142286,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2775,
+      "state_timeline": [
+        {
+          "time_ms": 1793684142424,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684142424,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2738,
+      "state_timeline": [
+        {
+          "time_ms": 1793684169114,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684169114,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2614,
+      "state_timeline": [
+        {
+          "time_ms": 1793684174768,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684174768,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2608,
+      "state_timeline": [
+        {
+          "time_ms": 1793684178410,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684178410,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2720,
+      "state_timeline": [
+        {
+          "time_ms": 1793684181000,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684181000,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2590,
+      "state_timeline": [
+        {
+          "time_ms": 1793684186680,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684186680,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2701,
+      "state_timeline": [
+        {
+          "time_ms": 1793684394086,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684394086,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2800,
+      "state_timeline": [
+        {
+          "time_ms": 1793684462900,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684462900,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2807,
+      "state_timeline": [
+        {
+          "time_ms": 1793684534459,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684534459,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2975,
+      "state_timeline": [
+        {
+          "time_ms": 1793684562874,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684562874,
+          "size": 4,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 1021,
+      "state_timeline": [
+        {
+          "time_ms": 1793684579182,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684579182,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2972,
+      "state_timeline": [
+        {
+          "time_ms": 1793684615044,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684615044,
+          "size": 4,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2706,
+      "state_timeline": [
+        {
+          "time_ms": 1793684624148,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684624148,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2921,
+      "state_timeline": [
+        {
+          "time_ms": 1793684641871,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684641871,
+          "size": 3,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684645134,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684645134,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2638,
+      "state_timeline": [
+        {
+          "time_ms": 1793684645687,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684645687,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793684645768,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684645768,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2742,
+      "state_timeline": [
+        {
+          "time_ms": 1793684688682,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684688682,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2872,
+      "state_timeline": [
+        {
+          "time_ms": 1793684695668,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684695668,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2617,
+      "state_timeline": [
+        {
+          "time_ms": 1793684696815,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684696815,
+          "size": 4,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2613,
+      "state_timeline": [
+        {
+          "time_ms": 1793684741310,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684741310,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2884,
+      "state_timeline": [
+        {
+          "time_ms": 1793684760843,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684760843,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 1128,
+      "state_timeline": [
+        {
+          "time_ms": 1793684853152,
+          "size": 0,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684853152,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2721,
+      "state_timeline": [
+        {
+          "time_ms": 1793684951500,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684951500,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2730,
+      "state_timeline": [
+        {
+          "time_ms": 1793684989267,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793684989267,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2879,
+      "state_timeline": [
+        {
+          "time_ms": 1793685025522,
+          "size": 4,
+          "removed": false
+        },
+        {
+          "time_ms": 1793685025522,
+          "size": 4,
+          "removed": null
+        }
+      ]
+    }
+  ],
+  "manual_markers": [
+    {
+      "timestamp_ms": 1793682590370,
+      "elapsed_realtime_ms": 72647901,
+      "event": "capture_started",
+      "activity": "Capture",
+      "source": "capture_worker"
+    },
+    {
+      "timestamp_ms": 1793682886554,
+      "elapsed_realtime_ms": 72944085,
+      "event": "target_found",
+      "activity": "Troll",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793682898043,
+      "elapsed_realtime_ms": 72955574,
+      "event": "mob_killed",
+      "activity": "Troll",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793682917101,
+      "elapsed_realtime_ms": 72974632,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793682922942,
+      "elapsed_realtime_ms": 72980473,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793682952265,
+      "elapsed_realtime_ms": 73009796,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793682966199,
+      "elapsed_realtime_ms": 73023730,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793682982097,
+      "elapsed_realtime_ms": 73039628,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793682995623,
+      "elapsed_realtime_ms": 73053153,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683010058,
+      "elapsed_realtime_ms": 73067588,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683015702,
+      "elapsed_realtime_ms": 73073233,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683058877,
+      "elapsed_realtime_ms": 73116408,
+      "event": "target_found",
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683060545,
+      "elapsed_realtime_ms": 73118076,
+      "event": "target_found",
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683069698,
+      "elapsed_realtime_ms": 73127228,
+      "event": "mob_killed",
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683075262,
+      "elapsed_realtime_ms": 73132793,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683110324,
+      "elapsed_realtime_ms": 73167855,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683124587,
+      "elapsed_realtime_ms": 73182118,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683146266,
+      "elapsed_realtime_ms": 73203797,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683228310,
+      "elapsed_realtime_ms": 73285841,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683240641,
+      "elapsed_realtime_ms": 73298172,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683247568,
+      "elapsed_realtime_ms": 73305099,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683255799,
+      "elapsed_realtime_ms": 73313330,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683285105,
+      "elapsed_realtime_ms": 73342635,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683422191,
+      "elapsed_realtime_ms": 73479722,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683422626,
+      "elapsed_realtime_ms": 73480157,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683444393,
+      "elapsed_realtime_ms": 73501923,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683456162,
+      "elapsed_realtime_ms": 73513693,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683470091,
+      "elapsed_realtime_ms": 73527622,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683482654,
+      "elapsed_realtime_ms": 73540185,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683522531,
+      "elapsed_realtime_ms": 73580061,
+      "event": "target_found",
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683538385,
+      "elapsed_realtime_ms": 73595916,
+      "event": "mob_killed",
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683541517,
+      "elapsed_realtime_ms": 73599047,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683560595,
+      "elapsed_realtime_ms": 73618126,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683601106,
+      "elapsed_realtime_ms": 73658637,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683623887,
+      "elapsed_realtime_ms": 73681418,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683631778,
+      "elapsed_realtime_ms": 73689309,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683646918,
+      "elapsed_realtime_ms": 73704449,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683647775,
+      "elapsed_realtime_ms": 73705305,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683653197,
+      "elapsed_realtime_ms": 73710728,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683665845,
+      "elapsed_realtime_ms": 73723376,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683669126,
+      "elapsed_realtime_ms": 73726656,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683678603,
+      "elapsed_realtime_ms": 73736134,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683683242,
+      "elapsed_realtime_ms": 73740773,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683721690,
+      "elapsed_realtime_ms": 73779221,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683752879,
+      "elapsed_realtime_ms": 73810410,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683769504,
+      "elapsed_realtime_ms": 73827035,
+      "event": "target_found",
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683770024,
+      "elapsed_realtime_ms": 73827555,
+      "event": "mob_killed",
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683778836,
+      "elapsed_realtime_ms": 73836367,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683784024,
+      "elapsed_realtime_ms": 73841555,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683809110,
+      "elapsed_realtime_ms": 73866641,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683815563,
+      "elapsed_realtime_ms": 73873094,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683824425,
+      "elapsed_realtime_ms": 73881956,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683853964,
+      "elapsed_realtime_ms": 73911495,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683873051,
+      "elapsed_realtime_ms": 73930582,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683914323,
+      "elapsed_realtime_ms": 73971854,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683930767,
+      "elapsed_realtime_ms": 73988298,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683989953,
+      "elapsed_realtime_ms": 74047484,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793683998908,
+      "elapsed_realtime_ms": 74056438,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684000180,
+      "elapsed_realtime_ms": 74057711,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684054377,
+      "elapsed_realtime_ms": 74111907,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684059733,
+      "elapsed_realtime_ms": 74117264,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684075235,
+      "elapsed_realtime_ms": 74132766,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684090492,
+      "elapsed_realtime_ms": 74148023,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684125554,
+      "elapsed_realtime_ms": 74183084,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684176607,
+      "elapsed_realtime_ms": 74234138,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684180736,
+      "elapsed_realtime_ms": 74238266,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684181154,
+      "elapsed_realtime_ms": 74238685,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684273250,
+      "elapsed_realtime_ms": 74330781,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684278202,
+      "elapsed_realtime_ms": 74335733,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684287585,
+      "elapsed_realtime_ms": 74345116,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684293676,
+      "elapsed_realtime_ms": 74351206,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684440098,
+      "elapsed_realtime_ms": 74497629,
+      "event": "target_found",
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684450342,
+      "elapsed_realtime_ms": 74507873,
+      "event": "mob_killed",
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684450538,
+      "elapsed_realtime_ms": 74508069,
+      "event": "mob_killed",
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684453054,
+      "elapsed_realtime_ms": 74510584,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684457101,
+      "elapsed_realtime_ms": 74514632,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684501961,
+      "elapsed_realtime_ms": 74559492,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684506762,
+      "elapsed_realtime_ms": 74564293,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684559750,
+      "elapsed_realtime_ms": 74617281,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684564521,
+      "elapsed_realtime_ms": 74622052,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684575000,
+      "elapsed_realtime_ms": 74632531,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684578350,
+      "elapsed_realtime_ms": 74635880,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684664429,
+      "elapsed_realtime_ms": 74721959,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684668989,
+      "elapsed_realtime_ms": 74726520,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684796905,
+      "elapsed_realtime_ms": 74854436,
+      "event": "target_found",
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684815557,
+      "elapsed_realtime_ms": 74873087,
+      "event": "mob_killed",
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684822035,
+      "elapsed_realtime_ms": 74879566,
+      "event": "target_found",
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684823032,
+      "elapsed_realtime_ms": 74880563,
+      "event": "mob_killed",
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684831494,
+      "elapsed_realtime_ms": 74889024,
+      "event": "mob_killed",
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684841973,
+      "elapsed_realtime_ms": 74899504,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684843537,
+      "elapsed_realtime_ms": 74901068,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684861796,
+      "elapsed_realtime_ms": 74919327,
+      "event": "target_found",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684896033,
+      "elapsed_realtime_ms": 74953564,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684896098,
+      "elapsed_realtime_ms": 74953629,
+      "event": "mob_killed",
+      "activity": "Mobs",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684920455,
+      "elapsed_realtime_ms": 74977986,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684925468,
+      "elapsed_realtime_ms": 74982999,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684976521,
+      "elapsed_realtime_ms": 75034051,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E3",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684984182,
+      "elapsed_realtime_ms": 75041714,
+      "event": "target_found",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E3",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684997446,
+      "elapsed_realtime_ms": 75054977,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E3",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793684997480,
+      "elapsed_realtime_ms": 75055010,
+      "event": "gathering_completed",
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E3",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793685016047,
+      "elapsed_realtime_ms": 75073578,
+      "event": "target_found",
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793685016228,
+      "elapsed_realtime_ms": 75073759,
+      "event": "target_found",
+      "activity": "Troll",
+      "tier": "T5",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793685040937,
+      "elapsed_realtime_ms": 75098468,
+      "event": "target_found",
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793685045961,
+      "elapsed_realtime_ms": 75103492,
+      "event": "mob_killed",
+      "activity": "Troll",
+      "tier": "T4",
+      "enchantment": "E1",
+      "source": "manual_overlay"
+    },
+    {
+      "timestamp_ms": 1793685141245,
+      "elapsed_realtime_ms": 75198775,
+      "event": "capture_stopping",
+      "activity": "Capture",
+      "source": "capture_worker"
+    }
+  ],
+  "marker_lifecycles": [
+    {
+      "activity": "Ore",
+      "tier": "T3",
+      "enchantment": "Normal",
+      "found_ms": 1793682917101,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793682952265,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793682966199,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793682982097,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793683010058,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793683075262,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683110324,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793683124587,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683146266,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793683228310,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683240641,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793683247568,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683255799,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793683285105,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683422191,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793683444393,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683422626,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793683752879,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793683456162,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683482654,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793683853964,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683541517,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793683914323,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793683560595,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793683601106,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683623887,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683646918,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683647775,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683665845,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683678603,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683721690,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793683930767,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "Normal",
+      "found_ms": 1793683778836,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793683809110,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683824425,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793684125554,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793683873051,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793684896033,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793683989953,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684054377,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684075235,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793684090492,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "mob_killed_ms": 1793684896098,
+      "status": "TARGET_FOUND_TO_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E1",
+      "found_ms": 1793684176607,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684273250,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684287585,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684453054,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "found_ms": 1793684501961,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E2",
+      "found_ms": 1793684559750,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "found_ms": 1793684575000,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684578350,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684664429,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E1",
+      "found_ms": 1793684841973,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Mobs",
+      "tier": null,
+      "enchantment": null,
+      "found_ms": 1793684861796,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "TARGET_FOUND_NOT_KILLED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T4",
+      "enchantment": "E2",
+      "found_ms": 1793684920455,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E3",
+      "found_ms": 1793684976521,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    },
+    {
+      "activity": "Ore",
+      "tier": "T5",
+      "enchantment": "E3",
+      "found_ms": 1793684984182,
+      "started_ms": null,
+      "completed_ms": null,
+      "depleted_ms": null,
+      "metadata_conflicts": [],
+      "status": "FOUND_NOT_STARTED",
+      "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null
+    }
+  ],
+  "unmatched_marker_events": [
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793682922942,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793682995623,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793683015702,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793683470091,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793683631778,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793683653197,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793683669126,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793683683242,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793683784024,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793683815563,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793683998908,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684000180,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684059733,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684180736,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684181154,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684278202,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684293676,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684457101,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684506762,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684564521,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684668989,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684843537,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684925468,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684997446,
+      "reason": "completion_without_start"
+    },
+    {
+      "activity": "Ore",
+      "event": "gathering_completed",
+      "timestamp_ms": 1793684997480,
+      "reason": "completion_without_start"
+    }
+  ]
+}
