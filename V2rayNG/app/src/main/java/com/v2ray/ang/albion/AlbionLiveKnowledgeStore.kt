@@ -17,6 +17,7 @@ class AlbionLiveKnowledgeStore(
     private val sessionStartedMs: Long = System.currentTimeMillis()
 ) {
     private val file = File(context.applicationContext.filesDir, "albion-live-knowledge.json")
+    private val researchKnowledge = AlbionResearchKnowledgeIndex.load(context)
     private val records = LinkedHashMap<String, JSONObject>()
     private var dirty = false
     private var lastFlushMs = 0L
@@ -266,7 +267,8 @@ class AlbionLiveKnowledgeStore(
                 tier = if (record.has("tier")) record.optInt("tier") else null,
                 enchantRaw = if (record.has("enchant")) record.optInt("enchant") else null,
                 mobileTypeId = if (record.has("mobile_type_id")) record.optInt("mobile_type_id") else null
-            )
+            ),
+            researchIndex = researchKnowledge
         )
         fun field(value: ResourcePatternLearner.FieldInference, blocked: Boolean, blockedReason: String): JSONObject {
             val conflict = blocked && value.status != ResourcePatternLearner.Status.UNKNOWN
