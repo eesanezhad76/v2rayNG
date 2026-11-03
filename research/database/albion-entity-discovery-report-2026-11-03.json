@@ -2851,6 +2851,18 @@
       "dictionary_match": true
     }
   ],
+  "resource_node_catalog": {
+    "rows": 331,
+    "mapped_rows": 329,
+    "unresolved_rows": 2,
+    "resource_type_counts": {
+      "Fiber": 47,
+      "Hide": 7,
+      "Ore": 188,
+      "Rock": 87
+    },
+    "file": "albion-resource-node-catalog-2026-11-03.csv"
+  },
   "knowledge_schema_inventory": {
     "entity_observations": {
       "classification": {
@@ -3226,7 +3238,28 @@
     "protocol_evidence": {}
   },
   "knowledge_type_and_family_field_values": {
-    "entities.family_evidence": [],
+    "entities.family": [
+      [
+        "27",
+        61
+      ],
+      [
+        "7",
+        61
+      ],
+      [
+        "29",
+        38
+      ],
+      [
+        "14",
+        33
+      ],
+      [
+        "20",
+        2
+      ]
+    ],
     "entities.mobile_type_id_evidence": [],
     "entities.mobile_type_id": [
       [
@@ -3474,29 +3507,7 @@
         1
       ]
     ],
-    "entities.family": [
-      [
-        "27",
-        61
-      ],
-      [
-        "7",
-        61
-      ],
-      [
-        "29",
-        38
-      ],
-      [
-        "14",
-        33
-      ],
-      [
-        "20",
-        2
-      ]
-    ],
-    "learned_patterns.family": [],
+    "entities.family_evidence": [],
     "learned_patterns.type_id": [
       [
         "2489",
@@ -3506,7 +3517,8 @@
         "573",
         1
       ]
-    ]
+    ],
+    "learned_patterns.family": []
   },
   "weak_filename_context_hints": [
     {

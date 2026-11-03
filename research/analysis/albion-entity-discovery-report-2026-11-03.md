@@ -88,6 +88,11 @@ Profiles every Event 40 family, Event 123 mobile type, and merged Knowledge sche
 | 835 | Roaming Mountain Chest | 5 | chest | SILVERCOINS_LOOT_CHEST_STANDARD | False | 1 |
 | 943 | Avalonian Treasure Drone | 5 | treasuredrones | None | False | 1 |
 
+## Enriched Event 40 node catalog
+- Rows: 331; mapped: 329; unresolved: 2
+- File: albion-resource-node-catalog-2026-11-03.csv
+- Resource type counts: Fiber=47, Hide=7, Ore=188, Rock=87
+
 ## Key conflict requiring raw-event re-decode
 - Type number 20 maps to HIDE. Its mobile TypeID 482 is Mountain Rabbit and is not harvestable, so the reference OpenRadar handler falls back to type number 20 rather than overriding it.
 - Type number 29 is a separate living Ore Elemental resource mapping: TypeIDs 571/573/574, loot ORE_CRITTER, harvestable=true.
