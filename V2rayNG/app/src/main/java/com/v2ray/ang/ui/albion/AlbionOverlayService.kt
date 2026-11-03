@@ -73,7 +73,12 @@ class AlbionOverlayService : Service() {
         override fun run() {
             if (controlsRoot == null && radarRoot == null) return
             val live = CoreServiceManager.getAlbionLiveKnowledgeJson()
-            if (::radarView.isInitialized && radarRoot != null) radarView.setLiveSnapshot(live)
+            if (::radarView.isInitialized && radarRoot != null) {
+                // Count delivery only after the snapshot parser accepted and installed it.
+                radarView.setLiveSnapshot(live)?.let { acceptedCount ->
+                    CoreServiceManager.acknowledgeAlbionOverlaySnapshot(acceptedCount)
+                }
+            }
             if (::liveStatus.isInitialized) {
                 val status = CoreServiceManager.getAlbionLiveKnowledgeSnapshot().replace('\n', ' ').replace('\r', ' ')
                 liveStatus.text = "DB $catalogNodeCount nodes/$catalogMarkerCount markers • " + status.take(95)
