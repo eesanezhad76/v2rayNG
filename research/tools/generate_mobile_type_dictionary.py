@@ -14,6 +14,7 @@ def build(root: Path):
     mobile = index.get("mobile_types")
     if not isinstance(mobile, dict) or not mobile:
         raise ValueError("research index has no mobile_types object")
+    destination = root / DESTINATION
     # Preserve the broader external dictionary already shipped in the project.
     # The research corpus is a crosswalk/enrichment source, not a replacement catalog.
     existing_root = {}
@@ -83,7 +84,6 @@ def build(root: Path):
         "total_dictionary_entries": len(entries),
     }
     output["entries"] = entries
-    destination = root / DESTINATION
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return {"status": "PASS", "entries": len(entries), "output": str(destination)}
