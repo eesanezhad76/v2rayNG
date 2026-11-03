@@ -104,7 +104,7 @@ def main():
         for r in rows: by_pcap.setdefault((r.get("archive"),r.get("pcap")),0); by_pcap[(r.get("archive"),r.get("pcap"))]+=1
         for (archive,pcap),count in sorted(by_pcap.items()):
             if re.search(r"golem|ore|troll|mob|elemental|stone|wood|fiber|hide",f"{archive} {pcap}",re.I):
-                filename_hints.append({"family":family,"archive":archive,"pcap":pcap,"family_records_in_capture":count,"hint":"filename_only_unverified"})
+                filename_hints.append({"type_number":family,"archive":archive,"pcap":pcap,"type_number_records_in_capture":count,"hint":"filename_only_unverified"})
     def split_values(value):
         return [x.strip() for x in str(value or "").split("|") if x.strip()]
     static_type_map={**{i:"Wood" for i in range(0,6)},**{i:"Rock" for i in range(6,11)},
@@ -178,24 +178,26 @@ def main():
           "state_values","user_confirmed_target"]
         w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(enriched_nodes)
     mapped=sum(1 for p in crosswalk if p["dictionary_match"])
-    report={"schema_version":2,"purpose":"Evidence-ranked family/type discovery; no unproven semantic labels.",
+    resource_display_counts=collections.Counter(r["resource_display_name"] for r in enriched_nodes if r["resource_display_name"])
+    mapping_status_counts=collections.Counter(r["mapping_status"] for r in enriched_nodes)
+    report={"schema_version":2,"purpose":"Evidence-ranked Event 40 Type Number and Mobile TypeID discovery; no unproven semantic labels.",
       "counts":{"event40_node_records":len(nodes),"event123_lifecycle_records":len(mobs),
         "knowledge_entity_observations":len(entities),"learned_pattern_signatures":len(learned),
         "autonomous_pattern_signatures":len(autonomous),"protocol_evidence_records":len(protocol),
-        "distinct_event40_families":len(families),"distinct_event123_mobile_type_ids":len(mob_groups)},
+        "distinct_event40_type_numbers":len(families),"distinct_event123_mobile_type_ids":len(mob_groups)},
       "mobile_type_dictionary_source":dictionary.get("source",{}),
       "type_number_mapping_source":{"repository":"Nouuu/Albion-Online-OpenRadar","files":["web/scripts/data/HarvestablesDatabase.js","web/scripts/handlers/HarvestablesHandler.js","web/scripts/data/MobsDatabase.js"],"mapping":"0-5 WOOD; 6-10 ROCK; 11-15 FIBER; 16-22 HIDE; 23-27 ORE; living resources override only when MobsDatabase.isHarvestable(TypeID) is true."},
       "type_number_cross_validation":{"capture":"AlbionRadar.zip/albion-1793682590317.pcap","matched_records":len(validation_pairs),"mismatches":validation_mismatches},
       "mobile_type_dictionary_coverage":{"pcap_distinct_type_ids":len(mob_groups),"mapped_type_ids":mapped,
         "unmapped_type_ids":[p["mobile_type_id"] for p in crosswalk if not p["dictionary_match"]]},
       "type_number_profiles":family_profiles,"mobile_type_profiles":mob_profiles,"mobile_type_crosswalk":crosswalk,
-      "resource_node_catalog":{"rows":len(enriched_nodes),"mapped_rows":len(enriched_nodes)-unresolved_node_count,"unresolved_rows":unresolved_node_count,"resource_type_counts":dict(sorted(resource_type_counts.items())),"file":"albion-resource-node-catalog-2026-11-03.csv"},
+      "resource_node_catalog":{"rows":len(enriched_nodes),"mapped_rows":len(enriched_nodes)-unresolved_node_count,"unresolved_rows":unresolved_node_count,"resource_type_counts":dict(sorted(resource_type_counts.items())),"resource_display_counts":dict(sorted(resource_display_counts.items())),"mapping_status_counts":dict(sorted(mapping_status_counts.items())),"file":"albion-resource-node-catalog-2026-11-03.csv"},
       "knowledge_schema_inventory":schema,"knowledge_type_and_family_field_values":type_fields,
       "weak_filename_context_hints":filename_hints,
       "guardrails":["Runtime IDs are scoped by archive and PCAP/session.",
         "Event 39 static observations are not Event 40 harvestable nodes.",
         "Event 123 lifecycle rows are not all proven hostile mobs.",
-        "Do not infer a family name from numeric family ID alone.",
+        "Do not confuse Event 40 Type Number with Mobile Type ID; unknown numbers remain unresolved.",
         "Do not join by numeric ID alone; require same capture/session and time/coordinate evidence.",
         "Do not convert filename hints into confirmed labels.","Unknown values are retained rather than dropped."]}
     (DB/"albion-entity-discovery-report-2026-11-03.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
@@ -203,7 +205,7 @@ def main():
         fields=["mobile_type_id","pcap_lifecycle_records","display_name","unique_name","tier","category","danger","loot_type","loot_tier","is_harvestable","dictionary_match"]
         w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(crosswalk)
     lines=["# Albion entity discovery — evidence-ranked reconnaissance","",
-      "Profiles every Event 40 family, Event 123 mobile type, and merged Knowledge schema. Numeric IDs are not assigned names without independent evidence.","",
+      "Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge schema. Numeric IDs are not assigned names without independent evidence.","",
       "## Coverage",f"- Event 40 node records: **{len(nodes)}**",f"- Event 123 lifecycle records: **{len(mobs)}**",
       f"- Knowledge entity records: **{len(entities)}**",f"- Learned patterns: **{len(learned)}**; autonomous patterns: **{len(autonomous)}**; protocol evidence: **{len(protocol)}**",
       f"- Mobile TypeID dictionary coverage: **{mapped}/{len(mob_groups)}** PCAP types mapped",
@@ -219,8 +221,9 @@ def main():
     lines+=["","## Enriched Event 40 node catalog",
       f"- Rows: {len(enriched_nodes)}; mapped: {len(enriched_nodes)-unresolved_node_count}; unresolved: {unresolved_node_count}",
       "- File: albion-resource-node-catalog-2026-11-03.csv",
-      "- Resource type counts: "+", ".join(f"{k}={v}" for k,v in sorted(resource_type_counts.items())),
-      "","## Key conflict requiring raw-event re-decode",
+      "- Resource display counts: "+", ".join(f"{k}={v}" for k,v in sorted(resource_display_counts.items())),
+      "- Mapping status counts: "+", ".join(f"{k}={v}" for k,v in sorted(mapping_status_counts.items())),
+      "","## Mapping caveats and unresolved Type Number",
       "- Type number 20 maps to HIDE. Its mobile TypeID 482 is Mountain Rabbit and is not harvestable, so the reference OpenRadar handler falls back to type number 20 rather than overriding it.",
       "- Type number 29 is a separate living Ore Elemental resource mapping: TypeIDs 571/573/574, loot ORE_CRITTER, harvestable=true.",
       "- Type numbers 7/14/20/27 map to ROCK/FIBER/HIDE/ORE through the public HarvestablesDatabase mapping; 28 remains unresolved.",
@@ -229,7 +232,7 @@ def main():
       "","## Knowledge schema reconnaissance",
       "The JSON report records exact fields and common values for type, family, tier, enchantment, classification, resource, name, labels and IDs. Field-name similarity alone is not proof.",
       "","## Weak filename hints"]
-    lines += [f"- Family {r['family']} — {r['archive']} / {r['pcap']} ({r['family_records_in_capture']} rows; filename hint only)" for r in filename_hints]
+    lines += [f"- Type number {r['type_number']} — {r['archive']} / {r['pcap']} ({r['type_number_records_in_capture']} rows; filename hint only)" for r in filename_hints]
     lines += ["","## Safety rules"]+[f"- {x}" for x in report["guardrails"]]
     (ANALYSIS/"albion-entity-discovery-report-2026-11-03.md").write_text("\n".join(lines)+"\n",encoding="utf-8")
     print(json.dumps({"counts":report["counts"],"mobile_type_dictionary_coverage":report["mobile_type_dictionary_coverage"]},ensure_ascii=False,sort_keys=True))
