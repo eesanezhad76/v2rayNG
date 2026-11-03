@@ -26,12 +26,23 @@ object AlbionHistoricalKnowledgeIndex {
         val protocolShapeCount: Int,
         private val mobileTypes: JSONObject,
         private val resourceFamilies: JSONObject,
+        private val protocolShapes: JSONArray,
         private val learnedPatterns: JSONArray
     ) {
         fun summaryText(): String =
             "Historical memory: $sourceBundleCount bundles / $entityRecordCount entities / $protocolEventCount protocol events / " +
                 "$learnedPatternCount learned patterns / $autonomousSignatureCount autonomous signatures " +
                 "($protocolShapeCount protocol shapes). Evidence only."
+
+        fun protocolShapeSummary(): String {
+            val rows = (0 until protocolShapes.length()).mapNotNull { protocolShapes.optJSONObject(it) }
+                .sortedByDescending { it.optInt("observations") }
+                .take(6)
+            if (rows.isEmpty()) return "Historical protocol shape evidence: unavailable"
+            return "Historical protocol shape evidence: " + rows.joinToString(" | ") { row ->
+                "E${row.optInt("event_code")} ${row.optString("kind")} x${row.optInt("observations")} [${row.optString("parameter_schema")}]"
+            }
+        }
 
         fun annotate(entity: JSONObject) {
             when (entity.optString("last_kind")) {
@@ -119,7 +130,7 @@ object AlbionHistoricalKnowledgeIndex {
                 bundleCount < 0 || entityCount < 0 || protocolCount < 0 || learnedCount < 0 || autonomousCount < 0 ||
                 entities.optInt("entity_record_count", -1) != entityCount ||
                 learned.length() != learnedCount) null
-            else Snapshot(bundleCount, entityCount, protocolCount, learnedCount, autonomousCount, protocols.length(), mobile, families, learned)
+            else Snapshot(bundleCount, entityCount, protocolCount, learnedCount, autonomousCount, protocols.length(), mobile, families, protocols, learned)
         } catch (_: Exception) {
             null
         }
