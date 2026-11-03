@@ -230,7 +230,7 @@ class AlbionOverlayService : Service() {
         }
         val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
         val dragTitle = TextView(this).apply {
-            text = "RADAR • DRAG"; setTextColor(0xFFEAF1F5.toInt()); textSize = 9f
+            text = "RADAR • -45° • DRAG"; setTextColor(0xFFEAF1F5.toInt()); textSize = 9f
             typeface = Typeface.DEFAULT_BOLD; gravity = Gravity.CENTER_VERTICAL; includeFontPadding = false
         }
         head.addView(dragTitle, LinearLayout.LayoutParams(0, dp(25), 1f))
