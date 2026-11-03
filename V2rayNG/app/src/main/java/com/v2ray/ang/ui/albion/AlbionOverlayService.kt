@@ -60,6 +60,7 @@ class AlbionOverlayService : Service() {
     private var researchKnowledge: AlbionResearchKnowledgeIndex.Snapshot? = null
     private var historicalKnowledge: com.v2ray.ang.albion.AlbionHistoricalKnowledgeIndex.Snapshot? = null
     private var catalogNodeCount = 0
+    private var catalogMobCount = 0
     private var catalogMarkerCount = 0
     private val refreshHandler = Handler(Looper.getMainLooper())
     private val snapshotThread = HandlerThread("AlbionRadarSnapshot").apply { start() }
@@ -104,12 +105,15 @@ class AlbionOverlayService : Service() {
                     acceptedCount?.let(CoreServiceManager::acknowledgeAlbionOverlaySnapshot)
                     if (::liveStatus.isInitialized) {
                         val dictionaryCoverage = researchKnowledge?.mobileDictionaryCoverage(mobileTypeDictionary)
-                        val dictionaryStatus = dictionaryCoverage?.let { " • D${it.label()}" } ?: " • D?/?"
+                        val dictionaryStatus = dictionaryCoverage?.let {
+                            " • D${it.label()}·${mobileTypeDictionary.length()}"
+                        } ?: " • D?/?"
                         val historicalStatus = historicalKnowledge?.let {
-                            " • H${it.entityRecordCount}E/${it.protocolEventCount}P/${it.learnedPatternCount}L/${it.autonomousSignatureCount}A"
-                        } ?: " • H?/?/?/?"
+                            " • H${it.sourceBundleCount}B/${it.entityRecordCount}E/${it.protocolEventCount}P/${it.learnedPatternCount}L/${it.autonomousSignatureCount}A"
+                        } ?: " • H?/?/?/?/?"
                         liveStatus.text = (researchKnowledge?.statusLabel() ?: "KNOW unavailable") +
-                            dictionaryStatus + historicalStatus + " • MAP $catalogNodeCount/$catalogMarkerCount • " + statusText.take(80)
+                            dictionaryStatus + historicalStatus +
+                            " • MAP ${catalogNodeCount}N/${catalogMobCount}M/${catalogMarkerCount}K • " + statusText.take(80)
                     }
                     snapshotRefreshInFlight.set(false)
                     if (controlsRoot != null || radarRoot != null) refreshHandler.postDelayed(this, 1200L)
@@ -470,6 +474,7 @@ class AlbionOverlayService : Service() {
             val data = assets.open("albion-static-catalog.json").bufferedReader().use { JSONObject(it.readText()) }
             catalogEntities = data.optJSONArray("entities") ?: JSONArray()
             catalogNodeCount = data.optInt("node_count", catalogEntities.length())
+            catalogMobCount = data.optInt("mob_count", 0)
             catalogMarkerCount = data.optInt("marker_count", 0)
         } catch (_: Exception) { catalogEntities = JSONArray() }
         researchKnowledge = AlbionResearchKnowledgeIndex.load(this)
