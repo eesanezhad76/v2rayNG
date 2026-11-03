@@ -39,12 +39,19 @@ object AlbionEntityEventMapper {
         fun number(key: Int) = (p[key] as? Number)?.toLong()
         fun int(key: Int) = number(key)?.toInt()
         fun float(key: Int) = (p[key] as? Number)?.toFloat()
-        fun pair(value: Any?): Pair<Float, Float>? = when (value) {
-            is FloatArray -> if (value.size >= 2) value[0] to value[1] else null
-            is DoubleArray -> if (value.size >= 2) value[0].toFloat() to value[1].toFloat() else null
-            is List<*> -> if (value.size >= 2 && value[0] is Number && value[1] is Number)
-                (value[0] as Number).toFloat() to (value[1] as Number).toFloat() else null
-            else -> null
+        fun floatList(value: Any?): List<Float> = when (value) {
+            is FloatArray -> value.toList()
+            is DoubleArray -> value.map { it.toFloat() }
+            is IntArray -> value.map { it.toFloat() }
+            is LongArray -> value.map { it.toFloat() }
+            is ShortArray -> value.map { it.toFloat() }
+            is ByteArray -> value.map { it.toFloat() }
+            is List<*> -> value.mapNotNull { (it as? Number)?.toFloat() }
+            else -> emptyList()
+        }
+        fun pair(value: Any?): Pair<Float, Float>? {
+            val values = floatList(value)
+            return if (values.size >= 2) values[0] to values[1] else null
         }
         if (message.kind == "request") {
             if (code != 22) return emptyList()
@@ -69,15 +76,6 @@ object AlbionEntityEventMapper {
             is IntArray -> value.map { it.toLong() }
             is LongArray -> value.toList()
             is List<*> -> value.mapNotNull { (it as? Number)?.toLong() }
-            else -> emptyList()
-        }
-        fun floatList(value: Any?): List<Float> = when (value) {
-            is FloatArray -> value.toList()
-            is DoubleArray -> value.map { it.toFloat() }
-            is IntArray -> value.map { it.toFloat() }
-            is LongArray -> value.map { it.toFloat() }
-            is ShortArray -> value.map { it.toFloat() }
-            is List<*> -> value.mapNotNull { (it as? Number)?.toFloat() }
             else -> emptyList()
         }
         return when (code) {
@@ -133,13 +131,11 @@ object AlbionEntityEventMapper {
             }
             39 -> {
                 val ids = idList(p[0])
-                val positions = p[3]
-                val flat = when (positions) {
-                    is FloatArray -> positions
-                    is DoubleArray -> FloatArray(positions.size) { positions[it].toFloat() }
-                    is List<*> -> positions.mapNotNull { (it as? Number)?.toFloat() }.toFloatArray()
-                    else -> floatArrayOf()
-                }
+                // Protocol18 typed arrays may decode coordinates as float, double,
+                // signed integer, or long arrays depending on the wire element type.
+                // Dropping IntArray/LongArray here produced ID-only records with no x/y,
+                // which the live snapshot correctly discarded and made every node vanish.
+                val flat = floatList(p[3]).toFloatArray()
                 knownNonPlayerEntities.addAll(ids)
                 ids.mapIndexed { i, id ->
                     val at = i * 2
