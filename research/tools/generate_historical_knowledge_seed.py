@@ -35,7 +35,8 @@ ALLOWED_FIELDS = (
 
 def build(root: Path) -> dict:
     source = root / SOURCE
-    destination = root / DESTINATION
+    assets_dir = root / ASSETS
+    destination = assets_dir / "albion-historical-autonomous-patterns.json"
     database = json.loads(source.read_text(encoding="utf-8"))
     rows = database.get("autonomous_patterns")
     if not isinstance(rows, list):
@@ -171,13 +172,13 @@ def build(root: Path) -> dict:
             ) if key in row
         })
 
-    (root / ASSETS).mkdir(parents=True, exist_ok=True)
+    assets_dir.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(output, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
-    (ASSETS / "albion-historical-entity-evidence.json").write_text(
+    (assets_dir / "albion-historical-entity-evidence.json").write_text(
         json.dumps(entity_index, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
-    (ASSETS / "albion-historical-protocol-shapes.json").write_text(
+    (assets_dir / "albion-historical-protocol-shapes.json").write_text(
         json.dumps(protocol_index, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
-    (ASSETS / "albion-historical-learned-patterns.json").write_text(
+    (assets_dir / "albion-historical-learned-patterns.json").write_text(
         json.dumps(learned_output, ensure_ascii=False, separators=(",", ":")) + "\n", encoding="utf-8")
     source_sha256 = __import__("hashlib").sha256(source.read_bytes()).hexdigest()
     manifest = {
@@ -188,7 +189,7 @@ def build(root: Path) -> dict:
         "entity_resource_family_groups": len(family_groups), "protocol_shape_groups": len(protocol_index),
         "policy": "Historical data is evidence-only. Runtime annotations never promote semantic labels or historical coordinates."
     }
-    (ASSETS / "albion-historical-knowledge-manifest.json").write_text(
+    (assets_dir / "albion-historical-knowledge-manifest.json").write_text(
         json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return {
         "status": "PASS",
@@ -201,11 +202,11 @@ def build(root: Path) -> dict:
         "entity_resource_family_groups": len(family_groups),
         "protocol_shape_groups": len(protocol_index),
         "outputs": [
-            str(DESTINATION),
-            str(ASSETS / "albion-historical-entity-evidence.json"),
-            str(ASSETS / "albion-historical-protocol-shapes.json"),
-            str(ASSETS / "albion-historical-learned-patterns.json"),
-            str(ASSETS / "albion-historical-knowledge-manifest.json"),
+            str(destination),
+            str(assets_dir / "albion-historical-entity-evidence.json"),
+            str(assets_dir / "albion-historical-protocol-shapes.json"),
+            str(assets_dir / "albion-historical-learned-patterns.json"),
+            str(assets_dir / "albion-historical-knowledge-manifest.json"),
         ],
     }
 
