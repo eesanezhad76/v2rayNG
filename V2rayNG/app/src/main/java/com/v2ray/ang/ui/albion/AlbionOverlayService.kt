@@ -413,15 +413,8 @@ class AlbionOverlayService : Service() {
         filterPanel.addView(label("2 • TIER (NONE = ALL)"))
         filterOptions.drop(10).take(8).forEach { (key, label) ->
             val check = CheckBox(this).apply {
-                text = label; textSize = 9f
-                val tint = when (key) {
-                    "enchant_1" -> 0xFF35D06F.toInt()
-                    "enchant_2" -> 0xFF3994FF.toInt()
-                    "enchant_3" -> 0xFFB56BFF.toInt()
-                    else -> 0xFF80D8FF.toInt()
-                }
-                setTextColor(if (key.startsWith("enchant_")) tint else 0xFFE3EDF5.toInt())
-                buttonTintList = ColorStateList.valueOf(tint)
+                text = label; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
+                buttonTintList = ColorStateList.valueOf(0xFF80D8FF.toInt())
                 isChecked = key in enabledFilters; minHeight = dp(24); includeFontPadding = false
                 setOnCheckedChangeListener { _, checked ->
                     if (checked) enabledFilters.add(key) else enabledFilters.remove(key)
