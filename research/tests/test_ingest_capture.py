@@ -177,4 +177,33 @@ class IngestTests(unittest.TestCase):
    self.assertEqual(out["counts"]["unique_event40_nodes"],1)
    self.assertEqual(out["nodes"][0]["state_timeline"][0]["size"],4)
 
+ def test_troll_marker_correlates_to_named_mob_using_local_player_health_source(self):
+  with tempfile.TemporaryDirectory() as td:
+   d=pathlib.Path(td)
+   rows=[
+    {"time_ms":900,"entities":[{"kind":"own_player_move","event_code":22,"entity_id":-1,"x":0.0,"y":0.0}]},
+    {"time_ms":1000,"entities":[
+     {"kind":"own_player_move","event_code":22,"entity_id":-1,"x":0.5,"y":0.5},
+     {"kind":"player_move","event_code":3,"entity_id":77,"x":0.5,"y":0.5},
+     {"kind":"mob","event_code":123,"entity_id":88,"mobile_type_id":300,"enchant":1,"x":5.0,"y":5.0,"name":"Forest Troll"}
+    ]},
+    {"time_ms":1500,"entities":[{"kind":"health","event_code":7,"entity_id":88,"source_entity_id":77,"value":-20.0,"secondary_value":80.0}]},
+    {"time_ms":2100,"entities":[{"kind":"leave","event_code":1,"entity_id":88,"removed":True}]},
+    {"time_ms":1000,"manual_marker":{"timestamp_ms":1000,"activity":"Troll","event":"target_found","tier":"T5","enchantment":"E1"}},
+    {"time_ms":2000,"manual_marker":{"timestamp_ms":2000,"activity":"Troll","event":"mob_killed","tier":"T5","enchantment":"E1"}}
+   ]
+   out=self.run_ingest(rows,d)
+   cycle=[x for x in out["marker_lifecycles"] if x["activity"]=="Troll"][0]
+   corr=cycle["spatial_correlation"]
+   self.assertEqual("HIGH",corr["confidence"],corr)
+   self.assertEqual("88",corr["best_candidate"]["entity_id"],corr)
+   self.assertFalse(corr["identity_proven"])
+   mob=out["mobs"][0]
+   self.assertEqual("Forest Troll",mob["name"])
+   self.assertEqual(1,mob["player_damage_events"])
+   self.assertTrue(mob["left"])
+   catalog=json.loads((d/"research/database/sample-catalog.json").read_text(encoding="utf-8"))
+   self.assertEqual(1,catalog["mob_count"])
+   self.assertEqual("Troll",catalog["entities"][0]["marker_activity"])
+
 if __name__=="__main__":unittest.main()
