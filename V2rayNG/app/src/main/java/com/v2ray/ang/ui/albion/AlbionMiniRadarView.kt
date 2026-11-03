@@ -236,8 +236,16 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         paint.strokeWidth = density
         paint.color = 0x665F8295
         for (ring in 1..3) canvas.drawCircle(cx, cy, radius * ring / 3f, paint)
-        canvas.drawLine(cx - radius, cy, cx + radius, cy, paint)
-        canvas.drawLine(cx, cy - radius, cx, cy + radius, paint)
+        val horizontalStartX = rotateRadarX(cx - radius, cy, cx, cy)
+        val horizontalStartY = rotateRadarY(cx - radius, cy, cx, cy)
+        val horizontalEndX = rotateRadarX(cx + radius, cy, cx, cy)
+        val horizontalEndY = rotateRadarY(cx + radius, cy, cx, cy)
+        val verticalStartX = rotateRadarX(cx, cy - radius, cx, cy)
+        val verticalStartY = rotateRadarY(cx, cy - radius, cx, cy)
+        val verticalEndX = rotateRadarX(cx, cy + radius, cx, cy)
+        val verticalEndY = rotateRadarY(cx, cy + radius, cx, cy)
+        canvas.drawLine(horizontalStartX, horizontalStartY, horizontalEndX, horizontalEndY, paint)
+        canvas.drawLine(verticalStartX, verticalStartY, verticalEndX, verticalEndY, paint)
 
         if (catalogOverviewMode) {
             drawCatalogOverview(canvas, cx, cy, radius)
