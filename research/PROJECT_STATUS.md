@@ -39,6 +39,32 @@ Verified data commit before this status update: `21c6d40fcc03772db559c2b08b93b89
 
 > This file is the operational status snapshot. Update it after every meaningful analysis, implementation, test, or build. The Git history and raw captures remain the evidence of record.
 
+
+## Entity discovery and resource resolver — 2026-11-03
+
+Latest successful full inbox ingest: run 41690046009 — SUCCESS.  
+Current branch data head at report generation: 37b4c4f1d8333b0c5bac121811788ad8c2835de3.
+
+- All 12 ZIP archives preserved and inventoried; 31 PCAP members audited, 30 unique captures after excluding one byte-identical duplicate; PCAP analyzer errors: 0.
+- Normalized observations: 340,892; Event 40 node records: 331; Event 39 static-resource observations: 16,944; Event 123 mobile lifecycle records: 2,330.
+- Operation 23 attack tracks: 44 with 1,514 target-position samples; manual markers: 358; completed marker cycles: 109.
+- Knowledge database: 9,522 session-scoped entity records; 4,599 deduplicated protocol events; 70 learned patterns; 296 autonomous signatures; 69 Troll-labelled signatures.
+- Mobile TypeID dictionary resolves all 64/64 distinct PCAP TypeIDs. Enriched lifecycle catalog: 2,330/2,330 records mapped with display name, unique name, tier, category, loot metadata and harvestable flag.
+- Event 40 type-number mapping: 7=Rock, 14=Fiber, 20=Hide, 27=Ore (reference mappings, provisional); 29=Ore Elemental living resource (capture-corroborated); 28 remains unresolved.
+- Independent type-number cross-check against albion-1793682590317.csv: 83/83 matching entity IDs, zero type-number mismatches.
+- Enriched node catalog: 331 rows; 329 mapped, 2 unresolved. Display counts: Rock 87, Fiber 47, Hide 7, static Ore 88, Ore Elemental 100, unresolved 2.
+- ResourcePatternLearner upgraded to version 2026-11-03.2. Static resource type numbers now map provisionally; known harvestable mobile TypeIDs 571/573/574 override static type numbers. Non-harvestable TypeID 482 falls back to type number 20 (Hide). Type number 28 remains unknown.
+- The radar snapshot parser already consumes resource_inference; inferred categories therefore flow into Rock/Fiber/Hide/Ore filters. Provisional labels retain a question mark; Ore Elemental remains capture-corroborated.
+- New database outputs: research/database/albion-resource-node-catalog-2026-11-03.csv, research/database/albion-mobile-entity-catalog-2026-11-03.csv, research/database/albion-mobile-type-crosswalk-2026-11-03.csv, research/database/albion-entity-discovery-report-2026-11-03.json.
+
+## APK verification status
+
+- Build APK run 41687848623 failed one unit-test assertion: the test expected CAPTURE_CORROBORATED while the resolver returned PACKET_CONFIRMED for the resource-name inference. This was a provenance-calibration mismatch, not a parsing or compilation error.
+- Corrected ResourcePatternLearner so the resource name remains CAPTURE_CORROBORATED while the directly decoded Mobile TypeID remains PACKET_CONFIRMED. Updated the corresponding unit-test expectation.
+- Replacement Build APK run 41689099098 is currently in progress. Do not mark the APK build successful until this run completes and its APK verification/SHA-256 steps pass.
+- Research ingest run 41690046009 completed successfully after adding the enriched 2,330-row mobile entity catalog.
+
+
 ## Where the user uploads material
 
 **All new Albion capture ZIPs go to `research/inbox/` on branch `albion-pattern-mining`.**
