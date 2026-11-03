@@ -7,7 +7,7 @@ package com.v2ray.ang.albion
  * are heuristic evidence strengths, not calibrated probabilities.
  */
 object ResourcePatternLearner {
-    const val CATALOG_VERSION = "2026-11-02.1"
+    const val CATALOG_VERSION = "2026-11-03.1"
 
     data class Observation(
         val family: Int?,
@@ -38,7 +38,7 @@ object ResourcePatternLearner {
     )
 
     private val oreMobileTypes = mapOf(3 to 571, 4 to 573, 5 to 574)
-    private val enchantmentNames = mapOf(0 to "Normal", 1 to "E1", 2 to "E2")
+    private val enchantmentNames = mapOf(0 to "Normal", 1 to "E1", 2 to "E2", 3 to "E3")
 
     fun infer(observation: Observation): Result {
         val resource = when (observation.family) {
