@@ -402,6 +402,7 @@ class AlbionOverlayService : Service() {
             mobileTypeDictionary = typeData.optJSONObject("entries") ?: JSONObject()
         } catch (_: Exception) { mobileTypeDictionary = JSONObject() }
         researchKnowledge = AlbionResearchKnowledgeIndex.load(this)
+        historicalKnowledge = com.v2ray.ang.albion.AlbionHistoricalKnowledgeIndex.load(this)
     }
 
     private fun mergeCatalogAndLive(liveJson: String): String {
