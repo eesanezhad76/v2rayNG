@@ -38,6 +38,14 @@ class ResourcePatternLearnerTest {
         assertEquals(ResourcePatternLearner.Status.UNKNOWN, unsupportedTier.mobileTypeId.status)
     }
 
+    @Test fun mapsRawEnchantmentThreeToProvisionalE3() {
+        val result = ResourcePatternLearner.infer(
+            ResourcePatternLearner.Observation(family = 29, tier = 5, enchantRaw = 3, mobileTypeId = null)
+        )
+        assertEquals("E3", result.enchantmentName.value)
+        assertEquals(ResourcePatternLearner.Status.PROVISIONAL_MAPPING, result.enchantmentName.status)
+    }
+
     @Test fun doesNotGuessUnknownFamilyOrMissingEnchantment() {
         val result = ResourcePatternLearner.infer(
             ResourcePatternLearner.Observation(family = 27, tier = 5, enchantRaw = null, mobileTypeId = -1)
