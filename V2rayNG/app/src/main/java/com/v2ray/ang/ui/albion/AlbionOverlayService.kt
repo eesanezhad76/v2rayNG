@@ -62,6 +62,7 @@ class AlbionOverlayService : Service() {
     private var catalogNodeCount = 0
     private var catalogMobCount = 0
     private var catalogMarkerCount = 0
+    private var catalogMappedMarkerCount = 0
     private val refreshHandler = Handler(Looper.getMainLooper())
     private val snapshotThread = HandlerThread("AlbionRadarSnapshot").apply { start() }
     private val snapshotHandler = Handler(snapshotThread.looper)
@@ -79,7 +80,8 @@ class AlbionOverlayService : Service() {
         "category_ore_elemental" to "Ore Elementals",
         "category_animal" to "Other Animals",
         "category_mobs" to "Other Mobs",
-        "category_unknown_resource" to "Unclassified Resources"
+        "category_unknown_resource" to "Unclassified Resources",
+        "category_activity_markers" to "Activity History (player positions)"
     ) + (1..8).map { "tier_$it" to "T$it" } +
         listOf("enchant_0" to "Normal", "enchant_1" to "E1", "enchant_2" to "E2", "enchant_3" to "E3")
 
@@ -113,7 +115,7 @@ class AlbionOverlayService : Service() {
                         } ?: " • H?/?/?/?/?"
                         liveStatus.text = (researchKnowledge?.statusLabel() ?: "KNOW unavailable") +
                             dictionaryStatus + historicalStatus +
-                            " • MAP ${catalogNodeCount}N/${catalogMobCount}M/${catalogMarkerCount}K • " + statusText.take(80)
+                            " • MAP ${catalogNodeCount}N/${catalogMobCount}M • ACT ${catalogMappedMarkerCount}/${catalogMarkerCount} • " + statusText.take(80)
                     }
                     snapshotRefreshInFlight.set(false)
                     if (controlsRoot != null || radarRoot != null) refreshHandler.postDelayed(this, 1200L)
@@ -408,7 +410,7 @@ class AlbionOverlayService : Service() {
     private fun renderFilters() {
         filterPanel.removeAllViews()
         filterPanel.addView(label("1 • RESOURCE / TARGET TYPE"))
-        filterOptions.take(10).forEach { (key, label) ->
+        filterOptions.take(11).forEach { (key, label) ->
             val check = CheckBox(this).apply {
                 text = label; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
                 buttonTintList = ColorStateList.valueOf(0xFF80D8FF.toInt())
@@ -422,7 +424,7 @@ class AlbionOverlayService : Service() {
             filterPanel.addView(check, LinearLayout.LayoutParams(-1, dp(24)))
         }
         filterPanel.addView(label("2 • TIER (NONE = ALL)"))
-        filterOptions.drop(10).take(8).forEach { (key, label) ->
+        filterOptions.drop(11).take(8).forEach { (key, label) ->
             val check = CheckBox(this).apply {
                 text = label; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
                 buttonTintList = ColorStateList.valueOf(0xFF80D8FF.toInt())
@@ -435,7 +437,7 @@ class AlbionOverlayService : Service() {
             filterPanel.addView(check, LinearLayout.LayoutParams(-1, dp(24)))
         }
         filterPanel.addView(label("3 • ENCHANTMENT (NONE = ALL)"))
-        filterOptions.drop(18).forEach { (key, label) ->
+        filterOptions.drop(19).forEach { (key, label) ->
             val check = CheckBox(this).apply {
                 text = label; textSize = 9f
                 val tint = when (key) {
@@ -475,7 +477,32 @@ class AlbionOverlayService : Service() {
             catalogEntities = data.optJSONArray("entities") ?: JSONArray()
             catalogNodeCount = data.optInt("node_count", catalogEntities.length())
             catalogMobCount = data.optInt("mob_count", 0)
-            catalogMarkerCount = data.optInt("marker_count", 0)
+            val markers = data.optJSONArray("markers") ?: JSONArray()
+            catalogMarkerCount = data.optInt("marker_count", markers.length())
+            catalogMappedMarkerCount = 0
+            // These archived marker coordinates are the player's position at the
+            // activity timestamp, not the resource/mob target position. Keep them
+            // in a separate opt-in layer and preserve that distinction in metadata.
+            for (i in 0 until markers.length()) {
+                val marker = markers.optJSONObject(i) ?: continue
+                val correlation = marker.optJSONObject("spatial_correlation") ?: continue
+                val position = correlation.optJSONObject("player_position") ?: continue
+                val x = position.optDouble("x", Double.NaN)
+                val y = position.optDouble("y", Double.NaN)
+                if (!x.isFinite() || !y.isFinite()) continue
+                val pin = JSONObject()
+                    .put("entity_id", "catalog:activity:$i")
+                    .put("last_kind", "activity_marker")
+                    .put("x", x).put("y", y)
+                    .put("marker_activity", marker.optString("activity", "Activity"))
+                    .put("activity_marker_status", marker.optString("status"))
+                    .put("activity_marker_timestamp_ms", position.optLong("time_ms", marker.optLong("found_ms")))
+                    .put("activity_marker_identity_scope", marker.optString("identity_scope"))
+                    .put("activity_marker_spatial_status", correlation.optString("status"))
+                    .put("activity_marker_coordinate_role", "player_position_not_target_position")
+                catalogEntities.put(pin)
+                catalogMappedMarkerCount++
+            }
         } catch (_: Exception) { catalogEntities = JSONArray() }
         researchKnowledge = AlbionResearchKnowledgeIndex.load(this)
         historicalKnowledge = com.v2ray.ang.albion.AlbionHistoricalKnowledgeIndex.load(this)
