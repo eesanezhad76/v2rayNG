@@ -313,6 +313,7 @@ class AlbionCaptureWorker(
             item.put("kind", entity.kind)
             item.put("event_code", entity.eventCode)
             entity.entityId?.let { item.put("entity_id", it) }
+            entity.sourceEntityId?.let { item.put("source_entity_id", it) }
             entity.typeId?.let { item.put("mobile_type_id", it) }
             entity.typeNumber?.let { item.put("type_number", it) }
             entity.tier?.let { item.put("tier", it) }
@@ -323,7 +324,11 @@ class AlbionCaptureWorker(
             entity.name?.let { item.put("name", it) }
             entity.value?.let { item.put("value", it) }
             entity.secondaryValue?.let { item.put("secondary_value", it) }
-            if (entity.kind == "resource_state") item.put("removed", entity.removed)
+            entity.heading?.let { item.put("heading", it) }
+            entity.speed?.let { item.put("speed", it) }
+            entity.targetX?.let { item.put("target_x", it) }
+            entity.targetY?.let { item.put("target_y", it) }
+            if (entity.kind in setOf("resource_state", "leave")) item.put("removed", entity.removed)
             entityArray.put(item)
         }
         val decoderStats = protocol18.stats()
