@@ -6,17 +6,20 @@
     {
       "name": "پیاده شدم اور ماین کردم دوتا قرمز و سوار .pcap",
       "bytes": 74003,
-      "compressed_bytes": 29003
+      "compressed_bytes": 29003,
+      "sha256": "193de897f32b256a57e128b47e60607f34c63820db1d2f5660d146511306ff8c"
     },
     {
       "name": "فقط ماب کشتم.pcap",
       "bytes": 303950,
-      "compressed_bytes": 110423
+      "compressed_bytes": 110423,
+      "sha256": "4ed27ff57802632ad6b08abd43727e6121de4449bda81655cc4f245d37374fc1"
     },
     {
       "name": "بیکار سوار مونت موندم.pcap",
       "bytes": 72574,
-      "compressed_bytes": 25605
+      "compressed_bytes": 25605,
+      "sha256": "99ef31a31f06acad2daecb567d5987d0a5f6db47d59667f1dd654fca36d66781"
     }
   ],
   "notes": [],
@@ -58,5 +61,6 @@
     "ninety_degree_turns": 0,
     "resource_nodes": 0,
     "troll_golem_mob": 0
-  }
+  },
+  "text_hints_semantics": "Regex keyword occurrence counts in text members only; not counts of unique nodes, mobs, Trolls, or game entities."
 }

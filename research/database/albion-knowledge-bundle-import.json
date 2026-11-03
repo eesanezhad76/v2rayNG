@@ -11,6 +11,15 @@
       "autonomous_patterns_in_export": 202
     },
     {
+      "archive": "albions6.zip",
+      "archive_sha256": "1af1d19aacdbd9a81d58a1c741ef985af7dab920c0e3f585d9673ba2e2ad2196",
+      "exported_at_ms": 1793720116863,
+      "entity_records_in_export": 4305,
+      "protocol_events_in_export": 1886,
+      "patterns_in_export": 0,
+      "autonomous_patterns_in_export": 240
+    },
+    {
       "archive": "dile2radar.zip",
       "archive_sha256": "4ad01551a5bfc0b58999b7b65f883882a492c7def91247cd6ede799fd79cccb8",
       "exported_at_ms": 1793701041041,
@@ -27,15 +36,6 @@
       "protocol_events_in_export": 713,
       "patterns_in_export": 70,
       "autonomous_patterns_in_export": 172
-    },
-    {
-      "archive": "albions6.zip",
-      "archive_sha256": "1af1d19aacdbd9a81d58a1c741ef985af7dab920c0e3f585d9673ba2e2ad2196",
-      "exported_at_ms": 1793720116863,
-      "entity_records_in_export": 4305,
-      "protocol_events_in_export": 1886,
-      "patterns_in_export": 0,
-      "autonomous_patterns_in_export": 240
     }
   ],
   "entity_observations": [
@@ -604217,7 +604217,7 @@
       "signature": "69d6fcf95547e364b11239618a5096b3eb9c3832841e99ed2e25436be7ff8b93",
       "event_code": 540,
       "parameter_shape": "0:integer,1:integer,2:string,3:list,5:numeric_array,6:integer,7:float,252:integer",
-      "first_seen_ms": 1793699464323,
+      "first_seen_ms": 1793718989489,
       "sightings": 1,
       "capture_sessions": [
         "1793699283778",
@@ -604225,7 +604225,7 @@
       ],
       "labels": [],
       "status": "unknown_candidate",
-      "last_seen_ms": 1793699464323,
+      "last_seen_ms": 1793718989489,
       "heuristic_evidence": 10,
       "evidence_semantics": "ordinal heuristic; not a probability or semantic classification",
       "source_bundles": [
@@ -605931,7 +605931,7 @@
       "signature": "923f056606f6631f70edf0dc72db53ff019f29b1db5488a44c8cba99040ee252",
       "event_code": 104,
       "parameter_shape": "0:bytes,1:string,3:integer,4:integer,5:integer,6:integer,7:integer,8:integer,9:integer,252:integer",
-      "first_seen_ms": 1793699419460,
+      "first_seen_ms": 1793719475812,
       "sightings": 1,
       "capture_sessions": [
         "1793699283778",
@@ -605939,7 +605939,7 @@
       ],
       "labels": [],
       "status": "unknown_candidate",
-      "last_seen_ms": 1793699419460,
+      "last_seen_ms": 1793719475812,
       "heuristic_evidence": 10,
       "evidence_semantics": "ordinal heuristic; not a probability or semantic classification",
       "source_bundles": [
@@ -606224,7 +606224,7 @@
       "signature": "997b5364c126731ac5e89a9ba8d435ab2486e3c0827e12b0d032b7d0a7d66890",
       "event_code": 297,
       "parameter_shape": "1:bytes,2:string,252:integer",
-      "first_seen_ms": 1793699419460,
+      "first_seen_ms": 1793719475812,
       "sightings": 1,
       "capture_sessions": [
         "1793699283778",
@@ -606232,7 +606232,7 @@
       ],
       "labels": [],
       "status": "unknown_candidate",
-      "last_seen_ms": 1793699419460,
+      "last_seen_ms": 1793719475812,
       "heuristic_evidence": 10,
       "evidence_semantics": "ordinal heuristic; not a probability or semantic classification",
       "source_bundles": [
@@ -606598,7 +606598,7 @@
       "signature": "a00667bda7904196a90d6758e758b8a47280db90ab1ce3a8f941ca8fd412d42c",
       "event_code": 541,
       "parameter_shape": "0:integer,252:integer",
-      "first_seen_ms": 1793699511134,
+      "first_seen_ms": 1793718995874,
       "sightings": 1,
       "capture_sessions": [
         "1793699283778",
@@ -606606,7 +606606,7 @@
       ],
       "labels": [],
       "status": "unknown_candidate",
-      "last_seen_ms": 1793699511134,
+      "last_seen_ms": 1793718995874,
       "heuristic_evidence": 10,
       "evidence_semantics": "ordinal heuristic; not a probability or semantic classification",
       "source_bundles": [

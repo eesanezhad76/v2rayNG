@@ -6,17 +6,20 @@
     {
       "name": "albion-1793712506879.jsonl",
       "bytes": 15741717,
-      "compressed_bytes": 635077
+      "compressed_bytes": 635077,
+      "sha256": "37e4624d01dda65814c31437051eb79d3b321551575273c1106e7adc5521ad06"
     },
     {
       "name": "albion-1793712506879.pcap",
       "bytes": 6833115,
-      "compressed_bytes": 4640810
+      "compressed_bytes": 4640810,
+      "sha256": "75e64591c79416aa1ff2f3fcb84d8e86da7729e5926c31db1e4bb0bad09ac89f"
     },
     {
       "name": "albion-1793707992278.jsonl",
       "bytes": 21065885,
-      "compressed_bytes": 354791
+      "compressed_bytes": 354791,
+      "sha256": "17ffed3d78789b74d70f230f07d4966c19eec083e51b54894e7f4cb4369c3186"
     }
   ],
   "notes": [],
@@ -329,5 +332,6 @@
     "ninety_degree_turns": 0,
     "resource_nodes": 0,
     "troll_golem_mob": 0
-  }
+  },
+  "text_hints_semantics": "Regex keyword occurrence counts in text members only; not counts of unique nodes, mobs, Trolls, or game entities."
 }

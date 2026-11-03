@@ -1,0 +1,1025 @@
+{
+  "generated_at_utc": "2026-11-03T17:24:11.212240+00:00",
+  "branch": "albion-pattern-mining",
+  "source_archives": [
+    {
+      "archive": "Albion اااستسمنسمنش.zip",
+      "bytes": 165627,
+      "sha256": "1284882bfa527ce6fa02becd77324f58204e9c770dc4c138e0267f0ce4cf28ba",
+      "members": 3,
+      "pcaps": 3,
+      "jsonl": 0,
+      "knowledge_entity_records": 0,
+      "knowledge_protocol_events": 0,
+      "knowledge_autonomous_patterns": 0
+    },
+    {
+      "archive": "Albion2.zip",
+      "bytes": 989701,
+      "sha256": "bcbd82dbf8afa5d82f4e7ae26911b313b843604e7f1e8c0e6077b423e19ba242",
+      "members": 9,
+      "pcaps": 9,
+      "jsonl": 0,
+      "knowledge_entity_records": 0,
+      "knowledge_protocol_events": 0,
+      "knowledge_autonomous_patterns": 0
+    },
+    {
+      "archive": "AlbionRadar.zip",
+      "bytes": 12925796,
+      "sha256": "d29e55cea46fe8df9346e14fc0a7e5b535da7d981aa76b80ebece15969aa3aab",
+      "members": 3,
+      "pcaps": 1,
+      "jsonl": 1,
+      "knowledge_entity_records": 0,
+      "knowledge_protocol_events": 0,
+      "knowledge_autonomous_patterns": 0
+    },
+    {
+      "archive": "AlbionRadar2.zip",
+      "bytes": 9060999,
+      "sha256": "3fc1413d80c973cb26a2d6501320794ba5e2f3aeb7754f87ff9fe90a3689a0af",
+      "members": 9,
+      "pcaps": 3,
+      "jsonl": 3,
+      "knowledge_entity_records": 0,
+      "knowledge_protocol_events": 0,
+      "knowledge_autonomous_patterns": 0
+    },
+    {
+      "archive": "AlbionRadar5.zip",
+      "bytes": 5631130,
+      "sha256": "8ccc753f02f8d65666a747a9d2306074c295bafb56453ff56221cb9464a640ac",
+      "members": 3,
+      "pcaps": 1,
+      "jsonl": 2,
+      "knowledge_entity_records": 0,
+      "knowledge_protocol_events": 0,
+      "knowledge_autonomous_patterns": 0
+    },
+    {
+      "archive": "AlbionRadar6json.zip",
+      "bytes": 11300472,
+      "sha256": "c9e1a8ddca784e232f5464148a5958a0596752dcb752d0ac0c7fc959a060326c",
+      "members": 12,
+      "pcaps": 4,
+      "jsonl": 4,
+      "knowledge_entity_records": 0,
+      "knowledge_protocol_events": 0,
+      "knowledge_autonomous_patterns": 0
+    },
+    {
+      "archive": "Albions.zip",
+      "bytes": 4097560,
+      "sha256": "74b1068ea1e1762eb06ec6ac61ee6e667fc960475c5cb87ae744961c8ffb3672",
+      "members": 7,
+      "pcaps": 7,
+      "jsonl": 0,
+      "knowledge_entity_records": 0,
+      "knowledge_protocol_events": 0,
+      "knowledge_autonomous_patterns": 0
+    },
+    {
+      "archive": "Albionsskkakaks111.zip",
+      "bytes": 5204484,
+      "sha256": "1b5871aac942dd646fdef6d44dbfb422bc4127d31e1ff5c29e21db4e63df6033",
+      "members": 7,
+      "pcaps": 3,
+      "jsonl": 2,
+      "knowledge_entity_records": 0,
+      "knowledge_protocol_events": 0,
+      "knowledge_autonomous_patterns": 0
+    },
+    {
+      "archive": "albion-knowledge-1793685119365.zip",
+      "bytes": 220853,
+      "sha256": "ec07b65caecdc002e493780c390339c1243fa83525bedc252d3b988fe8ef8935",
+      "members": 5,
+      "pcaps": 0,
+      "jsonl": 0,
+      "knowledge_entity_records": 3972,
+      "knowledge_protocol_events": 2000,
+      "knowledge_autonomous_patterns": 202
+    },
+    {
+      "archive": "albions6.zip",
+      "bytes": 278569,
+      "sha256": "1af1d19aacdbd9a81d58a1c741ef985af7dab920c0e3f585d9673ba2e2ad2196",
+      "members": 6,
+      "pcaps": 0,
+      "jsonl": 0,
+      "knowledge_entity_records": 4305,
+      "knowledge_protocol_events": 1886,
+      "knowledge_autonomous_patterns": 240
+    },
+    {
+      "archive": "dile2radar.zip",
+      "bytes": 95505,
+      "sha256": "4ad01551a5bfc0b58999b7b65f883882a492c7def91247cd6ede799fd79cccb8",
+      "members": 6,
+      "pcaps": 0,
+      "jsonl": 0,
+      "knowledge_entity_records": 1245,
+      "knowledge_protocol_events": 713,
+      "knowledge_autonomous_patterns": 172
+    },
+    {
+      "archive": "file2.zip",
+      "bytes": 873784,
+      "sha256": "24fc439d5bd50f1e571c3e73980bc1fbdc170b075e05531df36b46be57cbe9bd",
+      "members": 6,
+      "pcaps": 0,
+      "jsonl": 0,
+      "knowledge_entity_records": 1245,
+      "knowledge_protocol_events": 713,
+      "knowledge_autonomous_patterns": 172
+    }
+  ],
+  "intake": {
+    "zip_archives": 12,
+    "pcap_members": 31,
+    "unique_pcap_sha256": 30,
+    "byte_identical_duplicate_pcaps": 1,
+    "pcap_analyzer_errors": 0,
+    "jsonl_members": 12,
+    "normalized_observations": 340892,
+    "own_player_move_observations": 38132
+  },
+  "resource_nodes": {
+    "event40_file_scoped_records": 331,
+    "by_family_number": {
+      "14": 47,
+      "20": 7,
+      "27": 88,
+      "28": 2,
+      "29": 100,
+      "7": 87
+    },
+    "by_archive": {
+      "Albion اااستسمنسمنش.zip": 4,
+      "Albion2.zip": 15,
+      "AlbionRadar.zip": 83,
+      "AlbionRadar2.zip": 19,
+      "AlbionRadar5.zip": 30,
+      "AlbionRadar6json.zip": 93,
+      "Albions.zip": 36,
+      "Albionsskkakaks111.zip": 51
+    },
+    "state_ids": 297,
+    "state_only_ids_without_event40_location": 213,
+    "known_ore_family": 29,
+    "known_ore_mobile_types_by_tier": {
+      "T3": 571,
+      "T4": 573,
+      "T5": 574
+    },
+    "user_confirmed_exception": {
+      "entity_id": "2788",
+      "family": 27,
+      "tier": 5,
+      "enchant": 3,
+      "coordinates": [
+        -379,
+        -24
+      ]
+    }
+  },
+  "static_resource_observations": {
+    "event39_records": 16944,
+    "warning": "Event 39 observations are untyped static-resource candidates; do not equate them to confirmed Event 40 nodes without exact identity evidence."
+  },
+  "mobile_entities": {
+    "event123_lifecycle_records": 2330,
+    "by_archive": {
+      "Albion اااستسمنسمنش.zip": 10,
+      "Albion2.zip": 52,
+      "AlbionRadar.zip": 656,
+      "AlbionRadar2.zip": 228,
+      "AlbionRadar5.zip": 235,
+      "AlbionRadar6json.zip": 838,
+      "Albions.zip": 64,
+      "Albionsskkakaks111.zip": 247
+    },
+    "warning": "Event 123 living/mobile records; not every record is independently proven to be a hostile mob."
+  },
+  "combat": {
+    "operation23_attack_target_tracks": 44,
+    "attack_target_position_samples": 1514,
+    "interpretations": {
+      "attack_target_with_plausible_mode3_movement_kill_not_proven": 1,
+      "health_at_or_below_5_then_leave_after_attack_strong_defeat_candidate": 5,
+      "health_updates_then_leave_after_attack_defeat_likely_not_confirmed": 38
+    },
+    "marker_correlations": 29,
+    "correlations_by_activity_confidence": {
+      "Mobs|HIGH": 6,
+      "Mobs|LOW": 4,
+      "Mobs|MEDIUM": 3,
+      "Mobs|NONE": 1,
+      "Troll|HIGH": 10,
+      "Troll|MEDIUM": 3,
+      "Troll|NONE": 2
+    },
+    "troll_cycles": 15,
+    "troll_confidence": {
+      "HIGH": 10,
+      "MEDIUM": 3,
+      "NONE": 2
+    },
+    "troll_resolved_mob_names": {
+      "Ore Elemental": 13
+    },
+    "troll_mobile_type_ids": {
+      "571": 1,
+      "573": 7,
+      "574": 5
+    },
+    "troll_unique_target_ids": 10,
+    "troll_unmatched_cycles": 2,
+    "troll_identity_proven_rows": 0,
+    "mob_cycles": 14,
+    "warning": "Operation 23 provides exact selected target IDs; marker-to-target links remain confidence-ranked. Leave is not proof of death."
+  },
+  "manual_markers": {
+    "total": 358,
+    "by_activity_event": {
+      "Capture|capture_started": 11,
+      "Capture|capture_stopping": 10,
+      "Fiber|activity_selected": 2,
+      "Hide|activity_selected": 2,
+      "Mobs|activity_selected": 3,
+      "Mobs|enchantment_selected": 3,
+      "Mobs|mob_killed": 13,
+      "Mobs|target_found": 14,
+      "Ore|activity_selected": 4,
+      "Ore|enchantment_selected": 18,
+      "Ore|gathering_completed": 69,
+      "Ore|gathering_started": 21,
+      "Ore|node_depleted": 20,
+      "Ore|overlay_started": 1,
+      "Ore|target_found": 80,
+      "Ore|tier_selected": 28,
+      "Other|activity_selected": 5,
+      "PvP|activity_selected": 4,
+      "Stone|activity_selected": 2,
+      "Travel|activity_end": 1,
+      "Travel|activity_event": 1,
+      "Travel|activity_selected": 5,
+      "Travel|activity_start": 1,
+      "Travel|overlay_collapsed": 1,
+      "Travel|tier_selected": 7,
+      "Troll|mob_killed": 14,
+      "Troll|target_found": 15,
+      "Wood|activity_selected": 3
+    },
+    "completed_lifecycle_samples": 109
+  },
+  "knowledge_bundles": {
+    "imported_bundles": 4,
+    "source_entity_records_sum_from_manifests": 10767,
+    "deduplicated_session_scoped_entity_records": 9522,
+    "entity_class_counts": {
+      "UNKNOWN": 8456,
+      "mob": 1066
+    },
+    "classification_counts": {
+      "UNKNOWN": 2,
+      "ambiguous_entity": 1,
+      "ambiguous_resource_candidate": 1,
+      "static_resource_candidate": 4807,
+      "typed_resource_observation": 194,
+      "unclassified_observation": 4517
+    },
+    "source_protocol_events_sum_from_manifests": 5312,
+    "deduplicated_protocol_events": 4599,
+    "unique_learned_pattern_signatures": 70,
+    "unique_autonomous_event_signatures": 296,
+    "troll_labeled_autonomous_signatures": 69,
+    "troll_label_keys": [
+      "Troll|T3|Normal",
+      "Troll|T4|E1",
+      "Troll|T5|E1",
+      "Troll|T5|Normal"
+    ],
+    "warning": "Troll-labeled signatures are learned patterns, not counts of individual Troll mobs or kills."
+  },
+  "spatial_alignment": {
+    "captures_checked": [
+      {
+        "archive": "Albion اااستسمنسمنش.zip",
+        "pcap": "بیکار سوار مونت موندم.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 455,
+        "player_position_samples": 0,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albion اااستسمنسمنش.zip",
+        "pcap": "فقط ماب کشتم.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 2992,
+        "player_position_samples": 361,
+        "typed_resource_nodes": 4,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -301.0350341796875,
+          "max_x": -277.2760925292969,
+          "min_y": 58.73162078857422,
+          "max_y": 89.026123046875
+        },
+        "resource_bounds": {
+          "min_x": -342.5,
+          "max_x": -242.0,
+          "min_y": 30.229,
+          "max_y": 129.0
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 4,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 44.205,
+        "p90_nearest_player_distance_at_node_observation": 51.041,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albion اااستسمنسمنش.zip",
+        "pcap": "پیاده شدم اور ماین کردم دوتا قرمز و سوار .pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 307,
+        "player_position_samples": 7,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albion2.zip",
+        "pcap": "2 blue gholem ench 2 killed together and mined besides each other .pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 1744,
+        "player_position_samples": 143,
+        "typed_resource_nodes": 4,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -275.77862548828125,
+          "max_x": -256.68914794921875,
+          "min_y": 106.28853607177734,
+          "max_y": 139.1251983642578
+        },
+        "resource_bounds": {
+          "min_x": -309.651,
+          "max_x": -260.563,
+          "min_y": 75.729,
+          "max_y": 110.635
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 4,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 1.784,
+        "p90_nearest_player_distance_at_node_observation": 53.679,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albion2.zip",
+        "pcap": "6red ores ,each one mined.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 1254,
+        "player_position_samples": 117,
+        "typed_resource_nodes": 1,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 1,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albion2.zip",
+        "pcap": "blue enchanted 2 gholem killed and mined .pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 683,
+        "player_position_samples": 49,
+        "typed_resource_nodes": 2,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 2,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albion2.zip",
+        "pcap": "blue ore ench1 mined .pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 258,
+        "player_position_samples": 16,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albion2.zip",
+        "pcap": "blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 868,
+        "player_position_samples": 72,
+        "typed_resource_nodes": 1,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 1,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albion2.zip",
+        "pcap": "red gholem lvl2 ench killed and mines.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 1654,
+        "player_position_samples": 55,
+        "typed_resource_nodes": 2,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 2,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albion2.zip",
+        "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 932,
+        "player_position_samples": 43,
+        "typed_resource_nodes": 4,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -231.29815673828125,
+          "max_x": -202.68235778808594,
+          "min_y": 353.09246826171875,
+          "max_y": 359.205078125
+        },
+        "resource_bounds": {
+          "min_x": -229.336,
+          "max_x": -162.0,
+          "min_y": 334.496,
+          "max_y": 367.5
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 3,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 43.536,
+        "p90_nearest_player_distance_at_node_observation": 43.536,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albion2.zip",
+        "pcap": "red,ore lvl2.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 341,
+        "player_position_samples": 25,
+        "typed_resource_nodes": 1,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 1,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albion2.zip",
+        "pcap": "went from yellow 5 region to fort sterling, and then to bank and inspectoed a few of my items and equipmentz.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 2341,
+        "player_position_samples": 62,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "AlbionRadar.zip",
+        "pcap": "albion-1793682590317.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 122965,
+        "player_position_samples": 14811,
+        "typed_resource_nodes": 83,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -381.9416198730469,
+          "max_x": 295.5122375488281,
+          "min_y": -382.8958740234375,
+          "max_y": 361.66827392578125
+        },
+        "resource_bounds": {
+          "min_x": -379.0,
+          "max_x": 314.0,
+          "min_y": -385.0,
+          "max_y": 364.0
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 83,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 46.188,
+        "p90_nearest_player_distance_at_node_observation": 55.313,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "AlbionRadar2.zip",
+        "pcap": "albion-1793699111286.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 2,
+        "player_position_samples": 0,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "AlbionRadar2.zip",
+        "pcap": "albion-1793699145258.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 2,
+        "player_position_samples": 0,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "AlbionRadar2.zip",
+        "pcap": "albion-1793699283778.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 35139,
+        "player_position_samples": 3942,
+        "typed_resource_nodes": 19,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -381.8504943847656,
+          "max_x": -5.417780876159668,
+          "min_y": -283.34942626953125,
+          "max_y": 201.156494140625
+        },
+        "resource_bounds": {
+          "min_x": -376.217,
+          "max_x": -6.5,
+          "min_y": -308.0,
+          "max_y": 180.0
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 19,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 48.025,
+        "p90_nearest_player_distance_at_node_observation": 56.917,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "AlbionRadar5.zip",
+        "pcap": "albion-1793712506879.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 36803,
+        "player_position_samples": 4626,
+        "typed_resource_nodes": 30,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -347.19482421875,
+          "max_x": -47.13621520996094,
+          "min_y": -333.299072265625,
+          "max_y": 117.76435089111328
+        },
+        "resource_bounds": {
+          "min_x": -380.5,
+          "max_x": -25.296,
+          "min_y": -312.0,
+          "max_y": 141.0
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 30,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 48.607,
+        "p90_nearest_player_distance_at_node_observation": 60.465,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "AlbionRadar6json.zip",
+        "pcap": "albion-1793718210678.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 2,
+        "player_position_samples": 0,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "AlbionRadar6json.zip",
+        "pcap": "albion-1793718347142.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 2,
+        "player_position_samples": 0,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "AlbionRadar6json.zip",
+        "pcap": "albion-1793718370435.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 2,
+        "player_position_samples": 0,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "AlbionRadar6json.zip",
+        "pcap": "albion-1793718384341.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 88089,
+        "player_position_samples": 9703,
+        "typed_resource_nodes": 93,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -375.5676574707031,
+          "max_x": 382.22216796875,
+          "min_y": -357.5375671386719,
+          "max_y": 386.98785400390625
+        },
+        "resource_bounds": {
+          "min_x": -379.0,
+          "max_x": 386.0,
+          "min_y": -317.0,
+          "max_y": 387.0
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 93,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 48.051,
+        "p90_nearest_player_distance_at_node_observation": 57.803,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albions.zip",
+        "pcap": "1 mob dismount and mount .pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 171,
+        "player_position_samples": 8,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albions.zip",
+        "pcap": "2 times 90degred change direction .pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 1506,
+        "player_position_samples": 203,
+        "typed_resource_nodes": 15,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -149.23867797851562,
+          "max_x": -53.32423400878906,
+          "min_y": 241.40896606445312,
+          "max_y": 363.26904296875
+        },
+        "resource_bounds": {
+          "min_x": -193.986,
+          "max_x": -7.0,
+          "min_y": 289.0,
+          "max_y": 367.968
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 15,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 54.232,
+        "p90_nearest_player_distance_at_node_observation": 60.561,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albions.zip",
+        "pcap": "2mobs dismount and Mount .pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 1140,
+        "player_position_samples": 121,
+        "typed_resource_nodes": 3,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -375.9888000488281,
+          "max_x": -364.8533020019531,
+          "min_y": 266.59942626953125,
+          "max_y": 284.3939514160156
+        },
+        "resource_bounds": {
+          "min_x": -388.0,
+          "max_x": -322.0,
+          "min_y": 227.0,
+          "max_y": 321.0
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 3,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 58.961,
+        "p90_nearest_player_distance_at_node_observation": 58.961,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albions.zip",
+        "pcap": "gholem dismount kill mine mount.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 744,
+        "player_position_samples": 25,
+        "typed_resource_nodes": 1,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 1,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albions.zip",
+        "pcap": "ore 4 3 red 2 blue .pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 1819,
+        "player_position_samples": 164,
+        "typed_resource_nodes": 2,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 2,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albions.zip",
+        "pcap": "run and stop.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 2489,
+        "player_position_samples": 233,
+        "typed_resource_nodes": 14,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -78.86469268798828,
+          "max_x": -52.02134704589844,
+          "min_y": 45.53532791137695,
+          "max_y": 319.42041015625
+        },
+        "resource_bounds": {
+          "min_x": -102.0,
+          "max_x": -6.015,
+          "min_y": 105.285,
+          "max_y": 359.772
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 14,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 53.054,
+        "p90_nearest_player_distance_at_node_observation": 59.93,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albions.zip",
+        "pcap": "stopping.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 1322,
+        "player_position_samples": 0,
+        "typed_resource_nodes": 1,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albionsskkakaks111.zip",
+        "pcap": "albion-1793620143023.pcap",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 3,
+        "player_position_samples": 0,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "Albionsskkakaks111.zip",
+        "pcap": "albion-1793620890462.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 34863,
+        "player_position_samples": 3346,
+        "typed_resource_nodes": 51,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -386.3223876953125,
+          "max_x": 371.88055419921875,
+          "min_y": -191.65135192871094,
+          "max_y": 382.7960205078125
+        },
+        "resource_bounds": {
+          "min_x": -387.0,
+          "max_x": 365.917,
+          "min_y": -217.0,
+          "max_y": 382.803
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 51,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 45.071,
+        "p90_nearest_player_distance_at_node_observation": 55.007,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      }
+    ],
+    "plausible_same_local_coordinate_space": 11,
+    "overall_status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+    "warning": "This does not establish current zone identity or a global map transform."
+  },
+  "tables": [
+    {
+      "path": "research/analysis/2026-11-02-all-inbox-observations.jsonl",
+      "bytes": 64380965,
+      "sha256": "817be766f8606c4e453973b1f0df282ab51572d4ac43f4414f16be443da9f0b0"
+    },
+    {
+      "path": "research/database/2026-11-02-pcap-harvestable-nodes.csv",
+      "bytes": 56613,
+      "sha256": "c7fe35e19a96c01b97d0cf0cd090957088ab0c0817408758dac25d54a9a82dd5"
+    },
+    {
+      "path": "research/database/2026-11-02-pcap-mob-lifecycle.csv",
+      "bytes": 529395,
+      "sha256": "c6544628aa52eb5ce8d034b8b1557cb0af1badcff64debcb0963adeb5e647af3"
+    },
+    {
+      "path": "research/database/2026-11-02-pcap-static-resources.csv",
+      "bytes": 1497186,
+      "sha256": "442180612563a431f768ef3131f36dfe0c200ab9a992106272e053911e72b6a0"
+    },
+    {
+      "path": "research/database/2026-11-02-pcap-attack-target-tracks.csv",
+      "bytes": 17494,
+      "sha256": "9e531b71806aa4e2694f29daf4409cfd3ef71ac359f09ef3bd44044f62a72b7c"
+    },
+    {
+      "path": "research/analysis/2026-11-02-overlay-manual-markers.csv",
+      "bytes": 36187,
+      "sha256": "c525a7eda28e0dd640868e73a5dd562623ebee7f5fefa087cbd92566c0b94b24"
+    },
+    {
+      "path": "research/analysis/2026-11-02-overlay-mob-attack-correlation.csv",
+      "bytes": 7750,
+      "sha256": "14de21998a0315558a9f4b09f9f10883c4493f07d60a95ff51ed5f3a669670df"
+    },
+    {
+      "path": "research/database/2026-11-02-pcap-resource-state-timelines.csv",
+      "bytes": 32347,
+      "sha256": "c0479c376111076ffa32da65abbb1de302737fabbd1d5e5d1e2af8a7803320fb"
+    },
+    {
+      "path": "research/database/2026-11-02-pcap-health-energy-events.csv",
+      "bytes": 858147,
+      "sha256": "4bbcbef2d863ff8c28de467d8b5f069e5cf0ae3355c542f3dd052117a8a33a0b"
+    },
+    {
+      "path": "research/database/albion-knowledge-bundle-import.json",
+      "bytes": 17141749,
+      "sha256": "34e48608aa7eb1fe22384341b783de7ab6b164a13391ca40610841f7270e91de"
+    },
+    {
+      "path": "research/database/albion-troll-target-correlation-2026-11-03.csv",
+      "bytes": 3449,
+      "sha256": "1e289a508f30a504176d40e7576b9e4736ca8376e323668ab3437a27dbf3c6d7"
+    },
+    {
+      "path": "research/database/albion-mob-target-correlation-2026-11-03.csv",
+      "bytes": 3514,
+      "sha256": "8abd7cb15efbce184c55fd31902c835d3d8f611d5eee6c5e57022de53f001419"
+    }
+  ]
+}

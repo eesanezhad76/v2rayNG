@@ -3,15 +3,15 @@
 - ZIP SHA-256: 3fc1413d80c973cb26a2d6501320794ba5e2f3aeb7754f87ff9fe90a3689a0af
 
 ## Members
-- albion-1793699283778.report.txt (3839579 bytes)
-- albion-1793699283778.jsonl (19688976 bytes)
-- albion-1793699283778.pcap (9661933 bytes)
-- albion-1793699145258.pcap (698976 bytes)
-- albion-1793699145258.report.txt (3371 bytes)
-- albion-1793699145258.jsonl (608931 bytes)
-- albion-1793699111286.report.txt (3258 bytes)
-- albion-1793699111286.jsonl (177643 bytes)
-- albion-1793699111286.pcap (192843 bytes)
+- albion-1793699283778.report.txt (3839579 bytes; SHA-256 338835c7a1f28501278f40edf05afce1228e95a11bf79dd7103c3a6cb0ac6d2b)
+- albion-1793699283778.jsonl (19688976 bytes; SHA-256 d685d2ae2c432b15449ca600660374c7f83b7dd0a59960d6ea1eb0cd93fd653a)
+- albion-1793699283778.pcap (9661933 bytes; SHA-256 2b7a34b8259a90b5ad8b40cc11f1f82e4be899ade1ae7b3bba80c4389bc92175)
+- albion-1793699145258.pcap (698976 bytes; SHA-256 31db6a0d543ec3518c8f1302bc91e604dbe6885cc4d0d38f334cfe20b89b136c)
+- albion-1793699145258.report.txt (3371 bytes; SHA-256 b83a38725ca9a85f30bd590ab10caf65f859c7437bd3b44082e2982309a818cd)
+- albion-1793699145258.jsonl (608931 bytes; SHA-256 02f69cae7816d4f44c189bf040ac6f60c7127bc33fe225645228e70ddc828aa0)
+- albion-1793699111286.report.txt (3258 bytes; SHA-256 d6107a5a53decedc1e971e93b36a23fd9978e155ebc0fffe5ff89d180bdd8cec)
+- albion-1793699111286.jsonl (177643 bytes; SHA-256 1b4e9524f7e816dcfc1877675dfb3cb70dc7a131cbc6041281495431664a458b)
+- albion-1793699111286.pcap (192843 bytes; SHA-256 a4758b0222d0cd175a1c1112bf68d89d8f0ebdff994046f6d46e94e0797b6fc6)
 
 ## PCAPs
 - albion-1793699283778.pcap: pcap, 9661933 bytes, linktype=101
@@ -23,172 +23,14 @@
 - albion-1793699145258.jsonl: 1821 lines; malformed=0; events={}
 - albion-1793699111286.jsonl: 532 lines; malformed=0; events={}
 
-## Test hints (text-only; not proof)
-- straight_then_stop: 4
-- ninety_degree_turns: 1
-- resource_nodes: 18
-- troll_golem_mob: 0
+## Text members
+Full text is preserved without truncation in the matching JSON inventory file, under the notes array.
+- albion-1793699283778.report.txt: 3839579 bytes; SHA-256 338835c7a1f28501278f40edf05afce1228e95a11bf79dd7103c3a6cb0ac6d2b; encoding=utf-8
+- albion-1793699145258.report.txt: 3371 bytes; SHA-256 b83a38725ca9a85f30bd590ab10caf65f859c7437bd3b44082e2982309a818cd; encoding=utf-8
+- albion-1793699111286.report.txt: 3258 bytes; SHA-256 d6107a5a53decedc1e971e93b36a23fd9978e155ebc0fffe5ff89d180bdd8cec; encoding=utf-8
 
-## Note: albion-1793699145258.report.txt
-
-Albion / Photon capture report
-IP packets in file: 1821
-UDP packets involving port 5056: 0
-Valid Photon envelopes: 0
-Inbound to local device: 0
-Outbound from local device: 0
-Photon command types (transport commands, not Albion events):
-Protocol18 Albion event codes:
-Operation requests:
-Operation responses:
-Mapped entity observations:
-Typed Photon event observations:
-Malformed / unrecognized Photon envelopes: 0
-Encrypted Photon packets: 0
-Encrypted Protocol18 messages: 0
-Malformed Protocol18 messages: 0
-Pending fragmented messages: 0
-Manual checkpoints: 2
-  t=1793699145279 kind=manual_marker activity=Capture event=capture_started
-  t=1793699282439 kind=manual_marker activity=Capture event=capture_stopping
-Capture file quality: FAIR (80/100)
-PCAP records: 1821
-Captured bytes: 669816
-Duration (ms): 137166
-Timestamp regressions: 0
-Invalid timestamp fractions: 0
-Malformed record headers: 0
-Truncated records: 0
-Repeated packet payloads: 7
-Gaps over 1 second: 18
-Maximum observed gap (ms): 9997
-Native tap dropped copies: 7
-Native tap drop rate (%): 0.38
-Limitation: Packet duplicates are counted, not assumed to be packet loss; retransmission/repetition may be legitimate.
-Limitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.
-Limitation: Native tap drop rate measures local tap-queue drops, not network packet loss.
-
-Detailed entity/player observations: 2
-  t=1793699145279 kind=manual_marker activity=Capture event=capture_started
-  t=1793699282439 kind=manual_marker activity=Capture event=capture_stopping
-Warning: No UDP datagrams involving port 5056 were found.
-
-=== Marker-correlated pattern mining ===
-Overlay markers read: 4
-Complete Found -> Done sample windows: 0
-Unclosed sample starts: 0
-Capture files analyzed: 2
-Byte-identical capture files skipped: 0
-Source capture: albion-1793699145258.jsonl:02f69cae7816d4f44c189bf040ac6f60c7127bc33fe225645228e70ddc828aa0
-Source capture: albion-1793699111286.jsonl:1b4e9524f7e816dcfc1877675dfb3cb70dc7a131cbc6041281495431664a458b
-Confidence is a heuristic evidence score (0-100), NOT a probability.
-No repeatable labeled pattern found yet.
-Warning: No complete Found -> Done marker pairs across the selected captures.
-Warning: No signature has repeated across at least 3 independent labeled samples yet.
-Warning: No decoded entity observations were available in labeled windows.
-Warning: Entity IDs are scoped per capture; cross-capture pattern aggregation does not merge runtime entity identities.
-
-Live knowledge cache
-Unique tracked entities: 0
-Current-session map entities: 0
-Typed resource observations: 0
-Static resource candidates (not confirmed Ore): 0
-Entities marked depleted: 0
-Corroborated by same-ID resource state: 0
-Repeated typed resource observations: 0
-Ambiguous entities due to conflicting typed evidence: 0
-Average evidence score (0-100 heuristic): 0
-Evidence score is an ordinal heuristic, not a calibrated probability.
-Persistent file: albion-live-knowledge.json
-Classification is conservative; no family-to-Ore guesses are made.
-
-Autonomous signatures: 0 | repeated: 0 | marker-correlated: 0
-Unknown signatures remain candidates; no semantic names are guessed.
-Capture integrity
-PCAP records (TUN packets + checkpoints): 1821
-Native tap dropped copies: 7
-Manual checkpoints: 2
-Non-Albion / unclassified packets: 1819
-Downloads mirror error: none
-
-
-## Note: albion-1793699111286.report.txt
-
-Albion / Photon capture report
-IP packets in file: 532
-UDP packets involving port 5056: 0
-Valid Photon envelopes: 0
-Inbound to local device: 0
-Outbound from local device: 0
-Photon command types (transport commands, not Albion events):
-Protocol18 Albion event codes:
-Operation requests:
-Operation responses:
-Mapped entity observations:
-Typed Photon event observations:
-Malformed / unrecognized Photon envelopes: 0
-Encrypted Photon packets: 0
-Encrypted Protocol18 messages: 0
-Malformed Protocol18 messages: 0
-Pending fragmented messages: 0
-Manual checkpoints: 2
-  t=1793699111317 kind=manual_marker activity=Capture event=capture_started
-  t=1793699143756 kind=manual_marker activity=Capture event=capture_stopping
-Capture file quality: GOOD (90/100)
-PCAP records: 532
-Captured bytes: 184307
-Duration (ms): 32439
-Timestamp regressions: 0
-Invalid timestamp fractions: 0
-Malformed record headers: 0
-Truncated records: 0
-Repeated packet payloads: 3
-Gaps over 1 second: 5
-Maximum observed gap (ms): 10477
-Native tap dropped copies: 2
-Native tap drop rate (%): 0.37
-Limitation: Packet duplicates are counted, not assumed to be packet loss; retransmission/repetition may be legitimate.
-Limitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.
-Limitation: Native tap drop rate measures local tap-queue drops, not network packet loss.
-
-Detailed entity/player observations: 2
-  t=1793699111317 kind=manual_marker activity=Capture event=capture_started
-  t=1793699143756 kind=manual_marker activity=Capture event=capture_stopping
-Warning: No UDP datagrams involving port 5056 were found.
-
-=== Marker-correlated pattern mining ===
-Overlay markers read: 2
-Complete Found -> Done sample windows: 0
-Unclosed sample starts: 0
-Capture files analyzed: 1
-Byte-identical capture files skipped: 0
-Source capture: albion-1793699111286.jsonl:1b4e9524f7e816dcfc1877675dfb3cb70dc7a131cbc6041281495431664a458b
-Confidence is a heuristic evidence score (0-100), NOT a probability.
-No repeatable labeled pattern found yet.
-Warning: No complete Found -> Done marker pairs across the selected captures.
-Warning: No signature has repeated across at least 3 independent labeled samples yet.
-Warning: No decoded entity observations were available in labeled windows.
-Warning: Entity IDs are scoped per capture; cross-capture pattern aggregation does not merge runtime entity identities.
-
-Live knowledge cache
-Unique tracked entities: 0
-Current-session map entities: 0
-Typed resource observations: 0
-Static resource candidates (not confirmed Ore): 0
-Entities marked depleted: 0
-Corroborated by same-ID resource state: 0
-Repeated typed resource observations: 0
-Ambiguous entities due to conflicting typed evidence: 0
-Average evidence score (0-100 heuristic): 0
-Evidence score is an ordinal heuristic, not a calibrated probability.
-Persistent file: albion-live-knowledge.json
-Classification is conservative; no family-to-Ore guesses are made.
-
-Autonomous signatures: 0 | repeated: 0 | marker-correlated: 0
-Unknown signatures remain candidates; no semantic names are guessed.
-Capture integrity
-PCAP records (TUN packets + checkpoints): 532
-Native tap dropped copies: 2
-Manual checkpoints: 2
-Non-Albion / unclassified packets: 530
-Downloads mirror error: none
+## Test hints (text-only; not entity counts)
+- straight_then_stop: 6
+- ninety_degree_turns: 16550
+- resource_nodes: 2147
+- troll_golem_mob: 1597
