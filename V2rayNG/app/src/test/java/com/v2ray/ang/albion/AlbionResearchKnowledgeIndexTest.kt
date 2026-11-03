@@ -51,6 +51,7 @@ class AlbionResearchKnowledgeIndexTest {
               "captures": ["capture-a", "capture-b"],
               "tiers": [1],
               "names": {"Mountain Rabbit": 469},
+              "unique_names": {"T1_MOB_HIDE_MOUNTAIN_RABBIT": 469},
               "categories": {"harmless": 469},
               "harvestable_values": {"False": 469}
             },
@@ -59,6 +60,7 @@ class AlbionResearchKnowledgeIndexTest {
               "captures": ["capture-a", "capture-b"],
               "tiers": [3],
               "names": {"Ore Elemental": 167},
+              "unique_names": {"T3_MOB_CRITTER_ORE_MOUNTAIN_RED": 167},
               "categories": {"critter": 167},
               "harvestable_values": {"True": 167}
             }
@@ -91,6 +93,18 @@ class AlbionResearchKnowledgeIndexTest {
         assertEquals(1, rabbit.optInt("research_catalog_schema_version"))
         assertEquals("albion-pattern-mining", rabbit.optString("research_catalog_source_branch"))
         assertEquals("mobile-sha", rabbit.optString("research_catalog_source_blob_sha"))
+    }
+
+    @Test
+    fun buildsRuntimeDictionaryFallbackForEveryObservedTypeId() {
+        val snapshot = AlbionResearchKnowledgeIndex.parse(fixture())!!
+        val dictionary = snapshot.mobileTypeDictionary()
+        assertEquals("Mountain Rabbit", dictionary.optJSONObject("482")?.optString("display_name"))
+        assertEquals("T1_MOB_HIDE_MOUNTAIN_RABBIT", dictionary.optJSONObject("482")?.optString("unique_name"))
+        assertFalse(dictionary.optJSONObject("482")?.optBoolean("is_harvestable", true) ?: true)
+        assertEquals("Ore Elemental", dictionary.optJSONObject("571")?.optString("display_name"))
+        assertTrue(dictionary.optJSONObject("571")?.optBoolean("is_harvestable") ?: false)
+        assertEquals(2, dictionary.length())
     }
 
     @Test
