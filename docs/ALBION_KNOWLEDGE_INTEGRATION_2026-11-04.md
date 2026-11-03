@@ -126,3 +126,18 @@ Remaining spatial limitations:
 - The protocol pipeline still does not establish a verified zone identity/coordinate transform. A same-session zone transition cannot be safely inferred from coordinates alone; cross-zone historical projection remains disabled.
 - This phase does not claim automatic pathfinding or a tested in-game route. It improves which live node may be selected and prevents untyped candidates from being presented as gathering destinations.
 - CI and APK verification are still required before device testing.
+
+
+## Phase 4 — Zone identity and session-boundary audit (2026-11-04)
+
+Completed a source-and-corpus audit before attempting coordinate projection:
+
+- Event 1 is an entity-level `leave`, not a player zone-exit signal.
+- Event 3 is an entity movement/update; its player payload remains marked unvalidated.
+- Outbound request 22 supplies local player coordinates but no decoded zone/map ID.
+- Events 39/40/46 and 123 provide resource/entity observations without a verified zone identity.
+- The current parser has no confirmed zone/map identity field or verified transition event.
+
+Decision: no coordinate-jump threshold, entity-churn heuristic, or guessed event code is allowed to create a zone boundary. Those signals are not specific enough and could corrupt the spatial index. Session-scoped runtime IDs and the separation of historical/live coordinates remain in force. Cross-zone projection remains disabled.
+
+The full audit and the exact capture needed to unlock implementation are documented in `docs/ALBION_ZONE_IDENTITY_AUDIT_2026-11-04.md`. A controlled capture spanning a known zone transition is now the required evidence input. This is a completed audit stage, not a completed zone detector.
