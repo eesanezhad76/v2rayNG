@@ -50,12 +50,14 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val node = kind in RESOURCE_KINDS
         val mob = kind == "mob"
         val troll = mob && isTroll(item)
+        val targetedMob = mob && item.optBoolean("targeted_by_player", false)
         val enchant = item.optInt("enchant", item.optInt("marker_enchant", 0))
         val categoryEnabled = when {
             node && enchant > 0 -> "enchanted_nodes" in enabledFilters
             node -> "normal_nodes" in enabledFilters
             troll && enchant > 0 -> "enchanted_trolls" in enabledFilters
             troll -> "trolls" in enabledFilters
+            targetedMob -> "targeted_mobs" in enabledFilters
             mob -> "mobs" in enabledFilters
             else -> false
         }
@@ -222,7 +224,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     }
 
     companion object {
-        val DEFAULT_FILTERS = setOf("normal_nodes", "enchanted_nodes", "mobs", "trolls", "enchanted_trolls")
+        val DEFAULT_FILTERS = setOf("normal_nodes", "enchanted_nodes", "targeted_mobs", "trolls", "enchanted_trolls")
         private val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
         private val DISPLAY_KINDS = RESOURCE_KINDS + setOf("mob")
     }
