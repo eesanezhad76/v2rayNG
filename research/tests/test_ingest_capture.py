@@ -81,7 +81,10 @@ class IngestTests(unittest.TestCase):
    cycle=out["marker_lifecycles"][0]
    self.assertEqual("COMPLETE_WITH_METADATA_CONFLICT",cycle["status"])
    self.assertIn("tier:T4->T5@gathering_started",cycle["metadata_conflicts"])
-   self.assertEqual(0,out["counts"]["complete_resource_marker_cycles"])
+   self.assertEqual(1,out["counts"]["complete_resource_marker_cycles"])
+   self.assertEqual(0,out["counts"]["incomplete_resource_marker_cycles"])
+   self.assertEqual(0,out["counts"]["clean_complete_resource_marker_cycles"])
+   self.assertEqual(1,out["counts"]["completed_with_metadata_conflict_resource_cycles"])
    self.assertEqual(1,out["counts"]["marker_metadata_conflicts"])
 
  def test_manual_mob_markers_pair_found_to_killed_without_claiming_entity_id(self):
