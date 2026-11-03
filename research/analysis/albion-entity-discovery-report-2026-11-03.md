@@ -1,6 +1,6 @@
 # Albion entity discovery — evidence-ranked reconnaissance
 
-Profiles every Event 40 family, Event 123 mobile type, and merged Knowledge schema. Numeric IDs are not assigned names without independent evidence.
+Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge schema. Numeric IDs are not assigned names without independent evidence.
 
 ## Coverage
 - Event 40 node records: **331**
@@ -91,9 +91,10 @@ Profiles every Event 40 family, Event 123 mobile type, and merged Knowledge sche
 ## Enriched Event 40 node catalog
 - Rows: 331; mapped: 329; unresolved: 2
 - File: albion-resource-node-catalog-2026-11-03.csv
-- Resource type counts: Fiber=47, Hide=7, Ore=188, Rock=87
+- Resource display counts: Fiber=47, Hide=7, Ore=88, Ore Elemental=100, Rock=87
+- Mapping status counts: PACKET_CONFIRMED_LIVING_RESOURCE=100, REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL=229, UNRESOLVED=2
 
-## Key conflict requiring raw-event re-decode
+## Mapping caveats and unresolved Type Number
 - Type number 20 maps to HIDE. Its mobile TypeID 482 is Mountain Rabbit and is not harvestable, so the reference OpenRadar handler falls back to type number 20 rather than overriding it.
 - Type number 29 is a separate living Ore Elemental resource mapping: TypeIDs 571/573/574, loot ORE_CRITTER, harvestable=true.
 - Type numbers 7/14/20/27 map to ROCK/FIBER/HIDE/ORE through the public HarvestablesDatabase mapping; 28 remains unresolved.
@@ -104,23 +105,23 @@ Profiles every Event 40 family, Event 123 mobile type, and merged Knowledge sche
 The JSON report records exact fields and common values for type, family, tier, enchantment, classification, resource, name, labels and IDs. Field-name similarity alone is not proof.
 
 ## Weak filename hints
-- Family 14 — Albion2.zip / 6red ores ,each one mined.pcap (1 rows; filename hint only)
-- Family 14 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
-- Family 14 — Albion2.zip / red,ore lvl2.pcap (1 rows; filename hint only)
-- Family 20 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
-- Family 27 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
-- Family 29 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
-- Family 29 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
-- Family 29 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
-- Family 7 — Albion2.zip / blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap (1 rows; filename hint only)
-- Family 7 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (2 rows; filename hint only)
-- Family 7 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
+- Type number 14 — Albion2.zip / 6red ores ,each one mined.pcap (1 rows; filename hint only)
+- Type number 14 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
+- Type number 14 — Albion2.zip / red,ore lvl2.pcap (1 rows; filename hint only)
+- Type number 20 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
+- Type number 27 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
+- Type number 29 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
+- Type number 29 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
+- Type number 29 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
+- Type number 7 — Albion2.zip / blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap (1 rows; filename hint only)
+- Type number 7 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (2 rows; filename hint only)
+- Type number 7 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
 
 ## Safety rules
 - Runtime IDs are scoped by archive and PCAP/session.
 - Event 39 static observations are not Event 40 harvestable nodes.
 - Event 123 lifecycle rows are not all proven hostile mobs.
-- Do not infer a family name from numeric family ID alone.
+- Do not confuse Event 40 Type Number with Mobile Type ID; unknown numbers remain unresolved.
 - Do not join by numeric ID alone; require same capture/session and time/coordinate evidence.
 - Do not convert filename hints into confirmed labels.
 - Unknown values are retained rather than dropped.

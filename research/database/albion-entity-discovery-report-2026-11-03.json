@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "purpose": "Evidence-ranked family/type discovery; no unproven semantic labels.",
+  "purpose": "Evidence-ranked Event 40 Type Number and Mobile TypeID discovery; no unproven semantic labels.",
   "counts": {
     "event40_node_records": 331,
     "event123_lifecycle_records": 2330,
@@ -8,7 +8,7 @@
     "learned_pattern_signatures": 70,
     "autonomous_pattern_signatures": 296,
     "protocol_evidence_records": 4599,
-    "distinct_event40_families": 6,
+    "distinct_event40_type_numbers": 6,
     "distinct_event123_mobile_type_ids": 64
   },
   "mobile_type_dictionary_source": {
@@ -2861,6 +2861,18 @@
       "Ore": 188,
       "Rock": 87
     },
+    "resource_display_counts": {
+      "Fiber": 47,
+      "Hide": 7,
+      "Ore": 88,
+      "Ore Elemental": 100,
+      "Rock": 87
+    },
+    "mapping_status_counts": {
+      "PACKET_CONFIRMED_LIVING_RESOURCE": 100,
+      "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL": 229,
+      "UNRESOLVED": 2
+    },
     "file": "albion-resource-node-catalog-2026-11-03.csv"
   },
   "knowledge_schema_inventory": {
@@ -3238,6 +3250,7 @@
     "protocol_evidence": {}
   },
   "knowledge_type_and_family_field_values": {
+    "entities.mobile_type_id_evidence": [],
     "entities.mobile_type_id": [
       [
         "482",
@@ -3507,7 +3520,6 @@
         2
       ]
     ],
-    "entities.mobile_type_id_evidence": [],
     "learned_patterns.type_id": [
       [
         "2489",
@@ -3522,80 +3534,80 @@
   },
   "weak_filename_context_hints": [
     {
-      "family": "14",
+      "type_number": "14",
       "archive": "Albion2.zip",
       "pcap": "6red ores ,each one mined.pcap",
-      "family_records_in_capture": 1,
+      "type_number_records_in_capture": 1,
       "hint": "filename_only_unverified"
     },
     {
-      "family": "14",
+      "type_number": "14",
       "archive": "Albion2.zip",
       "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
-      "family_records_in_capture": 1,
+      "type_number_records_in_capture": 1,
       "hint": "filename_only_unverified"
     },
     {
-      "family": "14",
+      "type_number": "14",
       "archive": "Albion2.zip",
       "pcap": "red,ore lvl2.pcap",
-      "family_records_in_capture": 1,
+      "type_number_records_in_capture": 1,
       "hint": "filename_only_unverified"
     },
     {
-      "family": "20",
+      "type_number": "20",
       "archive": "Albions.zip",
       "pcap": "ore 4 3 red 2 blue .pcap",
-      "family_records_in_capture": 1,
+      "type_number_records_in_capture": 1,
       "hint": "filename_only_unverified"
     },
     {
-      "family": "27",
+      "type_number": "27",
       "archive": "Albions.zip",
       "pcap": "2mobs dismount and Mount .pcap",
-      "family_records_in_capture": 1,
+      "type_number_records_in_capture": 1,
       "hint": "filename_only_unverified"
     },
     {
-      "family": "29",
+      "type_number": "29",
       "archive": "Albion2.zip",
       "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
-      "family_records_in_capture": 1,
+      "type_number_records_in_capture": 1,
       "hint": "filename_only_unverified"
     },
     {
-      "family": "29",
+      "type_number": "29",
       "archive": "Albions.zip",
       "pcap": "2mobs dismount and Mount .pcap",
-      "family_records_in_capture": 1,
+      "type_number_records_in_capture": 1,
       "hint": "filename_only_unverified"
     },
     {
-      "family": "29",
+      "type_number": "29",
       "archive": "Albions.zip",
       "pcap": "ore 4 3 red 2 blue .pcap",
-      "family_records_in_capture": 1,
+      "type_number_records_in_capture": 1,
       "hint": "filename_only_unverified"
     },
     {
-      "family": "7",
+      "type_number": "7",
       "archive": "Albion2.zip",
       "pcap": "blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap",
-      "family_records_in_capture": 1,
+      "type_number_records_in_capture": 1,
       "hint": "filename_only_unverified"
     },
     {
-      "family": "7",
+      "type_number": "7",
       "archive": "Albion2.zip",
       "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
-      "family_records_in_capture": 2,
+      "type_number_records_in_capture": 2,
       "hint": "filename_only_unverified"
     },
     {
-      "family": "7",
+      "type_number": "7",
       "archive": "Albions.zip",
       "pcap": "2mobs dismount and Mount .pcap",
-      "family_records_in_capture": 1,
+      "type_number_records_in_capture": 1,
       "hint": "filename_only_unverified"
     }
   ],
@@ -3603,7 +3615,7 @@
     "Runtime IDs are scoped by archive and PCAP/session.",
     "Event 39 static observations are not Event 40 harvestable nodes.",
     "Event 123 lifecycle rows are not all proven hostile mobs.",
-    "Do not infer a family name from numeric family ID alone.",
+    "Do not confuse Event 40 Type Number with Mobile Type ID; unknown numbers remain unresolved.",
     "Do not join by numeric ID alone; require same capture/session and time/coordinate evidence.",
     "Do not convert filename hints into confirmed labels.",
     "Unknown values are retained rather than dropped."
