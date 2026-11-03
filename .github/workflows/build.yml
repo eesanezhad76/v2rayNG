@@ -209,6 +209,16 @@ jobs:
         V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
         python3 research/tools/analyze_spatial_alignment.py
 
+    - name: Upload candidate zone-event diagnostics
+      if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04')
+      uses: actions/upload-artifact@v7
+      with:
+        name: zone-event-candidates
+        path: |
+          research/analysis/2026-11-04-zone-event-candidates.md
+          research/analysis/2026-11-04-zone-event-candidates.jsonl
+        if-no-files-found: warn
+
     - name: Test Python analysis, marker FIFO, and readiness logic
       if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04')
       shell: bash
