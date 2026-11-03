@@ -31,7 +31,7 @@ class AlbionCaptureAnalyzerTest {
         }
         val report = AlbionCaptureAnalyzer.analyze(file)
         assertEquals(1, report.ipPackets)
-        val markerDetail = "t=1234 kind=manual_marker activity=Mobs event=mob_killed tier=T6 enchantment=E2"
+        val markerDetail = "t=1234 kind=manual_marker elapsed_realtime_ms=5678 activity=Mobs event=mob_killed tier=T6 enchantment=E2"
         assertEquals(listOf(markerDetail), report.checkpoints, report.asText())
         assertEquals(listOf(markerDetail), report.detailedObservations, report.asText())
     }
@@ -56,7 +56,7 @@ class AlbionCaptureAnalyzerTest {
         }
         val report = AlbionCaptureAnalyzer.analyze(file)
         assertEquals(
-            listOf("t=9876 kind=manual_marker activity=Zone event=zone_transition_observed marker_type=manual_zone_transition"),
+            listOf("t=9876 kind=manual_marker elapsed_realtime_ms=5432 activity=Zone event=zone_transition_observed marker_type=manual_zone_transition"),
             report.checkpoints,
             report.asText()
         )
