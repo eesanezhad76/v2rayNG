@@ -304,11 +304,13 @@ class AlbionOverlayService : Service() {
             val source = catalogEntities.optJSONObject(i) ?: continue
             val node = JSONObject(source.toString())
             node.put("entity_id", "catalog:${source.optString("entity_id")}")
-            node.put("last_kind", "static_resource")
-            val timeline = node.optJSONArray("state_timeline")
-            val latestSize = if (timeline != null && timeline.length() > 0)
-                timeline.optJSONObject(timeline.length() - 1)?.optInt("size", -1) ?: -1 else -1
-            node.put("depleted", latestSize == 0)
+            if (node.optString("last_kind").isBlank()) node.put("last_kind", "static_resource")
+            if (node.optString("last_kind") == "static_resource") {
+                val timeline = node.optJSONArray("state_timeline")
+                val latestSize = if (timeline != null && timeline.length() > 0)
+                    timeline.optJSONObject(timeline.length() - 1)?.optInt("size", -1) ?: -1 else -1
+                node.put("depleted", latestSize == 0)
+            }
             merged.put(node)
         }
         for (i in 0 until live.length()) live.optJSONObject(i)?.let { merged.put(JSONObject(it.toString())) }
