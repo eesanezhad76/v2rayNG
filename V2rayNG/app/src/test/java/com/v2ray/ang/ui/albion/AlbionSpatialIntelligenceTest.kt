@@ -30,6 +30,33 @@ class AlbionSpatialIntelligenceTest {
     }
 
     @Test
+    fun oreElementalTypeIdWinsOverConflictingTrollDisplayName() {
+        val elemental = resource("ore-elemental", "mob", 12.0, 18.0, typeId = 571)
+            .put("name", "Troll")
+            .put("type_unique_name", "T3_MOB_CRITTER_ORE_MOUNTAIN_RED")
+        assertTrue(AlbionSpatialIntelligence.isOreElemental(elemental))
+        assertFalse(AlbionSpatialIntelligence.isTrollMob(elemental))
+    }
+
+    @Test
+    fun allObservedOreElementalTypeIdsAreRecognizedWithoutNameMatch() {
+        listOf(571, 573, 574).forEach { typeId ->
+            val elemental = resource("ore-$typeId", "mob", 1.0, 2.0, typeId = typeId)
+                .put("name", "Unknown mob")
+            assertTrue(AlbionSpatialIntelligence.isOreElemental(elemental))
+            assertFalse(AlbionSpatialIntelligence.isTrollMob(elemental))
+        }
+    }
+
+    @Test
+    fun trollLabelDoesNotTurnOreElementalIntoTroll() {
+        val elemental = resource("ore", "mob", 1.0, 2.0, typeId = 574)
+            .put("marker_activity", "Troll")
+            .put("marker_match_confidence", "CONFIRMED")
+        assertFalse(AlbionSpatialIntelligence.isTrollMob(elemental))
+    }
+
+    @Test
     fun typedResourceSupersedesEvent39CandidateAtSameCoordinate() {
         val candidate = resource("event39", "static_resource", 12.0, 18.0)
         val typed = resource("event40", "harvestable", 12.0, 18.0, 29, 574, 5, 1, 10L)
