@@ -16,13 +16,16 @@ def build(root: Path):
         raise ValueError("research index has no mobile_types object")
     # Preserve the broader external dictionary already shipped in the project.
     # The research corpus is a crosswalk/enrichment source, not a replacement catalog.
+    existing_root = {}
     existing = {}
     if destination.is_file():
         try:
             parsed_existing = json.loads(destination.read_text(encoding="utf-8"))
             if isinstance(parsed_existing, dict) and isinstance(parsed_existing.get("entries"), dict):
+                existing_root = parsed_existing
                 existing = parsed_existing["entries"]
         except (OSError, json.JSONDecodeError):
+            existing_root = {}
             existing = {}
     entries = dict(existing)
     for raw_id, row in sorted(mobile.items(), key=lambda item: int(item[0])):
@@ -67,7 +70,18 @@ def build(root: Path):
         row["tier"] = int(mobile[type_id]["tiers"][0])
         row["is_harvestable"] = True
         entries[type_id] = row
-    output = {"schema_version": 1, "source": "external_dictionary_merged_with_research_index", "source_branch": index.get("generated_from", {}).get("source_branch"), "coverage": {"observed_mobile_type_ids": len(mobile), "total_dictionary_entries": len(entries)}, "entries": entries}
+    output = dict(existing_root)
+    output["schema_version"] = int(existing_root.get("schema_version", 1))
+    output["research_enrichment"] = {
+        "source": "albion-research-knowledge-index.json",
+        "source_branch": index.get("generated_from", {}).get("source_branch"),
+        "observed_mobile_type_ids": len(mobile),
+    }
+    output["coverage"] = {
+        "observed_mobile_type_ids": len(mobile),
+        "total_dictionary_entries": len(entries),
+    }
+    output["entries"] = entries
     destination = root / DESTINATION
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
