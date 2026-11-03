@@ -73,7 +73,7 @@ class AlbionGatheringPatternLearnerTest {
         val learner = AlbionGatheringPatternLearner(context(), "capture-interrupted")
         start(learner, 30_000L)
         learner.observe(30_100L, listOf(sample(30).copy(enchant = 9)))
-        learner.observeMarker(org.json.JSONObject().put("event", "pvp_started").put("activity", "Mob"), 30_200L)
+        learner.observeMarker(org.json.JSONObject().put("event", "target_found").put("activity", "Mob"), 30_200L)
         learner.observeMarker(org.json.JSONObject().put("event", "mob_killed"), 31_000L)
 
         val inferred = ResourcePatternLearner.infer(
