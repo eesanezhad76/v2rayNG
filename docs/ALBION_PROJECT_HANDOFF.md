@@ -357,3 +357,19 @@ Next:
 - **CI:** Workflow run `41716615223`, head `8a8d8835cd2770924ba4d053627936ec1b388cd0`, remains `in_progress` at `Checkout code`; Android SDK setup, Gradle, Kotlin tests, and APK packaging have not started. This is not build verification.
 - **PR:** #4 remains a draft against `albion-pattern-mining`; do not merge without explicit user authorization.
 - **Next exact action:** Obtain a controlled in-game capture that keeps capture running through a known zone transition; inspect all candidate event-code/parameter-shape changes and require stable repeatable evidence on a zone revisit. Continue polling CI independently.
+
+
+## 2026-11-04 — Event 2 candidate instrumentation follow-up
+
+- **Starting HEAD:** `3027f5a52a1cb69a14071c24718d72564dc7f797`
+- **Ending HEAD before this handoff update:** `1ce2640d6f229095abc99a10329ba342a085bda6`
+- **Files changed since starting HEAD:**
+  - `AlbionCaptureAnalyzer.kt`: preserves timestamps and decoded parameter values for Event 2 as an unmapped candidate diagnostic only.
+  - `AlbionPcapAudit.kt`: exports focused `2026-11-04-zone-event-candidates.md/.jsonl` files from the existing inbox replay.
+  - `.github/workflows/build.yml`: uploads the focused output as `zone-event-candidates`.
+  - `docs/ALBION_ZONE_IDENTITY_AUDIT_2026-11-04.md` and `docs/ALBION_KNOWLEDGE_INTEGRATION_2026-11-04.md`: record the candidate correlation and safeguards.
+- **Evidence:** Compared all nine PCAP reports from `Albion2.zip`. The capture described as yellow-zone to Fort Sterling has Event 2 count 3; the other eight captures have count 0. This is a single-capture correlation, not a confirmed zone event.
+- **Implemented:** Instrumentation only. Event 2 remains unmapped; no entity mapper, zone-boundary, or coordinate projection behavior has changed.
+- **Tests run:** None yet. Kotlin compile and offline replay must run in CI before trusting the instrumentation.
+- **CI:** Newest run observed at this update: `41717226340`, head `1ce2640d6f229095abc99a10329ba342a085bda6`, status `pending`; no job steps were available yet. Older run `41716615223` remained stuck at checkout and does not verify this code.
+- **Next exact action:** Wait for a successful build workflow, download `zone-event-candidates`, inspect the three Event 2 parameter payloads and compare their timing with the movement/request stream. Then seek a second controlled zone-transition capture and a same-zone control before assigning semantics.
