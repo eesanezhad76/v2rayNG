@@ -173,11 +173,18 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             item.optString("marker_activity_candidate")
         }.lowercase()
         val family = item.optInt("family", -1)
-        // Stable observed family IDs take precedence over inconsistent display labels.
-        // 28 is deliberately unresolved; 29 is the separately identified living Ore Elemental.
+        val researchResourceType = item.optString("research_catalog_resource_type").lowercase()
+        val researchMappingStatus = item.optString("research_catalog_resource_mapping_status")
+        // Use the audited research crosswalk first. Family IDs absent from that index
+        // are not guessed as Ore merely because their numeric values are nearby.
         val resourceCategory = when {
             item.optBoolean("user_confirmed_target", false) -> "ore"
-            family in 23..27 || family == 29 -> "ore"
+            researchMappingStatus == "UNRESOLVED" || researchResourceType == "unknown" -> "unknown_resource"
+            researchResourceType == "ore" -> "ore"
+            researchResourceType == "rock" -> "stone"
+            researchResourceType == "fiber" -> "fiber"
+            researchResourceType == "hide" -> "hide"
+            family == 27 || family == 29 -> "ore"
             family == 7 -> "stone"
             family == 14 -> "fiber"
             family == 20 -> "hide"
@@ -192,7 +199,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val mobCategory = when {
             troll -> "troll"
             oreElemental -> "ore_elemental"
-            mobType.contains("animal") || mobType.contains("harvest") ||
+            mobType == "harmless" || mobType.contains("animal") || mobType.contains("harvest") ||
                 rawName.contains("bird") || rawName.contains("wolf") || rawName.contains("boar") ||
                 rawName.contains("bear") || rawName.contains("deer") || rawName.contains("animal") -> "animal"
             else -> "other_mob"
@@ -344,7 +351,10 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val y = rotateRadarY(rawX, rawY, cx, cy)
             val kind = entity.optString("last_kind")
             val depleted = entity.optBoolean("depleted", false)
+            val mappingStatus = entity.optString("research_catalog_resource_mapping_status")
             val candidate = kind == "static_resource" ||
+                mappingStatus == "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL" ||
+                mappingStatus == "UNRESOLVED" ||
                 entity.optString("classification") == "ambiguous_resource_candidate" ||
                 entity.optString("evidence_grade") == "conflicting_typed_observation"
             paint.style = Paint.Style.FILL
@@ -493,6 +503,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 entity.optBoolean("user_confirmed_target", false) -> 0xFF55E6FF.toInt()
                 kind == "mob" && AlbionSpatialIntelligence.isOreElemental(entity) -> 0xFFB58CFF.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
+                kind in RESOURCE_KINDS && (entity.optString("research_catalog_resource_mapping_status") == "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL" ||
+                    entity.optString("research_catalog_resource_mapping_status") == "UNRESOLVED" ||
+                    kind == "static_resource") -> 0xFF9AA6AF.toInt()
                 kind in RESOURCE_KINDS -> enchantColor(enchantLevel(entity))
                 else -> 0xFFFFC45C.toInt()
             }
