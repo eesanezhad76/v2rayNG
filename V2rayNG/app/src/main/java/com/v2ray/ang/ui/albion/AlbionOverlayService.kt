@@ -483,11 +483,24 @@ class AlbionOverlayService : Service() {
             val typeData = assets.open("albion-mobile-type-dictionary.json").bufferedReader().use { JSONObject(it.readText()) }
             mobileTypeDictionary = typeData.optJSONObject("entries") ?: JSONObject()
         } catch (_: Exception) { mobileTypeDictionary = JSONObject() }
-        // Never leave the overlay with an empty type dictionary: reconstruct the exact
-        // observed TypeID crosswalk from the research asset if the generated asset is absent,
-        // corrupt, or an empty placeholder.
-        if (mobileTypeDictionary.length() == 0) {
-            mobileTypeDictionary = researchKnowledge?.mobileTypeDictionary() ?: JSONObject()
+        // Merge the research crosswalk into the external dictionary. Preserve all
+        // 5k+ external TypeIDs and metadata, while guaranteeing every observed research
+        // TypeID has a usable display entry even if the external asset is incomplete.
+        val researchDictionary = researchKnowledge?.mobileTypeDictionary()
+        if (researchDictionary != null) {
+            researchDictionary.keys().asSequence().forEach { id ->
+                val fallback = researchDictionary.optJSONObject(id) ?: return@forEach
+                val existing = mobileTypeDictionary.optJSONObject(id)
+                if (existing == null) {
+                    mobileTypeDictionary.put(id, JSONObject(fallback.toString()))
+                } else {
+                    fallback.keys().asSequence().forEach { key ->
+                        if (!existing.has(key) || existing.isNull(key)) {
+                            existing.put(key, fallback.opt(key))
+                        }
+                    }
+                }
+            }
         }
     }
 
