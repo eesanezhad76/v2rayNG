@@ -53,9 +53,14 @@ def pair_manual_markers(markers):
      cycle=queue["pending"].popleft();compare_metadata(cycle,marker,event);cycle["started_ms"]=timestamp;queue["active"].append(cycle)
     else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"start_without_found"})
    elif event=="gathering_completed":
+    # Current Android overlay has exactly two resource actions:
+    # Start emits target_found; End emits gathering_completed.
+    # Legacy captures may additionally contain gathering_started.
     if queue["active"]:
-     cycle=queue["active"].popleft();compare_metadata(cycle,marker,event);cycle["completed_ms"]=timestamp;queue["completed"].append(cycle)
-    else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"completion_without_start"})
+     cycle=queue["active"].popleft();compare_metadata(cycle,marker,event);cycle["completed_ms"]=timestamp;cycle["status"]="COMPLETE" if not cycle["metadata_conflicts"] else "COMPLETE_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
+    elif queue["pending"]:
+     cycle=queue["pending"].popleft();compare_metadata(cycle,marker,event);cycle["completed_ms"]=timestamp;cycle["status"]="COMPLETE" if not cycle["metadata_conflicts"] else "COMPLETE_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
+    else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"completion_without_target_found"})
    elif event=="node_depleted":
     if queue["completed"]:
      cycle=queue["completed"].popleft();compare_metadata(cycle,marker,event);cycle["depleted_ms"]=timestamp;cycle["status"]="COMPLETE" if not cycle["metadata_conflicts"] else "COMPLETE_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
