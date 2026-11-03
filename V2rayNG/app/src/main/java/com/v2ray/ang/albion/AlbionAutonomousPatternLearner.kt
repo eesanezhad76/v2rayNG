@@ -33,7 +33,7 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
         while (recent.size > MAX_RECENT_EVENTS) recent.removeFirst()
         activeLabel?.let { label ->
             val start = label.optLong("started_at_ms")
-            if (timestampMs >= start && timestampMs - start <= MAX_LABEL_WINDOW_MS) {
+            if (timestampMs >= start) {
                 label.optJSONArray("signatures")?.let { addUnique(it, signature, MAX_LABEL_SIGNATURES) }
                 label.put("event_count", label.optInt("event_count") + 1)
             }
@@ -84,7 +84,7 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
     private fun closeActive(timestampMs: Long) {
         val label = activeLabel ?: return
         val duration = timestampMs - label.optLong("started_at_ms")
-        if (duration in 1..MAX_LABEL_WINDOW_MS) {
+        if (duration > 0L) {
             val labelKey = listOf(label.optString("activity"), label.optString("tier"), label.optString("enchantment")).joinToString("|")
             val signatures = label.optJSONArray("signatures") ?: JSONArray()
             for (i in 0 until signatures.length()) {
@@ -176,7 +176,6 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
         const val MAX_PATTERN_RECORDS = 5000
         const val MAX_EXPORTED_PATTERNS = 5000
         const val MAX_LABEL_SIGNATURES = 512
-        const val MAX_LABEL_WINDOW_MS = 15 * 60_000L
         const val PRE_ROLL_MS = 3_000L
         const val FLUSH_INTERVAL_MS = 3_000L
         const val MIN_REPEATED_SIGHTINGS = 10
