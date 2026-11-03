@@ -77,7 +77,7 @@ class AlbionOverlayService : Service() {
     private val refreshLiveSnapshot = object : Runnable {
         override fun run() {
             if (controlsRoot == null && radarRoot == null) return
-            val live = CoreServiceManager.getAlbionLiveKnowledgeJson()
+            val live = enrichLiveSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
             if (::radarView.isInitialized && radarRoot != null) {
                 // Count delivery only after the snapshot parser accepted and installed it.
                 radarView.setLiveSnapshot(live)?.let { acceptedCount ->
@@ -219,6 +219,9 @@ class AlbionOverlayService : Service() {
         head.addView(button("×") { removeRadarWindow() }, LinearLayout.LayoutParams(dp(25), dp(25)))
         panel.addView(head)
         radarView = AlbionMiniRadarView(this)
+        for (i in 0 until catalogEntities.length()) {
+            catalogEntities.optJSONObject(i)?.let { applyMobTypeInfo(it) }
+        }
         radarView.setCatalogSnapshot(catalogEntities.toString())
         panel.addView(radarView, LinearLayout.LayoutParams(dp(190), dp(142)))
         filterPanel = LinearLayout(this).apply {
@@ -397,6 +400,14 @@ class AlbionOverlayService : Service() {
             merged.put(liveEntity)
         }
         return merged.toString()
+    }
+
+    private fun enrichLiveSnapshot(json: String): String {
+        val array = try { JSONArray(json) } catch (_: Exception) { return "[]" }
+        for (i in 0 until array.length()) {
+            array.optJSONObject(i)?.let { applyMobTypeInfo(it) }
+        }
+        return array.toString()
     }
 
     private fun applyMobTypeInfo(entity: JSONObject) {
