@@ -65,7 +65,7 @@ def pair_manual_markers(markers):
     if queue["completed"]:
      cycle=queue["completed"].popleft();compare_metadata(cycle,marker,event);cycle["depleted_ms"]=timestamp;cycle["status"]="COMPLETE" if not cycle["metadata_conflicts"] else "COMPLETE_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
     else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"depletion_without_completion"})
-  elif activity in {"Mobs","Troll"} and event=="target_found":
+  elif activity in {"Mob","Mobs","Troll"} and event=="target_found":
    mob_pending[activity].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":None,"completed_ms":None,"depleted_ms":None,"metadata_conflicts":[]})
   elif activity in {"Mobs","Troll"} and event=="mob_killed":
    if mob_pending[activity]:
@@ -161,7 +161,7 @@ def correlate_mob_markers(lifecycles,mobs,player_positions,player_moves,health_e
   mob["positions"]=sorted(positions,key=lambda p:p["time_ms"])[-120:]
   mob["health_timeline"]=sorted(mob.get("health_timeline",[]),key=lambda h:h["time_ms"])[-160:]
  for cycle in lifecycles:
-  if cycle.get("activity") not in {"Mobs","Troll"}:continue
+  if cycle.get("activity") not in {"Mob","Mobs","Troll"}:continue
   start=cycle.get("found_ms")
   if not isinstance(start,int):continue
   finish=cycle.get("mob_killed_ms") or start+12000
@@ -190,7 +190,7 @@ def correlate_mob_markers(lifecycles,mobs,player_positions,player_moves,health_e
     "health_events_in_window":len(health),"player_damage_events":len(local_hits),
     "name_matches_troll":troll_name
    })
-  candidates.sort(key=lambda c:(c["player_damage_events"]>0,c["name_matches_troll"],c["distance_from_player"] is not None,-(c["distance_from_player"] or 9999),-c["position_gap_ms"]),reverse=True)
+  candidates.sort(key=lambda c:(c["player_damage_events"]>0,c["name_matches_troll"],c["distance_from_player"] is not None,-(c["distance_from_player"] if c["distance_from_player"] is not None else 9999),-c["position_gap_ms"]),reverse=True)
   correlation={
    "player_position":({"x":nearby_player["x"],"y":nearby_player["y"],"time_ms":nearby_player["time_ms"],"gap_ms":player_gap} if nearby_player else None),
    "local_player_entity_ids_inferred":sorted(local_player_ids),
@@ -286,7 +286,7 @@ def analyze(path):
  marker_lifecycles,unmatched_markers=pair_manual_markers(markers)
  local_player_ids=correlate_mob_markers(marker_lifecycles,mobs,player_positions,player_moves,health_events)
  resource_cycles=[x for x in marker_lifecycles if x["activity"] in RESOURCE_ACTIVITIES]
- mob_marker_cycles=[x for x in marker_lifecycles if x.get("activity") in {"Mobs","Troll"}]
+ mob_marker_cycles=[x for x in marker_lifecycles if x.get("activity") in {"Mob","Mobs","Troll"}]
  correlated_mob_markers=[x for x in mob_marker_cycles if x.get("spatial_correlation",{}).get("best_candidate")]
 
  stem=path.stem; ordered=sorted(nodes.values(),key=lambda n:(n["type_number"] or -1,n["tier"] or -1,n["enchant"] or 0,n["entity_id"]))
