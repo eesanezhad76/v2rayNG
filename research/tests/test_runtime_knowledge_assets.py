@@ -17,6 +17,10 @@ class RuntimeKnowledgeAssetIntegrationTest(unittest.TestCase):
         self.assertEqual("64/64", report["dictionary_coverage"])
         self.assertEqual(83, report["saved_catalog"]["nodes"])
         self.assertEqual("2788", report["confirmed_t53_target"])
+        self.assertEqual(9522, report["historical_knowledge"]["entity_records"])
+        self.assertEqual(4599, report["historical_knowledge"]["protocol_events"])
+        self.assertEqual(70, report["historical_knowledge"]["learned_patterns"])
+        self.assertEqual(296, report["historical_knowledge"]["autonomous_signatures_seeded"])
         self.assertFalse(report["historical_coordinates_projected"])
 
 
