@@ -146,6 +146,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     }
 
     private fun isProvisionalResource(item: JSONObject): Boolean {
+        if (item.optBoolean("user_confirmed_target", false)) return false
         val status = item.optString("research_catalog_resource_mapping_status")
         return item.optString("last_kind") == "static_resource" ||
             status == "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL" ||
@@ -154,8 +155,11 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             item.optString("evidence_grade") == "conflicting_typed_observation"
     }
 
-    private fun resourceMarkerColor(item: JSONObject): Int =
-        if (isProvisionalResource(item)) 0xFF9AA6AF.toInt() else enchantColor(enchantLevel(item))
+    private fun resourceMarkerColor(item: JSONObject): Int = when {
+        item.optBoolean("user_confirmed_target", false) -> 0xFF55E6FF.toInt()
+        isProvisionalResource(item) -> 0xFF9AA6AF.toInt()
+        else -> enchantColor(enchantLevel(item))
+    }
 
     private fun passesFilters(item: JSONObject, filters: Set<String> = this.enabledFilters): Boolean {
         val kind = item.optString("last_kind")
