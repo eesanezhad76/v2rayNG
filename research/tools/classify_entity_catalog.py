@@ -105,6 +105,78 @@ def main():
         for (archive,pcap),count in sorted(by_pcap.items()):
             if re.search(r"golem|ore|troll|mob|elemental|stone|wood|fiber|hide",f"{archive} {pcap}",re.I):
                 filename_hints.append({"family":family,"archive":archive,"pcap":pcap,"family_records_in_capture":count,"hint":"filename_only_unverified"})
+    def split_values(value):
+        return [x.strip() for x in str(value or "").split("|") if x.strip()]
+    static_type_map={**{i:"Wood" for i in range(0,6)},**{i:"Rock" for i in range(6,11)},
+                     **{i:"Fiber" for i in range(11,16)},**{i:"Hide" for i in range(16,23)},
+                     **{i:"Ore" for i in range(23,28)}}
+    enriched_nodes=[]; resource_type_counts=collections.Counter(); unresolved_node_count=0
+    for row in nodes:
+        nums=split_values(row.get("type_numbers"))
+        number=int(nums[0]) if len(nums)==1 and nums[0].lstrip("-").isdigit() else None
+        tiers=split_values(row.get("tiers")); mobile_ids=split_values(row.get("mobile_type_ids"))
+        positive_ids=[int(x) for x in mobile_ids if x.lstrip("-").isdigit() and int(x)>0]
+        mobile_id=positive_ids[0] if len(set(positive_ids))==1 and positive_ids else None
+        mobile_entry=dict_entries.get(str(mobile_id)) if mobile_id is not None else None
+        mobile_harvestable=bool(mobile_entry and mobile_entry.get("is_harvestable") is True)
+        static_type=static_type_map.get(number)
+        if mobile_harvestable:
+            resource_type="Ore" if str(mobile_entry.get("loot_type","")).startswith("ORE") else str(mobile_entry.get("loot_type","")).title()
+            display_name=mobile_entry.get("display_name") or resource_type
+            mapping_status="PACKET_CONFIRMED_LIVING_RESOURCE"
+            evidence_note="Direct Event 40 mobile TypeID is marked harvestable in the game mob dictionary; it overrides the static type number."
+            effective_tier=mobile_entry.get("tier")
+        elif static_type is not None:
+            resource_type=static_type
+            display_name=static_type
+            mapping_status="REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL"
+            evidence_note="Static Event 40 type number maps through the reference HarvestablesDatabase ranges."
+            effective_tier="|".join(tiers)
+            if mobile_entry:
+                evidence_note+=" Mobile TypeID "+str(mobile_id)+" is not harvestable; static type-number fallback retained."
+        elif number==29:
+            resource_type="Ore"
+            display_name="Ore Elemental"
+            mapping_status="UNVERIFIED_LIVING_RESOURCE_TYPE"
+            evidence_note="Type number 29 is a capture-correlated Ore Elemental family; this row lacks a verified harvestable mobile TypeID."
+            effective_tier="|".join(tiers)
+        else:
+            resource_type=""
+            display_name=""
+            mapping_status="UNRESOLVED"
+            evidence_note="No verified static type-number or harvestable mobile-TypeID mapping."
+            effective_tier="|".join(tiers)
+        if not resource_type: unresolved_node_count+=1
+        else: resource_type_counts[resource_type]+=1
+        tier_conflict=bool(mobile_harvestable and tiers and str(mobile_entry.get("tier")) not in tiers)
+        user_confirmed=(row.get("archive")=="AlbionRadar.zip" and row.get("pcap")=="albion-1793682590317.pcap" and str(row.get("entity_id"))=="2788")
+        coords=split_values(row.get("coordinates"))
+        enriched_nodes.append({
+          "archive":row.get("archive",""),"pcap":row.get("pcap",""),"entity_id":row.get("entity_id",""),
+          "type_number":number if number is not None else "|".join(nums),"resource_type":resource_type,
+          "resource_display_name":display_name,"mapping_status":mapping_status,"evidence_note":evidence_note,
+          "tier": "|".join(tiers),"effective_tier":effective_tier,
+          "enchantment_raw_values":row.get("enchantment_raw_values",""),
+          "mobile_type_id":mobile_id if mobile_id is not None else "|".join(mobile_ids),
+          "mobile_type_name":(mobile_entry or {}).get("display_name",""),
+          "mobile_type_unique_name":(mobile_entry or {}).get("unique_name",""),
+          "mobile_type_category":(mobile_entry or {}).get("category",""),
+          "mobile_type_loot_type":(mobile_entry or {}).get("loot_type",""),
+          "mobile_type_is_harvestable":mobile_harvestable if mobile_entry else "",
+          "tier_conflict":tier_conflict,"x":coords[0] if len(coords)>0 else "",
+          "y":coords[1] if len(coords)>1 else "","first_seen_ms":row.get("first_seen_ms",""),
+          "last_seen_ms":row.get("last_seen_ms",""),"observation_count":row.get("observation_count",""),
+          "state_event_count":row.get("state_event_count",""),"state_values":row.get("state_values",""),
+          "user_confirmed_target":user_confirmed
+        })
+    node_catalog_path=DB/"albion-resource-node-catalog-2026-11-03.csv"
+    with node_catalog_path.open("w",encoding="utf-8",newline="") as f:
+        fields=["archive","pcap","entity_id","type_number","resource_type","resource_display_name","mapping_status",
+          "evidence_note","tier","effective_tier","enchantment_raw_values","mobile_type_id","mobile_type_name",
+          "mobile_type_unique_name","mobile_type_category","mobile_type_loot_type","mobile_type_is_harvestable",
+          "tier_conflict","x","y","first_seen_ms","last_seen_ms","observation_count","state_event_count",
+          "state_values","user_confirmed_target"]
+        w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(enriched_nodes)
     mapped=sum(1 for p in crosswalk if p["dictionary_match"])
     report={"schema_version":2,"purpose":"Evidence-ranked family/type discovery; no unproven semantic labels.",
       "counts":{"event40_node_records":len(nodes),"event123_lifecycle_records":len(mobs),
@@ -117,6 +189,7 @@ def main():
       "mobile_type_dictionary_coverage":{"pcap_distinct_type_ids":len(mob_groups),"mapped_type_ids":mapped,
         "unmapped_type_ids":[p["mobile_type_id"] for p in crosswalk if not p["dictionary_match"]]},
       "type_number_profiles":family_profiles,"mobile_type_profiles":mob_profiles,"mobile_type_crosswalk":crosswalk,
+      "resource_node_catalog":{"rows":len(enriched_nodes),"mapped_rows":len(enriched_nodes)-unresolved_node_count,"unresolved_rows":unresolved_node_count,"resource_type_counts":dict(sorted(resource_type_counts.items())),"file":"albion-resource-node-catalog-2026-11-03.csv"},
       "knowledge_schema_inventory":schema,"knowledge_type_and_family_field_values":type_fields,
       "weak_filename_context_hints":filename_hints,
       "guardrails":["Runtime IDs are scoped by archive and PCAP/session.",
@@ -143,7 +216,11 @@ def main():
     lines+=["","## Event 123 mobile TypeID crosswalk","| Type ID | Name | Tier | Category | Loot type | Harvestable | PCAP records |","|---:|---|---:|---|---|---|---:|"]
     for p in mob_profiles:
         lines.append(f"| {p['mobile_type_id']} | {p.get('display_name','UNKNOWN')} | {p.get('tier','')} | {p.get('category','')} | {p.get('loot_type','')} | {p.get('is_harvestable','')} | {p['lifecycle_records']} |")
-    lines+=["","## Key conflict requiring raw-event re-decode",
+    lines+=["","## Enriched Event 40 node catalog",
+      f"- Rows: {len(enriched_nodes)}; mapped: {len(enriched_nodes)-unresolved_node_count}; unresolved: {unresolved_node_count}",
+      "- File: albion-resource-node-catalog-2026-11-03.csv",
+      "- Resource type counts: "+", ".join(f"{k}={v}" for k,v in sorted(resource_type_counts.items())),
+      "","## Key conflict requiring raw-event re-decode",
       "- Type number 20 maps to HIDE. Its mobile TypeID 482 is Mountain Rabbit and is not harvestable, so the reference OpenRadar handler falls back to type number 20 rather than overriding it.",
       "- Type number 29 is a separate living Ore Elemental resource mapping: TypeIDs 571/573/574, loot ORE_CRITTER, harvestable=true.",
       "- Type numbers 7/14/20/27 map to ROCK/FIBER/HIDE/ORE through the public HarvestablesDatabase mapping; 28 remains unresolved.",
