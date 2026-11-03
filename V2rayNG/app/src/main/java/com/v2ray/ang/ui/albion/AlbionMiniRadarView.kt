@@ -17,6 +17,11 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private var enabledFilters: Set<String> = DEFAULT_FILTERS
     private var catalogOverviewMode = false
     private var lockedTargetId: String? = null
+    // Filtering is independent of player position. Cache it between snapshots/filter changes
+    // so onDraw does not repeatedly walk and classify every entity on each invalidation.
+    private var visibleCache: List<JSONObject> = emptyList()
+    private var catalogVisibleCache: List<JSONObject> = emptyList()
+    private var filterCacheDirty = true
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
     private val range = 260.0
@@ -28,16 +33,19 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
     fun setFilters(filters: Set<String>) {
         enabledFilters = filters.toSet()
+        filterCacheDirty = true
         invalidate()
     }
 
     fun setSnapshot(json: String): Int? {
         val parsed = AlbionRadarSnapshotParser.parse(json) ?: run {
             entities = emptyList()
+            filterCacheDirty = true
             invalidate()
             return null
         }
         entities = parsed.entities
+        filterCacheDirty = true
         invalidate()
         return entities.size
     }
@@ -47,6 +55,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val parsed = AlbionRadarSnapshotParser.parse(json) ?: return null
         catalogEntities = parsed.entities
         entities = catalogEntities
+        filterCacheDirty = true
         invalidate()
         return catalogEntities.size
     }
@@ -56,6 +65,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         // Live coordinates belong to the active capture. Never merge historical catalog
         // coordinates into the player-centered map until zone identity is verified.
         entities = parsed.entities
+        filterCacheDirty = true
         invalidate()
         return entities.size
     }
@@ -76,8 +86,13 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
     private fun isTroll(item: JSONObject): Boolean {
         val label = (item.optString("name") + " " + AlbionRadarSnapshotParser.labelForEntity(item)).lowercase()
-        return label.contains("troll") || item.optString("marker_activity") == "Troll" ||
-            item.optString("marker_activity_candidate") == "Troll"
+        if (label.contains("troll")) return true
+        // A nearby/manual marker candidate is not proof of mob identity. Only promote
+        // a marker match when the capture pipeline has an explicit high-confidence result.
+        val marker = item.optString("marker_activity")
+        val confidence = item.optString("marker_match_confidence").uppercase()
+        return marker.equals("Troll", ignoreCase = true) &&
+            confidence in setOf("HIGH", "CONFIRMED", "USER_CONFIRMED")
     }
 
     private fun passesFilters(item: JSONObject): Boolean {
@@ -155,6 +170,20 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         return true
     }
 
+    private fun visibleEntities(): List<JSONObject> {
+        if (filterCacheDirty) {
+            visibleCache = entities.filter {
+                it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) && passesFilters(it)
+            }
+            catalogVisibleCache = catalogEntities.filter {
+                it.optString("last_kind") in DISPLAY_KINDS &&
+                    it.optString("last_kind") != "own_player_move" && validPoint(it) && passesFilters(it)
+            }
+            filterCacheDirty = false
+        }
+        return visibleCache
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         val cx = width / 2f
@@ -227,9 +256,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             }
         }
 
-        val visible = entities.asSequence()
-            .filter { it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) && passesFilters(it) }
-            .toList()
+        val visible = visibleEntities()
         if (lockedTargetId != null && visible.none { it.optString("entity_id") == lockedTargetId && !it.optBoolean("depleted", false) }) {
             lockedTargetId = null
         }
@@ -274,12 +301,17 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             if (distance > range) outside.add(entity to distance)
         }
 
-        val allResourceTargets = visible.asSequence()
-            .filter { it.optString("last_kind") in RESOURCE_KINDS && !it.optBoolean("depleted", false) && !it.optBoolean("left", false) }
-            .map { it to hypot(it.optDouble("x") - px, it.optDouble("y") - py) }
-            .sortedBy { it.second }.toList()
-        val locked = lockedTargetId?.let { id -> allResourceTargets.firstOrNull { it.first.optString("entity_id") == id } }
-        val nearestTarget = allResourceTargets.firstOrNull()
+        var locked: Pair<JSONObject, Double>? = null
+        var nearestTarget: Pair<JSONObject, Double>? = null
+        // One linear pass replaces sorting the entire resource set every frame.
+        visible.forEach { entity ->
+            if (entity.optString("last_kind") in RESOURCE_KINDS &&
+                !entity.optBoolean("depleted", false) && !entity.optBoolean("left", false)) {
+                val candidate = entity to hypot(entity.optDouble("x") - px, entity.optDouble("y") - py)
+                if (entity.optString("entity_id") == lockedTargetId) locked = candidate
+                if (nearestTarget == null || candidate.second < nearestTarget!!.second) nearestTarget = candidate
+            }
+        }
         // Keep a target stable while approaching, but switch when another resource is
         // materially closer (12 world units) or the locked resource is no longer available.
         val chosenTarget = when {
@@ -349,10 +381,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     }
 
     private fun drawCatalogOverview(canvas: Canvas, cx: Float, cy: Float, radius: Float) {
-        val points = catalogEntities.filter {
-            it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) &&
-                it.optString("last_kind") != "own_player_move" && passesFilters(it)
-        }
+        visibleEntities()
+        val points = catalogVisibleCache
         if (points.isEmpty()) return
         val minX = points.minOf { it.optDouble("x") }
         val maxX = points.maxOf { it.optDouble("x") }
