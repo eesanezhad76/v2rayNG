@@ -3227,6 +3227,7 @@
   },
   "knowledge_type_and_family_field_values": {
     "entities.family_evidence": [],
+    "entities.mobile_type_id_evidence": [],
     "entities.mobile_type_id": [
       [
         "482",
@@ -3473,7 +3474,6 @@
         1
       ]
     ],
-    "entities.mobile_type_id_evidence": [],
     "entities.family": [
       [
         "27",
