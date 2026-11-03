@@ -48,6 +48,13 @@ class AlbionRadarSnapshotParserTest {
         ))
     }
 
+    @Test fun displaysNodeTierAndProvisionalEnchantmentOnRadarLabel() {
+        val node = org.json.JSONObject(
+            """{"last_kind":"harvestable","family":29,"tier":5,"enchant":3,"resource_inference":{"resource_name":{"value":"Ore","status":"CAPTURE_CORROBORATED","confidence":0.98},"enchantment_name":{"value":"E3","status":"PROVISIONAL_MAPPING","confidence":0.85}}}"""
+        )
+        assertEquals("Ore* T5 E3?", AlbionRadarSnapshotParser.labelForEntity(node))
+    }
+
     @Test fun dropsInvalidOrOutOfRangeCoordinatesWithoutPassingThemToTheView() {
         val parsed = AlbionRadarSnapshotParser.parse(
             """[
