@@ -96,6 +96,41 @@ class AlbionEntityEventMapperTest {
     }
 
     @Test
+    fun mapsResourceListCoordinatesFromAllProtocol18NumericArrayTypes() {
+        AlbionEntityEventMapper.reset()
+        val intArrayNodes = AlbionEntityEventMapper.map(
+            event(39, mapOf(0 to longArrayOf(101L, 102L), 3 to intArrayOf(10, 20, 30, 40)))
+        )
+        assertEquals(2, intArrayNodes.size)
+        assertEquals(listOf(10f, 30f), intArrayNodes.map { it.x })
+        assertEquals(listOf(20f, 40f), intArrayNodes.map { it.y })
+
+        val longArrayNode = AlbionEntityEventMapper.map(
+            event(39, mapOf(0 to intArrayOf(103), 3 to longArrayOf(-50L, 75L)))
+        ).single()
+        assertEquals(-50f, longArrayNode.x)
+        assertEquals(75f, longArrayNode.y)
+
+        val doubleArrayNode = AlbionEntityEventMapper.map(
+            event(39, mapOf(0 to shortArrayOf(104), 3 to doubleArrayOf(1.25, 2.5)))
+        ).single()
+        assertEquals(1.25f, doubleArrayNode.x)
+        assertEquals(2.5f, doubleArrayNode.y)
+    }
+
+    @Test
+    fun mapsSingleResourceCoordinatesFromIntegerArrays() {
+        AlbionEntityEventMapper.reset()
+        val harvest = AlbionEntityEventMapper.map(
+            event(40, mapOf(0 to 7002L, 5 to 29, 6 to 574, 7 to 5,
+                8 to intArrayOf(120, -80), 10 to 3, 11 to 2))
+        ).single()
+        assertEquals("harvestable", harvest.kind)
+        assertEquals(120f, harvest.x)
+        assertEquals(-80f, harvest.y)
+    }
+
+    @Test
     fun mapsTypedHarvestableAndMobEntitiesButLeavesUnknownEventsUnclassified() {
         AlbionEntityEventMapper.reset()
         val harvest = AlbionEntityEventMapper.map(
