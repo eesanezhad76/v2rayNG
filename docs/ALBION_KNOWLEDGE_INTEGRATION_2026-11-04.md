@@ -115,7 +115,7 @@ Implemented on the isolated integration branch:
 
 - Added `AlbionSpatialIntelligence` for live-snapshot spatial safeguards.
 - Deduplicates Event 39 candidate pins at the same half-unit coordinate; when a typed Event 40 resource exists at that point, the typed record supersedes the untyped candidate.
-- Distinct typed resources at the same coordinate are preserved unless their family/type/tier/enchantment signature is identical.
+- All distinct typed runtime IDs at the same coordinate are preserved; coordinates alone are never used to merge two independently identified typed entities.
 - Gathering navigation now accepts only typed `harvestable`/`resource_state` observations with a valid mobile Type ID and tier, or an explicit user-confirmed target. Untyped Event 39 candidates, conflicted records, depleted nodes, and departed entities cannot become the nearest gathering target.
 - When the user explicitly enables unclassified resources, the mini-radar displays at most the 40 nearest untyped candidates, recalculated against the current player position. This limits visual clutter without deleting evidence from the live knowledge store.
 - The radar continues to keep historical saved-catalog coordinates separate from active-session coordinates. No cross-zone coordinate transform is assumed.
