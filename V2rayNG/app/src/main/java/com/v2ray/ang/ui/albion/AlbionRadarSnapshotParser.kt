@@ -22,9 +22,10 @@ object AlbionRadarSnapshotParser {
             val name = item.optString("name").takeIf { it.isNotBlank() && it != "null" }
             val activity = item.optString("marker_activity")
             val candidateActivity = item.optString("marker_activity_candidate")
-            if (activity == "Troll") return name ?: "Troll"
-            if (candidateActivity == "Troll") return if (name != null && !name.lowercase().contains("troll")) "Troll? $name" else "Troll?"
-            if (name != null) return name
+            val tier = item.optInt("tier", -1).takeIf { it > 0 }?.let { "T$it " } ?: ""
+            if (activity == "Troll") return if (name != null && !name.lowercase().contains("troll")) "T! $tier$name" else name ?: "Troll"
+            if (candidateActivity == "Troll") return if (name != null && !name.lowercase().contains("troll")) "T? $tier$name" else "Troll?"
+            if (name != null) return tier + name
             return if (item.has("mobile_type_id")) "Mob ID${item.optInt("mobile_type_id")}" else "Mob"
         }
         if (kind in setOf("static_resource", "harvestable", "resource_state")) {
