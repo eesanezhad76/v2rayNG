@@ -456,7 +456,11 @@ fun main() {
                 }
                 val windowStart = sample.foundMs - 10_000L
                 val windowEnd = (sample.depletedMs ?: sample.completedMs ?: sample.foundMs) + 10_000L
-                val candidates = nodes.values.filter { node ->
+                // Resource-family inference is valid only for resource activities.
+                // Mob/Troll markers must never inherit Ore/Wood/Stone/Fiber/Hide families
+                // merely because a harvestable node was visible in the same time window.
+                val isResourceActivity = sample.activity in setOf("Ore", "Wood", "Stone", "Fiber", "Hide")
+                val candidates = if (!isResourceActivity) emptyList() else nodes.values.filter { node ->
                     node.archive == sample.archive && node.pcap == sample.pcap &&
                         node.first <= windowEnd && node.last >= windowStart &&
                         (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
