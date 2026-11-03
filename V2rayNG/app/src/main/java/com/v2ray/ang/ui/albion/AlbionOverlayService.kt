@@ -73,7 +73,7 @@ class AlbionOverlayService : Service() {
         override fun run() {
             if (controlsRoot == null && radarRoot == null) return
             val live = CoreServiceManager.getAlbionLiveKnowledgeJson()
-            if (::radarView.isInitialized && radarRoot != null) radarView.setSnapshot(mergeCatalogAndLive(live))
+            if (::radarView.isInitialized && radarRoot != null) radarView.setLiveSnapshot(live)
             if (::liveStatus.isInitialized) {
                 val status = CoreServiceManager.getAlbionLiveKnowledgeSnapshot().replace('\n', ' ').replace('\r', ' ')
                 liveStatus.text = "DB $catalogNodeCount nodes/$catalogMarkerCount markers • " + status.take(95)
@@ -195,6 +195,7 @@ class AlbionOverlayService : Service() {
         head.addView(button("×") { removeRadarWindow() }, LinearLayout.LayoutParams(dp(25), dp(25)))
         panel.addView(head)
         radarView = AlbionMiniRadarView(this)
+        radarView.setCatalogSnapshot(catalogEntities.toString())
         panel.addView(radarView, LinearLayout.LayoutParams(dp(190), dp(142)))
         filterPanel = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL; setPadding(dp(3), dp(2), dp(3), dp(2))
