@@ -181,9 +181,11 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         // without the lag of a long moving average.
         val history = you.optJSONArray("movement_history")
         val recentPlayerPoints = ArrayList<Pair<Double, Double>>()
+        val historyCutoff = System.currentTimeMillis() - 3000L
         if (history != null) {
             for (i in (history.length() - 5).coerceAtLeast(0) until history.length()) {
                 val point = history.optJSONObject(i) ?: continue
+                if (point.optLong("time_ms", System.currentTimeMillis()) < historyCutoff) continue
                 val hx = point.optDouble("x", Double.NaN)
                 val hy = point.optDouble("y", Double.NaN)
                 if (hx.isFinite() && hy.isFinite()) recentPlayerPoints.add(hx to hy)
