@@ -43,6 +43,9 @@ class AlbionRadarSnapshotParserTest {
         assertEquals("Golem", AlbionRadarSnapshotParser.labelForEntity(
             org.json.JSONObject("""{"last_kind":"mob","mobile_type_id":482,"name":"Golem"}""")
         ))
+        assertEquals("T! T3 Ore Elemental", AlbionRadarSnapshotParser.labelForEntity(
+            org.json.JSONObject("""{"last_kind":"mob","name":"Ore Elemental","tier":3,"marker_activity":"Troll"}""")
+        ))
     }
 
     @Test fun dropsInvalidOrOutOfRangeCoordinatesWithoutPassingThemToTheView() {
