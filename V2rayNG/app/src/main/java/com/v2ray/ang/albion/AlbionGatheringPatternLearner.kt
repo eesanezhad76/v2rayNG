@@ -21,11 +21,6 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
         if (label.optString("activity") !in GATHERING_ACTIVITIES) return
         val startedAt = label.optLong("started_at_ms", Long.MIN_VALUE)
         if (timestampMs < startedAt) return
-        if (timestampMs - startedAt > MAX_ACTIVE_WINDOW_MS) {
-            active = null
-            activeSamples.clear()
-            return
-        }
         val expectedTier = label.optString("tier").removePrefix("T").toIntOrNull() ?: return
         observations.filter { it.kind == "harvestable" }.forEach { observation ->
             val family = observation.typeNumber ?: return@forEach
@@ -47,16 +42,23 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
     @Synchronized
     fun observeMarker(marker: JSONObject, timestampMs: Long) {
         when (marker.optString("event")) {
-            "target_found", "activity_start" -> {
-                active = JSONObject().put("activity", marker.optString("activity"))
-                    .put("tier", marker.optString("tier"))
-                    .put("enchantment", marker.optString("enchantment"))
-                    .put("started_at_ms", timestampMs)
+            "target_found", "activity_start", "pvp_started", "movement_started" -> {
+                // A new activity boundary invalidates an unfinished previous cycle.
+                active = null
                 activeSamples.clear()
+                val activity = marker.optString("activity")
+                if (activity in GATHERING_ACTIVITIES) {
+                    active = JSONObject().put("activity", activity)
+                        .put("tier", marker.optString("tier"))
+                        .put("enchantment", marker.optString("enchantment"))
+                        .put("started_at_ms", timestampMs)
+                }
             }
-            "gathering_completed", "activity_end" -> {
-                if (active != null && timestampMs > active!!.optLong("started_at_ms") &&
-                    timestampMs - active!!.optLong("started_at_ms") <= MAX_ACTIVE_WINDOW_MS) {
+            "gathering_completed", "activity_end", "mob_killed", "pvp_ended", "movement_completed" -> {
+                val session = active
+                val isGatheringEnd = marker.optString("event") in setOf("gathering_completed", "activity_end")
+                if (isGatheringEnd && session != null &&
+                    timestampMs > session.optLong("started_at_ms")) {
                     activeSamples.forEach { sample ->
                         val key = listOf(sample.optInt("family"), sample.optInt("tier"),
                             sample.optInt("raw_enchant"), sample.optString("label_enchant")).joinToString("|")
@@ -78,6 +80,7 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
                     dirty = dirty || activeSamples.isNotEmpty()
                     persistAndRegister()
                 }
+                // Mob/PvP stop markers close but never promote Gathering samples.
                 active = null
                 activeSamples.clear()
             }
@@ -161,7 +164,6 @@ class AlbionGatheringPatternLearner(context: Context, private val captureSession
 
     private companion object {
         const val MAX_ACTIVE_SAMPLES = 500
-        const val MAX_ACTIVE_WINDOW_MS = 15 * 60_000L
         const val MAX_SESSIONS = 20
         const val MIN_SAMPLES = 3
         const val MIN_SESSIONS = 2
