@@ -41,6 +41,7 @@ class AlbionOverlayService : Service() {
     private lateinit var liveStatus: TextView
     private lateinit var title: TextView
     private lateinit var filterPanel: LinearLayout
+    private lateinit var filterScroll: ScrollView
     private lateinit var filterButton: Button
     private var controlsParams: WindowManager.LayoutParams? = null
     private var radarParams: WindowManager.LayoutParams? = null
@@ -146,6 +147,7 @@ class AlbionOverlayService : Service() {
             maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END; includeFontPadding = false
         }
         head.addView(title, LinearLayout.LayoutParams(0, dp(27), 1f))
+        head.addView(button("MAP") { if (radarRoot == null) buildRadarWindow() }, LinearLayout.LayoutParams(dp(36), dp(27)))
         head.addView(button("−") { expanded = !expanded; renderBody() }, LinearLayout.LayoutParams(dp(27), dp(27)))
         head.addView(button("×") { stopSelf() }, LinearLayout.LayoutParams(dp(27), dp(27)))
         panel.addView(head)
@@ -186,10 +188,12 @@ class AlbionOverlayService : Service() {
         radarView = AlbionMiniRadarView(this)
         panel.addView(radarView, LinearLayout.LayoutParams(dp(190), dp(142)))
         filterPanel = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL; visibility = View.GONE; setPadding(dp(3), dp(2), dp(3), dp(2))
+            orientation = LinearLayout.VERTICAL; setPadding(dp(3), dp(2), dp(3), dp(2))
         }
-        val scroll = ScrollView(this).apply { isFillViewport = true; addView(filterPanel) }
-        panel.addView(scroll, LinearLayout.LayoutParams(-1, dp(160)))
+        filterScroll = ScrollView(this).apply {
+            isFillViewport = true; visibility = View.GONE; addView(filterPanel)
+        }
+        panel.addView(filterScroll, LinearLayout.LayoutParams(-1, dp(160)))
         radarRoot = panel
         val type = if (Build.VERSION.SDK_INT >= 26) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE
         val params = WindowManager.LayoutParams(
@@ -279,8 +283,8 @@ class AlbionOverlayService : Service() {
     }
 
     private fun toggleFilters() {
-        filterPanel.visibility = if (filterPanel.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        filterButton.text = if (filterPanel.visibility == View.VISIBLE) "HIDE" else "FILTER"
+        filterScroll.visibility = if (filterScroll.visibility == View.VISIBLE) View.GONE else View.VISIBLE
+        filterButton.text = if (filterScroll.visibility == View.VISIBLE) "HIDE" else "FILTER"
         radarParams?.let { try { radarRoot?.let { root -> wm.updateViewLayout(root, it) } } catch (_: Exception) { } }
     }
 
