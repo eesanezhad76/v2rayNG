@@ -52,9 +52,7 @@ object AlbionResearchKnowledgeIndex {
         fun mobileTypeDictionary(): JSONObject {
             fun dominant(values: JSONObject?): String {
                 if (values == null || values.length() == 0) return ""
-                return values.keys().asSequence().maxWithOrNull(
-                    compareBy<String> { values.optInt(it, 0) }.thenByDescending { it }
-                ) ?: ""
+                return values.keys().asSequence().maxByOrNull { values.optInt(it, 0) } ?: ""
             }
             val result = JSONObject()
             mobileTypes.keys().asSequence().forEach { id ->
