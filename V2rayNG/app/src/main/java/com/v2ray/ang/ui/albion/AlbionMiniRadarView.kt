@@ -181,16 +181,16 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val filtered = entities.filter {
                 it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) && passesFilters(it)
             }
-            visibleCache = if (playerX != null && playerY != null)
-                AlbionSpatialIntelligence.limitUnclassifiedCandidates(filtered, playerX, playerY, MAX_UNCLASSIFIED_CANDIDATE_PINS)
-            else filtered
+            visibleCache = filtered
             catalogVisibleCache = catalogEntities.filter {
                 it.optString("last_kind") in DISPLAY_KINDS &&
                     it.optString("last_kind") != "own_player_move" && validPoint(it) && passesFilters(it)
             }
             filterCacheDirty = false
         }
-        return visibleCache
+        return if (playerX != null && playerY != null)
+            AlbionSpatialIntelligence.limitUnclassifiedCandidates(visibleCache, playerX, playerY, MAX_UNCLASSIFIED_CANDIDATE_PINS)
+        else visibleCache
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -390,7 +390,6 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         canvas.drawText("YOU", cx + 6f * density, cy - 5f * density, paint)
         paint.color = 0xFFB8C8D5.toInt()
         paint.textSize = 7f * density
-        val candidatePins = visible.count { it.optString("last_kind") == "static_resource" && !it.has("family") && !it.has("tier") }
         canvas.drawText("${visible.size} pins • ${nearbyNodes.size} navigable • candidates≤$MAX_UNCLASSIFIED_CANDIDATE_PINS • zone?", 6f * density, height - 5f * density, paint)
     }
 
