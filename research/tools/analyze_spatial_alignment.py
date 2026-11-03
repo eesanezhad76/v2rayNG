@@ -35,8 +35,8 @@ def percentile(values, fraction):
     return ordered[min(len(ordered) - 1, int((len(ordered) - 1) * fraction))]
 
 
-def analyze_rows(rows):
-    grouped = defaultdict(lambda: {"player": [], "nodes": defaultdict(set), "rows": 0})
+def analyze_rows(rows, temporal_tolerance_ms=5000):
+    grouped = defaultdict(lambda: {"player": [], "nodes": defaultdict(list), "rows": 0})
     for row in rows:
         if not isinstance(row, dict):
             continue
@@ -52,40 +52,62 @@ def analyze_rows(rows):
         y = finite_coordinate(fields.get("y"))
         if x is None or y is None:
             continue
+        try:
+            timestamp = int(row.get("time_ms"))
+        except (TypeError, ValueError):
+            timestamp = None
         if kind == "own_player_move":
-            group["player"].append((x, y))
+            group["player"].append({"time_ms": timestamp, "x": x, "y": y})
         elif kind == "harvestable":
             entity_id = fields.get("id")
             if entity_id not in (None, "", "null"):
-                group["nodes"][entity_id].add((round(x, 3), round(y, 3)))
+                group["nodes"][entity_id].append({"time_ms": timestamp, "x": round(x, 3), "y": round(y, 3)})
 
     captures = []
     for (archive, pcap), group in sorted(grouped.items()):
         player = group["player"]
-        node_sets = group["nodes"]
-        conflicts = sorted(entity_id for entity_id, coords in node_sets.items() if len(coords) > 1)
-        nodes = [next(iter(coords)) for entity_id, coords in sorted(node_sets.items()) if len(coords) == 1]
-        if len(player) < 10 or len(nodes) < 3:
+        node_observations = group["nodes"]
+        conflicts = sorted(
+            entity_id for entity_id, observations in node_observations.items()
+            if len({(p["x"], p["y"]) for p in observations}) > 1
+        )
+        stable_nodes = {
+            entity_id: observations[0]
+            for entity_id, observations in node_observations.items()
+            if len({(p["x"], p["y"]) for p in observations}) == 1
+        }
+        nodes = list(stable_nodes.values())
+        timed_player = [p for p in player if p["time_ms"] is not None]
+        timed_pairs = []
+        for node in nodes:
+            if node["time_ms"] is None:
+                continue
+            nearby = [p for p in timed_player if abs(p["time_ms"] - node["time_ms"]) <= temporal_tolerance_ms]
+            if nearby:
+                nearest = min(nearby, key=lambda p: abs(p["time_ms"] - node["time_ms"]))
+                timed_pairs.append({
+                    "distance": math.hypot(node["x"] - nearest["x"], node["y"] - nearest["y"]),
+                    "time_gap_ms": abs(node["time_ms"] - nearest["time_ms"]),
+                })
+
+        if len(player) < 10 or len(nodes) < 3 or len(timed_pairs) < 3:
             status = "NOT_VERIFIED"
             distances = []
             player_bounds = None
             node_bounds = None
             overlap = False
         else:
-            px = [point[0] for point in player]
-            py = [point[1] for point in player]
-            nx = [point[0] for point in nodes]
-            ny = [point[1] for point in nodes]
+            px = [point["x"] for point in player]
+            py = [point["y"] for point in player]
+            nx = [point["x"] for point in nodes]
+            ny = [point["y"] for point in nodes]
             player_bounds = {"min_x": min(px), "max_x": max(px), "min_y": min(py), "max_y": max(py)}
             node_bounds = {"min_x": min(nx), "max_x": max(nx), "min_y": min(ny), "max_y": max(ny)}
             overlap = not (max(px) < min(nx) or max(nx) < min(px) or max(py) < min(ny) or max(ny) < min(py))
-            distances = [
-                min(math.hypot(node_x - player_x, node_y - player_y) for player_x, player_y in player)
-                for node_x, node_y in nodes
-            ]
+            distances = [pair["distance"] for pair in timed_pairs]
             median = percentile(distances, 0.5)
             p90 = percentile(distances, 0.9)
-            plausible = overlap and median <= 100.0 and p90 <= 250.0
+            plausible = median <= 100.0 and p90 <= 250.0
             status = "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" if plausible else "NOT_VERIFIED"
 
         median = percentile(distances, 0.5)
@@ -94,7 +116,7 @@ def analyze_rows(rows):
             "archive": archive,
             "pcap": pcap,
             "status": status,
-            "evidence_grade": "single_capture_spatial_heuristic_only",
+            "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
             "replay_observation_rows": group["rows"],
             "player_position_samples": len(player),
             "typed_resource_nodes": len(nodes),
@@ -102,23 +124,23 @@ def analyze_rows(rows):
             "player_bounds": player_bounds,
             "resource_bounds": node_bounds,
             "bounding_boxes_overlap": overlap,
-            "nearest_resource_to_player_path_distance_median": round(median, 3) if median is not None else None,
-            "nearest_resource_to_player_path_distance_p90": round(p90, 3) if p90 is not None else None,
-            "nodes_within_100_units_of_player_path": sum(distance <= 100.0 for distance in distances),
-            "warning": "Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity."
+            "temporal_player_node_pairs": len(timed_pairs),
+            "temporal_tolerance_ms": temporal_tolerance_ms,
+            "median_nearest_player_distance_at_node_observation": round(median, 3) if median is not None else None,
+            "p90_nearest_player_distance_at_node_observation": round(p90, 3) if p90 is not None else None,
+            "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
         })
 
     overall = "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" if any(
         capture["status"] == "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" for capture in captures
     ) else "NOT_VERIFIED"
     return {
-        "schema_version": 1,
+        "schema_version": 2,
         "overall_status": overall,
-        "capture_scope": "archive_and_pcap_grouped_independently; no cross-capture joins",
+        "capture_scope": "archive_and_pcap_grouped_independently; time-aligned player/node observations only; no cross-capture joins",
         "captures": captures,
         "warning": "A plausible result supports local coordinate alignment only. It is not a world-map or zone-identity proof."
     }
-
 
 def read_rows(path):
     with path.open(encoding="utf-8", errors="replace") as source:
