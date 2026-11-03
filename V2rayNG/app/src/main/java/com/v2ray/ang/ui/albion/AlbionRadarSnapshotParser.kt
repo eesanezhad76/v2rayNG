@@ -18,6 +18,7 @@ object AlbionRadarSnapshotParser {
     fun labelForEntity(item: JSONObject): String {
         val kind = item.optString("last_kind")
         if (kind == "own_player_move") return "YOU"
+        if (kind == "activity_marker") return "History: " + item.optString("marker_activity") + " (player position)"
         if (kind == "mob") {
             val name = item.optString("name").takeIf { it.isNotBlank() && it != "null" }
             val activity = item.optString("marker_activity")
