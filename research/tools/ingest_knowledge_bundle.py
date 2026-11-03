@@ -197,7 +197,6 @@ def merge_bundle(database, bundle):
         # Cumulative exports are snapshots: union session provenance, but never sum sightings.
         sessions = set(current.get("capture_sessions", []))
         sessions.update(pattern.get("capture_sessions", []))
-        sessions.update(pattern.get("capture_sessions", []))
         # Preserve the strongest completed label evidence per label key.
         labels = {row.get("label_key"): row for row in current.get("labels", []) if isinstance(row, dict)}
         for label in pattern.get("labels", []):
