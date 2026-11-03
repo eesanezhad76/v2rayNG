@@ -35,4 +35,31 @@ class AlbionCaptureAnalyzerTest {
         assertEquals(listOf(markerDetail), report.checkpoints, report.asText())
         assertEquals(listOf(markerDetail), report.detailedObservations, report.asText())
     }
+    @Test fun preservesManualZoneTransitionCheckpoint() {
+        val marker = AlbionCaptureMarker.build(
+            """{"timestamp_ms":9876,"elapsed_realtime_ms":5432,"event":"zone_transition_observed","activity":"Zone","marker_type":"manual_zone_transition","source":"manual_overlay"}"""
+        )
+        val file = File(tempDir, "zone-transition-test.pcap")
+        DataOutputStream(FileOutputStream(file)).use { out ->
+            out.writeInt(Integer.reverseBytes(0xa1b2c3d4.toInt()))
+            out.writeShort(java.lang.Short.reverseBytes(2.toShort()).toInt())
+            out.writeShort(java.lang.Short.reverseBytes(4.toShort()).toInt())
+            out.writeInt(0)
+            out.writeInt(0)
+            out.writeInt(Integer.reverseBytes(65535))
+            out.writeInt(Integer.reverseBytes(101))
+            out.writeInt(Integer.reverseBytes(1))
+            out.writeInt(Integer.reverseBytes(9876000))
+            out.writeInt(Integer.reverseBytes(marker.size))
+            out.writeInt(Integer.reverseBytes(marker.size))
+            out.write(marker)
+        }
+        val report = AlbionCaptureAnalyzer.analyze(file)
+        assertEquals(
+            listOf("t=9876 kind=manual_marker activity=Zone event=zone_transition_observed marker_type=manual_zone_transition"),
+            report.checkpoints,
+            report.asText()
+        )
+    }
+
 }
