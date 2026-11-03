@@ -37,11 +37,12 @@ jobs:
           shopt -s nullglob globstar
           zips=(research/inbox/*.zip research/inbox/**/*.zip)
           python research/tools/ingest_capture.py --refresh-existing "${zips[@]}"
-          python research/tools/ingest_knowledge_bundle.py "${zips[@]}"
+          python research/tools/ingest_knowledge_bundle.py --rebuild "${zips[@]}"
           python -m unittest discover -s research/tests -p 'test_*.py' -v
           chmod +x V2rayNG/gradlew
           V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
           python research/tools/analyze_spatial_alignment.py
+          python research/tools/build_complete_database_index.py
       - name: Commit derived evidence
         run: |
           git config user.name "github-actions[bot]"

@@ -1,5 +1,32 @@
 # Albion Radar — authoritative project status
 
+## Latest full inbox verification — 2026-11-03
+
+Repository: eesanezhad76/v2rayNG  
+Branch: albion-pattern-mining  
+Verified head before this maintenance pass: e8e79c1c6380a418fadf409201eb771c82b6324d  
+Latest completed ingest run: 41681834068 / run 248 — SUCCESS
+
+- All 12 ZIP archives in research/inbox were inventoried.
+- 31 PCAP members were audited; one byte-identical duplicate was excluded from aggregate observations; 30 unique captures were analyzed.
+- PCAP analyzer errors: 0.
+- Normalized observations: 340,892; outbound own-player Move(22) observations: 38,132.
+- Event 40 harvestable-node records: 331; Event 46 state IDs: 297, including 213 state-only IDs without an Event 40 location.
+- Event 39 static-resource observations: 16,944.
+- Event 123 living/mobile entity lifecycle records: 2,330.
+- Operation 23 attack-target tracks: 44, with 1,514 tracked target-position samples.
+- Manual markers: 358; completed marker lifecycle samples: 109.
+- Mob/Troll marker correlations: 29 — 16 HIGH, 6 MEDIUM, 4 LOW, 3 without a candidate.
+- Troll-labelled cycles: 15; 10 HIGH, 3 MEDIUM, 2 unmatched. Thirteen rows resolve to Ore Elemental types 571/573/574; there are 10 distinct target IDs because some marker windows point to the same target. None of the 29 marker-to-target associations is marked identity-proven.
+- Knowledge bundles: 4; merged database contains 9,522 session-scoped entity records, 4,599 deduplicated protocol events, 70 learned pattern signatures and 296 autonomous signatures.
+- Spatial alignment: 30 captures checked, 11 plausible same-local-coordinate-space; this does not prove zone identity or a global map transform.
+- Python tests: 29 passed; PCAP analyzer Gradle audit: successful. This was a research ingest, not an APK build or device test.
+
+The earlier three-ZIP forensic report is a historical subset, not the current complete inbox status. The consolidated report is generated at research/analysis/2026-11-03-complete-inbox-database-report.md; the machine-readable SHA-256 manifest is research/database/albion-complete-database-manifest-2026-11-03.json.
+
+Preservation defect found for correction: the previous forensic ZIP inventory omitted text members larger than 2 MB and truncated smaller note text at 50,000 characters. The original ZIPs were not modified, and the knowledge-bundle importer had already read the full four knowledge archives. The updated forensic audit retains full text members and SHA-256 values in each JSON inventory; the workflow rebuilds the knowledge database from source ZIPs instead of relying on an old merge state.
+
+
 Last verified against GitHub: 2026-11-02 (UTC session date)
 Repository: `eesanezhad76/v2rayNG`
 Working branch: `albion-pattern-mining`

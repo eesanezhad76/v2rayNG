@@ -33,6 +33,10 @@ def sha256_file(path):
             digest.update(chunk)
     return digest.hexdigest()
 
+def empty_database():
+    return {"schema_version": 1, "imported_bundles": [], "entity_observations": [],
+            "protocol_evidence": [], "learned_patterns": [], "autonomous_patterns": []}
+
 
 def read_bundle(path):
     archive_hash = sha256_file(path)
@@ -94,8 +98,7 @@ def read_bundle(path):
 
 def load_existing(path=OUTPUT):
     if not path.is_file():
-        return {"schema_version": 1, "imported_bundles": [], "entity_observations": [],
-                "protocol_evidence": [], "learned_patterns": [], "autonomous_patterns": []}
+        return empty_database()
     document = json.loads(path.read_text(encoding="utf-8"))
     if document.get("schema_version") != 1:
         raise ValueError("Existing central knowledge database has an unsupported schema")
@@ -223,8 +226,10 @@ def main(argv=None):
     parser = argparse.ArgumentParser()
     parser.add_argument("archives", nargs="+", type=pathlib.Path)
     parser.add_argument("--output", type=pathlib.Path, default=OUTPUT)
+    parser.add_argument("--rebuild", action="store_true",
+                        help="start from an empty database and reconstruct only from the supplied source ZIPs")
     args = parser.parse_args(argv)
-    database = load_existing(args.output)
+    database = empty_database() if args.rebuild else load_existing(args.output)
     imported = skipped = 0
     for path in args.archives:
         if not path.is_file() or path.suffix.lower() != ".zip":
@@ -248,8 +253,11 @@ def main(argv=None):
         "unique_pattern_signatures": len(database["learned_patterns"]),
         "autonomous_event_signatures": len(database["autonomous_patterns"]),
         "database": str(args.output),
+        "rebuild": bool(args.rebuild),
     }
-    report = ANALYSIS / "albion-knowledge-bundle-import.md"
+    report = (ANALYSIS / "albion-knowledge-bundle-import.md"
+              if args.output.resolve() == OUTPUT.resolve()
+              else args.output.with_suffix(".md"))
     report.parent.mkdir(parents=True, exist_ok=True)
     report.write_text("# Albion knowledge bundle import\n\n" +
         "\n".join(f"- {key}: {value}" for key, value in summary.items()) +

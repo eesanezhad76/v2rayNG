@@ -96,6 +96,28 @@ class KnowledgeBundleImportTests(unittest.TestCase):
             self.assertEqual(2, imported["labels"][0]["completed_samples"])
             self.assertEqual(2, len(imported["source_bundles"]))
 
+    def test_rebuild_ignores_existing_database_and_reconstructs_from_sources(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = pathlib.Path(directory)
+            source, output = root / "source.zip", root / "central.json"
+            make_bundle(source, [{"record_key": "1000:77", "entity_id": "77",
+                                  "session_started_ms": 1000}], [], [], 1000)
+            output.write_text(json.dumps({
+                "schema_version": 1, "imported_bundles": [{"archive": "stale"}],
+                "entity_observations": [], "protocol_evidence": [],
+                "learned_patterns": [], "autonomous_patterns": []
+            }))
+            report = ingest.ANALYSIS / "albion-knowledge-bundle-import.md"
+            before = report.read_bytes() if report.exists() else None
+            self.assertEqual(0, ingest.main(["--rebuild", str(source), "--output", str(output)]))
+            database = json.loads(output.read_text())
+            self.assertEqual(1, len(database["imported_bundles"]))
+            self.assertEqual("source.zip", database["imported_bundles"][0]["archive"])
+            self.assertEqual(1, len(database["entity_observations"]))
+            after = report.read_bytes() if report.exists() else None
+            self.assertEqual(before, after)
+            self.assertTrue(output.with_suffix(".md").exists())
+
     def test_checksum_mismatch_is_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
