@@ -47,6 +47,37 @@ object AlbionResearchKnowledgeIndex {
             val expected = mobileTypeIds()
             return DictionaryCoverage(expected.count { dictionary.has(it) }, expected.size)
         }
+
+        /** Runtime fallback when a generated display-dictionary asset is absent or empty. */
+        fun mobileTypeDictionary(): JSONObject {
+            fun dominant(values: JSONObject?): String {
+                if (values == null || values.length() == 0) return ""
+                return values.keys().asSequence().maxWithOrNull(
+                    compareBy<String> { values.optInt(it, 0) }.thenByDescending { it }
+                ) ?: ""
+            }
+            val result = JSONObject()
+            mobileTypes.keys().asSequence().forEach { id ->
+                val row = mobileTypes.optJSONObject(id) ?: return@forEach
+                val tiers = row.optJSONArray("tiers")
+                val harvestValues = row.optJSONObject("harvestable_values")
+                val harvestable = if (harvestValues != null && harvestValues.length() == 1)
+                    harvestValues.keys().asSequence().first().equals("true", true) else false
+                result.put(id, JSONObject()
+                    .put("display_name", dominant(row.optJSONObject("names")).ifBlank { "Mob ID$id" })
+                    .put("unique_name", dominant(row.optJSONObject("unique_names")))
+                    .put("tier", if (tiers != null && tiers.length() == 1) tiers.optInt(0, -1) else -1)
+                    .put("category", dominant(row.optJSONObject("categories")).ifBlank { "other" })
+                    .put("danger", dominant(row.optJSONObject("dangers")).ifBlank { "unknown" })
+                    .put("loot_type", dominant(row.optJSONObject("loot_types")))
+                    .put("is_harvestable", harvestable)
+                    .put("observation_count", row.optInt("observation_count"))
+                    .put("source_capture_count", row.optJSONArray("captures")?.length() ?: 0)
+                    .put("source", "audited_research_mobile_entity_catalog"))
+            }
+            return result
+        }
+
         fun statusLabel(): String =
             "KNOW ${resourceObservationCount}R/${mobileEntityObservationCount}M"
 
