@@ -470,13 +470,15 @@ fun main() {
                     "Ore" -> "29"
                     else -> null
                 }
-                val resourceCandidates = if (!isResourceActivity) emptyList() else nodes.values.filter { node ->
+                val temporalResourceCandidates = if (!isResourceActivity) emptyList() else nodes.values.filter { node ->
                     node.archive == sample.archive && node.pcap == sample.pcap &&
                         node.first <= windowEnd && node.last >= windowStart &&
                         (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
-                        (enchantNumber == null || node.enchants.contains(enchantNumber)) &&
-                        (expectedResourceFamily == null || node.families.contains(expectedResourceFamily))
+                        (enchantNumber == null || node.enchants.contains(enchantNumber))
                 }
+                val resourceCandidates = if (expectedResourceFamily == null) temporalResourceCandidates
+                    else temporalResourceCandidates.filter { it.families.contains(expectedResourceFamily) }
+                val reportedResourceCandidates = if (resourceCandidates.isNotEmpty()) resourceCandidates else temporalResourceCandidates
                 // Event 123 mob observations are kept in their own entity namespace.
                 // They are temporal candidates only, never resource-family evidence.
                 val mobCandidates = if (!isMobActivity) emptyList() else mobs.values.filter { mob ->
@@ -484,7 +486,7 @@ fun main() {
                         mob.first <= windowEnd && mob.last >= windowStart &&
                         (enchantNumber == null || mob.enchant == enchantNumber)
                 }
-                val candidateCount = if (isMobActivity) mobCandidates.size else resourceCandidates.size
+                val candidateCount = if (isMobActivity) mobCandidates.size else reportedResourceCandidates.size
                 val familyCounts = linkedMapOf<String, Int>()
                 resourceCandidates.forEach { node ->
                     node.families.filter { it.isNotBlank() && it != "-1" }.forEach { family ->
@@ -503,6 +505,7 @@ fun main() {
                     isMobActivity && mobCandidates.isEmpty() -> "no_event123_mob_candidates"
                     isMobActivity && mobCandidates.size == 1 -> "single_event123_mob_candidate_only"
                     isMobActivity -> "ambiguous_event123_mob_candidates"
+                    resourceCandidates.isEmpty() && temporalResourceCandidates.isNotEmpty() -> "unverified_family_candidates"
                     resourceCandidates.isEmpty() -> "no_candidates"
                     tierNumber == null || enchantNumber == null -> "incomplete_overlay_labels"
                     familyCounts.isEmpty() -> "family_unavailable"
@@ -521,7 +524,7 @@ fun main() {
                             mob.first.toString(), mob.last.toString()).joinToString(":")
                     }
                 } else {
-                    resourceCandidates.sortedBy { node ->
+                    reportedResourceCandidates.sortedBy { node ->
                         when {
                             sample.foundMs < node.first -> node.first - sample.foundMs
                             sample.foundMs > node.last -> sample.foundMs - node.last
@@ -543,7 +546,7 @@ fun main() {
                     sample.startedMs?.toString() ?: "", sample.completedMs?.toString() ?: "", sample.depletedMs?.toString() ?: "",
                     sample.tierLabel ?: "", sample.enchantLabel ?: "", candidateCount.toString(),
                     familyCounts.entries.sortedBy { it.key }.joinToString("|") { it.key + ":" + it.value },
-                    (if (isMobActivity) mobCandidates.map { it.id } else resourceCandidates.map { it.id }).joinToString("|"),
+                    (if (isMobActivity) mobCandidates.map { it.id } else reportedResourceCandidates.map { it.id }).joinToString("|"),
                     candidateDetails, status).joinToString(",") { csvCell(it) })
             }
         }
