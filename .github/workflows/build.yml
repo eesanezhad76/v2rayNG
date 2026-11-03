@@ -51,6 +51,9 @@ jobs:
         submodules: 'recursive'
         fetch-depth: '0'
 
+    - name: Generate historical Albion knowledge seed
+      run: python3 research/tools/generate_historical_knowledge_seed.py
+
     - name: Setup Android SDK
       uses: android-actions/setup-android@v4
       with:
