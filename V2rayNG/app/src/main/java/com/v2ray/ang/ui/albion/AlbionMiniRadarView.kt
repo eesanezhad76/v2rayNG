@@ -410,14 +410,15 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val rawTy = cy - (dy * factor / range * radius).toFloat()
             val tx = rotateRadarX(rawTx, rawTy, cx, cy)
             val ty = rotateRadarY(rawTx, rawTy, cx, cy)
+            val targetColor = enchantColor(enchantLevel(node))
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 1.8f * density
-            paint.color = 0xFF55E6FF.toInt()
+            paint.color = targetColor
             canvas.drawLine(cx, cy, tx, ty, paint)
             canvas.drawCircle(tx, ty, 8f * density, paint)
             paint.style = Paint.Style.FILL
             paint.textSize = 8f * density
-            paint.color = 0xFF55E6FF.toInt()
+            paint.color = targetColor
             canvas.drawText("NEAREST " + distance.roundToInt(), 6f * density, 22f * density, paint)
         } else lockedTargetId = null
         val nearestNodes = nearbyNodes.sortedBy { it.second }.take(5)
