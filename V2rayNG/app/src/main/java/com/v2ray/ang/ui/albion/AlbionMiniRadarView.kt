@@ -99,7 +99,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             "E1" -> 1
             "E2" -> 2
             "E3" -> 3
-            else -> item.optInt("enchant", 0)
+            else -> item.optInt("enchant", -1)
         }
         val enchant = if (markerEnchant >= 0) markerEnchant else canonicalEnchant
         val resourceName = item.optJSONObject("resource_inference")
@@ -142,7 +142,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         if (tierFilters.isNotEmpty() && effectiveTier !in tierFilters) return false
         val enchantFilters = enabledFilters.filter { it.startsWith("enchant_") }
             .mapNotNull { it.removePrefix("enchant_").toIntOrNull() }.toSet()
-        if (enchantFilters.isNotEmpty() && enchant !in enchantFilters) return false
+        // Enchantment is a resource-node property; never hide mobs (e.g. blue golems/trolls) because they have no enchantment.
+        // Unknown resource enchantment (-1) remains visible until the packet/catalog provides a reliable value.
+        if (node && enchantFilters.isNotEmpty() && enchant >= 0 && enchant !in enchantFilters) return false
         return true
     }
 
