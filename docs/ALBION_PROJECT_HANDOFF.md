@@ -316,3 +316,28 @@ Remaining verification:
 - Obtain a successful APK workflow for source commit `c3abb80...` or later.
 - Add automated marker-payload regression tests if a suitable test seam exists; otherwise validate on device.
 - Device and real Albion gameplay verification remain outstanding. No semantic mapping should be called live-verified without controlled PCAP evidence.
+
+## 2026-11-03 — continued completion work
+
+Latest Android/source test commit before this handoff update:
+- `cf76ff7899bd28b5ea2ed97b89bd7a9adba07fbf`: added regression coverage in `AlbionEntityEventMapperTest` for typed harvestable event 40 (entity/type/family/tier/enchant/coordinates/size), mob event 123 (entity/type/coordinates/name/enchantment), and the invariant that unknown event 999 remains unmapped.
+- This test reinforces the conservative boundary: known typed events flow into the existing live knowledge store; unknown signatures are not automatically given semantic entity names.
+
+Current verified architecture:
+- `AlbionCaptureWorker` feeds decoded event messages to the autonomous structural learner and separately maps known messages through `AlbionEntityEventMapper` into `AlbionLiveKnowledgeStore`.
+- The live store keeps raw evidence, evidence conflicts, classification and evidence grade; resource catalog conflicts downgrade classification rather than overwriting raw packet fields.
+- The autonomous learner is currently an evidence inventory and marker-correlation mechanism. It is intentionally NOT allowed to rewrite the typed mapper's semantic classifications automatically. Its marker-correlated labels are candidate evidence only; field validation is required before adding a new semantic mapping.
+- This is deliberate, not an omitted “AI” step: blindly promoting co-occurring packet signatures would risk false live labels.
+
+Latest CI status observed:
+- Build APK run `41579562706` targets `cf76ff7899bd28b5ea2ed97b89bd7a9adba07fbf` and was pending at the last query.
+- Build run `41579211562` on `d37fae697749aa4ec620ee23b952d6568cdecb7b` was cancelled when newer commits arrived.
+- Build run `41579066893` on `ebbacc3028c2a1c2b516da3ed9c4606e2f8d80e7` remained in progress but is stale and does not include subsequent source/test changes.
+- Successful older build run `41578331030` and its APK artifacts are documented above; do not use them as proof of the current source APK.
+- No successful Build APK run for `cf76ff...` or later has yet been confirmed.
+
+Next:
+1. Let run `41579562706` finish and inspect Kotlin test results, offline replay, APK signature/package/ABI/SHA verification and all artifacts.
+2. If it fails, fix the exact failing step and rerun.
+3. Inspect the readiness report and APK verification artifact contents, not only their artifact names.
+4. Perform the on-device checklist and controlled live-game captures; only then promote new mappings.
