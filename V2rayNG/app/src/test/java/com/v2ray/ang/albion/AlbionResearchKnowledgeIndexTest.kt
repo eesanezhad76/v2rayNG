@@ -106,6 +106,20 @@ class AlbionResearchKnowledgeIndexTest {
     }
 
     @Test
+    fun researchIndexEvidenceFeedsResolverWithoutPromotingProvisionalMappings() {
+        val snapshot = AlbionResearchKnowledgeIndex.parse(fixture())!!
+        val hide = ResourcePatternLearner.infer(
+            ResourcePatternLearner.Observation(family = 20, tier = 1, enchantRaw = 0, mobileTypeId = 482),
+            researchIndex = snapshot
+        )
+        assertEquals("Hide", hide.resourceName.value)
+        assertEquals(ResourcePatternLearner.Status.PROVISIONAL_MAPPING, hide.resourceName.status)
+        assertEquals(0.90, hide.resourceName.confidence, 0.0001)
+        assertTrue(hide.resourceName.reason.contains("7 observations across 2 captures"))
+        assertNull(AlbionResearchKnowledgeIndex.parse(fixture())!!.resourceTypeEvidence(28))
+    }
+
+    @Test
     fun rejectsWrongSchemaAndIncompleteCounts() {
         assertNull(AlbionResearchKnowledgeIndex.parse("""{"schema_version":2}"""))
         val incomplete = fixture().replace("\"mobile_type_ids\": 2", "\"mobile_type_ids\": 1")
