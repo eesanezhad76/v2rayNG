@@ -341,3 +341,19 @@ Next:
 2. If it fails, fix the exact failing step and rerun.
 3. Inspect the readiness report and APK verification artifact contents, not only their artifact names.
 4. Perform the on-device checklist and controlled live-game captures; only then promote new mappings.
+
+
+## 2026-11-04 — Phase 4 zone identity audit
+
+- **Starting HEAD:** `8a8d8835cd2770924ba4d053627936ec1b388cd0`
+- **Ending HEAD after audit documentation commits:** `433cee7a5e3d0d0cbb5e234caf06b8355650e886`
+- **Files changed:**
+  - Added `docs/ALBION_ZONE_IDENTITY_AUDIT_2026-11-04.md`
+  - Appended Phase 4 findings to `docs/ALBION_KNOWLEDGE_INTEGRATION_2026-11-04.md`
+  - Updated this handoff file
+- **Implemented:** Audited `AlbionEntityEventMapper`, `AlbionProtocol18Decoder`, `AlbionLiveKnowledgeStore`, the existing capture forensic report, and the research manifest. Confirmed Event 1 is entity-level Leave, Event 3 is entity movement, request 22 carries local player coordinates, and resource/mob observations contain no verified zone identity. No zone-transition event or stable map identifier is currently decoded.
+- **Decision:** Do not use entity churn, coordinate jumps, or inactivity as guessed zone boundaries. Keep capture-session-scoped runtime IDs and prohibit cross-zone historical coordinate projection. A controlled capture spanning a known zone transition is required before implementing a zone detector.
+- **Tests run:** No Kotlin/Python tests were run for this documentation-only audit.
+- **CI:** Workflow run `41716615223`, head `8a8d8835cd2770924ba4d053627936ec1b388cd0`, remains `in_progress` at `Checkout code`; Android SDK setup, Gradle, Kotlin tests, and APK packaging have not started. This is not build verification.
+- **PR:** #4 remains a draft against `albion-pattern-mining`; do not merge without explicit user authorization.
+- **Next exact action:** Obtain a controlled in-game capture that keeps capture running through a known zone transition; inspect all candidate event-code/parameter-shape changes and require stable repeatable evidence on a zone revisit. Continue polling CI independently.
