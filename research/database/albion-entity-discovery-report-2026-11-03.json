@@ -3256,30 +3256,8 @@
     "protocol_evidence": {}
   },
   "knowledge_type_and_family_field_values": {
-    "entities.family": [
-      [
-        "27",
-        61
-      ],
-      [
-        "7",
-        61
-      ],
-      [
-        "29",
-        38
-      ],
-      [
-        "14",
-        33
-      ],
-      [
-        "20",
-        2
-      ]
-    ],
-    "entities.mobile_type_id_evidence": [],
     "entities.family_evidence": [],
+    "entities.mobile_type_id_evidence": [],
     "entities.mobile_type_id": [
       [
         "482",
@@ -3524,6 +3502,28 @@
       [
         "2654",
         1
+      ]
+    ],
+    "entities.family": [
+      [
+        "27",
+        61
+      ],
+      [
+        "7",
+        61
+      ],
+      [
+        "29",
+        38
+      ],
+      [
+        "14",
+        33
+      ],
+      [
+        "20",
+        2
       ]
     ],
     "learned_patterns.type_id": [
