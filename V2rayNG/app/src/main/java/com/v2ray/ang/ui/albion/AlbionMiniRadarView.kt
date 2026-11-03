@@ -51,7 +51,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val mob = kind == "mob"
         val troll = mob && isTroll(item)
         val targetedMob = mob && item.optBoolean("targeted_by_player", false)
-        val enchant = item.optInt("enchant", item.optInt("marker_enchant", 0))
+        val markerEnchant = item.optInt("marker_enchant", -1)
+        val enchant = if (markerEnchant >= 0) markerEnchant else item.optInt("enchant", 0)
         val categoryEnabled = when {
             node && enchant > 0 -> "enchanted_nodes" in enabledFilters
             node -> "normal_nodes" in enabledFilters
@@ -64,7 +65,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         if (!categoryEnabled) return false
         val tierFilters = enabledFilters.filter { it.startsWith("tier_") }
             .mapNotNull { it.removePrefix("tier_").toIntOrNull() }.toSet()
-        if (tierFilters.isNotEmpty() && item.optInt("tier", item.optInt("marker_tier", -1)) !in tierFilters) return false
+        val markerTier = item.optInt("marker_tier", -1)
+        val effectiveTier = if (markerTier >= 0) markerTier else item.optInt("tier", -1)
+        if (tierFilters.isNotEmpty() && effectiveTier !in tierFilters) return false
         val enchantFilters = enabledFilters.filter { it.startsWith("enchant_") }
             .mapNotNull { it.removePrefix("enchant_").toIntOrNull() }.toSet()
         if (enchantFilters.isNotEmpty() && enchant !in enchantFilters) return false
