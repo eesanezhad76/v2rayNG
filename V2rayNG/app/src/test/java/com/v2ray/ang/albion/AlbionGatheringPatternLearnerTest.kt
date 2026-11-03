@@ -49,4 +49,35 @@ class AlbionGatheringPatternLearnerTest {
         assertEquals("E3", inferred.value)
         assertEquals(ResourcePatternLearner.Status.CAPTURE_CORROBORATED, inferred.status)
     }
+
+    @Test fun ignoresOutOfWindowAndOutOfOrderObservations() {
+        val learner = AlbionGatheringPatternLearner(context(), "capture-window")
+        start(learner, 10_000L)
+        learner.observe(9_999L, listOf(sample(10).copy(enchant = 8)))
+        learner.observe(10_000L + 15 * 60_000L + 1L, listOf(sample(11).copy(enchant = 8)))
+        end(learner, 10_000L + 15 * 60_000L + 2L)
+
+        val inferred = ResourcePatternLearner.infer(
+            ResourcePatternLearner.Observation(family = 29, tier = 5, enchantRaw = 8, mobileTypeId = null)
+        ).enchantmentName
+        assertEquals(null, inferred.value)
+        assertEquals(ResourcePatternLearner.Status.UNKNOWN, inferred.status)
+    }
+
+    @Test fun ignoresUnverifiedFamiliesAndTierMismatches() {
+        val learner = AlbionGatheringPatternLearner(context(), "capture-mismatch")
+        start(learner, 20_000L)
+        learner.observe(20_100L, listOf(
+            sample(20).copy(typeNumber = 7, enchant = 9),
+            sample(21).copy(tier = 4, enchant = 9)
+        ))
+        end(learner, 21_000L)
+
+        val inferred = ResourcePatternLearner.infer(
+            ResourcePatternLearner.Observation(family = 29, tier = 5, enchantRaw = 9, mobileTypeId = null)
+        ).enchantmentName
+        assertEquals(null, inferred.value)
+        assertEquals(ResourcePatternLearner.Status.UNKNOWN, inferred.status)
+    }
+
 }
