@@ -226,6 +226,10 @@ class AlbionCaptureWorker(
     fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), (dropped() - dropBaseline.get()).coerceAtLeast(0), pcapFile, logFile, failure, publicPcapUri, publicLogUri, mirrorFailure, markerCount.get(), nonAlbionCount.get(), reportFile)
 
     fun liveKnowledgeSnapshot(): String = buildString {
+        val liveCount = knowledgeStore?.snapshotJson()?.let {
+            runCatching { JSONArray(it).length() }.getOrDefault(-1)
+        } ?: -1
+        appendLine("PIPE E39:${event39Count.get()} E40:${event40Count.get()} E46:${event46Count.get()} E123:${event123Count.get()} | MAP R:${mappedResourceCount.get()} M:${mappedMobCount.get()} P:${mappedOwnPositionCount.get()} | LIVE:$liveCount")
         append(gatheringPatternLearner?.summaryText() ?: "")
         append(knowledgeStore?.snapshotText()
             ?: "Live knowledge unavailable: capture has not initialized.")
@@ -233,9 +237,7 @@ class AlbionCaptureWorker(
         append(autonomousPatternLearner?.summaryText() ?: "")
         append(healthMonitor.snapshot(System.currentTimeMillis(), running.get()).asText())
         appendLine("Capture counters: packets=${packetCount.get()} | tap_drops=${(dropped() - dropBaseline.get()).coerceAtLeast(0)} | non_albion=${nonAlbionCount.get()} | markers=${markerCount.get()}")
-        appendLine("Pipeline events: E39=${event39Count.get()} E40=${event40Count.get()} E46=${event46Count.get()} E123=${event123Count.get()}")
-        appendLine("Mapped: resources=${mappedResourceCount.get()} mobs=${mappedMobCount.get()} own_positions=${mappedOwnPositionCount.get()}")
-        appendLine("Live snapshot: ${knowledgeStore?.snapshotJson()?.let { runCatching { JSONArray(it).length() }.getOrDefault(-1) } ?: -1} entities")
+        appendLine("Pipeline diagnostic counters are cumulative for this capture session.")
     }
 
     @Synchronized
