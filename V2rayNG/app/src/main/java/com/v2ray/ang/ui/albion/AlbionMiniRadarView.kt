@@ -51,17 +51,17 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val mob = kind == "mob"
         val troll = mob && isTroll(item)
         val targetedMob = mob && item.optBoolean("targeted_by_player", false)
+        val oreElemental = mob && item.optBoolean("is_harvestable_mob", false)
         val markerEnchant = item.optInt("marker_enchant", -1)
         val enchant = if (markerEnchant >= 0) markerEnchant else item.optInt("enchant", 0)
-        val categoryEnabled = when {
-            node && enchant > 0 -> "enchanted_nodes" in enabledFilters
-            node -> "normal_nodes" in enabledFilters
-            troll && enchant > 0 -> "enchanted_trolls" in enabledFilters
-            troll -> "trolls" in enabledFilters
-            targetedMob -> "targeted_mobs" in enabledFilters
-            mob -> "mobs" in enabledFilters
-            else -> false
-        }
+        val trollFilter = if (enchant > 0) "enchanted_trolls" in enabledFilters else "trolls" in enabledFilters
+        val mobCategoryEnabled = (troll && trollFilter) ||
+            (targetedMob && "targeted_mobs" in enabledFilters) ||
+            (oreElemental && "ore_elementals" in enabledFilters) ||
+            (!troll && !targetedMob && !oreElemental && "mobs" in enabledFilters)
+        val categoryEnabled = if (node) {
+            if (enchant > 0) "enchanted_nodes" in enabledFilters else "normal_nodes" in enabledFilters
+        } else if (mob) mobCategoryEnabled else false
         if (!categoryEnabled) return false
         val tierFilters = enabledFilters.filter { it.startsWith("tier_") }
             .mapNotNull { it.removePrefix("tier_").toIntOrNull() }.toSet()
