@@ -86,7 +86,16 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 item.optString("localization_tag").contains("OREELEMENTAL", ignoreCase = true)
             )
         val markerEnchant = item.optInt("marker_enchant", -1)
-        val enchant = if (markerEnchant >= 0) markerEnchant else item.optInt("enchant", 0)
+        val inferredEnchant = item.optJSONObject("resource_inference")
+            ?.optJSONObject("enchantment_name")?.optString("value")
+        val canonicalEnchant = when (inferredEnchant) {
+            "Normal" -> 0
+            "E1" -> 1
+            "E2" -> 2
+            "E3" -> 3
+            else -> item.optInt("enchant", 0)
+        }
+        val enchant = if (markerEnchant >= 0) markerEnchant else canonicalEnchant
         val trollFilter = if (enchant > 0) "enchanted_trolls" in enabledFilters else "trolls" in enabledFilters
         val mobCategoryEnabled = (troll && trollFilter) ||
             (targetedMob && "targeted_mobs" in enabledFilters) ||
