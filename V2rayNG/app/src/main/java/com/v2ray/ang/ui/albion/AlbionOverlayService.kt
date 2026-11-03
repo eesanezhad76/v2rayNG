@@ -121,7 +121,7 @@ class AlbionOverlayService : Service() {
     private fun choiceRow(values: List<String>, selected: String, onPick: (String) -> Unit): HorizontalScrollView {
         val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
         values.forEach { value ->
-            row.addView(button(value, value == selected) { onPick(value) },
+            row.addView(button(value, value == selected || selected.split("|").contains(value)) { onPick(value) },
                 LinearLayout.LayoutParams(-2, dp(27)).apply { rightMargin = dp(2) })
         }
         return HorizontalScrollView(this).apply { isHorizontalScrollBarEnabled = false; addView(row) }
