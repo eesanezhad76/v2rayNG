@@ -50,6 +50,8 @@ class AlbionHistoricalKnowledgeIndexTest {
     @Test
     fun reportsHistoricalCorpusWithoutAssigningProtocolSemantics() {
         val summary = snapshot().summaryText()
+        assertTrue(snapshot().protocolShapeSummary().contains("E40 resource"))
+        assertTrue(snapshot().protocolShapeSummary().contains("0=Long"))
         assertTrue(summary.contains("4 bundles"))
         assertTrue(summary.contains("100 entities"))
         assertTrue(summary.contains("200 protocol events"))
