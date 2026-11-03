@@ -94,4 +94,50 @@ class AlbionEntityEventMapperTest {
         assertEquals(listOf(2436f, 821f), updates.map { it.secondaryValue })
         assertTrue(updates.all { it.kind == "health" && it.eventCode == 7 })
     }
+
+    @Test
+    fun mapsTypedHarvestableAndMobEntitiesButLeavesUnknownEventsUnclassified() {
+        AlbionEntityEventMapper.reset()
+        val harvest = AlbionEntityEventMapper.map(
+            event(40, mapOf(
+                0 to 7001L,
+                5 to 29,
+                6 to 574,
+                7 to 5,
+                8 to listOf(20.5f, 30.25f),
+                10 to 4,
+                11 to 1
+            ))
+        ).single()
+        assertEquals("harvestable", harvest.kind)
+        assertEquals(7001L, harvest.entityId)
+        assertEquals(574, harvest.typeId)
+        assertEquals(29, harvest.typeNumber)
+        assertEquals(5, harvest.tier)
+        assertEquals(1, harvest.enchant)
+        assertEquals(20.5f, harvest.x)
+        assertEquals(30.25f, harvest.y)
+        assertEquals(4, harvest.size)
+
+        val mob = AlbionEntityEventMapper.map(
+            event(123, mapOf(
+                0 to 9001L,
+                1 to 410,
+                7 to listOf(-12.5f, 44.0f),
+                31 to "TestMob",
+                34 to 2
+            ))
+        ).single()
+        assertEquals("mob", mob.kind)
+        assertEquals(9001L, mob.entityId)
+        assertEquals(410, mob.typeId)
+        assertEquals(-12.5f, mob.x)
+        assertEquals(44.0f, mob.y)
+        assertEquals("TestMob", mob.name)
+        assertEquals(2, mob.enchant)
+
+        assertTrue(AlbionEntityEventMapper.map(event(999, mapOf(0 to 123L))).isEmpty())
+    }
+
+
 }
