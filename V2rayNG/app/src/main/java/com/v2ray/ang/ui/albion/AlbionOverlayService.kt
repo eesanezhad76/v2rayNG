@@ -60,7 +60,8 @@ class AlbionOverlayService : Service() {
     private val filterOptions = listOf(
         "normal_nodes" to "Normal nodes",
         "enchanted_nodes" to "Enchanted nodes",
-        "mobs" to "Other mobs",
+        "targeted_mobs" to "Player-targeted mobs",
+        "mobs" to "Other visible mobs",
         "trolls" to "Trolls",
         "enchanted_trolls" to "Enchanted Trolls"
     ) + (2..8).map { "tier_$it" to "Tier T$it" } +
