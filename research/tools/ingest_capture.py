@@ -59,7 +59,7 @@ def pair_manual_markers(markers):
     if queue["active"]:
      cycle=queue["active"].popleft();compare_metadata(cycle,marker,event);cycle["completed_ms"]=timestamp;queue["completed"].append(cycle)
     elif queue["pending"]:
-     cycle=queue["pending"].popleft();compare_metadata(cycle,marker,event);cycle["completed_ms"]=timestamp;cycle["status"]="COMPLETE" if not cycle["metadata_conflicts"] else "COMPLETE_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
+     cycle=queue["pending"].pop();compare_metadata(cycle,marker,event);cycle["completed_ms"]=timestamp;cycle["status"]="COMPLETE" if not cycle["metadata_conflicts"] else "COMPLETE_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
     else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"completion_without_target_found"})
    elif event=="node_depleted":
     if queue["completed"]:
