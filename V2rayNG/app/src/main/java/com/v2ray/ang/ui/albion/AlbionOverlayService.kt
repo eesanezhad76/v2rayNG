@@ -223,7 +223,7 @@ class AlbionOverlayService : Service() {
             catalogEntities.optJSONObject(i)?.let { applyMobTypeInfo(it) }
         }
         radarView.setCatalogSnapshot(catalogEntities.toString())
-        panel.addView(radarView, LinearLayout.LayoutParams(dp(190), dp(142)))
+        panel.addView(radarView, LinearLayout.LayoutParams(dp(224), dp(190)))
         filterPanel = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL; setPadding(dp(3), dp(2), dp(3), dp(2))
         }
@@ -236,7 +236,7 @@ class AlbionOverlayService : Service() {
         val layoutPrefs = getSharedPreferences("albion_overlay_layout", MODE_PRIVATE)
         val type = if (Build.VERSION.SDK_INT >= 26) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE
         val params = WindowManager.LayoutParams(
-            dp(202), WindowManager.LayoutParams.WRAP_CONTENT, type,
+            dp(238), WindowManager.LayoutParams.WRAP_CONTENT, type,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
         ).apply {
