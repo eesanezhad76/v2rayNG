@@ -51,6 +51,9 @@ jobs:
         submodules: 'recursive'
         fetch-depth: ${{ (github.ref == 'refs/heads/albion-database-integration-completion' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04') && 1 || 0 }}
 
+    - name: Generate runtime mobile TypeID dictionary
+      run: python3 research/tools/generate_mobile_type_dictionary.py
+
     - name: Generate historical Albion knowledge seed
       run: python3 research/tools/generate_historical_knowledge_seed.py
 
