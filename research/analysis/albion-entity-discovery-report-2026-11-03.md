@@ -88,6 +88,10 @@ Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge
 | 835 | Roaming Mountain Chest | 5 | chest | SILVERCOINS_LOOT_CHEST_STANDARD | False | 1 |
 | 943 | Avalonian Treasure Drone | 5 | treasuredrones | None | False | 1 |
 
+## Enriched Event 123 mobile entity catalog
+- Rows: 2330; mapped: 2330; unmapped: 0
+- File: albion-mobile-entity-catalog-2026-11-03.csv
+
 ## Enriched Event 40 node catalog
 - Rows: 331; mapped: 329; unresolved: 2
 - File: albion-resource-node-catalog-2026-11-03.csv

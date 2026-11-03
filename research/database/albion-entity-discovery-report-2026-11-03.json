@@ -38,6 +38,12 @@
     "mapped_type_ids": 64,
     "unmapped_type_ids": []
   },
+  "mobile_entity_catalog": {
+    "rows": 2330,
+    "mapped_rows": 2330,
+    "unmapped_rows": 0,
+    "file": "albion-mobile-entity-catalog-2026-11-03.csv"
+  },
   "type_number_profiles": [
     {
       "type_number": "14",
@@ -3250,7 +3256,30 @@
     "protocol_evidence": {}
   },
   "knowledge_type_and_family_field_values": {
+    "entities.family": [
+      [
+        "27",
+        61
+      ],
+      [
+        "7",
+        61
+      ],
+      [
+        "29",
+        38
+      ],
+      [
+        "14",
+        33
+      ],
+      [
+        "20",
+        2
+      ]
+    ],
     "entities.mobile_type_id_evidence": [],
+    "entities.family_evidence": [],
     "entities.mobile_type_id": [
       [
         "482",
@@ -3495,29 +3524,6 @@
       [
         "2654",
         1
-      ]
-    ],
-    "entities.family_evidence": [],
-    "entities.family": [
-      [
-        "27",
-        61
-      ],
-      [
-        "7",
-        61
-      ],
-      [
-        "29",
-        38
-      ],
-      [
-        "14",
-        33
-      ],
-      [
-        "20",
-        2
       ]
     ],
     "learned_patterns.type_id": [
