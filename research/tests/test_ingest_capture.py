@@ -137,6 +137,23 @@ class IngestTests(unittest.TestCase):
    self.assertEqual("T5",cycle["tier"])
    self.assertEqual("E3",cycle["enchantment"])
 
+ def test_current_overlay_pairs_end_to_most_recent_pending_start(self):
+  with tempfile.TemporaryDirectory() as td:
+   d=pathlib.Path(td)
+   markers=[
+    {"timestamp_ms":10,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"Normal"},
+    {"timestamp_ms":20,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":30,"activity":"Ore","event":"gathering_completed","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":40,"activity":"Ore","event":"gathering_completed","tier":"T5","enchantment":"Normal"}
+   ]
+   out=self.run_ingest([{"time_ms":m["timestamp_ms"],"manual_marker":m} for m in markers],d)
+   cycles=out["marker_lifecycles"]
+   self.assertEqual(2,out["counts"]["complete_resource_marker_cycles"])
+   by_start={x["found_ms"]:x for x in cycles}
+   self.assertEqual(30,by_start[20]["completed_ms"])
+   self.assertEqual(40,by_start[10]["completed_ms"])
+   self.assertEqual(0,out["counts"]["incomplete_resource_marker_cycles"])
+
  def test_legacy_event_analysis_schema_still_supported(self):
   with tempfile.TemporaryDirectory() as td:
    d=pathlib.Path(td)
