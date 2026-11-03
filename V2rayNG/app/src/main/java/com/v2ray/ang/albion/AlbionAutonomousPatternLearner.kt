@@ -7,7 +7,7 @@ import java.io.File
 import java.security.MessageDigest
 
 /** Bounded online learner for observable Photon event shapes; never guesses semantic names. */
-class AlbionAutonomousPatternLearner(context: Context, private val captureSessionId: String = System.currentTimeMillis().toString()) {
+class AlbionAutonomousPatternLearner(context: Context, private val captureSessionId: String = System.currentTimeMillis().toString(), private val historicalSeedJson: String? = null) {
     private val file = File(context.applicationContext.filesDir, FILE_NAME)
     private val patterns = LinkedHashMap<String, JSONObject>()
     private val recent = ArrayDeque<Pair<Long, String>>()
@@ -148,15 +148,100 @@ class AlbionAutonomousPatternLearner(context: Context, private val captureSessio
     }
 
     private fun load() {
-        if (!file.isFile) return
-        try {
-            val array = JSONArray(file.readText(Charsets.UTF_8))
-            for (i in 0 until array.length()) {
-                val item = array.optJSONObject(i) ?: continue
-                val key = item.optString("signature")
-                if (key.isNotBlank()) patterns[key] = JSONObject(item.toString())
+        var seeded = false
+        historicalSeedJson?.let { raw ->
+            try {
+                val array = JSONArray(raw)
+                seeded = mergeArray(array) || seeded
+            } catch (_: Exception) {
+                // A missing or invalid optional seed must not prevent live capture.
             }
-        } catch (_: Exception) { patterns.clear() }
+        }
+        if (file.isFile) {
+            try {
+                val array = JSONArray(file.readText(Charsets.UTF_8))
+                mergeArray(array)
+            } catch (_: Exception) {
+                // Keep any valid historical seed; do not clear it because the local cache is corrupt.
+            }
+        }
+        if (seeded) {
+            dirty = true
+            flush(System.currentTimeMillis())
+        }
+    }
+
+    /** Merge cumulative snapshots without adding duplicate sightings or losing provenance. */
+    private fun mergeArray(array: JSONArray): Boolean {
+        var changed = false
+        for (i in 0 until array.length()) {
+            val incoming = array.optJSONObject(i) ?: continue
+            val signature = incoming.optString("signature")
+            if (signature.isBlank()) continue
+            val current = patterns[signature]
+            if (current == null) {
+                val copy = JSONObject(incoming.toString())
+                updateStatus(copy)
+                patterns[signature] = copy
+                changed = true
+                continue
+            }
+            val preferred = if (incoming.optInt("sightings") > current.optInt("sightings") ||
+                incoming.optLong("last_seen_ms") > current.optLong("last_seen_ms")) incoming else current
+            val merged = JSONObject(preferred.toString())
+            merged.put("sightings", maxOf(current.optInt("sightings"), incoming.optInt("sightings")))
+            val firstSeen = listOf(current.optLong("first_seen_ms"), incoming.optLong("first_seen_ms"))
+                .filter { it > 0L }.minOrNull()
+            if (firstSeen != null) merged.put("first_seen_ms", firstSeen)
+            merged.put("last_seen_ms", maxOf(current.optLong("last_seen_ms"), incoming.optLong("last_seen_ms")))
+            merged.put("capture_sessions", mergedStrings(
+                current.optJSONArray("capture_sessions"), incoming.optJSONArray("capture_sessions"), MAX_SESSIONS
+            ))
+            merged.put("source_bundles", mergedStrings(
+                current.optJSONArray("source_bundles"), incoming.optJSONArray("source_bundles"), 64
+            ))
+            merged.put("labels", mergedLabels(current.optJSONArray("labels"), incoming.optJSONArray("labels")))
+            updateStatus(merged)
+            patterns[signature] = merged
+            changed = true
+        }
+        return changed
+    }
+
+    private fun mergedStrings(first: JSONArray?, second: JSONArray?, limit: Int): JSONArray {
+        val values = linkedSetOf<String>()
+        listOfNotNull(first, second).forEach { array ->
+            for (i in 0 until array.length()) {
+                val value = array.optString(i)
+                if (value.isNotBlank() && value != "null") values.add(value)
+            }
+        }
+        return JSONArray(values.take(limit))
+    }
+
+    private fun mergedLabels(first: JSONArray?, second: JSONArray?): JSONArray {
+        val labels = LinkedHashMap<String, JSONObject>()
+        listOfNotNull(first, second).forEach { array ->
+            for (i in 0 until array.length()) {
+                val row = array.optJSONObject(i) ?: continue
+                val key = row.optString("label_key")
+                if (key.isBlank()) continue
+                val old = labels[key]
+                val preferred = if (old == null ||
+                    row.optInt("completed_samples") > old.optInt("completed_samples")) row else old
+                val merged = JSONObject(preferred.toString())
+                merged.put("completed_samples", maxOf(
+                    old?.optInt("completed_samples") ?: 0, row.optInt("completed_samples")
+                ))
+                merged.put("sample_sessions", mergedStrings(
+                    old?.optJSONArray("sample_sessions"), row.optJSONArray("sample_sessions"), MAX_SESSIONS
+                ))
+                labels[key] = merged
+            }
+        }
+        val result = JSONArray()
+        labels.toSortedMap().values.forEach { result.put(it) }
+        return result
     }
 
     private fun flush(nowMs: Long) {
