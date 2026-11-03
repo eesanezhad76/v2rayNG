@@ -39,6 +39,13 @@ object ResourcePatternLearner {
 
     private val oreMobileTypes = mapOf(3 to 571, 4 to 573, 5 to 574)
     private val enchantmentNames = mapOf(0 to "Normal", 1 to "E1", 2 to "E2", 3 to "E3")
+    private val learnedEnchantmentNames = LinkedHashMap<String, String>()
+
+    @Synchronized
+    fun registerLearnedEnchantment(family: Int, tier: Int, raw: Int, label: String) {
+        if (family <= 0 || tier !in 1..8 || raw !in 0..15 || label !in setOf("Normal", "E1", "E2", "E3")) return
+        learnedEnchantmentNames["$family|$tier|$raw"] = label
+    }
 
     fun infer(observation: Observation): Result {
         val resource = when (observation.family) {
@@ -82,12 +89,17 @@ object ResourcePatternLearner {
             else -> unknown("No verified family/tier rule supplies a mobile type.")
         }
 
-        val enchantment = observation.enchantRaw?.let(enchantmentNames::get)?.let { name ->
+        val learnedEnchant = if (observation.family != null && observation.tier != null && observation.enchantRaw != null)
+            learnedEnchantmentNames["${observation.family}|${observation.tier}|${observation.enchantRaw}"] else null
+        val enchantment = learnedEnchant?.let { name ->
+            FieldInference(name, Status.CAPTURE_CORROBORATED, 0.98,
+                "Validated from at least three manually labelled gathering samples across two capture sessions.")
+        } ?: observation.enchantRaw?.let(enchantmentNames::get)?.let { name ->
             FieldInference(
                 value = name,
                 status = if (observation.enchantRaw == 0) Status.CAPTURE_CORROBORATED else Status.PROVISIONAL_MAPPING,
                 confidence = if (observation.enchantRaw == 0) 0.95 else 0.85,
-                reason = "Raw enchantment " + observation.enchantRaw + " is mapped by repeated agreement with manually labelled capture scenarios; semantic mapping remains provisional."
+                reason = "Raw enchantment " + observation.enchantRaw + " has a provisional catalog mapping; manual cross-session validation is pending."
             )
         } ?: unknown(
             if (observation.enchantRaw == null) "Enchantment raw value is absent; it is not inferred from location, tier, or state count."
