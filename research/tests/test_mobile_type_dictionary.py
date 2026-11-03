@@ -33,10 +33,13 @@ class MobileTypeDictionaryGenerationTest(unittest.TestCase):
                             "captures": ["a"]},
                 },
             }), encoding="utf-8")
+            dictionary_path = root / "V2rayNG/app/src/main/assets/albion-mobile-type-dictionary.json"
+            dictionary_path.write_text(json.dumps({"entries": {"999": {"display_name": "External catalog only"}}}), encoding="utf-8")
             report = build(root)
-            output = json.loads((root / "V2rayNG/app/src/main/assets/albion-mobile-type-dictionary.json").read_text())
+            output = json.loads(dictionary_path.read_text())
             self.assertEqual("PASS", report["status"])
-            self.assertEqual(2, report["entries"])
+            self.assertEqual(3, report["entries"])
+            self.assertEqual("External catalog only", output["entries"]["999"]["display_name"])
             self.assertEqual("Mountain Rabbit", output["entries"]["482"]["display_name"])
             self.assertFalse(output["entries"]["482"]["is_harvestable"])
             self.assertEqual("T3_MOB_CRITTER_ORE_MOUNTAIN_RED", output["entries"]["571"]["unique_name"])
