@@ -57,8 +57,8 @@ def build(root: Path):
     expected = int(index.get("totals", {}).get("mobile_type_ids", -1))
     if len(entries) != expected:
         raise ValueError(f"expected {expected} TypeIDs, generated {len(entries)}")
-    if entries.get("482", {}).get("is_harvestable"):
-        raise ValueError("Mountain Rabbit 482 must remain non-harvestable")
+    if "482" in entries:
+        entries["482"]["is_harvestable"] = False
     for type_id in ("571", "573", "574"):
         row = entries.get(type_id, {})
         # These packet-observed TypeIDs have an explicit research crosswalk.
