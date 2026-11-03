@@ -1,0 +1,364 @@
+{
+  "archive": "AlbionRadar2.zip",
+  "bytes": 9060999,
+  "sha256": "3fc1413d80c973cb26a2d6501320794ba5e2f3aeb7754f87ff9fe90a3689a0af",
+  "members": [
+    {
+      "name": "albion-1793699283778.report.txt",
+      "bytes": 3839579,
+      "compressed_bytes": 779772
+    },
+    {
+      "name": "albion-1793699283778.jsonl",
+      "bytes": 19688976,
+      "compressed_bytes": 650976
+    },
+    {
+      "name": "albion-1793699283778.pcap",
+      "bytes": 9661933,
+      "compressed_bytes": 6850358
+    },
+    {
+      "name": "albion-1793699145258.pcap",
+      "bytes": 698976,
+      "compressed_bytes": 594488
+    },
+    {
+      "name": "albion-1793699145258.report.txt",
+      "bytes": 3371,
+      "compressed_bytes": 1495
+    },
+    {
+      "name": "albion-1793699145258.jsonl",
+      "bytes": 608931,
+      "compressed_bytes": 8960
+    },
+    {
+      "name": "albion-1793699111286.report.txt",
+      "bytes": 3258,
+      "compressed_bytes": 1436
+    },
+    {
+      "name": "albion-1793699111286.jsonl",
+      "bytes": 177643,
+      "compressed_bytes": 2683
+    },
+    {
+      "name": "albion-1793699111286.pcap",
+      "bytes": 192843,
+      "compressed_bytes": 169489
+    }
+  ],
+  "notes": [
+    {
+      "name": "albion-1793699145258.report.txt",
+      "text": "Albion / Photon capture report\nIP packets in file: 1821\nUDP packets involving port 5056: 0\nValid Photon envelopes: 0\nInbound to local device: 0\nOutbound from local device: 0\nPhoton command types (transport commands, not Albion events):\nProtocol18 Albion event codes:\nOperation requests:\nOperation responses:\nMapped entity observations:\nTyped Photon event observations:\nMalformed / unrecognized Photon envelopes: 0\nEncrypted Photon packets: 0\nEncrypted Protocol18 messages: 0\nMalformed Protocol18 messages: 0\nPending fragmented messages: 0\nManual checkpoints: 2\n  t=1793699145279 kind=manual_marker activity=Capture event=capture_started\n  t=1793699282439 kind=manual_marker activity=Capture event=capture_stopping\nCapture file quality: FAIR (80/100)\nPCAP records: 1821\nCaptured bytes: 669816\nDuration (ms): 137166\nTimestamp regressions: 0\nInvalid timestamp fractions: 0\nMalformed record headers: 0\nTruncated records: 0\nRepeated packet payloads: 7\nGaps over 1 second: 18\nMaximum observed gap (ms): 9997\nNative tap dropped copies: 7\nNative tap drop rate (%): 0.38\nLimitation: Packet duplicates are counted, not assumed to be packet loss; retransmission/repetition may be legitimate.\nLimitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.\nLimitation: Native tap drop rate measures local tap-queue drops, not network packet loss.\n\nDetailed entity/player observations: 2\n  t=1793699145279 kind=manual_marker activity=Capture event=capture_started\n  t=1793699282439 kind=manual_marker activity=Capture event=capture_stopping\nWarning: No UDP datagrams involving port 5056 were found.\n\n=== Marker-correlated pattern mining ===\nOverlay markers read: 4\nComplete Found -> Done sample windows: 0\nUnclosed sample starts: 0\nCapture files analyzed: 2\nByte-identical capture files skipped: 0\nSource capture: albion-1793699145258.jsonl:02f69cae7816d4f44c189bf040ac6f60c7127bc33fe225645228e70ddc828aa0\nSource capture: albion-1793699111286.jsonl:1b4e9524f7e816dcfc1877675dfb3cb70dc7a131cbc6041281495431664a458b\nConfidence is a heuristic evidence score (0-100), NOT a probability.\nNo repeatable labeled pattern found yet.\nWarning: No complete Found -> Done marker pairs across the selected captures.\nWarning: No signature has repeated across at least 3 independent labeled samples yet.\nWarning: No decoded entity observations were available in labeled windows.\nWarning: Entity IDs are scoped per capture; cross-capture pattern aggregation does not merge runtime entity identities.\n\nLive knowledge cache\nUnique tracked entities: 0\nCurrent-session map entities: 0\nTyped resource observations: 0\nStatic resource candidates (not confirmed Ore): 0\nEntities marked depleted: 0\nCorroborated by same-ID resource state: 0\nRepeated typed resource observations: 0\nAmbiguous entities due to conflicting typed evidence: 0\nAverage evidence score (0-100 heuristic): 0\nEvidence score is an ordinal heuristic, not a calibrated probability.\nPersistent file: albion-live-knowledge.json\nClassification is conservative; no family-to-Ore guesses are made.\n\nAutonomous signatures: 0 | repeated: 0 | marker-correlated: 0\nUnknown signatures remain candidates; no semantic names are guessed.\nCapture integrity\nPCAP records (TUN packets + checkpoints): 1821\nNative tap dropped copies: 7\nManual checkpoints: 2\nNon-Albion / unclassified packets: 1819\nDownloads mirror error: none\n"
+    },
+    {
+      "name": "albion-1793699111286.report.txt",
+      "text": "Albion / Photon capture report\nIP packets in file: 532\nUDP packets involving port 5056: 0\nValid Photon envelopes: 0\nInbound to local device: 0\nOutbound from local device: 0\nPhoton command types (transport commands, not Albion events):\nProtocol18 Albion event codes:\nOperation requests:\nOperation responses:\nMapped entity observations:\nTyped Photon event observations:\nMalformed / unrecognized Photon envelopes: 0\nEncrypted Photon packets: 0\nEncrypted Protocol18 messages: 0\nMalformed Protocol18 messages: 0\nPending fragmented messages: 0\nManual checkpoints: 2\n  t=1793699111317 kind=manual_marker activity=Capture event=capture_started\n  t=1793699143756 kind=manual_marker activity=Capture event=capture_stopping\nCapture file quality: GOOD (90/100)\nPCAP records: 532\nCaptured bytes: 184307\nDuration (ms): 32439\nTimestamp regressions: 0\nInvalid timestamp fractions: 0\nMalformed record headers: 0\nTruncated records: 0\nRepeated packet payloads: 3\nGaps over 1 second: 5\nMaximum observed gap (ms): 10477\nNative tap dropped copies: 2\nNative tap drop rate (%): 0.37\nLimitation: Packet duplicates are counted, not assumed to be packet loss; retransmission/repetition may be legitimate.\nLimitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.\nLimitation: Native tap drop rate measures local tap-queue drops, not network packet loss.\n\nDetailed entity/player observations: 2\n  t=1793699111317 kind=manual_marker activity=Capture event=capture_started\n  t=1793699143756 kind=manual_marker activity=Capture event=capture_stopping\nWarning: No UDP datagrams involving port 5056 were found.\n\n=== Marker-correlated pattern mining ===\nOverlay markers read: 2\nComplete Found -> Done sample windows: 0\nUnclosed sample starts: 0\nCapture files analyzed: 1\nByte-identical capture files skipped: 0\nSource capture: albion-1793699111286.jsonl:1b4e9524f7e816dcfc1877675dfb3cb70dc7a131cbc6041281495431664a458b\nConfidence is a heuristic evidence score (0-100), NOT a probability.\nNo repeatable labeled pattern found yet.\nWarning: No complete Found -> Done marker pairs across the selected captures.\nWarning: No signature has repeated across at least 3 independent labeled samples yet.\nWarning: No decoded entity observations were available in labeled windows.\nWarning: Entity IDs are scoped per capture; cross-capture pattern aggregation does not merge runtime entity identities.\n\nLive knowledge cache\nUnique tracked entities: 0\nCurrent-session map entities: 0\nTyped resource observations: 0\nStatic resource candidates (not confirmed Ore): 0\nEntities marked depleted: 0\nCorroborated by same-ID resource state: 0\nRepeated typed resource observations: 0\nAmbiguous entities due to conflicting typed evidence: 0\nAverage evidence score (0-100 heuristic): 0\nEvidence score is an ordinal heuristic, not a calibrated probability.\nPersistent file: albion-live-knowledge.json\nClassification is conservative; no family-to-Ore guesses are made.\n\nAutonomous signatures: 0 | repeated: 0 | marker-correlated: 0\nUnknown signatures remain candidates; no semantic names are guessed.\nCapture integrity\nPCAP records (TUN packets + checkpoints): 532\nNative tap dropped copies: 2\nManual checkpoints: 2\nNon-Albion / unclassified packets: 530\nDownloads mirror error: none\n"
+    }
+  ],
+  "pcaps": [
+    {
+      "name": "albion-1793699283778.pcap",
+      "bytes": 9661933,
+      "magic": "d4c3b2a1",
+      "sha256": "2b7a34b8259a90b5ad8b40cc11f1f82e4be899ade1ae7b3bba80c4389bc92175",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "albion-1793699145258.pcap",
+      "bytes": 698976,
+      "magic": "d4c3b2a1",
+      "sha256": "31db6a0d543ec3518c8f1302bc91e604dbe6885cc4d0d38f334cfe20b89b136c",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    },
+    {
+      "name": "albion-1793699111286.pcap",
+      "bytes": 192843,
+      "magic": "d4c3b2a1",
+      "sha256": "a4758b0222d0cd175a1c1112bf68d89d8f0ebdff994046f6d46e94e0797b6fc6",
+      "format": "pcap",
+      "version": "2.4",
+      "snaplen": 65535,
+      "linktype": 101
+    }
+  ],
+  "jsonl": [
+    {
+      "name": "albion-1793699283778.jsonl",
+      "bytes": 19688976,
+      "lines": 43024,
+      "malformed": 0,
+      "keys": {
+        "time_ms": 43024,
+        "manual_marker": 9,
+        "length": 43015,
+        "ip_version": 43015,
+        "src_port": 43015,
+        "dst_port": 43015,
+        "albion_candidate": 43015,
+        "photon": 43015,
+        "photon_encrypted": 43015,
+        "photon_error": 43015,
+        "command_count": 43015,
+        "command_types": 43015,
+        "messages": 43015,
+        "photon_event_analysis": 43015,
+        "entities": 43015,
+        "protocol18_encrypted": 43015,
+        "protocol18_malformed": 43015,
+        "fragments_pending": 43015
+      },
+      "event_codes": {
+        "96": 46,
+        "90": 2,
+        "604": 10,
+        "544": 5,
+        "392": 3,
+        "123": 737,
+        "324": 39,
+        "45": 39,
+        "326": 1,
+        "30": 38,
+        "32": 31,
+        "35": 19,
+        "503": 1,
+        "652": 1,
+        "365": 3,
+        "366": 7,
+        "256": 1,
+        "259": 1,
+        "276": 68,
+        "641": 1,
+        "150": 1,
+        "153": 1,
+        "155": 1,
+        "257": 1,
+        "222": 1,
+        "11": 203,
+        "19": 107,
+        "210": 23,
+        "313": 2,
+        "249": 1,
+        "351": 1,
+        "518": 1,
+        "550": 1,
+        "468": 1,
+        "481": 1,
+        "284": 1,
+        "539": 1,
+        "499": 1,
+        "670": 1,
+        "649": 1,
+        "369": 1,
+        "2": 1,
+        "39": 456,
+        "209": 39,
+        "201": 1,
+        "294": 2,
+        "295": 1,
+        "403": 1,
+        "202": 1,
+        "104": 2,
+        "103": 2,
+        "349": 1,
+        "469": 1,
+        "330": 1,
+        "3": 11260,
+        "600": 1,
+        "159": 67,
+        "1": 1797,
+        "40": 83,
+        "13": 62,
+        "277": 50,
+        "312": 59,
+        "20": 8,
+        "21": 32,
+        "95": 140,
+        "97": 5,
+        "297": 1,
+        "14": 33,
+        "46": 45,
+        "8": 49,
+        "18": 36,
+        "113": 25,
+        "22": 8,
+        "162": 24,
+        "308": 4,
+        "540": 3,
+        "542": 3,
+        "311": 6,
+        "91": 25,
+        "59": 15,
+        "304": 15,
+        "376": 12,
+        "152": 24,
+        "82": 12,
+        "61": 14,
+        "541": 1,
+        "29": 12,
+        "211": 2,
+        "16": 3,
+        "24": 19,
+        "558": 3,
+        "603": 1,
+        "47": 2,
+        "6": 26,
+        "140": 4,
+        "457": 4,
+        "7": 2,
+        "17": 9,
+        "81": 1,
+        "270": 1,
+        "93": 1,
+        "543": 1
+      },
+      "samples": [
+        {
+          "time_ms": 1793699283796,
+          "manual_marker": {
+            "timestamp_ms": 1793699283796,
+            "elapsed_realtime_ms": 89341327,
+            "event": "capture_started",
+            "activity": "Capture",
+            "source": "capture_worker"
+          }
+        },
+        {
+          "time_ms": 1793699283799,
+          "length": 530,
+          "ip_version": 4,
+          "src_port": null,
+          "dst_port": null,
+          "albion_candidate": false,
+          "photon": false,
+          "photon_encrypted": false,
+          "photon_error": null,
+          "command_count": 0,
+          "command_types": [],
+          "messages": []
+        }
+      ]
+    },
+    {
+      "name": "albion-1793699145258.jsonl",
+      "bytes": 608931,
+      "lines": 1821,
+      "malformed": 0,
+      "keys": {
+        "time_ms": 1821,
+        "manual_marker": 2,
+        "length": 1819,
+        "ip_version": 1819,
+        "src_port": 1819,
+        "dst_port": 1819,
+        "albion_candidate": 1819,
+        "photon": 1819,
+        "photon_encrypted": 1819,
+        "photon_error": 1819,
+        "command_count": 1819,
+        "command_types": 1819,
+        "messages": 1819,
+        "photon_event_analysis": 1819,
+        "entities": 1819,
+        "protocol18_encrypted": 1819,
+        "protocol18_malformed": 1819,
+        "fragments_pending": 1819
+      },
+      "event_codes": {},
+      "samples": [
+        {
+          "time_ms": 1793699145279,
+          "manual_marker": {
+            "timestamp_ms": 1793699145279,
+            "elapsed_realtime_ms": 89202810,
+            "event": "capture_started",
+            "activity": "Capture",
+            "source": "capture_worker"
+          }
+        },
+        {
+          "time_ms": 1793699145476,
+          "length": 40,
+          "ip_version": 4,
+          "src_port": null,
+          "dst_port": null,
+          "albion_candidate": false,
+          "photon": false,
+          "photon_encrypted": false,
+          "photon_error": null,
+          "command_count": 0,
+          "command_types": [],
+          "messages": []
+        }
+      ]
+    },
+    {
+      "name": "albion-1793699111286.jsonl",
+      "bytes": 177643,
+      "lines": 532,
+      "malformed": 0,
+      "keys": {
+        "time_ms": 532,
+        "manual_marker": 2,
+        "length": 530,
+        "ip_version": 530,
+        "src_port": 530,
+        "dst_port": 530,
+        "albion_candidate": 530,
+        "photon": 530,
+        "photon_encrypted": 530,
+        "photon_error": 530,
+        "command_count": 530,
+        "command_types": 530,
+        "messages": 530,
+        "photon_event_analysis": 530,
+        "entities": 530,
+        "protocol18_encrypted": 530,
+        "protocol18_malformed": 530,
+        "fragments_pending": 530
+      },
+      "event_codes": {},
+      "samples": [
+        {
+          "time_ms": 1793699111317,
+          "manual_marker": {
+            "timestamp_ms": 1793699111317,
+            "elapsed_realtime_ms": 89168848,
+            "event": "capture_started",
+            "activity": "Capture",
+            "source": "capture_worker"
+          }
+        },
+        {
+          "time_ms": 1793699111371,
+          "length": 879,
+          "ip_version": 4,
+          "src_port": null,
+          "dst_port": null,
+          "albion_candidate": false,
+          "photon": false,
+          "photon_encrypted": false,
+          "photon_error": null,
+          "command_count": 0,
+          "command_types": [],
+          "messages": []
+        }
+      ]
+    }
+  ],
+  "text_hints": {
+    "straight_then_stop": 4,
+    "ninety_degree_turns": 1,
+    "resource_nodes": 18,
+    "troll_golem_mob": 0
+  }
+}

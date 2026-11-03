@@ -265,6 +265,67 @@
       "warning": "Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity."
     },
     {
+      "archive": "AlbionRadar2.zip",
+      "pcap": "albion-1793699111286.pcap",
+      "status": "NOT_VERIFIED",
+      "evidence_grade": "single_capture_spatial_heuristic_only",
+      "replay_observation_rows": 2,
+      "player_position_samples": 0,
+      "typed_resource_nodes": 0,
+      "resource_entity_ids_with_coordinate_conflicts": [],
+      "player_bounds": null,
+      "resource_bounds": null,
+      "bounding_boxes_overlap": false,
+      "nearest_resource_to_player_path_distance_median": null,
+      "nearest_resource_to_player_path_distance_p90": null,
+      "nodes_within_100_units_of_player_path": 0,
+      "warning": "Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity."
+    },
+    {
+      "archive": "AlbionRadar2.zip",
+      "pcap": "albion-1793699145258.pcap",
+      "status": "NOT_VERIFIED",
+      "evidence_grade": "single_capture_spatial_heuristic_only",
+      "replay_observation_rows": 2,
+      "player_position_samples": 0,
+      "typed_resource_nodes": 0,
+      "resource_entity_ids_with_coordinate_conflicts": [],
+      "player_bounds": null,
+      "resource_bounds": null,
+      "bounding_boxes_overlap": false,
+      "nearest_resource_to_player_path_distance_median": null,
+      "nearest_resource_to_player_path_distance_p90": null,
+      "nodes_within_100_units_of_player_path": 0,
+      "warning": "Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity."
+    },
+    {
+      "archive": "AlbionRadar2.zip",
+      "pcap": "albion-1793699283778.pcap",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+      "evidence_grade": "single_capture_spatial_heuristic_only",
+      "replay_observation_rows": 35139,
+      "player_position_samples": 3942,
+      "typed_resource_nodes": 19,
+      "resource_entity_ids_with_coordinate_conflicts": [],
+      "player_bounds": {
+        "min_x": -381.8504943847656,
+        "max_x": -5.417780876159668,
+        "min_y": -283.34942626953125,
+        "max_y": 201.156494140625
+      },
+      "resource_bounds": {
+        "min_x": -376.217,
+        "max_x": -6.5,
+        "min_y": -308.0,
+        "max_y": 180.0
+      },
+      "bounding_boxes_overlap": true,
+      "nearest_resource_to_player_path_distance_median": 2.751,
+      "nearest_resource_to_player_path_distance_p90": 26.545,
+      "nodes_within_100_units_of_player_path": 19,
+      "warning": "Candidate evidence only. Does not prove zone identity, global map transform, or cross-zone continuity."
+    },
+    {
       "archive": "Albions.zip",
       "pcap": "1 mob dismount and mount .pcap",
       "status": "NOT_VERIFIED",

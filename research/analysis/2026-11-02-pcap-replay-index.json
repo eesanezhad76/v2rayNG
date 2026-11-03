@@ -145,6 +145,39 @@
       "status": "NEW_CAPTURE_REVIEW"
     },
     {
+      "source_sha256": "a4758b0222d0cd175a1c1112bf68d89d8f0ebdff994046f6d46e94e0797b6fc6",
+      "quality_grade": "GOOD",
+      "ip_packets": 532,
+      "quality_score": 90,
+      "fingerprint": "b854d641e522fd0b82451f21b1ab19677221a963dc1bc93180c4c0f0b66e79b3",
+      "malformed_photon_packets": 0,
+      "key": "AlbionRadar2.zip::albion-1793699111286.pcap",
+      "valid_photon_packets": 0,
+      "status": "NEW_CAPTURE_REVIEW"
+    },
+    {
+      "source_sha256": "31db6a0d543ec3518c8f1302bc91e604dbe6885cc4d0d38f334cfe20b89b136c",
+      "quality_grade": "FAIR",
+      "ip_packets": 1821,
+      "quality_score": 80,
+      "fingerprint": "0d20f43b80a3dc52f9c27d9eb3b52c3d012570505e1d39e5d01d0edfbcab8f78",
+      "malformed_photon_packets": 0,
+      "key": "AlbionRadar2.zip::albion-1793699145258.pcap",
+      "valid_photon_packets": 0,
+      "status": "NEW_CAPTURE_REVIEW"
+    },
+    {
+      "source_sha256": "2b7a34b8259a90b5ad8b40cc11f1f82e4be899ade1ae7b3bba80c4389bc92175",
+      "quality_grade": "FAIR",
+      "ip_packets": 43024,
+      "quality_score": 80,
+      "fingerprint": "433568a1938842028014c6e050ac6457c86334926a582247257df2b1c1dd366c",
+      "malformed_photon_packets": 3,
+      "key": "AlbionRadar2.zip::albion-1793699283778.pcap",
+      "valid_photon_packets": 15615,
+      "status": "NEW_CAPTURE_REVIEW"
+    },
+    {
       "source_sha256": "19ffe62c250932c9fd362d3c726ae36ec9b1c6bc9fd8d21ea2c801bef57b5d7a",
       "quality_grade": "GOOD",
       "ip_packets": 239,
@@ -250,6 +283,6 @@
       "status": "DUPLICATE_SKIPPED"
     }
   ],
-  "generated_from_sha": "5b0a566e44881158b908d964909fe18bf75ddf5e",
+  "generated_from_sha": "a71cf37865a709f1812684a44a8cdd9d2faacdfe",
   "baseline_file": "2026-11-02-pcap-replay-baseline.json"
 }
