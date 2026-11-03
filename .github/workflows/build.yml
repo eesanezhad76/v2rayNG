@@ -89,14 +89,14 @@ jobs:
         cp -r ${{ github.workspace }}/libs ${{ github.workspace }}/V2rayNG/app
 
     - name: Checkout passive-tap AndroidLibXrayLite
-      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04') || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04')
+      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04')
       run: |
         git -C AndroidLibXrayLite remote set-url origin https://github.com/eesanezhad76/AndroidLibXrayLite.git
         git -C AndroidLibXrayLite fetch --depth=1 origin albion-passive-tap
         git -C AndroidLibXrayLite checkout --detach FETCH_HEAD
 
     - name: Setup Go for passive-tap library
-      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'albion-knowledge-integration-2026-11-04')
+      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04')
       uses: actions/setup-go@v6
       with:
         go-version-file: AndroidLibXrayLite/go.mod
@@ -104,7 +104,7 @@ jobs:
         cache-dependency-path: AndroidLibXrayLite/go.sum
 
     - name: Build passive-tap libv2ray AAR
-      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'albion-knowledge-integration-2026-11-04')
+      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04')
       timeout-minutes: 25
       working-directory: AndroidLibXrayLite
       env:
@@ -126,12 +126,12 @@ jobs:
         gomobile bind -v -androidapi 24 -trimpath -ldflags='-s -w -buildid= -checklinkname=0' -o ../V2rayNG/app/libs/libv2ray.aar ./
 
     - name: Test passive-tap tun package
-      if: success() && (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'albion-knowledge-integration-2026-11-04')
+      if: success() && (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04')
       working-directory: AndroidLibXrayLite
       run: go test github.com/xtls/xray-core/proxy/tun
 
     - name: Fetch AndroidLibXrayLite tag
-      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && (github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'refs/heads/albion-knowledge-integration-2026-11-04') && github.ref != 'refs/heads/albion-knowledge-integration-2026-11-04')
+      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'refs/heads/albion-knowledge-integration-2026-11-04')
       run: |
         pushd AndroidLibXrayLite
         CURRENT_TAG=$(git describe --tags --abbrev=0)
@@ -140,7 +140,7 @@ jobs:
         popd
 
     - name: Download libv2ray
-      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'albion-knowledge-integration-2026-11-04')
+      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'refs/heads/albion-knowledge-integration-2026-11-04')
       uses: robinraju/release-downloader@v1.13
       with:
         repository: '2dust/AndroidLibXrayLite'
@@ -159,7 +159,7 @@ jobs:
       run: echo "Debug radar APK does not require release signing secrets"
 
     - name: Build signed isolated radar APK
-      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'albion-knowledge-integration-2026-11-04')
+      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-knowledge-integration-2026-11-04')
       run: |
         cd ${{ github.workspace }}/V2rayNG
         echo "sdk.dir=${ANDROID_HOME}" > local.properties
@@ -169,7 +169,7 @@ jobs:
         ./gradlew assemblePlaystoreDebug
 
     - name: Build signed APK
-      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'albion-knowledge-integration-2026-11-04')
+      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'refs/heads/albion-knowledge-integration-2026-11-04')
       run: |
         cd ${{ github.workspace }}/V2rayNG
         echo "sdk.dir=${ANDROID_HOME}" > local.properties
