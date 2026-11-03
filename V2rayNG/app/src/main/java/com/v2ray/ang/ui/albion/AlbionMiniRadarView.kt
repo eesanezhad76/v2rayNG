@@ -410,7 +410,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val rawTy = cy - (dy * factor / range * radius).toFloat()
             val tx = rotateRadarX(rawTx, rawTy, cx, cy)
             val ty = rotateRadarY(rawTx, rawTy, cx, cy)
-            val targetColor = enchantColor(enchantLevel(node))
+            val targetColor = enchantColor(enchantLevel(target))
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 1.8f * density
             paint.color = targetColor
