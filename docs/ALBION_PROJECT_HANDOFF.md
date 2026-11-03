@@ -293,3 +293,26 @@ Next required work:
 5. Confirm central-ingest workflow handles the latest knowledge-bundle schema and never inflates cumulative counters.
 6. Device test on Poco F5: VPN routing, capture start/stop, overlay permissions/layout, marker FIFO, export ZIP, app restart persistence, battery/performance, and real gameplay correlation.
 7. Only after successful latest-HEAD CI and device test, label APK “ready for field testing”; only after controlled live captures should semantic detection be marked verified.
+
+## Verification update — 2026-11-03 04:37 UTC
+
+Latest source branch HEAD at this update: `c3abb80b63af56b511dd0508796609de27046a8e`.
+
+Additional UI correctness fix:
+- `c3abb80b63af56b511dd0508796609de27046a8e`: manual markers now include tier/enchantment only for gathering activities (Ore/Wood/Stone/Fiber/Hide) and Troll. Mobs, PvP, Move, and Other no longer inherit the default T3/Normal metadata. This prevents false labels such as `Mobs|T3|Normal` in the autonomous learner.
+- Troll remains a separate activity with tier/enchantment selectors and mob-style Start/Killed markers.
+
+CI evidence:
+- Build run `41578331030` completed successfully on older source commit `70f0485a6389bbf32c040f113ce14fc4a8c9fc21`.
+- Confirmed successful steps on that run: isolated radar APK build, APK verification/SHA manifest generation, offline PCAP replay audit, Python analysis/marker FIFO/readiness tests, readiness report generation, and uploads of arm64-v8a, armeabi-v7a, x86, x86_64, universal APK, diagnostics, readiness report, and APK verification artifact.
+- Artifact metadata includes arm64-v8a artifact ID `13204703625`, universal `13205192170`, x86 `13205192160`, armeabi-v7a `13204648646`, x86_64 `13204409291`, and verification `apk-verification`. These artifacts belong to the older commit above and must not be described as the final APK for current HEAD.
+- Albion ingest run `41579031315` completed successfully on `a74b3bea3cc04241209a18bc0ea0a39a8063d906`.
+- Build run `41579066893` is in progress on `ebbacc3028c2a1c2b516da3ed9c4606e2f8d80e7`; it does not include the later marker-metadata fix at `c3abb80...`.
+- A generated-data-only ingest commit `5c0f72aa773c4462b1ecbf8c912e668136d5c52a` was subsequently observed on the branch. It changes derived evidence/report metadata, not the Android source.
+- No CI run has yet been confirmed for the latest source commit `c3abb80...`; check Actions after the next push/build trigger.
+
+Remaining verification:
+- Inspect the successful build's readiness report and APK verification manifest; artifact metadata alone does not disclose the actual APK SHA-256 values or report contents.
+- Obtain a successful APK workflow for source commit `c3abb80...` or later.
+- Add automated marker-payload regression tests if a suitable test seam exists; otherwise validate on device.
+- Device and real Albion gameplay verification remain outstanding. No semantic mapping should be called live-verified without controlled PCAP evidence.
