@@ -98,11 +98,12 @@ This is a first integration increment, not a claim that all historical nodes are
 
 The coordinate-free research index is now consumed by the persistent live knowledge resolver:
 
-- `AlbionLiveKnowledgeStore` loads the research index once at construction and passes it to `ResourcePatternLearner` for every resource inference.
+- `AlbionLiveKnowledgeStore` loads the research index once at construction, passes it to `ResourcePatternLearner` for every resource inference, and annotates known mobile observations with the 2,330-row entity corpus.
 - `AlbionResearchKnowledgeIndex.Snapshot.resourceTypeEvidence` exposes a family mapping only when the index has exactly one non-unknown resource type and one recognized mapping status.
 - Provisional reference mappings remain `PROVISIONAL_MAPPING` at 0.90 confidence; the observation/capture counts are attached to the explanation, not treated as proof.
 - The packet-corroborated living-resource family remains at the higher confidence tier.
 - Family 28 stays unresolved. Family 20 remains Hide; Mobile Type ID 482 (Mountain Rabbit) does not override it or become harvestable.
+- Known mobile Type IDs receive a separate `catalogued_mobile_entity` classification and provenance-based evidence grade; this does not relabel them as resources.
 - If the research asset is unavailable, the resolver retains its prior conservative fallback behavior.
 
 A regression test verifies that family evidence reaches the resolver and that provisional evidence is not promoted. CI must pass before this phase is build-verified.
