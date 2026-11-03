@@ -172,7 +172,7 @@ class AlbionLiveKnowledgeStore(
         records.values
             .filter { it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs && it.has("x") && it.has("y") }
             .sortedByDescending { it.optLong("last_seen_ms") }
-            .take(200)
+            .take(2000)
             .forEach { array.put(JSONObject(it.toString())) }
         return array.toString()
     }
@@ -234,6 +234,7 @@ class AlbionLiveKnowledgeStore(
             appendLine()
             appendLine("Live knowledge cache")
             appendLine("Unique tracked entities: ${records.size}")
+            appendLine("Current-session map entities: ${records.values.count { it.optLong(\"session_started_ms\", Long.MIN_VALUE) == sessionStartedMs && it.has(\"x\") && it.has(\"y\") }}")
             appendLine("Typed resource observations: $typed")
             appendLine("Static resource candidates (not confirmed Ore): $candidates")
             appendLine("Entities marked depleted: $depleted")
