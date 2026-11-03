@@ -18,6 +18,7 @@ class AlbionLiveKnowledgeStore(
 ) {
     private val file = File(context.applicationContext.filesDir, "albion-live-knowledge.json")
     private val researchKnowledge = AlbionResearchKnowledgeIndex.load(context)
+    private val historicalKnowledge = AlbionHistoricalKnowledgeIndex.load(context)
     private val records = LinkedHashMap<String, JSONObject>()
     private var dirty = false
     private var lastFlushMs = 0L
@@ -144,6 +145,7 @@ class AlbionLiveKnowledgeStore(
             // Enrich both resource and mobile observations from the coordinate-free research index.
             // This adds provenance only; it never changes packet IDs, names, or coordinates.
             researchKnowledge?.annotate(record)
+            historicalKnowledge?.annotate(record)
             val conflicts = conflictingEvidenceFields(record).toMutableList()
             updateResourceInference(record, conflicts)
             val inferredMobileStatus = record.optJSONObject("resource_inference")
