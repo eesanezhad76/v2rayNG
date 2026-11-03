@@ -321,6 +321,7 @@ class AlbionOverlayService : Service() {
         for (i in 0 until catalogEntities.length()) {
             val source = catalogEntities.optJSONObject(i) ?: continue
             val node = JSONObject(source.toString())
+            if (!node.has("x") || !node.has("y")) continue
             node.put("entity_id", "catalog:${source.optString("entity_id")}")
             if (node.optString("last_kind").isBlank()) node.put("last_kind", "static_resource")
             if (node.optString("last_kind") == "static_resource") {
