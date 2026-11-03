@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Offline Albion capture ZIP/JSONL ingest. Preserves unknowns and exact runtime IDs."""
-import argparse,csv,json,pathlib,zipfile,collections,hashlib
+import argparse,csv,json,pathlib,zipfile,collections,hashlib,math
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 DB=ROOT/"research/database"; ANALYSIS=ROOT/"research/analysis"
 def safe_extract(zf,dest):
@@ -234,6 +234,7 @@ def correlate_mob_markers(lifecycles,mobs,player_positions,player_moves,health_e
 
 def analyze(path):
  nodes={}; states=collections.defaultdict(list); markers=[]; rows=bad=event123=0; packet5056=0
+ mobs={}; player_positions=[]; player_moves=[]; health_events=[]
  with path.open(encoding="utf-8",errors="replace") as f:
   for line in f:
    try:r=json.loads(line)
@@ -247,9 +248,26 @@ def analyze(path):
    for e in parse_row(r):
     k=e.get("kind"); ident=e.get("entity_id"); t=r.get("time_ms")
     if k=="mob": event123+=1
+    if k=="own_player_move" and finite_number(e.get("x")) is not None and finite_number(e.get("y")) is not None:
+     player_positions.append({"time_ms":int(t or 0),"x":finite_number(e.get("x")),"y":finite_number(e.get("y"))})
+    elif k=="player_move" and ident is not None and finite_number(e.get("x")) is not None and finite_number(e.get("y")) is not None:
+     player_moves.append({"time_ms":int(t or 0),"entity_id":str(ident),"x":finite_number(e.get("x")),"y":finite_number(e.get("y"))})
+    elif k=="health" and ident is not None:
+     health_events.append({"time_ms":int(t or 0),"entity_id":str(ident),"source_entity_id":str(e.get("source_entity_id")) if e.get("source_entity_id") is not None else None,"value":e.get("value"),"secondary_value":e.get("secondary_value")})
     if ident is None: continue
     key=str(ident)
-    if k=="harvestable":
+    if k=="mob":
+     mob=mobs.setdefault(key,{"entity_id":ident,"mobile_type_id":e.get("mobile_type_id"),"enchant":e.get("enchant"),"name":e.get("name"),"first_seen_ms":t,"last_seen_ms":t,"positions":[],"health_timeline":[],"health_event_count":0,"player_damage_events":0,"left":False})
+     mob["first_seen_ms"]=min(mob["first_seen_ms"] or t,t or mob["first_seen_ms"])
+     mob["last_seen_ms"]=max(mob["last_seen_ms"] or t,t or mob["last_seen_ms"])
+     if e.get("name"):mob["name"]=e.get("name")
+     if e.get("mobile_type_id") is not None:mob["mobile_type_id"]=e.get("mobile_type_id")
+     if e.get("enchant") is not None:mob["enchant"]=e.get("enchant")
+     x=finite_number(e.get("x"));y=finite_number(e.get("y"))
+     if x is not None and y is not None:mob["positions"].append({"time_ms":int(t or 0),"x":x,"y":y})
+    elif k=="leave" and key in mobs:
+     mobs[key]["left"]=True;mobs[key]["left_ms"]=t
+    elif k=="harvestable":
      n=nodes.setdefault(key,{"entity_id":ident,"mobile_type_id":e.get("mobile_type_id"),"type_number":e.get("type_number"),"tier":e.get("tier"),"enchant":e.get("enchant",0),"x":e.get("x"),"y":e.get("y"),"first_seen_ms":t,"last_seen_ms":t,"observations":0,"sizes_seen":[],"state_timeline":[]})
      n["first_seen_ms"]=t if n["first_seen_ms"] is None else min(n["first_seen_ms"],t)
      n["last_seen_ms"]=t if n["last_seen_ms"] is None else max(n["last_seen_ms"],t);n["observations"]+=1
@@ -264,9 +282,13 @@ def analyze(path):
   if key in nodes:nodes[key]["state_timeline"]=sorted(seq,key=lambda x:x["time_ms"] or 0)
  state_only=[{"entity_id":int(k) if k.isdigit() else k,"state_timeline":sorted(v,key=lambda x:x["time_ms"] or 0)} for k,v in states.items() if k not in nodes]
  marker_lifecycles,unmatched_markers=pair_manual_markers(markers)
+ local_player_ids=correlate_mob_markers(marker_lifecycles,mobs,player_positions,player_moves,health_events)
  resource_cycles=[x for x in marker_lifecycles if x["activity"] in RESOURCE_ACTIVITIES]
+ mob_marker_cycles=[x for x in marker_lifecycles if x.get("activity") in {"Mobs","Troll"}]
+ correlated_mob_markers=[x for x in mob_marker_cycles if x.get("spatial_correlation",{}).get("best_candidate")]
+
  stem=path.stem; ordered=sorted(nodes.values(),key=lambda n:(n["type_number"] or -1,n["tier"] or -1,n["enchant"] or 0,n["entity_id"]))
- doc={"dataset_id":stem,"source_file":path.name,"source_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"counts":{"jsonl_rows":rows,"malformed_lines":bad,"udp_5056_packets":packet5056,"event40_observations":sum(n["observations"] for n in ordered),"unique_event40_nodes":len(ordered),"event46_updates":sum(map(len,states.values())),"event46_state_ids":len(states),"event46_exact_joins":sum(bool(n["state_timeline"]) for n in ordered),"state_only_ids":len(state_only),"event123_living_entity_observations":event123,"manual_markers":len(markers),"resource_marker_cycles":len(resource_cycles),"complete_resource_marker_cycles":sum(x["status"] in {"COMPLETE","COMPLETE_WITH_METADATA_CONFLICT"} for x in resource_cycles),"clean_complete_resource_marker_cycles":sum(x["status"]=="COMPLETE" for x in resource_cycles),"completed_with_metadata_conflict_resource_cycles":sum(x["status"]=="COMPLETE_WITH_METADATA_CONFLICT" for x in resource_cycles),"incomplete_resource_marker_cycles":sum(x["status"] not in {"COMPLETE","COMPLETE_WITH_METADATA_CONFLICT"} for x in resource_cycles),"mob_marker_pairs":sum(x["status"]=="TARGET_FOUND_TO_KILLED" for x in marker_lifecycles),"incomplete_mob_marker_cycles":sum(x["status"]=="TARGET_FOUND_NOT_KILLED" for x in marker_lifecycles),"unmatched_marker_events":len(unmatched_markers),"marker_metadata_conflicts":sum(bool(x.get("metadata_conflicts")) for x in marker_lifecycles)},"nodes":ordered,"state_only_entities":state_only,"manual_markers":markers,"marker_lifecycles":marker_lifecycles,"unmatched_marker_events":unmatched_markers}
+ doc={"dataset_id":stem,"source_file":path.name,"source_sha256":hashlib.sha256(path.read_bytes()).hexdigest(),"counts":{"jsonl_rows":rows,"malformed_lines":bad,"udp_5056_packets":packet5056,"event40_observations":sum(n["observations"] for n in ordered),"unique_event40_nodes":len(ordered),"event46_updates":sum(map(len,states.values())),"event46_state_ids":len(states),"event46_exact_joins":sum(bool(n["state_timeline"]) for n in ordered),"state_only_ids":len(state_only),"event123_living_entity_observations":event123,"unique_mob_entities":len(mobs),"own_player_position_samples":len(player_positions),"inferred_local_player_entity_ids":len(local_player_ids),"mob_markers_with_spatial_candidates":len(correlated_mob_markers),"mob_markers_high_confidence":sum(x.get("spatial_correlation",{}).get("confidence")=="HIGH" for x in correlated_mob_markers),"manual_markers":len(markers),"resource_marker_cycles":len(resource_cycles),"complete_resource_marker_cycles":sum(x["status"] in {"COMPLETE","COMPLETE_WITH_METADATA_CONFLICT"} for x in resource_cycles),"clean_complete_resource_marker_cycles":sum(x["status"]=="COMPLETE" for x in resource_cycles),"completed_with_metadata_conflict_resource_cycles":sum(x["status"]=="COMPLETE_WITH_METADATA_CONFLICT" for x in resource_cycles),"incomplete_resource_marker_cycles":sum(x["status"] not in {"COMPLETE","COMPLETE_WITH_METADATA_CONFLICT"} for x in resource_cycles),"mob_marker_pairs":sum(x["status"]=="TARGET_FOUND_TO_KILLED" for x in marker_lifecycles),"incomplete_mob_marker_cycles":sum(x["status"]=="TARGET_FOUND_NOT_KILLED" for x in marker_lifecycles),"unmatched_marker_events":len(unmatched_markers),"marker_metadata_conflicts":sum(bool(x.get("metadata_conflicts")) for x in marker_lifecycles)},"nodes":ordered,"mobs":sorted(mobs.values(),key=lambda m:(m.get("first_seen_ms") or 0,str(m.get("entity_id")))),"player_marker_positions":[{"time_ms":p["time_ms"],"x":p["x"],"y":p["y"]} for p in player_positions if any(abs(p["time_ms"]-cycle.get("found_ms",0))<=2500 for cycle in mob_marker_cycles)],"state_only_entities":state_only,"manual_markers":markers,"marker_lifecycles":marker_lifecycles,"unmatched_marker_events":unmatched_markers}
  DB.mkdir(parents=True,exist_ok=True);ANALYSIS.mkdir(parents=True,exist_ok=True)
  (DB/(stem+".json")).write_text(json.dumps(doc,indent=2),encoding="utf-8")
  fields=["entity_id","mobile_type_id","type_number","tier","enchant","x","y","first_seen_ms","last_seen_ms","observations","sizes_seen","state_timeline"]
