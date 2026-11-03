@@ -46,6 +46,15 @@ class AlbionCaptureWorker(
     @Volatile private var logFileStream: FileOutputStream? = null
     private val markerCount = AtomicLong(0)
     private val nonAlbionCount = AtomicLong(0)
+    // Live pipeline diagnostics: distinguish missing packets, missing protocol events,
+    // mapper failures, and entities rejected by the snapshot/UI.
+    private val event39Count = AtomicLong(0)
+    private val event40Count = AtomicLong(0)
+    private val event46Count = AtomicLong(0)
+    private val event123Count = AtomicLong(0)
+    private val mappedResourceCount = AtomicLong(0)
+    private val mappedMobCount = AtomicLong(0)
+    private val mappedOwnPositionCount = AtomicLong(0)
     private val dropBaseline = AtomicLong(0)
     private val mirroredPcapBytes = AtomicLong(0)
     private val mirroredLogBytes = AtomicLong(0)
@@ -77,6 +86,8 @@ class AlbionCaptureWorker(
             mirrorFailure = null
             markerCount.set(0)
             nonAlbionCount.set(0)
+            event39Count.set(0); event40Count.set(0); event46Count.set(0); event123Count.set(0)
+            mappedResourceCount.set(0); mappedMobCount.set(0); mappedOwnPositionCount.set(0)
             publicReportUri = null
             pcapFile = raw
             logFile = txt
@@ -222,6 +233,9 @@ class AlbionCaptureWorker(
         append(autonomousPatternLearner?.summaryText() ?: "")
         append(healthMonitor.snapshot(System.currentTimeMillis(), running.get()).asText())
         appendLine("Capture counters: packets=${packetCount.get()} | tap_drops=${(dropped() - dropBaseline.get()).coerceAtLeast(0)} | non_albion=${nonAlbionCount.get()} | markers=${markerCount.get()}")
+        appendLine("Pipeline events: E39=${event39Count.get()} E40=${event40Count.get()} E46=${event46Count.get()} E123=${event123Count.get()}")
+        appendLine("Mapped: resources=${mappedResourceCount.get()} mobs=${mappedMobCount.get()} own_positions=${mappedOwnPositionCount.get()}")
+        appendLine("Live snapshot: ${knowledgeStore?.snapshotJson()?.let { runCatching { JSONArray(it).length() }.getOrDefault(-1) } ?: -1} entities")
     }
 
     @Synchronized
@@ -255,6 +269,12 @@ class AlbionCaptureWorker(
         val photonEventAnalysis = JSONArray()
         messages.forEach { message ->
             if (message.kind == "event" && message.realCode != null) {
+                when (message.realCode) {
+                    39 -> event39Count.incrementAndGet()
+                    40 -> event40Count.incrementAndGet()
+                    46 -> event46Count.incrementAndGet()
+                    123 -> event123Count.incrementAndGet()
+                }
                 healthMonitor.recordValidEvent(timestampMs)
                 protocolEvidenceStore?.observe(timestampMs, message.realCode, message.parameters)
                 autonomousPatternLearner?.observe(timestampMs, message.realCode, message.parameters)
@@ -309,6 +329,13 @@ class AlbionCaptureWorker(
             }
         }
         val observations = messages.flatMap { AlbionEntityEventMapper.map(it) }
+        observations.forEach { observation ->
+            when (observation.kind) {
+                "static_resource", "harvestable", "resource_state" -> mappedResourceCount.incrementAndGet()
+                "mob" -> mappedMobCount.incrementAndGet()
+                "own_player_move" -> mappedOwnPositionCount.incrementAndGet()
+            }
+        }
         if (observations.isNotEmpty()) healthMonitor.recordMappedEntity(timestampMs)
         knowledgeStore?.observe(timestampMs, observations)
         gatheringPatternLearner?.observe(timestampMs, observations)
