@@ -794,6 +794,62 @@ fun main() {
             }
         }
         File(out, "2026-11-02-pcap-attack-target-tracks.csv").writeText(attackCsv, Charsets.UTF_8)
+
+        // Correlate manually tagged Mob/Troll cycles with exact outbound operation-23
+        // target IDs. This is ranked evidence, not proof that a particular marker names
+        // a particular entity; retain all candidates and ambiguity.
+        val mobMarkerCorrelationCsv = buildString {
+            appendLine("archive,pcap,activity,found_ms,mob_killed_ms,candidate_count,best_target_entity_id,mobile_type_id,event123_name,first_attack_ms,last_attack_ms,start_to_attack_delta_ms,health_observations,leave_after_last_attack,confidence,identity_proven,candidate_evidence")
+            for (sample in markerSamples.filter { it.activity in setOf("Mob", "Mobs", "Troll") }) {
+                val prefix = sample.archive + "\u001f" + sample.pcap + "\u001f"
+                val finishMs = sample.completedMs ?: (sample.foundMs + 15_000L)
+                data class MobAttackCandidate(
+                    val id: String, val first: Long, val last: Long, val actions: Int,
+                    val health: Int, val leaveAfter: Boolean, val type: String, val name: String,
+                    val delta: Long
+                )
+                val candidates = attacks.entries.mapNotNull { (key, values) ->
+                    if (!key.startsWith(prefix) || key in playerIds || !event123Types.containsKey(key)) return@mapNotNull null
+                    val ordered = values.sortedBy { it.t }
+                    val first = ordered.firstOrNull()?.t ?: return@mapNotNull null
+                    val last = ordered.lastOrNull()?.t ?: return@mapNotNull null
+                    val delta = first - sample.foundMs
+                    if (delta < -2500L || delta > 20_000L || last < sample.foundMs - 1500L || first > finishMs + 2500L) return@mapNotNull null
+                    val health = healthCounts[key] ?: 0
+                    val leaveAfter = (leaveTimes[key] ?: Long.MIN_VALUE) > last
+                    if (health <= 0 && !leaveAfter) return@mapNotNull null
+                    MobAttackCandidate(
+                        key.substringAfterLast("\u001f"), first, last, ordered.size, health, leaveAfter,
+                        event123Types[key] ?: "", event123Names[key] ?: "", delta
+                    )
+                }.sortedWith(compareBy<MobAttackCandidate> { kotlin.math.abs(it.delta) }
+                    .thenByDescending { it.health }.thenByDescending { it.actions })
+                val best = candidates.firstOrNull()
+                val nearby = if (best == null) emptyList() else candidates.filter {
+                    kotlin.math.abs(it.delta) <= kotlin.math.abs(best.delta) + 1500L
+                }
+                val confidence = when {
+                    best == null -> "NONE"
+                    nearby.size > 1 -> "AMBIGUOUS"
+                    kotlin.math.abs(best.delta) <= 3000L && best.health > 0 && best.leaveAfter -> "HIGH"
+                    kotlin.math.abs(best.delta) <= 8000L && best.health > 0 -> "MEDIUM"
+                    else -> "LOW"
+                }
+                val candidateEvidence = candidates.joinToString(";") { c ->
+                    listOf(c.id, c.type, c.name, c.first.toString(), c.last.toString(),
+                        c.delta.toString(), c.health.toString(), c.leaveAfter.toString(), c.actions.toString())
+                        .joinToString(":")
+                }
+                appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                    sample.completedMs?.toString() ?: "", candidates.size.toString(), best?.id ?: "",
+                    best?.type ?: "", best?.name ?: "", best?.first?.toString() ?: "",
+                    best?.last?.toString() ?: "", best?.delta?.toString() ?: "",
+                    best?.health?.toString() ?: "", best?.leaveAfter?.toString() ?: "",
+                    confidence, "false", candidateEvidence).joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-overlay-mob-attack-correlation.csv").writeText(mobMarkerCorrelationCsv, Charsets.UTF_8)
+
         val databaseDir = File(repo, "research/database").apply { mkdirs() }
         val databaseArtifacts = listOf(
             "2026-11-02-all-inbox-observations.jsonl",
