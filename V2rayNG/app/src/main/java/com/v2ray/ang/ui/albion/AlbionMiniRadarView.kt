@@ -124,6 +124,27 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private fun isTroll(item: JSONObject): Boolean =
         AlbionSpatialIntelligence.isTrollMob(item)
 
+    private fun enchantLevel(item: JSONObject): Int {
+        val marker = item.optInt("marker_enchant", -1)
+        if (marker >= 0) return marker.coerceIn(0, 3)
+        val inferred = item.optJSONObject("resource_inference")
+            ?.optJSONObject("enchantment_name")?.optString("value")
+        return when (inferred) {
+            "Normal" -> 0
+            "E1" -> 1
+            "E2" -> 2
+            "E3" -> 3
+            else -> item.optInt("enchant", 0).coerceIn(0, 3)
+        }
+    }
+
+    private fun enchantColor(level: Int): Int = when (level) {
+        1 -> 0xFF35D06F.toInt() // E1 green
+        2 -> 0xFF3994FF.toInt() // E2 blue
+        3 -> 0xFFB56BFF.toInt() // E3 purple
+        else -> 0xFFFFC45C.toInt()
+    }
+
     private fun passesFilters(item: JSONObject, filters: Set<String> = this.enabledFilters): Boolean {
         val kind = item.optString("last_kind")
         val node = kind in RESOURCE_KINDS
@@ -327,13 +348,13 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 entity.optString("classification") == "ambiguous_resource_candidate" ||
                 entity.optString("evidence_grade") == "conflicting_typed_observation"
             paint.style = Paint.Style.FILL
+            val enchantLevel = enchantLevel(entity)
             paint.color = when {
-                depleted || entity.optBoolean("left", false) -> 0xFF697782.toInt()
-                kind == "mob" && AlbionSpatialIntelligence.isOreElemental(entity) -> 0xFFB58CFF.toInt()
+                depleted || entity.optBoolean("left", false) -> 0xFF080808.toInt()
                 kind == "mob" && AlbionSpatialIntelligence.isOreElemental(entity) -> 0xFFB58CFF.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
                 candidate -> 0xFF9AA6AF.toInt()
-                kind in RESOURCE_KINDS && entity.optInt("enchant", 0) > 0 -> 0xFFB58CFF.toInt()
+                kind in RESOURCE_KINDS -> enchantColor(enchantLevel)
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, (if (distance > range) 2.5f else 3.2f) * density, paint)
@@ -407,6 +428,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val node = pair.first
             val label = AlbionRadarSnapshotParser.labelForEntity(node)
             val text = "$label ${pair.second.roundToInt()}"
+            paint.color = enchantColor(enchantLevel(node))
             canvas.drawText(text.take(22), 5f * density,
                 (12f + index * 9f) * density, paint)
         }
@@ -423,7 +445,12 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val rawY = cy - (dy * factor / range * radius).toFloat()
             val x = rotateRadarX(rawX, rawY, cx, cy)
             val y = rotateRadarY(rawX, rawY, cx, cy)
-            paint.color = if (entity.optBoolean("user_confirmed_target", false)) 0xFF55E6FF.toInt() else 0xFFEAF1F5.toInt()
+            paint.color = when {
+                entity.optBoolean("depleted", false) || entity.optBoolean("left", false) -> 0xFF080808.toInt()
+                entity.optBoolean("user_confirmed_target", false) -> 0xFF55E6FF.toInt()
+                entity.optString("last_kind") in RESOURCE_KINDS -> enchantColor(enchantLevel(entity))
+                else -> 0xFFEAF1F5.toInt()
+            }
             val label = if (entity.optBoolean("user_confirmed_target", false)) "T5.3" else
                 "${AlbionRadarSnapshotParser.labelForEntity(entity)} ${distance.roundToInt()}"
             canvas.drawText(label.take(20), (x + 4f * density).coerceAtMost(width - 60f * density),
