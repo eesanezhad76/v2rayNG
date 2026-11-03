@@ -30,6 +30,7 @@ import androidx.core.app.NotificationCompat
 import org.json.JSONArray
 import org.json.JSONObject
 import com.v2ray.ang.albion.AlbionCaptureMarker
+import com.v2ray.ang.albion.AlbionResearchKnowledgeIndex
 import com.v2ray.ang.core.CoreServiceManager
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -56,6 +57,7 @@ class AlbionOverlayService : Service() {
     private var enabledFilters = AlbionMiniRadarView.DEFAULT_FILTERS.toMutableSet()
     private var catalogEntities = JSONArray()
     private var mobileTypeDictionary = JSONObject()
+    private var researchKnowledge: AlbionResearchKnowledgeIndex.Snapshot? = null
     private var catalogNodeCount = 0
     private var catalogMarkerCount = 0
     private val refreshHandler = Handler(Looper.getMainLooper())
@@ -100,7 +102,8 @@ class AlbionOverlayService : Service() {
                 refreshHandler.post {
                     acceptedCount?.let(CoreServiceManager::acknowledgeAlbionOverlaySnapshot)
                     if (::liveStatus.isInitialized) {
-                        liveStatus.text = "DB $catalogNodeCount/$catalogMarkerCount • " + statusText.take(220)
+                        liveStatus.text = (researchKnowledge?.statusLabel() ?: "KNOW unavailable") +
+                            " • MAP $catalogNodeCount/$catalogMarkerCount • " + statusText.take(170)
                     }
                     snapshotRefreshInFlight.set(false)
                     if (controlsRoot != null || radarRoot != null) refreshHandler.postDelayed(this, 1200L)
@@ -237,7 +240,10 @@ class AlbionOverlayService : Service() {
         panel.addView(head)
         radarView = AlbionMiniRadarView(this)
         for (i in 0 until catalogEntities.length()) {
-            catalogEntities.optJSONObject(i)?.let { applyMobTypeInfo(it) }
+            catalogEntities.optJSONObject(i)?.let {
+                applyMobTypeInfo(it)
+                researchKnowledge?.annotate(it)
+            }
         }
         radarView.setCatalogSnapshot(catalogEntities.toString())
         panel.addView(radarView, LinearLayout.LayoutParams(dp(224), dp(190)))
@@ -390,6 +396,7 @@ class AlbionOverlayService : Service() {
             val typeData = assets.open("albion-mobile-type-dictionary.json").bufferedReader().use { JSONObject(it.readText()) }
             mobileTypeDictionary = typeData.optJSONObject("entries") ?: JSONObject()
         } catch (_: Exception) { mobileTypeDictionary = JSONObject() }
+        researchKnowledge = AlbionResearchKnowledgeIndex.load(this)
     }
 
     private fun mergeCatalogAndLive(liveJson: String): String {
@@ -421,7 +428,10 @@ class AlbionOverlayService : Service() {
     private fun enrichLiveSnapshot(json: String): String {
         val array = try { JSONArray(json) } catch (_: Exception) { return "[]" }
         for (i in 0 until array.length()) {
-            array.optJSONObject(i)?.let { applyMobTypeInfo(it) }
+            array.optJSONObject(i)?.let {
+                applyMobTypeInfo(it)
+                researchKnowledge?.annotate(it)
+            }
         }
         return array.toString()
     }
