@@ -141,6 +141,9 @@ class AlbionLiveKnowledgeStore(
                 kotlin.math.abs(targetX) <= MAX_COORDINATE && kotlin.math.abs(targetY) <= MAX_COORDINATE) {
                 record.put("target_x", targetX).put("target_y", targetY)
             }
+            // Enrich both resource and mobile observations from the coordinate-free research index.
+            // This adds provenance only; it never changes packet IDs, names, or coordinates.
+            researchKnowledge?.annotate(record)
             val conflicts = conflictingEvidenceFields(record).toMutableList()
             updateResourceInference(record, conflicts)
             val inferredMobileStatus = record.optJSONObject("resource_inference")
@@ -311,6 +314,7 @@ class AlbionLiveKnowledgeStore(
         val typed = record.has("mobile_type_id") && record.has("tier") && record.has("x") && record.has("y")
         return when {
             conflicts.isNotEmpty() -> "conflicting_typed_observation"
+            record.optString("last_kind") == "mob" && record.has("research_catalog_mobile_observations") -> "catalogued_mobile"
             typed && record.optBoolean("resource_state_seen", false) -> "corroborated_same_id"
             typed && record.optInt("sightings") >= 3 -> "repeated_typed"
             typed -> "typed_single"
@@ -324,6 +328,7 @@ class AlbionLiveKnowledgeStore(
         val typed = record.has("mobile_type_id") && record.has("tier") && record.has("x") && record.has("y")
         return when {
             conflicts.isNotEmpty() -> 20
+            record.optString("last_kind") == "mob" && record.has("research_catalog_mobile_observations") -> 65
             typed && record.optBoolean("resource_state_seen", false) -> 90
             typed && record.optInt("sightings") >= 3 -> 75
             typed -> 55
@@ -335,6 +340,8 @@ class AlbionLiveKnowledgeStore(
 
     private fun evidenceReason(record: JSONObject, conflicts: List<String>): String = when {
         conflicts.isNotEmpty() -> "conflicting_fields=" + conflicts.joinToString(",")
+        record.optString("evidence_grade") == "catalogued_mobile" ->
+            "mobile_type_matched_research_catalog_observations=" + record.optInt("research_catalog_mobile_observations")
         record.optString("evidence_grade") == "corroborated_same_id" -> "typed_resource_plus_same_id_state"
         record.optString("evidence_grade") == "repeated_typed" -> "repeated_typed_observations"
         record.optString("evidence_grade") == "typed_single" -> "single_typed_resource_observation"
@@ -347,6 +354,8 @@ class AlbionLiveKnowledgeStore(
         conflicts.isNotEmpty() && (record.has("family") || record.has("tier") || record.optString("last_kind") in RESOURCE_KINDS) ->
             "ambiguous_resource_candidate"
         conflicts.isNotEmpty() -> "ambiguous_entity"
+        record.optString("last_kind") == "mob" && record.has("research_catalog_mobile_observations") ->
+            "catalogued_mobile_entity"
         record.has("mobile_type_id") && record.has("tier") && record.has("x") && record.has("y") ->
             "typed_resource_observation"
         record.optString("last_kind") == "static_resource" && record.has("x") && record.has("y") ->
