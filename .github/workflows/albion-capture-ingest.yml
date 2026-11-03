@@ -43,6 +43,7 @@ jobs:
           V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
           python research/tools/analyze_spatial_alignment.py
           python research/tools/build_complete_database_index.py
+          python research/tools/classify_entity_catalog.py
       - name: Commit derived evidence
         run: |
           git config user.name "github-actions[bot]"
