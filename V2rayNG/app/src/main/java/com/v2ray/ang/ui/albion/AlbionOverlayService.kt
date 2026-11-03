@@ -193,7 +193,7 @@ class AlbionOverlayService : Service() {
 
     private fun buildControlsWindow() {
         val panel = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL; setPadding(dp(4), dp(3), dp(4), dp(3)); background = panelBackground()
+            orientation = LinearLayout.VERTICAL; setPadding(dp(4), dp(3), dp(4), dp(3)); background = panelBackground(); alpha = 0.5f
         }
         val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
         title = TextView(this).apply {
@@ -204,6 +204,8 @@ class AlbionOverlayService : Service() {
         head.addView(title, LinearLayout.LayoutParams(0, dp(27), 1f))
         head.addView(button("MAP") { if (radarRoot == null) buildRadarWindow() }, LinearLayout.LayoutParams(dp(36), dp(28)))
         head.addView(button("−") { expanded = !expanded; renderBody() }, LinearLayout.LayoutParams(dp(27), dp(28)))
+        val controlsResize = button("◢") { }
+        head.addView(controlsResize, LinearLayout.LayoutParams(dp(24), dp(27)))
         head.addView(button("×") { stopSelf() }, LinearLayout.LayoutParams(dp(27), dp(27)))
         panel.addView(head)
         body = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
@@ -218,7 +220,7 @@ class AlbionOverlayService : Service() {
         val layoutPrefs = getSharedPreferences("albion_overlay_layout", MODE_PRIVATE)
         val type = if (Build.VERSION.SDK_INT >= 26) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE
         val params = WindowManager.LayoutParams(
-            dp(218), WindowManager.LayoutParams.WRAP_CONTENT, type,
+            layoutPrefs.getInt("controls_width", dp(218)), layoutPrefs.getInt("controls_height", WindowManager.LayoutParams.WRAP_CONTENT), type,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
         ).apply {
@@ -229,12 +231,13 @@ class AlbionOverlayService : Service() {
         controlsParams = params
         wm.addView(panel, params)
         attachDrag(title, panel, params)
+        attachResize(controlsResize, panel, params, false)
         renderBody()
     }
 
     private fun buildRadarWindow() {
         val panel = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL; setPadding(dp(3), dp(3), dp(3), dp(3)); background = panelBackground()
+            orientation = LinearLayout.VERTICAL; setPadding(dp(3), dp(3), dp(3), dp(3)); background = panelBackground(); alpha = 0.5f
         }
         val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
         val dragTitle = TextView(this).apply {
@@ -250,6 +253,8 @@ class AlbionOverlayService : Service() {
         head.addView(catalogButton, LinearLayout.LayoutParams(dp(48), dp(25)))
         filterButton = button("FILTER") { toggleFilters() }
         head.addView(filterButton, LinearLayout.LayoutParams(dp(54), dp(25)))
+        val radarResize = button("◢") { }
+        head.addView(radarResize, LinearLayout.LayoutParams(dp(23), dp(25)))
         head.addView(button("×") { removeRadarWindow() }, LinearLayout.LayoutParams(dp(25), dp(25)))
         panel.addView(head)
         radarView = AlbionMiniRadarView(this)
@@ -274,7 +279,7 @@ class AlbionOverlayService : Service() {
         val layoutPrefs = getSharedPreferences("albion_overlay_layout", MODE_PRIVATE)
         val type = if (Build.VERSION.SDK_INT >= 26) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE
         val params = WindowManager.LayoutParams(
-            dp(238), WindowManager.LayoutParams.WRAP_CONTENT, type,
+            layoutPrefs.getInt("radar_width", dp(238)), layoutPrefs.getInt("radar_height", WindowManager.LayoutParams.WRAP_CONTENT), type,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
         ).apply {
@@ -285,6 +290,7 @@ class AlbionOverlayService : Service() {
         radarParams = params
         wm.addView(panel, params)
         attachDrag(dragTitle, panel, params)
+        attachResize(radarResize, panel, params, true)
         renderFilters()
         radarView.setFilters(enabledFilters)
     }
@@ -313,6 +319,46 @@ class AlbionOverlayService : Service() {
         }
     }
 
+    private fun attachResize(handle: View, target: View, params: WindowManager.LayoutParams, radar: Boolean) {
+        var startX = 0f
+        var startY = 0f
+        var originWidth = 0
+        var originHeight = 0
+        handle.setOnTouchListener { _, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    startX = event.rawX; startY = event.rawY
+                    originWidth = params.width.takeIf { it > 0 } ?: target.width
+                    originHeight = params.height.takeIf { it > 0 } ?: target.height
+                    true
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val maxWidth = (resources.displayMetrics.widthPixels - params.x).coerceAtLeast(dp(160))
+                    val maxHeight = (resources.displayMetrics.heightPixels - params.y).coerceAtLeast(dp(150))
+                    params.width = (originWidth + (event.rawX - startX).toInt()).coerceIn(dp(160), maxWidth)
+                    params.height = (originHeight + (event.rawY - startY).toInt()).coerceIn(dp(150), maxHeight)
+                    if (radar && ::radarView.isInitialized) {
+                        val radarHeight = (params.height - dp(205)).coerceAtLeast(dp(90))
+                        radarView.layoutParams = radarView.layoutParams.apply {
+                            width = (params.width - dp(14)).coerceAtLeast(dp(130)); height = radarHeight
+                        }
+                        if (::filterScroll.isInitialized) filterScroll.layoutParams = filterScroll.layoutParams.apply {
+                            height = (params.height - radarHeight - dp(42)).coerceAtLeast(0)
+                        }
+                    }
+                    try { wm.updateViewLayout(target, params) } catch (_: Exception) { }
+                    true
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    val key = target.tag?.toString() ?: "overlay"
+                    getSharedPreferences("albion_overlay_layout", MODE_PRIVATE).edit()
+                        .putInt(key + "_width", params.width).putInt(key + "_height", params.height).apply()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
     private fun renderBody() {
         body.removeAllViews()
         if (expanded) {
