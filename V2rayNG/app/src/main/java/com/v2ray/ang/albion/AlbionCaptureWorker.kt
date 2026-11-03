@@ -41,6 +41,7 @@ class AlbionCaptureWorker(
     @Volatile private var knowledgeStore: AlbionLiveKnowledgeStore? = null
     @Volatile private var protocolEvidenceStore: AlbionProtocolEvidenceStore? = null
     @Volatile private var autonomousPatternLearner: AlbionAutonomousPatternLearner? = null
+    @Volatile private var gatheringPatternLearner: AlbionGatheringPatternLearner? = null
     @Volatile private var pcapFileStream: FileOutputStream? = null
     @Volatile private var logFileStream: FileOutputStream? = null
     private val markerCount = AtomicLong(0)
@@ -66,6 +67,7 @@ class AlbionCaptureWorker(
             knowledgeStore = AlbionLiveKnowledgeStore(context.applicationContext)
             protocolEvidenceStore = AlbionProtocolEvidenceStore(context.applicationContext)
             autonomousPatternLearner = AlbionAutonomousPatternLearner(context.applicationContext, stamp.toString())
+            gatheringPatternLearner = AlbionGatheringPatternLearner(context.applicationContext, stamp.toString())
             pcapFileStream = FileOutputStream(raw)
             logFileStream = FileOutputStream(txt)
             pcap = DataOutputStream(BufferedOutputStream(pcapFileStream!!, 262144)).also(::writeHeader)
@@ -201,6 +203,7 @@ class AlbionCaptureWorker(
             logFileStream?.fd?.sync()
             markerCount.incrementAndGet()
             autonomousPatternLearner?.observeMarker(marker, timestampMs)
+            gatheringPatternLearner?.observeMarker(marker, timestampMs)
             scope.launch(Dispatchers.IO) { mirrorDownloads() }
             true
         } catch (t: Throwable) {
@@ -216,6 +219,7 @@ class AlbionCaptureWorker(
             ?: "Live knowledge unavailable: capture has not initialized.")
         append(protocolEvidenceStore?.summaryText() ?: "")
         append(autonomousPatternLearner?.summaryText() ?: "")
+        append(gatheringPatternLearner?.summaryText() ?: "")
         append(healthMonitor.snapshot(System.currentTimeMillis(), running.get()).asText())
         appendLine("Capture counters: packets=${packetCount.get()} | tap_drops=${(dropped() - dropBaseline.get()).coerceAtLeast(0)} | non_albion=${nonAlbionCount.get()} | markers=${markerCount.get()}")
     }
@@ -307,6 +311,7 @@ class AlbionCaptureWorker(
         val observations = messages.flatMap { AlbionEntityEventMapper.map(it) }
         if (observations.isNotEmpty()) healthMonitor.recordMappedEntity(timestampMs)
         knowledgeStore?.observe(timestampMs, observations)
+        gatheringPatternLearner?.observe(timestampMs, observations)
         val entityArray = JSONArray()
         observations.forEach { entity ->
             val item = JSONObject()
