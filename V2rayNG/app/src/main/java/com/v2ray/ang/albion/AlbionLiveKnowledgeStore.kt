@@ -228,14 +228,17 @@ class AlbionLiveKnowledgeStore(
                 record.optBoolean("is_harvestable_mob", false)) {
                 record.put("mob_dead", true).put("mob_state", "dead_harvestable")
                     .put("mob_dead_ms", record.optLong("mob_dead_ms", timestampMs))
-            } else if (observation.kind == "harvestable" && record.optBoolean("is_harvestable_mob", false)) {
-                linkHarvestableToDeadMob(record, timestampMs)
             }
             val x = observation.x?.toDouble()
             val y = observation.y?.toDouble()
             if (x != null && y != null && x.isFinite() && y.isFinite() &&
                 kotlin.math.abs(x) <= MAX_COORDINATE && kotlin.math.abs(y) <= MAX_COORDINATE) {
                 record.put("x", x).put("y", y)
+                if (observation.kind == "harvestable" &&
+                    record.optString("entity_class") != "mob" &&
+                    record.optBoolean("is_harvestable_mob", false)) {
+                    linkHarvestableToDeadMob(record, timestampMs)
+                }
                 if (observation.kind == "own_player_move") {
                     val movementSession = record.optLong("movement_session_started_ms", Long.MIN_VALUE)
                     if (movementSession < sessionStartedMs) {
