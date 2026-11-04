@@ -145,6 +145,17 @@ object AlbionCaptureAnalyzer {
                                     detailed += "t=" + packetTimeMs + " kind=raw_health_energy_event code=" +
                                         message.realCode + " params=" + describeValue(message.parameters)
                                 }
+
+                                // Preserve the raw server response for cluster/zone transitions.
+                                // This is forensic evidence only: it does not assign a zone to coordinates.
+                                if (message.kind == "response" && message.realCode == 41) {
+                                    val params = message.parameters.entries.sortedBy { it.key }
+                                        .joinToString(" ") { (key, value) -> key.toString() + "=" + describeValue(value) }
+                                    detailed += "t=" + packetTimeMs +
+                                        " kind=operation_response op=41 return_code=" + message.returnCode +
+                                        " param0_type=" + (message.parameters[0]?.javaClass?.simpleName ?: "null") +
+                                        " params={" + params + "}"
+                                }
                                 if (message.kind == "event" && message.realCode == 3) {
                                     val raw = message.parameters[1] as? ByteArray
                                     val hex = raw?.take(128)?.joinToString("") { "%02x".format(it) } ?: "null"
