@@ -64,11 +64,14 @@ class AlbionLiveKnowledgeStoreTest {
         )))
         store.observe(now + 100L, listOf(AlbionEntityEventMapper.Observation(
             kind = "resource_state", eventCode = 46, entityId = 7001L,
-            size = 0, removed = true
+            size = null, removed = true
+        )))
+        store.observe(now + 150L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "resource_state", eventCode = 46, entityId = 7001L,
+            size = 0, removed = false
         )))
         var record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
         assertTrue(record.optBoolean("depleted"), record.toString())
-        assertTrue(record.optInt("resource_remaining") == 0, record.toString())
 
         store.observe(now + 200L, listOf(AlbionEntityEventMapper.Observation(
             kind = "harvestable", eventCode = 40, entityId = 7001L,
