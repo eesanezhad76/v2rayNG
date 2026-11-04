@@ -91,7 +91,7 @@ class AlbionOverlayService : Service() {
         override fun run() {
             if (controlsRoot == null && radarRoot == null) return
             if (!snapshotRefreshInFlight.compareAndSet(false, true)) {
-                refreshHandler.postDelayed(this, 1200L)
+                refreshHandler.postDelayed(this, 450L)
                 return
             }
             snapshotHandler.post {
@@ -117,7 +117,7 @@ class AlbionOverlayService : Service() {
                         liveStatus.text = "DB ${catalogNodeCount}N/${catalogMobCount}M • " + statusText.take(210)
                     }
                     snapshotRefreshInFlight.set(false)
-                    if (controlsRoot != null || radarRoot != null) refreshHandler.postDelayed(this, 1200L)
+                    if (controlsRoot != null || radarRoot != null) refreshHandler.postDelayed(this, 450L)
                 }
             }
         }
