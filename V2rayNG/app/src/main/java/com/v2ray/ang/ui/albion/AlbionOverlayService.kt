@@ -512,11 +512,27 @@ class AlbionOverlayService : Service() {
     private fun tag(event: String) {
         val now = System.currentTimeMillis()
         try {
+            // Preserve every tap, but annotate a repeated same-action tap within 10 s.
+            // This is deliberately not a debounce: a possible duplicate is never dropped.
+            val repeatPrefs = getSharedPreferences("albion_marker_repeat_detection", MODE_PRIVATE)
+            val repeatKey = "$activity|$event"
+            val previousAt = repeatPrefs.getLong(repeatKey, 0L)
+            val repeatGap = if (previousAt > 0L && now >= previousAt) now - previousAt else Long.MAX_VALUE
+            val possibleRepeat = repeatGap <= MARKER_REPEAT_WINDOW_MS
+            repeatPrefs.edit().putLong(repeatKey, now).apply()
+            val elapsed = android.os.SystemClock.elapsedRealtime()
             val json = JSONObject().apply {
-                put("timestamp_ms", now); put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
+                put("timestamp_ms", now); put("elapsed_realtime_ms", elapsed)
+                put("marker_id", "manual:$now:$elapsed")
                 put("event", event); put("activity", activity)
                 if (activity in setOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Troll")) {
                     put("tier", tier); put("enchantment", enchant)
+                }
+                put("possible_duplicate", possibleRepeat)
+                if (possibleRepeat) {
+                    put("duplicate_of_timestamp_ms", previousAt)
+                    put("duplicate_gap_ms", repeatGap)
+                    put("duplicate_window_ms", MARKER_REPEAT_WINDOW_MS)
                 }
                 put("source", "manual_overlay")
             }.toString()
@@ -546,6 +562,7 @@ class AlbionOverlayService : Service() {
     }
 
     companion object {
+        private const val MARKER_REPEAT_WINDOW_MS = 10_000L
         const val ACTION_MARKER = "com.v2ray.ang.albion.PCAP_MARKER"
         const val EXTRA_MARKER = "marker_json"
         const val ACTION_STOP = "com.v2ray.ang.albion.STOP_OVERLAY"
