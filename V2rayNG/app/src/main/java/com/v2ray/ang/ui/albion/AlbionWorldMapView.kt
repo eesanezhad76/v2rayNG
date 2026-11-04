@@ -7,10 +7,8 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import org.json.JSONObject
-import kotlin.math.cos
 import kotlin.math.hypot
 import kotlin.math.max
-import kotlin.math.sin
 
 /** Region-wide map of all currently observed coordinates in the active live snapshot. */
 class AlbionWorldMapView(context: Context) : View(context) {
