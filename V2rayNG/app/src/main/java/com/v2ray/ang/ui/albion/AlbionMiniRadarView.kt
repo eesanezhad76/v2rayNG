@@ -252,6 +252,35 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val displayRange = maxOf(minimumRange,
                 resources.maxOfOrNull { hypot(it.optDouble("x") - px, it.optDouble("y") - py) * 1.05 } ?: minimumRange)
 
+            // Keep a short live breadcrumb trail visible without adding a panel or grid.
+            // Coordinates are translated to the current player origin and use the same
+            // fixed north-up transform as resource markers.
+            if (history != null && history.length() > 1) {
+                val trail = android.graphics.Path()
+                var started = false
+                val first = (history.length() - 16).coerceAtLeast(0)
+                for (i in first until history.length()) {
+                    val point = history.optJSONObject(i) ?: continue
+                    val tx = point.optDouble("x", Double.NaN)
+                    val ty = point.optDouble("y", Double.NaN)
+                    if (!tx.isFinite() || !ty.isFinite()) continue
+                    val time = point.optLong("time_ms", 0L)
+                    if (time > 0L && time < System.currentTimeMillis() - 20_000L) continue
+                    val (trX, trY) = rotateOffset(tx - px, ty - py)
+                    val sx = cx + (trX / displayRange * radius).toFloat()
+                    val sy = cy + (trY / displayRange * radius).toFloat()
+                    if (!started) { trail.moveTo(sx, sy); started = true } else trail.lineTo(sx, sy)
+                }
+                if (started) {
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = 1.8f * density
+                    paint.strokeCap = Paint.Cap.ROUND
+                    paint.strokeJoin = Paint.Join.ROUND
+                    paint.color = 0xCC56D6A0.toInt()
+                    canvas.drawPath(trail, paint)
+                }
+            }
+
             resources.forEach { entity ->
                 val dx = entity.optDouble("x") - px
                 val dy = entity.optDouble("y") - py
