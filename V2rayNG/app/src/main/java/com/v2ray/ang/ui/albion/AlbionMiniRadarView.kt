@@ -299,8 +299,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                     paint.textSize = 7f * density
                     paint.textAlign = Paint.Align.CENTER
                     val labelRadius = (radius - 13f * density).coerceAtLeast(0f)
-                    val labelX = cx + (rx / displayRange * labelRadius)
-                    val labelY = cy + (ry / displayRange * labelRadius)
+                    val labelX = cx + (rx / displayRange * labelRadius).toFloat()
+                    val labelY = cy + (ry / displayRange * labelRadius).toFloat()
                     canvas.drawText(distance.roundToInt().toString(), labelX, labelY, paint)
                     paint.textAlign = Paint.Align.LEFT
                 }
