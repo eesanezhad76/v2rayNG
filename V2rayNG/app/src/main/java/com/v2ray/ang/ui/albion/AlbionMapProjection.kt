@@ -5,16 +5,21 @@ import kotlin.math.hypot
 
 /**
  * Shared world-to-screen transform for the mini radar and full map.
- * The existing evidence-backed convention is world +Y up and world +X right.
- * Movement direction is derived from observed coordinate deltas, not an
- * assumed heading-angle convention. This keeps marker displacement and player
- * movement arrows in the same projection, preventing a separate UI rotation
- * from making the arrow disagree with the resource positions.
+ * Albion's in-game world-map grid is rotated 45 degrees clockwise relative
+ * to the phone screen. Apply that same fixed transform to every world delta:
+ * +Y maps to screen upper-right and +X maps to screen lower-right.
+ * Movement direction is derived from observed coordinate deltas and passed
+ * through this exact transform, so nodes, trail and player arrow stay aligned.
  */
 internal object AlbionMapProjection {
     data class Point(val x: Double, val y: Double)
 
-    fun worldToScreen(dx: Double, dy: Double): Point = Point(dx, -dy)
+    private const val DIAGONAL = 0.7071067811865476
+
+    fun worldToScreen(dx: Double, dy: Double): Point = Point(
+        (dx + dy) * DIAGONAL,
+        (dx - dy) * DIAGONAL
+    )
 
     fun movementDirection(history: JSONArray?): Point? {
         if (history == null || history.length() < 2) return null
