@@ -246,6 +246,8 @@ class AlbionLiveKnowledgeStore(
                 record.put("mob_dead", true).put("mob_state", "dead_harvestable")
                     .put("mob_dead_ms", record.optLong("mob_dead_ms", timestampMs))
             }
+            val targetX = observation.targetX?.toDouble()
+            val targetY = observation.targetY?.toDouble()
             val x = observation.x?.toDouble()
             val y = observation.y?.toDouble()
             if (x != null && y != null && x.isFinite() && y.isFinite() &&
@@ -324,8 +326,6 @@ class AlbionLiveKnowledgeStore(
             }
             observation.heading?.let { if (it.isFinite() && it in 0f..360f) record.put("heading", it) }
             observation.speed?.let { if (it.isFinite() && it in 0f..100f) record.put("speed", it) }
-            val targetX = observation.targetX?.toDouble()
-            val targetY = observation.targetY?.toDouble()
             if (targetX != null && targetY != null && targetX.isFinite() && targetY.isFinite() &&
                 kotlin.math.abs(targetX) <= MAX_COORDINATE && kotlin.math.abs(targetY) <= MAX_COORDINATE) {
                 record.put("target_x", targetX).put("target_y", targetY)
