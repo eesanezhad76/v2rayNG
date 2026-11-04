@@ -7,7 +7,6 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.View
 import org.json.JSONObject
-import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.hypot
 import kotlin.math.max
@@ -27,7 +26,8 @@ class AlbionWorldMapView(context: Context) : View(context) {
     private var lastTouchY = 0f
     private var scaling = false
     private var fitted = false
-    private var headingRadians = Math.PI / 4.0
+    // Fixed 45-degree correction keeps world north at the top.
+    private val mapRotationRadians = Math.PI / 4.0
     private val scaleDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScaleBegin(detector: ScaleGestureDetector): Boolean { scaling = true; return true }
         override fun onScale(detector: ScaleGestureDetector): Boolean {
@@ -48,28 +48,9 @@ class AlbionWorldMapView(context: Context) : View(context) {
         invalidCount = parsed.invalidCoordinateCount
         player = entities.filter { it.optString("last_kind") == "own_player_move" }
             .maxByOrNull { it.optLong("last_seen_ms") }
-        updateHeading(player)
         if (!fitted && width > 0 && height > 0) fitRegion()
         postInvalidate()
         return true
-    }
-
-    private fun updateHeading(you: JSONObject?) {
-        val history = you?.optJSONArray("movement_history") ?: return
-        if (history.length() < 2) return
-        val cutoff = System.currentTimeMillis() - 5000L
-        val points = ArrayList<Pair<Double, Double>>()
-        for (i in (history.length() - 8).coerceAtLeast(0) until history.length()) {
-            val p = history.optJSONObject(i) ?: continue
-            if (p.optLong("time_ms", 0L) < cutoff) continue
-            val x = p.optDouble("x", Double.NaN); val y = p.optDouble("y", Double.NaN)
-            if (x.isFinite() && y.isFinite()) points.add(x to y)
-        }
-        if (points.size >= 2) {
-            val first = points.first(); val last = points.last()
-            if (hypot(last.first - first.first, last.second - first.second) >= 2.0)
-                headingRadians = atan2(last.second - first.second, last.first - first.first)
-        }
     }
 
     private fun fitRegion() {
@@ -94,7 +75,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
     fun statusText(): String {
         val resources = entities.count { it.optString("last_kind") in RESOURCE_KINDS && !unavailable(it) }
         val mobs = entities.count { it.optString("last_kind") == "mob" }
-        return "Region observations: ${entities.size} | resources=$resources mobs=$mobs | invalid=$invalidCount | heading=movement-aligned"
+        return "Region observations: ${entities.size} | resources=$resources mobs=$mobs | invalid=$invalidCount | orientation=fixed-north"
     }
 
     private fun unavailable(item: JSONObject) =
@@ -123,7 +104,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
             ?: item.optInt("tier", -1).takeIf { it in 1..8 } ?: -1
 
     private fun screenOffset(dx: Double, dy: Double): Pair<Double, Double> {
-        val h = headingRadians
+        val h = mapRotationRadians
         return (dx * sin(h) - dy * cos(h)) to -(dx * cos(h) + dy * sin(h))
     }
 
