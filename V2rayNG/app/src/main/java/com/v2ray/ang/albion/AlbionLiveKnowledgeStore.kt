@@ -25,6 +25,12 @@ class AlbionLiveKnowledgeStore(
             .bufferedReader(Charsets.UTF_8).use { JSONObject(it.readText()).optJSONObject("entries") ?: JSONObject() }
     }.getOrDefault(JSONObject())
     private val pendingTrollMarkers = LinkedHashMap<String, JSONObject>()
+    private var activeTrollMarker: JSONObject? = null
+    private var activeTrollMarkerStartedMs = 0L
+    private var activeTrollTargetId: String? = null
+    private var trollMarkerAmbiguous = false
+    private var currentTargetEntityId: String? = null
+    private var currentTargetSeenMs = 0L
     private var activeRegionId: String? = null
     private var regionScanId: String? = null
     private var regionScanRegionId: String? = null
@@ -50,6 +56,43 @@ class AlbionLiveKnowledgeStore(
                     activeRegionId = newRegionId
                     snapshotDirty = true
                     runCatching { beginRegionScan(timestampMs, newRegionId) }
+                }
+                return@forEach
+            }
+            if (observation.kind == "target_request") {
+                val regionKey = activeRegionId ?: ""
+                val matchingIds = observation.candidateEntityIds.distinct().filter { candidate ->
+                    records.values.any { record ->
+                        record.optString("entity_id") == candidate.toString() &&
+                            record.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                            record.optString("region_id", "") == regionKey &&
+                            record.optString("entity_class") == "mob"
+                    }
+                }
+                if (matchingIds.size == 1) {
+                    val selectedId = matchingIds.single().toString()
+                    currentTargetEntityId = selectedId
+                    currentTargetSeenMs = timestampMs
+                    val activeMarker = activeTrollMarker
+                    if (activeMarker != null && !trollMarkerAmbiguous &&
+                        timestampMs >= activeTrollMarkerStartedMs &&
+                        timestampMs - activeTrollMarkerStartedMs <= TROLL_MARKER_MAX_WINDOW_MS) {
+                        if (activeTrollTargetId == null) {
+                            activeTrollTargetId = selectedId
+                            records.values.firstOrNull { it.optString("entity_id") == selectedId &&
+                                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                                it.optString("entity_class") == "mob" }?.let {
+                                applyTrollMarker(it, activeMarker, activeTrollMarkerStartedMs)
+                            }
+                        } else if (activeTrollTargetId != selectedId) {
+                            records.values.firstOrNull { it.optString("entity_id") == activeTrollTargetId }?.let(::clearTrollMarker)
+                            activeTrollTargetId = null
+                            trollMarkerAmbiguous = true
+                        }
+                    }
+                } else {
+                    currentTargetEntityId = null
+                    currentTargetSeenMs = 0L
                 }
                 return@forEach
             }
@@ -607,22 +650,68 @@ class AlbionLiveKnowledgeStore(
     @Synchronized
     fun observeMarker(marker: JSONObject, timestampMs: Long) {
         if (!marker.optString("activity").equals("Troll", ignoreCase = true)) return
-        val targetId = marker.optString("target_id").takeIf { it.isNotBlank() && it != "null" } ?: return
-        val record = records.values.firstOrNull {
-            it.optString("entity_id") == targetId &&
-                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                it.optString("entity_class") == "mob"
+        val event = marker.optString("event")
+        if (event == "target_found") {
+            activeTrollMarker = JSONObject(marker.toString())
+            activeTrollMarkerStartedMs = timestampMs
+            activeTrollTargetId = null
+            trollMarkerAmbiguous = false
+            val explicitId = marker.optString("target_id").takeIf { it.isNotBlank() && it != "null" }
+            val recentTarget = currentTargetEntityId?.takeIf {
+                timestampMs >= currentTargetSeenMs && timestampMs - currentTargetSeenMs <= TARGET_MARKER_ATTACH_WINDOW_MS
+            }
+            val targetId = explicitId ?: recentTarget
+            if (targetId != null) {
+                val record = records.values.firstOrNull {
+                    it.optString("entity_id") == targetId &&
+                        it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                        it.optString("entity_class") == "mob"
+                }
+                if (record != null) {
+                    activeTrollTargetId = targetId
+                    applyTrollMarker(record, marker, timestampMs)
+                } else pendingTrollMarkers[targetId] = JSONObject(marker.toString())
+            }
+        } else if (event == "mob_killed") {
+            val active = activeTrollMarker
+            if (active != null && !trollMarkerAmbiguous &&
+                timestampMs >= activeTrollMarkerStartedMs &&
+                timestampMs - activeTrollMarkerStartedMs <= TROLL_MARKER_MAX_WINDOW_MS &&
+                activeTrollTargetId == null) {
+                val recentTarget = currentTargetEntityId?.takeIf {
+                    timestampMs >= currentTargetSeenMs && timestampMs - currentTargetSeenMs <= TARGET_MARKER_ATTACH_WINDOW_MS
+                }
+                if (recentTarget != null) {
+                    records.values.firstOrNull { it.optString("entity_id") == recentTarget &&
+                        it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                        it.optString("entity_class") == "mob" }?.let {
+                        activeTrollTargetId = recentTarget
+                        applyTrollMarker(it, active, activeTrollMarkerStartedMs)
+                    }
+                }
+            }
+            activeTrollMarker = null
+            activeTrollTargetId = null
+            trollMarkerAmbiguous = false
         }
-        if (record == null) pendingTrollMarkers[targetId] = JSONObject(marker.toString())
-        else applyTrollMarker(record, marker, timestampMs)
         dirty = true
         snapshotDirty = true
+    }
+
+    private fun clearTrollMarker(record: JSONObject) {
+        record.remove("manual_activity")
+        record.remove("manual_marker_identity_proven")
+        record.remove("manual_marker_seen_ms")
+        record.remove("marker_tier")
+        record.remove("marker_enchant")
+        record.put("troll_marker_ambiguous", true)
     }
 
     private fun applyTrollMarker(record: JSONObject, marker: JSONObject, timestampMs: Long) {
         record.put("manual_activity", "Troll")
             .put("manual_marker_identity_proven", true)
             .put("manual_marker_seen_ms", timestampMs)
+            .put("marker_match_confidence", "EXACT_TARGET_REQUEST")
         marker.optString("tier").toIntOrNull()?.takeIf { it in 1..8 }?.let {
             record.put("marker_tier", it)
         }
@@ -678,6 +767,8 @@ class AlbionLiveKnowledgeStore(
         const val MIN_MOVEMENT_INTERVAL_MS = 300L
         const val FLUSH_INTERVAL_MS = 2000L
         const val MIN_REPEAT_EVIDENCE_INTERVAL_MS = 500L
+        const val TARGET_MARKER_ATTACH_WINDOW_MS = 2500L
+        const val TROLL_MARKER_MAX_WINDOW_MS = 180_000L
         val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
         val TRACKED_KINDS = setOf("static_resource", "harvestable", "resource_state", "mob", "leave", "player_move", "own_player_move")
     }
