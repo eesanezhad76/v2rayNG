@@ -80,9 +80,13 @@ object AlbionRadarSnapshotParser {
         val accepted = ArrayList<JSONObject>(array.length())
         var invalidCoordinates = 0
         for (index in 0 until array.length()) {
-            val item = array.optJSONObject(index) ?: return null
-            if (item.optString("last_kind").isBlank() || !item.has("entity_id") ||
-                !item.has("x") || !item.has("y")) return null
+            // One malformed entity must not blank the entire radar snapshot.
+            val item = array.optJSONObject(index)
+            if (item == null || item.optString("last_kind").isBlank() || !item.has("entity_id") ||
+                !item.has("x") || !item.has("y")) {
+                invalidCoordinates++
+                continue
+            }
             val x = item.optDouble("x", Double.NaN)
             val y = item.optDouble("y", Double.NaN)
             if (!x.isFinite() || !y.isFinite() || abs(x) > 10000.0 || abs(y) > 10000.0) {

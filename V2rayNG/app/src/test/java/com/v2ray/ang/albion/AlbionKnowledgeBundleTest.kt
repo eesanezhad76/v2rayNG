@@ -44,6 +44,8 @@ class AlbionKnowledgeBundleTest {
         )
         val captureDir = File(tempDir, "AlbionCaptures").apply { mkdirs() }
         File(captureDir, "latest.report.txt").writeText("Pattern Miner: new resource family candidate")
+        val scanDir = File(tempDir, "albion-region-scans").apply { mkdirs() }
+        File(scanDir, "region-123.json").writeText("""{"scan_id":"region-123","nodes":[]}""")
 
         val bytes = ByteArrayOutputStream()
         val summary = AlbionKnowledgeBundle.write(context(), bytes)
@@ -63,7 +65,9 @@ class AlbionKnowledgeBundleTest {
         assertTrue(entries.containsKey("learned-patterns.json"))
         assertTrue(entries.containsKey("autonomous-patterns.json"))
         assertTrue(entries.containsKey("pattern-learning-report.txt"))
-        assertEquals(6, manifest.getJSONObject("files").length())
+        assertEquals(5, manifest.getJSONObject("files").length())
+        assertEquals(1, manifest.getJSONObject("files").getJSONArray("region_scans").length())
+        assertTrue(entries.containsKey("region-scans/region-123.json"))
         assertTrue(summary.patternReportIncluded)
         assertTrue(summary.patternDatabaseIncluded)
         assertEquals(AlbionKnowledgeBundle.SCHEMA_VERSION, manifest.optInt("schema_version"))

@@ -21,10 +21,13 @@ class AlbionRadarSnapshotParserTest {
         assertEquals(0, AlbionRadarSnapshotParser.parse("[]")?.entities?.size)
     }
 
-    @Test fun rejectsMalformedJsonAndMalformedEntityRecords() {
+    @Test fun rejectsMalformedJsonButSkipsMalformedRowsWithoutLosingValidNodes() {
         assertNull(AlbionRadarSnapshotParser.parse("{broken"))
-        assertNull(AlbionRadarSnapshotParser.parse("""[{"entity_id":"1","x":1,"y":2}]"""))
-        assertNull(AlbionRadarSnapshotParser.parse("""[null]"""))
+        val parsed = AlbionRadarSnapshotParser.parse(
+            """[{"entity_id":"1","last_kind":"harvestable","x":10,"y":20},{"entity_id":"2","x":1,"y":2},null]"""
+        )
+        assertEquals(1, parsed?.entities?.size)
+        assertEquals(2, parsed?.invalidCoordinateCount)
     }
 
     @Test fun prefersEvidenceBackedLabelsAndKeepsUnknownMobTypesUnclassified() {

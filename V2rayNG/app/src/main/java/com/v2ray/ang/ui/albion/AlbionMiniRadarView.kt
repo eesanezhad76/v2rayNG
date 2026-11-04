@@ -291,6 +291,19 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 paint.style = Paint.Style.FILL
                 paint.color = if (isUnavailableResource(entity)) 0xFF78838B.toInt() else resourceColor(entity)
                 canvas.drawCircle(x, y, 3.3f * density, paint)
+                // Distant nodes are clamped to the rim to preserve the local radar scale.
+                // Show their actual game-coordinate distance so multiple remote bearings
+                // are not mistaken for equally distant targets.
+                if (distance > displayRange) {
+                    paint.color = 0xFFE8EDF2.toInt()
+                    paint.textSize = 7f * density
+                    paint.textAlign = Paint.Align.CENTER
+                    val labelRadius = (radius - 13f * density).coerceAtLeast(0f)
+                    val labelX = cx + (rx / displayRange * labelRadius)
+                    val labelY = cy + (ry / displayRange * labelRadius)
+                    canvas.drawText(distance.roundToInt().toString(), labelX, labelY, paint)
+                    paint.textAlign = Paint.Align.LEFT
+                }
                 val t = entity.optInt("marker_tier", -1).takeIf { it in 1..8 }
                     ?: entity.optInt("tier", -1).takeIf { it in 1..8 }
                 if (t != null) {

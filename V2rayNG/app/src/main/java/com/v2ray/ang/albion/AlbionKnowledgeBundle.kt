@@ -116,7 +116,8 @@ object AlbionKnowledgeBundle {
         return Summary(
             entityRecords = JSONArray(live).length(),
             protocolEvents = JSONArray(protocol).length(),
-            bytesWritten = liveBytes.size.toLong() + protocolBytes.size + autonomousBytes.size + patternsBytes.size + (patternReportBytes?.size ?: 0),
+            bytesWritten = liveBytes.size.toLong() + protocolBytes.size + autonomousBytes.size + patternsBytes.size +
+                regionScanFiles.sumOf { it.length() } + (patternReportBytes?.size ?: 0),
             sha256 = sha256(manifest.toString().toByteArray(Charsets.UTF_8)),
             patternReportIncluded = patternReportBytes != null,
             patternDatabaseIncluded = patternsFile.isFile

@@ -34,7 +34,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
             val factor = detector.scaleFactor
             val oldCenterX = width / 2f + panX
             val oldCenterY = height / 2f + panY
-            pixelsPerUnit = (pixelsPerUnit * factor).coerceIn(0.08f * density, 30f * density)
+            pixelsPerUnit = (pixelsPerUnit * factor).coerceIn(0.005f * density, 30f * density)
             // Keep the world point under the pinch centroid stationary while zooming.
             val newCenterX = detector.focusX - (detector.focusX - oldCenterX) * factor
             val newCenterY = detector.focusY - (detector.focusY - oldCenterY) * factor
@@ -89,7 +89,9 @@ class AlbionWorldMapView(context: Context) : View(context) {
         var maxDistance = 1.0
         pts.forEach { maxDistance = max(maxDistance, hypot(it.optDouble("x") - originX, it.optDouble("y") - originY)) }
         val usable = (minOf(width, height) * 0.44f).coerceAtLeast(20f * density)
-        pixelsPerUnit = (usable / (maxDistance * 1.08)).toFloat().coerceIn(0.08f * density, 30f * density)
+        // Permit a genuinely region-wide fit; the previous 0.08 minimum
+        // clipped far-away known nodes on large coordinate spans.
+        pixelsPerUnit = (usable / (maxDistance * 1.08)).toFloat().coerceIn(0.005f * density, 30f * density)
         panX = 0f; panY = 0f; fitted = true
     }
 
@@ -257,9 +259,6 @@ class AlbionWorldMapView(context: Context) : View(context) {
         entities.forEach { entity ->
             val kind = entity.optString("last_kind")
             if (kind !in DISPLAY_KINDS || kind == "own_player_move") return@forEach
-            // Unknown/conflicting static-resource candidates are not painted as false grey nodes.
-            if (kind in RESOURCE_KINDS && (entity.optString("classification") == "ambiguous_resource_candidate" ||
-                entity.optString("evidence_grade") == "conflicting_typed_observation")) return@forEach
             val (rx, ry) = screenOffset(entity.optDouble("x") - px, entity.optDouble("y") - py)
             val x = centerX + (rx * pixelsPerUnit).toFloat()
             val y = centerY + (ry * pixelsPerUnit).toFloat()
@@ -267,6 +266,8 @@ class AlbionWorldMapView(context: Context) : View(context) {
             paint.style = Paint.Style.FILL
             paint.color = when {
                 kind in RESOURCE_KINDS && unavailable(entity) -> 0xFF78838B.toInt()
+                kind in RESOURCE_KINDS && (entity.optString("classification") == "ambiguous_resource_candidate" ||
+                    entity.optString("evidence_grade") == "conflicting_typed_observation") -> 0xFFB6A7A0.toInt()
                 kind in RESOURCE_KINDS -> resourceColor(entity)
                 entity.optBoolean("left", false) -> 0xFF78838B.toInt()
                 else -> 0xFFFF6666.toInt()
