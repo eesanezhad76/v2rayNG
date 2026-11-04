@@ -18,7 +18,9 @@ class AlbionLiveKnowledgeStore(
 ) {
     private val file = File(context.applicationContext.filesDir, "albion-live-knowledge.json")
     private val regionScanDir = File(context.applicationContext.filesDir, "albion-region-scans")
+    private var activeRegionId: String? = null
     private var regionScanId: String? = null
+    private var regionScanRegionId: String? = null
     private var regionScanStartedMs = 0L
     private var regionScanEndsMs = 0L
     private var lastRegionScanFlushMs = 0L
@@ -35,9 +37,17 @@ class AlbionLiveKnowledgeStore(
     @Synchronized
     fun observe(timestampMs: Long, observations: List<AlbionEntityEventMapper.Observation>) {
         observations.forEach { observation ->
+            if (observation.kind == "region_change") {
+                val newRegionId = observation.regionId?.takeIf { it.isNotBlank() }
+                if (newRegionId != null && newRegionId != activeRegionId) {
+                    activeRegionId = newRegionId
+                    beginRegionScan(timestampMs, newRegionId)
+                }
+                return@forEach
+            }
             val id = observation.entityId ?: return@forEach
             if (observation.kind == "health") {
-                val key = "$sessionStartedMs:$id"
+                val key = "$sessionStartedMs:${activeRegionId ?: "unknown"}:$id"
                 val target = records.getOrPut(key) {
                     JSONObject().put("record_key", key).put("entity_id", id.toString())
                         .put("session_started_ms", sessionStartedMs).put("first_seen_ms", timestampMs)
@@ -56,10 +66,12 @@ class AlbionLiveKnowledgeStore(
             val entityId = id.toString()
             // Keep a stable record for each observed spawn generation. Runtime entity IDs can
             // be reused by the server after depletion; never overwrite the depleted E2/E3 node.
-            val baseKey = "$sessionStartedMs:$entityId"
+            val regionKey = activeRegionId ?: ""
+            val baseKey = "$sessionStartedMs:$regionKey:$entityId"
             val latestEntry = records.entries
                 .filter { it.value.optString("entity_id") == entityId &&
-                    it.value.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs }
+                    it.value.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                    it.value.optString("region_id", "") == regionKey }
                 .maxByOrNull { it.value.optInt("spawn_generation", 0) }
             var key = latestEntry?.key ?: baseKey
             var record = records[key] ?: JSONObject()
@@ -68,7 +80,10 @@ class AlbionLiveKnowledgeStore(
                 .put("session_started_ms", sessionStartedMs)
                 .put("first_seen_ms", timestampMs)
                 .put("spawn_generation", 0)
-                .put("sightings", 0).also { records[key] = it }
+                .put("sightings", 0).also {
+                    if (activeRegionId != null) it.put("region_id", activeRegionId)
+                    records[key] = it
+                }
 
             val previousEnchant = record.optInt("enchant", observation.enchant ?: -1)
             val incomingAmount = observation.size ?: 0
@@ -90,6 +105,7 @@ class AlbionLiveKnowledgeStore(
                 records[key] = record
             }
             record.put("last_seen_ms", timestampMs)
+            activeRegionId?.let { record.put("region_id", it) }
             val sightingSignature = listOf(
                 observation.kind, observation.eventCode, observation.typeId, observation.typeNumber,
                 observation.tier, observation.enchant, observation.x, observation.y
@@ -216,10 +232,15 @@ class AlbionLiveKnowledgeStore(
 
     /** Starts an isolated 60-second observation window for the newly entered region. */
     @Synchronized
-    fun beginRegionScan(nowMs: Long = System.currentTimeMillis()): String {
+    fun beginRegionScan(
+        nowMs: Long = System.currentTimeMillis(),
+        regionId: String? = activeRegionId
+    ): String {
+        if (regionScanId != null) flushRegionScan(nowMs, true)
         if (!regionScanDir.exists() && !regionScanDir.mkdirs()) error("Cannot create region scan directory")
         val id = "region-$nowMs"
         regionScanId = id
+        regionScanRegionId = regionId
         regionScanStartedMs = nowMs
         regionScanEndsMs = nowMs + REGION_SCAN_DURATION_MS
         lastRegionScanFlushMs = 0L
@@ -241,6 +262,7 @@ class AlbionLiveKnowledgeStore(
             .filter {
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                     it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
+                    it.optString("region_id", "") == (regionScanRegionId ?: "") &&
                     it.has("x") && it.has("y")
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
@@ -265,8 +287,10 @@ class AlbionLiveKnowledgeStore(
                 .put("scheduled_end_at_ms", regionScanEndsMs)
                 .put("updated_at_ms", nowMs)
                 .put("finished", finished)
-                .put("region_identity", JSONObject.NULL)
-                .put("region_identity_note", "Not decoded; scan is a user-triggered observation window, not a verified server region ID.")
+                .put("region_identity", regionScanRegionId?.let { it } ?: JSONObject.NULL)
+                .put("region_identity_note", if (regionScanRegionId != null)
+                    "Server cluster/map ID from ChangeCluster or Join response."
+                else "No verified server region ID was available when this scan started.")
                 .put("node_count", nodes.length())
                 .put("nodes", nodes)
             val target = File(regionScanDir, "$id.json")
@@ -302,7 +326,11 @@ class AlbionLiveKnowledgeStore(
         if (!snapshotDirty) cachedSnapshotJson?.let { return it }
         val array = JSONArray()
         records.values
-            .filter { it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs && it.has("x") && it.has("y") }
+            .filter {
+                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                    (activeRegionId == null || it.optString("region_id", "") == activeRegionId) &&
+                    it.has("x") && it.has("y")
+            }
             .sortedByDescending { it.optLong("last_seen_ms") }
             // The previous 2,000-row UI cap silently hid older known nodes. Keep the
             // complete current-session coordinate catalog (bounded by MAX_RECORDS).
