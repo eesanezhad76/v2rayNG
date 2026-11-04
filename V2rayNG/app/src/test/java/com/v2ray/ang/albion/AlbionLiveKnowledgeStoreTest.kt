@@ -516,4 +516,47 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(record.optBoolean("depleted"), record.toString())
     }
 
+    @Test fun linksDeadOreElementalToUniqueNearbyLivingHarvestableAndMarksBothMined() {
+        val store = AlbionLiveKnowledgeStore(context(), 30_000L)
+        val now = 30_100L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 777L,
+            typeId = 571, x = 12f, y = 34f
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("tier", "3").put("enchantment", "E2"), now + 1L)
+        store.observe(now + 2L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "target_request", eventCode = 23, candidateEntityIds = listOf(777L)
+        )))
+        store.observe(now + 3L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "health", eventCode = 6, entityId = 777L,
+            value = -100f, secondaryValue = null
+        )))
+        store.observe(now + 4L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 888L,
+            typeId = 571, typeNumber = 29, tier = 3, enchant = 2, size = 2, x = 13f, y = 34f
+        )))
+        var snapshot = org.json.JSONArray(store.snapshotJson())
+        val node = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
+            .first { it.optString("entity_id") == "888" }
+        val mob = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
+            .first { it.optString("entity_id") == "777" }
+        assertTrue(node.optString("source_mob_entity_id") == "777", node.toString())
+        assertTrue(node.optString("mob_state") == "dead_harvestable", node.toString())
+        assertTrue(node.optString("manual_activity") == "Troll", node.toString())
+        assertTrue(mob.optString("superseded_by_harvestable_entity_id") == "888", mob.toString())
+
+        store.observe(now + 5L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "resource_state", eventCode = 46, entityId = 888L,
+            size = null, removed = true
+        )))
+        snapshot = org.json.JSONArray(store.snapshotJson())
+        val minedNode = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
+            .first { it.optString("entity_id") == "888" }
+        val minedMob = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
+            .first { it.optString("entity_id") == "777" }
+        assertTrue(minedNode.optString("mob_state") == "mined", minedNode.toString())
+        assertTrue(minedMob.optString("mob_state") == "mined", minedMob.toString())
+    }
+
 }
