@@ -389,4 +389,29 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(mob.optString("last_health_source_entity_id") == "77", mob.toString())
     }
 
+    @Test fun verifiedRegionChangeStartsAutomaticScanAndHidesPreviousRegionNodes() {
+        val store = AlbionLiveKnowledgeStore(context(), 10_000L)
+        store.observe(10_100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observe(10_200L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 11L,
+            typeId = 574, typeNumber = 29, tier = 5, enchant = 2, size = 3, x = 10f, y = 20f
+        )))
+        store.observe(11_000L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_B"
+        )))
+        store.observe(11_100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 11L,
+            typeId = 574, typeNumber = 29, tier = 6, enchant = 3, size = 2, x = 90f, y = 80f
+        )))
+        val current = org.json.JSONArray(store.snapshotJson())
+        assertTrue(current.length() == 1, "Previous-region nodes must not leak into live map: $current")
+        assertTrue(current.getJSONObject(0).optString("region_id") == "MAP_B")
+        assertTrue(current.getJSONObject(0).optDouble("x") == 90.0)
+        val scan = org.json.JSONArray(store.regionScanSnapshotJson(11_200L))
+        assertTrue(scan.length() == 1, "Auto scan must be scoped to the active region: $scan")
+        assertTrue(scan.getJSONObject(0).optString("region_id") == "MAP_B")
+    }
+
 }
