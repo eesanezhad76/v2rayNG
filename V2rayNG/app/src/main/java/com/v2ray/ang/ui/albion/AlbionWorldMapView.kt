@@ -276,7 +276,8 @@ class AlbionWorldMapView(context: Context) : View(context) {
 
         entities.forEach { entity ->
             val kind = entity.optString("last_kind")
-            if (kind !in DISPLAY_KINDS || kind == "own_player_move") return@forEach
+            if (kind !in DISPLAY_KINDS || kind == "own_player_move" ||
+                (kind == "mob" && entity.has("superseded_by_harvestable_entity_id"))) return@forEach
             val (rx, ry) = screenOffset(entity.optDouble("x") - mapOriginX, entity.optDouble("y") - mapOriginY)
             val x = centerX + (rx * pixelsPerUnit).toFloat()
             val y = centerY + (ry * pixelsPerUnit).toFloat()
