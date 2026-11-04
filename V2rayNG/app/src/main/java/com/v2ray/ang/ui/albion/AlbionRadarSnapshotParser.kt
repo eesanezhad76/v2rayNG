@@ -42,8 +42,12 @@ object AlbionRadarSnapshotParser {
             val enchantInference = item.optJSONObject("resource_inference")?.optJSONObject("enchantment_name")
             val enchantValue = enchantInference?.optString("value")?.takeIf { it.startsWith("E") }
             val enchantStatus = enchantInference?.optString("status")
-            val enchantLabel = enchantValue?.let { " $it" + if (enchantStatus == "PROVISIONAL_MAPPING") "?" else "" }
-                ?: item.optInt("enchant", -1).takeIf { it in 1..3 }?.let { " E$it?" } ?: ""
+            val enchantLabel = when {
+                enchantValue != null && enchantStatus == "PROVISIONAL_MAPPING" -> " $enchantValue?"
+                enchantValue != null && enchantStatus == "PACKET_CONFIRMED" -> ""
+                enchantInference != null -> ""
+                else -> item.optInt("enchant", -1).takeIf { it in 1..3 }?.let { " E$it?" } ?: ""
+            }
             val suffix = tierLabel + enchantLabel
             if (inferredName != null) {
                 val name = when (inferenceStatus) {
