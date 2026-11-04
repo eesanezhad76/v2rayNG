@@ -175,4 +175,15 @@ class AlbionEntityEventMapperTest {
     }
 
 
+    @Test
+    fun event46ZeroAmountMeansDepleted() {
+        AlbionEntityEventMapper.reset()
+        val zero = AlbionEntityEventMapper.map(event(46, mapOf(0 to 701L, 1 to 0))).single()
+        assertEquals(0, zero.size)
+        assertTrue(zero.removed)
+        val positive = AlbionEntityEventMapper.map(event(46, mapOf(0 to 702L, 1 to 2))).single()
+        assertEquals(2, positive.size)
+        assertTrue(!positive.removed)
+    }
+
 }
