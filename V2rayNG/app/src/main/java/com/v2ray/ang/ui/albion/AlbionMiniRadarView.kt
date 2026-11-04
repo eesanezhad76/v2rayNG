@@ -15,6 +15,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private var catalogEntities: List<JSONObject> = emptyList()
     private var enabledFilters: Set<String> = DEFAULT_FILTERS
     private var catalogOverviewMode = false
+    private var lastLiveSnapshotJson: String? = null
     // Filtering is independent of player position. Cache it between snapshots/filter changes
     // so onDraw does not repeatedly walk and classify every entity on each invalidation.
     private var visibleCache: List<JSONObject> = emptyList()
@@ -52,6 +53,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     /** Parse static catalog once; live refreshes only reparse the current-session snapshot. */
     fun setCatalogSnapshot(json: String): Int? {
         val parsed = AlbionRadarSnapshotParser.parse(json) ?: return null
+        lastLiveSnapshotJson = null
         catalogEntities = parsed.entities
         entities = catalogEntities
         filterCacheDirty = true
@@ -60,9 +62,13 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     }
 
     fun setLiveSnapshot(json: String): Int? {
+        // The daemon store returns the same cached snapshot string until an observation
+        // changes. Skip JSON parsing and UI invalidation when the snapshot is unchanged.
+        if (json == lastLiveSnapshotJson) return entities.size
         // Snapshot JSON parsing can be expensive on large sessions; callers may invoke this
         // from the capture worker. Only publish the immutable parsed list on the UI thread.
         val parsed = AlbionRadarSnapshotParser.parse(json) ?: return null
+        lastLiveSnapshotJson = json
         val acceptedCount = parsed.entities.size
         post {
             // Live coordinates belong to the active capture. Never merge historical catalog
