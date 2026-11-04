@@ -26,7 +26,7 @@ class AlbionWorldMapActivity : Activity() {
         override fun run() {
             if (!::mapView.isInitialized) return
             if (!refreshInFlight.compareAndSet(false, true)) {
-                handler.postDelayed(this, 450L)
+                handler.postDelayed(this, 200L)
                 return
             }
             dataHandler.post {
@@ -53,7 +53,7 @@ class AlbionWorldMapActivity : Activity() {
                         } else "SCAN NEXT REGION (60s)"
                     }
                     refreshInFlight.set(false)
-                    if (::mapView.isInitialized) handler.postDelayed(this, 450L)
+                    if (::mapView.isInitialized) handler.postDelayed(this, 200L)
                 }
             }
         }
@@ -72,7 +72,7 @@ class AlbionWorldMapActivity : Activity() {
             setPadding(4, 4, 4, 8)
             text = "Waiting for live observations"
         }
-        mapView = AlbionWorldMapView(this).apply { alpha = 0.5f }
+        mapView = AlbionWorldMapView(this).apply { alpha = 1.0f }
         root.addView(status, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ))
