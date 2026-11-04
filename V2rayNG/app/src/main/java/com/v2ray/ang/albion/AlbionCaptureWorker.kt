@@ -345,7 +345,9 @@ class AlbionCaptureWorker(
                 "own_player_move" -> mappedOwnPositionCount.incrementAndGet()
             }
         }
-        if (observations.isNotEmpty()) healthMonitor.recordMappedEntity(timestampMs)
+        if (observations.any { it.kind in setOf("static_resource", "harvestable", "resource_state", "mob", "own_player_move") }) {
+            healthMonitor.recordMappedEntity(timestampMs)
+        }
         knowledgeStore?.observe(timestampMs, observations)
         gatheringPatternLearner?.observe(timestampMs, observations)
         val entityArray = JSONArray()
