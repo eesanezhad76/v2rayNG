@@ -46,11 +46,12 @@ class AlbionWorldMapActivity : Activity() {
             setPadding(8, 8, 8, 8)
         }
         status = TextView(this).apply {
+            visibility = android.view.View.GONE
             textSize = 12f
             setPadding(4, 4, 4, 8)
             text = "Waiting for live observations"
         }
-        mapView = AlbionWorldMapView(this)
+        mapView = AlbionWorldMapView(this).apply { alpha = 0.5f }
         root.addView(status, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ))
