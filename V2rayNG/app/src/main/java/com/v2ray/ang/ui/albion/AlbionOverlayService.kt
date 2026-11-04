@@ -169,6 +169,22 @@ class AlbionOverlayService : Service() {
         setOnClickListener { action() }
     }
 
+    private fun refreshScaledWindowBounds(
+        content: FrameLayout, window: FrameLayout, params: WindowManager.LayoutParams, baseWidthDp: Int
+    ) {
+        val panel = content.getChildAt(0) ?: return
+        val baseWidth = dp(baseWidthDp)
+        panel.measure(
+            View.MeasureSpec.makeMeasureSpec(baseWidth, View.MeasureSpec.EXACTLY),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+        val baseHeight = panel.measuredHeight.coerceAtLeast(dp(40))
+        content.layoutParams = FrameLayout.LayoutParams(baseWidth, baseHeight)
+        params.width = dpScaled(baseWidthDp, content.scaleX)
+        params.height = (baseHeight * content.scaleY).toInt().coerceAtLeast(dp(40))
+        try { wm.updateViewLayout(window, params) } catch (_: Exception) { }
+    }
+
     private fun attachResize(
         handle: View, content: View, window: FrameLayout, params: WindowManager.LayoutParams,
         preferenceKey: String, baseWidthDp: Int
@@ -188,7 +204,7 @@ class AlbionOverlayService : Service() {
                     val scale = (startScale + delta).coerceIn(0.65f, 1.5f)
                     content.scaleX = scale; content.scaleY = scale
                     params.width = dpScaled(baseWidthDp, scale)
-                    params.height = dpScaled((content.height / resources.displayMetrics.density).toInt().coerceAtLeast(100), scale)
+                    params.height = (content.height * scale).toInt().coerceAtLeast(dp(40))
                     try { wm.updateViewLayout(window, params) } catch (_: Exception) { }
                     true
                 }
@@ -289,12 +305,6 @@ class AlbionOverlayService : Service() {
         }
         controlsParams = params
         wm.addView(root, params)
-        root.post {
-            if (controlsRoot === root && content.height > 0) {
-                params.height = dpScaled((content.height / resources.displayMetrics.density).toInt(), scale)
-                try { wm.updateViewLayout(root, params) } catch (_: Exception) { }
-            }
-        }
         attachDrag(title, root, params)
         attachResize(grip, content, root, params, "controls_scale", 218)
         renderBody()
@@ -349,7 +359,7 @@ class AlbionOverlayService : Service() {
             isFillViewport = true; visibility = View.GONE; addView(filterPanel)
         }
         side.addView(filterScroll, LinearLayout.LayoutParams(-1, dp(100)))
-        panel.addView(side, LinearLayout.LayoutParams(dp(60), dp(176)))
+        panel.addView(side, LinearLayout.LayoutParams(dp(60), WindowManager.LayoutParams.WRAP_CONTENT))
 
         val content = FrameLayout(this).apply {
             pivotX = 0f; pivotY = 0f; scaleX = scale; scaleY = scale
@@ -375,12 +385,7 @@ class AlbionOverlayService : Service() {
         }
         radarParams = params
         wm.addView(root, params)
-        root.post {
-            if (radarRoot === root && content.height > 0) {
-                params.height = dpScaled((content.height / resources.displayMetrics.density).toInt(), scale)
-                try { wm.updateViewLayout(root, params) } catch (_: Exception) { }
-            }
-        }
+        refreshScaledWindowBounds(content, root, params, 236)
         attachDrag(dragTitle, root, params)
         attachResize(grip, content, root, params, "radar_scale", 236)
         renderFilters()
@@ -443,6 +448,11 @@ class AlbionOverlayService : Service() {
             body.addView(button("OPEN CONTROLS") { expanded = true; renderBody() }, LinearLayout.LayoutParams(-1, dp(28)))
         }
         body.addView(liveStatus)
+        val content = controlsContent
+        val root = controlsRoot
+        val params = controlsParams
+        if (content != null && root != null && params != null)
+            refreshScaledWindowBounds(content, root, params, 218)
     }
 
     private fun renderFilters() {
@@ -496,12 +506,11 @@ class AlbionOverlayService : Service() {
     private fun toggleFilters() {
         filterScroll.visibility = if (filterScroll.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         filterButton.text = if (filterScroll.visibility == View.VISIBLE) "HIDE" else "FILTER"
-        radarParams?.let { params -> try { radarRoot?.let { root ->
-            radarContent?.let { content ->
-                params.height = dpScaled((content.height / resources.displayMetrics.density).toInt().coerceAtLeast(176), content.scaleY)
-            }
-            wm.updateViewLayout(root, params)
-        } } catch (_: Exception) { } }
+        radarParams?.let { params ->
+            val content = radarContent
+            val root = radarRoot
+            if (content != null && root != null) refreshScaledWindowBounds(content, root, params, 236)
+        }
     }
 
     private fun loadStaticCatalog() {
