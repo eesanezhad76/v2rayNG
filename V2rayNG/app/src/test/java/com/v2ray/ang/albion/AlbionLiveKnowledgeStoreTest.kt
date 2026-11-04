@@ -332,6 +332,25 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(history!!.getJSONObject(history.length() - 1).optDouble("x") == 12.0)
     }
 
+    @Test fun resolvesTrollTargetWhenOperation23PrecedesNewMobObservation() {
+        val store = AlbionLiveKnowledgeStore(context(), 40_000L)
+        val now = 40_100L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "target_request", eventCode = 23, candidateEntityIds = listOf(777L)
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("tier", "3").put("enchantment", "E1"), now + 1L)
+        store.observe(now + 2L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 777L,
+            typeId = 571, x = 12f, y = 34f
+        )))
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        val mob = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
+            .first { it.optString("entity_id") == "777" }
+        assertTrue(mob.optBoolean("manual_marker_identity_proven"), mob.toString())
+        assertTrue(mob.optString("manual_activity") == "Troll", mob.toString())
+    }
+
     @Test fun retainsMovementHeadingAndMountStateWithoutBlockingOnFootMovement() {
         val store = AlbionLiveKnowledgeStore(context())
         val now = System.currentTimeMillis() + 1_000L
