@@ -565,7 +565,18 @@ class AlbionLiveKnowledgeStore(
 
     /** Exact lookup; never classify a mob from a nearby label or a guessed name. */
     private fun applyMobileTypeCatalog(record: JSONObject, mobileTypeId: Int) {
-        val entry = mobileTypeEntries.optJSONObject(mobileTypeId.toString()) ?: return
+        val entry = mobileTypeEntries.optJSONObject(mobileTypeId.toString()) ?: when (mobileTypeId) {
+            571 -> JSONObject().put("unique_name", "T3_MOB_CRITTER_ORE_MOUNTAIN_RED")
+                .put("display_name", "Ore Elemental").put("tier", 3).put("loot_tier", 3)
+                .put("category", "critter").put("loot_type", "ORE_CRITTER").put("is_harvestable", true)
+            573 -> JSONObject().put("unique_name", "T4_MOB_CRITTER_ORE_MOUNTAIN_RED")
+                .put("display_name", "Ore Elemental").put("tier", 4).put("loot_tier", 4)
+                .put("category", "critter").put("loot_type", "ORE_CRITTER").put("is_harvestable", true)
+            574 -> JSONObject().put("unique_name", "T5_MOB_CRITTER_ORE_MOUNTAIN_RED")
+                .put("display_name", "Ore Elemental").put("tier", 5).put("loot_tier", 5)
+                .put("category", "critter").put("loot_type", "ORE_CRITTER").put("is_harvestable", true)
+            else -> return
+        }
         val uniqueName = entry.optString("unique_name").takeIf { it.isNotBlank() } ?: return
         val isHarvestable = entry.optBoolean("is_harvestable", false)
         record.put("type_unique_name", uniqueName)
