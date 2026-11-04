@@ -24,7 +24,6 @@ class AlbionLiveKnowledgeStore(
         context.applicationContext.assets.open("albion-mobile-type-dictionary.json")
             .bufferedReader(Charsets.UTF_8).use { JSONObject(it.readText()).optJSONObject("entries") ?: JSONObject() }
     }.getOrDefault(JSONObject())
-    private val pendingTrollMarkers = LinkedHashMap<String, JSONObject>()
     private var activeTrollMarker: JSONObject? = null
     private var activeTrollMarkerStartedMs = 0L
     private var activeTrollTargetId: String? = null
@@ -226,7 +225,6 @@ class AlbionLiveKnowledgeStore(
                 record.put("mob_dead", true).put("mob_state", "dead_harvestable")
                     .put("mob_dead_ms", record.optLong("mob_dead_ms", timestampMs))
             }
-            pendingTrollMarkers.remove(id.toString())?.let { applyTrollMarker(record, it, timestampMs) }
             val x = observation.x?.toDouble()
             val y = observation.y?.toDouble()
             if (x != null && y != null && x.isFinite() && y.isFinite() &&
@@ -635,13 +633,11 @@ class AlbionLiveKnowledgeStore(
                 else -> "living_resource"
             }
             record.put("resource_role", role)
-            if (!record.has("name") || record.optString("name").isBlank() ||
-                record.optString("name").startsWith("@MISTS@", ignoreCase = true)) {
-                record.put("name", entry.optString("display_name"))
-            }
+            record.put("name", entry.optString("display_name"))
             val resourceTier = entry.optInt("loot_tier", entry.optInt("tier", 0))
             if (resourceTier in 1..8 && !record.has("tier")) record.put("tier", resourceTier)
-        } else if (!record.has("name") || record.optString("name").isBlank()) {
+        } else if (!record.has("name") || record.optString("name").isBlank() ||
+            record.optString("name").startsWith("@", ignoreCase = true)) {
             record.put("name", entry.optString("display_name"))
         }
     }
@@ -704,6 +700,7 @@ class AlbionLiveKnowledgeStore(
         record.remove("manual_marker_seen_ms")
         record.remove("marker_tier")
         record.remove("marker_enchant")
+        record.remove("marker_match_confidence")
         record.put("troll_marker_ambiguous", true)
     }
 
