@@ -171,7 +171,7 @@ class AlbionCaptureWorker(
                 val decoded = AlbionPhotonPacketDecoder.decodeIpPacket(packet)
                 writePacket(packet, System.currentTimeMillis(), decoded)
             }
-            synchronized(this@AlbionCaptureWorker) { knowledgeStore?.flush(); flushFiles(); closeFiles() }
+            synchronized<Unit>(this@AlbionCaptureWorker) { knowledgeStore?.flush(); flushFiles(); closeFiles() }
             withContext(Dispatchers.IO) {
                 generateOfflineReport()
                 while (mirrorInProgress.get()) delay(10)
