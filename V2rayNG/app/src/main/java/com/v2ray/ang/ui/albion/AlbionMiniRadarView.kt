@@ -444,7 +444,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     companion object {
         val DEFAULT_FILTERS = setOf("category_ore")
         internal fun rotateOffset(dx: Double, dy: Double): Pair<Double, Double> {
-            val angle = PI / 4.0
+            // The game map is rotated clockwise; counter-rotate radar coordinates.
+            val angle = -PI / 4.0
             val screenX = dx
             val screenY = -dy
             return (screenX * cos(angle) - screenY * sin(angle)) to
