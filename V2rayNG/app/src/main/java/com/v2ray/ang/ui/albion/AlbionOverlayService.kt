@@ -465,7 +465,12 @@ class AlbionOverlayService : Service() {
                 val timeline = node.optJSONArray("state_timeline")
                 val latestSize = if (timeline != null && timeline.length() > 0)
                     timeline.optJSONObject(timeline.length() - 1)?.optInt("size", -1) ?: -1 else -1
-                node.put("depleted", latestSize == 0)
+                // Do not erase a previously established depleted flag when the static
+                // catalog has no state timeline. A later positive live harvestable
+                // observation is the only live-session signal that clears depletion.
+                val depleted = if (latestSize >= 0) latestSize == 0
+                    else node.optBoolean("depleted", false)
+                node.put("depleted", depleted)
             }
             merged.put(node)
         }
