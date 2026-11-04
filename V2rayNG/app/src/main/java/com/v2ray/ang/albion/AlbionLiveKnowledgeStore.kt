@@ -736,6 +736,7 @@ class AlbionLiveKnowledgeStore(
         val matches = records.values.filter { mob ->
             mob !== node &&
                 mob.optString("entity_class") == "mob" &&
+                !mob.has("superseded_by_harvestable_entity_id") &&
                 mob.optBoolean("is_harvestable_mob", false) &&
                 (mob.optBoolean("mob_dead", false) || mob.optBoolean("manual_kill_confirmed", false)) &&
                 mob.optInt("mobile_type_id", -1) == node.optInt("mobile_type_id", -2) &&
@@ -751,6 +752,7 @@ class AlbionLiveKnowledgeStore(
     private fun nearbyHarvestablesForMob(mob: JSONObject, timestampMs: Long): List<JSONObject> =
         records.values.filter { node ->
             node !== mob &&
+                !node.has("source_mob_entity_id") &&
                 node.optString("last_kind") in setOf("harvestable", "resource_state") &&
                 node.optBoolean("is_harvestable_mob", false) &&
                 node.optInt("mobile_type_id", -1) == mob.optInt("mobile_type_id", -2) &&
@@ -776,7 +778,8 @@ class AlbionLiveKnowledgeStore(
     private fun linkMobToHarvestable(mob: JSONObject, node: JSONObject, timestampMs: Long) {
         val mobId = mob.optString("entity_id")
         val nodeId = node.optString("entity_id")
-        if (mobId.isBlank() || nodeId.isBlank() || mobId == nodeId) return
+        if (mobId.isBlank() || nodeId.isBlank() || mobId == nodeId ||
+            mob.has("superseded_by_harvestable_entity_id") || node.has("source_mob_entity_id")) return
         node.put("source_mob_entity_id", mobId)
             .put("mob_state", if (node.optBoolean("depleted", false)) "mined" else "dead_harvestable")
             .put("mob_dead", true)
