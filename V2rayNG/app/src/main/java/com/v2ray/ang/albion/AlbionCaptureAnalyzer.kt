@@ -147,6 +147,7 @@ object AlbionCaptureAnalyzer {
                                 }
 
                                 // Preserve the raw server response for cluster/zone transitions.
+                                // Cross-capture matching is performed offline after the complete inbox replay.
                                 // This is forensic evidence only: it does not assign a zone to coordinates.
                                 if (message.kind == "response" && message.realCode == 41) {
                                     val params = message.parameters.entries.sortedBy { it.key }
