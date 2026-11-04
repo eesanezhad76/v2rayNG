@@ -127,10 +127,12 @@ class AlbionLiveKnowledgeStore(
                     record.put("movement_history", history)
                 }
             }
-            if (observation.kind == "resource_state") {
+            if (observation.kind == "resource_state" && observation.size != null) {
+                // Persist state only when the packet actually contains a remaining amount.
+                // Missing state parameters must not clear or create a depletion decision.
                 record.put("depleted", observation.removed)
                 record.put("resource_state_seen", true)
-                observation.size?.let { record.put("resource_remaining", it) }
+                record.put("resource_remaining", observation.size)
             }
             if (observation.kind == "harvestable") {
                 record.put("typed_resource_seen", true)

@@ -186,4 +186,12 @@ class AlbionEntityEventMapperTest {
         assertTrue(!positive.removed)
     }
 
+    @Test
+    fun event46MissingAmountDoesNotAssertDepletion() {
+        AlbionEntityEventMapper.reset()
+        val unknown = AlbionEntityEventMapper.map(event(46, mapOf(0 to 703L))).single()
+        assertEquals(null, unknown.size)
+        assertTrue(!unknown.removed)
+    }
+
 }

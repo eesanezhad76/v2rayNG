@@ -154,10 +154,11 @@ object AlbionEntityEventMapper {
             46 -> {
                 val id = number(0) ?: return emptyList()
                 val remaining = (p[1] as? Number)?.toInt()
-                // Event 46 reports the remaining resource amount; zero means fully harvested.
-                val depleted = remaining == null || remaining <= 0
+                // A missing amount is unknown state, not proof of depletion.
+                // Only an explicit zero/negative amount marks the node depleted.
+                val depleted = remaining?.let { it <= 0 } ?: false
                 if (depleted) knownNonPlayerEntities.remove(id)
-                listOf(Observation("resource_state", code, id, size = int(1), removed = depleted))
+                listOf(Observation("resource_state", code, id, size = remaining, removed = depleted))
             }
             47 -> {
                 val id = number(0) ?: return emptyList()
