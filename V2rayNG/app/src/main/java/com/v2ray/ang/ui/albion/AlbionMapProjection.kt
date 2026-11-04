@@ -7,7 +7,9 @@ import kotlin.math.hypot
  * Shared world-to-screen transform for the mini radar and full map.
  * The existing evidence-backed convention is world +Y up and world +X right.
  * Movement direction is derived from observed coordinate deltas, not an
- * assumed heading-angle convention.
+ * assumed heading-angle convention. This keeps marker displacement and player
+ * movement arrows in the same projection, preventing a separate UI rotation
+ * from making the arrow disagree with the resource positions.
  */
 internal object AlbionMapProjection {
     data class Point(val x: Double, val y: Double)
