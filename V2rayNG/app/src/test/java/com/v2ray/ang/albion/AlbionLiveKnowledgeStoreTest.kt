@@ -79,6 +79,32 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(record.optInt("resource_remaining") == 2, record.toString())
     }
 
+    @Test fun preservesDepletedE2AndRecordsARefilledSpawnAsANewGeneration() {
+        val store = AlbionLiveKnowledgeStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 7002L,
+            typeId = 574, typeNumber = 29, tier = 6, enchant = 2, size = 3, x = 20f, y = 30f
+        )))
+        store.observe(now + 100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "resource_state", eventCode = 46, entityId = 7002L, size = 0, removed = true
+        )))
+        store.observe(now + 200L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 7002L,
+            typeId = 574, typeNumber = 29, tier = 6, enchant = 2, size = 2, x = 20f, y = 30f
+        )))
+        val rows = org.json.JSONArray(store.snapshotJson())
+        assertTrue(rows.length() == 2, "Expected old depleted node plus new spawn: $rows")
+        val old = (0 until rows.length()).map { rows.getJSONObject(it) }
+            .first { it.optInt("spawn_generation") == 0 }
+        val fresh = (0 until rows.length()).map { rows.getJSONObject(it) }
+            .first { it.optInt("spawn_generation") == 1 }
+        assertTrue(old.optBoolean("depleted"), old.toString())
+        assertTrue(old.optString("superseded_by_record_key") == fresh.optString("record_key"))
+        assertTrue(!fresh.optBoolean("depleted"), fresh.toString())
+        assertTrue(fresh.optInt("resource_remaining") == 2, fresh.toString())
+    }
+
     @Test fun attachesProvenanceAwareResourceMappingsWithoutOverwritingRawPacketFields() {
         val store = AlbionLiveKnowledgeStore(context())
         val now = System.currentTimeMillis() + 1_000L
