@@ -336,14 +336,14 @@ class AlbionLiveKnowledgeStoreTest {
         val store = AlbionLiveKnowledgeStore(context())
         val now = System.currentTimeMillis() + 1_000L
         store.observe(now, listOf(AlbionEntityEventMapper.Observation(
-            kind = "player_mounted", eventCode = 210, entityId = 44L, value = 1f
+            kind = "mount_state_candidate", eventCode = 210, entityId = 44L, value = 1f
         )))
         store.observe(now + 500L, listOf(AlbionEntityEventMapper.Observation(
             kind = "own_player_move", eventCode = 22, entityId = -1L,
             x = 10f, y = 20f, heading = 303.76f, speed = 11f
         )))
         store.observe(now + 1_000L, listOf(AlbionEntityEventMapper.Observation(
-            kind = "player_mounted", eventCode = 210, entityId = 44L, value = 0f
+            kind = "mount_state_candidate", eventCode = 210, entityId = 44L, value = 0f
         )))
         store.observe(now + 1_500L, listOf(AlbionEntityEventMapper.Observation(
             kind = "own_player_move", eventCode = 22, entityId = -1L,
@@ -354,9 +354,9 @@ class AlbionLiveKnowledgeStoreTest {
             .first { it.optString("last_kind") == "own_player_move" }
         val history = player.getJSONArray("movement_history")
         assertTrue(history.length() == 2, player.toString())
-        assertTrue(history.getJSONObject(0).optDouble("heading") == 303.76, history.toString())
-        assertTrue(history.getJSONObject(0).optBoolean("mounted"), history.toString())
-        assertTrue(!history.getJSONObject(1).optBoolean("mounted", true), history.toString())
+        assertTrue(kotlin.math.abs(history.getJSONObject(0).optDouble("heading") - 303.76) < 0.001, history.toString())
+        assertTrue(history.getJSONObject(0).optBoolean("mount_state_candidate"), history.toString())
+        assertTrue(!history.getJSONObject(1).optBoolean("mount_state_candidate", true), history.toString())
         assertTrue(history.getJSONObject(1).optDouble("speed") == 11.0, history.toString())
     }
 
