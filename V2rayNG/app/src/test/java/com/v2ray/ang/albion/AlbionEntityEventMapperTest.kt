@@ -99,11 +99,20 @@ class AlbionEntityEventMapperTest {
     fun mapsResourceListCoordinatesFromAllProtocol18NumericArrayTypes() {
         AlbionEntityEventMapper.reset()
         val intArrayNodes = AlbionEntityEventMapper.map(
-            event(39, mapOf(0 to longArrayOf(101L, 102L), 3 to intArrayOf(10, 20, 30, 40)))
+            event(39, mapOf(
+                0 to longArrayOf(101L, 102L),
+                1 to intArrayOf(23, 24),
+                2 to intArrayOf(5, 6),
+                3 to intArrayOf(10, 20, 30, 40),
+                4 to intArrayOf(3, 2)
+            ))
         )
         assertEquals(2, intArrayNodes.size)
         assertEquals(listOf(10f, 30f), intArrayNodes.map { it.x })
         assertEquals(listOf(20f, 40f), intArrayNodes.map { it.y })
+        assertEquals(listOf(23, 24), intArrayNodes.map { it.typeNumber })
+        assertEquals(listOf(5, 6), intArrayNodes.map { it.tier })
+        assertEquals(listOf(3, 2), intArrayNodes.map { it.size })
 
         val longArrayNode = AlbionEntityEventMapper.map(
             event(39, mapOf(0 to intArrayOf(103), 3 to longArrayOf(-50L, 75L)))
@@ -176,14 +185,32 @@ class AlbionEntityEventMapperTest {
 
 
     @Test
-    fun event46ZeroAmountMeansDepleted() {
+    fun event46OnlyMissingAmountMeansDepletedAndCarriesEnchantment() {
         AlbionEntityEventMapper.reset()
-        val zero = AlbionEntityEventMapper.map(event(46, mapOf(0 to 701L, 1 to 0))).single()
+        val zero = AlbionEntityEventMapper.map(event(46, mapOf(0 to 701L, 1 to 0, 2 to 2))).single()
         assertEquals(0, zero.size)
-        assertTrue(zero.removed)
-        val positive = AlbionEntityEventMapper.map(event(46, mapOf(0 to 702L, 1 to 2))).single()
-        assertEquals(2, positive.size)
-        assertTrue(!positive.removed)
+        assertEquals(2, zero.enchant)
+        assertTrue(!zero.removed)
+        val depleted = AlbionEntityEventMapper.map(event(46, mapOf(0 to 702L, 2 to 3))).single()
+        assertTrue(depleted.removed)
+        assertEquals(3, depleted.enchant)
+    }
+
+    @Test
+    fun mapsVerifiedRegionIdentityFromJoinAndChangeClusterResponses() {
+        AlbionEntityEventMapper.reset()
+        val changed = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 41,
+            parameters = mapOf(0 to "MAP_BLACK_01", 253 to 41), operationCode = 41
+        )).single()
+        assertEquals("region_change", changed.kind)
+        assertEquals("MAP_BLACK_01", changed.regionId)
+
+        val joined = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 2,
+            parameters = mapOf(8 to "MAP_RED_02", 253 to 2), operationCode = 2
+        )).single()
+        assertEquals("MAP_RED_02", joined.regionId)
     }
 
 }
