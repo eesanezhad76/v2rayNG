@@ -13,6 +13,9 @@ import com.v2ray.ang.core.CoreServiceManager
 class AlbionWorldMapActivity : Activity() {
     private lateinit var mapView: AlbionWorldMapView
     private lateinit var status: TextView
+    private lateinit var regionScanButton: android.widget.Button
+    private var regionScanStartedAtMs = 0L
+    @Volatile private var showingRegionScan = false
     private val handler = Handler(Looper.getMainLooper())
     private val dataThread = android.os.HandlerThread("AlbionWorldMapData").apply { start() }
     private val dataHandler = Handler(dataThread.looper)
@@ -29,6 +32,7 @@ class AlbionWorldMapActivity : Activity() {
             dataHandler.post {
                 val valid = runCatching {
                     if (showingSavedCatalog) true
+                    else if (showingRegionScan) mapView.setSnapshot(CoreServiceManager.getAlbionRegionScanJson())
                     else mapView.setSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
                 }.getOrDefault(false)
                 if (valid && !showingSavedCatalog && fitNextLiveSnapshot) {
@@ -37,9 +41,17 @@ class AlbionWorldMapActivity : Activity() {
                 }
                 val statusText = if (!valid) "Invalid live knowledge snapshot"
                     else if (showingSavedCatalog) "SAVED CAPTURE • zone identity is not decoded • " + mapView.statusText()
+                    else if (showingRegionScan) "REGION SCAN • " + if (System.currentTimeMillis() < regionScanStartedAtMs + 60_000L) "collecting observations" else "finished and saved" + " • " + mapView.statusText()
                     else mapView.statusText()
                 handler.post {
                     if (::status.isInitialized) status.text = statusText
+                    if (::regionScanButton.isInitialized && showingRegionScan && !showingSavedCatalog) {
+                        val active = System.currentTimeMillis() < regionScanStartedAtMs + 60_000L
+                        regionScanButton.isEnabled = !active
+                        regionScanButton.text = if (active) {
+                            "SCANNING REGION • " + (((regionScanStartedAtMs + 60_000L - System.currentTimeMillis()).coerceAtLeast(0L) + 999L) / 1000L) + "s"
+                        } else "SCAN NEXT REGION (60s)"
+                    }
                     refreshInFlight.set(false)
                     if (::mapView.isInitialized) handler.postDelayed(this, 1500L)
                 }
@@ -87,6 +99,7 @@ class AlbionWorldMapActivity : Activity() {
                     }.getOrDefault(false)
                     if (loaded) {
                         showingSavedCatalog = true
+                        regionScanButton.isEnabled = false
                         text = "RETURN LIVE"
                         mapView.fitToRegion()
                         status.text = "SAVED CAPTURE • zone identity is not decoded • " + mapView.statusText()
@@ -95,6 +108,7 @@ class AlbionWorldMapActivity : Activity() {
                     }
                 } else {
                     showingSavedCatalog = false
+                    regionScanButton.isEnabled = !showingRegionScan || System.currentTimeMillis() >= regionScanStartedAtMs + 60_000L
                     fitNextLiveSnapshot = true
                     text = "SAVED CAPTURE"
                     handler.removeCallbacks(refresh)
@@ -105,6 +119,28 @@ class AlbionWorldMapActivity : Activity() {
         root.addView(mapActions, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ))
+        regionScanButton = android.widget.Button(this).apply {
+            text = "SCAN THIS REGION (60s)"
+            setOnClickListener {
+                val id = CoreServiceManager.startAlbionRegionScan()
+                if (id == null) {
+                    status.text = "Start packet capture first; region scanning needs the live capture worker."
+                } else {
+                    regionScanStartedAtMs = System.currentTimeMillis()
+                    showingRegionScan = true
+                    showingSavedCatalog = false
+                    isEnabled = false
+                    text = "SCANNING REGION • 60s"
+                    fitNextLiveSnapshot = true
+                    status.text = "Region scan started. Keep playing/moving through the area for 60 seconds so the game can send entity updates. Scan ID: $id"
+                    handler.removeCallbacks(refresh)
+                    handler.post(refresh)
+                }
+            }
+        }
+        root.addView(regionScanButton, LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply { topMargin = 6 })
         root.addView(mapView, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
         ))
