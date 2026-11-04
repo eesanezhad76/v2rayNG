@@ -5,9 +5,12 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.View
 import org.json.JSONObject
+import kotlin.math.cos
 import kotlin.math.hypot
 import kotlin.math.min
 import kotlin.math.roundToInt
+import kotlin.math.sin
+import kotlin.math.PI
 import java.util.LinkedHashMap
 
 /** Compact coordinate radar. Off-range entities are projected to the rim with distance labels. */
@@ -89,6 +92,21 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             kotlin.math.abs(item.optDouble("x")) <= 10000.0 &&
             kotlin.math.abs(item.optDouble("y")) <= 10000.0
 
+    private fun enchantmentOf(item: JSONObject): Int {
+        val marker = item.optInt("marker_enchant", -1)
+        if (marker in 0..3) return marker
+        val inferred = item.optJSONObject("resource_inference")?.optJSONObject("enchantment_name")?.optString("value")
+        return when (inferred) {
+            "Normal" -> 0
+            "E1" -> 1
+            "E2" -> 2
+            "E3" -> 3
+            else -> item.optInt("enchant", -1).takeIf { it in 0..3 } ?: -1
+        }
+    }
+
+    private fun resourceColor(item: JSONObject): Int = colorForEnchantment(enchantmentOf(item))
+
     private fun isTroll(item: JSONObject): Boolean {
         val label = (item.optString("name") + " " + AlbionRadarSnapshotParser.labelForEntity(item)).lowercase()
         if (label.contains("troll")) return true
@@ -111,17 +129,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 item.optString("type_unique_name").contains("ORE_MOUNTAIN", ignoreCase = true) ||
                 item.optString("localization_tag").contains("OREELEMENTAL", ignoreCase = true)
             )
-        val markerEnchant = item.optInt("marker_enchant", -1)
-        val inferredEnchant = item.optJSONObject("resource_inference")
-            ?.optJSONObject("enchantment_name")?.optString("value")
-        val canonicalEnchant = when (inferredEnchant) {
-            "Normal" -> 0
-            "E1" -> 1
-            "E2" -> 2
-            "E3" -> 3
-            else -> item.optInt("enchant", -1)
-        }
-        val enchant = if (markerEnchant >= 0) markerEnchant else canonicalEnchant
+        val enchant = enchantmentOf(item)
         val resourceName = item.optJSONObject("resource_inference")
             ?.optJSONObject("resource_name")?.optString("value")?.lowercase().orEmpty()
         val rawName = (item.optString("name") + " " + resourceName + " " +
@@ -164,14 +172,12 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             .mapNotNull { it.removePrefix("tier_").toIntOrNull() }.toSet()
         val markerTier = item.optInt("marker_tier", -1)
         val effectiveTier = if (markerTier >= 0) markerTier else item.optInt("tier", -1)
-        // Event 39 candidates can arrive before typed tier metadata.
-        // Unknown tier is not proof that a node is outside the selected tier range.
-        if (tierFilters.isNotEmpty() && effectiveTier >= 0 && effectiveTier !in tierFilters) return false
+        // Exact filtering excludes unknown metadata from a selected Tier/Enchantment subset.
+        if (tierFilters.isNotEmpty() && (effectiveTier !in 2..8 || effectiveTier !in tierFilters)) return false
         val enchantFilters = enabledFilters.filter { it.startsWith("enchant_") }
-            .mapNotNull { it.removePrefix("enchant_").toIntOrNull() }.toSet()
-        // Enchantment is a resource-node property; never hide mobs (e.g. blue golems/trolls) because they have no enchantment.
-        // Unknown resource enchantment (-1) remains visible until the packet/catalog provides a reliable value.
-        if (node && enchantFilters.isNotEmpty() && enchant >= 0 && enchant !in enchantFilters) return false
+            .mapNotNull { it.removePrefix("enchant_").toIntOrNull() }.filter { it in 0..3 }.toSet()
+        // Enchantment applies only to resources; mobs remain unaffected.
+        if (node && enchantFilters.isNotEmpty() && (enchant !in 0..3 || enchant !in enchantFilters)) return false
         return true
     }
 
@@ -254,8 +260,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 if (!dx.isFinite() || !dy.isFinite() || hypot(dx, dy) > range) {
                     oldX = null; oldY = null; continue
                 }
-                val x = cx + (dx / range * radius).toFloat()
-                val y = cy - (dy / range * radius).toFloat()
+                val (rx, ry) = rotateOffset(dx, dy)
+                val x = cx + (rx / range * radius).toFloat()
+                val y = cy + (ry / range * radius).toFloat()
                 if (oldX != null && oldY != null) canvas.drawLine(oldX, oldY, x, y, paint)
                 oldX = x; oldY = y
             }
@@ -272,8 +279,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val dy = entity.optDouble("y") - py
             val distance = hypot(dx, dy)
             val factor = if (distance > range) range / distance else 1.0
-            val x = cx + (dx * factor / range * radius).toFloat()
-            val y = cy - (dy * factor / range * radius).toFloat()
+            val (rx, ry) = rotateOffset(dx * factor, dy * factor)
+            val x = cx + (rx / range * radius).toFloat()
+            val y = cy + (ry / range * radius).toFloat()
             val kind = entity.optString("last_kind")
             val depleted = entity.optBoolean("depleted", false)
             val candidate = kind == "static_resource" ||
@@ -284,7 +292,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 depleted || entity.optBoolean("left", false) -> 0xFF697782.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
                 candidate -> 0xFF9AA6AF.toInt()
-                kind in RESOURCE_KINDS && entity.optInt("enchant", 0) > 0 -> 0xFFB58CFF.toInt()
+                kind in RESOURCE_KINDS -> resourceColor(entity)
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, (if (distance > range) 2.5f else 3.2f) * density, paint)
@@ -336,8 +344,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val dy = target.optDouble("y") - py
             val distance = chosenTarget.second
             val factor = if (distance > range) range / distance else 1.0
-            val tx = cx + (dx * factor / range * radius).toFloat()
-            val ty = cy - (dy * factor / range * radius).toFloat()
+            val (rx, ry) = rotateOffset(dx * factor, dy * factor)
+            val tx = cx + (rx / range * radius).toFloat()
+            val ty = cy + (ry / range * radius).toFloat()
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 1.8f * density
             paint.color = 0xFF55E6FF.toInt()
@@ -368,8 +377,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val dy = entity.optDouble("y") - py
             val distance = pair.second
             val factor = range / distance
-            val x = cx + (dx * factor / range * radius).toFloat()
-            val y = cy - (dy * factor / range * radius).toFloat()
+            val (rx, ry) = rotateOffset(dx * factor, dy * factor)
+            val x = cx + (rx / range * radius).toFloat()
+            val y = cy + (ry / range * radius).toFloat()
             paint.color = if (entity.optBoolean("user_confirmed_target", false)) 0xFF55E6FF.toInt() else 0xFFEAF1F5.toInt()
             val label = if (entity.optBoolean("user_confirmed_target", false)) "T5.3" else
                 "${AlbionRadarSnapshotParser.labelForEntity(entity)} ${distance.roundToInt()}"
@@ -401,14 +411,16 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val span = maxOf(maxX - minX, maxY - minY, 1.0)
         val scale = (radius * 1.65 / span).toFloat()
         points.forEach { entity ->
-            val x = cx + ((entity.optDouble("x") - centerX) * scale).toFloat()
-            val y = cy - ((entity.optDouble("y") - centerY) * scale).toFloat()
+            val (rx, ry) = rotateOffset(entity.optDouble("x") - centerX, entity.optDouble("y") - centerY)
+            val x = cx + (rx * scale).toFloat()
+            val y = cy + (ry * scale).toFloat()
             val kind = entity.optString("last_kind")
             paint.style = Paint.Style.FILL
             paint.color = when {
                 entity.optBoolean("user_confirmed_target", false) -> 0xFF55E6FF.toInt()
                 entity.optBoolean("depleted", false) || entity.optBoolean("left", false) -> 0xFF697782.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
+                kind in RESOURCE_KINDS -> resourceColor(entity)
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, if (entity.optBoolean("user_confirmed_target", false)) 4f * density else 2.4f * density, paint)
@@ -428,6 +440,20 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
     companion object {
         val DEFAULT_FILTERS = setOf("category_ore")
+        internal fun rotateOffset(dx: Double, dy: Double): Pair<Double, Double> {
+            val angle = PI / 4.0
+            val screenX = dx
+            val screenY = -dy
+            return (screenX * cos(angle) - screenY * sin(angle)) to
+                (screenX * sin(angle) + screenY * cos(angle))
+        }
+        internal fun colorForEnchantment(enchant: Int): Int = when (enchant) {
+            0 -> 0xFFFFC45C.toInt()
+            1 -> 0xFF63D471.toInt()
+            2 -> 0xFF55B8FF.toInt()
+            3 -> 0xFFB58CFF.toInt()
+            else -> 0xFF9AA6AF.toInt()
+        }
         private val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
         private val DISPLAY_KINDS = RESOURCE_KINDS + setOf("mob")
     }
