@@ -81,12 +81,11 @@ object AlbionEntityEventMapper {
                 // only a unique value that exactly matches a currently known mob ID.
                 val candidates = p.values.flatMap { value ->
                     when (value) {
+                        // Runtime entity IDs are decoded as Int64; do not promote
+                        // unrelated integer parameters into target candidates.
                         is Long -> listOf(value)
-                        is Int -> listOf(value.toLong())
-                        is Short -> listOf(value.toLong())
                         is LongArray -> value.toList()
-                        is IntArray -> value.map { it.toLong() }
-                        is List<*> -> value.mapNotNull { (it as? Number)?.toLong() }
+                        is List<*> -> value.filterIsInstance<Long>()
                         else -> emptyList()
                     }
                 }.filter { it > 0L }.distinct()
