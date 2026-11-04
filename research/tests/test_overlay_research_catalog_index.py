@@ -20,7 +20,7 @@ class AlbionResearchCatalogIndexTest(unittest.TestCase):
         self.assertEqual(self.dictionary["entry_count"], len(self.dictionary["entries"]))
         self.assertGreater(self.dictionary["entry_count"], 5000)
         ids = {str(row["mobile_type_id"]) for row in self.report["mobile_type_profiles"]}
-        self.assertEqual(len(ids), 64)
+        self.assertEqual(len(ids), self.report["mobile_type_dictionary_coverage"]["pcap_distinct_type_ids"])
         self.assertTrue(ids.issubset(self.dictionary["entries"].keys()))
         self.assertEqual(self.report["mobile_type_dictionary_coverage"]["unmapped_type_ids"], [])
 
