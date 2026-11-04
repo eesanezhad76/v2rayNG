@@ -194,6 +194,34 @@ class AlbionWorldMapView(context: Context) : View(context) {
         }
     }
 
+    private fun drawNearestTargetGuide(
+        canvas: Canvas, centerX: Float, centerY: Float, playerX: Double, playerY: Double
+    ) {
+        val target = entities.asSequence()
+            .filter {
+                it.optString("last_kind") in RESOURCE_KINDS &&
+                    !unavailable(it) && validMapPoint(it) &&
+                    it.optString("classification") != "ambiguous_resource_candidate" &&
+                    it.optString("evidence_grade") != "conflicting_typed_observation"
+            }
+            .minByOrNull {
+                hypot(it.optDouble("x") - playerX, it.optDouble("y") - playerY)
+            } ?: return
+        val offset = screenOffset(target.optDouble("x") - playerX, target.optDouble("y") - playerY)
+        val rawX = centerX + (offset.first * pixelsPerUnit).toFloat()
+        val rawY = centerY + (offset.second * pixelsPerUnit).toFloat()
+        val margin = 14f * density
+        val targetX = rawX.coerceIn(margin, (width.toFloat() - margin).coerceAtLeast(margin))
+        val targetY = rawY.coerceIn(margin, (height.toFloat() - margin).coerceAtLeast(margin))
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 1.6f * density
+        paint.color = 0xCC55E6FF.toInt()
+        canvas.drawLine(centerX, centerY, targetX, targetY, paint)
+        canvas.drawCircle(targetX, targetY, 8f * density, paint)
+        paint.style = Paint.Style.FILL
+        canvas.drawCircle(targetX, targetY, 2.5f * density, paint)
+    }
+
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         // 50% map opacity; game remains visible beneath the map.
@@ -220,6 +248,8 @@ class AlbionWorldMapView(context: Context) : View(context) {
                 oldX = x; oldY = y
             }
         }
+
+        if (you != null) drawNearestTargetGuide(canvas, centerX, centerY, px, py)
 
         entities.forEach { entity ->
             val kind = entity.optString("last_kind")
