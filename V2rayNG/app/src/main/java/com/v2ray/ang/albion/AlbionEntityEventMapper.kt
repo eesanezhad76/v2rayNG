@@ -6,6 +6,8 @@ package com.v2ray.ang.albion
  * being guessed as entities.
  */
 object AlbionEntityEventMapper {
+    private const val OP_JOIN = 2
+    private const val OP_CHANGE_CLUSTER = 41
     private val knownNonPlayerEntities = LinkedHashSet<Long>()
     private val knownPlayerEntities = LinkedHashMap<Long, String?>()
     fun reset() { knownNonPlayerEntities.clear(); knownPlayerEntities.clear() }
@@ -29,12 +31,22 @@ object AlbionEntityEventMapper {
         val heading: Float? = null,
         val speed: Float? = null,
         val targetX: Float? = null,
-        val targetY: Float? = null
+        val targetY: Float? = null,
+        val regionId: String? = null
     )
 
     fun map(message: AlbionProtocol18Decoder.Message): List<Observation> {
-        if (message.kind != "event" && message.kind != "request") return emptyList()
         val p = message.parameters
+        if (message.kind == "response") {
+            val operation = message.operationCode ?: message.realCode ?: return emptyList()
+            val regionId = when (operation) {
+                OP_CHANGE_CLUSTER -> p[0] as? String
+                OP_JOIN -> p[8] as? String
+                else -> null
+            }?.takeIf { it.isNotBlank() } ?: return emptyList()
+            return listOf(Observation(kind = "region_change", eventCode = operation, regionId = regionId))
+        }
+        if (message.kind != "event" && message.kind != "request") return emptyList()
         val code = message.realCode ?: return emptyList()
         fun number(key: Int) = (p[key] as? Number)?.toLong()
         fun int(key: Int) = number(key)?.toInt()
@@ -52,6 +64,15 @@ object AlbionEntityEventMapper {
         fun pair(value: Any?): Pair<Float, Float>? {
             val values = floatList(value)
             return if (values.size >= 2) values[0] to values[1] else null
+        }
+        fun intList(value: Any?): List<Int> = when (value) {
+            is ShortArray -> value.map { it.toInt() }
+            is IntArray -> value.toList()
+            is LongArray -> value.map { it.toInt() }
+            is FloatArray -> value.map { it.toInt() }
+            is DoubleArray -> value.map { it.toInt() }
+            is List<*> -> value.mapNotNull { (it as? Number)?.toInt() }
+            else -> emptyList()
         }
         if (message.kind == "request") {
             if (code != 22) return emptyList()
@@ -131,15 +152,20 @@ object AlbionEntityEventMapper {
             }
             39 -> {
                 val ids = idList(p[0])
-                // Protocol18 typed arrays may decode coordinates as float, double,
-                // signed integer, or long arrays depending on the wire element type.
-                // Dropping IntArray/LongArray here produced ID-only records with no x/y,
-                // which the live snapshot correctly discarded and made every node vanish.
+                // Batch spawn arrays are aligned: family, tier, flattened XY, remaining amount.
+                val types = intList(p[1])
+                val tiers = intList(p[2])
                 val flat = floatList(p[3]).toFloatArray()
+                val amounts = intList(p[4])
                 knownNonPlayerEntities.addAll(ids)
                 ids.mapIndexed { i, id ->
                     val at = i * 2
-                    Observation("static_resource", code, id, x = flat.getOrNull(at), y = flat.getOrNull(at + 1))
+                    Observation(
+                        "static_resource", code, id,
+                        typeNumber = types.getOrNull(i), tier = tiers.getOrNull(i),
+                        x = flat.getOrNull(at), y = flat.getOrNull(at + 1),
+                        size = amounts.getOrNull(i)
+                    )
                 }
             }
             40 -> {
@@ -154,10 +180,14 @@ object AlbionEntityEventMapper {
             46 -> {
                 val id = number(0) ?: return emptyList()
                 val remaining = (p[1] as? Number)?.toInt()
-                // Event 46 reports the remaining resource amount; zero means fully harvested.
-                val depleted = remaining == null || remaining <= 0
+                // Missing size is the explicit depletion signal in the current
+                // upstream harvest lifecycle. Zero alone must not erase a node.
+                val depleted = p[1] == null
                 if (depleted) knownNonPlayerEntities.remove(id)
-                listOf(Observation("resource_state", code, id, size = int(1), removed = depleted))
+                listOf(Observation(
+                    "resource_state", code, id, size = remaining,
+                    enchant = int(2), removed = depleted
+                ))
             }
             47 -> {
                 val id = number(0) ?: return emptyList()
