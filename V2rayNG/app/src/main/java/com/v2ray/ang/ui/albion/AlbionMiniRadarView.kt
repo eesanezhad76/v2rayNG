@@ -135,7 +135,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val targetedMob = mob && item.optBoolean("targeted_by_player", false)
         val oreElemental = mob && (
             item.optString("name").contains("Ore Elemental", ignoreCase = true) ||
-                item.optString("type_unique_name").contains("ORE_MOUNTAIN", ignoreCase = true) ||
+                item.optString("type_unique_name").contains("ORE_ELEMENTAL", ignoreCase = true) ||
                 item.optString("localization_tag").contains("OREELEMENTAL", ignoreCase = true)
             )
         val enchant = enchantmentOf(item)
