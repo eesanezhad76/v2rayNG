@@ -24,16 +24,18 @@ object AlbionRadarSnapshotParser {
             val markerActivity = item.optString("marker_activity")
             val manualActivity = item.optString("manual_activity")
             val candidateActivity = item.optString("marker_activity_candidate")
-            val trollMarked = markerActivity.equals("Troll", true) ||
+            val uniqueName = item.optString("type_unique_name")
+            val databaseTroll = uniqueName.contains("TROLL", ignoreCase = true)
+            val trollMarked = databaseTroll || markerActivity.equals("Troll", true) ||
                 manualActivity.equals("Troll", true) || candidateActivity.equals("Troll", true)
             if (trollMarked) {
-                return if (item.optBoolean("manual_marker_identity_proven", false)) {
+                val trollIdentityProven = databaseTroll || item.optBoolean("manual_marker_identity_proven", false)
+                return if (trollIdentityProven) {
                     if (tier > 0) "TG" + tier else "Troll"
                 } else {
                     if (tier > 0) "TG?" + tier else "TG?"
                 }
             }
-            val uniqueName = item.optString("type_unique_name")
             val displayName = item.optString("display_name")
             val oreElemental = item.optString("resource_role") == "ore_elemental" ||
                 (item.optBoolean("is_harvestable_mob", false) &&

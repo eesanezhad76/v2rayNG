@@ -184,7 +184,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val markerTier = item.optInt("marker_tier", -1)
         val effectiveTier = if (markerTier >= 0) markerTier else item.optInt("tier", -1)
         // Exact filtering excludes unknown metadata from a selected Tier/Enchantment subset.
-        if (tierFilters.isNotEmpty() && (effectiveTier !in 2..8 || effectiveTier !in tierFilters)) return false
+        if (tierFilters.isNotEmpty() && (effectiveTier !in 1..8 || effectiveTier !in tierFilters)) return false
         val enchantFilters = enabledFilters.filter { it.startsWith("enchant_") }
             .mapNotNull { it.removePrefix("enchant_").toIntOrNull() }.filter { it in 0..3 }.toSet()
         // Enchantment applies only to resources; mobs remain unaffected.

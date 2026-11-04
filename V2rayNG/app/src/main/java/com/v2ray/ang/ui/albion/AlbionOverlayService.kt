@@ -79,7 +79,7 @@ class AlbionOverlayService : Service() {
     private val snapshotHandler = Handler(snapshotThread.looper)
     private val snapshotRefreshInFlight = AtomicBoolean(false)
     private val activities = listOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Mob", "Troll", "PvP", "Move", "Other")
-    private val tiers = (2..8).map { "T$it" }
+    private val tiers = (1..8).map { "T$it" }
     private val enchants = listOf("Normal", "E1", "E2", "E3")
     private val filterOptions = listOf(
         "category_ore" to "Ore",
@@ -92,7 +92,7 @@ class AlbionOverlayService : Service() {
         "category_animal" to "Other Animals",
         "category_mobs" to "Other Mobs",
         "category_unknown_resource" to "Unclassified Resources"
-    ) + (2..8).map { "tier_$it" to "T$it" } +
+    ) + (1..8).map { "tier_$it" to "T$it" } +
         listOf("enchant_0" to "Normal", "enchant_1" to "E1", "enchant_2" to "E2", "enchant_3" to "E3")
 
     private val refreshLiveSnapshot = object : Runnable {

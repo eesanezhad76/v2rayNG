@@ -59,6 +59,9 @@ class AlbionRadarSnapshotParserTest {
         assertEquals("TG3", AlbionRadarSnapshotParser.labelForEntity(
             org.json.JSONObject("""{"last_kind":"mob","tier":3,"manual_activity":"Troll","manual_marker_identity_proven":true}""")
         ))
+        assertEquals("TG4", AlbionRadarSnapshotParser.labelForEntity(
+            org.json.JSONObject("""{"last_kind":"mob","tier":4,"type_unique_name":"T4_MOB_TROLL_FOREST"}""")
+        ))
         assertEquals("OE3", AlbionRadarSnapshotParser.labelForEntity(
             org.json.JSONObject("""{"last_kind":"mob","tier":3,"mobile_type_id":571,"type_unique_name":"T3_MOB_CRITTER_ORE_MOUNTAIN_RED","display_name":"Ore Elemental","is_harvestable_mob":true}""")
         ))
