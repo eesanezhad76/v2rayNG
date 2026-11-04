@@ -248,11 +248,10 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val resources = visibleEntities().filter { it.optString("last_kind") in RESOURCE_KINDS }
             // Fit both nearby resources and the retained movement path so the trail
             // remains a useful route, not a tiny 16-point trace around the center.
-            val trailRange = trailPoints.maxOfOrNull { hypot(it.first - px, it.second - py) } ?: 0.0
-            val resourceRange = resources.maxOfOrNull {
-                hypot(it.optDouble("x") - px, it.optDouble("y") - py)
-            } ?: 0.0
-            val displayRange = maxOf(minimumRange, trailRange * 1.05, resourceRange * 1.05)
+            // Keep the local radar at a stable scale. A single remote catalog node must
+            // not zoom the entire local view out and make nearby nodes unreadable.
+            // Remote targets are clamped to the rim; use the full map for long-range search.
+            val displayRange = minimumRange
 
             // Keep a short live breadcrumb trail visible without adding a panel or grid.
             // Coordinates are translated to the current player origin and use the same
@@ -302,11 +301,36 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 }
             }
             // Small center point only; all other non-resource entities remain invisible.
-            paint.style = Paint.Style.FILL
-            paint.color = 0xFF56D6A0.toInt()
-            canvas.drawCircle(cx, cy, 3.5f * density, paint)
+            drawPlayerMarker(canvas, cx, cy, AlbionMapProjection.movementDirection(history))
         }
         canvas.restoreToCount(save)
+    }
+
+    private fun drawPlayerMarker(
+        canvas: Canvas, cx: Float, cy: Float, direction: AlbionMapProjection.Point?
+    ) {
+        paint.style = Paint.Style.FILL
+        paint.color = 0xFF080B0E.toInt()
+        canvas.drawCircle(cx, cy, 5.0f * density, paint)
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 1.5f * density
+        paint.color = 0xFFFFFFFF.toInt()
+        canvas.drawCircle(cx, cy, 5.0f * density, paint)
+        if (direction != null) {
+            val length = 15f * density
+            val tipX = cx + (direction.x * length).toFloat()
+            val tipY = cy + (direction.y * length).toFloat()
+            paint.color = 0xFF55E6FF.toInt()
+            paint.strokeWidth = 2.2f * density
+            paint.strokeCap = Paint.Cap.ROUND
+            canvas.drawLine(cx, cy, tipX, tipY, paint)
+            val backX = cx - (direction.x * 4.5f * density).toFloat()
+            val backY = cy - (direction.y * 4.5f * density).toFloat()
+            val sideX = (-direction.y * 3.5f * density).toFloat()
+            val sideY = (direction.x * 3.5f * density).toFloat()
+            canvas.drawLine(tipX, tipY, backX + sideX, backY + sideY, paint)
+            canvas.drawLine(tipX, tipY, backX - sideX, backY - sideY, paint)
+        }
     }
 
     private fun drawCatalogOverview(canvas: Canvas, cx: Float, cy: Float, radius: Float) {
@@ -341,9 +365,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     companion object {
         val DEFAULT_FILTERS = setOf("category_ore")
         internal fun rotateOffset(dx: Double, dy: Double): Pair<Double, Double> {
-            val screenX = dx * sin(PI / 2.0) - dy * cos(PI / 2.0)
-            val screenY = -(dx * cos(PI / 2.0) + dy * sin(PI / 2.0))
-            return screenX to screenY
+            val point = AlbionMapProjection.worldToScreen(dx, dy)
+            return point.x to point.y
         }
         internal fun colorForEnchantment(enchant: Int): Int = when (enchant) {
             0 -> 0xFFFFC45C.toInt()
