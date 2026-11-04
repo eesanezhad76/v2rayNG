@@ -239,7 +239,7 @@ object AlbionEntityEventMapper {
                 listOf(Observation(
                     kind = "mob", eventCode = code, entityId = id,
                     typeId = int(1), enchant = int(34),
-                    x = xy?.first, y = xy?.second, name = p[31] as? String
+                    x = xy?.first, y = xy?.second, name = p[33] as? String
                 ))
             }
             210 -> {
