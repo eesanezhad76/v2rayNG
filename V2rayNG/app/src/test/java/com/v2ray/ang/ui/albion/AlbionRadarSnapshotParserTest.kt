@@ -5,6 +5,13 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
 
 class AlbionRadarSnapshotParserTest {
+    @Test fun defaultRadarFiltersDoNotHideKnownResourceFamilies() {
+        assertEquals(
+            setOf("category_ore", "category_wood", "category_stone", "category_fiber", "category_hide", "category_unknown_resource"),
+            AlbionMiniRadarView.DEFAULT_FILTERS
+        )
+    }
+
     @Test fun acceptsWellFormedCoordinateSnapshotsIncludingAnEmptySnapshot() {
         val parsed = AlbionRadarSnapshotParser.parse(
             """[{"entity_id":"-1","last_kind":"own_player_move","x":12.5,"y":-8.0}]"""
