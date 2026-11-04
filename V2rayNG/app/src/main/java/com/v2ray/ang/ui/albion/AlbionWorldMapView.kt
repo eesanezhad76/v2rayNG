@@ -202,16 +202,19 @@ class AlbionWorldMapView(context: Context) : View(context) {
 
     private fun drawNearestTargetGuide(canvas: Canvas, centerX: Float, centerY: Float) {
         val you = player ?: return
-        val target = entities.asSequence()
+        // Guide to every valid active resource observation, including uncertain type
+        // candidates. Coordinates can be useful even when the resource family is unknown.
+        val targetAndDistance = entities.asSequence()
             .filter {
                 it.optString("last_kind") in RESOURCE_KINDS &&
-                    !unavailable(it) && validMapPoint(it) &&
-                    it.optString("classification") != "ambiguous_resource_candidate" &&
-                    it.optString("evidence_grade") != "conflicting_typed_observation"
+                    !unavailable(it) && validMapPoint(it)
             }
-            .minByOrNull {
-                hypot(it.optDouble("x") - you.optDouble("x"), it.optDouble("y") - you.optDouble("y"))
-            } ?: return
+            .map { node ->
+                node to hypot(node.optDouble("x") - you.optDouble("x"), node.optDouble("y") - you.optDouble("y"))
+            }
+            .minByOrNull { it.second } ?: return
+        val target = targetAndDistance.first
+        val distance = targetAndDistance.second
         val playerOffset = screenOffset(you.optDouble("x") - mapOriginX, you.optDouble("y") - mapOriginY)
         val targetOffset = screenOffset(target.optDouble("x") - mapOriginX, target.optDouble("y") - mapOriginY)
         val playerX = centerX + (playerOffset.first * pixelsPerUnit).toFloat()
@@ -221,13 +224,21 @@ class AlbionWorldMapView(context: Context) : View(context) {
         val margin = 14f * density
         val targetX = rawX.coerceIn(margin, (width.toFloat() - margin).coerceAtLeast(margin))
         val targetY = rawY.coerceIn(margin, (height.toFloat() - margin).coerceAtLeast(margin))
+        val arrived = distance <= ARRIVAL_DISTANCE_UNITS
         paint.style = Paint.Style.STROKE
-        paint.strokeWidth = 1.6f * density
-        paint.color = 0xCC55E6FF.toInt()
+        paint.strokeWidth = if (arrived) 2.8f * density else 1.6f * density
+        paint.color = if (arrived) 0xFFFFD54F.toInt() else 0xCC55E6FF.toInt()
         canvas.drawLine(playerX, playerY, targetX, targetY, paint)
-        canvas.drawCircle(targetX, targetY, 8f * density, paint)
+        canvas.drawCircle(targetX, targetY, if (arrived) 13f * density else 8f * density, paint)
+        if (arrived) canvas.drawCircle(targetX, targetY, 18f * density, paint)
         paint.style = Paint.Style.FILL
-        canvas.drawCircle(targetX, targetY, 2.5f * density, paint)
+        canvas.drawCircle(targetX, targetY, 3f * density, paint)
+        paint.textSize = 10f * density
+        paint.textAlign = Paint.Align.CENTER
+        paint.color = if (arrived) 0xFFFFE082.toInt() else 0xFFEAFBFF.toInt()
+        val label = if (arrived) "ARRIVED" else "NODE • ${distance.toInt()}u"
+        canvas.drawText(label, targetX, (targetY - 16f * density).coerceAtLeast(12f * density), paint)
+        paint.textAlign = Paint.Align.LEFT
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -306,6 +317,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
     }
 
     companion object {
+        private const val ARRIVAL_DISTANCE_UNITS = 4.0
         private val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
         private val DISPLAY_KINDS = RESOURCE_KINDS + setOf("mob", "own_player_move")
     }
