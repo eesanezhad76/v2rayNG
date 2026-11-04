@@ -292,7 +292,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                     !entity.has("family"))
             paint.style = Paint.Style.FILL
             paint.color = when {
-                depleted || entity.optBoolean("left", false) -> 0xFF697782.toInt()
+                depleted || entity.optBoolean("left", false) -> 0xFF000000.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
                 candidate -> 0xFF9AA6AF.toInt()
                 kind in RESOURCE_KINDS -> resourceColor(entity)
@@ -445,7 +445,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val DEFAULT_FILTERS = setOf("category_ore")
         internal fun rotateOffset(dx: Double, dy: Double): Pair<Double, Double> {
             // The game map is rotated clockwise; counter-rotate radar coordinates.
-            val angle = -PI / 4.0
+            // Empirical calibration: the previous map output was 90 degrees counter to travel.
+            val angle = PI / 4.0
             val screenX = dx
             val screenY = -dy
             return (screenX * cos(angle) - screenY * sin(angle)) to
