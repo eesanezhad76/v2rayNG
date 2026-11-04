@@ -354,7 +354,7 @@ class AlbionLiveKnowledgeStoreTest {
             .first { it.optString("last_kind") == "own_player_move" }
         val history = player.getJSONArray("movement_history")
         assertTrue(history.length() == 2, player.toString())
-        assertTrue(history.getJSONObject(0).optDouble("heading") == 303.76, history.toString())
+        assertTrue(kotlin.math.abs(history.getJSONObject(0).optDouble("heading") - 303.76) < 0.001, history.toString())
         assertTrue(history.getJSONObject(0).optBoolean("mounted"), history.toString())
         assertTrue(!history.getJSONObject(1).optBoolean("mounted", true), history.toString())
         assertTrue(history.getJSONObject(1).optDouble("speed") == 11.0, history.toString())
