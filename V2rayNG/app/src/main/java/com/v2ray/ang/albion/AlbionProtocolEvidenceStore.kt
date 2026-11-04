@@ -26,6 +26,7 @@ class AlbionProtocolEvidenceStore(
             in INVENTORY_CODES -> "inventory"
             in HARVEST_CODES -> "harvest"
             39, 40, 46 -> "resource"
+            210 -> "mount"
             else -> return
         }
         val payload = JSONObject()
@@ -71,6 +72,7 @@ class AlbionProtocolEvidenceStore(
         val resources = events.filter {
             it.optString("kind") == "resource" && it.optInt("event_code") == 40
         }
+        val mountEvents = events.filter { it.optString("kind") == "mount" && it.optInt("event_code") == 210 }
         var paired = 0
         var resourceCandidates = 0
         val details = ArrayList<String>()
@@ -106,6 +108,7 @@ class AlbionProtocolEvidenceStore(
                 appendLine("Inventory shape observations=$count: $shape")
             }
             appendLine("Events in current capture: ${current.size}")
+            appendLine("Mount/dismount event 210 observations retained: ${mountEvents.size}")
             appendLine("Inventory events within ${PAIR_WINDOW_MS / 1000}s of HarvestFinished: $paired")
             appendLine("With a nearby typed resource event (candidate only): $resourceCandidates")
             appendLine("Repeated harvest-correlated numeric parameter candidates (unclassified): " + numericCandidates.size)

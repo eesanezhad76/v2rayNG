@@ -66,6 +66,14 @@ class AlbionOverlayService : Service() {
     private var catalogNodeCount = 0
     private var catalogMobCount = 0
     private var catalogMarkerCount = 0
+    private var radarTestPhase = -1
+    private var radarTestRunId = ""
+    private val radarTestSteps = listOf(
+        "up_start" to "UP START", "up_end" to "UP END",
+        "down_start" to "DOWN START", "down_end" to "DOWN END",
+        "mount_start" to "MOUNT START", "mount_end" to "MOUNT END",
+        "dismount_start" to "DISMOUNT START", "dismount_end" to "DISMOUNT END"
+    )
     private val refreshHandler = Handler(Looper.getMainLooper())
     private val snapshotThread = HandlerThread("AlbionRadarSnapshot").apply { start() }
     private val snapshotHandler = Handler(snapshotThread.looper)
@@ -454,6 +462,16 @@ class AlbionOverlayService : Service() {
             body.addView(button("OPEN CONTROLS") { expanded = true; renderBody() }, LinearLayout.LayoutParams(-1, dp(28)))
         }
         body.addView(liveStatus)
+        val scanActions = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        scanActions.addView(button("REGION 60") { startRegionScan(force = false) },
+            LinearLayout.LayoutParams(0, dp(29), 1f).apply { rightMargin = dp(3) })
+        scanActions.addView(button("FORCE SCAN") { startRegionScan(force = true) },
+            LinearLayout.LayoutParams(0, dp(29), 1f))
+        body.addView(scanActions)
+        val testLabel = if (radarTestPhase < 0) "TEST: DIRECTION + MOUNT"
+            else "TEST • ${radarTestSteps.getOrNull(radarTestPhase)?.second ?: "COMPLETE"}"
+        body.addView(button(testLabel) { advanceRadarTest() },
+            LinearLayout.LayoutParams(-1, dp(29)).apply { topMargin = dp(2) })
         val content = controlsContent
         val root = controlsRoot
         val params = controlsParams
@@ -635,6 +653,97 @@ class AlbionOverlayService : Service() {
     private fun label(value: String) = TextView(this).apply {
         text = value; setTextColor(0xFFB8CAD8.toInt()); textSize = 7.5f
         setPadding(dp(2), dp(1), 0, 0); includeFontPadding = false
+    }
+
+    private fun startRegionScan(force: Boolean) {
+        val capture = CoreServiceManager.getAlbionCaptureSnapshot()
+        if (capture?.running != true) {
+            Toast.makeText(this, "Start Albion capture before scanning.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val scanId = CoreServiceManager.startAlbionRegionScan()
+        if (scanId.isNullOrBlank()) {
+            Toast.makeText(this, "Region scan could not start.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        val event = if (force) "force_scan_started" else "region_scan_started"
+        val markerSaved = writeDiagnosticMarker(event, JSONObject().put("scan_id", scanId))
+        val live = CoreServiceManager.getAlbionLiveKnowledgeJson()
+        if (::radarView.isInitialized) radarView.setLiveSnapshot(live)
+        title.text = if (markerSaved) "ALBION • SCAN ✓" else "ALBION • SCAN"
+        Toast.makeText(
+            this,
+            if (force) "Fresh 60-second passive scan started. Server resend is not forced."
+            else "New region observation window started (60 seconds).",
+            Toast.LENGTH_LONG
+        ).show()
+        refreshHandler.removeCallbacks(refreshLiveSnapshot)
+        refreshHandler.post(refreshLiveSnapshot)
+    }
+
+    private fun writeDiagnosticMarker(event: String, metadata: JSONObject = JSONObject()): Boolean {
+        val now = System.currentTimeMillis()
+        val elapsed = android.os.SystemClock.elapsedRealtime()
+        val marker = JSONObject()
+            .put("timestamp_ms", now)
+            .put("elapsed_realtime_ms", elapsed)
+            .put("marker_id", "radar-diagnostic:$now:$elapsed")
+            .put("event", event)
+            .put("activity", "RadarDiagnostic")
+            .put("source", "manual_overlay_diagnostic")
+        if (radarTestRunId.isNotBlank()) marker.put("test_run_id", radarTestRunId)
+        val keys = metadata.keys()
+        while (keys.hasNext()) {
+            val key = keys.next()
+            marker.put(key, metadata.opt(key))
+        }
+        return runCatching {
+            CoreServiceManager.appendAlbionCaptureMarker(AlbionCaptureMarker.build(marker.toString()), now)
+        }.getOrDefault(false)
+    }
+
+    private fun advanceRadarTest() {
+        if (CoreServiceManager.getAlbionCaptureSnapshot()?.running != true) {
+            Toast.makeText(this, "Start Albion capture before running the test.", Toast.LENGTH_SHORT).show()
+            return
+        }
+        if (radarTestPhase < 0) {
+            val now = System.currentTimeMillis()
+            radarTestRunId = "radar-test-$now-${android.os.SystemClock.elapsedRealtime()}"
+            if (!writeDiagnosticMarker("radar_test_started", JSONObject().put("test_run_id", radarTestRunId))) {
+                radarTestRunId = ""
+                Toast.makeText(this, "Test marker could not be saved.", Toast.LENGTH_SHORT).show()
+                return
+            }
+            radarTestPhase = 0
+            Toast.makeText(this, "Walk straight UP for 5–8 seconds, then tap UP END.", Toast.LENGTH_LONG).show()
+        } else {
+            val step = radarTestSteps.getOrNull(radarTestPhase) ?: return
+            if (!writeDiagnosticMarker("radar_test_${step.first}", JSONObject()
+                    .put("test_run_id", radarTestRunId)
+                    .put("phase_index", radarTestPhase))) {
+                Toast.makeText(this, "Test marker could not be saved; phase was not advanced.", Toast.LENGTH_SHORT).show()
+                return
+            }
+            radarTestPhase++
+            val instruction = when (step.first) {
+                "up_start" -> "Walk straight UP for 5–8 seconds, then tap UP END."
+                "up_end" -> "Tap DOWN START, then walk straight DOWN for 5–8 seconds."
+                "down_start" -> "Walk straight DOWN for 5–8 seconds, then tap DOWN END."
+                "down_end" -> "Tap MOUNT START before mounting; then mount and move straight for 5–8 seconds."
+                "mount_start" -> "While mounted, move straight for 5–8 seconds, then tap MOUNT END."
+                "mount_end" -> "Tap DISMOUNT START before dismounting; then dismount and move straight for 5–8 seconds."
+                "dismount_start" -> "On foot, move straight for 5–8 seconds, then tap DISMOUNT END."
+                else -> "Direction and mount test markers saved."
+            }
+            Toast.makeText(this, instruction, Toast.LENGTH_LONG).show()
+            if (radarTestPhase >= radarTestSteps.size) {
+                writeDiagnosticMarker("radar_test_completed", JSONObject().put("test_run_id", radarTestRunId))
+                radarTestPhase = -1
+                radarTestRunId = ""
+            }
+        }
+        renderBody()
     }
 
     private fun tag(event: String) {

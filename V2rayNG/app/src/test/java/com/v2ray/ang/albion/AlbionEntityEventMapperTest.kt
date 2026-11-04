@@ -219,6 +219,11 @@ class AlbionEntityEventMapperTest {
         AlbionEntityEventMapper.reset()
         val mounted = AlbionEntityEventMapper.map(event(210, mapOf(0 to 44L, 1 to true))).single()
         assertEquals("player_mounted", mounted.kind)
+        assertEquals(1f, mounted.value)
+        val dismounted = AlbionEntityEventMapper.map(event(210, mapOf(0 to 44L, 1 to false))).single()
+        assertEquals(0f, dismounted.value)
+        val unknownMountState = AlbionEntityEventMapper.map(event(210, mapOf(0 to 44L))).single()
+        assertEquals(null, unknownMountState.value)
         assertTrue(AlbionEntityEventMapper.map(event(211, mapOf(0 to 44L, 1 to true))).isEmpty())
 
         val exit = AlbionEntityEventMapper.map(event(324, mapOf(

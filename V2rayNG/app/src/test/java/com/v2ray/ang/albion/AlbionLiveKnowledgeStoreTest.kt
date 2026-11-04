@@ -235,6 +235,15 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(summary.contains("No item ID, stack delta, or Ore identity is asserted"), summary)
     }
 
+    @Test fun retainsMountEvent210RawEvidenceForMountAndDismountAudit() {
+        val evidence = AlbionProtocolEvidenceStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        evidence.observe(now, 210, mapOf(0 to 44L, 1 to true))
+        evidence.observe(now + 1L, 210, mapOf(0 to 44L, 1 to false))
+        val summary = evidence.summaryText()
+        assertTrue(summary.contains("Mount/dismount event 210 observations retained: 2"), summary)
+    }
+
     @Test fun corruptEvidenceCacheDoesNotCrashOrCreateFalseInventoryEvidence() {
         File(tempDir, "albion-protocol-evidence.json").writeText("{broken-json")
         val evidence = AlbionProtocolEvidenceStore(context())
@@ -321,6 +330,34 @@ class AlbionLiveKnowledgeStoreTest {
         val history = player.optJSONArray("movement_history")
         assertTrue(history != null && history.length() >= 2, player.toString())
         assertTrue(history!!.getJSONObject(history.length() - 1).optDouble("x") == 12.0)
+    }
+
+    @Test fun retainsMovementHeadingAndMountStateWithoutBlockingOnFootMovement() {
+        val store = AlbionLiveKnowledgeStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "player_mounted", eventCode = 210, entityId = 44L, value = 1f
+        )))
+        store.observe(now + 500L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "own_player_move", eventCode = 22, entityId = -1L,
+            x = 10f, y = 20f, heading = 303.76f, speed = 11f
+        )))
+        store.observe(now + 1_000L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "player_mounted", eventCode = 210, entityId = 44L, value = 0f
+        )))
+        store.observe(now + 1_500L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "own_player_move", eventCode = 22, entityId = -1L,
+            x = 12f, y = 23f, heading = 303.76f, speed = 11f
+        )))
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        val player = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
+            .first { it.optString("last_kind") == "own_player_move" }
+        val history = player.getJSONArray("movement_history")
+        assertTrue(history.length() == 2, player.toString())
+        assertTrue(history.getJSONObject(0).optDouble("heading") == 303.76, history.toString())
+        assertTrue(history.getJSONObject(0).optBoolean("mounted"), history.toString())
+        assertTrue(!history.getJSONObject(1).optBoolean("mounted", true), history.toString())
+        assertTrue(history.getJSONObject(1).optDouble("speed") == 11.0, history.toString())
     }
 
     @Test fun startsNewPlayerTrailAtEachCaptureSessionBoundary() {

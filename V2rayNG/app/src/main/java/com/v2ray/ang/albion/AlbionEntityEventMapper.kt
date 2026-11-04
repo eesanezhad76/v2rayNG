@@ -244,7 +244,15 @@ object AlbionEntityEventMapper {
             }
             210 -> {
                 val id = number(0) ?: return emptyList()
-                listOf(Observation("player_mounted", code, entityId = id, value = if (p[1] == true) 1f else 0f))
+                // Preserve unknown payloads as unknown; a missing/non-boolean flag must
+                // never be mistaken for a confirmed dismount.
+                val mounted = when (val raw = p[1]) {
+                    true -> 1f
+                    false -> 0f
+                    is Number -> raw.toInt().takeIf { it == 0 || it == 1 }?.toFloat()
+                    else -> null
+                }
+                listOf(Observation("player_mounted", code, entityId = id, value = mounted))
             }
             324 -> {
                 val xy = pair(p[1])

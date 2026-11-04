@@ -30,6 +30,8 @@ class AlbionLiveKnowledgeStore(
     private var trollMarkerAmbiguous = false
     private var currentTargetEntityId: String? = null
     private var currentTargetSeenMs = 0L
+    private var playerMountedState: Boolean? = null
+    private var playerMountedAtMs = 0L
     private var activeRegionId: String? = null
     private var regionScanId: String? = null
     private var regionScanRegionId: String? = null
@@ -55,6 +57,21 @@ class AlbionLiveKnowledgeStore(
                     activeRegionId = newRegionId
                     snapshotDirty = true
                     runCatching { beginRegionScan(timestampMs, newRegionId) }
+                }
+                return@forEach
+            }
+            if (observation.kind == "player_mounted") {
+                val mounted = observation.value?.takeIf { it == 0f || it == 1f }?.let { it == 1f }
+                if (mounted != null) {
+                    playerMountedState = mounted
+                    playerMountedAtMs = timestampMs
+                    records.values.filter {
+                        it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                            it.optString("last_kind") == "own_player_move"
+                    }.maxByOrNull { it.optLong("last_seen_ms") }?.put("mounted", mounted)
+                        ?.put("mount_state_seen_ms", timestampMs)
+                    dirty = true
+                    snapshotDirty = true
                 }
                 return@forEach
             }
@@ -258,7 +275,16 @@ class AlbionLiveKnowledgeStore(
                     ) >= MIN_MOVEMENT_DISTANCE
                     val elapsed = last == null || timestampMs - last.optLong("time_ms") >= MIN_MOVEMENT_INTERVAL_MS
                     if (moved || elapsed) {
-                        history.put(JSONObject().put("x", x).put("y", y).put("time_ms", timestampMs))
+                        val sample = JSONObject().put("x", x).put("y", y).put("time_ms", timestampMs)
+                        observation.heading?.takeIf { it.isFinite() && it in 0f..360f }?.let { sample.put("heading", it) }
+                        observation.speed?.takeIf { it.isFinite() && it in 0f..100f }?.let { sample.put("speed", it) }
+                        targetX?.let { sample.put("target_x", it) }
+                        targetY?.let { sample.put("target_y", it) }
+                        if (playerMountedState != null && timestampMs >= playerMountedAtMs &&
+                            timestampMs - playerMountedAtMs <= MOUNT_STATE_MAX_AGE_MS) {
+                            sample.put("mounted", playerMountedState)
+                        }
+                        history.put(sample)
                     }
                     record.put("movement_history", history)
                 }
@@ -520,6 +546,7 @@ class AlbionLiveKnowledgeStore(
             appendLine("Ambiguous entities due to conflicting typed evidence: $ambiguous")
             appendLine("Average evidence score (0-100 heuristic): $averageEvidenceScore")
             appendLine("Evidence score is an ordinal heuristic, not a calibrated probability.")
+            appendLine("Last mount signal: ${playerMountedState?.let { if (it) \"mounted\" else \"on foot\" } ?: \"unknown\"}")
             appendLine("Persistent file: ${file.name}")
             appendLine("Classification is conservative; no family-to-Ore guesses are made.")
         }
@@ -866,6 +893,7 @@ class AlbionLiveKnowledgeStore(
     private companion object {
         const val MAX_RECORDS = 25000
         const val REGION_SCAN_DURATION_MS = 60_000L
+        const val MOUNT_STATE_MAX_AGE_MS = 30_000L
         const val MAX_COORDINATE = 10000.0
         const val MAX_MOVEMENT_POINTS = 240
         const val MIN_MOVEMENT_DISTANCE = 0.5
