@@ -254,6 +254,10 @@ class AlbionLiveKnowledgeStore(
                     record.put("movement_history", history)
                 }
             }
+            if (activeTrollTargetId == entityId && activeTrollMarker != null &&
+                !trollMarkerAmbiguous && !record.optBoolean("manual_marker_identity_proven", false)) {
+                applyTrollMarker(record, activeTrollMarker!!, activeTrollMarkerStartedMs)
+            }
             if (observation.kind == "resource_state") {
                 if (observation.removed) {
                     record.put("depleted", true)
@@ -663,10 +667,8 @@ class AlbionLiveKnowledgeStore(
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                         it.optString("entity_class") == "mob"
                 }
-                if (record != null) {
-                    activeTrollTargetId = targetId
-                    applyTrollMarker(record, marker, timestampMs)
-                } else pendingTrollMarkers[targetId] = JSONObject(marker.toString())
+                activeTrollTargetId = targetId
+                if (record != null) applyTrollMarker(record, marker, timestampMs)
             }
         } else if (event == "mob_killed") {
             val active = activeTrollMarker
