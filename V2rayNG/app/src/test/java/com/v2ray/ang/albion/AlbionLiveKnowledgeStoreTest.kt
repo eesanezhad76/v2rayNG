@@ -41,6 +41,30 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(summary.contains("Typed resource observations: 1"), summary)
     }
 
+    @Test fun resourceDepletionPersistsUntilARefillIsObserved() {
+        val store = AlbionLiveKnowledgeStore(context())
+        val now = System.currentTimeMillis() + 1_000L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 7001L,
+            typeId = 574, typeNumber = 29, tier = 5, size = 3, x = 20f, y = 30f
+        )))
+        store.observe(now + 100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "resource_state", eventCode = 46, entityId = 7001L,
+            size = 0, removed = true
+        )))
+        var record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(record.optBoolean("depleted"), record.toString())
+        assertTrue(record.optInt("resource_remaining") == 0, record.toString())
+
+        store.observe(now + 200L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 7001L,
+            typeId = 574, typeNumber = 29, tier = 5, size = 2, x = 20f, y = 30f
+        )))
+        record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(!record.optBoolean("depleted"), record.toString())
+        assertTrue(record.optInt("resource_remaining") == 2, record.toString())
+    }
+
     @Test fun attachesProvenanceAwareResourceMappingsWithoutOverwritingRawPacketFields() {
         val store = AlbionLiveKnowledgeStore(context())
         val now = System.currentTimeMillis() + 1_000L
