@@ -20,6 +20,8 @@ class AlbionLiveKnowledgeStore(
     private val records = LinkedHashMap<String, JSONObject>()
     private var dirty = false
     private var lastFlushMs = 0L
+    private var snapshotDirty = true
+    private var cachedSnapshotJson: String? = null
 
     init {
         load()
@@ -168,6 +170,7 @@ class AlbionLiveKnowledgeStore(
             records.remove(oldest.key)
             dirty = true
         }
+        if (dirty) snapshotDirty = true
         if (dirty && timestampMs - lastFlushMs >= FLUSH_INTERVAL_MS) flush(timestampMs)
     }
 
@@ -176,6 +179,7 @@ class AlbionLiveKnowledgeStore(
 
     @Synchronized
     fun snapshotJson(): String {
+        if (!snapshotDirty) cachedSnapshotJson?.let { return it }
         val array = JSONArray()
         records.values
             .filter { it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs && it.has("x") && it.has("y") }
@@ -183,7 +187,10 @@ class AlbionLiveKnowledgeStore(
             // The previous 2,000-row UI cap silently hid older known nodes. Keep the
             // complete current-session coordinate catalog (bounded by MAX_RECORDS).
             .forEach { array.put(JSONObject(it.toString())) }
-        return array.toString()
+        return array.toString().also {
+            cachedSnapshotJson = it
+            snapshotDirty = false
+        }
     }
 
     @Synchronized
