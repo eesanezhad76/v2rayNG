@@ -252,6 +252,12 @@ class AlbionCaptureWorker(
         return knowledgeStore?.snapshotJson() ?: "[]"
     }
 
+    fun beginRegionScan(): String? =
+        runCatching { knowledgeStore?.beginRegionScan() }.getOrNull()
+
+    fun regionScanJson(): String =
+        knowledgeStore?.regionScanSnapshotJson() ?: "[]"
+
     fun markOverlaySnapshotDelivered(acceptedEntityCount: Int) {
         healthMonitor.recordOverlayAccepted(System.currentTimeMillis(), acceptedEntityCount.coerceAtLeast(0))
     }
