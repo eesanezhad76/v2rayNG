@@ -288,8 +288,6 @@ class AlbionWorldMapView(context: Context) : View(context) {
                 (entity.optBoolean("is_harvestable_mob", false) &&
                     entity.optString("type_unique_name").contains("CRITTER_ORE", ignoreCase = true))
             val mobState = entity.optString("mob_state")
-            val confirmedDead = entity.optBoolean("mob_dead", false) ||
-                mobState in setOf("dead", "dead_harvestable", "mined")
             val mined = mobState == "mined" || entity.optBoolean("depleted", false)
             val deadNotHarvestable = mobState == "dead" ||
                 (entity.optBoolean("mob_dead", false) && mobState != "dead_harvestable")
