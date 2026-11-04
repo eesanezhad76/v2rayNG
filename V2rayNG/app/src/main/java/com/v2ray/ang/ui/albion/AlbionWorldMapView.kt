@@ -290,17 +290,29 @@ class AlbionWorldMapView(context: Context) : View(context) {
             val mobState = entity.optString("mob_state")
             val confirmedDead = entity.optBoolean("mob_dead", false) ||
                 mobState in setOf("dead", "dead_harvestable", "mined")
+            val mined = mobState == "mined" || entity.optBoolean("depleted", false)
+            val deadNotHarvestable = mobState == "dead" ||
+                (entity.optBoolean("mob_dead", false) && mobState != "dead_harvestable")
             paint.color = when {
-                kind in RESOURCE_KINDS && unavailable(entity) -> 0xFF78838B.toInt()
+                mined -> 0xFF424A52.toInt()
+                kind in RESOURCE_KINDS && entity.optBoolean("left", false) -> 0xFF78838B.toInt()
                 kind in RESOURCE_KINDS && (entity.optString("classification") == "ambiguous_resource_candidate" ||
                     entity.optString("evidence_grade") == "conflicting_typed_observation") -> 0xFFB6A7A0.toInt()
                 kind in RESOURCE_KINDS -> resourceColor(entity)
-                (troll || oreElemental) && (confirmedDead || entity.optBoolean("left", false)) -> 0xFF78838B.toInt()
+                (troll || oreElemental) && deadNotHarvestable -> 0xFFB0BEC5.toInt()
+                (troll || oreElemental) && entity.optBoolean("left", false) -> 0xFF78838B.toInt()
                 troll || oreElemental -> resourceColor(entity)
                 entity.optBoolean("left", false) -> 0xFF78838B.toInt()
                 else -> 0xFFFF6666.toInt()
             }
             canvas.drawCircle(x, y, 3.5f * density, paint)
+            if (deadNotHarvestable || mined) {
+                paint.style = Paint.Style.STROKE
+                paint.strokeWidth = 1.2f * density
+                paint.color = if (mined) 0xFF20262B.toInt() else 0xFFFFFFFF.toInt()
+                canvas.drawCircle(x, y, 5.5f * density, paint)
+                paint.style = Paint.Style.FILL
+            }
             val t = tier(entity)
             val label = when {
                 troll && t >= 1 -> "TG$t"
