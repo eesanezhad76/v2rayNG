@@ -430,7 +430,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     companion object {
         val DEFAULT_FILTERS = setOf(
             "category_ore", "category_wood", "category_stone", "category_fiber",
-            "category_hide", "category_unknown_resource"
+            "category_hide", "category_unknown_resource", "category_troll", "category_ore_elemental"
         )
         internal fun rotateOffset(dx: Double, dy: Double): Pair<Double, Double> {
             val point = AlbionMapProjection.worldToScreen(dx, dy)
