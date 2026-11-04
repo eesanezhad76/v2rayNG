@@ -395,6 +395,12 @@ object CoreServiceManager {
     fun getAlbionLiveKnowledgeJson(): String =
         albionCaptureWorker?.liveKnowledgeJson() ?: "[]"
 
+    /** Starts a user-triggered 60-second scan of entities observed in the current region. */
+    fun startAlbionRegionScan(): String? = albionCaptureWorker?.beginRegionScan()
+
+    fun getAlbionRegionScanJson(): String =
+        albionCaptureWorker?.regionScanJson() ?: "[]"
+
     /** Acknowledges only a JSON snapshot successfully parsed and installed by the daemon overlay view. */
     fun acknowledgeAlbionOverlaySnapshot(acceptedEntityCount: Int) {
         albionCaptureWorker?.markOverlaySnapshotDelivered(acceptedEntityCount)
