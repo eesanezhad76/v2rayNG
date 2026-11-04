@@ -215,6 +215,7 @@ class AlbionCaptureWorker(
             markerCount.incrementAndGet()
             autonomousPatternLearner?.observeMarker(marker, timestampMs)
             gatheringPatternLearner?.observeMarker(marker, timestampMs)
+            knowledgeStore?.observeMarker(marker, timestampMs)
             scope.launch(Dispatchers.IO) { mirrorDownloads() }
             true
         } catch (t: Throwable) {
