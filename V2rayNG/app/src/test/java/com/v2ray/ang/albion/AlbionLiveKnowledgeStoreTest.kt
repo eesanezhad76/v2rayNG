@@ -466,4 +466,51 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(record.optBoolean("depleted"), record.toString())
     }
 
+    @Test fun mapsExactOreElementalIdAndKeepsTrollMarkerSeparateAcrossDeathAndMining() {
+        val store = AlbionLiveKnowledgeStore(context(), 20_000L)
+        val now = 20_100L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 777L,
+            typeId = 571, x = 12f, y = 34f
+        )))
+        var record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(record.optString("name") == "Ore Elemental", record.toString())
+        assertTrue(record.optString("resource_role") == "ore_elemental", record.toString())
+        assertTrue(record.optBoolean("is_harvestable_mob"), record.toString())
+
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("tier", "3").put("enchantment", "E1"), now + 1L)
+        record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(!record.optBoolean("manual_marker_identity_proven"), record.toString())
+
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("target_id", "777")
+            .put("tier", "3").put("enchantment", "E1"), now + 2L)
+        store.observe(now + 3L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "health", eventCode = 6, entityId = 777L, value = -856f,
+            secondaryValue = null
+        )))
+        record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(record.optBoolean("mob_dead"), record.toString())
+        assertTrue(record.optString("mob_state") == "dead", record.toString())
+        assertTrue(record.optString("manual_activity") == "Troll", record.toString())
+        assertTrue(record.optBoolean("manual_marker_identity_proven"), record.toString())
+        assertTrue(record.optInt("marker_enchant") == 1, record.toString())
+
+        store.observe(now + 4L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 777L,
+            typeId = 571, typeNumber = 29, tier = 3, size = 2, x = 12f, y = 34f
+        )))
+        record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(record.optString("mob_state") == "dead_harvestable", record.toString())
+
+        store.observe(now + 5L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "resource_state", eventCode = 46, entityId = 777L,
+            size = null, removed = true
+        )))
+        record = org.json.JSONArray(store.snapshotJson()).getJSONObject(0)
+        assertTrue(record.optString("mob_state") == "mined", record.toString())
+        assertTrue(record.optBoolean("depleted"), record.toString())
+    }
+
 }
