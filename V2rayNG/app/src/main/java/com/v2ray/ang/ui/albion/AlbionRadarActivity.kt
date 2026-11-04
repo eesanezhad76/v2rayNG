@@ -152,19 +152,28 @@ class AlbionRadarActivity : ComponentActivity() {
         val markerFilter = IntentFilter(AlbionOverlayService.ACTION_MARKER)
         if (Build.VERSION.SDK_INT >= 33) registerReceiver(markerReceiver, markerFilter, Context.RECEIVER_NOT_EXPORTED)
         else registerReceiver(markerReceiver, markerFilter)
+        // Restore the daemon-owned capture snapshot even after the Activity/process was recreated.
+        // Finished captures remain available; a UI restart must never reset their packet counters.
         val existingCapture = CoreServiceManager.getAlbionCaptureSnapshot()
-        if (existingCapture?.running == true) {
-            tapping = true
-            toggle.text = "Stop capture"
+        if (existingCapture != null) {
             captureFile = existingCapture.pcap
             captureTextFile = existingCapture.log
             reportFile = existingCapture.report
             packetCount = existingCapture.packets
             captureTapDrops = existingCapture.dropped
-            exportDiagnostics.isEnabled = !existingCapture.running && existingCapture.pcap?.exists() == true
-            summary.text = "Packets saved: ${existingCapture.packets} | dropped copies: ${existingCapture.dropped}"
-            status.text = "Capture is already running in the VPN daemon."
-            observeCapture()
+            tapping = existingCapture.running
+            toggle.text = if (existingCapture.running) "Stop capture" else "Start full capture"
+            export.isEnabled = existingCapture.pcap?.isFile == true && !existingCapture.running
+            copyAll.isEnabled = existingCapture.log?.isFile == true && !existingCapture.running
+            exportDiagnostics.isEnabled = existingCapture.pcap?.isFile == true && !existingCapture.running
+            summary.text = "Packets saved: ${existingCapture.packets} | tap drops: ${existingCapture.dropped} | markers: ${existingCapture.markers}"
+            status.text = if (existingCapture.running)
+                "Capture is already running in the VPN daemon."
+            else if (existingCapture.finished)
+                "Previous capture restored. Packet files and counters are still available."
+            else
+                "Previous capture snapshot restored."
+            if (existingCapture.running) observeCapture()
         }
     }
 
@@ -334,9 +343,12 @@ class AlbionRadarActivity : ComponentActivity() {
             return
         }
         exportDiagnostics.isEnabled = false
-        status.text = "Replaying PCAP into isolated stores and building compact diagnostics…"
+        status.text = "Compact replay is running in the background. Original PCAP and packet log remain untouched."
         captureScope.launch {
             try {
+                // Persist to filesDir (not cacheDir) so the finished artifact survives app restarts.
+                val outputDir = File(filesDir, "AlbionRadar/diagnostics").apply { mkdirs() }
+                val output = File(outputDir, "albion-radar-diagnostics-${System.currentTimeMillis()}.json")
                 val result = withContext(Dispatchers.IO) {
                     com.v2ray.ang.albion.AlbionCaptureReplayPipeline.replay(
                         file, applicationContext, captureTapDrops
@@ -348,22 +360,44 @@ class AlbionRadarActivity : ComponentActivity() {
                 val liveHealth = withContext(Dispatchers.IO) {
                     CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
                 }
-                val output = File(cacheDir, "albion-radar-diagnostics-${System.currentTimeMillis()}.json")
                 withContext(Dispatchers.IO) {
                     com.v2ray.ang.albion.AlbionCaptureReplayPipeline.writeJson(
                         result, output, liveKnowledge, liveHealth
                     )
                 }
                 diagnosticFile = output
-                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "application/json"
-                    putExtra(Intent.EXTRA_TITLE, output.name)
+                val savedToDownloads = withContext(Dispatchers.IO) {
+                    try {
+                        val values = ContentValues().apply {
+                            put(MediaStore.MediaColumns.DISPLAY_NAME, output.name)
+                            put(MediaStore.MediaColumns.MIME_TYPE, "application/json")
+                            put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS + "/AlbionRadar")
+                            put(MediaStore.MediaColumns.IS_PENDING, 1)
+                        }
+                        val uri = contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
+                            ?: throw IllegalStateException("MediaStore insert failed")
+                        try {
+                            contentResolver.openOutputStream(uri, "w")?.use { target ->
+                                FileInputStream(output).use { input -> input.copyTo(target, 128 * 1024) }
+                            } ?: throw IllegalStateException("Cannot open Downloads output")
+                            val done = ContentValues().apply { put(MediaStore.MediaColumns.IS_PENDING, 0) }
+                            contentResolver.update(uri, done, null, null)
+                            true
+                        } catch (e: Exception) {
+                            contentResolver.delete(uri, null, null)
+                            throw e
+                        }
+                    } catch (_: Exception) {
+                        false
+                    }
                 }
-                status.text = "Replay complete. Choose where to save the compact diagnostic JSON."
-                startActivityForResult(intent, CREATE_DIAGNOSTICS_REQUEST)
+                status.text = if (savedToDownloads)
+                    "Compact replay saved automatically to Downloads/AlbionRadar. Private durable copy retained."
+                else
+                    "Compact replay saved privately and retained. Downloads copy failed; use the private saved file."
+                analysis.text = "Compact replay ready: ${output.name}\n${output.length()} bytes\nOriginal PCAP and packet log were not modified."
             } catch (e: Exception) {
-                status.text = "Diagnostic replay/export failed: ${e.message ?: "unknown error"}"
+                status.text = "Diagnostic replay failed: ${e.message ?: "unknown error"}. Original PCAP and packet log remain available."
             } finally {
                 exportDiagnostics.isEnabled = captureFile?.isFile == true
             }
