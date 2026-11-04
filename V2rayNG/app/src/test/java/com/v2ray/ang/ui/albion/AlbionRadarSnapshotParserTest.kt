@@ -74,6 +74,23 @@ class AlbionRadarSnapshotParserTest {
         assertEquals("T5.3 ✓", AlbionRadarSnapshotParser.labelForEntity(node))
     }
 
+    @Test fun rotatesRadarOffsetsByExactlyFortyFiveDegrees() {
+        val east = AlbionMiniRadarView.rotateOffset(10.0, 0.0)
+        assertEquals(kotlin.math.sqrt(50.0), east.first, 1e-9)
+        assertEquals(kotlin.math.sqrt(50.0), east.second, 1e-9)
+        val north = AlbionMiniRadarView.rotateOffset(0.0, 10.0)
+        assertEquals(-kotlin.math.sqrt(50.0), north.first, 1e-9)
+        assertEquals(kotlin.math.sqrt(50.0), north.second, 1e-9)
+    }
+
+    @Test fun assignsDistinctColorsToNormalAndEnchantmentsOneToThree() {
+        assertEquals(0xFFFFC45C.toInt(), AlbionMiniRadarView.colorForEnchantment(0))
+        assertEquals(0xFF63D471.toInt(), AlbionMiniRadarView.colorForEnchantment(1))
+        assertEquals(0xFF55B8FF.toInt(), AlbionMiniRadarView.colorForEnchantment(2))
+        assertEquals(0xFFB58CFF.toInt(), AlbionMiniRadarView.colorForEnchantment(3))
+        assertEquals(0xFF9AA6AF.toInt(), AlbionMiniRadarView.colorForEnchantment(-1))
+    }
+
     @Test fun dropsInvalidOrOutOfRangeCoordinatesWithoutPassingThemToTheView() {
         val parsed = AlbionRadarSnapshotParser.parse(
             """[
