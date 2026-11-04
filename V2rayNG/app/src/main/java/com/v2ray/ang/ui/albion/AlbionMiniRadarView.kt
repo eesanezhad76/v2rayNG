@@ -251,6 +251,14 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 }
             }
             val resources = visibleEntities().filter { it.optString("last_kind") in RESOURCE_KINDS }
+            // Keep the closest active resource visibly selected on the mini radar.
+            // A type-ambiguous observation can still be a real, coordinate-backed node.
+            val nearestTarget = resources.asSequence()
+                .filter { !isUnavailableResource(it) && validPoint(it) }
+                .minByOrNull { hypot(it.optDouble("x") - px, it.optDouble("y") - py) }
+            val nearestDistance = nearestTarget?.let {
+                hypot(it.optDouble("x") - px, it.optDouble("y") - py)
+            }
             // Fit both nearby resources and the retained movement path so the trail
             // remains a useful route, not a tiny 16-point trace around the center.
             // Keep the local radar at a stable scale. A single remote catalog node must
@@ -291,6 +299,21 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 paint.style = Paint.Style.FILL
                 paint.color = if (isUnavailableResource(entity)) 0xFF78838B.toInt() else resourceColor(entity)
                 canvas.drawCircle(x, y, 3.3f * density, paint)
+                if (entity === nearestTarget) {
+                    val arrived = (nearestDistance ?: Double.MAX_VALUE) <= 4.0
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = 2f * density
+                    paint.color = if (arrived) 0xFFFFD54F.toInt() else 0xFF55E6FF.toInt()
+                    canvas.drawCircle(x, y, if (arrived) 9f * density else 7f * density, paint)
+                    if (arrived) {
+                        paint.style = Paint.Style.FILL
+                        paint.textSize = 7f * density
+                        paint.textAlign = Paint.Align.CENTER
+                        paint.color = 0xFFFFE082.toInt()
+                        canvas.drawText("HERE", x, y - 11f * density, paint)
+                        paint.textAlign = Paint.Align.LEFT
+                    }
+                }
                 // Distant nodes are clamped to the rim to preserve the local radar scale.
                 // Show their actual game-coordinate distance so multiple remote bearings
                 // are not mistaken for equally distant targets.
