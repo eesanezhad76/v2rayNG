@@ -65,7 +65,7 @@ class AlbionKnowledgeBundleTest {
         assertTrue(entries.containsKey("learned-patterns.json"))
         assertTrue(entries.containsKey("autonomous-patterns.json"))
         assertTrue(entries.containsKey("pattern-learning-report.txt"))
-        assertEquals(5, manifest.getJSONObject("files").length())
+        assertEquals(6, manifest.getJSONObject("files").length())
         assertEquals(1, manifest.getJSONObject("files").getJSONArray("region_scans").length())
         assertTrue(entries.containsKey("region-scans/region-123.json"))
         assertTrue(summary.patternReportIncluded)
