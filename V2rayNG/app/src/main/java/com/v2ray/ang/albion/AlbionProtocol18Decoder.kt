@@ -194,7 +194,7 @@ class AlbionProtocol18Decoder {
             }
             error("invalid compressed long")
         }
-        private fun varInt(): Int { val v = varUInt(); return ((v ushr 1) xor -(v and 1).toLong()).toInt() }
+        private fun varInt(): Int { val v = varUInt(); return ((v ushr 1) xor -(v and 1L)).toInt() }
         private fun varLong(): Long { val v = varULong(); return (v ushr 1) xor -(v and 1L) }
         private fun string(): String {
             val n = varUInt().toInt()

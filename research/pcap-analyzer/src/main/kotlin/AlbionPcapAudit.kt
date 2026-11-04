@@ -103,7 +103,7 @@ fun main() {
                         .put("key", replayKey).put("source_sha256", contentHash)
                         .put("status", "ANALYSIS_ERROR"))
                     else -> {
-                        val replay = replayResult!!
+                        val replay = replayResult
                         val report = replay.report
                         val previous = baselineByKey[replayKey]
                         val baselineStatus = when {
