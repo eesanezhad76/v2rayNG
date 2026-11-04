@@ -125,7 +125,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private fun isOreElemental(item: JSONObject): Boolean =
         item.optString("resource_role") == "ore_elemental" ||
             (item.optBoolean("is_harvestable_mob", false) &&
-                item.optString("type_unique_name").contains("CRITTER_ORE", ignoreCase = true))
+                item.optString("type_unique_name").contains("CRITTER_ORE", ignoreCase = true) &&
+                item.optString("display_name").equals("Ore Elemental", ignoreCase = true))
 
     private fun passesFilters(item: JSONObject): Boolean {
         val kind = item.optString("last_kind")
