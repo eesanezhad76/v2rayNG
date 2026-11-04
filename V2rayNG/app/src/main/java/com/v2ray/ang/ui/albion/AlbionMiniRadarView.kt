@@ -294,8 +294,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             paint.color = when {
                 depleted || entity.optBoolean("left", false) -> 0xFF000000.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
-                candidate -> 0xFF9AA6AF.toInt()
                 kind in RESOURCE_KINDS -> resourceColor(entity)
+                candidate -> 0xFF9AA6AF.toInt()
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, (if (distance > range) 2.5f else 3.2f) * density, paint)
@@ -420,8 +420,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val kind = entity.optString("last_kind")
             paint.style = Paint.Style.FILL
             paint.color = when {
+                entity.optBoolean("depleted", false) || entity.optBoolean("left", false) -> 0xFF000000.toInt()
                 entity.optBoolean("user_confirmed_target", false) -> 0xFF55E6FF.toInt()
-                entity.optBoolean("depleted", false) || entity.optBoolean("left", false) -> 0xFF697782.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
                 kind in RESOURCE_KINDS -> resourceColor(entity)
                 else -> 0xFFFFC45C.toInt()
