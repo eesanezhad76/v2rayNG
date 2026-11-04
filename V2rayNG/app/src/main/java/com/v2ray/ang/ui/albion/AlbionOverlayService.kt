@@ -722,7 +722,7 @@ class AlbionOverlayService : Service() {
                 return
             }
             radarTestPhase = 0
-            Toast.makeText(this, "Walk straight UP for 5–8 seconds, then tap UP END.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Tap UP START, then walk straight UP for 5–8 seconds.", Toast.LENGTH_LONG).show()
         } else {
             val step = radarTestSteps.getOrNull(radarTestPhase) ?: return
             if (!writeDiagnosticMarker("radar_test_${step.first}", JSONObject()

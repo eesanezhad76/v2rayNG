@@ -70,7 +70,7 @@ class AlbionLiveKnowledgeStore(
                 }
                 return@forEach
             }
-            if (observation.kind == "player_mounted") {
+            if (observation.kind == "mount_state_candidate") {
                 val mounted = observation.value?.takeIf { it == 0f || it == 1f }?.let { it == 1f }
                 if (mounted != null) {
                     playerMountedState = mounted
@@ -78,8 +78,8 @@ class AlbionLiveKnowledgeStore(
                     records.values.filter {
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                             it.optString("last_kind") == "own_player_move"
-                    }.maxByOrNull { it.optLong("last_seen_ms") }?.put("mounted", mounted)
-                        ?.put("mount_state_seen_ms", timestampMs)
+                    }.maxByOrNull { it.optLong("last_seen_ms") }?.put("mount_state_candidate", mounted)
+                        ?.put("mount_state_candidate_seen_ms", timestampMs)
                     dirty = true
                     snapshotDirty = true
                 }
@@ -273,7 +273,7 @@ class AlbionLiveKnowledgeStore(
                         targetY?.let { sample.put("target_y", it) }
                         if (playerMountedState != null && timestampMs >= playerMountedAtMs &&
                             timestampMs - playerMountedAtMs <= MOUNT_STATE_MAX_AGE_MS) {
-                            sample.put("mounted", playerMountedState)
+                            sample.put("mount_state_candidate", playerMountedState)
                         }
                         history.put(sample)
                     }
@@ -389,6 +389,7 @@ class AlbionLiveKnowledgeStore(
             .filter {
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                     it.optString("region_id", "") == (regionScanRegionId ?: "") &&
+                    it.optString("last_kind") in REGION_SCAN_KINDS &&
                     it.has("x") && it.has("y") &&
                     (it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs ||
                         (regionScanForceMode && regionScanRegionId != null))
@@ -439,6 +440,7 @@ class AlbionLiveKnowledgeStore(
             .filter {
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                     it.optString("region_id", "") == (regionScanRegionId ?: "") &&
+                    it.optString("last_kind") in REGION_SCAN_KINDS &&
                     it.has("x") && it.has("y") &&
                     (it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs ||
                         (regionScanForceMode && regionScanRegionId != null))
@@ -547,7 +549,7 @@ class AlbionLiveKnowledgeStore(
             appendLine("Ambiguous entities due to conflicting typed evidence: $ambiguous")
             appendLine("Average evidence score (0-100 heuristic): $averageEvidenceScore")
             appendLine("Evidence score is an ordinal heuristic, not a calibrated probability.")
-            appendLine("Last mount signal: $mountLabel")
+            appendLine("Last event-210 mount-state candidate: $mountLabel")
             appendLine("Persistent file: ${file.name}")
             appendLine("Classification is conservative; no family-to-Ore guesses are made.")
         }
@@ -965,6 +967,7 @@ class AlbionLiveKnowledgeStore(
     }
 
     private companion object {
+        val REGION_SCAN_KINDS = setOf("static_resource", "harvestable", "resource_state", "mob")
         const val MAX_RECORDS = 25000
         const val REGION_SCAN_DURATION_MS = 60_000L
         const val MOUNT_STATE_MAX_AGE_MS = 30_000L

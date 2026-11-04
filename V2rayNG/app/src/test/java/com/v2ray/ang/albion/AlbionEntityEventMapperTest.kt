@@ -14,6 +14,19 @@ class AlbionEntityEventMapperTest {
         )
 
     @Test
+    fun keepsEvent210AsUnverifiedMountStateCandidate() {
+        AlbionEntityEventMapper.reset()
+        val mounted = AlbionEntityEventMapper.map(event(210, mapOf(0 to 44L, 1 to true))).single()
+        assertEquals("mount_state_candidate", mounted.kind)
+        assertEquals(44L, mounted.entityId)
+        assertEquals(1f, mounted.value)
+        val dismounted = AlbionEntityEventMapper.map(event(210, mapOf(0 to 44L, 1 to false))).single()
+        assertEquals(0f, dismounted.value)
+        val unknown = AlbionEntityEventMapper.map(event(210, mapOf(0 to 44L))).single()
+        assertEquals(null, unknown.value)
+    }
+
+    @Test
     fun mapsOwnPlayerPositionFromOutboundMoveOperation22() {
         AlbionEntityEventMapper.reset()
         val move = AlbionProtocol18Decoder.Message(

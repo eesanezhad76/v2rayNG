@@ -269,7 +269,7 @@ object AlbionEntityEventMapper {
                     is Number -> raw.toInt().takeIf { it == 0 || it == 1 }?.toFloat()
                     else -> null
                 }
-                listOf(Observation("player_mounted", code, entityId = id, value = mounted))
+                listOf(Observation("mount_state_candidate", code, entityId = id, value = mounted))
             }
             324 -> {
                 val xy = pair(p[1])
