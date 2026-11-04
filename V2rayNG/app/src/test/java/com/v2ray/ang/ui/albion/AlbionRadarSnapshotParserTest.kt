@@ -74,22 +74,19 @@ class AlbionRadarSnapshotParserTest {
         assertEquals("T5.3 ✓", AlbionRadarSnapshotParser.labelForEntity(node))
     }
 
-    @Test fun rotatesRadarOffsetsByExactlyFortyFiveDegrees() {
-        val east = AlbionMiniRadarView.rotateOffset(10.0, 0.0)
-        assertEquals(kotlin.math.sqrt(50.0), east.first, 1e-9)
-        assertEquals(-kotlin.math.sqrt(50.0), east.second, 1e-9)
+    @Test fun keepsWorldNorthAtTopAndEastAtRight() {
         val north = AlbionMiniRadarView.rotateOffset(0.0, 10.0)
-        assertEquals(-kotlin.math.sqrt(50.0), north.first, 1e-9)
-        assertEquals(-kotlin.math.sqrt(50.0), north.second, 1e-9)
-        // Corrected world-to-screen transform: north is up and east is right.
         assertEquals(0.0, north.first, 1e-9)
         assertEquals(-10.0, north.second, 1e-9)
-        val eastUp = AlbionMiniRadarView.rotateOffset(10.0, 0.0)
-        assertEquals(10.0, eastUp.first, 1e-9)
-        assertEquals(0.0, eastUp.second, 1e-9)
+        val east = AlbionMiniRadarView.rotateOffset(10.0, 0.0)
+        assertEquals(10.0, east.first, 1e-9)
+        assertEquals(0.0, east.second, 1e-9)
         val south = AlbionMiniRadarView.rotateOffset(0.0, -10.0)
         assertEquals(0.0, south.first, 1e-9)
         assertEquals(10.0, south.second, 1e-9)
+        val west = AlbionMiniRadarView.rotateOffset(-10.0, 0.0)
+        assertEquals(-10.0, west.first, 1e-9)
+        assertEquals(0.0, west.second, 1e-9)
     }
 
     @Test fun assignsDistinctColorsToNormalAndEnchantmentsOneToThree() {
