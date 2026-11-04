@@ -1,11 +1,11 @@
 # Offline replay baseline comparison
 
-Unique PCAPs analyzed: 30
+Unique PCAPs analyzed: 31
 Byte-identical duplicates skipped: 1
 Analysis errors: 0
 Baseline: existing baseline; unchanged
 - DUPLICATE_SKIPPED: 1
-- NEW_CAPTURE_REVIEW: 9
+- NEW_CAPTURE_REVIEW: 10
 - STABLE: 21
 
 Captures requiring review:
@@ -18,6 +18,7 @@ Captures requiring review:
 - AlbionRadar6json.zip::albion-1793718347142.pcap: NEW_CAPTURE_REVIEW
 - AlbionRadar6json.zip::albion-1793718370435.pcap: NEW_CAPTURE_REVIEW
 - AlbionRadar6json.zip::albion-1793718384341.pcap: NEW_CAPTURE_REVIEW
+- AlbionRadar8.zip::albion-1793769140776.pcap: NEW_CAPTURE_REVIEW
 Baseline captures missing from this inbox: 0
 
 Changed fingerprints are review-required signals, not automatic proof of an algorithm defect.

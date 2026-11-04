@@ -233,6 +233,17 @@
       "status": "NEW_CAPTURE_REVIEW"
     },
     {
+      "source_sha256": "5ffe539391f67913144f6bdb5c1e786f7e24afb4e2e5d328f9f6175ecf67fb5a",
+      "quality_grade": "FAIR",
+      "ip_packets": 112767,
+      "quality_score": 80,
+      "fingerprint": "642aa1defb1bd2b81a23912378059448938d962d7d845c553ff66c312da78a19",
+      "malformed_photon_packets": 12,
+      "key": "AlbionRadar8.zip::albion-1793769140776.pcap",
+      "valid_photon_packets": 77128,
+      "status": "NEW_CAPTURE_REVIEW"
+    },
+    {
       "source_sha256": "19ffe62c250932c9fd362d3c726ae36ec9b1c6bc9fd8d21ea2c801bef57b5d7a",
       "quality_grade": "GOOD",
       "ip_packets": 239,
@@ -338,6 +349,6 @@
       "status": "DUPLICATE_SKIPPED"
     }
   ],
-  "generated_from_sha": "0a9a68e450543e19150454c56119951f56c1454d",
+  "generated_from_sha": "0e0b6cf3cd02df3387c72dcb7e28dbb316f51185",
   "baseline_file": "2026-11-02-pcap-replay-baseline.json"
 }

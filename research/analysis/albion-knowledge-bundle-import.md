@@ -1,7 +1,7 @@
 # Albion knowledge bundle import
 
 - imported_bundles_this_run: 4
-- skipped_non_bundle_or_duplicate_archives: 20
+- skipped_non_bundle_or_duplicate_archives: 22
 - total_bundles: 4
 - session_scoped_entity_records: 9522
 - deduplicated_protocol_events: 4599

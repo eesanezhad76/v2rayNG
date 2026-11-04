@@ -452,6 +452,34 @@
       "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
     },
     {
+      "archive": "AlbionRadar8.zip",
+      "pcap": "albion-1793769140776.pcap",
+      "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+      "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+      "replay_observation_rows": 181175,
+      "player_position_samples": 16474,
+      "typed_resource_nodes": 75,
+      "resource_entity_ids_with_coordinate_conflicts": [],
+      "player_bounds": {
+        "min_x": -375.20111083984375,
+        "max_x": 387.25,
+        "min_y": -349.7199401855469,
+        "max_y": 371.76861572265625
+      },
+      "resource_bounds": {
+        "min_x": -368.0,
+        "max_x": 386.0,
+        "min_y": -327.0,
+        "max_y": 370.0
+      },
+      "bounding_boxes_overlap": true,
+      "temporal_player_node_pairs": 75,
+      "temporal_tolerance_ms": 5000,
+      "median_nearest_player_distance_at_node_observation": 47.8,
+      "p90_nearest_player_distance_at_node_observation": 58.434,
+      "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+    },
+    {
       "archive": "Albions.zip",
       "pcap": "1 mob dismount and mount .pcap",
       "status": "NOT_VERIFIED",

@@ -235,6 +235,17 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
+## AlbionRadar8.zip / albion-1793769140776.pcap
+
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
+- Player position samples: 16474
+- Typed Event-40 resource nodes: 75
+- Bounding boxes overlap: True
+- Median nearest-node distance: 47.8
+- P90 nearest-node distance: 58.434
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
+
 ## Albions.zip / 1 mob dismount and mount .pcap
 
 - Status: NOT_VERIFIED

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-03T23:21:23.956020+00:00",
+  "generated_at_utc": "2026-11-04T06:22:28.187112+00:00",
   "branch": "albion-pattern-mining",
   "source_archives": [
     {
@@ -64,6 +64,17 @@
       "members": 12,
       "pcaps": 4,
       "jsonl": 4,
+      "knowledge_entity_records": 0,
+      "knowledge_protocol_events": 0,
+      "knowledge_autonomous_patterns": 0
+    },
+    {
+      "archive": "AlbionRadar8.zip",
+      "bytes": 16501659,
+      "sha256": "4620f0806d48c3a5d1d25908b4925846cc9ad360c0c2c233c25bf000601bcfde",
+      "members": 3,
+      "pcaps": 1,
+      "jsonl": 1,
       "knowledge_entity_records": 0,
       "knowledge_protocol_events": 0,
       "knowledge_autonomous_patterns": 0
@@ -136,24 +147,24 @@
     }
   ],
   "intake": {
-    "zip_archives": 12,
-    "pcap_members": 31,
-    "unique_pcap_sha256": 30,
+    "zip_archives": 13,
+    "pcap_members": 32,
+    "unique_pcap_sha256": 31,
     "byte_identical_duplicate_pcaps": 1,
     "pcap_analyzer_errors": 0,
-    "jsonl_members": 12,
-    "normalized_observations": 340892,
-    "own_player_move_observations": 38132
+    "jsonl_members": 13,
+    "normalized_observations": 522067,
+    "own_player_move_observations": 54606
   },
   "resource_nodes": {
-    "event40_file_scoped_records": 331,
+    "event40_file_scoped_records": 406,
     "by_family_number": {
-      "14": 47,
-      "20": 7,
-      "27": 88,
+      "14": 55,
+      "20": 8,
+      "27": 123,
       "28": 2,
-      "29": 100,
-      "7": 87
+      "29": 110,
+      "7": 108
     },
     "by_archive": {
       "Albion اااستسمنسمنش.zip": 4,
@@ -162,6 +173,7 @@
       "AlbionRadar2.zip": 19,
       "AlbionRadar5.zip": 30,
       "AlbionRadar6json.zip": 93,
+      "AlbionRadar8.zip": 75,
       "Albions.zip": 36,
       "Albionsskkakaks111.zip": 51
     },
@@ -185,11 +197,11 @@
     }
   },
   "static_resource_observations": {
-    "event39_records": 16944,
+    "event39_records": 25504,
     "warning": "Event 39 observations are untyped static-resource candidates; do not equate them to confirmed Event 40 nodes without exact identity evidence."
   },
   "mobile_entities": {
-    "event123_lifecycle_records": 2330,
+    "event123_lifecycle_records": 2956,
     "by_archive": {
       "Albion اااستسمنسمنش.zip": 10,
       "Albion2.zip": 52,
@@ -197,67 +209,72 @@
       "AlbionRadar2.zip": 228,
       "AlbionRadar5.zip": 235,
       "AlbionRadar6json.zip": 838,
+      "AlbionRadar8.zip": 626,
       "Albions.zip": 64,
       "Albionsskkakaks111.zip": 247
     },
     "warning": "Event 123 living/mobile records; not every record is independently proven to be a hostile mob."
   },
   "combat": {
-    "operation23_attack_target_tracks": 44,
+    "operation23_attack_target_tracks": 51,
     "attack_target_position_samples": 1514,
     "interpretations": {
       "attack_target_with_plausible_mode3_movement_kill_not_proven": 1,
       "health_at_or_below_5_then_leave_after_attack_strong_defeat_candidate": 5,
-      "health_updates_then_leave_after_attack_defeat_likely_not_confirmed": 38
+      "health_updates_then_leave_after_attack_defeat_likely_not_confirmed": 45
     },
-    "marker_correlations": 29,
+    "marker_correlations": 35,
     "correlations_by_activity_confidence": {
       "Mobs|HIGH": 6,
       "Mobs|LOW": 4,
       "Mobs|MEDIUM": 3,
       "Mobs|NONE": 1,
-      "Troll|HIGH": 10,
-      "Troll|MEDIUM": 3,
+      "Troll|HIGH": 14,
+      "Troll|LOW": 1,
+      "Troll|MEDIUM": 4,
       "Troll|NONE": 2
     },
-    "troll_cycles": 15,
+    "troll_cycles": 21,
     "troll_confidence": {
-      "HIGH": 10,
-      "MEDIUM": 3,
+      "HIGH": 14,
+      "LOW": 1,
+      "MEDIUM": 4,
       "NONE": 2
     },
     "troll_resolved_mob_names": {
-      "Ore Elemental": 13
+      "Ore Elemental": 19
     },
     "troll_mobile_type_ids": {
       "571": 1,
-      "573": 7,
-      "574": 5
+      "573": 10,
+      "574": 8
     },
-    "troll_unique_target_ids": 10,
+    "troll_unique_target_ids": 15,
     "troll_unmatched_cycles": 2,
     "troll_identity_proven_rows": 0,
     "mob_cycles": 14,
     "warning": "Operation 23 provides exact selected target IDs; marker-to-target links remain confidence-ranked. Leave is not proof of death."
   },
   "manual_markers": {
-    "total": 358,
+    "total": 459,
     "by_activity_event": {
-      "Capture|capture_started": 11,
-      "Capture|capture_stopping": 10,
+      "Capture|capture_started": 12,
+      "Capture|capture_stopping": 11,
       "Fiber|activity_selected": 2,
       "Hide|activity_selected": 2,
       "Mobs|activity_selected": 3,
       "Mobs|enchantment_selected": 3,
       "Mobs|mob_killed": 13,
       "Mobs|target_found": 14,
+      "Move|movement_completed": 1,
+      "Move|movement_started": 1,
       "Ore|activity_selected": 4,
       "Ore|enchantment_selected": 18,
-      "Ore|gathering_completed": 69,
+      "Ore|gathering_completed": 111,
       "Ore|gathering_started": 21,
       "Ore|node_depleted": 20,
       "Ore|overlay_started": 1,
-      "Ore|target_found": 80,
+      "Ore|target_found": 123,
       "Ore|tier_selected": 28,
       "Other|activity_selected": 5,
       "PvP|activity_selected": 4,
@@ -268,8 +285,8 @@
       "Travel|activity_start": 1,
       "Travel|overlay_collapsed": 1,
       "Travel|tier_selected": 7,
-      "Troll|mob_killed": 14,
-      "Troll|target_found": 15,
+      "Troll|mob_killed": 20,
+      "Troll|target_found": 21,
       "Wood|activity_selected": 3
     },
     "completed_lifecycle_samples": 109
@@ -304,11 +321,11 @@
     "warning": "Troll-labeled signatures are learned patterns, not counts of individual Troll mobs or kills."
   },
   "spatial_alignment": {
-    "captures_checked": 30,
+    "captures_checked": 31,
     "plausible_same_local_coordinate_space": 11,
     "status_counts": {
       "NOT_VERIFIED": 19,
-      "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE": 11
+      "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE": 12
     },
     "capture_details": [
       {
@@ -760,6 +777,34 @@
         "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
       },
       {
+        "archive": "AlbionRadar8.zip",
+        "pcap": "albion-1793769140776.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 181175,
+        "player_position_samples": 16474,
+        "typed_resource_nodes": 75,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -375.20111083984375,
+          "max_x": 387.25,
+          "min_y": -349.7199401855469,
+          "max_y": 371.76861572265625
+        },
+        "resource_bounds": {
+          "min_x": -368.0,
+          "max_x": 386.0,
+          "min_y": -327.0,
+          "max_y": 370.0
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 75,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 47.8,
+        "p90_nearest_player_distance_at_node_observation": 58.434,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
         "archive": "Albions.zip",
         "pcap": "1 mob dismount and mount .pcap",
         "status": "NOT_VERIFIED",
@@ -968,48 +1013,48 @@
   "tables": [
     {
       "path": "research/database/2026-11-02-all-inbox-observations.jsonl",
-      "bytes": 64380965,
-      "sha256": "817be766f8606c4e453973b1f0df282ab51572d4ac43f4414f16be443da9f0b0"
+      "bytes": 97626650,
+      "sha256": "aeec01bf08673a0f2ac4c63603695810430cdc69b31ce1af1bc3b65bb553d62b"
     },
     {
       "path": "research/database/2026-11-02-pcap-harvestable-nodes.csv",
-      "bytes": 56613,
-      "sha256": "c7fe35e19a96c01b97d0cf0cd090957088ab0c0817408758dac25d54a9a82dd5"
+      "bytes": 69201,
+      "sha256": "c56b27314963794f805678d720b0d48adcbf10ceb83fd2b31708a53fc66f6d12"
     },
     {
       "path": "research/database/2026-11-02-pcap-mob-lifecycle.csv",
-      "bytes": 529395,
-      "sha256": "c6544628aa52eb5ce8d034b8b1557cb0af1badcff64debcb0963adeb5e647af3"
+      "bytes": 671014,
+      "sha256": "e55fcaf725da41f8c8d9a6d7959598228f043c728ccfbf09fda37419ddfdba82"
     },
     {
       "path": "research/database/2026-11-02-pcap-static-resources.csv",
-      "bytes": 1497186,
-      "sha256": "442180612563a431f768ef3131f36dfe0c200ab9a992106272e053911e72b6a0"
+      "bytes": 2232732,
+      "sha256": "b136d341ea7d8c5b38c0133530c8e798b2c5b586f35d0321310f6847e77ab258"
     },
     {
       "path": "research/database/2026-11-02-pcap-attack-target-tracks.csv",
-      "bytes": 17494,
-      "sha256": "9e531b71806aa4e2694f29daf4409cfd3ef71ac359f09ef3bd44044f62a72b7c"
+      "bytes": 20557,
+      "sha256": "faf365fa1be084fb43802d66d73f0b8e584214b7327f2dd10b4f8646bbe7c147"
     },
     {
       "path": "research/analysis/2026-11-02-overlay-manual-markers.csv",
-      "bytes": 36187,
-      "sha256": "c525a7eda28e0dd640868e73a5dd562623ebee7f5fefa087cbd92566c0b94b24"
+      "bytes": 45998,
+      "sha256": "f686625e5171b5572e982fa05dad29b6985e19edeb7e675a2e81b88471e3791d"
     },
     {
       "path": "research/analysis/2026-11-02-overlay-mob-attack-correlation.csv",
-      "bytes": 7750,
-      "sha256": "14de21998a0315558a9f4b09f9f10883c4493f07d60a95ff51ed5f3a669670df"
+      "bytes": 9308,
+      "sha256": "ce7bbe11771753e5a02d6909c1ae9ee92a3b7bd6189ea35cfccd49369c657fe5"
     },
     {
       "path": "research/database/2026-11-02-pcap-resource-state-timelines.csv",
-      "bytes": 32347,
-      "sha256": "c0479c376111076ffa32da65abbb1de302737fabbd1d5e5d1e2af8a7803320fb"
+      "bytes": 38672,
+      "sha256": "7c63d79da159c689c9ab8e389858b949eaff53bb2c27189dbfec267ed69ad49d"
     },
     {
       "path": "research/database/2026-11-02-pcap-health-energy-events.csv",
-      "bytes": 858147,
-      "sha256": "4bbcbef2d863ff8c28de467d8b5f069e5cf0ae3355c542f3dd052117a8a33a0b"
+      "bytes": 1034838,
+      "sha256": "8396257ef5e4b6af7b1b5dfd694afc6593c192abb9eaa9cfe1d658f9d481c630"
     },
     {
       "path": "research/database/albion-knowledge-bundle-import.json",
@@ -1018,8 +1063,8 @@
     },
     {
       "path": "research/database/albion-troll-target-correlation-2026-11-03.csv",
-      "bytes": 3449,
-      "sha256": "1e289a508f30a504176d40e7576b9e4736ca8376e323668ab3437a27dbf3c6d7"
+      "bytes": 4785,
+      "sha256": "2d4e2908bbb3b899ce3c296a3b2d3f3a2f73b24fdccd1a110fe97c923b3271cc"
     },
     {
       "path": "research/database/albion-mob-target-correlation-2026-11-03.csv",
