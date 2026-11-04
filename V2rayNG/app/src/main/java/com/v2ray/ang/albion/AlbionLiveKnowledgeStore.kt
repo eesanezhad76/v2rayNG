@@ -648,9 +648,11 @@ class AlbionLiveKnowledgeStore(
             .put("loot_type", entry.optString("loot_type"))
             .put("is_harvestable_mob", isHarvestable)
         if (isHarvestable) {
+            val oreElemental = uniqueName.contains("CRITTER_ORE", ignoreCase = true) &&
+                entry.optString("display_name").equals("Ore Elemental", ignoreCase = true)
             val role = when {
-                uniqueName.contains("CRITTER_ORE", ignoreCase = true) ||
-                    entry.optString("loot_type").contains("ORE", ignoreCase = true) -> "ore_elemental"
+                oreElemental -> "ore_elemental"
+                entry.optString("loot_type").contains("ORE", ignoreCase = true) -> "living_ore_resource"
                 else -> "living_resource"
             }
             record.put("resource_role", role)
