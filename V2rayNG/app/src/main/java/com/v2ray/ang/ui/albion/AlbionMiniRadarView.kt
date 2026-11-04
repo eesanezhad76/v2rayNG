@@ -292,7 +292,13 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 val x = cx + (rx / displayRange * radius).toFloat()
                 val y = cy + (ry / displayRange * radius).toFloat()
                 paint.style = Paint.Style.FILL
-                paint.color = if (isUnavailableResource(entity)) 0xFF78838B.toInt() else resourceColor(entity)
+                val trollTarget = entity.optString("manual_activity").equals("Troll", ignoreCase = true) &&
+                    entity.optBoolean("manual_marker_identity_proven", false)
+                paint.color = when {
+                    entity.optString("mob_state") == "mined" || entity.optBoolean("depleted", false) -> 0xFF424A52.toInt()
+                    isUnavailableResource(entity) -> 0xFF78838B.toInt()
+                    else -> resourceColor(entity)
+                }
                 canvas.drawCircle(x, y, 3.3f * density, paint)
                 if (entity === nearestTarget) {
                     val arrived = (nearestDistance ?: Double.MAX_VALUE) <= 4.0
@@ -327,7 +333,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 if (t != null) {
                     paint.color = 0xFFFFFFFF.toInt()
                     paint.textSize = 7f * density
-                    canvas.drawText("T$t", x + 4f * density, y - 3f * density, paint)
+                    canvas.drawText(if (trollTarget) "TG$t" else "T$t", x + 4f * density, y - 3f * density, paint)
                 }
                 if (entity.optBoolean("user_confirmed_target", false)) {
                     paint.style = Paint.Style.STROKE
@@ -348,9 +354,15 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 val x = cx + (rx / displayRange * radius).toFloat()
                 val y = cy + (ry / displayRange * radius).toFloat()
                 paint.style = Paint.Style.FILL
+                val state = mob.optString("mob_state")
                 val dead = mob.optBoolean("mob_dead", false) || mob.optBoolean("left", false) ||
-                    mob.optString("mob_state") in setOf("dead", "dead_harvestable", "mined")
-                paint.color = if (dead) 0xFF78838B.toInt() else resourceColor(mob)
+                    state in setOf("dead", "dead_harvestable", "mined")
+                paint.color = when {
+                    state == "mined" -> 0xFF424A52.toInt()
+                    state == "dead" -> 0xFFB0BEC5.toInt()
+                    dead -> 0xFF78838B.toInt()
+                    else -> resourceColor(mob)
+                }
                 canvas.drawCircle(x, y, 3.8f * density, paint)
                 val t = mob.optInt("marker_tier", -1).takeIf { it in 1..8 }
                     ?: mob.optInt("tier", -1).takeIf { it in 1..8 } ?: -1
