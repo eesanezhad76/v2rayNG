@@ -187,14 +187,20 @@ class AlbionWorldMapView(context: Context) : View(context) {
             val length = 22f * density
             val tipX = cx + (direction.x * length).toFloat()
             val tipY = cy + (direction.y * length).toFloat()
-            paint.color = 0xFF55E6FF.toInt()
-            paint.strokeWidth = 2.5f * density
-            paint.strokeCap = Paint.Cap.ROUND
-            canvas.drawLine(cx, cy, tipX, tipY, paint)
             val backX = cx - (direction.x * 6f * density).toFloat()
             val backY = cy - (direction.y * 6f * density).toFloat()
             val sideX = (-direction.y * 4.5f * density).toFloat()
             val sideY = (direction.x * 4.5f * density).toFloat()
+            // White halo, black direction arrow: player coordinates stay visually distinct.
+            paint.color = 0xFFFFFFFF.toInt()
+            paint.strokeWidth = 5f * density
+            paint.strokeCap = Paint.Cap.ROUND
+            canvas.drawLine(cx, cy, tipX, tipY, paint)
+            canvas.drawLine(tipX, tipY, backX + sideX, backY + sideY, paint)
+            canvas.drawLine(tipX, tipY, backX - sideX, backY - sideY, paint)
+            paint.color = 0xFF080B0E.toInt()
+            paint.strokeWidth = 2.4f * density
+            canvas.drawLine(cx, cy, tipX, tipY, paint)
             canvas.drawLine(tipX, tipY, backX + sideX, backY + sideY, paint)
             canvas.drawLine(tipX, tipY, backX - sideX, backY - sideY, paint)
         }
@@ -276,20 +282,36 @@ class AlbionWorldMapView(context: Context) : View(context) {
             val y = centerY + (ry * pixelsPerUnit).toFloat()
             if (x !in -12f..(width + 12f).toFloat() || y !in -12f..(height + 12f).toFloat()) return@forEach
             paint.style = Paint.Style.FILL
+            val troll = entity.optString("manual_activity").equals("Troll", ignoreCase = true) &&
+                entity.optBoolean("manual_marker_identity_proven", false)
+            val oreElemental = entity.optString("resource_role") == "ore_elemental" ||
+                (entity.optBoolean("is_harvestable_mob", false) &&
+                    entity.optString("type_unique_name").contains("CRITTER_ORE", ignoreCase = true))
+            val mobState = entity.optString("mob_state")
+            val confirmedDead = entity.optBoolean("mob_dead", false) ||
+                mobState in setOf("dead", "dead_harvestable", "mined")
             paint.color = when {
                 kind in RESOURCE_KINDS && unavailable(entity) -> 0xFF78838B.toInt()
                 kind in RESOURCE_KINDS && (entity.optString("classification") == "ambiguous_resource_candidate" ||
                     entity.optString("evidence_grade") == "conflicting_typed_observation") -> 0xFFB6A7A0.toInt()
                 kind in RESOURCE_KINDS -> resourceColor(entity)
+                (troll || oreElemental) && (confirmedDead || entity.optBoolean("left", false)) -> 0xFF78838B.toInt()
+                troll || oreElemental -> resourceColor(entity)
                 entity.optBoolean("left", false) -> 0xFF78838B.toInt()
                 else -> 0xFFFF6666.toInt()
             }
             canvas.drawCircle(x, y, 3.5f * density, paint)
             val t = tier(entity)
-            if (kind in RESOURCE_KINDS && t >= 1) {
+            val label = when {
+                troll && t >= 1 -> "TG$t"
+                kind == "mob" && oreElemental && t >= 1 -> "OE$t"
+                kind in RESOURCE_KINDS && t >= 1 -> "T$t"
+                else -> null
+            }
+            if (label != null) {
                 paint.color = 0xFFFFFFFF.toInt()
                 paint.textSize = 7f * density
-                canvas.drawText("T$t", x + 4f * density, y - 3f * density, paint)
+                canvas.drawText(label, x + 4f * density, y - 3f * density, paint)
             }
         }
 
