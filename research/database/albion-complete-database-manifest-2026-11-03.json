@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-04T06:22:28.187112+00:00",
+  "generated_at_utc": "2026-11-04T06:43:39.489700+00:00",
   "branch": "albion-pattern-mining",
   "source_archives": [
     {
@@ -1013,8 +1013,8 @@
   "tables": [
     {
       "path": "research/database/2026-11-02-all-inbox-observations.jsonl",
-      "bytes": 97626650,
-      "sha256": "aeec01bf08673a0f2ac4c63603695810430cdc69b31ce1af1bc3b65bb553d62b"
+      "bytes": 97630329,
+      "sha256": "6aaf36f0b33fc22a031e07559163271d5c1026ab862256436c7e2b6b8cbfb33a"
     },
     {
       "path": "research/database/2026-11-02-pcap-harvestable-nodes.csv",
