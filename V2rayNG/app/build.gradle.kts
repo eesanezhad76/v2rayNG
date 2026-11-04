@@ -7,6 +7,7 @@ plugins {
 
 android {
     namespace = "com.v2ray.ang"
+    // Current AndroidX/Compose dependencies require API 37; keep runtime target at API 35 for Android 15.
     compileSdk = 37
 
     defaultConfig {
