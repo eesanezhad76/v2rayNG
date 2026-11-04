@@ -54,15 +54,40 @@ class AlbionLiveKnowledgeStore(
             }
             if (observation.kind !in TRACKED_KINDS) return@forEach
             val entityId = id.toString()
-            // Runtime IDs are only safely unique within a capture session until zone identity is decoded.
-            val key = "$sessionStartedMs:$entityId"
-            val record = records.getOrPut(key) {
-                JSONObject()
+            // Keep a stable record for each observed spawn generation. Runtime entity IDs can
+            // be reused by the server after depletion; never overwrite the depleted E2/E3 node.
+            val baseKey = "$sessionStartedMs:$entityId"
+            val latestEntry = records.entries
+                .filter { it.value.optString("entity_id") == entityId &&
+                    it.value.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs }
+                .maxByOrNull { it.value.optInt("spawn_generation", 0) }
+            var key = latestEntry?.key ?: baseKey
+            var record = records[key] ?: JSONObject()
+                .put("record_key", key)
+                .put("entity_id", entityId)
+                .put("session_started_ms", sessionStartedMs)
+                .put("first_seen_ms", timestampMs)
+                .put("spawn_generation", 0)
+                .put("sightings", 0).also { records[key] = it }
+
+            val previousEnchant = record.optInt("enchant", observation.enchant ?: -1)
+            val incomingAmount = observation.size ?: 0
+            val confirmedRefill = observation.kind == "harvestable" && incomingAmount > 0
+            if (record.optBoolean("depleted", false) && confirmedRefill && previousEnchant in 2..3) {
+                val nextGeneration = record.optInt("spawn_generation", 0) + 1
+                val nextKey = "$sessionStartedMs:$entityId:spawn:$nextGeneration"
+                record.put("respawn_observed_at_ms", timestampMs)
+                    .put("superseded_by_record_key", nextKey)
+                key = nextKey
+                record = JSONObject()
                     .put("record_key", key)
                     .put("entity_id", entityId)
                     .put("session_started_ms", sessionStartedMs)
                     .put("first_seen_ms", timestampMs)
+                    .put("spawn_generation", nextGeneration)
+                    .put("previous_spawn_record_key", latestEntry?.key ?: baseKey)
                     .put("sightings", 0)
+                records[key] = record
             }
             record.put("last_seen_ms", timestampMs)
             val sightingSignature = listOf(
