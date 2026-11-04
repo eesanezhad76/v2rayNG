@@ -198,10 +198,30 @@ jobs:
         for APK in "${APKS[@]}"; do
           echo "VERIFY: $APK" | tee -a "$REPORT_DIR/apk-signature-verification.txt"
           "$ANDROID_HOME/build-tools/37.0.0/apksigner" verify --verbose --print-certs "$APK" 2>&1 | tee -a "$REPORT_DIR/apk-signature-verification.txt"
-          "$ANDROID_HOME/build-tools/37.0.0/aapt" dump badging "$APK" | grep -F "package: name='com.v2ray.ang.radar'" >/dev/null
+          BADGING=$("$ANDROID_HOME/build-tools/37.0.0/aapt" dump badging "$APK")
+          grep -F "package: name='com.v2ray.ang.radar'" <<< "$BADGING" >/dev/null
+          grep -F "sdkVersion:'24'" <<< "$BADGING" >/dev/null
+          grep -F "targetSdkVersion:'35'" <<< "$BADGING" >/dev/null
+          "$ANDROID_HOME/build-tools/37.0.0/zipalign" -c -P 16 -v 4 "$APK" >/dev/null
           sha256sum "$APK" >> "$REPORT_DIR/apk-sha256.txt"
         done
         cat "$REPORT_DIR/apk-sha256.txt"
+
+    - name: Install universal APK on Android 15 emulator
+      if: success() && github.ref == 'refs/heads/albion-radar-phase1-remediation'
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 35
+        arch: x86_64
+        profile: pixel_6
+        disable-animations: true
+        script: |
+          set -euo pipefail
+          APK="V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
+          test -s "$APK"
+          adb install -r "$APK"
+          adb shell pm path com.v2ray.ang.radar
+          adb shell monkey -p com.v2ray.ang.radar -c android.intent.category.LAUNCHER 1
 
     - name: Run offline PCAP replay and audit
       if: success() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics')
