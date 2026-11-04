@@ -147,6 +147,7 @@ object AlbionCaptureAnalyzer {
                                 }
 
                                 // Preserve the raw server response for cluster/zone transitions.
+                                // This evidence-only audit is kept separate from zone assignment.
                                 // This is forensic evidence only: it does not assign a zone to coordinates.
                                 if (message.kind == "response" && message.realCode == 41) {
                                     val params = message.parameters.entries.sortedBy { it.key }
