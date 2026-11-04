@@ -177,8 +177,10 @@ class AlbionLiveKnowledgeStore(
         }
         if (dirty) snapshotDirty = true
         if (regionScanId != null && timestampMs >= regionScanStartedMs) {
-            if (timestampMs - lastRegionScanFlushMs >= FLUSH_INTERVAL_MS || timestampMs >= regionScanEndsMs) {
-                flushRegionScan(timestampMs, timestampMs >= regionScanEndsMs)
+            val finished = timestampMs >= regionScanEndsMs
+            if ((finished && lastRegionScanFlushMs < regionScanEndsMs) ||
+                timestampMs - lastRegionScanFlushMs >= FLUSH_INTERVAL_MS) {
+                flushRegionScan(timestampMs, finished)
             }
         }
         if (dirty && timestampMs - lastFlushMs >= FLUSH_INTERVAL_MS) flush(timestampMs)
@@ -205,7 +207,8 @@ class AlbionLiveKnowledgeStore(
     fun regionScanSnapshotJson(nowMs: Long = System.currentTimeMillis()): String {
         val id = regionScanId ?: return "[]"
         val finished = nowMs >= regionScanEndsMs
-        if (finished || nowMs - lastRegionScanFlushMs >= FLUSH_INTERVAL_MS) {
+        if ((finished && lastRegionScanFlushMs < regionScanEndsMs) ||
+            nowMs - lastRegionScanFlushMs >= FLUSH_INTERVAL_MS) {
             flushRegionScan(nowMs, finished)
         }
         val array = JSONArray()
