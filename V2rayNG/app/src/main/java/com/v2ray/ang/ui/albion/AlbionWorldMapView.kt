@@ -26,12 +26,18 @@ class AlbionWorldMapView(context: Context) : View(context) {
     private var lastTouchY = 0f
     private var scaling = false
     private var fitted = false
-    // Fixed 90-degree coordinate correction keeps world north at the top.
-    private val mapRotationRadians = Math.PI / 2.0
     private val scaleDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScaleBegin(detector: ScaleGestureDetector): Boolean { scaling = true; return true }
         override fun onScale(detector: ScaleGestureDetector): Boolean {
-            pixelsPerUnit = (pixelsPerUnit * detector.scaleFactor).coerceIn(0.08f * density, 30f * density)
+            val factor = detector.scaleFactor
+            val oldCenterX = width / 2f + panX
+            val oldCenterY = height / 2f + panY
+            pixelsPerUnit = (pixelsPerUnit * factor).coerceIn(0.08f * density, 30f * density)
+            // Keep the world point under the pinch centroid stationary while zooming.
+            val newCenterX = detector.focusX - (detector.focusX - oldCenterX) * factor
+            val newCenterY = detector.focusY - (detector.focusY - oldCenterY) * factor
+            panX = newCenterX - width / 2f
+            panY = newCenterY - height / 2f
             invalidate()
             return true
         }
@@ -72,11 +78,38 @@ class AlbionWorldMapView(context: Context) : View(context) {
         fitRegion()
     }
 
-    fun statusText(): String {
-        val resources = entities.count { it.optString("last_kind") in RESOURCE_KINDS && !unavailable(it) }
-        val mobs = entities.count { it.optString("last_kind") == "mob" }
-        return "Region observations: ${entities.size} | resources=$resources mobs=$mobs | invalid=$invalidCount | orientation=fixed-north"
+    fun fitToRegion() {
+        fitted = false
+        fitRegion()
+        invalidate()
     }
+
+    fun centerOnPlayer() {
+        panX = 0f
+        panY = 0f
+        invalidate()
+    }
+
+    fun statusText(): String {
+        val resources = entities.filter { it.optString("last_kind") in RESOURCE_KINDS }
+        val active = resources.count { !unavailable(it) }
+        val depleted = resources.size - active
+        val mobs = entities.count { it.optString("last_kind") == "mob" && !it.optBoolean("left", false) }
+        val you = player
+        val nearest = if (you == null) null else resources.asSequence()
+            .filter { !unavailable(it) && validMapPoint(it) }
+            .map { it to hypot(it.optDouble("x") - you.optDouble("x"), it.optDouble("y") - you.optDouble("y")) }
+            .minByOrNull { it.second }
+        val nearestText = nearest?.let { (node, distance) ->
+            " | nearest=${AlbionRadarSnapshotParser.labelForEntity(node)} ${"%.0f".format(java.util.Locale.US, distance)}u"
+        } ?: ""
+        return "Known session nodes: ${resources.size} active=$active depleted=$depleted mobs=$mobs$nearestText | invalid=$invalidCount"
+    }
+
+    private fun validMapPoint(item: JSONObject): Boolean =
+        item.has("x") && item.has("y") &&
+            item.optDouble("x", Double.NaN).isFinite() &&
+            item.optDouble("y", Double.NaN).isFinite()
 
     private fun unavailable(item: JSONObject) =
         item.optBoolean("depleted", false) || item.optBoolean("left", false)
@@ -104,8 +137,35 @@ class AlbionWorldMapView(context: Context) : View(context) {
             ?: item.optInt("tier", -1).takeIf { it in 1..8 } ?: -1
 
     private fun screenOffset(dx: Double, dy: Double): Pair<Double, Double> {
-        val h = mapRotationRadians
-        return (dx * sin(h) - dy * cos(h)) to -(dx * cos(h) + dy * sin(h))
+        val point = AlbionMapProjection.worldToScreen(dx, dy)
+        return point.x to point.y
+    }
+
+    private fun drawPlayerMarker(
+        canvas: Canvas, cx: Float, cy: Float, direction: AlbionMapProjection.Point?
+    ) {
+        paint.style = Paint.Style.FILL
+        paint.color = 0xFF080B0E.toInt()
+        canvas.drawCircle(cx, cy, 6f * density, paint)
+        paint.style = Paint.Style.STROKE
+        paint.strokeWidth = 1.8f * density
+        paint.color = 0xFFFFFFFF.toInt()
+        canvas.drawCircle(cx, cy, 6f * density, paint)
+        if (direction != null) {
+            val length = 22f * density
+            val tipX = cx + (direction.x * length).toFloat()
+            val tipY = cy + (direction.y * length).toFloat()
+            paint.color = 0xFF55E6FF.toInt()
+            paint.strokeWidth = 2.5f * density
+            paint.strokeCap = Paint.Cap.ROUND
+            canvas.drawLine(cx, cy, tipX, tipY, paint)
+            val backX = cx - (direction.x * 6f * density).toFloat()
+            val backY = cy - (direction.y * 6f * density).toFloat()
+            val sideX = (-direction.y * 4.5f * density).toFloat()
+            val sideY = (direction.x * 4.5f * density).toFloat()
+            canvas.drawLine(tipX, tipY, backX + sideX, backY + sideY, paint)
+            canvas.drawLine(tipX, tipY, backX - sideX, backY - sideY, paint)
+        }
     }
 
     override fun onDraw(canvas: Canvas) {
@@ -156,8 +216,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
             }
         }
 
-        paint.style = Paint.Style.FILL; paint.color = 0xFF56D6A0.toInt()
-        canvas.drawCircle(centerX, centerY, 4.5f * density, paint)
+        drawPlayerMarker(canvas, centerX, centerY, AlbionMapProjection.movementDirection(history))
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
