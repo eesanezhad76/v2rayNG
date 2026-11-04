@@ -26,6 +26,8 @@ class AlbionWorldMapView(context: Context) : View(context) {
     private var lastTouchY = 0f
     private var scaling = false
     private var fitted = false
+    private var mapOriginX = 0.0
+    private var mapOriginY = 0.0
     private val scaleDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScaleBegin(detector: ScaleGestureDetector): Boolean { scaling = true; return true }
         override fun onScale(detector: ScaleGestureDetector): Boolean {
@@ -65,6 +67,8 @@ class AlbionWorldMapView(context: Context) : View(context) {
         val you = player
         val originX = you?.optDouble("x") ?: pts.map { it.optDouble("x") }.average()
         val originY = you?.optDouble("y") ?: pts.map { it.optDouble("y") }.average()
+        mapOriginX = originX
+        mapOriginY = originY
         var maxDistance = 1.0
         pts.forEach { maxDistance = max(maxDistance, hypot(it.optDouble("x") - originX, it.optDouble("y") - originY)) }
         val usable = (minOf(width, height) * 0.44f).coerceAtLeast(20f * density)
@@ -85,6 +89,11 @@ class AlbionWorldMapView(context: Context) : View(context) {
     }
 
     fun centerOnPlayer() {
+        val you = player
+        if (you != null) {
+            mapOriginX = you.optDouble("x")
+            mapOriginY = you.optDouble("y")
+        }
         panX = 0f
         panY = 0f
         invalidate()
@@ -173,8 +182,8 @@ class AlbionWorldMapView(context: Context) : View(context) {
         // 50% map opacity; game remains visible beneath the map.
         canvas.drawColor(0xFF101820.toInt())
         val you = player
-        val px = you?.optDouble("x") ?: 0.0
-        val py = you?.optDouble("y") ?: 0.0
+        val px = you?.optDouble("x") ?: mapOriginX
+        val py = you?.optDouble("y") ?: mapOriginY
         val centerX = width / 2f + panX
         val centerY = height / 2f + panY
 
@@ -216,7 +225,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
             }
         }
 
-        drawPlayerMarker(canvas, centerX, centerY, AlbionMapProjection.movementDirection(history))
+        if (you != null) drawPlayerMarker(canvas, centerX, centerY, AlbionMapProjection.movementDirection(history))
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
