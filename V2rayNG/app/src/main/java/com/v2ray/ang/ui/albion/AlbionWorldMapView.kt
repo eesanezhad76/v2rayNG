@@ -17,6 +17,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
     @Volatile private var entities: List<JSONObject> = emptyList()
     @Volatile private var player: JSONObject? = null
     @Volatile private var invalidCount = 0
+    @Volatile private var savedCaptureMode = false
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
     private var pixelsPerUnit = 1f * density
@@ -47,6 +48,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
     })
 
     fun setSnapshot(json: String): Boolean {
+        savedCaptureMode = false
         val parsed = AlbionRadarSnapshotParser.parse(json)
         if (parsed == null) {
             entities = emptyList(); player = null; invalidCount = 0; postInvalidate()
@@ -57,6 +59,18 @@ class AlbionWorldMapView(context: Context) : View(context) {
         player = entities.filter { it.optString("last_kind") == "own_player_move" }
             .maxByOrNull { it.optLong("last_seen_ms") }
         if (!fitted && width > 0 && height > 0) fitRegion()
+        postInvalidate()
+        return true
+    }
+
+    fun setSavedSnapshot(json: String): Boolean {
+        val parsed = AlbionRadarSnapshotParser.parse(json) ?: return false
+        savedCaptureMode = true
+        entities = parsed.entities
+        invalidCount = parsed.invalidCoordinateCount
+        player = null
+        fitted = false
+        fitRegion()
         postInvalidate()
         return true
     }
@@ -104,6 +118,9 @@ class AlbionWorldMapView(context: Context) : View(context) {
         val active = resources.count { !unavailable(it) }
         val depleted = resources.size - active
         val mobs = entities.count { it.optString("last_kind") == "mob" && !it.optBoolean("left", false) }
+        if (savedCaptureMode) {
+            return "Saved capture coordinates: ${resources.size} resources, ${entities.count { it.optString("last_kind") == "mob" }} mobs | historical state; zone identity unverified | invalid=$invalidCount"
+        }
         val you = player
         val nearest = if (you == null) null else resources.asSequence()
             .filter { !unavailable(it) && validMapPoint(it) }
@@ -206,7 +223,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
 
         entities.forEach { entity ->
             val kind = entity.optString("last_kind")
-            if (kind !in DISPLAY_KINDS || kind == "own_player_move" || (kind in RESOURCE_KINDS && unavailable(entity))) return@forEach
+            if (kind !in DISPLAY_KINDS || kind == "own_player_move") return@forEach
             // Unknown/conflicting static-resource candidates are not painted as false grey nodes.
             if (kind in RESOURCE_KINDS && (entity.optString("classification") == "ambiguous_resource_candidate" ||
                 entity.optString("evidence_grade") == "conflicting_typed_observation")) return@forEach
@@ -215,7 +232,12 @@ class AlbionWorldMapView(context: Context) : View(context) {
             val y = centerY + (ry * pixelsPerUnit).toFloat()
             if (x !in -12f..(width + 12f).toFloat() || y !in -12f..(height + 12f).toFloat()) return@forEach
             paint.style = Paint.Style.FILL
-            paint.color = if (kind in RESOURCE_KINDS) resourceColor(entity) else 0xFFFF6666.toInt()
+            paint.color = when {
+                kind in RESOURCE_KINDS && unavailable(entity) -> 0xFF78838B.toInt()
+                kind in RESOURCE_KINDS -> resourceColor(entity)
+                entity.optBoolean("left", false) -> 0xFF78838B.toInt()
+                else -> 0xFFFF6666.toInt()
+            }
             canvas.drawCircle(x, y, 3.5f * density, paint)
             val t = tier(entity)
             if (kind in RESOURCE_KINDS && t >= 1) {
