@@ -46,13 +46,27 @@ class AlbionWorldMapActivity : Activity() {
             setPadding(8, 8, 8, 8)
         }
         status = TextView(this).apply {
-            visibility = android.view.View.GONE
+            visibility = android.view.View.VISIBLE
             textSize = 12f
             setPadding(4, 4, 4, 8)
             text = "Waiting for live observations"
         }
         mapView = AlbionWorldMapView(this).apply { alpha = 0.5f }
         root.addView(status, LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        ))
+        val mapActions = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            addView(android.widget.Button(this@AlbionWorldMapActivity).apply {
+                text = "FIT ALL KNOWN"
+                setOnClickListener { mapView.fitToRegion() }
+            }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+            addView(android.widget.Button(this@AlbionWorldMapActivity).apply {
+                text = "CENTER PLAYER"
+                setOnClickListener { mapView.centerOnPlayer() }
+            }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
+        }
+        root.addView(mapActions, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ))
         root.addView(mapView, LinearLayout.LayoutParams(
