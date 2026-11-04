@@ -180,7 +180,8 @@ class AlbionLiveKnowledgeStore(
         records.values
             .filter { it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs && it.has("x") && it.has("y") }
             .sortedByDescending { it.optLong("last_seen_ms") }
-            .take(2000)
+            // The previous 2,000-row UI cap silently hid older known nodes. Keep the
+            // complete current-session coordinate catalog (bounded by MAX_RECORDS).
             .forEach { array.put(JSONObject(it.toString())) }
         return array.toString()
     }
