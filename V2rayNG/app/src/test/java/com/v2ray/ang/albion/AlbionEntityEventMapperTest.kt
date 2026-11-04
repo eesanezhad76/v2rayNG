@@ -191,7 +191,7 @@ class AlbionEntityEventMapperTest {
         val zero = AlbionEntityEventMapper.map(event(46, mapOf(0 to 701L, 1 to 0, 2 to 2))).single()
         assertEquals(0, zero.size)
         assertEquals(2, zero.enchant)
-        assertTrue(!zero.removed)
+        assertTrue(zero.removed)
         val depleted = AlbionEntityEventMapper.map(event(46, mapOf(0 to 702L, 2 to 3))).single()
         assertTrue(depleted.removed)
         assertEquals(3, depleted.enchant)
@@ -259,6 +259,11 @@ class AlbionEntityEventMapperTest {
         assertEquals("target_request", mapped.kind)
         assertEquals(23, mapped.eventCode)
         assertTrue(mapped.candidateEntityIds.contains(777L))
+        val intEncoded = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "request", dispatchCode = 0, realCode = 23,
+            parameters = mapOf(0 to 777, 253 to 23), operationCode = 23
+        )).single()
+        assertTrue(intEncoded.candidateEntityIds.contains(777L))
     }
 
 }

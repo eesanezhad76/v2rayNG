@@ -248,8 +248,6 @@ class AlbionLiveKnowledgeStore(
             }
             val x = observation.x?.toDouble()
             val y = observation.y?.toDouble()
-            val targetX = observation.targetX?.toDouble()
-            val targetY = observation.targetY?.toDouble()
             if (x != null && y != null && x.isFinite() && y.isFinite() &&
                 kotlin.math.abs(x) <= MAX_COORDINATE && kotlin.math.abs(y) <= MAX_COORDINATE) {
                 record.put("x", x).put("y", y)
@@ -326,6 +324,8 @@ class AlbionLiveKnowledgeStore(
             }
             observation.heading?.let { if (it.isFinite() && it in 0f..360f) record.put("heading", it) }
             observation.speed?.let { if (it.isFinite() && it in 0f..100f) record.put("speed", it) }
+            val targetX = observation.targetX?.toDouble()
+            val targetY = observation.targetY?.toDouble()
             if (targetX != null && targetY != null && targetX.isFinite() && targetY.isFinite() &&
                 kotlin.math.abs(targetX) <= MAX_COORDINATE && kotlin.math.abs(targetY) <= MAX_COORDINATE) {
                 record.put("target_x", targetX).put("target_y", targetY)

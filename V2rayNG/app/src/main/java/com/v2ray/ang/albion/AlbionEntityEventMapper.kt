@@ -80,12 +80,27 @@ object AlbionEntityEventMapper {
                 // Attack request: keep numeric candidates, but the store will accept
                 // only a unique value that exactly matches a currently known mob ID.
                 val candidates = p.values.flatMap { value ->
+                    // Keep only integral values. The store later intersects these with
+                    // exact, currently-known mob runtime IDs; unrelated parameters are
+                    // therefore not accepted as targets, while Int/Short ID encodings
+                    // are no longer silently discarded.
                     when (value) {
-                        // Runtime entity IDs are decoded as Int64; do not promote
-                        // unrelated integer parameters into target candidates.
+                        is Byte -> listOf(value.toLong())
+                        is Short -> listOf(value.toLong())
+                        is Int -> listOf(value.toLong())
                         is Long -> listOf(value)
+                        is ShortArray -> value.map { it.toLong() }
+                        is IntArray -> value.map { it.toLong() }
                         is LongArray -> value.toList()
-                        is List<*> -> value.filterIsInstance<Long>()
+                        is List<*> -> value.mapNotNull { item ->
+                            when (item) {
+                                is Byte -> item.toLong()
+                                is Short -> item.toLong()
+                                is Int -> item.toLong()
+                                is Long -> item
+                                else -> null
+                            }
+                        }
                         else -> emptyList()
                     }
                 }.filter { it > 0L }.distinct()
@@ -199,9 +214,11 @@ object AlbionEntityEventMapper {
             46 -> {
                 val id = number(0) ?: return emptyList()
                 val remaining = (p[1] as? Number)?.toInt()
-                // Missing size is the explicit depletion signal in the current
-                // upstream harvest lifecycle. Zero alone must not erase a node.
-                val depleted = p[1] == null
+                // A zero remaining amount is the terminal point of the observed
+                // 5→4→3→2→1→0 harvest sequence. Keep the entity as a grey historical
+                // record; only exclude it from active navigation. Missing amount is
+                // also treated as depleted by the upstream lifecycle.
+                val depleted = remaining == null || remaining <= 0
                 if (depleted) knownNonPlayerEntities.remove(id)
                 listOf(Observation(
                     "resource_state", code, id, size = remaining,

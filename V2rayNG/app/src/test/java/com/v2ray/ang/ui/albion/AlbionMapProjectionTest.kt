@@ -36,6 +36,14 @@ class AlbionMapProjectionTest {
     }
 
     @Test
+    fun movementDirectionDisappearsWhenTheLastPositionSampleIsStale() {
+        val history = JSONArray()
+            .put(JSONObject().put("x", 1.0).put("y", 1.0).put("time_ms", 1_000L))
+            .put(JSONObject().put("x", 2.0).put("y", 2.0).put("time_ms", 1_500L))
+        assertEquals(null, AlbionMapProjection.movementDirection(history, nowMs = 5_000L))
+    }
+
+    @Test
     fun movementRightAndLeftRemainConsistentWithWorldX() {
         val right = JSONArray()
             .put(JSONObject().put("x", 1.0).put("y", 1.0))

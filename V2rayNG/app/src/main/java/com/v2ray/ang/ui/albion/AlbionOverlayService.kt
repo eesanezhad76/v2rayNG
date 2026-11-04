@@ -656,29 +656,35 @@ class AlbionOverlayService : Service() {
     }
 
     private fun startRegionScan(force: Boolean) {
-        val capture = CoreServiceManager.getAlbionCaptureSnapshot()
-        if (capture?.running != true) {
+        if (CoreServiceManager.getAlbionCaptureSnapshot()?.running != true) {
             Toast.makeText(this, "Start Albion capture before scanning.", Toast.LENGTH_SHORT).show()
             return
         }
-        val scanId = CoreServiceManager.startAlbionRegionScan()
-        if (scanId.isNullOrBlank()) {
-            Toast.makeText(this, "Region scan could not start.", Toast.LENGTH_SHORT).show()
-            return
+        title.text = if (force) "ALBION • FORCE SCAN…" else "ALBION • REGION…"
+        // Region-scan persistence can serialize a large node set. Keep it off the UI thread.
+        snapshotHandler.post {
+            val scanId = CoreServiceManager.startAlbionRegionScan()
+            val markerSaved = !scanId.isNullOrBlank() && writeDiagnosticMarker(
+                if (force) "force_scan_started" else "region_scan_started",
+                JSONObject().put("scan_id", scanId)
+            )
+            refreshHandler.post {
+                if (scanId.isNullOrBlank()) {
+                    title.text = "ALBION • SCAN !"
+                    Toast.makeText(this, "Region scan could not start.", Toast.LENGTH_SHORT).show()
+                    return@post
+                }
+                title.text = if (markerSaved) "ALBION • SCAN ✓" else "ALBION • SCAN"
+                Toast.makeText(
+                    this,
+                    if (force) "Fresh 60-second passive scan started. Server resend is not forced."
+                    else "New region observation window started (60 seconds).",
+                    Toast.LENGTH_LONG
+                ).show()
+                refreshHandler.removeCallbacks(refreshLiveSnapshot)
+                refreshHandler.post(refreshLiveSnapshot)
+            }
         }
-        val event = if (force) "force_scan_started" else "region_scan_started"
-        val markerSaved = writeDiagnosticMarker(event, JSONObject().put("scan_id", scanId))
-        val live = CoreServiceManager.getAlbionLiveKnowledgeJson()
-        if (::radarView.isInitialized) radarView.setLiveSnapshot(live)
-        title.text = if (markerSaved) "ALBION • SCAN ✓" else "ALBION • SCAN"
-        Toast.makeText(
-            this,
-            if (force) "Fresh 60-second passive scan started. Server resend is not forced."
-            else "New region observation window started (60 seconds).",
-            Toast.LENGTH_LONG
-        ).show()
-        refreshHandler.removeCallbacks(refreshLiveSnapshot)
-        refreshHandler.post(refreshLiveSnapshot)
     }
 
     private fun writeDiagnosticMarker(event: String, metadata: JSONObject = JSONObject()): Boolean {

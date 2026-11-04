@@ -21,9 +21,14 @@ internal object AlbionMapProjection {
         (dx - dy) * DIAGONAL
     )
 
-    fun movementDirection(history: JSONArray?): Point? {
+    fun movementDirection(
+        history: JSONArray?,
+        nowMs: Long = System.currentTimeMillis()
+    ): Point? {
         if (history == null || history.length() < 2) return null
         val last = history.optJSONObject(history.length() - 1) ?: return null
+        val lastTime = last.optLong("time_ms", 0L)
+        if (lastTime > 0L && nowMs >= lastTime && nowMs - lastTime > MAX_DIRECTION_AGE_MS) return null
         val lastX = last.optDouble("x", Double.NaN)
         val lastY = last.optDouble("y", Double.NaN)
         if (!lastX.isFinite() || !lastY.isFinite()) return null
@@ -42,4 +47,5 @@ internal object AlbionMapProjection {
     }
 
     private const val MIN_DIRECTION_DISTANCE = 0.05
+    private const val MAX_DIRECTION_AGE_MS = 3_000L
 }
