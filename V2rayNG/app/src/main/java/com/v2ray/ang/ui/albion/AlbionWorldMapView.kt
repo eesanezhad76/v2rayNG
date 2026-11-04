@@ -304,7 +304,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
                 else -> 0xFFFF6666.toInt()
             }
             canvas.drawCircle(x, y, 3.5f * density, paint)
-            if (deadNotHarvestable || mined) {
+            if (deadNotHarvestable || mined || mobState == "dead_harvestable") {
                 paint.style = Paint.Style.STROKE
                 paint.strokeWidth = 1.2f * density
                 paint.color = if (mined) 0xFF20262B.toInt() else 0xFFFFFFFF.toInt()
