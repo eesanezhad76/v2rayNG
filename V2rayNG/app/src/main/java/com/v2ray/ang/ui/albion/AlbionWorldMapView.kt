@@ -51,6 +51,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
         savedCaptureMode = false
         val parsed = AlbionRadarSnapshotParser.parse(json)
         if (parsed == null) {
+            lastLiveSnapshotJson = null
             entities = emptyList(); player = null; invalidCount = 0; postInvalidate()
             return false
         }
