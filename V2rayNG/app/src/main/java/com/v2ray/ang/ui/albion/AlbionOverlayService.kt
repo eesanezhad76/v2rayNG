@@ -16,6 +16,7 @@ import android.os.HandlerThread
 import android.os.Looper
 import android.provider.Settings
 import android.view.Gravity
+import android.widget.FrameLayout
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
@@ -36,8 +37,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 /** Two independently movable, compact overlay windows: activity controls and navigation radar. */
 class AlbionOverlayService : Service() {
     private lateinit var wm: WindowManager
-    private var controlsRoot: LinearLayout? = null
-    private var radarRoot: LinearLayout? = null
+    private var controlsRoot: FrameLayout? = null
+    private var radarRoot: FrameLayout? = null
+    private var controlsContent: FrameLayout? = null
+    private var radarContent: FrameLayout? = null
     private lateinit var radarView: AlbionMiniRadarView
     private lateinit var body: LinearLayout
     private lateinit var liveStatus: TextView
@@ -140,6 +143,63 @@ class AlbionOverlayService : Service() {
     }
 
     private fun dp(v: Int) = (v * resources.displayMetrics.density).toInt()
+    private fun dpScaled(v: Int, scale: Float) = (dp(v) * scale).toInt().coerceAtLeast(1)
+
+    private fun resizeHandle(): TextView = TextView(this).apply {
+        text = "◢"; textSize = 10f; gravity = Gravity.CENTER
+        setTextColor(0xFFEAF1F5.toInt())
+        contentDescription = getString(com.v2ray.ang.R.string.albion_resize_overlay)
+        background = GradientDrawable().apply {
+            setColor(0xDD263E50.toInt()); cornerRadius = dp(4).toFloat()
+            setStroke(dp(1), 0xFF80D8FF.toInt())
+        }
+    }
+
+    private fun compactButton(label: String, action: () -> Unit) = Button(this).apply {
+        text = label; textSize = 6.5f; isAllCaps = false
+        minWidth = 0; minimumWidth = 0; minHeight = 0; minimumHeight = dp(20)
+        setPadding(dp(1), 0, dp(1), 0); includeFontPadding = false
+        maxLines = 1; isSingleLine = true; gravity = Gravity.CENTER
+        setTextColor(0xFFEAF1F5.toInt())
+        background = GradientDrawable().apply {
+            setColor(0xCC202D38.toInt()); cornerRadius = dp(4).toFloat()
+            setStroke(dp(1), 0x88536777.toInt())
+        }
+        stateListAnimator = null
+        setOnClickListener { action() }
+    }
+
+    private fun attachResize(
+        handle: View, content: View, window: FrameLayout, params: WindowManager.LayoutParams,
+        preferenceKey: String, baseWidthDp: Int
+    ) {
+        val prefs = getSharedPreferences("albion_overlay_layout", MODE_PRIVATE)
+        var downX = 0f; var downY = 0f; var startScale = 1f
+        handle.setOnTouchListener { _, event ->
+            when (event.actionMasked) {
+                MotionEvent.ACTION_DOWN -> {
+                    downX = event.rawX; downY = event.rawY
+                    startScale = content.scaleX.coerceIn(0.65f, 1.5f)
+                    true
+                }
+                MotionEvent.ACTION_MOVE -> {
+                    val denominator = maxOf(dp(baseWidthDp), content.height, dp(100)).toFloat()
+                    val delta = ((event.rawX - downX) + (event.rawY - downY)) / (2f * denominator)
+                    val scale = (startScale + delta).coerceIn(0.65f, 1.5f)
+                    content.scaleX = scale; content.scaleY = scale
+                    params.width = dpScaled(baseWidthDp, scale)
+                    params.height = dpScaled((content.height / resources.displayMetrics.density).toInt().coerceAtLeast(100), scale)
+                    try { wm.updateViewLayout(window, params) } catch (_: Exception) { }
+                    true
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    prefs.edit().putFloat(preferenceKey, content.scaleX.coerceIn(0.65f, 1.5f)).apply()
+                    true
+                }
+                else -> false
+            }
+        }
+    }
     private fun panelBackground() = GradientDrawable().apply {
         setColor(0xE9162029.toInt()); cornerRadius = dp(9).toFloat()
         setStroke(dp(1), 0x885F7788.toInt())
@@ -180,8 +240,12 @@ class AlbionOverlayService : Service() {
     }
 
     private fun buildControlsWindow() {
+        val prefs = getSharedPreferences("albion_overlay_layout", MODE_PRIVATE)
+        val scale = prefs.getFloat("controls_scale", 1f).coerceIn(0.65f, 1.5f)
         val panel = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL; setPadding(dp(4), dp(3), dp(4), dp(3)); background = panelBackground()
+            orientation = LinearLayout.VERTICAL
+            setPadding(dp(24), dp(3), dp(4), dp(3))
+            background = panelBackground()
         }
         val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
         title = TextView(this).apply {
@@ -201,83 +265,127 @@ class AlbionOverlayService : Service() {
             maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END; includeFontPadding = false
         }
         panel.addView(body)
-        panel.tag = "controls"
-        controlsRoot = panel
-        val layoutPrefs = getSharedPreferences("albion_overlay_layout", MODE_PRIVATE)
+        val content = FrameLayout(this).apply {
+            pivotX = 0f; pivotY = 0f; scaleX = scale; scaleY = scale
+            addView(panel, FrameLayout.LayoutParams(dp(218), WindowManager.LayoutParams.WRAP_CONTENT))
+        }
+        val grip = resizeHandle()
+        content.addView(grip, FrameLayout.LayoutParams(dp(20), dp(20), Gravity.TOP or Gravity.LEFT))
+        val root = FrameLayout(this).apply {
+            tag = "controls"
+            addView(content, FrameLayout.LayoutParams(dp(218), WindowManager.LayoutParams.WRAP_CONTENT))
+        }
+        controlsContent = content
+        controlsRoot = root
         val type = if (Build.VERSION.SDK_INT >= 26) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE
         val params = WindowManager.LayoutParams(
-            dp(218), WindowManager.LayoutParams.WRAP_CONTENT, type,
+            dpScaled(218, scale), WindowManager.LayoutParams.WRAP_CONTENT, type,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = Gravity.TOP or Gravity.START
-            x = layoutPrefs.getInt("controls_x", dp(8))
-            y = layoutPrefs.getInt("controls_y", dp(90))
+            x = prefs.getInt("controls_x", dp(8))
+            y = prefs.getInt("controls_y", dp(90))
         }
         controlsParams = params
-        wm.addView(panel, params)
-        attachDrag(title, panel, params)
+        wm.addView(root, params)
+        root.post {
+            if (controlsRoot === root && content.height > 0) {
+                params.height = dpScaled((content.height / resources.displayMetrics.density).toInt(), scale)
+                try { wm.updateViewLayout(root, params) } catch (_: Exception) { }
+            }
+        }
+        attachDrag(title, root, params)
+        attachResize(grip, content, root, params, "controls_scale", 218)
         renderBody()
     }
 
     private fun buildRadarWindow() {
+        val prefs = getSharedPreferences("albion_overlay_layout", MODE_PRIVATE)
+        val scale = prefs.getFloat("radar_scale", 1f).coerceIn(0.65f, 1.5f)
         val panel = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL; setPadding(dp(3), dp(3), dp(3), dp(3)); background = panelBackground()
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(0, 0, 0, 0)
+            background = null
         }
-        val head = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; gravity = Gravity.CENTER_VERTICAL }
-        val dragTitle = TextView(this).apply {
-            text = "RADAR • DRAG"; setTextColor(0xFFEAF1F5.toInt()); textSize = 9f
-            typeface = Typeface.DEFAULT_BOLD; gravity = Gravity.CENTER_VERTICAL; includeFontPadding = false
-        }
-        head.addView(dragTitle, LinearLayout.LayoutParams(0, dp(25), 1f))
-        catalogButton = button("SAVED") {
-            catalogOverviewMode = !catalogOverviewMode
-            radarView.setCatalogOverviewMode(catalogOverviewMode)
-            catalogButton.text = if (catalogOverviewMode) "LIVE" else "SAVED"
-            updateCatalogInfo()
-        }
-        head.addView(catalogButton, LinearLayout.LayoutParams(dp(48), dp(25)))
-        nextCatalogButton = button("${catalogIndex + 1}/${catalogCaptures.length().coerceAtLeast(1)}") { showNextCatalog() }
-        head.addView(nextCatalogButton, LinearLayout.LayoutParams(dp(38), dp(25)))
-        filterButton = button("FILTER") { toggleFilters() }
-        head.addView(filterButton, LinearLayout.LayoutParams(dp(54), dp(25)))
-        head.addView(button("×") { removeRadarWindow() }, LinearLayout.LayoutParams(dp(25), dp(25)))
-        panel.addView(head)
         radarView = AlbionMiniRadarView(this)
         for (i in 0 until catalogEntities.length()) {
             catalogEntities.optJSONObject(i)?.let { applyMobTypeInfo(it) }
         }
         radarView.setCatalogSnapshot(catalogEntities.toString())
-        panel.addView(radarView, LinearLayout.LayoutParams(dp(224), dp(190)))
+        panel.addView(radarView, LinearLayout.LayoutParams(dp(176), dp(176)))
+
+        val side = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            gravity = Gravity.TOP
+            setPadding(dp(2), 0, 0, 0)
+        }
+        val dragTitle = TextView(this).apply {
+            text = "DRAG"; setTextColor(0xFFEAF1F5.toInt()); textSize = 7f
+            typeface = Typeface.DEFAULT_BOLD; gravity = Gravity.CENTER
+            includeFontPadding = false
+        }
+        side.addView(dragTitle, LinearLayout.LayoutParams(-1, dp(17)))
+        catalogButton = compactButton("SAVED") {
+            catalogOverviewMode = !catalogOverviewMode
+            radarView.setCatalogOverviewMode(catalogOverviewMode)
+            catalogButton.text = if (catalogOverviewMode) "LIVE" else "SAVED"
+            updateCatalogInfo()
+        }
+        side.addView(catalogButton, LinearLayout.LayoutParams(-1, dp(21)).apply { bottomMargin = dp(2) })
+        nextCatalogButton = compactButton("${catalogIndex + 1}/${catalogCaptures.length().coerceAtLeast(1)}") { showNextCatalog() }
+        side.addView(nextCatalogButton, LinearLayout.LayoutParams(-1, dp(21)).apply { bottomMargin = dp(2) })
+        filterButton = compactButton("FILTER") { toggleFilters() }
+        side.addView(filterButton, LinearLayout.LayoutParams(-1, dp(21)).apply { bottomMargin = dp(2) })
+        side.addView(compactButton("×") { removeRadarWindow() }, LinearLayout.LayoutParams(-1, dp(21)).apply { bottomMargin = dp(2) })
         catalogInfo = label("")
-        catalogInfo.maxLines = 1
-        panel.addView(catalogInfo, LinearLayout.LayoutParams(-1, dp(15)))
-        updateCatalogInfo()
+        catalogInfo.maxLines = 2
+        catalogInfo.textSize = 6f
+        side.addView(catalogInfo, LinearLayout.LayoutParams(-1, dp(24)))
         filterPanel = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL; setPadding(dp(3), dp(2), dp(3), dp(2))
+            orientation = LinearLayout.VERTICAL; setPadding(dp(2), dp(1), dp(2), dp(1))
         }
         filterScroll = ScrollView(this).apply {
             isFillViewport = true; visibility = View.GONE; addView(filterPanel)
         }
-        panel.addView(filterScroll, LinearLayout.LayoutParams(-1, dp(160)))
-        panel.tag = "radar"
-        radarRoot = panel
-        val layoutPrefs = getSharedPreferences("albion_overlay_layout", MODE_PRIVATE)
+        side.addView(filterScroll, LinearLayout.LayoutParams(-1, dp(100)))
+        panel.addView(side, LinearLayout.LayoutParams(dp(60), dp(176)))
+
+        val content = FrameLayout(this).apply {
+            pivotX = 0f; pivotY = 0f; scaleX = scale; scaleY = scale
+            addView(panel, FrameLayout.LayoutParams(dp(236), WindowManager.LayoutParams.WRAP_CONTENT))
+        }
+        val grip = resizeHandle()
+        content.addView(grip, FrameLayout.LayoutParams(dp(18), dp(18), Gravity.TOP or Gravity.LEFT))
+        val root = FrameLayout(this).apply {
+            tag = "radar"
+            addView(content, FrameLayout.LayoutParams(dp(236), WindowManager.LayoutParams.WRAP_CONTENT))
+        }
+        radarContent = content
+        radarRoot = root
         val type = if (Build.VERSION.SDK_INT >= 26) WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY else WindowManager.LayoutParams.TYPE_PHONE
         val params = WindowManager.LayoutParams(
-            dp(238), WindowManager.LayoutParams.WRAP_CONTENT, type,
+            dpScaled(236, scale), WindowManager.LayoutParams.WRAP_CONTENT, type,
             WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
             PixelFormat.TRANSLUCENT
         ).apply {
             gravity = Gravity.TOP or Gravity.START
-            x = layoutPrefs.getInt("radar_x", dp(8))
-            y = layoutPrefs.getInt("radar_y", dp(350))
+            x = prefs.getInt("radar_x", dp(8))
+            y = prefs.getInt("radar_y", dp(350))
         }
         radarParams = params
-        wm.addView(panel, params)
-        attachDrag(dragTitle, panel, params)
+        wm.addView(root, params)
+        root.post {
+            if (radarRoot === root && content.height > 0) {
+                params.height = dpScaled((content.height / resources.displayMetrics.density).toInt(), scale)
+                try { wm.updateViewLayout(root, params) } catch (_: Exception) { }
+            }
+        }
+        attachDrag(dragTitle, root, params)
+        attachResize(grip, content, root, params, "radar_scale", 236)
         renderFilters()
         radarView.setFilters(enabledFilters)
+        updateCatalogInfo()
     }
 
     private fun attachDrag(handle: View, target: View, params: WindowManager.LayoutParams) {
@@ -388,7 +496,12 @@ class AlbionOverlayService : Service() {
     private fun toggleFilters() {
         filterScroll.visibility = if (filterScroll.visibility == View.VISIBLE) View.GONE else View.VISIBLE
         filterButton.text = if (filterScroll.visibility == View.VISIBLE) "HIDE" else "FILTER"
-        radarParams?.let { try { radarRoot?.let { root -> wm.updateViewLayout(root, it) } } catch (_: Exception) { } }
+        radarParams?.let { params -> try { radarRoot?.let { root ->
+            radarContent?.let { content ->
+                params.height = dpScaled((content.height / resources.displayMetrics.density).toInt().coerceAtLeast(176), content.scaleY)
+            }
+            wm.updateViewLayout(root, params)
+        } } catch (_: Exception) { } }
     }
 
     private fun loadStaticCatalog() {
@@ -547,7 +660,7 @@ class AlbionOverlayService : Service() {
 
     private fun removeRadarWindow() {
         try { radarRoot?.let { wm.removeView(it) } } catch (_: Exception) { }
-        radarRoot = null; radarParams = null
+        radarRoot = null; radarContent = null; radarParams = null
     }
 
     override fun onDestroy() {
@@ -556,7 +669,7 @@ class AlbionOverlayService : Service() {
         snapshotThread.quitSafely()
         try { controlsRoot?.let { wm.removeView(it) } } catch (_: Exception) { }
         try { radarRoot?.let { wm.removeView(it) } } catch (_: Exception) { }
-        controlsRoot = null; radarRoot = null; controlsParams = null; radarParams = null
+        controlsRoot = null; radarRoot = null; controlsContent = null; radarContent = null; controlsParams = null; radarParams = null
         stopForeground(STOP_FOREGROUND_REMOVE)
         super.onDestroy()
     }
