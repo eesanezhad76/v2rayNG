@@ -244,4 +244,15 @@ class AlbionEntityEventMapperTest {
         ))).isEmpty())
     }
 
+    @Test
+    fun mapsAttackRequestAsCandidateIdsWithoutGuessingParameterIndex() {
+        val mapped = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "request", dispatchCode = 0, realCode = 23,
+            parameters = mapOf(0 to 777L, 1 to 99, 253 to 23), operationCode = 23
+        )).single()
+        assertEquals("target_request", mapped.kind)
+        assertEquals(23, mapped.eventCode)
+        assertTrue(mapped.candidateEntityIds.contains(777L))
+    }
+
 }
