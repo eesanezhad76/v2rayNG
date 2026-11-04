@@ -17,6 +17,11 @@ class AlbionLiveKnowledgeStore(
     private val sessionStartedMs: Long = System.currentTimeMillis()
 ) {
     private val file = File(context.applicationContext.filesDir, "albion-live-knowledge.json")
+    private val regionScanDir = File(context.applicationContext.filesDir, "albion-region-scans")
+    private var regionScanId: String? = null
+    private var regionScanStartedMs = 0L
+    private var regionScanEndsMs = 0L
+    private var lastRegionScanFlushMs = 0L
     private val records = LinkedHashMap<String, JSONObject>()
     private var dirty = false
     private var lastFlushMs = 0L
@@ -171,11 +176,98 @@ class AlbionLiveKnowledgeStore(
             dirty = true
         }
         if (dirty) snapshotDirty = true
+        if (regionScanId != null && timestampMs >= regionScanStartedMs) {
+            if (timestampMs - lastRegionScanFlushMs >= FLUSH_INTERVAL_MS || timestampMs >= regionScanEndsMs) {
+                flushRegionScan(timestampMs, timestampMs >= regionScanEndsMs)
+            }
+        }
         if (dirty && timestampMs - lastFlushMs >= FLUSH_INTERVAL_MS) flush(timestampMs)
     }
 
     @Synchronized
     fun flush() = flush(System.currentTimeMillis())
+
+    /** Starts an isolated 60-second observation window for the newly entered region. */
+    @Synchronized
+    fun beginRegionScan(nowMs: Long = System.currentTimeMillis()): String {
+        if (!regionScanDir.exists() && !regionScanDir.mkdirs()) error("Cannot create region scan directory")
+        val id = "region-$nowMs"
+        regionScanId = id
+        regionScanStartedMs = nowMs
+        regionScanEndsMs = nowMs + REGION_SCAN_DURATION_MS
+        lastRegionScanFlushMs = 0L
+        flushRegionScan(nowMs, false)
+        return id
+    }
+
+    /** Coordinate rows observed/updated after the current scan button was pressed. */
+    @Synchronized
+    fun regionScanSnapshotJson(nowMs: Long = System.currentTimeMillis()): String {
+        val id = regionScanId ?: return "[]"
+        val finished = nowMs >= regionScanEndsMs
+        if (finished || nowMs - lastRegionScanFlushMs >= FLUSH_INTERVAL_MS) {
+            flushRegionScan(nowMs, finished)
+        }
+        val array = JSONArray()
+        records.values
+            .filter {
+                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                    it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
+                    it.has("x") && it.has("y")
+            }
+            .sortedByDescending { it.optLong("last_seen_ms") }
+            .forEach { row ->
+                array.put(JSONObject(row.toString())
+                    .put("region_scan_id", id)
+                    .put("region_scan_started_ms", regionScanStartedMs))
+            }
+        return array.toString()
+    }
+
+    @Synchronized
+    private fun flushRegionScan(nowMs: Long, finished: Boolean) {
+        val id = regionScanId ?: return
+        try {
+            if (!regionScanDir.exists() && !regionScanDir.mkdirs()) return
+            val nodes = JSONArray(regionScanSnapshotRowsJson())
+            val document = JSONObject()
+                .put("schema_version", 1)
+                .put("scan_id", id)
+                .put("started_at_ms", regionScanStartedMs)
+                .put("scheduled_end_at_ms", regionScanEndsMs)
+                .put("updated_at_ms", nowMs)
+                .put("finished", finished)
+                .put("region_identity", JSONObject.NULL)
+                .put("region_identity_note", "Not decoded; scan is a user-triggered observation window, not a verified server region ID.")
+                .put("node_count", nodes.length())
+                .put("nodes", nodes)
+            val target = File(regionScanDir, "$id.json")
+            val temp = File(regionScanDir, "$id.json.tmp")
+            temp.writeText(document.toString(2), Charsets.UTF_8)
+            if (!temp.renameTo(target)) error("Cannot atomically save region scan")
+            lastRegionScanFlushMs = nowMs
+        } catch (_: Exception) {
+            // Keep the scan active; the next observation/poll retries the atomic save.
+        }
+    }
+
+    private fun regionScanSnapshotRowsJson(): String {
+        val id = regionScanId ?: return "[]"
+        val array = JSONArray()
+        records.values
+            .filter {
+                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                    it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
+                    it.has("x") && it.has("y")
+            }
+            .sortedByDescending { it.optLong("last_seen_ms") }
+            .forEach { row ->
+                array.put(JSONObject(row.toString())
+                    .put("region_scan_id", id)
+                    .put("region_scan_started_ms", regionScanStartedMs))
+            }
+        return array.toString()
+    }
 
     @Synchronized
     fun snapshotJson(): String {
@@ -406,6 +498,7 @@ class AlbionLiveKnowledgeStore(
 
     private companion object {
         const val MAX_RECORDS = 25000
+        const val REGION_SCAN_DURATION_MS = 60_000L
         const val MAX_COORDINATE = 10000.0
         const val MAX_MOVEMENT_POINTS = 240
         const val MIN_MOVEMENT_DISTANCE = 0.5
