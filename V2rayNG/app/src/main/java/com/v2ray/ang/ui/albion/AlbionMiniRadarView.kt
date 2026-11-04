@@ -344,7 +344,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             }
             // Show only identity-backed Troll markers and database-confirmed Ore Elementals.
             visibleEntities().filter {
-                it.optString("last_kind") == "mob" && (isTroll(it) || isOreElemental(it)) && validPoint(it)
+                it.optString("last_kind") == "mob" && !it.has("superseded_by_harvestable_entity_id") &&
+                    (isTroll(it) || isOreElemental(it)) && validPoint(it)
             }.forEach { mob ->
                 val dx = mob.optDouble("x") - px
                 val dy = mob.optDouble("y") - py
