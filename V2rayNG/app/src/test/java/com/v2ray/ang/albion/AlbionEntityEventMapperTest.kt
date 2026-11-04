@@ -231,4 +231,17 @@ class AlbionEntityEventMapperTest {
         ))).isEmpty())
     }
 
+    @Test
+    fun mapsConfirmedMistsTransitionToVerifiedRegionChange() {
+        AlbionEntityEventMapper.reset()
+        val transition = AlbionEntityEventMapper.map(event(521, mapOf(
+            2 to "@MISTS@MAP_123", 3 to true, 4 to "MAP_ORIGIN"
+        ))).single()
+        assertEquals("region_change", transition.kind)
+        assertEquals("@MISTS@MAP_123", transition.regionId)
+        assertTrue(AlbionEntityEventMapper.map(event(521, mapOf(
+            2 to "@MISTS@MAP_456", 3 to false
+        ))).isEmpty())
+    }
+
 }
