@@ -210,6 +210,17 @@ jobs:
         set -euo pipefail
         V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
         python3 research/tools/analyze_spatial_alignment.py
+        python3 research/tools/analyze_portal_zone_node_matches.py
+
+    - name: Upload portal-zone cross-capture audit
+      if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics')
+      uses: actions/upload-artifact@v7
+      with:
+        name: portal-zone-cross-capture-audit
+        path: |
+          research/analysis/2026-11-04-portal-zone-cross-capture-matches.md
+          research/analysis/2026-11-04-portal-zone-cross-capture-matches.json
+        if-no-files-found: warn
 
     - name: Test Python analysis, marker FIFO, and readiness logic
       if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics')
