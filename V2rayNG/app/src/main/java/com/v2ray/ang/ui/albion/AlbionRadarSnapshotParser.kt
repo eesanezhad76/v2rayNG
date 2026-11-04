@@ -18,37 +18,58 @@ object AlbionRadarSnapshotParser {
     fun labelForEntity(item: JSONObject): String {
         val kind = item.optString("last_kind")
         if (kind == "own_player_move") return "YOU"
-        val tier = item.optInt("marker_tier", -1).takeIf { it in 1..8 }
-            ?: item.optInt("tier", -1).takeIf { it in 1..8 } ?: -1
         if (kind == "mob") {
-            val markerActivity = item.optString("marker_activity")
-            val manualActivity = item.optString("manual_activity")
-            val candidateActivity = item.optString("marker_activity_candidate")
-            val uniqueName = item.optString("type_unique_name")
-            val databaseTroll = uniqueName.contains("TROLL", ignoreCase = true)
-            val trollMarked = databaseTroll || markerActivity.equals("Troll", true) ||
-                manualActivity.equals("Troll", true) || candidateActivity.equals("Troll", true)
-            if (trollMarked) {
-                val trollIdentityProven = databaseTroll || item.optBoolean("manual_marker_identity_proven", false)
-                return if (trollIdentityProven) {
-                    if (tier > 0) "TG" + tier else "Troll"
-                } else {
-                    if (tier > 0) "TG?" + tier else "TG?"
-                }
-            }
-            val displayName = item.optString("display_name")
-            val oreElemental = item.optString("resource_role") == "ore_elemental" ||
-                (item.optBoolean("is_harvestable_mob", false) &&
-                    uniqueName.contains("CRITTER_ORE", ignoreCase = true) &&
-                    displayName.equals("Ore Elemental", ignoreCase = true))
-            if (oreElemental) return if (tier > 0) "OE" + tier else "OE"
             val name = item.optString("name").takeIf { it.isNotBlank() && it != "null" }
-                ?: displayName.takeIf { it.isNotBlank() && it != "null" }
-            if (name != null) return if (tier > 0) "T" + tier + " " + name else name
-            return if (item.has("mobile_type_id")) "Mob ID" + item.optInt("mobile_type_id") else "Mob"
+            val activity = item.optString("marker_activity")
+            val candidateActivity = item.optString("marker_activity_candidate")
+            val tier = item.optInt("tier", -1).takeIf { it > 0 }?.let { "T$it " } ?: ""
+            if (activity == "Troll") return if (name != null && !name.lowercase().contains("troll")) "T! $tier$name" else name ?: "Troll"
+            if (candidateActivity == "Troll") return if (name != null && !name.lowercase().contains("troll")) "T? $tier$name" else "Troll?"
+            if (name != null) return tier + name
+            return if (item.has("mobile_type_id")) "Mob ID${item.optInt("mobile_type_id")}" else "Mob"
         }
         if (kind in setOf("static_resource", "harvestable", "resource_state")) {
-            return if (tier > 0) "T" + tier else "Resource"
+            if (item.optBoolean("user_confirmed_target", false)) return "T5.3 ✓"
+            val inference = item.optJSONObject("resource_inference")?.optJSONObject("resource_name")
+            val inferenceStatus = inference?.optString("status")
+            val inferenceConfidence = inference?.optDouble("confidence", 0.0) ?: 0.0
+            val inferredName = inference?.optString("value")?.takeIf {
+                it.isNotBlank() && it != "null" &&
+                    inferenceStatus != "CONFLICT" && inferenceStatus != "UNKNOWN" &&
+                    inferenceConfidence > 0.0
+            }
+            val tierLabel = item.optInt("tier", -1).takeIf { it in 2..8 }?.let { " T$it" } ?: ""
+            val enchantInference = item.optJSONObject("resource_inference")?.optJSONObject("enchantment_name")
+            val enchantValue = enchantInference?.optString("value")?.takeIf { it.startsWith("E") }
+            val enchantStatus = enchantInference?.optString("status")
+            val enchantLabel = enchantValue?.let { " $it" + if (enchantStatus == "PROVISIONAL_MAPPING") "?" else "" }
+                ?: item.optInt("enchant", -1).takeIf { it in 1..3 }?.let { " E$it?" } ?: ""
+            val suffix = tierLabel + enchantLabel
+            if (inferredName != null) {
+                val name = when (inferenceStatus) {
+                    "PACKET_CONFIRMED" -> inferredName
+                    "CAPTURE_CORROBORATED" -> "$inferredName*"
+                    "PROVISIONAL_MAPPING" -> "$inferredName?"
+                    else -> inferredName
+                }
+                return name + suffix
+            }
+            // Research catalog rows carry source-derived names directly instead of a
+            // resource_inference object. Preserve their evidence grade in the label.
+            val catalogName = item.optString("name").takeIf {
+                it.isNotBlank() && it != "null" && it != "Resource"
+            }
+            if (catalogName != null) {
+                val mappingStatus = item.optString("mapping_status")
+                val displayName = if (mappingStatus.contains("PROVISIONAL", ignoreCase = true)) {
+                    "$catalogName?"
+                } else catalogName
+                return displayName + suffix
+            }
+            if (item.optInt("family", -1) == 29) return "Ore candidate F29$suffix"
+            if (item.has("family")) return "Resource F${item.optInt("family")}$suffix"
+            if (item.has("mobile_type_id")) return "Resource ID${item.optInt("mobile_type_id")}$suffix"
+            return (if (kind == "static_resource") "Resource candidate" else "Resource") + suffix
         }
         if (kind == "player_move") return item.optString("name").takeIf { it.isNotBlank() } ?: "Player"
         return kind.ifBlank { "Unknown entity" }

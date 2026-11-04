@@ -34,6 +34,25 @@ class AlbionMapProjectionTest {
     }
 
     @Test
+    fun movementArrowPointsDownWhenWorldYDecreases() {
+        val history = JSONArray()
+            .put(JSONObject().put("x", 10.0).put("y", 12.0))
+            .put(JSONObject().put("x", 10.0).put("y", 10.0))
+        val direction = AlbionMapProjection.movementDirection(history)!!
+        assertEquals(0.0, direction.x, 1e-9)
+        assertEquals(1.0, direction.y, 1e-9)
+    }
+
+    @Test
+    fun movementArrowDisappearsWhenPlayerStopsInsteadOfReusingOldHeading() {
+        val history = JSONArray()
+            .put(JSONObject().put("x", 10.0).put("y", 10.0))
+            .put(JSONObject().put("x", 10.0).put("y", 12.0))
+            .put(JSONObject().put("x", 10.0).put("y", 12.0))
+        assertEquals(null, AlbionMapProjection.movementDirection(history))
+    }
+
+    @Test
     fun movementDirectionDisappearsWhenTheLastPositionSampleIsStale() {
         val history = JSONArray()
             .put(JSONObject().put("x", 1.0).put("y", 1.0).put("time_ms", 1_000L))

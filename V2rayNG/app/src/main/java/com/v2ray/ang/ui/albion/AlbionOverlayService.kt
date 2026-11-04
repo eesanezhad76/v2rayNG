@@ -79,7 +79,7 @@ class AlbionOverlayService : Service() {
     private val snapshotHandler = Handler(snapshotThread.looper)
     private val snapshotRefreshInFlight = AtomicBoolean(false)
     private val activities = listOf("Ore", "Wood", "Stone", "Fiber", "Hide", "Mob", "Troll", "PvP", "Move", "Other")
-    private val tiers = (1..8).map { "T$it" }
+    private val tiers = (2..8).map { "T$it" }
     private val enchants = listOf("Normal", "E1", "E2", "E3")
     private val filterOptions = listOf(
         "category_ore" to "Ore",
@@ -92,7 +92,7 @@ class AlbionOverlayService : Service() {
         "category_animal" to "Other Animals",
         "category_mobs" to "Other Mobs",
         "category_unknown_resource" to "Unclassified Resources"
-    ) + (1..8).map { "tier_$it" to "T$it" } +
+    ) + (2..8).map { "tier_$it" to "T$it" } +
         listOf("enchant_0" to "Normal", "enchant_1" to "E1", "enchant_2" to "E2", "enchant_3" to "E3")
 
     private val refreshLiveSnapshot = object : Runnable {
@@ -663,7 +663,7 @@ class AlbionOverlayService : Service() {
         title.text = if (force) "ALBION • FORCE SCAN…" else "ALBION • REGION…"
         // Region-scan persistence can serialize a large node set. Keep it off the UI thread.
         snapshotHandler.post {
-            val scanId = CoreServiceManager.startAlbionRegionScan(force)
+            val scanId = CoreServiceManager.startAlbionRegionScan()
             val markerSaved = !scanId.isNullOrBlank() && writeDiagnosticMarker(
                 if (force) "force_scan_started" else "region_scan_started",
                 JSONObject().put("scan_id", scanId)
@@ -677,7 +677,7 @@ class AlbionOverlayService : Service() {
                 title.text = if (markerSaved) "ALBION • SCAN ✓" else "ALBION • SCAN"
                 Toast.makeText(
                     this,
-                    if (force) "Force scan: cached nodes from this verified region + new live observations for 60 seconds. No server resend is forced."
+                    if (force) "Fresh 60-second passive scan started. Server resend is not forced."
                     else "New region observation window started (60 seconds).",
                     Toast.LENGTH_LONG
                 ).show()
@@ -722,7 +722,7 @@ class AlbionOverlayService : Service() {
                 return
             }
             radarTestPhase = 0
-            Toast.makeText(this, "Tap UP START, then walk straight UP for 5–8 seconds.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Walk straight UP for 5–8 seconds, then tap UP END.", Toast.LENGTH_LONG).show()
         } else {
             val step = radarTestSteps.getOrNull(radarTestPhase) ?: return
             if (!writeDiagnosticMarker("radar_test_${step.first}", JSONObject()

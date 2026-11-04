@@ -151,7 +151,7 @@ class AlbionLiveKnowledgeStoreTest {
             )
         )
         val snapshot = store.snapshotText()
-        assertTrue(snapshot.contains("Resource Ore Elemental T5"), snapshot)
+        assertTrue(snapshot.contains("Resource T5"), snapshot)
         assertTrue(snapshot.contains("Player movement"), snapshot)
         assertTrue(snapshot.contains("proximity alone is not confirmation"), snapshot)
     }
@@ -241,9 +241,7 @@ class AlbionLiveKnowledgeStoreTest {
         evidence.observe(now, 210, mapOf(0 to 44L, 1 to true))
         evidence.observe(now + 1L, 210, mapOf(0 to 44L, 1 to false))
         val summary = evidence.summaryText()
-        assertTrue(summary.contains("Event 210 candidate observations retained: 2"), summary)
-        assertTrue(summary.contains("Event 210 parameter shapes: 1"), summary)
-        assertTrue(summary.contains("0=Long,1=Boolean"), summary)
+        assertTrue(summary.contains("Mount/dismount event 210 observations retained: 2"), summary)
     }
 
     @Test fun corruptEvidenceCacheDoesNotCrashOrCreateFalseInventoryEvidence() {
@@ -334,37 +332,18 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(history!!.getJSONObject(history.length() - 1).optDouble("x") == 12.0)
     }
 
-    @Test fun resolvesTrollTargetWhenOperation23PrecedesNewMobObservation() {
-        val store = AlbionLiveKnowledgeStore(context(), 40_000L)
-        val now = 40_100L
-        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
-            kind = "target_request", eventCode = 23, candidateEntityIds = listOf(777L)
-        )))
-        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
-            .put("event", "target_found").put("tier", "3").put("enchantment", "E1"), now + 1L)
-        store.observe(now + 2L, listOf(AlbionEntityEventMapper.Observation(
-            kind = "mob", eventCode = 123, entityId = 777L,
-            typeId = 571, x = 12f, y = 34f
-        )))
-        val snapshot = org.json.JSONArray(store.snapshotJson())
-        val mob = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
-            .first { it.optString("entity_id") == "777" }
-        assertTrue(mob.optBoolean("manual_marker_identity_proven"), mob.toString())
-        assertTrue(mob.optString("manual_activity") == "Troll", mob.toString())
-    }
-
     @Test fun retainsMovementHeadingAndMountStateWithoutBlockingOnFootMovement() {
         val store = AlbionLiveKnowledgeStore(context())
         val now = System.currentTimeMillis() + 1_000L
         store.observe(now, listOf(AlbionEntityEventMapper.Observation(
-            kind = "mount_state_candidate", eventCode = 210, entityId = 44L, value = 1f
+            kind = "player_mounted", eventCode = 210, entityId = 44L, value = 1f
         )))
         store.observe(now + 500L, listOf(AlbionEntityEventMapper.Observation(
             kind = "own_player_move", eventCode = 22, entityId = -1L,
             x = 10f, y = 20f, heading = 303.76f, speed = 11f
         )))
         store.observe(now + 1_000L, listOf(AlbionEntityEventMapper.Observation(
-            kind = "mount_state_candidate", eventCode = 210, entityId = 44L, value = 0f
+            kind = "player_mounted", eventCode = 210, entityId = 44L, value = 0f
         )))
         store.observe(now + 1_500L, listOf(AlbionEntityEventMapper.Observation(
             kind = "own_player_move", eventCode = 22, entityId = -1L,
@@ -375,9 +354,9 @@ class AlbionLiveKnowledgeStoreTest {
             .first { it.optString("last_kind") == "own_player_move" }
         val history = player.getJSONArray("movement_history")
         assertTrue(history.length() == 2, player.toString())
-        assertTrue(kotlin.math.abs(history.getJSONObject(0).optDouble("heading") - 303.76) < 0.001, history.toString())
-        assertTrue(history.getJSONObject(0).optBoolean("mount_state_candidate"), history.toString())
-        assertTrue(!history.getJSONObject(1).optBoolean("mount_state_candidate", true), history.toString())
+        assertTrue(history.getJSONObject(0).optDouble("heading") == 303.76, history.toString())
+        assertTrue(history.getJSONObject(0).optBoolean("mounted"), history.toString())
+        assertTrue(!history.getJSONObject(1).optBoolean("mounted", true), history.toString())
         assertTrue(history.getJSONObject(1).optDouble("speed") == 11.0, history.toString())
     }
 
@@ -473,33 +452,6 @@ class AlbionLiveKnowledgeStoreTest {
         val scan = org.json.JSONArray(store.regionScanSnapshotJson(11_200L))
         assertTrue(scan.length() == 1, "Auto scan must be scoped to the active region: $scan")
         assertTrue(scan.getJSONObject(0).optString("region_id") == "MAP_B")
-    }
-
-    @Test fun forceRegionScanIncludesPreviouslyCachedNodesOnlyFromVerifiedCurrentRegion() {
-        val store = AlbionLiveKnowledgeStore(context(), 30_000L)
-        store.observe(30_100L, listOf(AlbionEntityEventMapper.Observation(
-            kind = "region_change", eventCode = 41, regionId = "MAP_FORCE_A"
-        )))
-        store.observe(30_200L, listOf(AlbionEntityEventMapper.Observation(
-            kind = "harvestable", eventCode = 40, entityId = 301L,
-            typeId = 574, typeNumber = 29, tier = 5, size = 3, x = 10f, y = 20f
-        )))
-        store.observe(30_300L, listOf(AlbionEntityEventMapper.Observation(
-            kind = "region_change", eventCode = 41, regionId = "MAP_FORCE_B"
-        )))
-        store.observe(30_400L, listOf(AlbionEntityEventMapper.Observation(
-            kind = "harvestable", eventCode = 40, entityId = 302L,
-            typeId = 574, typeNumber = 29, tier = 5, size = 3, x = 90f, y = 80f
-        )))
-        val ordinaryId = store.beginRegionScan(nowMs = 31_000L, regionId = "MAP_FORCE_B")
-        val ordinary = org.json.JSONArray(store.regionScanSnapshotJson(31_100L))
-        assertTrue(ordinary.length() == 0, "Ordinary scan should contain only observations since its start: $ordinary")
-        val forceId = store.beginRegionScan(nowMs = 32_000L, regionId = "MAP_FORCE_B", force = true)
-        assertTrue(forceId != ordinaryId)
-        val forced = org.json.JSONArray(store.regionScanSnapshotJson(32_100L))
-        assertTrue(forced.length() == 1, "Force scan should recover the cached node from this verified region only: $forced")
-        assertTrue(forced.getJSONObject(0).optString("region_id") == "MAP_FORCE_B")
-        assertTrue(forced.getJSONObject(0).optLong("entity_id") == 302L)
     }
 
     @Test fun separatesTrollMarkerFromOreElementalAndTracksAliveDeadHarvestedLifecycle() {

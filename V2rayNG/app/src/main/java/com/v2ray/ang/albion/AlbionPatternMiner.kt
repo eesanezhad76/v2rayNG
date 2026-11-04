@@ -338,15 +338,15 @@ object AlbionPatternMiner {
                                     // to an entity already observed in this sample (e.g. Event 46).
                                     val sampleIds = sample.observations.mapNotNull { item ->
                                         when {
-                                            item.has("entity_id") && !item.isNull("entity_id") -> item.opt("entity_id")?.toString()
-                                            item.has("id") && !item.isNull("id") -> item.opt("id")?.toString()
+                                            item.has("entity_id") && !item.isNull("entity_id") -> item.opt("entity_id").toString()
+                                            item.has("id") && !item.isNull("id") -> item.opt("id").toString()
                                             else -> null
                                         }
                                     }.toSet()
                                     observations.filter { item ->
                                         val id = when {
-                                            item.has("entity_id") && !item.isNull("entity_id") -> item.opt("entity_id")?.toString()
-                                            item.has("id") && !item.isNull("id") -> item.opt("id")?.toString()
+                                            item.has("entity_id") && !item.isNull("entity_id") -> item.opt("entity_id").toString()
+                                            item.has("id") && !item.isNull("id") -> item.opt("id").toString()
                                             else -> null
                                         }
                                         id != null && id in sampleIds
@@ -391,8 +391,8 @@ object AlbionPatternMiner {
                 }
                 c.observations++
                 c.sampleIndexes += sampleIndex
-                if (o.has("entity_id") && !o.isNull("entity_id")) o.opt("entity_id")?.toString()?.let { c.ids += it }
-                if (o.has("id") && !o.isNull("id")) o.opt("id")?.toString()?.let { c.ids += it }
+                if (o.has("entity_id")) c.ids += o.opt("entity_id").toString()
+                if (o.has("id")) c.ids += o.opt("id").toString()
                 if (code != null) c.events[code] = (c.events[code] ?: 0) + 1
             }
         }

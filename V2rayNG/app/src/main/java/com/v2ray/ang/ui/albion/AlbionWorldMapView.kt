@@ -283,9 +283,8 @@ class AlbionWorldMapView(context: Context) : View(context) {
             val y = centerY + (ry * pixelsPerUnit).toFloat()
             if (x !in -12f..(width + 12f).toFloat() || y !in -12f..(height + 12f).toFloat()) return@forEach
             paint.style = Paint.Style.FILL
-            val troll = entity.optString("type_unique_name").contains("TROLL", ignoreCase = true) ||
-                (entity.optString("manual_activity").equals("Troll", ignoreCase = true) &&
-                    entity.optBoolean("manual_marker_identity_proven", false))
+            val troll = entity.optString("manual_activity").equals("Troll", ignoreCase = true) &&
+                entity.optBoolean("manual_marker_identity_proven", false)
             val oreElemental = entity.optString("resource_role") == "ore_elemental" ||
                 (entity.optBoolean("is_harvestable_mob", false) &&
                     entity.optString("type_unique_name").contains("CRITTER_ORE", ignoreCase = true) &&

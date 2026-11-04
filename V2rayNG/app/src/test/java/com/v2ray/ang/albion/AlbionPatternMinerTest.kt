@@ -39,20 +39,6 @@ class AlbionPatternMinerTest {
         assertTrue(learnedDatabase.optJSONArray("patterns")!!.length() >= 2)
     }
 
-    @Test
-    fun ignoresNullEntityIdsInsteadOfLearningLiteralNull() {
-        val file = File(tempDir, "null-entity-ids.jsonl")
-        file.writeText(listOf(
-            """{"time_ms":1000,"manual_marker":{"timestamp_ms":1000,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"E1"}}""",
-            """{"time_ms":2000,"entities":[{"kind":"harvestable","event_code":40,"entity_id":null,"id":null,"mobile_type_id":574,"family":29,"tier":5,"enchant":1}]}""",
-            """{"time_ms":3000,"manual_marker":{"timestamp_ms":3000,"activity":"Ore","event":"gathering_completed"}}"""
-        ).joinToString("\n"))
-        val report = AlbionPatternMiner.analyze(file)
-        val pattern = report.patterns.first { it.kind == "harvestable" }
-        assertEquals(0, pattern.distinctEntities)
-        assertTrue(!pattern.signature.contains("null"))
-    }
-
     @Test fun doesNotTreatAnUnclosedFoundMarkerAsACompleteSample() {
         val file = File(tempDir, "incomplete.jsonl")
         file.writeText("""{"time_ms":1000,"manual_marker":{"timestamp_ms":1000,"activity":"Ore","event":"target_found"}}""")

@@ -253,8 +253,8 @@ class AlbionCaptureWorker(
         return knowledgeStore?.snapshotJson() ?: "[]"
     }
 
-    fun beginRegionScan(force: Boolean = false): String? =
-        runCatching { knowledgeStore?.beginRegionScan(force = force) }.getOrNull()
+    fun beginRegionScan(): String? =
+        runCatching { knowledgeStore?.beginRegionScan() }.getOrNull()
 
     fun regionScanJson(): String =
         knowledgeStore?.regionScanSnapshotJson() ?: "[]"
