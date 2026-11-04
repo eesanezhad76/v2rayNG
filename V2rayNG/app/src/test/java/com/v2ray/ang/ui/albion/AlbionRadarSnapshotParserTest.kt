@@ -1,13 +1,15 @@
 package com.v2ray.ang.ui.albion
 
+import org.json.JSONObject
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 
 class AlbionRadarSnapshotParserTest {
     @Test fun defaultRadarFiltersDoNotHideKnownResourceFamilies() {
         assertEquals(
-            setOf("category_ore", "category_wood", "category_stone", "category_fiber", "category_hide", "category_unknown_resource"),
+            setOf("category_ore", "category_wood", "category_stone", "category_fiber", "category_hide", "category_unknown_resource", "category_troll", "category_ore_elemental"),
             AlbionMiniRadarView.DEFAULT_FILTERS
         )
     }
