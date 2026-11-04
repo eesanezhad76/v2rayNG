@@ -130,8 +130,16 @@ class AlbionLiveKnowledgeStore(
             if (observation.kind == "resource_state") {
                 record.put("depleted", observation.removed)
                 record.put("resource_state_seen", true)
+                observation.size?.let { record.put("resource_remaining", it) }
             }
-            if (observation.kind == "harvestable") record.put("typed_resource_seen", true)
+            if (observation.kind == "harvestable") {
+                record.put("typed_resource_seen", true)
+                observation.size?.let {
+                    record.put("resource_remaining", it)
+                    // A positive fresh amount means the node has respawned/refilled.
+                    if (it > 0) record.put("depleted", false)
+                }
+            }
             observation.heading?.let { if (it.isFinite() && it in 0f..360f) record.put("heading", it) }
             observation.speed?.let { if (it.isFinite() && it in 0f..100f) record.put("speed", it) }
             val targetX = observation.targetX?.toDouble()
