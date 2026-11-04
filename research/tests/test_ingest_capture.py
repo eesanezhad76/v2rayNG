@@ -148,6 +148,7 @@ class IngestTests(unittest.TestCase):
    cycle=out["marker_lifecycles"][0]
    self.assertEqual("COMPLETE",cycle["status"])
    self.assertEqual(100,cycle["found_ms"])
+   self.assertEqual(100,cycle["started_ms"])
    self.assertEqual(25000,cycle["completed_ms"])
    self.assertEqual("T5",cycle["tier"])
    self.assertEqual("E3",cycle["enchantment"])
