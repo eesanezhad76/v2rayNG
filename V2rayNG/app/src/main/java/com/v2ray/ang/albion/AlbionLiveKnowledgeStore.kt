@@ -18,6 +18,13 @@ class AlbionLiveKnowledgeStore(
 ) {
     private val file = File(context.applicationContext.filesDir, "albion-live-knowledge.json")
     private val regionScanDir = File(context.applicationContext.filesDir, "albion-region-scans")
+    // Exact server TypeID -> uniqueName/resource role map, sourced from the current
+    // OpenRadar mobs.min.json dump (same source commit recorded in this asset).
+    private val mobileTypeEntries: JSONObject = runCatching {
+        context.applicationContext.assets.open("albion-mobile-type-dictionary.json")
+            .bufferedReader(Charsets.UTF_8).use { JSONObject(it.readText()).optJSONObject("entries") ?: JSONObject() }
+    }.getOrDefault(JSONObject())
+    private val pendingTrollMarkers = LinkedHashMap<String, JSONObject>()
     private var activeRegionId: String? = null
     private var regionScanId: String? = null
     private var regionScanRegionId: String? = null
@@ -48,19 +55,38 @@ class AlbionLiveKnowledgeStore(
             }
             val id = observation.entityId ?: return@forEach
             if (observation.kind == "health") {
-                val key = "$sessionStartedMs:${activeRegionId ?: "unknown"}:$id"
-                val target = records.getOrPut(key) {
-                    JSONObject().put("record_key", key).put("entity_id", id.toString())
-                        .put("session_started_ms", sessionStartedMs).put("first_seen_ms", timestampMs)
-                        .put("sightings", 0)
-                }
+                val regionKey = activeRegionId ?: ""
+                val target = records.values
+                    .filter {
+                        it.optString("entity_id") == id.toString() &&
+                            it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                            it.optString("region_id", "") == regionKey &&
+                            it.optString("entity_class") == "mob"
+                    }
+                    .maxByOrNull { it.optLong("last_seen_ms") }
+                    ?: records.getOrPut("$sessionStartedMs:$regionKey:health:$id") {
+                        JSONObject().put("record_key", "$sessionStartedMs:$regionKey:health:$id")
+                            .put("entity_id", id.toString()).put("session_started_ms", sessionStartedMs)
+                            .put("first_seen_ms", timestampMs).put("sightings", 0)
+                    }
                 target.put("last_health_ms", timestampMs)
                 target.put("health_event_count", target.optInt("health_event_count") + 1)
                 observation.secondaryValue?.takeIf { it.isFinite() }?.let { target.put("health_value", it.toDouble()) }
                 observation.value?.takeIf { it.isFinite() }?.let { target.put("health_delta", it.toDouble()) }
                 observation.sourceEntityId?.let { target.put("last_health_source_entity_id", it.toString()) }
                 target.put("health_observed", true)
+                // Event 6 explicitly omits current HP when a mob dies. Event 7 is
+                // batched; a missing value there is not enough evidence to call death.
+                if (target.optString("entity_class") == "mob" &&
+                    observation.eventCode == 6 &&
+                    (observation.secondaryValue == null || observation.secondaryValue <= 0f)) {
+                    target.put("mob_dead", true).put("mob_state", "dead").put("mob_dead_ms", timestampMs)
+                } else if (target.optString("entity_class") == "mob" &&
+                    observation.secondaryValue != null && observation.secondaryValue <= 0f) {
+                    target.put("mob_dead", true).put("mob_state", "dead").put("mob_dead_ms", timestampMs)
+                }
                 dirty = true
+                snapshotDirty = true
                 return@forEach
             }
             if (observation.kind !in TRACKED_KINDS) return@forEach
@@ -86,10 +112,9 @@ class AlbionLiveKnowledgeStore(
                     records[key] = it
                 }
 
-            val previousEnchant = record.optInt("enchant", observation.enchant ?: -1)
             val incomingAmount = observation.size ?: 0
             val confirmedRefill = observation.kind == "harvestable" && incomingAmount > 0
-            if (record.optBoolean("depleted", false) && confirmedRefill && previousEnchant in 2..3) {
+            if (record.optBoolean("depleted", false) && confirmedRefill) {
                 val nextGeneration = record.optInt("spawn_generation", 0) + 1
                 val nextKey = "$sessionStartedMs:$entityId:spawn:$nextGeneration"
                 record.put("respawn_observed_at_ms", timestampMs)
@@ -122,13 +147,18 @@ class AlbionLiveKnowledgeStore(
             }
             record.put("last_event_code", observation.eventCode)
             if (observation.kind == "leave") {
-                // Keep the last semantic entity kind so killed/vanished mobs remain in the map catalog.
                 record.put("left", true).put("left_ms", timestampMs)
+                if (record.optString("entity_class") == "mob" && !record.optBoolean("mob_dead", false)) {
+                    record.put("mob_state", "left")
+                }
             } else {
                 record.put("last_kind", observation.kind)
                 record.put("left", false)
             }
-            if (observation.kind == "mob") record.put("entity_class", "mob")
+            if (observation.kind == "mob") {
+                record.put("entity_class", "mob")
+                if (!record.optBoolean("mob_dead", false)) record.put("mob_state", "alive")
+            }
             observation.typeId?.let {
                 recordEvidenceValue(record, "mobile_type_id", it)
                 record.put("mobile_type_id", it)
@@ -147,6 +177,13 @@ class AlbionLiveKnowledgeStore(
             } }
             observation.size?.let { record.put("amount", it) }
             observation.name?.let { record.put("name", it) }
+            observation.typeId?.let { applyMobileTypeCatalog(record, it) }
+            if (observation.kind == "harvestable" && record.optString("entity_class") == "mob" &&
+                record.optBoolean("is_harvestable_mob", false)) {
+                record.put("mob_dead", true).put("mob_state", "dead_harvestable")
+                    .put("mob_dead_ms", record.optLong("mob_dead_ms", timestampMs))
+            }
+            pendingTrollMarkers.remove(id.toString())?.let { applyTrollMarker(record, it, timestampMs) }
             val x = observation.x?.toDouble()
             val y = observation.y?.toDouble()
             if (x != null && y != null && x.isFinite() && y.isFinite() &&
@@ -179,6 +216,10 @@ class AlbionLiveKnowledgeStore(
             if (observation.kind == "resource_state") {
                 if (observation.removed) {
                     record.put("depleted", true)
+                    if (record.optString("entity_class") == "mob" &&
+                        record.optBoolean("is_harvestable_mob", false)) {
+                        record.put("mob_state", "mined").put("mob_mined_ms", timestampMs)
+                    }
                 } else if ((observation.size ?: 0) > 0) {
                     record.put("depleted", false)
                 }
@@ -520,6 +561,65 @@ class AlbionLiveKnowledgeStore(
         record.optString("last_kind") == "static_resource" && record.has("x") && record.has("y") ->
             "static_resource_candidate"
         else -> "unclassified_observation"
+    }
+
+    /** Exact lookup; never classify a mob from a nearby label or a guessed name. */
+    private fun applyMobileTypeCatalog(record: JSONObject, mobileTypeId: Int) {
+        val entry = mobileTypeEntries.optJSONObject(mobileTypeId.toString()) ?: return
+        val uniqueName = entry.optString("unique_name").takeIf { it.isNotBlank() } ?: return
+        val isHarvestable = entry.optBoolean("is_harvestable", false)
+        record.put("type_unique_name", uniqueName)
+            .put("display_name", entry.optString("display_name"))
+            .put("localization_tag", entry.optString("localization_tag"))
+            .put("mob_category", entry.optString("category"))
+            .put("loot_type", entry.optString("loot_type"))
+            .put("is_harvestable_mob", isHarvestable)
+        if (isHarvestable) {
+            val role = when {
+                uniqueName.contains("CRITTER_ORE", ignoreCase = true) ||
+                    entry.optString("loot_type").contains("ORE", ignoreCase = true) -> "ore_elemental"
+                else -> "living_resource"
+            }
+            record.put("resource_role", role)
+            if (!record.has("name") || record.optString("name").isBlank() ||
+                record.optString("name").startsWith("@MISTS@", ignoreCase = true)) {
+                record.put("name", entry.optString("display_name"))
+            }
+            val resourceTier = entry.optInt("loot_tier", entry.optInt("tier", 0))
+            if (resourceTier in 1..8 && !record.has("tier")) record.put("tier", resourceTier)
+        } else if (!record.has("name") || record.optString("name").isBlank()) {
+            record.put("name", entry.optString("display_name"))
+        }
+    }
+
+    /** Troll is a user activity label. Attach it only by exact entity ID, never proximity. */
+    @Synchronized
+    fun observeMarker(marker: JSONObject, timestampMs: Long) {
+        if (!marker.optString("activity").equals("Troll", ignoreCase = true)) return
+        val targetId = marker.optString("target_id").takeIf { it.isNotBlank() && it != "null" } ?: return
+        val record = records.values.firstOrNull {
+            it.optString("entity_id") == targetId &&
+                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                it.optString("entity_class") == "mob"
+        }
+        if (record == null) pendingTrollMarkers[targetId] = JSONObject(marker.toString())
+        else applyTrollMarker(record, marker, timestampMs)
+        dirty = true
+        snapshotDirty = true
+    }
+
+    private fun applyTrollMarker(record: JSONObject, marker: JSONObject, timestampMs: Long) {
+        record.put("manual_activity", "Troll")
+            .put("manual_marker_identity_proven", true)
+            .put("manual_marker_seen_ms", timestampMs)
+        marker.optString("tier").toIntOrNull()?.takeIf { it in 1..8 }?.let {
+            record.put("marker_tier", it)
+        }
+        marker.optString("enchantment").removePrefix("E").toIntOrNull()
+            ?.takeIf { it in 0..3 }?.let { record.put("marker_enchant", it) }
+        marker.optString("enchantment").takeIf { it.equals("Normal", true) }?.let {
+            record.put("marker_enchant", 0)
+        }
     }
 
     private fun load() {
