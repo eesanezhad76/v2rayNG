@@ -17,6 +17,7 @@ class AlbionWorldMapActivity : Activity() {
     private val dataThread = android.os.HandlerThread("AlbionWorldMapData").apply { start() }
     private val dataHandler = Handler(dataThread.looper)
     private val refreshInFlight = java.util.concurrent.atomic.AtomicBoolean(false)
+    @Volatile private var showingSavedCatalog = false
     private val refresh = object : Runnable {
         override fun run() {
             if (!::mapView.isInitialized) return
@@ -26,9 +27,12 @@ class AlbionWorldMapActivity : Activity() {
             }
             dataHandler.post {
                 val valid = runCatching {
-                    mapView.setSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
+                    if (showingSavedCatalog) true
+                    else mapView.setSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
                 }.getOrDefault(false)
-                val statusText = if (valid) mapView.statusText() else "Invalid live knowledge snapshot"
+                val statusText = if (!valid) "Invalid live knowledge snapshot"
+                    else if (showingSavedCatalog) "SAVED CAPTURE • zone identity is not decoded • " + mapView.statusText()
+                    else mapView.statusText()
                 handler.post {
                     if (::status.isInitialized) status.text = statusText
                     refreshInFlight.set(false)
@@ -66,6 +70,33 @@ class AlbionWorldMapActivity : Activity() {
                 setOnClickListener { mapView.centerOnPlayer() }
             }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
         }
+        mapActions.addView(android.widget.Button(this).apply {
+            text = "SAVED CAPTURE"
+            setOnClickListener {
+                if (!showingSavedCatalog) {
+                    val loaded = runCatching {
+                        val catalog = assets.open("albion-static-catalog.json")
+                            .bufferedReader().use { org.json.JSONObject(it.readText()) }
+                        val rows = catalog.optJSONArray("entities") ?: org.json.JSONArray()
+                        mapView.setSnapshot(rows.toString()) && rows.length() > 0
+                    }.getOrDefault(false)
+                    if (loaded) {
+                        showingSavedCatalog = true
+                        text = "RETURN LIVE"
+                        mapView.fitToRegion()
+                        status.text = "SAVED CAPTURE • zone identity is not decoded • " + mapView.statusText()
+                    } else {
+                        status.text = "Saved catalog could not be loaded"
+                    }
+                } else {
+                    showingSavedCatalog = false
+                    text = "SAVED CAPTURE"
+                    mapView.fitToRegion()
+                    handler.removeCallbacks(refresh)
+                    handler.post(refresh)
+                }
+            }
+        }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
         root.addView(mapActions, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ))
