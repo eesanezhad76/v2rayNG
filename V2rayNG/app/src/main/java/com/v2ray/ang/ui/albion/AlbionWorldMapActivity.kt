@@ -18,6 +18,7 @@ class AlbionWorldMapActivity : Activity() {
     private val dataHandler = Handler(dataThread.looper)
     private val refreshInFlight = java.util.concurrent.atomic.AtomicBoolean(false)
     @Volatile private var showingSavedCatalog = false
+    @Volatile private var fitNextLiveSnapshot = false
     private val refresh = object : Runnable {
         override fun run() {
             if (!::mapView.isInitialized) return
@@ -30,6 +31,10 @@ class AlbionWorldMapActivity : Activity() {
                     if (showingSavedCatalog) true
                     else mapView.setSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
                 }.getOrDefault(false)
+                if (valid && !showingSavedCatalog && fitNextLiveSnapshot) {
+                    mapView.fitToRegion()
+                    fitNextLiveSnapshot = false
+                }
                 val statusText = if (!valid) "Invalid live knowledge snapshot"
                     else if (showingSavedCatalog) "SAVED CAPTURE • zone identity is not decoded • " + mapView.statusText()
                     else mapView.statusText()
@@ -90,8 +95,8 @@ class AlbionWorldMapActivity : Activity() {
                     }
                 } else {
                     showingSavedCatalog = false
+                    fitNextLiveSnapshot = true
                     text = "SAVED CAPTURE"
-                    mapView.fitToRegion()
                     handler.removeCallbacks(refresh)
                     handler.post(refresh)
                 }
