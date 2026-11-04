@@ -42,7 +42,7 @@ class AlbionLiveKnowledgeStore(
                 if (newRegionId != null && newRegionId != activeRegionId) {
                     activeRegionId = newRegionId
                     snapshotDirty = true
-                    beginRegionScan(timestampMs, newRegionId)
+                    runCatching { beginRegionScan(timestampMs, newRegionId) }
                 }
                 return@forEach
             }
@@ -177,7 +177,11 @@ class AlbionLiveKnowledgeStore(
                 }
             }
             if (observation.kind == "resource_state") {
-                record.put("depleted", observation.removed)
+                if (observation.removed) {
+                    record.put("depleted", true)
+                } else if ((observation.size ?: 0) > 0) {
+                    record.put("depleted", false)
+                }
                 record.put("resource_state_seen", true)
                 observation.size?.let { record.put("resource_remaining", it) }
             }
@@ -231,7 +235,7 @@ class AlbionLiveKnowledgeStore(
     @Synchronized
     fun flush() = flush(System.currentTimeMillis())
 
-    /** Starts an isolated 60-second observation window for the newly entered region. */
+    /** Starts an isolated 60-second observation window for the active server region. */
     @Synchronized
     fun beginRegionScan(
         nowMs: Long = System.currentTimeMillis(),
@@ -249,7 +253,7 @@ class AlbionLiveKnowledgeStore(
         return id
     }
 
-    /** Coordinate rows observed/updated after the current scan button was pressed. */
+    /** Coordinate rows observed/updated since the active region scan began. */
     @Synchronized
     fun regionScanSnapshotJson(nowMs: Long = System.currentTimeMillis()): String {
         val id = regionScanId ?: return "[]"
