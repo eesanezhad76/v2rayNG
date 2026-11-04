@@ -26,8 +26,8 @@ class AlbionWorldMapView(context: Context) : View(context) {
     private var lastTouchY = 0f
     private var scaling = false
     private var fitted = false
-    // Fixed 45-degree correction keeps world north at the top.
-    private val mapRotationRadians = Math.PI / 4.0
+    // Fixed 90-degree coordinate correction keeps world north at the top.
+    private val mapRotationRadians = Math.PI / 2.0
     private val scaleDetector = ScaleGestureDetector(context, object : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScaleBegin(detector: ScaleGestureDetector): Boolean { scaling = true; return true }
         override fun onScale(detector: ScaleGestureDetector): Boolean {
