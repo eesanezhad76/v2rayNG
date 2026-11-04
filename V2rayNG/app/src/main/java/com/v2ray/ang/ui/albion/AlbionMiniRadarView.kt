@@ -92,6 +92,14 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             kotlin.math.abs(item.optDouble("x")) <= 10000.0 &&
             kotlin.math.abs(item.optDouble("y")) <= 10000.0
 
+    /** Depleted and departed resource entities are retained in the knowledge store,
+     * but are not rendered or offered as navigation targets. A fresh positive
+     * harvestable amount clears depletion in the live store and makes the node visible again.
+     */
+    private fun isUnavailableResource(item: JSONObject): Boolean =
+        item.optString("last_kind") in RESOURCE_KINDS &&
+            (item.optBoolean("depleted", false) || item.optBoolean("left", false))
+
     private fun enchantmentOf(item: JSONObject): Int {
         val marker = item.optInt("marker_enchant", -1)
         if (marker in 0..3) return marker
@@ -184,11 +192,13 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private fun visibleEntities(): List<JSONObject> {
         if (filterCacheDirty) {
             visibleCache = entities.filter {
-                it.optString("last_kind") in DISPLAY_KINDS && validPoint(it) && passesFilters(it)
+                it.optString("last_kind") in DISPLAY_KINDS &&
+                    !isUnavailableResource(it) && validPoint(it) && passesFilters(it)
             }
             catalogVisibleCache = catalogEntities.filter {
                 it.optString("last_kind") in DISPLAY_KINDS &&
-                    it.optString("last_kind") != "own_player_move" && validPoint(it) && passesFilters(it)
+                    it.optString("last_kind") != "own_player_move" &&
+                    !isUnavailableResource(it) && validPoint(it) && passesFilters(it)
             }
             filterCacheDirty = false
         }
