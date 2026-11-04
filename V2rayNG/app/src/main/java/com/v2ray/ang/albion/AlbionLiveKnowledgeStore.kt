@@ -123,9 +123,11 @@ class AlbionLiveKnowledgeStore(
                     observation.eventCode == 6 &&
                     (observation.secondaryValue == null || observation.secondaryValue <= 0f)) {
                     target.put("mob_dead", true).put("mob_state", "dead").put("mob_dead_ms", timestampMs)
+                    linkExistingHarvestableForMob(target, timestampMs)
                 } else if (target.optString("entity_class") == "mob" &&
                     observation.secondaryValue != null && observation.secondaryValue <= 0f) {
                     target.put("mob_dead", true).put("mob_state", "dead").put("mob_dead_ms", timestampMs)
+                    linkExistingHarvestableForMob(target, timestampMs)
                 }
                 dirty = true
                 snapshotDirty = true
@@ -190,7 +192,8 @@ class AlbionLiveKnowledgeStore(
             record.put("last_event_code", observation.eventCode)
             if (observation.kind == "leave") {
                 record.put("left", true).put("left_ms", timestampMs)
-                if (record.optString("entity_class") == "mob" && !record.optBoolean("mob_dead", false)) {
+                if (record.optString("entity_class") == "mob" &&
+                    !record.optBoolean("mob_dead", false) && !record.optBoolean("manual_kill_confirmed", false)) {
                     record.put("mob_state", "left")
                 }
             } else {
@@ -199,7 +202,8 @@ class AlbionLiveKnowledgeStore(
             }
             if (observation.kind == "mob") {
                 record.put("entity_class", "mob")
-                if (!record.optBoolean("mob_dead", false)) record.put("mob_state", "alive")
+                if (!record.optBoolean("mob_dead", false) &&
+                    !record.optBoolean("manual_kill_confirmed", false)) record.put("mob_state", "alive")
             }
             observation.typeId?.let {
                 recordEvidenceValue(record, "mobile_type_id", it)
@@ -224,6 +228,8 @@ class AlbionLiveKnowledgeStore(
                 record.optBoolean("is_harvestable_mob", false)) {
                 record.put("mob_dead", true).put("mob_state", "dead_harvestable")
                     .put("mob_dead_ms", record.optLong("mob_dead_ms", timestampMs))
+            } else if (observation.kind == "harvestable" && record.optBoolean("is_harvestable_mob", false)) {
+                linkHarvestableToDeadMob(record, timestampMs)
             }
             val x = observation.x?.toDouble()
             val y = observation.y?.toDouble()
@@ -264,6 +270,14 @@ class AlbionLiveKnowledgeStore(
                     if (record.optString("entity_class") == "mob" &&
                         record.optBoolean("is_harvestable_mob", false)) {
                         record.put("mob_state", "mined").put("mob_mined_ms", timestampMs)
+                    }
+                    val sourceMobId = record.optString("source_mob_entity_id")
+                    if (sourceMobId.isNotBlank()) {
+                        records.values.firstOrNull {
+                            it.optString("entity_id") == sourceMobId &&
+                                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                                it.optString("region_id", "") == (activeRegionId ?: "")
+                        }?.put("mob_state", "mined")?.put("mob_mined_ms", timestampMs)
                     }
                 } else if ((observation.size ?: 0) > 0) {
                     record.put("depleted", false)
@@ -688,9 +702,92 @@ class AlbionLiveKnowledgeStore(
                     }
                 }
             }
+            val killedTarget = activeTrollTargetId
+            if (killedTarget != null && !trollMarkerAmbiguous) {
+                records.values.firstOrNull {
+                    it.optString("entity_id") == killedTarget &&
+                        it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                        it.optString("region_id", "") == (activeRegionId ?: "") &&
+                        it.optString("entity_class") == "mob"
+                }?.let { mob ->
+                    mob.put("manual_kill_confirmed", true)
+                        .put("manual_killed_ms", timestampMs)
+                        .put("mob_state", "dead_manual")
+                    linkExistingHarvestableForMob(mob, timestampMs)
+                }
+            }
             activeTrollMarker = null
             activeTrollTargetId = null
             trollMarkerAmbiguous = false
+        }
+        dirty = true
+        snapshotDirty = true
+    }
+
+    private fun linkExistingHarvestableForMob(mob: JSONObject, timestampMs: Long) {
+        val matches = nearbyHarvestablesForMob(mob, timestampMs)
+        if (matches.size == 1) linkMobToHarvestable(mob, matches.single(), timestampMs)
+    }
+
+    private fun linkHarvestableToDeadMob(node: JSONObject, timestampMs: Long) {
+        val matches = records.values.filter { mob ->
+            mob !== node &&
+                mob.optString("entity_class") == "mob" &&
+                mob.optBoolean("is_harvestable_mob", false) &&
+                (mob.optBoolean("mob_dead", false) || mob.optBoolean("manual_kill_confirmed", false)) &&
+                mob.optInt("mobile_type_id", -1) == node.optInt("mobile_type_id", -2) &&
+                mob.optInt("tier", -1) == node.optInt("tier", -2) &&
+                mob.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                mob.optString("region_id", "") == (activeRegionId ?: "") &&
+                kotlin.math.abs(timestampMs - maxOf(mob.optLong("mob_dead_ms"), mob.optLong("manual_killed_ms"))) <= LIVING_NODE_LINK_WINDOW_MS &&
+                distance(mob, node) <= LIVING_NODE_LINK_RADIUS
+        }
+        if (matches.size == 1) linkMobToHarvestable(matches.single(), node, timestampMs)
+    }
+
+    private fun nearbyHarvestablesForMob(mob: JSONObject, timestampMs: Long): List<JSONObject> =
+        records.values.filter { node ->
+            node !== mob &&
+                node.optString("last_kind") in setOf("harvestable", "resource_state") &&
+                node.optBoolean("is_harvestable_mob", false) &&
+                node.optInt("mobile_type_id", -1) == mob.optInt("mobile_type_id", -2) &&
+                node.optInt("tier", -1) == mob.optInt("tier", -2) &&
+                node.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                node.optString("region_id", "") == (activeRegionId ?: "") &&
+                kotlin.math.abs(node.optLong("last_seen_ms") -
+                    maxOf(mob.optLong("mob_dead_ms"), mob.optLong("manual_killed_ms"))) <= LIVING_NODE_LINK_WINDOW_MS &&
+                kotlin.math.abs(timestampMs -
+                    maxOf(mob.optLong("mob_dead_ms"), mob.optLong("manual_killed_ms"))) <= LIVING_NODE_LINK_WINDOW_MS &&
+                distance(mob, node) <= LIVING_NODE_LINK_RADIUS
+        }
+
+    private fun distance(a: JSONObject, b: JSONObject): Double {
+        val ax = a.optDouble("x", Double.NaN)
+        val ay = a.optDouble("y", Double.NaN)
+        val bx = b.optDouble("x", Double.NaN)
+        val by = b.optDouble("y", Double.NaN)
+        if (!ax.isFinite() || !ay.isFinite() || !bx.isFinite() || !by.isFinite()) return Double.POSITIVE_INFINITY
+        return kotlin.math.hypot(ax - bx, ay - by)
+    }
+
+    private fun linkMobToHarvestable(mob: JSONObject, node: JSONObject, timestampMs: Long) {
+        val mobId = mob.optString("entity_id")
+        val nodeId = node.optString("entity_id")
+        if (mobId.isBlank() || nodeId.isBlank() || mobId == nodeId) return
+        node.put("source_mob_entity_id", mobId)
+            .put("mob_state", if (node.optBoolean("depleted", false)) "mined" else "dead_harvestable")
+            .put("mob_dead", true)
+        mob.put("mob_state", if (node.optBoolean("depleted", false)) "mined" else "dead_harvestable")
+            .put("mob_dead", true)
+            .put("mob_dead_ms", mob.optLong("mob_dead_ms", timestampMs))
+            .put("superseded_by_harvestable_entity_id", nodeId)
+        listOf("manual_activity", "manual_marker_identity_proven", "manual_marker_seen_ms",
+            "marker_match_confidence", "marker_tier", "marker_enchant", "manual_kill_confirmed",
+            "manual_killed_ms").forEach { key ->
+            if (mob.has(key)) node.put(key, mob.get(key))
+        }
+        if (node.optBoolean("depleted", false)) {
+            mob.put("mob_state", "mined").put("mob_mined_ms", timestampMs)
         }
         dirty = true
         snapshotDirty = true
@@ -768,6 +865,8 @@ class AlbionLiveKnowledgeStore(
         const val MIN_REPEAT_EVIDENCE_INTERVAL_MS = 500L
         const val TARGET_MARKER_ATTACH_WINDOW_MS = 2500L
         const val TROLL_MARKER_MAX_WINDOW_MS = 180_000L
+        const val LIVING_NODE_LINK_WINDOW_MS = 20_000L
+        const val LIVING_NODE_LINK_RADIUS = 2.5
         val RESOURCE_KINDS = setOf("static_resource", "harvestable", "resource_state")
         val TRACKED_KINDS = setOf("static_resource", "harvestable", "resource_state", "mob", "leave", "player_move", "own_player_move")
     }
