@@ -437,9 +437,12 @@ class AlbionLiveKnowledgeStoreTest {
 
         // Exact entity ID is the only accepted way to attach the user's Troll activity label.
         store.observeMarker(org.json.JSONObject().put("activity", "Troll")
-            .put("event", "target_found").put("target_id", "777")
+            .put("event", "target_found")
             .put("tier", "3").put("enchantment", "E1"), now + 2L)
         store.observe(now + 3L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "target_request", eventCode = 23, candidateEntityIds = listOf(777L, 99L)
+        )))
+        store.observe(now + 4L, listOf(AlbionEntityEventMapper.Observation(
             kind = "health", eventCode = 6, entityId = 777L, value = -856f,
             secondaryValue = null
         )))
