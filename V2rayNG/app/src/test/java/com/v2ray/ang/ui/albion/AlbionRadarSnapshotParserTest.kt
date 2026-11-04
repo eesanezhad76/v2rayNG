@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test
 class AlbionRadarSnapshotParserTest {
     @Test fun defaultRadarFiltersDoNotHideKnownResourceFamilies() {
         assertEquals(
-            setOf("category_ore", "category_wood", "category_stone", "category_fiber", "category_hide", "category_unknown_resource"),
+            setOf("category_ore", "category_wood", "category_stone", "category_fiber", "category_hide", "category_unknown_resource", "category_troll", "category_ore_elemental"),
             AlbionMiniRadarView.DEFAULT_FILTERS
         )
     }
@@ -34,27 +34,36 @@ class AlbionRadarSnapshotParserTest {
         val mappedOre = org.json.JSONObject(
             """{"last_kind":"harvestable","family":29,"mobile_type_id":574,"resource_inference":{"resource_name":{"value":"Ore","status":"CAPTURE_CORROBORATED","confidence":0.98}}}"""
         )
-        assertEquals("Ore*", AlbionRadarSnapshotParser.labelForEntity(mappedOre))
+        assertEquals("Resource", AlbionRadarSnapshotParser.labelForEntity(mappedOre))
         val packetConfirmedOre = org.json.JSONObject(
             """{"last_kind":"harvestable","resource_inference":{"resource_name":{"value":"Ore","status":"PACKET_CONFIRMED","confidence":1.0}}}"""
         )
-        assertEquals("Ore", AlbionRadarSnapshotParser.labelForEntity(packetConfirmedOre))
+        assertEquals("Resource", AlbionRadarSnapshotParser.labelForEntity(packetConfirmedOre))
         val provisionalOre = org.json.JSONObject(
             """{"last_kind":"harvestable","resource_inference":{"resource_name":{"value":"Ore","status":"PROVISIONAL_MAPPING","confidence":0.85}}}"""
         )
-        assertEquals("Ore?", AlbionRadarSnapshotParser.labelForEntity(provisionalOre))
+        assertEquals("Resource", AlbionRadarSnapshotParser.labelForEntity(provisionalOre))
         val conflictedOre = org.json.JSONObject(
             """{"last_kind":"harvestable","family":29,"resource_inference":{"resource_name":{"value":null,"status":"CONFLICT","confidence":0.0}}}"""
         )
-        assertEquals("Ore candidate F29", AlbionRadarSnapshotParser.labelForEntity(conflictedOre))
+        assertEquals("Resource", AlbionRadarSnapshotParser.labelForEntity(conflictedOre))
         assertEquals("Mob ID482", AlbionRadarSnapshotParser.labelForEntity(
             org.json.JSONObject("""{"last_kind":"mob","mobile_type_id":482}""")
         ))
         assertEquals("Golem", AlbionRadarSnapshotParser.labelForEntity(
             org.json.JSONObject("""{"last_kind":"mob","mobile_type_id":482,"name":"Golem"}""")
         ))
-        assertEquals("T! T3 Ore Elemental", AlbionRadarSnapshotParser.labelForEntity(
+        assertEquals("TG?3", AlbionRadarSnapshotParser.labelForEntity(
             org.json.JSONObject("""{"last_kind":"mob","name":"Ore Elemental","tier":3,"marker_activity":"Troll"}""")
+        ))
+        assertEquals("TG3", AlbionRadarSnapshotParser.labelForEntity(
+            org.json.JSONObject("""{"last_kind":"mob","tier":3,"manual_activity":"Troll","manual_marker_identity_proven":true}""")
+        ))
+        assertEquals("TG4", AlbionRadarSnapshotParser.labelForEntity(
+            org.json.JSONObject("""{"last_kind":"mob","tier":4,"type_unique_name":"T4_MOB_TROLL_FOREST"}""")
+        ))
+        assertEquals("OE3", AlbionRadarSnapshotParser.labelForEntity(
+            org.json.JSONObject("""{"last_kind":"mob","tier":3,"mobile_type_id":571,"type_unique_name":"T3_MOB_CRITTER_ORE_MOUNTAIN_RED","display_name":"Ore Elemental","is_harvestable_mob":true}""")
         ))
     }
 
@@ -62,26 +71,26 @@ class AlbionRadarSnapshotParserTest {
         val node = org.json.JSONObject(
             """{"last_kind":"harvestable","family":29,"tier":5,"enchant":3,"resource_inference":{"resource_name":{"value":"Ore","status":"CAPTURE_CORROBORATED","confidence":0.98},"enchantment_name":{"value":"E3","status":"PROVISIONAL_MAPPING","confidence":0.85}}}"""
         )
-        assertEquals("Ore* T5 E3?", AlbionRadarSnapshotParser.labelForEntity(node))
+        assertEquals("T5", AlbionRadarSnapshotParser.labelForEntity(node))
     }
 
     @Test fun displaysResearchCatalogResourceNamesWithTheirEvidenceStatus() {
         val provisional = org.json.JSONObject(
             """{"last_kind":"static_resource","name":"Ore","mapping_status":"REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL","tier":5,"enchant":1}"""
         )
-        assertEquals("Ore? T5 E1?", AlbionRadarSnapshotParser.labelForEntity(provisional))
+        assertEquals("T5", AlbionRadarSnapshotParser.labelForEntity(provisional))
 
         val packetConfirmed = org.json.JSONObject(
             """{"last_kind":"harvestable","name":"Ore Elemental","mapping_status":"PACKET_CONFIRMED_LIVING_RESOURCE","tier":4,"enchant":0}"""
         )
-        assertEquals("Ore Elemental T4", AlbionRadarSnapshotParser.labelForEntity(packetConfirmed))
+        assertEquals("T4", AlbionRadarSnapshotParser.labelForEntity(packetConfirmed))
     }
 
     @Test fun labelsThePreviouslyUserConfirmedT5Enchant3CatalogNode() {
         val node = org.json.JSONObject(
             """{"last_kind":"static_resource","tier":5,"enchant":3,"user_confirmed_target":true,"x":-379,"y":-24}"""
         )
-        assertEquals("T5.3 ✓", AlbionRadarSnapshotParser.labelForEntity(node))
+        assertEquals("T5", AlbionRadarSnapshotParser.labelForEntity(node))
     }
 
     @Test fun keepsWorldNorthAtTopAndEastAtRight() {

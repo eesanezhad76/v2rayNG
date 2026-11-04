@@ -30,11 +30,14 @@ class AlbionLiveKnowledgeStore(
     private var trollMarkerAmbiguous = false
     private var currentTargetEntityId: String? = null
     private var currentTargetSeenMs = 0L
+    private var pendingTargetCandidateIds: Set<Long> = emptySet()
+    private var pendingTargetSeenMs = 0L
     private var playerMountedState: Boolean? = null
     private var playerMountedAtMs = 0L
     private var activeRegionId: String? = null
     private var regionScanId: String? = null
     private var regionScanRegionId: String? = null
+    private var regionScanForceMode = false
     private var regionScanStartedMs = 0L
     private var regionScanEndsMs = 0L
     private var lastRegionScanFlushMs = 0L
@@ -55,6 +58,13 @@ class AlbionLiveKnowledgeStore(
                 val newRegionId = observation.regionId?.takeIf { it.isNotBlank() }
                 if (newRegionId != null && newRegionId != activeRegionId) {
                     activeRegionId = newRegionId
+                    currentTargetEntityId = null
+                    currentTargetSeenMs = 0L
+                    pendingTargetCandidateIds = emptySet()
+                    pendingTargetSeenMs = 0L
+                    activeTrollMarker = null
+                    activeTrollTargetId = null
+                    trollMarkerAmbiguous = false
                     snapshotDirty = true
                     runCatching { beginRegionScan(timestampMs, newRegionId) }
                 }
@@ -76,39 +86,18 @@ class AlbionLiveKnowledgeStore(
                 return@forEach
             }
             if (observation.kind == "target_request") {
-                val regionKey = activeRegionId ?: ""
-                val matchingIds = observation.candidateEntityIds.distinct().filter { candidate ->
-                    records.values.any { record ->
-                        record.optString("entity_id") == candidate.toString() &&
-                            record.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                            record.optString("region_id", "") == regionKey &&
-                            record.optString("entity_class") == "mob"
+                currentTargetEntityId = null
+                currentTargetSeenMs = 0L
+                pendingTargetCandidateIds = observation.candidateEntityIds.filter { it > 0L }.toSet()
+                pendingTargetSeenMs = timestampMs
+                if (pendingTargetCandidateIds.isEmpty() && activeTrollMarker != null) {
+                    activeTrollTargetId?.let { oldId ->
+                        records.values.firstOrNull { it.optString("entity_id") == oldId }?.let(::clearTrollMarker)
                     }
-                }
-                if (matchingIds.size == 1) {
-                    val selectedId = matchingIds.single().toString()
-                    currentTargetEntityId = selectedId
-                    currentTargetSeenMs = timestampMs
-                    val activeMarker = activeTrollMarker
-                    if (activeMarker != null && !trollMarkerAmbiguous &&
-                        timestampMs >= activeTrollMarkerStartedMs &&
-                        timestampMs - activeTrollMarkerStartedMs <= TROLL_MARKER_MAX_WINDOW_MS) {
-                        if (activeTrollTargetId == null) {
-                            activeTrollTargetId = selectedId
-                            records.values.firstOrNull { it.optString("entity_id") == selectedId &&
-                                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                                it.optString("entity_class") == "mob" }?.let {
-                                applyTrollMarker(it, activeMarker, activeTrollMarkerStartedMs)
-                            }
-                        } else if (activeTrollTargetId != selectedId) {
-                            records.values.firstOrNull { it.optString("entity_id") == activeTrollTargetId }?.let(::clearTrollMarker)
-                            activeTrollTargetId = null
-                            trollMarkerAmbiguous = true
-                        }
-                    }
+                    activeTrollTargetId = null
+                    trollMarkerAmbiguous = true
                 } else {
-                    currentTargetEntityId = null
-                    currentTargetSeenMs = 0L
+                    resolvePendingTarget(timestampMs)
                 }
                 return@forEach
             }
@@ -248,6 +237,8 @@ class AlbionLiveKnowledgeStore(
             }
             val x = observation.x?.toDouble()
             val y = observation.y?.toDouble()
+            val targetX = observation.targetX?.toDouble()
+            val targetY = observation.targetY?.toDouble()
             if (x != null && y != null && x.isFinite() && y.isFinite() &&
                 kotlin.math.abs(x) <= MAX_COORDINATE && kotlin.math.abs(y) <= MAX_COORDINATE) {
                 record.put("x", x).put("y", y)
@@ -302,6 +293,7 @@ class AlbionLiveKnowledgeStore(
                     }
                     val sourceMobId = record.optString("source_mob_entity_id")
                     if (sourceMobId.isNotBlank()) {
+                        record.put("mob_state", "mined").put("mob_mined_ms", timestampMs)
                         records.values.firstOrNull {
                             it.optString("entity_id") == sourceMobId &&
                                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
@@ -324,8 +316,6 @@ class AlbionLiveKnowledgeStore(
             }
             observation.heading?.let { if (it.isFinite() && it in 0f..360f) record.put("heading", it) }
             observation.speed?.let { if (it.isFinite() && it in 0f..100f) record.put("speed", it) }
-            val targetX = observation.targetX?.toDouble()
-            val targetY = observation.targetY?.toDouble()
             if (targetX != null && targetY != null && targetX.isFinite() && targetY.isFinite() &&
                 kotlin.math.abs(targetX) <= MAX_COORDINATE && kotlin.math.abs(targetY) <= MAX_COORDINATE) {
                 record.put("target_x", targetX).put("target_y", targetY)
@@ -342,6 +332,7 @@ class AlbionLiveKnowledgeStore(
             record.put("evidence_grade", evidenceGrade(record, conflicts))
             record.put("evidence_score", evidenceScore(record, conflicts))
             record.put("evidence_reason", evidenceReason(record, conflicts))
+            if (observation.kind == "mob") resolvePendingTarget(timestampMs)
             dirty = true
         }
         // Keep a large persistent history while bounding memory and avoiding per-packet disk I/O.
@@ -364,17 +355,19 @@ class AlbionLiveKnowledgeStore(
     @Synchronized
     fun flush() = flush(System.currentTimeMillis())
 
-    /** Starts an isolated 60-second observation window for the active server region. */
+    /** Starts a 60-second scan. Force mode also seeds it with cached nodes from this verified region. */
     @Synchronized
     fun beginRegionScan(
         nowMs: Long = System.currentTimeMillis(),
-        regionId: String? = activeRegionId
+        regionId: String? = activeRegionId,
+        force: Boolean = false
     ): String {
         if (regionScanId != null) flushRegionScan(nowMs, true)
         if (!regionScanDir.exists() && !regionScanDir.mkdirs()) error("Cannot create region scan directory")
         val id = "region-$nowMs"
         regionScanId = id
         regionScanRegionId = regionId
+        regionScanForceMode = force
         regionScanStartedMs = nowMs
         regionScanEndsMs = nowMs + REGION_SCAN_DURATION_MS
         lastRegionScanFlushMs = 0L
@@ -395,9 +388,10 @@ class AlbionLiveKnowledgeStore(
         records.values
             .filter {
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                    it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
                     it.optString("region_id", "") == (regionScanRegionId ?: "") &&
-                    it.has("x") && it.has("y")
+                    it.has("x") && it.has("y") &&
+                    (it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs ||
+                        (regionScanForceMode && regionScanRegionId != null))
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
             .forEach { row ->
@@ -421,6 +415,7 @@ class AlbionLiveKnowledgeStore(
                 .put("scheduled_end_at_ms", regionScanEndsMs)
                 .put("updated_at_ms", nowMs)
                 .put("finished", finished)
+                .put("scan_mode", if (regionScanForceMode) "force_cached_plus_live" else "live_window_only")
                 .put("region_identity", regionScanRegionId?.let { it } ?: JSONObject.NULL)
                 .put("region_identity_note", if (regionScanRegionId != null)
                     "Server cluster/map ID from ChangeCluster or Join response."
@@ -443,9 +438,10 @@ class AlbionLiveKnowledgeStore(
         records.values
             .filter {
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                    it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
                     it.optString("region_id", "") == (regionScanRegionId ?: "") &&
-                    it.has("x") && it.has("y")
+                    it.has("x") && it.has("y") &&
+                    (it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs ||
+                        (regionScanForceMode && regionScanRegionId != null))
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
             .forEach { row ->
@@ -533,6 +529,11 @@ class AlbionLiveKnowledgeStore(
             record.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                 record.has("x") && record.has("y")
         }
+        val mountLabel = when (playerMountedState) {
+            true -> "mounted"
+            false -> "on foot"
+            null -> "unknown"
+        }
         return buildString {
             appendLine()
             appendLine("Live knowledge cache")
@@ -546,7 +547,7 @@ class AlbionLiveKnowledgeStore(
             appendLine("Ambiguous entities due to conflicting typed evidence: $ambiguous")
             appendLine("Average evidence score (0-100 heuristic): $averageEvidenceScore")
             appendLine("Evidence score is an ordinal heuristic, not a calibrated probability.")
-            appendLine("Last mount signal: ${playerMountedState?.let { if (it) \"mounted\" else \"on foot\" } ?: \"unknown\"}")
+            appendLine("Last mount signal: $mountLabel")
             appendLine("Persistent file: ${file.name}")
             appendLine("Classification is conservative; no family-to-Ore guesses are made.")
         }
@@ -692,6 +693,75 @@ class AlbionLiveKnowledgeStore(
         }
     }
 
+    /**
+     * Operation 23 can arrive before NewMob. Retain candidate IDs briefly and
+     * resolve only against exact mob runtime IDs already observed in this region.
+     */
+    private fun resolvePendingTarget(timestampMs: Long) {
+        if (pendingTargetCandidateIds.isEmpty()) return
+        val age = timestampMs - pendingTargetSeenMs
+        if (age < 0L) return
+        if (age > TARGET_MARKER_ATTACH_WINDOW_MS) {
+            if (activeTrollMarker != null && currentTargetEntityId == null) {
+                activeTrollTargetId?.let { oldId ->
+                    records.values.firstOrNull { it.optString("entity_id") == oldId }?.let(::clearTrollMarker)
+                }
+                activeTrollTargetId = null
+                trollMarkerAmbiguous = true
+            }
+            pendingTargetCandidateIds = emptySet()
+            pendingTargetSeenMs = 0L
+            if (currentTargetEntityId == null) currentTargetSeenMs = 0L
+            return
+        }
+        val regionKey = activeRegionId ?: ""
+        val matchingIds = pendingTargetCandidateIds.filter { candidate ->
+            records.values.any { record ->
+                record.optString("entity_id") == candidate.toString() &&
+                    record.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                    record.optString("region_id", "") == regionKey &&
+                    record.optString("entity_class") == "mob"
+            }
+        }
+        if (matchingIds.size > 1) {
+            if (activeTrollMarker != null) {
+                activeTrollTargetId?.let { oldId ->
+                    records.values.firstOrNull { it.optString("entity_id") == oldId }?.let(::clearTrollMarker)
+                }
+                activeTrollTargetId = null
+                trollMarkerAmbiguous = true
+            }
+            currentTargetEntityId = null
+            currentTargetSeenMs = 0L
+            pendingTargetCandidateIds = emptySet()
+            pendingTargetSeenMs = 0L
+            return
+        }
+        if (matchingIds.size != 1) return
+
+        val selectedId = matchingIds.single().toString()
+        currentTargetEntityId = selectedId
+        currentTargetSeenMs = pendingTargetSeenMs
+        val activeMarker = activeTrollMarker
+        if (activeMarker != null && !trollMarkerAmbiguous &&
+            kotlin.math.abs(pendingTargetSeenMs - activeTrollMarkerStartedMs) <= TARGET_MARKER_ATTACH_WINDOW_MS &&
+            timestampMs >= activeTrollMarkerStartedMs &&
+            timestampMs - activeTrollMarkerStartedMs <= TROLL_MARKER_MAX_WINDOW_MS) {
+            if (activeTrollTargetId == null) {
+                activeTrollTargetId = selectedId
+                records.values.firstOrNull {
+                    it.optString("entity_id") == selectedId &&
+                        it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                        it.optString("entity_class") == "mob"
+                }?.let { applyTrollMarker(it, activeMarker, activeTrollMarkerStartedMs) }
+            } else if (activeTrollTargetId != selectedId) {
+                records.values.firstOrNull { it.optString("entity_id") == activeTrollTargetId }?.let(::clearTrollMarker)
+                activeTrollTargetId = null
+                trollMarkerAmbiguous = true
+            }
+        }
+    }
+
     /** Troll is a user activity label. Attach it only by exact entity ID, never proximity. */
     @Synchronized
     fun observeMarker(marker: JSONObject, timestampMs: Long) {
@@ -716,7 +786,9 @@ class AlbionLiveKnowledgeStore(
                 activeTrollTargetId = targetId
                 if (record != null) applyTrollMarker(record, marker, timestampMs)
             }
+            resolvePendingTarget(timestampMs)
         } else if (event == "mob_killed") {
+            resolvePendingTarget(timestampMs)
             val active = activeTrollMarker
             if (active != null && !trollMarkerAmbiguous &&
                 timestampMs >= activeTrollMarkerStartedMs &&
@@ -751,6 +823,8 @@ class AlbionLiveKnowledgeStore(
             activeTrollMarker = null
             activeTrollTargetId = null
             trollMarkerAmbiguous = false
+            pendingTargetCandidateIds = emptySet()
+            pendingTargetSeenMs = 0L
         }
         dirty = true
         snapshotDirty = true

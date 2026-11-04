@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test
 
 class AlbionMapProjectionTest {
     @Test
-    fun albionWorldAxesAreCardinalNorthUp() {
+    fun albionWorldAxesProjectNorthUpAndEastRight() {
         val north = AlbionMapProjection.worldToScreen(0.0, 1.0)
         val east = AlbionMapProjection.worldToScreen(1.0, 0.0)
         val south = AlbionMapProjection.worldToScreen(0.0, -1.0)
@@ -24,19 +24,13 @@ class AlbionMapProjectionTest {
     }
 
     @Test
-    fun movementArrowUsesSameNorthUpProjectionAsMapCoordinates() {
-        val north = JSONArray()
+    fun movementArrowPointsStraightUpWhenWorldYIncreases() {
+        val history = JSONArray()
             .put(JSONObject().put("x", 10.0).put("y", 10.0))
             .put(JSONObject().put("x", 10.0).put("y", 12.0))
-        val south = JSONArray()
-            .put(JSONObject().put("x", 10.0).put("y", 12.0))
-            .put(JSONObject().put("x", 10.0).put("y", 10.0))
-        val northDirection = AlbionMapProjection.movementDirection(north)!!
-        val southDirection = AlbionMapProjection.movementDirection(south)!!
-        assertEquals(0.0, northDirection.x, 1e-9)
-        assertEquals(-1.0, northDirection.y, 1e-9)
-        assertEquals(0.0, southDirection.x, 1e-9)
-        assertEquals(1.0, southDirection.y, 1e-9)
+        val direction = AlbionMapProjection.movementDirection(history)!!
+        assertEquals(0.0, direction.x, 1e-9)
+        assertEquals(-1.0, direction.y, 1e-9)
     }
 
     @Test

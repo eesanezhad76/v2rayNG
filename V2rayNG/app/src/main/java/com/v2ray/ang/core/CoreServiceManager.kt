@@ -395,8 +395,8 @@ object CoreServiceManager {
     fun getAlbionLiveKnowledgeJson(): String =
         albionCaptureWorker?.liveKnowledgeJson() ?: "[]"
 
-    /** Starts a user-triggered 60-second scan of entities observed in the current region. */
-    fun startAlbionRegionScan(): String? = albionCaptureWorker?.beginRegionScan()
+    /** Starts a 60-second scan; force mode also includes cached nodes in the verified current region. */
+    fun startAlbionRegionScan(force: Boolean = false): String? = albionCaptureWorker?.beginRegionScan(force)
 
     fun getAlbionRegionScanJson(): String =
         albionCaptureWorker?.regionScanJson() ?: "[]"

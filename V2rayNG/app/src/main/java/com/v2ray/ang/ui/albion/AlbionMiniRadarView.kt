@@ -9,7 +9,7 @@ import kotlin.math.hypot
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-/** Transparent resource radar using Albion's fixed 45-degree clockwise map orientation. */
+/** Transparent resource radar using direct north-up/east-right world coordinates. */
 class AlbionMiniRadarView(context: Context) : View(context) {
     private var entities: List<JSONObject> = emptyList()
     private var catalogEntities: List<JSONObject> = emptyList()
@@ -24,7 +24,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
     private val minimumRange = 260.0
-    // Fixed 45-degree clockwise Albion map correction; movement never rotates the radar.
+    // Cardinal north-up projection is shared by nodes, trail and player direction.
 
     fun setCatalogOverviewMode(enabled: Boolean) {
         catalogOverviewMode = enabled
@@ -184,7 +184,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val markerTier = item.optInt("marker_tier", -1)
         val effectiveTier = if (markerTier >= 0) markerTier else item.optInt("tier", -1)
         // Exact filtering excludes unknown metadata from a selected Tier/Enchantment subset.
-        if (tierFilters.isNotEmpty() && (effectiveTier !in 2..8 || effectiveTier !in tierFilters)) return false
+        if (tierFilters.isNotEmpty() && (effectiveTier !in 1..8 || effectiveTier !in tierFilters)) return false
         val enchantFilters = enabledFilters.filter { it.startsWith("enchant_") }
             .mapNotNull { it.removePrefix("enchant_").toIntOrNull() }.filter { it in 0..3 }.toSet()
         // Enchantment applies only to resources; mobs remain unaffected.
