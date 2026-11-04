@@ -153,4 +153,20 @@ class AlbionRadarSnapshotParserTest {
         assertEquals(2, parsed?.invalidCoordinateCount)
         assertEquals("1", parsed?.entities?.single()?.optString("entity_id"))
     }
+
+    @Test
+    fun resourceLabelsNeverPrintEnchantmentCodes() {
+        val normal = JSONObject()
+            .put("last_kind", "harvestable")
+            .put("tier", 5)
+            .put("enchant", 3)
+            .put("resource_inference", JSONObject()
+                .put("resource_name", JSONObject().put("value", "Ore").put("status", "PACKET_CONFIRMED").put("confidence", 1.0))
+                .put("enchantment_name", JSONObject().put("value", "E3").put("status", "PACKET_CONFIRMED")))
+        val label = AlbionRadarSnapshotParser.labelForEntity(normal)
+        assertTrue(label.contains("Ore"))
+        assertTrue(label.contains("T5"))
+        assertTrue(!label.contains("E1") && !label.contains("E2") && !label.contains("E3"), label)
+    }
+
 }

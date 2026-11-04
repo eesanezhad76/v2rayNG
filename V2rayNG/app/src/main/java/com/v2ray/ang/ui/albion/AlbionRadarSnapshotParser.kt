@@ -29,7 +29,7 @@ object AlbionRadarSnapshotParser {
             return if (item.has("mobile_type_id")) "Mob ID${item.optInt("mobile_type_id")}" else "Mob"
         }
         if (kind in setOf("static_resource", "harvestable", "resource_state")) {
-            if (item.optBoolean("user_confirmed_target", false)) return "T5.3 ✓"
+            if (item.optBoolean("user_confirmed_target", false)) return "T5 ✓"
             val inference = item.optJSONObject("resource_inference")?.optJSONObject("resource_name")
             val inferenceStatus = inference?.optString("status")
             val inferenceConfidence = inference?.optDouble("confidence", 0.0) ?: 0.0
@@ -39,12 +39,8 @@ object AlbionRadarSnapshotParser {
                     inferenceConfidence > 0.0
             }
             val tierLabel = item.optInt("tier", -1).takeIf { it in 2..8 }?.let { " T$it" } ?: ""
-            val enchantInference = item.optJSONObject("resource_inference")?.optJSONObject("enchantment_name")
-            val enchantValue = enchantInference?.optString("value")?.takeIf { it.startsWith("E") }
-            val enchantStatus = enchantInference?.optString("status")
-            val enchantLabel = enchantValue?.let { " $it" + if (enchantStatus == "PROVISIONAL_MAPPING") "?" else "" }
-                ?: item.optInt("enchant", -1).takeIf { it in 1..3 }?.let { " E$it?" } ?: ""
-            val suffix = tierLabel + enchantLabel
+            // Enchantment is conveyed by node color only, never by an E1/E2/E3 label.
+            val suffix = tierLabel
             if (inferredName != null) {
                 val name = when (inferenceStatus) {
                     "PACKET_CONFIRMED" -> inferredName
