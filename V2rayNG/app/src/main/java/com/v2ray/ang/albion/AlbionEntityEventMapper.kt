@@ -256,7 +256,7 @@ object AlbionEntityEventMapper {
                 listOf(Observation(
                     kind = "mob", eventCode = code, entityId = id,
                     typeId = int(1), enchant = int(34),
-                    x = xy?.first, y = xy?.second, name = p[33] as? String
+                    x = xy?.first, y = xy?.second, name = (p[33] as? String) ?: (p[31] as? String)
                 ))
             }
             210 -> {
@@ -271,7 +271,7 @@ object AlbionEntityEventMapper {
                 }
                 listOf(Observation("player_mounted", code, entityId = id, value = mounted))
             }
-            324 -> {
+            324, 325 -> {
                 val xy = pair(p[1])
                 listOf(Observation("dungeon_exit", code, x = xy?.first, y = xy?.second,
                     name = p[3] as? String, enchant = int(9)))
