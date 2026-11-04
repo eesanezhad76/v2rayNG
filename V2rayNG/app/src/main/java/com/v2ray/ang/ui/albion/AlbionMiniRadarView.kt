@@ -215,164 +215,81 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         super.onDraw(canvas)
         val cx = width / 2f
         val cy = height / 2f
-        val radius = (min(width, height) * 0.39f).coerceAtLeast(12f * density)
-        paint.style = Paint.Style.FILL
-        paint.color = 0xE9111B25.toInt()
-        canvas.drawRoundRect(2f, 2f, width - 2f, height - 2f, 8f * density, 8f * density, paint)
-        paint.style = Paint.Style.STROKE
-        paint.strokeWidth = density
-        paint.color = 0x665F8295
-        for (ring in 1..3) canvas.drawCircle(cx, cy, radius * ring / 3f, paint)
-        canvas.drawLine(cx - radius, cy, cx + radius, cy, paint)
-        canvas.drawLine(cx, cy - radius, cx, cy + radius, paint)
+        val radius = (min(width, height) * 0.48f).coerceAtLeast(12f * density)
+        val clip = android.graphics.Path().apply { addCircle(cx, cy, radius, android.graphics.Path.Direction.CW) }
+        val save = canvas.save()
+        canvas.clipPath(clip)
 
+        // The overlay window is translucent; draw no panel, grid, rings, crosshair, or trail.
         if (catalogOverviewMode) {
             drawCatalogOverview(canvas, cx, cy, radius)
+            canvas.restoreToCount(save)
             return
         }
 
         val you = entities.asSequence()
             .filter { it.optString("last_kind") == "own_player_move" && validPoint(it) }
             .maxByOrNull { it.optLong("last_seen_ms") }
-        if (you == null) {
-            paint.style = Paint.Style.FILL
-            paint.color = 0xFFE3EDF5.toInt()
-            paint.textSize = 9f * density
-            canvas.drawText("No live player position", 8f * density, cy - 8f * density, paint)
-            drawCatalogOverview(canvas, cx, cy, radius)
-            return
-        }
-        // Median of a few recent samples suppresses single-frame coordinate jitter
-        // without the lag of a long moving average.
-        val history = you.optJSONArray("movement_history")
-        val recentPlayerPoints = ArrayList<Pair<Double, Double>>()
-        val historyCutoff = System.currentTimeMillis() - 3000L
-        if (history != null) {
-            for (i in (history.length() - 5).coerceAtLeast(0) until history.length()) {
-                val point = history.optJSONObject(i) ?: continue
-                if (point.optLong("time_ms", System.currentTimeMillis()) < historyCutoff) continue
-                val hx = point.optDouble("x", Double.NaN)
-                val hy = point.optDouble("y", Double.NaN)
-                if (hx.isFinite() && hy.isFinite()) recentPlayerPoints.add(hx to hy)
-            }
-        }
-        recentPlayerPoints.add(you.optDouble("x") to you.optDouble("y"))
-        fun median(values: List<Double>): Double {
-            val sorted = values.sorted()
-            return sorted[sorted.size / 2]
-        }
-        val px = if (recentPlayerPoints.size >= 3) median(recentPlayerPoints.map { it.first }) else you.optDouble("x")
-        val py = if (recentPlayerPoints.size >= 3) median(recentPlayerPoints.map { it.second }) else you.optDouble("y")
-        // Orientation is fixed; movement updates only the player-centered coordinate origin.
-        val visible = visibleEntities()
-        val displayRange = maxOf(minimumRange, visible.maxOfOrNull { hypot(it.optDouble("x")-px,it.optDouble("y")-py)*1.05 } ?: minimumRange)
-        if (history != null && history.length() > 1) {
-            paint.style = Paint.Style.STROKE
-            paint.strokeWidth = 1.4f * density
-            paint.color = 0xCC56D6A0.toInt()
-            var oldX: Float? = null
-            var oldY: Float? = null
-            for (i in 0 until history.length()) {
-                val point = history.optJSONObject(i) ?: continue
-                val dx = point.optDouble("x") - px
-                val dy = point.optDouble("y") - py
-                if (!dx.isFinite() || !dy.isFinite() || hypot(dx, dy) > displayRange) {
-                    oldX = null; oldY = null; continue
+        if (you != null) {
+            val history = you.optJSONArray("movement_history")
+            val recent = ArrayList<Pair<Double, Double>>()
+            val cutoff = System.currentTimeMillis() - 3000L
+            if (history != null) {
+                for (i in (history.length() - 5).coerceAtLeast(0) until history.length()) {
+                    val p = history.optJSONObject(i) ?: continue
+                    if (p.optLong("time_ms", System.currentTimeMillis()) < cutoff) continue
+                    val x = p.optDouble("x", Double.NaN)
+                    val y = p.optDouble("y", Double.NaN)
+                    if (x.isFinite() && y.isFinite()) recent.add(x to y)
                 }
-                val (rx, ry) = rotateOffset(dx, dy)
+            }
+            recent.add(you.optDouble("x") to you.optDouble("y"))
+            fun median(values: List<Double>): Double {
+                val sorted = values.sorted()
+                return sorted[sorted.size / 2]
+            }
+            val px = if (recent.size >= 3) median(recent.map { it.first }) else you.optDouble("x")
+            val py = if (recent.size >= 3) median(recent.map { it.second }) else you.optDouble("y")
+            val resources = visibleEntities().filter { it.optString("last_kind") in RESOURCE_KINDS }
+            val displayRange = maxOf(minimumRange,
+                resources.maxOfOrNull { hypot(it.optDouble("x") - px, it.optDouble("y") - py) * 1.05 } ?: minimumRange)
+
+            resources.forEach { entity ->
+                val dx = entity.optDouble("x") - px
+                val dy = entity.optDouble("y") - py
+                val distance = hypot(dx, dy)
+                val factor = if (distance > displayRange) displayRange / distance else 1.0
+                val (rx, ry) = rotateOffset(dx * factor, dy * factor)
                 val x = cx + (rx / displayRange * radius).toFloat()
                 val y = cy + (ry / displayRange * radius).toFloat()
-                if (oldX != null && oldY != null) canvas.drawLine(oldX, oldY, x, y, paint)
-                oldX = x; oldY = y
+                paint.style = Paint.Style.FILL
+                paint.color = resourceColor(entity)
+                canvas.drawCircle(x, y, 3.3f * density, paint)
+                val t = entity.optInt("marker_tier", -1).takeIf { it in 1..8 }
+                    ?: entity.optInt("tier", -1).takeIf { it in 1..8 }
+                if (t != null) {
+                    paint.color = 0xFFFFFFFF.toInt()
+                    paint.textSize = 7f * density
+                    canvas.drawText("T$t", x + 4f * density, y - 3f * density, paint)
+                }
+                if (entity.optBoolean("user_confirmed_target", false)) {
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = 1.8f * density
+                    paint.color = 0xFF55E6FF.toInt()
+                    canvas.drawCircle(x, y, 7f * density, paint)
+                }
             }
-        }
-
-        if (lockedTargetId != null && visible.none { it.optString("entity_id") == lockedTargetId && !it.optBoolean("depleted", false) }) {
-            lockedTargetId = null
-        }
-        val outside = ArrayList<Pair<JSONObject, Double>>()
-        val nearbyNodes = ArrayList<Pair<JSONObject, Double>>()
-        visible.forEach { entity ->
-            val dx = entity.optDouble("x") - px
-            val dy = entity.optDouble("y") - py
-            val distance = hypot(dx, dy)
-            val factor = if (distance > displayRange) displayRange / distance else 1.0
-            val (rx, ry) = rotateOffset(dx * factor, dy * factor)
-            val x = cx + (rx / displayRange * radius).toFloat()
-            val y = cy + (ry / displayRange * radius).toFloat()
-            val kind = entity.optString("last_kind")
-            val depleted = entity.optBoolean("depleted", false)
+            // Small center point only; all other non-resource entities remain invisible.
             paint.style = Paint.Style.FILL
-            paint.color = when {
-                depleted || entity.optBoolean("left", false) -> 0xFF000000.toInt()
-                kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
-                kind in RESOURCE_KINDS -> resourceColor(entity)
-                else -> 0xFFFFC45C.toInt()
-            }
-            canvas.drawCircle(x, y, (if (distance > displayRange) 2.5f else 3.2f) * density, paint)
-            if (kind in RESOURCE_KINDS) { val t = entity.optInt("marker_tier", -1).takeIf { it in 1..8 } ?: entity.optInt("tier", -1).takeIf { it in 1..8 }; if (t != null) { paint.color = 0xFFFFFFFF.toInt(); paint.textSize = 7f*density; canvas.drawText("T$t", x+4f*density, y-3f*density, paint) } }
-            if (kind in RESOURCE_KINDS && distance <= displayRange && !depleted) nearbyNodes.add(entity to distance)
-            if (entity.optBoolean("user_confirmed_target", false)) {
-                paint.style = Paint.Style.STROKE
-                paint.strokeWidth = 2f * density
-                paint.color = 0xFF55E6FF.toInt()
-                canvas.drawCircle(x, y, 7f * density, paint)
-            }
-            if (distance > displayRange) outside.add(entity to distance)
+            paint.color = 0xFF56D6A0.toInt()
+            canvas.drawCircle(cx, cy, 3.5f * density, paint)
         }
-
-        var locked: Pair<JSONObject, Double>? = null
-        var nearestTarget: Pair<JSONObject, Double>? = null
-        // One linear pass replaces sorting the entire resource set every frame.
-        visible.forEach { entity ->
-            if (entity.optString("last_kind") in RESOURCE_KINDS &&
-                !entity.optBoolean("depleted", false) && !entity.optBoolean("left", false)) {
-                val candidate = entity to hypot(entity.optDouble("x") - px, entity.optDouble("y") - py)
-                if (entity.optString("entity_id") == lockedTargetId) locked = candidate
-                if (nearestTarget == null || candidate.second < nearestTarget!!.second) nearestTarget = candidate
-            }
-        }
-        // Freeze the mutable scan results into stable locals before smart-cast decisions.
-        val nearest = nearestTarget
-        val currentLock = locked
-        // Keep a target stable while approaching, but switch when another resource is
-        // materially closer (12 world units) or the locked resource is no longer available.
-        val chosenTarget: Pair<JSONObject, Double>? = when {
-            nearest == null -> null
-            currentLock == null -> nearest
-            nearest.first.optString("entity_id") != currentLock.first.optString("entity_id") &&
-                nearest.second + 12.0 < currentLock.second -> nearest
-            else -> currentLock
-        }
-        lockedTargetId = chosenTarget?.first?.optString("entity_id")
-        if (chosenTarget != null) {
-            val target = chosenTarget.first
-            val dx = target.optDouble("x") - px
-            val dy = target.optDouble("y") - py
-            val distance = chosenTarget.second
-            val factor = if (distance > displayRange) displayRange / distance else 1.0
-            val (rx, ry) = rotateOffset(dx * factor, dy * factor)
-            val tx = cx + (rx / displayRange * radius).toFloat()
-            val ty = cy + (ry / displayRange * radius).toFloat()
-            paint.style = Paint.Style.STROKE
-            paint.strokeWidth = 1.8f * density
-            paint.color = resourceColor(target)
-            canvas.drawLine(cx, cy, tx, ty, paint)
-            canvas.drawCircle(tx, ty, 8f * density, paint)
-            paint.style = Paint.Style.FILL
-            paint.textSize = 8f * density
-            paint.color = 0xFF55E6FF.toInt()
-
-        } else lockedTargetId = null
-        paint.style = Paint.Style.FILL
-        paint.color = 0xFF56D6A0.toInt()
-        canvas.drawCircle(cx, cy, 4.5f * density, paint)
-
+        canvas.restoreToCount(save)
     }
 
     private fun drawCatalogOverview(canvas: Canvas, cx: Float, cy: Float, radius: Float) {
         visibleEntities()
-        val points = catalogVisibleCache
+        val points = catalogVisibleCache.filter { it.optString("last_kind") in RESOURCE_KINDS }
         if (points.isEmpty()) return
         val minX = points.minOf { it.optDouble("x") }
         val maxX = points.maxOf { it.optDouble("x") }
@@ -386,35 +303,24 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val (rx, ry) = rotateOffset(entity.optDouble("x") - centerX, entity.optDouble("y") - centerY)
             val x = cx + (rx * scale).toFloat()
             val y = cy + (ry * scale).toFloat()
-            val kind = entity.optString("last_kind")
             paint.style = Paint.Style.FILL
-            paint.color = when {
-                entity.optBoolean("depleted", false) || entity.optBoolean("left", false) -> 0xFF000000.toInt()
-                entity.optBoolean("user_confirmed_target", false) -> 0xFF55E6FF.toInt()
-                kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
-                kind in RESOURCE_KINDS -> resourceColor(entity)
-                else -> 0xFFFFC45C.toInt()
-            }
-            canvas.drawCircle(x, y, if (entity.optBoolean("user_confirmed_target", false)) 4f * density else 2.4f * density, paint)
-            if (entity.optBoolean("user_confirmed_target", false)) {
-                paint.color = 0xFF55E6FF.toInt()
-                paint.textSize = 8f * density
-                canvas.drawText(AlbionRadarSnapshotParser.labelForEntity(entity),
-                    (x + 5f * density).coerceAtMost(width - 48f * density),
-                    (y - 5f * density).coerceAtLeast(10f * density), paint)
+            paint.color = resourceColor(entity)
+            canvas.drawCircle(x, y, 2.8f * density, paint)
+            val t = entity.optInt("marker_tier", -1).takeIf { it in 1..8 }
+                ?: entity.optInt("tier", -1).takeIf { it in 1..8 }
+            if (t != null) {
+                paint.color = 0xFFFFFFFF.toInt()
+                paint.textSize = 6.5f * density
+                canvas.drawText("T$t", x + 3f * density, y - 2f * density, paint)
             }
         }
-        paint.style = Paint.Style.FILL
-        paint.color = 0xFFB8C8D5.toInt()
-        paint.textSize = 7f * density
-        canvas.drawText("SAVED CATALOG • NOT PLAYER-CENTERED • ${points.size} pins", 6f * density, height - 6f * density, paint)
     }
 
     companion object {
         val DEFAULT_FILTERS = setOf("category_ore")
         internal fun rotateOffset(dx: Double, dy: Double): Pair<Double, Double> {
-            val screenX = dx * sin(PI / 4.0) - dy * cos(PI / 4.0)
-            val screenY = -(dx * cos(PI / 4.0) + dy * sin(PI / 4.0))
+            val screenX = dx * sin(PI / 2.0) - dy * cos(PI / 2.0)
+            val screenY = -(dx * cos(PI / 2.0) + dy * sin(PI / 2.0))
             return screenX to screenY
         }
         internal fun colorForEnchantment(enchant: Int): Int = when (enchant) {
