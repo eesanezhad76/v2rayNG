@@ -11,15 +11,13 @@ import kotlin.math.min
 import kotlin.math.roundToInt
 import kotlin.math.sin
 import kotlin.math.PI
-import java.util.LinkedHashMap
 
-/** Compact coordinate radar. Off-displayRange entities are projected to the rim with distance labels. */
+/** Transparent circular resource radar with fixed world-north orientation. */
 class AlbionMiniRadarView(context: Context) : View(context) {
     private var entities: List<JSONObject> = emptyList()
     private var catalogEntities: List<JSONObject> = emptyList()
     private var enabledFilters: Set<String> = DEFAULT_FILTERS
     private var catalogOverviewMode = false
-    private var lockedTargetId: String? = null
     // Filtering is independent of player position. Cache it between snapshots/filter changes
     // so onDraw does not repeatedly walk and classify every entity on each invalidation.
     private var visibleCache: List<JSONObject> = emptyList()
@@ -28,7 +26,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
     private val minimumRange = 260.0
-    // Fixed 45-degree correction: player movement must not rotate the radar.
+    // Fixed 90-degree coordinate correction: player movement must not rotate the radar.
 
     fun setCatalogOverviewMode(enabled: Boolean) {
         catalogOverviewMode = enabled
