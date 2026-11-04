@@ -230,42 +230,37 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             .maxByOrNull { it.optLong("last_seen_ms") }
         if (you != null) {
             val history = you.optJSONArray("movement_history")
-            val recent = ArrayList<Pair<Double, Double>>()
-            val cutoff = System.currentTimeMillis() - 3000L
+            // Use the newest authoritative player coordinates. Median smoothing over
+            // the last 3 seconds displaced the player origin behind actual movement,
+            // making every resource vector lag and swing while the player was walking.
+            val px = you.optDouble("x")
+            val py = you.optDouble("y")
+            val trailPoints = ArrayList<Pair<Double, Double>>()
             if (history != null) {
-                for (i in (history.length() - 5).coerceAtLeast(0) until history.length()) {
-                    val p = history.optJSONObject(i) ?: continue
-                    if (p.optLong("time_ms", System.currentTimeMillis()) < cutoff) continue
-                    val x = p.optDouble("x", Double.NaN)
-                    val y = p.optDouble("y", Double.NaN)
-                    if (x.isFinite() && y.isFinite()) recent.add(x to y)
-                }
-            }
-            recent.add(you.optDouble("x") to you.optDouble("y"))
-            fun median(values: List<Double>): Double {
-                val sorted = values.sorted()
-                return sorted[sorted.size / 2]
-            }
-            val px = if (recent.size >= 3) median(recent.map { it.first }) else you.optDouble("x")
-            val py = if (recent.size >= 3) median(recent.map { it.second }) else you.optDouble("y")
-            val resources = visibleEntities().filter { it.optString("last_kind") in RESOURCE_KINDS }
-            val displayRange = maxOf(minimumRange,
-                resources.maxOfOrNull { hypot(it.optDouble("x") - px, it.optDouble("y") - py) * 1.05 } ?: minimumRange)
-
-            // Keep a short live breadcrumb trail visible without adding a panel or grid.
-            // Coordinates are translated to the current player origin and use the same
-            // fixed north-up transform as resource markers.
-            if (history != null && history.length() > 1) {
-                val trail = android.graphics.Path()
-                var started = false
-                val first = (history.length() - 16).coerceAtLeast(0)
+                val first = (history.length() - 240).coerceAtLeast(0)
                 for (i in first until history.length()) {
                     val point = history.optJSONObject(i) ?: continue
                     val tx = point.optDouble("x", Double.NaN)
                     val ty = point.optDouble("y", Double.NaN)
-                    if (!tx.isFinite() || !ty.isFinite()) continue
-                    val time = point.optLong("time_ms", 0L)
-                    if (time > 0L && time < System.currentTimeMillis() - 20_000L) continue
+                    if (tx.isFinite() && ty.isFinite()) trailPoints.add(tx to ty)
+                }
+            }
+            val resources = visibleEntities().filter { it.optString("last_kind") in RESOURCE_KINDS }
+            // Fit both nearby resources and the retained movement path so the trail
+            // remains a useful route, not a tiny 16-point trace around the center.
+            val trailRange = trailPoints.maxOfOrNull { hypot(it.first - px, it.second - py) } ?: 0.0
+            val resourceRange = resources.maxOfOrNull {
+                hypot(it.optDouble("x") - px, it.optDouble("y") - py)
+            } ?: 0.0
+            val displayRange = maxOf(minimumRange, trailRange * 1.05, resourceRange * 1.05)
+
+            // Keep a short live breadcrumb trail visible without adding a panel or grid.
+            // Coordinates are translated to the current player origin and use the same
+            // fixed north-up transform as resource markers.
+            if (trailPoints.size > 1) {
+                val trail = android.graphics.Path()
+                var started = false
+                trailPoints.forEach { (tx, ty) ->
                     val (trX, trY) = rotateOffset(tx - px, ty - py)
                     val sx = cx + (trX / displayRange * radius).toFloat()
                     val sy = cy + (trY / displayRange * radius).toFloat()
@@ -273,7 +268,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 }
                 if (started) {
                     paint.style = Paint.Style.STROKE
-                    paint.strokeWidth = 1.8f * density
+                    paint.strokeWidth = 2.0f * density
                     paint.strokeCap = Paint.Cap.ROUND
                     paint.strokeJoin = Paint.Join.ROUND
                     paint.color = 0xCC56D6A0.toInt()
