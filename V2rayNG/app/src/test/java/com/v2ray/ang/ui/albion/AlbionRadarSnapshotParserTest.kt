@@ -79,8 +79,8 @@ class AlbionRadarSnapshotParserTest {
         assertEquals(kotlin.math.sqrt(50.0), east.first, 1e-9)
         assertEquals(kotlin.math.sqrt(50.0), east.second, 1e-9)
         val north = AlbionMiniRadarView.rotateOffset(0.0, 10.0)
-        assertEquals(-kotlin.math.sqrt(50.0), north.first, 1e-9)
-        assertEquals(kotlin.math.sqrt(50.0), north.second, 1e-9)
+        assertEquals(kotlin.math.sqrt(50.0), north.first, 1e-9)
+        assertEquals(-kotlin.math.sqrt(50.0), north.second, 1e-9)
     }
 
     @Test fun assignsDistinctColorsToNormalAndEnchantmentsOneToThree() {
