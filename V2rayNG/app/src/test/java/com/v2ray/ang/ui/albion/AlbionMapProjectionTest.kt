@@ -8,19 +8,31 @@ import org.junit.jupiter.api.Test
 
 class AlbionMapProjectionTest {
     @Test
-    fun positiveWorldYMovesUpAndNegativeWorldYMovesDownOnScreen() {
-        assertEquals(-1.0, AlbionMapProjection.worldToScreen(0.0, 1.0).y)
-        assertEquals(1.0, AlbionMapProjection.worldToScreen(0.0, -1.0).y)
+    fun albionWorldAxesProjectAtFortyFiveDegreesClockwise() {
+        val north = AlbionMapProjection.worldToScreen(0.0, 1.0)
+        val east = AlbionMapProjection.worldToScreen(1.0, 0.0)
+        val south = AlbionMapProjection.worldToScreen(0.0, -1.0)
+        val west = AlbionMapProjection.worldToScreen(-1.0, 0.0)
+        val diagonal = kotlin.math.sqrt(0.5)
+        assertEquals(diagonal, north.x, 1e-9)
+        assertEquals(-diagonal, north.y, 1e-9)
+        assertEquals(diagonal, east.x, 1e-9)
+        assertEquals(diagonal, east.y, 1e-9)
+        assertEquals(-diagonal, south.x, 1e-9)
+        assertEquals(diagonal, south.y, 1e-9)
+        assertEquals(-diagonal, west.x, 1e-9)
+        assertEquals(-diagonal, west.y, 1e-9)
     }
 
     @Test
-    fun movementArrowUsesTheSameNorthUpProjectionAsMapCoordinates() {
+    fun movementArrowUsesSameFortyFiveDegreeProjectionAsMapCoordinates() {
         val history = JSONArray()
             .put(JSONObject().put("x", 10.0).put("y", 10.0))
             .put(JSONObject().put("x", 10.0).put("y", 12.0))
         val direction = AlbionMapProjection.movementDirection(history)!!
-        assertTrue(direction.y < 0.0, "Moving toward positive world Y must point upward on screen")
-        assertEquals(0.0, direction.x, 1e-9)
+        val diagonal = kotlin.math.sqrt(0.5)
+        assertEquals(diagonal, direction.x, 1e-9)
+        assertEquals(-diagonal, direction.y, 1e-9)
     }
 
     @Test
