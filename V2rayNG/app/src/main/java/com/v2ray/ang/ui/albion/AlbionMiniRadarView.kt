@@ -300,6 +300,13 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                     else -> resourceColor(entity)
                 }
                 canvas.drawCircle(x, y, 3.3f * density, paint)
+                if (entity.optString("mob_state") == "dead_harvestable") {
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = 1.1f * density
+                    paint.color = 0xFFFFFFFF.toInt()
+                    canvas.drawCircle(x, y, 5.2f * density, paint)
+                    paint.style = Paint.Style.FILL
+                }
                 if (entity === nearestTarget) {
                     val arrived = (nearestDistance ?: Double.MAX_VALUE) <= 4.0
                     paint.style = Paint.Style.STROKE
@@ -357,10 +364,10 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 paint.style = Paint.Style.FILL
                 val state = mob.optString("mob_state")
                 val dead = mob.optBoolean("mob_dead", false) || mob.optBoolean("left", false) ||
-                    state in setOf("dead", "dead_harvestable", "mined")
+                    state in setOf("dead", "dead_manual", "dead_harvestable", "mined")
                 paint.color = when {
                     state == "mined" -> 0xFF424A52.toInt()
-                    state == "dead" -> 0xFFB0BEC5.toInt()
+                    state in setOf("dead", "dead_manual") -> 0xFFB0BEC5.toInt()
                     dead -> 0xFF78838B.toInt()
                     else -> resourceColor(mob)
                 }
