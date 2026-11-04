@@ -663,7 +663,7 @@ class AlbionOverlayService : Service() {
         title.text = if (force) "ALBION • FORCE SCAN…" else "ALBION • REGION…"
         // Region-scan persistence can serialize a large node set. Keep it off the UI thread.
         snapshotHandler.post {
-            val scanId = CoreServiceManager.startAlbionRegionScan()
+            val scanId = CoreServiceManager.startAlbionRegionScan(force)
             val markerSaved = !scanId.isNullOrBlank() && writeDiagnosticMarker(
                 if (force) "force_scan_started" else "region_scan_started",
                 JSONObject().put("scan_id", scanId)
@@ -677,7 +677,7 @@ class AlbionOverlayService : Service() {
                 title.text = if (markerSaved) "ALBION • SCAN ✓" else "ALBION • SCAN"
                 Toast.makeText(
                     this,
-                    if (force) "Fresh 60-second passive scan started. Server resend is not forced."
+                    if (force) "Force scan: cached nodes from this verified region + new live observations for 60 seconds. No server resend is forced."
                     else "New region observation window started (60 seconds).",
                     Toast.LENGTH_LONG
                 ).show()

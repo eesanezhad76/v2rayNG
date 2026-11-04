@@ -473,6 +473,33 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(scan.getJSONObject(0).optString("region_id") == "MAP_B")
     }
 
+    @Test fun forceRegionScanIncludesPreviouslyCachedNodesOnlyFromVerifiedCurrentRegion() {
+        val store = AlbionLiveKnowledgeStore(context(), 30_000L)
+        store.observe(30_100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_FORCE_A"
+        )))
+        store.observe(30_200L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 301L,
+            typeId = 574, typeNumber = 29, tier = 5, size = 3, x = 10f, y = 20f
+        )))
+        store.observe(30_300L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_FORCE_B"
+        )))
+        store.observe(30_400L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 302L,
+            typeId = 574, typeNumber = 29, tier = 5, size = 3, x = 90f, y = 80f
+        )))
+        val ordinaryId = store.beginRegionScan(nowMs = 31_000L, regionId = "MAP_FORCE_B")
+        val ordinary = org.json.JSONArray(store.regionScanSnapshotJson(31_100L))
+        assertTrue(ordinary.length() == 0, "Ordinary scan should contain only observations since its start: $ordinary")
+        val forceId = store.beginRegionScan(nowMs = 32_000L, regionId = "MAP_FORCE_B", force = true)
+        assertTrue(forceId != ordinaryId)
+        val forced = org.json.JSONArray(store.regionScanSnapshotJson(32_100L))
+        assertTrue(forced.length() == 1, "Force scan should recover the cached node from this verified region only: $forced")
+        assertTrue(forced.getJSONObject(0).optString("region_id") == "MAP_FORCE_B")
+        assertTrue(forced.getJSONObject(0).optLong("entity_id") == 302L)
+    }
+
     @Test fun separatesTrollMarkerFromOreElementalAndTracksAliveDeadHarvestedLifecycle() {
         val store = AlbionLiveKnowledgeStore(context(), 20_000L)
         val now = 20_100L

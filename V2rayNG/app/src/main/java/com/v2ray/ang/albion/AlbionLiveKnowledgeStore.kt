@@ -37,6 +37,7 @@ class AlbionLiveKnowledgeStore(
     private var activeRegionId: String? = null
     private var regionScanId: String? = null
     private var regionScanRegionId: String? = null
+    private var regionScanForceMode = false
     private var regionScanStartedMs = 0L
     private var regionScanEndsMs = 0L
     private var lastRegionScanFlushMs = 0L
@@ -354,17 +355,19 @@ class AlbionLiveKnowledgeStore(
     @Synchronized
     fun flush() = flush(System.currentTimeMillis())
 
-    /** Starts an isolated 60-second observation window for the active server region. */
+    /** Starts a 60-second scan. Force mode also seeds it with cached nodes from this verified region. */
     @Synchronized
     fun beginRegionScan(
         nowMs: Long = System.currentTimeMillis(),
-        regionId: String? = activeRegionId
+        regionId: String? = activeRegionId,
+        force: Boolean = false
     ): String {
         if (regionScanId != null) flushRegionScan(nowMs, true)
         if (!regionScanDir.exists() && !regionScanDir.mkdirs()) error("Cannot create region scan directory")
         val id = "region-$nowMs"
         regionScanId = id
         regionScanRegionId = regionId
+        regionScanForceMode = force
         regionScanStartedMs = nowMs
         regionScanEndsMs = nowMs + REGION_SCAN_DURATION_MS
         lastRegionScanFlushMs = 0L
@@ -385,9 +388,10 @@ class AlbionLiveKnowledgeStore(
         records.values
             .filter {
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                    it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
                     it.optString("region_id", "") == (regionScanRegionId ?: "") &&
-                    it.has("x") && it.has("y")
+                    it.has("x") && it.has("y") &&
+                    (it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs ||
+                        (regionScanForceMode && regionScanRegionId != null))
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
             .forEach { row ->
@@ -411,6 +415,7 @@ class AlbionLiveKnowledgeStore(
                 .put("scheduled_end_at_ms", regionScanEndsMs)
                 .put("updated_at_ms", nowMs)
                 .put("finished", finished)
+                .put("scan_mode", if (regionScanForceMode) "force_cached_plus_live" else "live_window_only")
                 .put("region_identity", regionScanRegionId?.let { it } ?: JSONObject.NULL)
                 .put("region_identity_note", if (regionScanRegionId != null)
                     "Server cluster/map ID from ChangeCluster or Join response."
@@ -433,9 +438,10 @@ class AlbionLiveKnowledgeStore(
         records.values
             .filter {
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                    it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
                     it.optString("region_id", "") == (regionScanRegionId ?: "") &&
-                    it.has("x") && it.has("y")
+                    it.has("x") && it.has("y") &&
+                    (it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs ||
+                        (regionScanForceMode && regionScanRegionId != null))
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
             .forEach { row ->
