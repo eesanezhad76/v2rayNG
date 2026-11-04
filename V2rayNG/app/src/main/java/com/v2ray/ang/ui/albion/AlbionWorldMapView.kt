@@ -16,6 +16,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
     @Volatile private var player: JSONObject? = null
     @Volatile private var invalidCount = 0
     @Volatile private var savedCaptureMode = false
+    private var lastLiveSnapshotJson: String? = null
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
     private var pixelsPerUnit = 1f * density
@@ -46,6 +47,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
     })
 
     fun setSnapshot(json: String): Boolean {
+        if (!savedCaptureMode && json == lastLiveSnapshotJson) return true
         savedCaptureMode = false
         val parsed = AlbionRadarSnapshotParser.parse(json)
         if (parsed == null) {
@@ -54,6 +56,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
         }
         entities = parsed.entities
         invalidCount = parsed.invalidCoordinateCount
+        lastLiveSnapshotJson = json
         player = entities.filter { it.optString("last_kind") == "own_player_move" }
             .maxByOrNull { it.optLong("last_seen_ms") }
         if (!fitted && width > 0 && height > 0) fitRegion()
@@ -64,6 +67,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
     fun setSavedSnapshot(json: String): Boolean {
         val parsed = AlbionRadarSnapshotParser.parse(json) ?: return false
         savedCaptureMode = true
+        lastLiveSnapshotJson = null
         entities = parsed.entities
         invalidCount = parsed.invalidCoordinateCount
         player = null
