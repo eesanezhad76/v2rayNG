@@ -26,7 +26,7 @@ class AlbionProtocolEvidenceStore(
             in INVENTORY_CODES -> "inventory"
             in HARVEST_CODES -> "harvest"
             39, 40, 46 -> "resource"
-            210 -> "mount"
+            210 -> "event_210_candidate"
             else -> return
         }
         val payload = JSONObject()
@@ -72,7 +72,14 @@ class AlbionProtocolEvidenceStore(
         val resources = events.filter {
             it.optString("kind") == "resource" && it.optInt("event_code") == 40
         }
-        val mountEvents = events.filter { it.optString("kind") == "mount" && it.optInt("event_code") == 210 }
+        val mountEvents = events.filter { it.optString("kind") == "event_210_candidate" && it.optInt("event_code") == 210 && it.optLong("time_ms") >= sessionStartedMs }
+        val mountShapes = linkedMapOf<String, Int>()
+        mountEvents.forEach { event ->
+            val schema = event.optJSONObject("parameter_schema") ?: return@forEach
+            val signature = schema.keys().asSequence().toList().sorted()
+                .joinToString(",") { "$it=${schema.optString(it)}" }
+            if (signature.isNotBlank()) mountShapes[signature] = (mountShapes[signature] ?: 0) + 1
+        }
         var paired = 0
         var resourceCandidates = 0
         val details = ArrayList<String>()
@@ -108,7 +115,16 @@ class AlbionProtocolEvidenceStore(
                 appendLine("Inventory shape observations=$count: $shape")
             }
             appendLine("Events in current capture: ${current.size}")
-            appendLine("Mount/dismount event 210 observations retained: ${mountEvents.size}")
+            appendLine("Event 210 candidate observations retained: ${mountEvents.size}")
+            appendLine("Event 210 parameter shapes: ${mountShapes.size}")
+            mountShapes.entries.sortedByDescending { it.value }.take(5).forEach { (shape, count) ->
+                appendLine("Event 210 shape observations=$count: $shape")
+            }
+            mountEvents.takeLast(5).forEach { event ->
+                val params = event.optJSONObject("parameters") ?: JSONObject()
+                val schema = event.optJSONObject("parameter_schema") ?: JSONObject()
+                appendLine("Event 210 raw candidate t=${event.optLong("time_ms")} p0=${params.opt("0")}(${schema.optString("0")}) p1=${params.opt("1")}(${schema.optString("1")})")
+            }
             appendLine("Inventory events within ${PAIR_WINDOW_MS / 1000}s of HarvestFinished: $paired")
             appendLine("With a nearby typed resource event (candidate only): $resourceCandidates")
             appendLine("Repeated harvest-correlated numeric parameter candidates (unclassified): " + numericCandidates.size)

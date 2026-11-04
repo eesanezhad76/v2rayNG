@@ -241,7 +241,9 @@ class AlbionLiveKnowledgeStoreTest {
         evidence.observe(now, 210, mapOf(0 to 44L, 1 to true))
         evidence.observe(now + 1L, 210, mapOf(0 to 44L, 1 to false))
         val summary = evidence.summaryText()
-        assertTrue(summary.contains("Mount/dismount event 210 observations retained: 2"), summary)
+        assertTrue(summary.contains("Event 210 candidate observations retained: 2"), summary)
+        assertTrue(summary.contains("Event 210 parameter shapes: 1"), summary)
+        assertTrue(summary.contains("0=Long,1=Boolean"), summary)
     }
 
     @Test fun corruptEvidenceCacheDoesNotCrashOrCreateFalseInventoryEvidence() {
