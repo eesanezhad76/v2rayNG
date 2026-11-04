@@ -198,14 +198,16 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
     private fun visibleEntities(): List<JSONObject> {
         if (filterCacheDirty) {
+            // Keep depleted/departed nodes visible as grey historical hints. They remain
+            // excluded from nearest-target guidance, but must not silently disappear.
             visibleCache = entities.filter {
                 it.optString("last_kind") in DISPLAY_KINDS &&
-                    !isUnavailableResource(it) && validPoint(it) && passesFilters(it)
+                    validPoint(it) && passesFilters(it)
             }
             catalogVisibleCache = catalogEntities.filter {
                 it.optString("last_kind") in DISPLAY_KINDS &&
                     it.optString("last_kind") != "own_player_move" &&
-                    !isUnavailableResource(it) && validPoint(it) && passesFilters(it)
+                    validPoint(it) && passesFilters(it)
             }
             filterCacheDirty = false
         }
@@ -287,7 +289,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 val x = cx + (rx / displayRange * radius).toFloat()
                 val y = cy + (ry / displayRange * radius).toFloat()
                 paint.style = Paint.Style.FILL
-                paint.color = resourceColor(entity)
+                paint.color = if (isUnavailableResource(entity)) 0xFF78838B.toInt() else resourceColor(entity)
                 canvas.drawCircle(x, y, 3.3f * density, paint)
                 val t = entity.optInt("marker_tier", -1).takeIf { it in 1..8 }
                     ?: entity.optInt("tier", -1).takeIf { it in 1..8 }
@@ -353,7 +355,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val x = cx + (rx * scale).toFloat()
             val y = cy + (ry * scale).toFloat()
             paint.style = Paint.Style.FILL
-            paint.color = resourceColor(entity)
+            paint.color = if (isUnavailableResource(entity)) 0xFF78838B.toInt() else resourceColor(entity)
             canvas.drawCircle(x, y, 2.8f * density, paint)
             val t = entity.optInt("marker_tier", -1).takeIf { it in 1..8 }
                 ?: entity.optInt("tier", -1).takeIf { it in 1..8 }
@@ -366,7 +368,10 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     }
 
     companion object {
-        val DEFAULT_FILTERS = setOf("category_ore")
+        val DEFAULT_FILTERS = setOf(
+            "category_ore", "category_wood", "category_stone", "category_fiber",
+            "category_hide", "category_unknown_resource"
+        )
         internal fun rotateOffset(dx: Double, dy: Double): Pair<Double, Double> {
             val point = AlbionMapProjection.worldToScreen(dx, dy)
             return point.x to point.y
