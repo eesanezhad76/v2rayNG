@@ -41,7 +41,7 @@ class AlbionWorldMapActivity : Activity() {
                 }
                 val statusText = if (!valid) "Invalid live knowledge snapshot"
                     else if (showingSavedCatalog) "SAVED CAPTURE • zone identity is not decoded • " + mapView.statusText()
-                    else if (showingRegionScan) "REGION SCAN • " + if (System.currentTimeMillis() < regionScanStartedAtMs + 60_000L) "collecting observations" else "finished and saved" + " • " + mapView.statusText()
+                    else if (showingRegionScan) "REGION SCAN • " + (if (System.currentTimeMillis() < regionScanStartedAtMs + 60_000L) "collecting observations" else "finished and saved") + " • " + mapView.statusText()
                     else mapView.statusText()
                 handler.post {
                     if (::status.isInitialized) status.text = statusText
