@@ -304,6 +304,7 @@ class AlbionLiveKnowledgeStore(
                     }
                     val sourceMobId = record.optString("source_mob_entity_id")
                     if (sourceMobId.isNotBlank()) {
+                        record.put("mob_state", "mined").put("mob_mined_ms", timestampMs)
                         records.values.firstOrNull {
                             it.optString("entity_id") == sourceMobId &&
                                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&

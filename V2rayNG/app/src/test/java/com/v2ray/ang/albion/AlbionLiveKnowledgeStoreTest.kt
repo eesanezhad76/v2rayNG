@@ -151,7 +151,7 @@ class AlbionLiveKnowledgeStoreTest {
             )
         )
         val snapshot = store.snapshotText()
-        assertTrue(snapshot.contains("Resource T5"), snapshot)
+        assertTrue(snapshot.contains("Resource Ore Elemental T5"), snapshot)
         assertTrue(snapshot.contains("Player movement"), snapshot)
         assertTrue(snapshot.contains("proximity alone is not confirmation"), snapshot)
     }

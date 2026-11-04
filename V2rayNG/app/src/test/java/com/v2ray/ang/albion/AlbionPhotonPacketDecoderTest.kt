@@ -191,7 +191,8 @@ class AlbionPhotonPacketDecoderTest {
                 0 to 987654321L,
                 1 to 530,
                 7 to floatArrayOf(12.5f, 44.25f),
-                31 to "MOB_TEST",
+                31 to "@MISTS@NOT_A_MOB_NAME",
+                33 to "MOB_TEST",
                 34 to 3
             )
         )
@@ -234,7 +235,7 @@ class AlbionPhotonPacketDecoderTest {
     }
 
     @Test fun mapsDungeonExitCoordinates() {
-        val message = AlbionProtocol18Decoder.Message("event", 1, 325,
+        val message = AlbionProtocol18Decoder.Message("event", 1, 324,
             mapOf(1 to floatArrayOf(10f, 20f), 3 to "Exit", 9 to 2))
         val observation = AlbionEntityEventMapper.map(message).single()
         assertEquals("dungeon_exit", observation.kind)
