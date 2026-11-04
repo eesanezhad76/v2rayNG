@@ -271,7 +271,7 @@ object AlbionEntityEventMapper {
                 }
                 listOf(Observation("player_mounted", code, entityId = id, value = mounted))
             }
-            324, 325 -> {
+            324 -> {
                 val xy = pair(p[1])
                 listOf(Observation("dungeon_exit", code, x = xy?.first, y = xy?.second,
                     name = p[3] as? String, enchant = int(9)))
