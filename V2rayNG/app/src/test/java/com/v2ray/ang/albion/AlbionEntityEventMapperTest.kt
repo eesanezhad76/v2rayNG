@@ -213,4 +213,22 @@ class AlbionEntityEventMapperTest {
         assertEquals("MAP_RED_02", joined.regionId)
     }
 
+    @Test
+    fun usesPostOctober2026EventNumbersForMountedAndDungeonExit() {
+        AlbionEntityEventMapper.reset()
+        val mounted = AlbionEntityEventMapper.map(event(210, mapOf(0 to 44L, 1 to true))).single()
+        assertEquals("player_mounted", mounted.kind)
+        assertTrue(AlbionEntityEventMapper.map(event(211, mapOf(0 to 44L, 1 to true))).isEmpty())
+
+        val exit = AlbionEntityEventMapper.map(event(324, mapOf(
+            1 to listOf(12f, 34f), 3 to "Dungeon Exit", 9 to 2
+        ))).single()
+        assertEquals("dungeon_exit", exit.kind)
+        assertEquals(12f, exit.x)
+        assertEquals(34f, exit.y)
+        assertTrue(AlbionEntityEventMapper.map(event(325, mapOf(
+            1 to listOf(12f, 34f), 3 to "Not a dungeon exit", 9 to 2
+        ))).isEmpty())
+    }
+
 }
