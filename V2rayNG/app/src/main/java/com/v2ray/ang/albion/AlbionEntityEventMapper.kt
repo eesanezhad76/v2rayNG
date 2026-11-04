@@ -205,6 +205,14 @@ object AlbionEntityEventMapper {
                 val id = number(0) ?: number(6) ?: return emptyList()
                 listOf(Observation("energy_regeneration", code, entityId = id, value = float(2), secondaryValue = float(3)))
             }
+            521 -> {
+                // Current upstream MistsPlayerJoinedInfo: confirmed transition at p3,
+                // destination map/cluster identity at p2.
+                val newRegion = p[2] as? String
+                if (p[3] == true && !newRegion.isNullOrBlank()) {
+                    listOf(Observation(kind = "region_change", eventCode = code, regionId = newRegion))
+                } else emptyList()
+            }
             123 -> {
                 val id = number(0) ?: return emptyList()
                 knownNonPlayerEntities.add(id)
