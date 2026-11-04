@@ -130,7 +130,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         // 50% map opacity; game remains visible beneath the map.
-        canvas.drawColor(0x80101820.toInt())
+        canvas.drawColor(0xFF101820.toInt())
         val you = player
         val px = you?.optDouble("x") ?: 0.0
         val py = you?.optDouble("y") ?: 0.0
