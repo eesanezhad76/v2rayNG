@@ -47,7 +47,7 @@ def pair_manual_markers(markers):
   if activity in RESOURCE_ACTIVITIES and event in RESOURCE_EVENTS:
    queue=states[activity]
    if event=="target_found":
-    queue["pending"].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":None,"completed_ms":None,"depleted_ms":None,"metadata_conflicts":[]})
+    queue["pending"].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":timestamp,"completed_ms":None,"depleted_ms":None,"metadata_conflicts":[]})
    elif event=="gathering_started":
     if queue["pending"]:
      cycle=queue["pending"].popleft();compare_metadata(cycle,marker,event);cycle["started_ms"]=timestamp;queue["active"].append(cycle)
@@ -73,7 +73,11 @@ def pair_manual_markers(markers):
    else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"mob_kill_without_target_found"})
  for activity,queue in states.items():
   for cycle in queue["pending"]:
-   cycle["status"]="FOUND_NOT_STARTED" if not cycle["metadata_conflicts"] else "FOUND_NOT_STARTED_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
+   if cycle.get("started_ms") is not None:
+    cycle["status"]="STARTED_NOT_COMPLETED" if not cycle["metadata_conflicts"] else "STARTED_NOT_COMPLETED_WITH_METADATA_CONFLICT"
+   else:
+    cycle["status"]="FOUND_NOT_STARTED" if not cycle["metadata_conflicts"] else "FOUND_NOT_STARTED_WITH_METADATA_CONFLICT"
+   lifecycles.append(cycle)
   for cycle in queue["active"]:
    cycle["status"]="STARTED_NOT_COMPLETED" if not cycle["metadata_conflicts"] else "STARTED_NOT_COMPLETED_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
   for cycle in queue["completed"]:
