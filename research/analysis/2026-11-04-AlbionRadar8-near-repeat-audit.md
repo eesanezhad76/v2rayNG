@@ -17,6 +17,10 @@ Rule: same activity + same event repeated within 10,000 ms is flagged as a **pos
 | 85 → 86 | Troll | target_found | 1793772028951 | 1793772030445 | 1494 | T5 / E1 |
 | 95 → 96 | Troll | mob_killed | 1793772513812 | 1793772515233 | 1421 | T5 / E1 |
 
+## Unmatched STOP event
+- Source row 4 is an Ore `gathering_completed` at `1793769694227` with no new Ore `target_found` between it and the previous completed cycle. It is retained as one unmatched STOP marker, not assigned to a second mining cycle.
+- Reconciliation: 43 Ore START markers, 42 Ore STOP markers, 41 paired completed cycles, 2 unmatched START markers, and 1 unmatched STOP marker. This matches the 43-row Ore lifecycle table (41 complete + 2 started-not-completed) while retaining the extra STOP separately.
+
 ## Interpretation
 - `target_found` is emitted by the overlay's **START** button for Ore in this code version; `gathering_completed` is emitted by **END**.
 - `mob_killed` is emitted by the mob **KILLED** button.
