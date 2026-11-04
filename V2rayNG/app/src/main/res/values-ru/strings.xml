@@ -568,4 +568,6 @@
     <string name="sub_info_open_page">Открыть страницу подписки</string>
     <string name="sub_info_unlimited">Без ограничений</string>
 
+    <string name="albion_resize_overlay">Изменить размер наложения</string>
+
 </resources>
