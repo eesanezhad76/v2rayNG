@@ -76,11 +76,11 @@ class AlbionRadarSnapshotParserTest {
 
     @Test fun rotatesRadarOffsetsByExactlyFortyFiveDegrees() {
         val east = AlbionMiniRadarView.rotateOffset(10.0, 0.0)
-        // Counter-clockwise correction in screen coordinates: east moves up-right.
+        // The new calibration rotates the prior result 90 degrees clockwise.
         assertEquals(kotlin.math.sqrt(50.0), east.first, 1e-9)
-        assertEquals(-kotlin.math.sqrt(50.0), east.second, 1e-9)
+        assertEquals(kotlin.math.sqrt(50.0), east.second, 1e-9)
         val north = AlbionMiniRadarView.rotateOffset(0.0, 10.0)
-        assertEquals(-kotlin.math.sqrt(50.0), north.first, 1e-9)
+        assertEquals(kotlin.math.sqrt(50.0), north.first, 1e-9)
         assertEquals(-kotlin.math.sqrt(50.0), north.second, 1e-9)
     }
 
