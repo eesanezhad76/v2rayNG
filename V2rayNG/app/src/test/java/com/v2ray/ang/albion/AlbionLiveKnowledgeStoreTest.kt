@@ -41,6 +41,20 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(summary.contains("Typed resource observations: 1"), summary)
     }
 
+    @Test fun coordinateSnapshotIncludesMoreThanTwoThousandKnownNodesFromTheCurrentSession() {
+        val store = AlbionLiveKnowledgeStore(context(), 50_000L)
+        val observations = (1L..2_105L).map { id ->
+            AlbionEntityEventMapper.Observation(
+                kind = "harvestable", eventCode = 40, entityId = id,
+                typeId = 574, typeNumber = 29, tier = 5, enchant = 1,
+                x = id.toFloat(), y = (id % 97).toFloat()
+            )
+        }
+        store.observe(51_000L, observations)
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        assertTrue(snapshot.length() == 2_105, "Expected every current-session node, got ${snapshot.length()}")
+    }
+
     @Test fun resourceDepletionPersistsUntilARefillIsObserved() {
         val store = AlbionLiveKnowledgeStore(context())
         val now = System.currentTimeMillis() + 1_000L
