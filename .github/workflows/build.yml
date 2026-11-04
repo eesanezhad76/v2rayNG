@@ -26,6 +26,7 @@ on:
       - 'research/tools/**'
       - 'research/tests/**'
       - '.github/workflows/build.yml'
+      - '.github/workflows/albion-zone-audit.yml'
       - '.github/workflows/albion-capture-ingest.yml'
       - 'research/**/*.md'
 
