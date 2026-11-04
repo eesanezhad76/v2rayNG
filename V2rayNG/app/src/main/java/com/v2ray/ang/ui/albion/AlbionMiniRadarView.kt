@@ -146,9 +146,14 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val markerActivity = item.optString("marker_activity").ifBlank {
             item.optString("marker_activity_candidate")
         }.lowercase()
+        val ambiguousResource = item.optString("classification") == "ambiguous_resource_candidate" ||
+            item.optString("evidence_grade") == "conflicting_typed_observation"
+        val hasTypedOreEvidence = item.optInt("family", -1) == 29 &&
+            item.optString("name").isNotBlank() && item.optString("name") != "Resource"
         val resourceCategory = when {
-            item.optBoolean("user_confirmed_target", false) || item.optInt("family", -1) == 29 ||
-                rawName.contains("ore") || rawName.contains("ore candidate") || markerActivity == "ore" -> "ore"
+            ambiguousResource -> "unknown_resource"
+            item.optBoolean("user_confirmed_target", false) || hasTypedOreEvidence ||
+                (rawName.contains("ore") && !rawName.contains("candidate")) || markerActivity == "ore" -> "ore"
             rawName.contains("wood") || rawName.contains("tree") || rawName.contains("logs") || markerActivity == "wood" -> "wood"
             rawName.contains("stone") || rawName.contains("rock") || markerActivity == "stone" -> "stone"
             rawName.contains("fiber") || rawName.contains("cotton") || rawName.contains("flax") || markerActivity == "fiber" -> "fiber"
