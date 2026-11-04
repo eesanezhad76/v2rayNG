@@ -9,7 +9,7 @@ import kotlin.math.hypot
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-/** Transparent resource radar using Albion's fixed 45-degree clockwise map orientation. */
+/** Transparent resource radar using a north-up, east-right world-coordinate projection. */
 class AlbionMiniRadarView(context: Context) : View(context) {
     private var entities: List<JSONObject> = emptyList()
     private var catalogEntities: List<JSONObject> = emptyList()
@@ -24,7 +24,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
     private val minimumRange = 260.0
-    // Fixed 45-degree clockwise Albion map correction; movement never rotates the radar.
+    // North-up world projection; movement never rotates the radar.
 
     fun setCatalogOverviewMode(enabled: Boolean) {
         catalogOverviewMode = enabled
