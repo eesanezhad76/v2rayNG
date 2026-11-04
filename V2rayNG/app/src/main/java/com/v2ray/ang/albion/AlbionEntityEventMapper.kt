@@ -32,7 +32,8 @@ object AlbionEntityEventMapper {
         val speed: Float? = null,
         val targetX: Float? = null,
         val targetY: Float? = null,
-        val regionId: String? = null
+        val regionId: String? = null,
+        val candidateEntityIds: List<Long> = emptyList()
     )
 
     fun map(message: AlbionProtocol18Decoder.Message): List<Observation> {
@@ -75,6 +76,25 @@ object AlbionEntityEventMapper {
             else -> emptyList()
         }
         if (message.kind == "request") {
+            if (code == 23) {
+                // Attack request: keep numeric candidates, but the store will accept
+                // only a unique value that exactly matches a currently known mob ID.
+                val candidates = p.values.flatMap { value ->
+                    when (value) {
+                        is Long -> listOf(value)
+                        is Int -> listOf(value.toLong())
+                        is Short -> listOf(value.toLong())
+                        is LongArray -> value.toList()
+                        is IntArray -> value.map { it.toLong() }
+                        is List<*> -> value.mapNotNull { (it as? Number)?.toLong() }
+                        else -> emptyList()
+                    }
+                }.filter { it > 0L }.distinct()
+                return listOf(Observation(
+                    kind = "target_request", eventCode = code,
+                    candidateEntityIds = candidates
+                ))
+            }
             if (code != 22) return emptyList()
             val position = pair(p[1]) ?: return emptyList()
             val target = pair(p[3])
