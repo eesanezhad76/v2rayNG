@@ -117,16 +117,15 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
     private fun resourceColor(item: JSONObject): Int = colorForEnchantment(enchantmentOf(item))
 
-    private fun isTroll(item: JSONObject): Boolean {
-        val label = (item.optString("name") + " " + AlbionRadarSnapshotParser.labelForEntity(item)).lowercase()
-        if (label.contains("troll")) return true
-        // A nearby/manual marker candidate is not proof of mob identity. Only promote
-        // a marker match when the capture pipeline has an explicit high-confidence result.
-        val marker = item.optString("marker_activity")
-        val confidence = item.optString("marker_match_confidence").uppercase()
-        return marker.equals("Troll", ignoreCase = true) &&
-            confidence in setOf("HIGH", "CONFIRMED", "USER_CONFIRMED")
-    }
+    private fun isTroll(item: JSONObject): Boolean =
+        item.optString("type_unique_name").contains("TROLL", ignoreCase = true) ||
+            (item.optString("manual_activity").equals("Troll", ignoreCase = true) &&
+                item.optBoolean("manual_marker_identity_proven", false))
+
+    private fun isOreElemental(item: JSONObject): Boolean =
+        item.optString("resource_role") == "ore_elemental" ||
+            (item.optBoolean("is_harvestable_mob", false) &&
+                item.optString("type_unique_name").contains("CRITTER_ORE", ignoreCase = true))
 
     private fun passesFilters(item: JSONObject): Boolean {
         val kind = item.optString("last_kind")
@@ -134,11 +133,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val mob = kind == "mob"
         val troll = mob && isTroll(item)
         val targetedMob = mob && item.optBoolean("targeted_by_player", false)
-        val oreElemental = mob && (
-            item.optString("name").contains("Ore Elemental", ignoreCase = true) ||
-                item.optString("type_unique_name").contains("ORE_ELEMENTAL", ignoreCase = true) ||
-                item.optString("localization_tag").contains("OREELEMENTAL", ignoreCase = true)
-            )
+        val oreElemental = mob && isOreElemental(item)
         val enchant = enchantmentOf(item)
         val resourceName = item.optJSONObject("resource_inference")
             ?.optJSONObject("resource_name")?.optString("value")?.lowercase().orEmpty()
@@ -341,7 +336,36 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                     canvas.drawCircle(x, y, 7f * density, paint)
                 }
             }
-            // Small center point only; all other non-resource entities remain invisible.
+            // Show only identity-backed Troll markers and database-confirmed Ore Elementals.
+            visibleEntities().filter {
+                it.optString("last_kind") == "mob" && (isTroll(it) || isOreElemental(it)) && validPoint(it)
+            }.forEach { mob ->
+                val dx = mob.optDouble("x") - px
+                val dy = mob.optDouble("y") - py
+                val distance = hypot(dx, dy)
+                val factor = if (distance > displayRange) displayRange / distance else 1.0
+                val (rx, ry) = rotateOffset(dx * factor, dy * factor)
+                val x = cx + (rx / displayRange * radius).toFloat()
+                val y = cy + (ry / displayRange * radius).toFloat()
+                paint.style = Paint.Style.FILL
+                val dead = mob.optBoolean("mob_dead", false) || mob.optBoolean("left", false) ||
+                    mob.optString("mob_state") in setOf("dead", "dead_harvestable", "mined")
+                paint.color = if (dead) 0xFF78838B.toInt() else resourceColor(mob)
+                canvas.drawCircle(x, y, 3.8f * density, paint)
+                val t = mob.optInt("marker_tier", -1).takeIf { it in 1..8 }
+                    ?: mob.optInt("tier", -1).takeIf { it in 1..8 } ?: -1
+                val label = when {
+                    isTroll(mob) && t >= 1 -> "TG$t"
+                    isOreElemental(mob) && t >= 1 -> "OE$t"
+                    else -> null
+                }
+                if (label != null) {
+                    paint.color = 0xFFFFFFFF.toInt()
+                    paint.textSize = 7f * density
+                    canvas.drawText(label, x + 4f * density, y - 3f * density, paint)
+                }
+            }
+            // Small black center marker remains the authoritative player coordinate.
             drawPlayerMarker(canvas, cx, cy, AlbionMapProjection.movementDirection(history))
         }
         canvas.restoreToCount(save)
