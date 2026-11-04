@@ -89,6 +89,40 @@ class AlbionRadarSnapshotParserTest {
         assertEquals(0.0, west.second, 1e-9)
     }
 
+    @Test fun movementDirectionUsesLatestDistinctWorldCoordinatesInScreenSpace() {
+        val north = AlbionMapProjection.movementDirection(
+            org.json.JSONArray("""[{"x":0,"y":0},{"x":0,"y":5}]""")
+        )
+        assertEquals(0.0, north?.x ?: Double.NaN, 1e-9)
+        assertEquals(-1.0, north?.y ?: Double.NaN, 1e-9)
+
+        val east = AlbionMapProjection.movementDirection(
+            org.json.JSONArray("""[{"x":0,"y":0},{"x":5,"y":0}]""")
+        )
+        assertEquals(1.0, east?.x ?: Double.NaN, 1e-9)
+        assertEquals(0.0, east?.y ?: Double.NaN, 1e-9)
+
+        val south = AlbionMapProjection.movementDirection(
+            org.json.JSONArray("""[{"x":0,"y":5},{"x":0,"y":0}]""")
+        )
+        assertEquals(0.0, south?.x ?: Double.NaN, 1e-9)
+        assertEquals(1.0, south?.y ?: Double.NaN, 1e-9)
+
+        val west = AlbionMapProjection.movementDirection(
+            org.json.JSONArray("""[{"x":5,"y":0},{"x":0,"y":0}]""")
+        )
+        assertEquals(-1.0, west?.x ?: Double.NaN, 1e-9)
+        assertEquals(0.0, west?.y ?: Double.NaN, 1e-9)
+    }
+
+    @Test fun returnsNoMovementDirectionForStationaryOrInsufficientHistory() {
+        assertNull(AlbionMapProjection.movementDirection(null))
+        assertNull(AlbionMapProjection.movementDirection(org.json.JSONArray("""[{"x":1,"y":1}]""")))
+        assertNull(AlbionMapProjection.movementDirection(
+            org.json.JSONArray("""[{"x":1,"y":1},{"x":1,"y":1}]""")
+        ))
+    }
+
     @Test fun assignsDistinctColorsToNormalAndEnchantmentsOneToThree() {
         assertEquals(0xFFFFC45C.toInt(), AlbionMiniRadarView.colorForEnchantment(0))
         assertEquals(0xFF63D471.toInt(), AlbionMiniRadarView.colorForEnchantment(1))
