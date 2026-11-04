@@ -735,6 +735,7 @@ class AlbionLiveKnowledgeStore(
     private fun linkHarvestableToDeadMob(node: JSONObject, timestampMs: Long) {
         val matches = records.values.filter { mob ->
             mob !== node &&
+                !node.has("source_mob_entity_id") &&
                 mob.optString("entity_class") == "mob" &&
                 !mob.has("superseded_by_harvestable_entity_id") &&
                 mob.optBoolean("is_harvestable_mob", false) &&
