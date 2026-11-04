@@ -523,6 +523,11 @@ class AlbionLiveKnowledgeStore(
             record.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                 record.has("x") && record.has("y")
         }
+        val mountLabel = when (playerMountedState) {
+            true -> "mounted"
+            false -> "on foot"
+            null -> "unknown"
+        }
         return buildString {
             appendLine()
             appendLine("Live knowledge cache")
@@ -536,7 +541,7 @@ class AlbionLiveKnowledgeStore(
             appendLine("Ambiguous entities due to conflicting typed evidence: $ambiguous")
             appendLine("Average evidence score (0-100 heuristic): $averageEvidenceScore")
             appendLine("Evidence score is an ordinal heuristic, not a calibrated probability.")
-            appendLine("Last mount signal: ${playerMountedState?.let { if (it) \"mounted\" else \"on foot\" } ?: \"unknown\"}")
+            appendLine("Last mount signal: $mountLabel")
             appendLine("Persistent file: ${file.name}")
             appendLine("Classification is conservative; no family-to-Ore guesses are made.")
         }
