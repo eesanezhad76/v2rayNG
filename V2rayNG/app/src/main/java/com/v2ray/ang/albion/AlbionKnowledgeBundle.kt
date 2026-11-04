@@ -45,6 +45,11 @@ object AlbionKnowledgeBundle {
             JSONObject().put("schema_version", 1).put("patterns", JSONArray()).toString()
         JSONObject(patternsText)
         val patternsBytes = patternsText.toByteArray(Charsets.UTF_8)
+        val regionScanDir = dir.resolve("albion-region-scans")
+        val regionScanFiles = regionScanDir.listFiles()
+            ?.filter { it.isFile && it.name.endsWith(".json") }
+            ?.sortedBy { it.lastModified() }
+            ?.takeLast(100) ?: emptyList()
         val captureRoot = context.getExternalFilesDir(null) ?: dir
         val captureDir = captureRoot.resolve("AlbionCaptures")
         val latestPatternReport = captureDir.listFiles()
@@ -72,6 +77,10 @@ object AlbionKnowledgeBundle {
                 .put("learned-patterns.json", JSONObject()
                     .put("sha256", sha256(patternsBytes))
                     .put("bytes", patternsBytes.size))
+                .put("region_scans", JSONArray(regionScanFiles.map { scan ->
+                    JSONObject().put("name", scan.name).put("bytes", scan.length())
+                        .put("sha256", sha256(scan.readBytes()))
+                }))
                 .put("pattern-learning-report.txt", if (patternReportBytes != null)
                     JSONObject().put("sha256", sha256(patternReportBytes)).put("bytes", patternReportBytes.size)
                     else JSONObject.NULL))
@@ -92,6 +101,11 @@ object AlbionKnowledgeBundle {
         zip.putNextEntry(ZipEntry("learned-patterns.json"))
         zip.write(patternsBytes)
         zip.closeEntry()
+        regionScanFiles.forEach { scan ->
+            zip.putNextEntry(ZipEntry("region-scans/${scan.name}"))
+            scan.inputStream().use { input -> input.copyTo(zip) }
+            zip.closeEntry()
+        }
         if (patternReportBytes != null) {
             zip.putNextEntry(ZipEntry("pattern-learning-report.txt"))
             zip.write(patternReportBytes)
