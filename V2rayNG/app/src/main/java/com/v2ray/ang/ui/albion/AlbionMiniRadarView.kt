@@ -284,9 +284,12 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val y = cy + (ry / range * radius).toFloat()
             val kind = entity.optString("last_kind")
             val depleted = entity.optBoolean("depleted", false)
-            val candidate = kind == "static_resource" ||
-                entity.optString("classification") == "ambiguous_resource_candidate" ||
-                entity.optString("evidence_grade") == "conflicting_typed_observation"
+            val candidate = entity.optString("classification") == "ambiguous_resource_candidate" ||
+                entity.optString("evidence_grade") == "conflicting_typed_observation" ||
+                (kind == "static_resource" &&
+                    entity.optInt("tier", -1) !in 2..8 &&
+                    entity.optString("name").isBlank() &&
+                    !entity.has("family"))
             paint.style = Paint.Style.FILL
             paint.color = when {
                 depleted || entity.optBoolean("left", false) -> 0xFF697782.toInt()
