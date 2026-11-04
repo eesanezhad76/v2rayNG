@@ -41,6 +41,7 @@ class AlbionLiveKnowledgeStore(
                 val newRegionId = observation.regionId?.takeIf { it.isNotBlank() }
                 if (newRegionId != null && newRegionId != activeRegionId) {
                     activeRegionId = newRegionId
+                    snapshotDirty = true
                     beginRegionScan(timestampMs, newRegionId)
                 }
                 return@forEach
@@ -310,6 +311,7 @@ class AlbionLiveKnowledgeStore(
             .filter {
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                     it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
+                    it.optString("region_id", "") == (regionScanRegionId ?: "") &&
                     it.has("x") && it.has("y")
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
