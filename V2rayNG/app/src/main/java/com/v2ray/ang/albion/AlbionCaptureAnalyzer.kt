@@ -154,6 +154,7 @@ object AlbionCaptureAnalyzer {
                                     detailed += "t=" + packetTimeMs +
                                         " kind=operation_response op=41 return_code=" + message.returnCode +
                                         " param0_type=" + (message.parameters[0]?.javaClass?.simpleName ?: "null") +
+                                        " param0_value=" + describeValue(message.parameters[0]) +
                                         " params={" + params + "}"
                                 }
                                 if (message.kind == "event" && message.realCode == 3) {
