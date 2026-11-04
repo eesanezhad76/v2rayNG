@@ -5,12 +5,9 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.view.View
 import org.json.JSONObject
-import kotlin.math.cos
 import kotlin.math.hypot
 import kotlin.math.min
 import kotlin.math.roundToInt
-import kotlin.math.sin
-import kotlin.math.PI
 
 /** Transparent circular resource radar with fixed world-north orientation. */
 class AlbionMiniRadarView(context: Context) : View(context) {
