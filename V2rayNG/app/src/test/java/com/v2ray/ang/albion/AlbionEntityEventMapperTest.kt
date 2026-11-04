@@ -168,7 +168,8 @@ class AlbionEntityEventMapperTest {
                 0 to 9001L,
                 1 to 410,
                 7 to listOf(-12.5f, 44.0f),
-                31 to "TestMob",
+                31 to "@MISTS@NOT_A_MOB_NAME",
+                33 to "MISTS_DUNGEON_PORTAL",
                 34 to 2
             ))
         ).single()
@@ -177,7 +178,7 @@ class AlbionEntityEventMapperTest {
         assertEquals(410, mob.typeId)
         assertEquals(-12.5f, mob.x)
         assertEquals(44.0f, mob.y)
-        assertEquals("TestMob", mob.name)
+        assertEquals("MISTS_DUNGEON_PORTAL", mob.name)
         assertEquals(2, mob.enchant)
 
         assertTrue(AlbionEntityEventMapper.map(event(999, mapOf(0 to 123L))).isEmpty())
