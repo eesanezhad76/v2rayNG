@@ -26,7 +26,7 @@ class AlbionWorldMapActivity : Activity() {
         override fun run() {
             if (!::mapView.isInitialized) return
             if (!refreshInFlight.compareAndSet(false, true)) {
-                handler.postDelayed(this, 1500L)
+                handler.postDelayed(this, 450L)
                 return
             }
             dataHandler.post {
@@ -53,7 +53,7 @@ class AlbionWorldMapActivity : Activity() {
                         } else "SCAN NEXT REGION (60s)"
                     }
                     refreshInFlight.set(false)
-                    if (::mapView.isInitialized) handler.postDelayed(this, 1500L)
+                    if (::mapView.isInitialized) handler.postDelayed(this, 450L)
                 }
             }
         }
