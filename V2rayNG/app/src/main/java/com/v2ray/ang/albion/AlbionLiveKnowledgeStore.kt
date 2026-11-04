@@ -298,11 +298,12 @@ class AlbionLiveKnowledgeStore(
             if (observation.kind == "resource_state") {
                 if (observation.removed) {
                     record.put("depleted", true)
-                    if (record.optString("entity_class") == "mob" &&
-                        record.optBoolean("is_harvestable_mob", false)) {
+                    val sourceMobId = record.optString("source_mob_entity_id")
+                    if ((record.optString("entity_class") == "mob" &&
+                            record.optBoolean("is_harvestable_mob", false)) ||
+                        sourceMobId.isNotBlank()) {
                         record.put("mob_state", "mined").put("mob_mined_ms", timestampMs)
                     }
-                    val sourceMobId = record.optString("source_mob_entity_id")
                     if (sourceMobId.isNotBlank()) {
                         records.values.firstOrNull {
                             it.optString("entity_id") == sourceMobId &&
@@ -510,7 +511,7 @@ class AlbionLiveKnowledgeStore(
                 val evidenceSuffix = if (kind in RESOURCE_KINDS)
                     " [$evidence EV${record.optInt("evidence_score")}/100]"
                 else " [$evidence]"
-                appendLine("$label$name$tier$enchant$amount$health$position$state$evidenceSuffix")
+                appendLine("$label$tier$name$enchant$amount$health$position$state$evidenceSuffix")
             }
             append("Showing ${recent.size} recent observations; proximity alone is not confirmation.")
         }
