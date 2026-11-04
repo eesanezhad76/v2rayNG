@@ -303,18 +303,11 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val y = cy + (ry / displayRange * radius).toFloat()
             val kind = entity.optString("last_kind")
             val depleted = entity.optBoolean("depleted", false)
-            val candidate = entity.optString("classification") == "ambiguous_resource_candidate" ||
-                entity.optString("evidence_grade") == "conflicting_typed_observation" ||
-                (kind == "static_resource" &&
-                    entity.optInt("tier", -1) !in 2..8 &&
-                    entity.optString("name").isBlank() &&
-                    !entity.has("family"))
             paint.style = Paint.Style.FILL
             paint.color = when {
                 depleted || entity.optBoolean("left", false) -> 0xFF000000.toInt()
                 kind == "mob" -> if (isTroll(entity)) 0xFFFF9A55.toInt() else 0xFFFF6666.toInt()
                 kind in RESOURCE_KINDS -> resourceColor(entity)
-                candidate -> 0xFF9AA6AF.toInt()
                 else -> 0xFFFFC45C.toInt()
             }
             canvas.drawCircle(x, y, (if (distance > displayRange) 2.5f else 3.2f) * density, paint)
@@ -359,12 +352,12 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val dy = target.optDouble("y") - py
             val distance = chosenTarget.second
             val factor = if (distance > displayRange) displayRange / distance else 1.0
-            val (rx, ry) = rotateOffset(dx * factor, dy * factor)
+            val (rx, ry) = rotateOffset(dx * factor, dy * factor, heading)
             val tx = cx + (rx / displayRange * radius).toFloat()
             val ty = cy + (ry / displayRange * radius).toFloat()
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 1.8f * density
-            paint.color = 0xFF55E6FF.toInt()
+            paint.color = resourceColor(target)
             canvas.drawLine(cx, cy, tx, ty, paint)
             canvas.drawCircle(tx, ty, 8f * density, paint)
             paint.style = Paint.Style.FILL
