@@ -215,11 +215,11 @@ object AlbionEntityEventMapper {
                     x = xy?.first, y = xy?.second, name = p[31] as? String
                 ))
             }
-            211 -> {
+            210 -> {
                 val id = number(0) ?: return emptyList()
                 listOf(Observation("player_mounted", code, entityId = id, value = if (p[1] == true) 1f else 0f))
             }
-            325 -> {
+            324 -> {
                 val xy = pair(p[1])
                 listOf(Observation("dungeon_exit", code, x = xy?.first, y = xy?.second,
                     name = p[3] as? String, enchant = int(9)))
