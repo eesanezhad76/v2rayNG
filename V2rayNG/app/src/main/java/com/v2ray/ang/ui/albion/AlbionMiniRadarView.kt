@@ -28,7 +28,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val density = resources.displayMetrics.density
     private val minimumRange = 260.0
-    private var headingRadians = PI / 4.0
+    // Fixed 45-degree correction: player movement must not rotate the radar.
 
     fun setCatalogOverviewMode(enabled: Boolean) {
         catalogOverviewMode = enabled
@@ -263,8 +263,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         }
         val px = if (recentPlayerPoints.size >= 3) median(recentPlayerPoints.map { it.first }) else you.optDouble("x")
         val py = if (recentPlayerPoints.size >= 3) median(recentPlayerPoints.map { it.second }) else you.optDouble("y")
-        if (recentPlayerPoints.size >= 2) { val a = recentPlayerPoints.first(); val b = recentPlayerPoints.last(); val dx = b.first-a.first; val dy = b.second-a.second; if (hypot(dx,dy) >= 2.0) headingRadians = kotlin.math.atan2(dy,dx) }
-        val heading = headingRadians
+        // Orientation is fixed; movement updates only the player-centered coordinate origin.
         val visible = visibleEntities()
         val displayRange = maxOf(minimumRange, visible.maxOfOrNull { hypot(it.optDouble("x")-px,it.optDouble("y")-py)*1.05 } ?: minimumRange)
         if (history != null && history.length() > 1) {
@@ -280,7 +279,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 if (!dx.isFinite() || !dy.isFinite() || hypot(dx, dy) > displayRange) {
                     oldX = null; oldY = null; continue
                 }
-                val (rx, ry) = rotateOffset(dx, dy, heading)
+                val (rx, ry) = rotateOffset(dx, dy)
                 val x = cx + (rx / displayRange * radius).toFloat()
                 val y = cy + (ry / displayRange * radius).toFloat()
                 if (oldX != null && oldY != null) canvas.drawLine(oldX, oldY, x, y, paint)
@@ -298,7 +297,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val dy = entity.optDouble("y") - py
             val distance = hypot(dx, dy)
             val factor = if (distance > displayRange) displayRange / distance else 1.0
-            val (rx, ry) = rotateOffset(dx * factor, dy * factor, heading)
+            val (rx, ry) = rotateOffset(dx * factor, dy * factor)
             val x = cx + (rx / displayRange * radius).toFloat()
             val y = cy + (ry / displayRange * radius).toFloat()
             val kind = entity.optString("last_kind")
@@ -352,7 +351,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             val dy = target.optDouble("y") - py
             val distance = chosenTarget.second
             val factor = if (distance > displayRange) displayRange / distance else 1.0
-            val (rx, ry) = rotateOffset(dx * factor, dy * factor, heading)
+            val (rx, ry) = rotateOffset(dx * factor, dy * factor)
             val tx = cx + (rx / displayRange * radius).toFloat()
             val ty = cy + (ry / displayRange * radius).toFloat()
             paint.style = Paint.Style.STROKE
@@ -413,9 +412,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
     companion object {
         val DEFAULT_FILTERS = setOf("category_ore")
-        internal fun rotateOffset(dx: Double, dy: Double, headingRadians: Double = PI / 4.0): Pair<Double, Double> {
-            val screenX = dx * sin(headingRadians) - dy * cos(headingRadians)
-            val screenY = -(dx * cos(headingRadians) + dy * sin(headingRadians))
+        internal fun rotateOffset(dx: Double, dy: Double): Pair<Double, Double> {
+            val screenX = dx * sin(PI / 4.0) - dy * cos(PI / 4.0)
+            val screenY = -(dx * cos(PI / 4.0) + dy * sin(PI / 4.0))
             return screenX to screenY
         }
         internal fun colorForEnchantment(enchant: Int): Int = when (enchant) {
