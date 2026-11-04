@@ -81,10 +81,15 @@ class AlbionRadarSnapshotParserTest {
         val north = AlbionMiniRadarView.rotateOffset(0.0, 10.0)
         assertEquals(-kotlin.math.sqrt(50.0), north.first, 1e-9)
         assertEquals(-kotlin.math.sqrt(50.0), north.second, 1e-9)
-        // No player-heading input exists: changing travel direction cannot rotate the radar.
-        val repeatedNorth = AlbionMiniRadarView.rotateOffset(0.0, 10.0)
-        assertEquals(north.first, repeatedNorth.first, 1e-9)
-        assertEquals(north.second, repeatedNorth.second, 1e-9)
+        // Corrected world-to-screen transform: north is up and east is right.
+        assertEquals(0.0, north.first, 1e-9)
+        assertEquals(-10.0, north.second, 1e-9)
+        val eastUp = AlbionMiniRadarView.rotateOffset(10.0, 0.0)
+        assertEquals(10.0, eastUp.first, 1e-9)
+        assertEquals(0.0, eastUp.second, 1e-9)
+        val south = AlbionMiniRadarView.rotateOffset(0.0, -10.0)
+        assertEquals(0.0, south.first, 1e-9)
+        assertEquals(10.0, south.second, 1e-9)
     }
 
     @Test fun assignsDistinctColorsToNormalAndEnchantmentsOneToThree() {
