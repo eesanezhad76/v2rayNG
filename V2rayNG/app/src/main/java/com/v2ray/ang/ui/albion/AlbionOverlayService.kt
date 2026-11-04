@@ -99,7 +99,14 @@ class AlbionOverlayService : Service() {
                 var statusText = "Live snapshot unavailable"
                 try {
                     val live = enrichLiveSnapshot(CoreServiceManager.getAlbionLiveKnowledgeJson())
-                    if (::radarView.isInitialized) acceptedCount = radarView.setLiveSnapshot(live)
+                    // The active feed contains the moving player but often no static-node
+                    // observations. Overlay the selected research capture onto that live
+                    // coordinate frame so filtered nodes become navigable around YOU.
+                    // Keep the raw catalog intact; depletion and live observations are
+                    // reconciled by mergeCatalogAndLive without deleting archived evidence.
+                    val radarSnapshot = if (catalogEntities.length() > 0)
+                        mergeCatalogAndLive(live) else live
+                    if (::radarView.isInitialized) acceptedCount = radarView.setLiveSnapshot(radarSnapshot)
                     statusText = CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
                         .replace('\n', ' ').replace('\r', ' ')
                 } catch (error: Exception) {
