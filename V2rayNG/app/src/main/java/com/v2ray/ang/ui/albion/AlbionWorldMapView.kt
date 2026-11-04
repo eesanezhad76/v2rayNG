@@ -110,6 +110,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
     fun centerOnPlayer() {
         val you = player
         if (you != null) {
+            // Explicit recenter only. During normal movement the world origin never follows the player.
             mapOriginX = you.optDouble("x")
             mapOriginY = you.optDouble("y")
         }
@@ -199,9 +200,8 @@ class AlbionWorldMapView(context: Context) : View(context) {
         }
     }
 
-    private fun drawNearestTargetGuide(
-        canvas: Canvas, centerX: Float, centerY: Float, playerX: Double, playerY: Double
-    ) {
+    private fun drawNearestTargetGuide(canvas: Canvas, centerX: Float, centerY: Float) {
+        val you = player ?: return
         val target = entities.asSequence()
             .filter {
                 it.optString("last_kind") in RESOURCE_KINDS &&
@@ -210,18 +210,21 @@ class AlbionWorldMapView(context: Context) : View(context) {
                     it.optString("evidence_grade") != "conflicting_typed_observation"
             }
             .minByOrNull {
-                hypot(it.optDouble("x") - playerX, it.optDouble("y") - playerY)
+                hypot(it.optDouble("x") - you.optDouble("x"), it.optDouble("y") - you.optDouble("y"))
             } ?: return
-        val offset = screenOffset(target.optDouble("x") - playerX, target.optDouble("y") - playerY)
-        val rawX = centerX + (offset.first * pixelsPerUnit).toFloat()
-        val rawY = centerY + (offset.second * pixelsPerUnit).toFloat()
+        val playerOffset = screenOffset(you.optDouble("x") - mapOriginX, you.optDouble("y") - mapOriginY)
+        val targetOffset = screenOffset(target.optDouble("x") - mapOriginX, target.optDouble("y") - mapOriginY)
+        val playerX = centerX + (playerOffset.first * pixelsPerUnit).toFloat()
+        val playerY = centerY + (playerOffset.second * pixelsPerUnit).toFloat()
+        val rawX = centerX + (targetOffset.first * pixelsPerUnit).toFloat()
+        val rawY = centerY + (targetOffset.second * pixelsPerUnit).toFloat()
         val margin = 14f * density
         val targetX = rawX.coerceIn(margin, (width.toFloat() - margin).coerceAtLeast(margin))
         val targetY = rawY.coerceIn(margin, (height.toFloat() - margin).coerceAtLeast(margin))
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 1.6f * density
         paint.color = 0xCC55E6FF.toInt()
-        canvas.drawLine(centerX, centerY, targetX, targetY, paint)
+        canvas.drawLine(playerX, playerY, targetX, targetY, paint)
         canvas.drawCircle(targetX, targetY, 8f * density, paint)
         paint.style = Paint.Style.FILL
         canvas.drawCircle(targetX, targetY, 2.5f * density, paint)
@@ -232,8 +235,6 @@ class AlbionWorldMapView(context: Context) : View(context) {
         // 50% map opacity; game remains visible beneath the map.
         canvas.drawColor(0xFF101820.toInt())
         val you = player
-        val px = you?.optDouble("x") ?: mapOriginX
-        val py = you?.optDouble("y") ?: mapOriginY
         val centerX = width / 2f + panX
         val centerY = height / 2f + panY
 
@@ -245,7 +246,7 @@ class AlbionWorldMapView(context: Context) : View(context) {
             var oldX: Float? = null; var oldY: Float? = null
             for (i in 0 until history.length()) {
                 val p = history.optJSONObject(i) ?: continue
-                val (rx, ry) = screenOffset(p.optDouble("x") - px, p.optDouble("y") - py)
+                val (rx, ry) = screenOffset(p.optDouble("x") - mapOriginX, p.optDouble("y") - mapOriginY)
                 val x = centerX + (rx * pixelsPerUnit).toFloat()
                 val y = centerY + (ry * pixelsPerUnit).toFloat()
                 if (x !in 0f..width.toFloat() || y !in 0f..height.toFloat()) { oldX = null; oldY = null; continue }
@@ -254,12 +255,12 @@ class AlbionWorldMapView(context: Context) : View(context) {
             }
         }
 
-        if (you != null) drawNearestTargetGuide(canvas, centerX, centerY, px, py)
+        if (you != null) drawNearestTargetGuide(canvas, centerX, centerY)
 
         entities.forEach { entity ->
             val kind = entity.optString("last_kind")
             if (kind !in DISPLAY_KINDS || kind == "own_player_move") return@forEach
-            val (rx, ry) = screenOffset(entity.optDouble("x") - px, entity.optDouble("y") - py)
+            val (rx, ry) = screenOffset(entity.optDouble("x") - mapOriginX, entity.optDouble("y") - mapOriginY)
             val x = centerX + (rx * pixelsPerUnit).toFloat()
             val y = centerY + (ry * pixelsPerUnit).toFloat()
             if (x !in -12f..(width + 12f).toFloat() || y !in -12f..(height + 12f).toFloat()) return@forEach
@@ -281,7 +282,12 @@ class AlbionWorldMapView(context: Context) : View(context) {
             }
         }
 
-        if (you != null) drawPlayerMarker(canvas, centerX, centerY, AlbionMapProjection.movementDirection(history))
+        if (you != null) {
+            val playerOffset = screenOffset(you.optDouble("x") - mapOriginX, you.optDouble("y") - mapOriginY)
+            val playerScreenX = centerX + (playerOffset.first * pixelsPerUnit).toFloat()
+            val playerScreenY = centerY + (playerOffset.second * pixelsPerUnit).toFloat()
+            drawPlayerMarker(canvas, playerScreenX, playerScreenY, AlbionMapProjection.movementDirection(history))
+        }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
