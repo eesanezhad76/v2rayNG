@@ -43,3 +43,16 @@ Event 46 reports the remaining resource amount. A value of zero means the node i
 ## Further research opportunities
 
 The replay contains many event families beyond the current typed map, including 324, 360, 376, 304, 308, 311, 312, 544, 558, and 604. Their parameters should be decoded from raw packet evidence before assigning gameplay meaning. The archive is useful for improving resource lifecycle tracking, route calibration, mob lifecycle research, and marker-to-entity correlation. Its coordinates must not be combined with other captures until zone identity is decoded.
+
+
+## Marker-cycle cross-check and incremental database value
+
+A second pass over the capture-local marker lifecycle export confirms:
+
+- 43 Ore marker cycles: 39 clean completed cycles, 2 completed cycles with tier/enchantment metadata conflicts, and 2 found-but-not-started cycles. This is 41 completed Ore cycles in total; the two conflict rows must remain flagged rather than silently normalized.
+- The Ore marker labels comprise 36 T4 and 7 T5 observations; enchantment labels comprise E1=15, E2=26, E3=2. These are marker metadata, not a substitute for packet-confirmed resource identity.
+- 6 Troll target-found-to-killed marker cycles: 3 labeled T4 and 3 labeled T5; E1=4 and E3=2.
+- The six Troll marker rows correlate to five unique runtime target IDs. Two overlapping T5/E1 marker cycles point to the same runtime entity 253631; they must not be counted as two distinct killed mobs. The capture-local correlation rows resolve to Ore Elemental mobile types 573 (T4) and 574 (T5), but marker-to-runtime identity remains inferred, not proven.
+- The lifecycle CSV has no populated started_ms values for Ore rows even though raw marker totals include 21 gathering_started and 111 gathering_completed events. Therefore mining duration cannot safely be computed from the current lifecycle export. This is a parser/join gap to fix in a later pass; raw marker events remain preserved.
+
+These are capture-local additions/quality notes only. The archive's 75 resource records, 626 mobile entities, and Troll correlations were already included in the 2026-11-03 consolidated database; do not duplicate them as new entities or merge their coordinates across zones.
