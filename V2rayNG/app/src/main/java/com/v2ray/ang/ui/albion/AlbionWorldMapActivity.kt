@@ -83,7 +83,7 @@ class AlbionWorldMapActivity : Activity() {
                         val catalog = assets.open("albion-static-catalog.json")
                             .bufferedReader().use { org.json.JSONObject(it.readText()) }
                         val rows = catalog.optJSONArray("entities") ?: org.json.JSONArray()
-                        mapView.setSnapshot(rows.toString()) && rows.length() > 0
+                        mapView.setSavedSnapshot(rows.toString()) && rows.length() > 0
                     }.getOrDefault(false)
                     if (loaded) {
                         showingSavedCatalog = true
