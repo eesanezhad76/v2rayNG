@@ -773,12 +773,12 @@ class AlbionLiveKnowledgeStore(
             }
             val killedTarget = activeTrollTargetId
             if (killedTarget != null && !trollMarkerAmbiguous) {
-                records.values.firstOrNull {
+                records.values.filter {
                     it.optString("entity_id") == killedTarget &&
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                         it.optString("region_id", "") == (activeRegionId ?: "") &&
                         it.optString("entity_class") == "mob"
-                }?.let { mob ->
+                }.maxByOrNull { it.optLong("last_seen_ms") }?.let { mob ->
                     mob.put("manual_kill_confirmed", true)
                         .put("manual_killed_ms", timestampMs)
                         .put("mob_state", "dead_manual")
