@@ -427,6 +427,7 @@ class AlbionLiveKnowledgeStore(
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                     it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
                     it.optString("region_id", "") == (regionScanRegionId ?: "") &&
+                    !it.has("superseded_by_record_key") &&
                     it.has("x") && it.has("y")
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
