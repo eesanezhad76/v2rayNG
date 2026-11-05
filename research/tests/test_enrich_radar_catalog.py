@@ -42,7 +42,7 @@ class RadarEnrichmentTests(unittest.TestCase):
                     ]
                 }), encoding="utf-8")
                 attack_fields = [
-                    "archive", "pcap", "target_entity_id", "attack_action_count",
+                    "archive", "pcap", "region_id", "target_entity_id", "attack_action_count",
                     "first_attack_ms", "last_attack_ms", "last_position_x", "last_position_y",
                     "event123_mobile_type", "event123_name", "known_player_spawn",
                     "leave_observed", "leave_after_last_attack", "health_observations",
@@ -53,7 +53,7 @@ class RadarEnrichmentTests(unittest.TestCase):
                 ) as f:
                     writer = csv.DictWriter(f, fieldnames=attack_fields); writer.writeheader()
                     writer.writerow({
-                        "archive": "archiveNew-extracted.zip", "pcap": dataset + ".pcap",
+                        "archive": "archiveNew-extracted.zip", "pcap": dataset + ".pcap", "region_id": "MAP_A",
                         "target_entity_id": "104009", "attack_action_count": "8",
                         "first_attack_ms": "1000", "last_attack_ms": "8000",
                         "last_position_x": "12.5", "last_position_y": "-4.5",
@@ -63,8 +63,13 @@ class RadarEnrichmentTests(unittest.TestCase):
                         "last_current_health": "0", "interpretation": "defeat_candidate"
                     })
                 (db / "2026-11-02-pcap-mob-lifecycle.csv").write_text(
-                    "archive,pcap,entity_id,mobile_type_id,x,y\n"
-                    "archiveNew-extracted.zip," + dataset + ".pcap,104009,573,12.5,-4.5\n",
+                    "archive,pcap,region_id,entity_id,mobile_type_id,x,y\n"
+                    "archiveNew-extracted.zip," + dataset + ".pcap,MAP_A,104009,573,12.5,-4.5\n",
+                    encoding="utf-8"
+                )
+                (db / "2026-11-02-region-transition-evidence.csv").write_text(
+                    "archive,pcap,timestamp_ms,operation_code,region_id,detail\n"
+                    "archiveNew-extracted.zip," + dataset + ".pcap,0,2,MAP_A,op2\n",
                     encoding="utf-8"
                 )
                 result = radar.enrich_all()
@@ -77,6 +82,57 @@ class RadarEnrichmentTests(unittest.TestCase):
                 self.assertNotIn("target_entity_id", saved["markers"][0]["attack_target_correlation"])
                 self.assertEqual("104009", saved["markers"][1]["attack_target_correlation"]["target_entity_id"])
                 self.assertEqual("HIGH", saved["markers"][1]["attack_target_correlation"]["confidence"])
+            finally:
+                radar.DB, radar.ANALYSIS, radar.ASSET = old_db, old_analysis, old_asset
+
+    def test_enrichment_never_pairs_markers_with_attack_targets_from_another_region(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = pathlib.Path(td)
+            db = root / "database"; analysis = root / "analysis"; assets = root / "assets"
+            db.mkdir(); analysis.mkdir(); assets.mkdir()
+            old_db, old_analysis, old_asset = radar.DB, radar.ANALYSIS, radar.ASSET
+            radar.DB, radar.ANALYSIS, radar.ASSET = db, analysis, assets / "catalog.json"
+            dataset = "albion-1793769140776"
+            archive = "archiveNew-extracted.zip"
+            pcap = dataset + ".pcap"
+            try:
+                (db / "albion-mobile-type-dictionary.json").write_text(json.dumps({"entries": {}}), encoding="utf-8")
+                (db / (dataset + "-catalog.json")).write_text(json.dumps({
+                    "dataset": dataset, "entities": [], "markers": [{
+                        "activity": "Troll", "tier": "T4", "enchantment": "E1",
+                        "found_ms": 5000, "mob_killed_ms": 9000, "status": "TARGET_FOUND_TO_KILLED"
+                    }]
+                }), encoding="utf-8")
+                fields = ["archive", "pcap", "region_id", "target_entity_id", "attack_action_count",
+                          "first_attack_ms", "last_attack_ms", "last_position_x", "last_position_y",
+                          "event123_mobile_type", "event123_name", "known_player_spawn", "leave_observed",
+                          "leave_after_last_attack", "health_observations", "min_current_health",
+                          "last_current_health", "interpretation"]
+                with (db / "2026-11-02-pcap-attack-target-tracks.csv").open("w", newline="", encoding="utf-8") as f:
+                    writer = csv.DictWriter(f, fieldnames=fields); writer.writeheader()
+                    writer.writerow({
+                        "archive": archive, "pcap": pcap, "region_id": "MAP_B", "target_entity_id": "104009",
+                        "attack_action_count": "8", "first_attack_ms": "5000", "last_attack_ms": "8000",
+                        "last_position_x": "12.5", "last_position_y": "-4.5", "event123_mobile_type": "573",
+                        "known_player_spawn": "false", "leave_observed": "true", "leave_after_last_attack": "true",
+                        "health_observations": "5", "min_current_health": "0", "last_current_health": "0",
+                        "interpretation": "defeat_candidate"
+                    })
+                (db / "2026-11-02-pcap-mob-lifecycle.csv").write_text(
+                    "archive,pcap,region_id,entity_id,mobile_type_id,x,y\n"
+                    + archive + "," + pcap + ",MAP_B,104009,573,12.5,-4.5\n", encoding="utf-8"
+                )
+                (db / "2026-11-02-region-transition-evidence.csv").write_text(
+                    "archive,pcap,timestamp_ms,operation_code,region_id,detail\n"
+                    + archive + "," + pcap + ",0,2,MAP_A,op2\n", encoding="utf-8"
+                )
+                result = radar.enrich(dataset, None, pcap)
+                self.assertEqual(0, result["correlated_markers"])
+                self.assertEqual(0, result["troll_targets"])
+                saved = json.loads((db / (dataset + "-catalog.json")).read_text(encoding="utf-8"))
+                self.assertEqual("MAP_A", saved["markers"][0]["region_id"])
+                self.assertEqual("NONE", saved["markers"][0]["attack_target_correlation"]["confidence"])
+                self.assertEqual("MAP_B", saved["attack_targets"][0]["region_id"])
             finally:
                 radar.DB, radar.ANALYSIS, radar.ASSET = old_db, old_analysis, old_asset
 
