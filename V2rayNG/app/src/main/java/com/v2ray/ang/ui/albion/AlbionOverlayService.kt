@@ -810,7 +810,6 @@ class AlbionOverlayService : Service() {
             val previousAt = repeatPrefs.getLong(repeatKey, 0L)
             val repeatGap = if (previousAt > 0L && now >= previousAt) now - previousAt else Long.MAX_VALUE
             val possibleRepeat = repeatGap <= MARKER_REPEAT_WINDOW_MS
-            repeatPrefs.edit().putLong(repeatKey, now).apply()
             val elapsed = android.os.SystemClock.elapsedRealtime()
             val json = JSONObject().apply {
                 put("timestamp_ms", now); put("elapsed_realtime_ms", elapsed)
@@ -828,6 +827,7 @@ class AlbionOverlayService : Service() {
                 put("source", "manual_overlay")
             }.toString()
             val saved = CoreServiceManager.appendAlbionCaptureMarker(AlbionCaptureMarker.build(json), now)
+            if (saved) repeatPrefs.edit().putLong(repeatKey, now).apply()
             title.text = if (saved) "ALBION • $activity ✓" else "ALBION • $activity !"
             if (!saved) Toast.makeText(this, "Marker not saved. Capture must be running.", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
