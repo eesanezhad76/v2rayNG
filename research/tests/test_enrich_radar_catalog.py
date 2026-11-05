@@ -28,11 +28,18 @@ class RadarEnrichmentTests(unittest.TestCase):
                 }), encoding="utf-8")
                 (db / (dataset + "-catalog.json")).write_text(json.dumps({
                     "dataset": dataset, "node_count": 1, "mob_count": 0,
-                    "entities": [], "markers": [{
-                        "activity": "Troll", "tier": "T4", "enchantment": "E1",
-                        "found_ms": 1000, "mob_killed_ms": 5000,
-                        "status": "TARGET_FOUND_TO_KILLED"
-                    }]
+                    "entities": [], "markers": [
+                        {
+                            "activity": "Troll", "tier": "T4", "enchantment": "E1",
+                            "found_ms": 1000, "superseded_by_ms": 2000,
+                            "status": "TARGET_FOUND_SUPERSEDED_NOT_KILLED"
+                        },
+                        {
+                            "activity": "Troll", "tier": "T4", "enchantment": "E1",
+                            "found_ms": 5000, "mob_killed_ms": 9000,
+                            "status": "TARGET_FOUND_TO_KILLED"
+                        }
+                    ]
                 }), encoding="utf-8")
                 attack_fields = [
                     "archive", "pcap", "target_entity_id", "attack_action_count",
@@ -48,7 +55,7 @@ class RadarEnrichmentTests(unittest.TestCase):
                     writer.writerow({
                         "archive": "archiveNew-extracted.zip", "pcap": dataset + ".pcap",
                         "target_entity_id": "104009", "attack_action_count": "8",
-                        "first_attack_ms": "1500", "last_attack_ms": "3500",
+                        "first_attack_ms": "1000", "last_attack_ms": "8000",
                         "last_position_x": "12.5", "last_position_y": "-4.5",
                         "event123_mobile_type": "573", "known_player_spawn": "false",
                         "leave_observed": "true", "leave_after_last_attack": "true",
@@ -66,8 +73,10 @@ class RadarEnrichmentTests(unittest.TestCase):
                 self.assertEqual(1, result[0]["correlated_markers"])
                 self.assertEqual(1, result[0]["troll_targets"])
                 saved = json.loads((db / (dataset + "-catalog.json")).read_text(encoding="utf-8"))
-                self.assertEqual("104009", saved["markers"][0]["attack_target_correlation"]["target_entity_id"])
-                self.assertEqual("HIGH", saved["markers"][0]["attack_target_correlation"]["confidence"])
+                self.assertEqual("SUPERSEDED", saved["markers"][0]["attack_target_correlation"]["confidence"])
+                self.assertNotIn("target_entity_id", saved["markers"][0]["attack_target_correlation"])
+                self.assertEqual("104009", saved["markers"][1]["attack_target_correlation"]["target_entity_id"])
+                self.assertEqual("HIGH", saved["markers"][1]["attack_target_correlation"]["confidence"])
             finally:
                 radar.DB, radar.ANALYSIS, radar.ASSET = old_db, old_analysis, old_asset
 
