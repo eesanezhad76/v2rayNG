@@ -241,6 +241,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             .filter { it.optString("last_kind") == "own_player_move" && validPoint(it) }
             .maxByOrNull { it.optLong("last_seen_ms") }
         if (you != null) {
+            val currentRegionId = you.optString("region_id").takeIf { it.isNotBlank() }
             val history = you.optJSONArray("movement_history")
             // Use the newest authoritative player coordinates. Median smoothing over
             // the last 3 seconds displaced the player origin behind actual movement,
@@ -257,7 +258,10 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                     if (tx.isFinite() && ty.isFinite()) trailPoints.add(tx to ty)
                 }
             }
-            val resources = visibleEntities().filter { it.optString("last_kind") in RESOURCE_KINDS }
+            val resources = visibleEntities().filter {
+                it.optString("last_kind") in RESOURCE_KINDS &&
+                    (currentRegionId == null || it.optString("region_id") == currentRegionId)
+            }
             // Candidate-only Event 39 pins remain visible for investigation but must never
             // drive navigation. Only typed Event 40 harvestables or explicit user-confirmed
             // targets can become the highlighted destination.
