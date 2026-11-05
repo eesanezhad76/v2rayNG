@@ -1355,20 +1355,13 @@ The current staging branch was compared directly with `albion-pattern-mining` an
 |---|---|---|---|
 | Active-region filtering | UI filters resource pins by exact player region; tagged pins are rejected when player region is unknown | Live store already scopes observations by active region, but Mini Radar did not independently filter its snapshot | Port as UI defense-in-depth; preserve store guards |
 | Nearest-target eligibility | Uses `isNavigableResource` so untyped Event 39 candidates remain visible but cannot be highlighted as gathering targets | Mini Radar selected any non-depleted coordinate-backed resource | Port strict navigation gate; retain candidate pins for investigation |
-| Family+Tier fallback | `isTypedResource` accepts any positive `family` plus Tier 1–8 even without mobile TypeID | Requires positive mobile TypeID and valid Tier for typed resource | Reject broad fallback pending verified family semantics |
+| Event 40 packet typeNumber + Tier | `isTypedResource` accepts positive stored `family` (legacy serialization of Event 40 `typeNumber`) plus Tier 1–8 even without mobile TypeID | Requires positive mobile TypeID and valid Tier for typed resource | Port with explicit semantics: navigate to packet-typed Event 40 nodes, but do not infer resource family/name from typeNumber |
 | Troll marker identity | Pattern Mining requires HIGH/CONFIRMED/USER_CONFIRMED plus `marker_identity_proven` or `manual_marker_identity_proven` for marker-derived Troll identity | Safe Fixes accepts high-confidence marker match without explicit identity proof; manual exact-ID path is already guarded | Keep as separate follow-up; inspect marker producer/provenance before changing runtime classification |
 | Malformed live snapshot | Pattern Mining branch does not contain Safe Fixes' full stale-snapshot clearing behavior | Safe Fixes clears cached live snapshot and rendered entities on malformed input | Preserve Safe Fixes implementation; do not overwrite with Pattern Mining file |
 
-### Why the Family+Tier test is not accepted
+### Event 40 packet typeNumber versus semantic resource mapping
 
-The Pattern Mining test `event40FamilyAndTierAreEnoughToNavigateWhenMobileTypeIdIsUnknown` creates a fixture with `family=32` and expects it to be navigable. The audited resource catalog row for entity `877646` instead records:
-- `type_number=32`
-- `tier=4`
-- `mobile_type_id=-1`
-- `mapping_status=UNRESOLVED`
-- one PCAP observation, with a resource-state sequence from 30 down to 0.
-
-This proves the entity's state lifecycle, not its resource family or harvestable type mapping. The Pattern test conflates packet `type_number` with a verified `family`; the positive Family+Tier fallback would therefore turn unresolved evidence into a navigation assertion. It is not transferred. A new staging regression test records the correct schema (`type_number=32`, no verified mobile TypeID) and asserts that it cannot become a navigation target.
+The Pattern Mining test uses `family=32`. The audited resource catalog row for entity `877646` records `type_number=32`, Tier 4, `mobile_type_id=-1`, and `mapping_status=UNRESOLVED`, with an observed Event 40 spawn and resource-state progression from 30 down to 0. The Mapper maps Event 40 to `kind=harvestable` and carries `typeNumber`; the Store persists that value under the legacy JSON key `family`. Therefore this is a packet-typed harvestable node and may be a navigation target even though its resource family/name mapping remains unresolved. The correct boundary is: permit navigation using Event 40 kind + positive packet typeNumber + valid Tier, but do not infer Ore, Rock, or any other semantic resource family from that number alone. The staging tests now cover both the positive persisted `family=32` representation and rejection of a raw `type_number` key that bypasses the Store's runtime snapshot schema.
 
 ### Staged code and tests
 
@@ -1376,7 +1369,7 @@ This proves the entity's state lifecycle, not its resource family or harvestable
 - Mini Radar resource rendering is restricted to the active region.
 - Nearest gathering target now additionally requires the existing Safe Fixes `isNavigableResource` predicate. This keeps candidate-only Event 39 pins visible but prevents them from driving the target highlight.
 - Safe Fixes' malformed-snapshot clearing and exact manual marker identity handling are preserved.
-- Added tests for same/different/missing/unknown region IDs. A separate follow-up commit adds the Family+Tier Event 40 navigation test.
+- Added tests for same/different/missing/unknown region IDs; packet typeNumber 32 is navigable when correctly persisted under the legacy `family` key, while a raw unnormalized `type_number` key alone is not accepted.
 - No raw PCAP, archive, CSV, database, research index or original branch changed.
 
 ### Change log — selective spatial safety port
@@ -1400,14 +1393,41 @@ This proves the entity's state lifecycle, not its resource family or harvestable
 - No other path was included in this commit.
 
 
-### Follow-up change log — Family+Tier typed Event 40 eligibility
+### Follow-up change log — Event 40 packet typeNumber eligibility
 
-- Operation: modify `AlbionSpatialIntelligence.isTypedResource` to accept either a positive mobile TypeID or positive Family, while still requiring tier 1..8; add a test proving family 32 / tier 4 is navigable without a TypeID and a tier-only observation is not.
+- Operation: modify `AlbionSpatialIntelligence.isTypedResource` to accept either a positive mobile TypeID or a positive stored Event 40 typeNumber (legacy JSON key `family`), while still requiring kind `harvestable`/`resource_state` and Tier 1..8; add positive and schema-boundary tests.
 - Repository: `eesanezhad76/v2rayNG`
 - Branch: `albion-integration-staging-2026-11-05`
 - Parent: `24d19f61ae5e4a3f6936ae6ebd6102610f84e8bf`
+- Resulting commit: `07295e12817e0369dda74b097c0af71d0aa37333`
 - Before spatial helper blob: `2c9d8a9250e9e4df0ff3ac7ac34cf03514f6bc91`
+- Resulting spatial helper blob: `b2880fffb69fa263af0823272e55b0b906e4df27`
 - Before spatial test blob: `f2415e3edefc33ad0478ff018de5c54ddbdbc857`
+- Resulting spatial test blob: `17d4702da219b7d3d7032e4f46804c68af1bca0e`
 - Before register blob: `754750a25a3e4845f74e4e1f8e8e9e591b550e52`
+- Resulting register blob: `7966bd6b68a3944bec092e4963a23f95481d4e84`
 - Source reference: `albion-pattern-mining`, helper blob `cbcc8a78f2cb4ef191dfacc2ca9eda4ce3123e34`; semantic change reviewed and applied selectively.
 - No source branch, raw evidence, or archive modified.
+
+
+## 45. Correction — Event 40 typeNumber semantics and navigation
+
+The initial staging review temporarily treated entity 877646's type_number=32 as insufficient for navigation because its resource-name mapping is UNRESOLVED. That conclusion conflated semantic classification with spatial navigation and has been corrected.
+
+Verified data path:
+1. AlbionEntityEventMapper maps Event 40 to kind=harvestable and reads packet typeNumber, Tier and coordinates (typeNumber comes from parameter 5).
+2. AlbionLiveKnowledgeStore persists observation.typeNumber under the legacy JSON key family.
+3. Catalog row for entity 877646 records type_number 32, Tier 4, no mobile TypeID, and unresolved name mapping; the capture contains its Event 40 spawn and resource-state progression 30→0.
+4. Therefore it is a packet-typed harvestable node and can guide the player to its coordinates. The unresolved mapping blocks assigning a resource family/name, not the existence or location of the node.
+
+The staging predicate follows this boundary: harvestable/resource_state + positive stored typeNumber (legacy family key) or positive mobile TypeID + valid Tier. It does not promote type_number 32 to Ore or any other resource category. A separate test confirms that a raw type_number key without Store normalization is not the runtime snapshot schema.
+
+### Change log — correction to Event 40 interpretation
+
+- Operation: correct the earlier evidence interpretation in Section 44 and record the exact Mapper → Store → snapshot field mapping.
+- Repository: eesanezhad76/v2rayNG
+- Source evidence: albion-pattern-mining; Event 40 mapper, live-store serialization, and catalog row for entity 877646.
+- Destination branch: albion-integration-staging-2026-11-05
+- Source register blob: 7966bd6b68a3944bec092e4963a23f95481d4e84
+- Resulting commit/blob identifiers are recorded after this docs-only commit.
+- No code, raw evidence, archive, database or source branch changed.
