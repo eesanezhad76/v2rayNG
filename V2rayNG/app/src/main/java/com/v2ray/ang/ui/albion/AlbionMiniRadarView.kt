@@ -260,7 +260,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             }
             val resources = visibleEntities().filter {
                 it.optString("last_kind") in RESOURCE_KINDS &&
-                    (currentRegionId == null || it.optString("region_id") == currentRegionId)
+                    AlbionSpatialIntelligence.isInActiveRegion(currentRegionId, it.optString("region_id"))
             }
             // Candidate-only Event 39 pins remain visible for investigation but must never
             // drive navigation. Only typed Event 40 harvestables or explicit user-confirmed
