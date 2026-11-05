@@ -70,9 +70,9 @@ def analyze_rows(rows, temporal_tolerance_ms=5000, region_transitions=None):
             if operation == "41":
                 region_id = fields.get("param0_value")
             elif operation == "2":
-                params = re.search(r"params=\\{([^}]*)\\}", str(row.get("detail") or ""))
+                params = re.search(r"params=\{([^}]*)\}", str(row.get("detail") or ""))
                 if params:
-                    match = re.search(r"(?:^|\\s)8=([^\\s]+)", params.group(1))
+                    match = re.search(r"(?:^|\s)8=([^\s]+)", params.group(1))
                     if match:
                         region_id = match.group(1)
             if region_id and region_id not in {"null", ""}:
