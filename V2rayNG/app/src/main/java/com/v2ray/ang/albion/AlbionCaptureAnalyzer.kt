@@ -149,11 +149,11 @@ object AlbionCaptureAnalyzer {
                                 // Preserve the raw server response for cluster/zone transitions.
                                 // This evidence-only audit is kept separate from zone assignment.
                                 // This is forensic evidence only: it does not assign a zone to coordinates.
-                                if (message.kind == "response" && message.realCode == 41) {
+                                if (message.kind == "response" && message.realCode in setOf(2, 41)) {
                                     val params = message.parameters.entries.sortedBy { it.key }
                                         .joinToString(" ") { (key, value) -> key.toString() + "=" + describeValue(value) }
                                     detailed += "t=" + packetTimeMs +
-                                        " kind=operation_response op=41 return_code=" + message.returnCode +
+                                        " kind=operation_response op=" + message.realCode + " return_code=" + message.returnCode +
                                         " param0_type=" + (message.parameters[0]?.javaClass?.simpleName ?: "null") +
                                         " param0_value=" + describeValue(message.parameters[0]) +
                                         " params={" + params + "}"
@@ -170,7 +170,7 @@ object AlbionCaptureAnalyzer {
                                         .joinToString(" ") { (key, value) -> key.toString() + "=" + describeValue(value) }
                                     detailed += "t=" + packetTimeMs + " kind=unmapped_event_candidate code=2 params={" + params + "}"
                                 }
-                                if (message.kind == "request" && message.realCode in setOf(22, 23, 24, 54, 199, 554)) {
+                                if (message.kind == "request" && message.realCode in setOf(2, 22, 23, 24, 54, 199, 554)) {
                                     val params = message.parameters.entries.sortedBy { it.key }.joinToString(" ") { (key, value) -> key.toString() + "=" + describeValue(value) }
                                     detailed += "t=" + packetTimeMs + " outbound_request op=" + message.realCode + " params={" + params + "}"
                                 }
