@@ -80,7 +80,7 @@ class SpatialAlignmentTests(unittest.TestCase):
     def test_same_pcap_regions_are_never_spatially_joined(self):
         rows = [{
             "archive": "same.zip", "pcap": "region-switch.pcap",
-            "detail": "t=0 kind=operation_response op=41 param0_value=MAP_A",
+            "detail": "t=0 kind=operation_response op=41 param0_value=4000",
         }]
         for index in range(1, 15):
             rows.append({
@@ -89,7 +89,7 @@ class SpatialAlignmentTests(unittest.TestCase):
             })
         rows.append({
             "archive": "same.zip", "pcap": "region-switch.pcap",
-            "detail": "t=15000 kind=operation_response op=41 param0_value=MAP_B",
+            "detail": "t=15000 kind=operation_response op=41 param0_value=4001",
         })
         for entity_id, x, y, timestamp in [
             (701, 13, 13, 15000), (702, 12, 12, 16000), (703, 11, 11, 17000)
@@ -101,9 +101,9 @@ class SpatialAlignmentTests(unittest.TestCase):
         result = spatial.analyze_rows(rows)
         self.assertEqual(2, len(result["captures"]))
         by_region = {capture["region_id"]: capture for capture in result["captures"]}
-        self.assertEqual({"MAP_A", "MAP_B"}, set(by_region))
-        self.assertEqual("NOT_VERIFIED", by_region["MAP_A"]["status"])
-        self.assertEqual("NOT_VERIFIED", by_region["MAP_B"]["status"])
+        self.assertEqual({"4000", "4001"}, set(by_region))
+        self.assertEqual("NOT_VERIFIED", by_region["4000"]["status"])
+        self.assertEqual("NOT_VERIFIED", by_region["4001"]["status"])
         self.assertEqual(14, by_region["MAP_A"]["player_position_samples"])
         self.assertEqual(3, by_region["MAP_B"]["typed_resource_nodes"])
         self.assertEqual(0, by_region["MAP_B"]["player_position_samples"])
