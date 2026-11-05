@@ -17,6 +17,9 @@ class AlbionLiveKnowledgeStore(
     private val sessionStartedMs: Long = System.currentTimeMillis()
 ) {
     private val file = File(context.applicationContext.filesDir, "albion-live-knowledge.json")
+    // Read-only cross-capture indexes enrich provenance; they never replace packet facts.
+    private val researchKnowledge = AlbionResearchKnowledgeIndex.load(context)
+    private val historicalKnowledge = AlbionHistoricalKnowledgeIndex.load(context)
     private val regionScanDir = File(context.applicationContext.filesDir, "albion-region-scans")
     // Exact server TypeID -> uniqueName/resource role map, sourced from the current
     // OpenRadar mobs.min.json dump (same source commit recorded in this asset).
@@ -470,7 +473,12 @@ class AlbionLiveKnowledgeStore(
             .sortedByDescending { it.optLong("last_seen_ms") }
             // The previous 2,000-row UI cap silently hid older known nodes. Keep the
             // complete current-session coordinate catalog (bounded by MAX_RECORDS).
-            .forEach { array.put(JSONObject(it.toString())) }
+            .forEach {
+                val snapshotRecord = JSONObject(it.toString())
+                researchKnowledge?.annotate(snapshotRecord)
+                historicalKnowledge?.annotate(snapshotRecord)
+                array.put(snapshotRecord)
+            }
         return array.toString().also {
             cachedSnapshotJson = it
             snapshotDirty = false
@@ -567,7 +575,8 @@ class AlbionLiveKnowledgeStore(
                 tier = if (record.has("tier")) record.optInt("tier") else null,
                 enchantRaw = if (record.has("enchant")) record.optInt("enchant") else null,
                 mobileTypeId = if (record.has("mobile_type_id")) record.optInt("mobile_type_id") else null
-            )
+            ),
+            researchIndex = researchKnowledge
         )
         fun field(value: ResourcePatternLearner.FieldInference, blocked: Boolean, blockedReason: String): JSONObject {
             val conflict = blocked && value.status != ResourcePatternLearner.Status.UNKNOWN
@@ -610,6 +619,7 @@ class AlbionLiveKnowledgeStore(
         val typed = record.has("mobile_type_id") && record.has("tier") && record.has("x") && record.has("y")
         return when {
             conflicts.isNotEmpty() -> "conflicting_typed_observation"
+            record.optString("last_kind") == "mob" && record.has("research_catalog_mobile_observations") -> "catalogued_mobile"
             typed && record.optBoolean("resource_state_seen", false) -> "corroborated_same_id"
             typed && record.optInt("sightings") >= 3 -> "repeated_typed"
             typed -> "typed_single"
@@ -623,6 +633,7 @@ class AlbionLiveKnowledgeStore(
         val typed = record.has("mobile_type_id") && record.has("tier") && record.has("x") && record.has("y")
         return when {
             conflicts.isNotEmpty() -> 20
+            record.optString("last_kind") == "mob" && record.has("research_catalog_mobile_observations") -> 65
             typed && record.optBoolean("resource_state_seen", false) -> 90
             typed && record.optInt("sightings") >= 3 -> 75
             typed -> 55
@@ -634,6 +645,8 @@ class AlbionLiveKnowledgeStore(
 
     private fun evidenceReason(record: JSONObject, conflicts: List<String>): String = when {
         conflicts.isNotEmpty() -> "conflicting_fields=" + conflicts.joinToString(",")
+        record.optString("evidence_grade") == "catalogued_mobile" ->
+            "mobile_type_matched_research_catalog_observations=" + record.optInt("research_catalog_mobile_observations")
         record.optString("evidence_grade") == "corroborated_same_id" -> "typed_resource_plus_same_id_state"
         record.optString("evidence_grade") == "repeated_typed" -> "repeated_typed_observations"
         record.optString("evidence_grade") == "typed_single" -> "single_typed_resource_observation"
@@ -646,6 +659,8 @@ class AlbionLiveKnowledgeStore(
         conflicts.isNotEmpty() && (record.has("family") || record.has("tier") || record.optString("last_kind") in RESOURCE_KINDS) ->
             "ambiguous_resource_candidate"
         conflicts.isNotEmpty() -> "ambiguous_entity"
+        record.optString("last_kind") == "mob" && record.has("research_catalog_mobile_observations") ->
+            "catalogued_mobile_entity"
         record.has("mobile_type_id") && record.has("tier") && record.has("x") && record.has("y") ->
             "typed_resource_observation"
         record.optString("last_kind") == "static_resource" && record.has("x") && record.has("y") ->
