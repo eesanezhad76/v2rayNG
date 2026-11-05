@@ -194,7 +194,7 @@ Do not silently edit historical status reports. Add a new current handoff/status
 - Destination branch: `albion-integration-staging-2026-11-05`
 - File: `docs/ALBION_INTEGRATION_STAGING_2026-11-05.md`
 - Reason: create a dated, evidence-backed branch/data integration map without touching PR #12 or source evidence.
-- Blob SHA and resulting commit SHA: fill from the successful GitHub create-file response and verify against branch HEAD before claiming completion.
+- New file blob SHA: `1e6ae5529867ba15afd35a1f1443682d1dec1a7a`\n- Commit SHA: `ab29239679a2d3ff485b78d68a9cf9befdc696ed`
 
 
 ## 9. Hot-file blob comparison (exact Git blob identity)
@@ -236,7 +236,7 @@ These identities show why a single branch merge or file-copy operation would be 
 - Source file blob SHA before update: `1e6ae5529867ba15afd35a1f1443682d1dec1a7a`
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No application source, test, capture, archive or pre-existing branch changed.
-- Resulting commit and new blob SHA: verify from the update response and branch tree.
+- Resulting commit SHA: `79c55dcaeb1a1b8c2f06675195e47f14c8229786`\n- New blob SHA: `6d5c2d391440645aed60832159e3a35886d669fe`
 
 
 ## 11. Confirmed Raw Pattern Discovery ancestry
@@ -263,7 +263,7 @@ This does **not** mean Raw Pattern Discovery can be merged wholesale into Safe F
 - Source file blob SHA before update: `6d5c2d391440645aed60832159e3a35886d669fe`
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No application source, test, capture, archive or pre-existing branch changed.
-- Resulting commit and new blob SHA: verify from the update response and branch tree.
+- Resulting commit SHA: `29c1dd3ab70de7f267941ff264f1bebf6e52a929`\n- New blob SHA: `e47ce69c552bb7aba2627d4b8919683934d569f9`
 
 
 ## 13. Pattern Mining evidence-tree inventory
@@ -305,4 +305,4 @@ This confirms that the Pattern Mining delta is not just source code: it is prima
 - Source file blob SHA before update: `e47ce69c552bb7aba2627d4b8919683934d569f9`
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No raw archive, database, analysis, runtime asset, or pre-existing branch changed.
-- Resulting commit and new blob SHA: verify from the update response and branch tree.
+- Resulting commit SHA: `e5774bd251bb4d0d127538e22e55089dc0ba5556`\n- New blob SHA: `4974f734dd2b5dee95e9f5ca7a1753e171e3474e`
