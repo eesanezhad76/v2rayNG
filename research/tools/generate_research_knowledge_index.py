@@ -74,7 +74,7 @@ def build(root: Path) -> dict:
             "confirmed_count": 0,
         })
         item["observation_count"] += 1
-        add(item["resource_types"], row.get("resource_type"))
+        add(item["resource_types"], row.get("resource_type") or "unknown")
         add(item["display_names"], row.get("resource_display_name"))
         add(item["mapping_statuses"], row.get("mapping_status"))
         tier = as_int(row.get("effective_tier")) or as_int(row.get("tier"))
