@@ -234,13 +234,27 @@ class AlbionPhotonPacketDecoderTest {
     }
 
     @Test fun mapsDungeonExitCoordinates() {
-        val message = AlbionProtocol18Decoder.Message("event", 1, 324,
+        val message = AlbionProtocol18Decoder.Message("event", 1, 325,
             mapOf(1 to floatArrayOf(10f, 20f), 3 to "Exit", 9 to 2))
         val observation = AlbionEntityEventMapper.map(message).single()
         assertEquals("dungeon_exit", observation.kind)
         assertEquals(10f, observation.x)
         assertEquals(20f, observation.y)
         assertEquals("Exit", observation.name)
+    }
+
+    @Test fun protocol18ResetClearsFragmentStateAndCounters() {
+        val decoder = AlbionProtocol18Decoder()
+        val message = byteArrayOf(0, 4, 1, 1, 252.toByte(), 4, 39, 0)
+        val first = fragmentDatagram(91, message.size, 0, message.copyOfRange(0, 4))
+        assertTrue(decoder.receiveDatagram(first).isEmpty())
+        assertEquals(1, decoder.stats().fragmentsPending)
+        decoder.receiveDatagram(byteArrayOf(1, 2))
+        assertEquals(1, decoder.stats().malformed)
+        decoder.reset()
+        assertEquals(0, decoder.stats().fragmentsPending)
+        assertEquals(0, decoder.stats().malformed)
+        assertEquals(0, decoder.stats().encrypted)
     }
 
     private fun fragmentDatagram(sequence: Int, totalLength: Int, fragmentOffset: Int, chunk: ByteArray): ByteArray {
