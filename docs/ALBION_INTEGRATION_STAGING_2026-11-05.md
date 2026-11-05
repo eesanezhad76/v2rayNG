@@ -999,4 +999,16 @@ The complete snapshot also includes `checkpoint/albion-radar-stable-2026-11-04`,
 - Source document blob SHA: e113cb37785e832fc40758032975b7f1b384c2a5
 - Destination branch: albion-integration-staging-2026-11-05
 - No pre-existing branch or application/data file changed.
-- Resulting commit SHA and new blob SHA: record from update response.
+- Resulting commit SHA: 2bc49f3edd500da355a23ee9a79d866eae2d820d
+- New blob SHA: 3ab9b8353be4e2d0a6521d975337d84b5cc65645
+
+
+## 28. Change log — final hash-reference correction
+
+- Operation: correct Section 25's source/result identifiers after verifying the preceding GitHub update response.
+- Repository: eesanezhad76/v2rayNG
+- Source document blob SHA: 6a7c3f364badecda60039c7cd65d594bf182a1d2
+- Destination branch: albion-integration-staging-2026-11-05
+- Resulting commit SHA: 76284e75f7bfacb585003390d725cdedcdc11481
+- New blob SHA: e113cb37785e832fc40758032975b7f1b384c2a5
+- No application source, tests, runtime assets, research outputs, raw evidence, archive parts, or pre-existing branches changed.
