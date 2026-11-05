@@ -38,12 +38,12 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "99ef31a31f06acad2daecb567d5987d0a5f6db47d59667f1dd654fca36d66781",
   "ip_packets": 628,
-  "fingerprint": "febb32c94fe063f3f675c008cbe63617521d5ed2794452e037872dbd2edcfb31",
+  "fingerprint": "b9189d091bf683f30487893707c3ceb4c62683e1236ed2d71d257a5ec6f2a50a",
   "malformed_protocol18_messages": 0,
   "operation_requests": {},
   "albion_udp_packets": 389,
   "entity_kinds": {
-    "player_mounted": 1,
+    "player_mounted": 2,
     "leave": 3,
     "resource_state": 2
   },

@@ -46,6 +46,7 @@ Mapped entity observations:
   mob: 3
   move: 16
   own_player_move: 16
+  player_mounted: 1
   resource_state: 3
   static_resource: 10
 Typed Photon event observations:
@@ -74,7 +75,7 @@ Limitation: Packet duplicates are counted, not assumed to be packet loss; retran
 Limitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.
 Limitation: Native tap drops were not supplied; no tap-drop penalty was applied.
 
-Detailed entity/player observations: 258
+Detailed entity/player observations: 259
   t=1793403374145 event3 id=471966 raw=03f7388296de36df0898ee8dc30d371643f800004040f8578dc322841843 p4=-283.864 p5=150.21504
   t=1793403374240 event3 id=471966 raw=03b37e9196de36df081cdd8dc36e7b16431300004040f8578dc322841843 p4=-283.72742 p5=150.48215
   t=1793403374297 event3 id=471966 raw=03f7d9a096de36df08a0cb8dc3cfbf16431300004040f8578dc322841843 p4=-283.59082 p5=150.74925
@@ -227,6 +228,7 @@ Detailed entity/player observations: 258
   t=1793403377912 event3 id=601223 raw=03649fc898de36df088a506bc34cd23a430000004040ee506bc339463b43 p4=-235.3146 p5=186.82147
   t=1793403377912 kind=move id=601223 x=-235.3146 y=186.82147
   t=1793403377912 event3 id=637121 raw=03649fc898de36df08f21885c354f91e43c56666e63f147785c3ed101f43 p4=-266.1949 p5=158.97394
+  t=1793403377965 kind=player_mounted id=636743
   t=1793403377965 kind=raw_health_energy_event code=91 params={0:636743, 1:48623035, 2:2386.0, 3:2386.0, 5:66.86605, 6:639290001784068528, 252:91}
   t=1793403377965 kind=health_regeneration id=636743 value=2386.0 secondary_value=2386.0
   t=1793403378022 event3 id=601223 raw=032f07d898de36df08cc506bc31a1f3b430000004040ee506bc339463b43 p4=-235.31561 p5=187.12149
@@ -238,14 +240,14 @@ Detailed entity/player observations: 258
   t=1793403378251 event3 id=637121 raw=0302acf698de36df08865d85c3850a1f43c56666e63f147785c3ed101f43 p4=-266.73065 p5=159.04109
   t=1793403378361 event3 id=637121 raw=03ccf50599de36df08627485c340101f43c56666e63f147785c3ed101f43 p4=-266.90924 p5=159.06348
   t=1793403378416 event3 id=637121 raw=01605c1599de36df08147785c3ed101f43c56666e63f p4=null p5=null
-  t=1793403379349 kind=resource_state id=2900 amount=2
+  t=1793403379349 kind=resource_state id=2900 enchant=1 amount=2
   t=1793403379349 kind=raw_health_energy_event code=91 params={0:636743, 1:48624444, 2:2691.0, 3:2691.0, 5:70.050156, 6:639290001798159433, 252:91}
   t=1793403379349 kind=health_regeneration id=636743 value=2691.0 secondary_value=2691.0
   t=1793403379514 kind=raw_health_energy_event code=91 params={0:636743, 1:48624593, 2:2386.0, 3:2386.0, 5:66.86605, 6:639290001799650855, 252:91}
   t=1793403379514 kind=health_regeneration id=636743 value=2386.0 secondary_value=2386.0
   t=1793403380724 event3 id=432463 raw=03a1d7759ade36df08d88184c3ffb35443a700004040399b82c3e92a5643 p4=-265.0144 p5=212.70311
   t=1793403380829 event3 id=432463 raw=03ef29859ade36df08025e84c39bcf54433100004040399b82c3e92a5643 p4=-264.73444 p5=212.81096
-  t=1793403380946 kind=resource_state id=2900 amount=1
+  t=1793403380946 kind=resource_state id=2900 enchant=1 amount=1
   t=1793403380946 kind=raw_health_energy_event code=91 params={0:636743, 1:48625998, 2:2691.0, 3:2691.0, 5:70.050156, 6:639290001813699808, 252:91}
   t=1793403380946 kind=health_regeneration id=636743 value=2691.0 secondary_value=2691.0
   t=1793403380946 event3 id=432463 raw=03e972949ade36df082c3a84c337eb54433100004040399b82c3e92a5643 p4=-264.45447 p5=212.91881
@@ -266,7 +268,7 @@ Detailed entity/player observations: 258
   t=1793403382264 event3 id=637589 raw=03affc5b9bde36df08af949dc321983d437bcdcc4c40011a9fc3c46f4143 p4=-315.1616 p5=189.59425
   t=1793403382361 event3 id=637589 raw=030c506b9bde36df081cae9dc35dd83d43e5cdcc4c40011a9fc3c46f4143 p4=-315.36023 p5=189.84517
   t=1793403382454 event3 id=637589 raw=03709a7a9bde36df0889c79dc399183e43e5cdcc4c40011a9fc3c46f4143 p4=-315.55887 p5=190.09608
-  t=1793403382454 kind=resource_state id=2900 amount=0 removed=true
+  t=1793403382454 kind=resource_state id=2900 enchant=1 amount=0 removed=true
   t=1793403382454 kind=raw_health_energy_event code=91 params={0:636743, 1:48627542, 2:2691.0, 3:2691.0, 5:70.050156, 6:639290001829142366, 252:91}
   t=1793403382454 kind=health_regeneration id=636743 value=2691.0 secondary_value=2691.0
   t=1793403382561 event3 id=637589 raw=0385e5899bde36df08f6e09dc3d5583e43e5cdcc4c40011a9fc3c46f4143 p4=-315.7575 p5=190.347

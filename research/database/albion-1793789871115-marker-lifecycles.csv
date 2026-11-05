@@ -1,0 +1,5 @@
+activity,tier,enchantment,found_ms,started_ms,completed_ms,depleted_ms,mob_killed_ms,status,metadata_conflicts,identity_scope
+Troll,T4,E1,1793791616817,,,,1793791626675,TARGET_FOUND_TO_KILLED,,manual_marker_only_no_runtime_entity_id
+Ore,T4,E1,1793791639584,1793791639584,1793791642525,,,COMPLETE,,manual_marker_only_no_runtime_entity_id
+Ore,T4,E1,1793792566825,1793792566825,1793792572514,,,COMPLETE,,manual_marker_only_no_runtime_entity_id
+Troll,T4,E1,1793792784792,,,,,TARGET_FOUND_NOT_KILLED,,manual_marker_only_no_runtime_entity_id

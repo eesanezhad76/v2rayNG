@@ -64,7 +64,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "5606346fc9548cf0f93b7269b7f7d50367245ca3bcdd63f51765bf8974c080f0",
   "ip_packets": 823,
-  "fingerprint": "eaa90e0fca69dc87a2b53835e879747a679275534fe4c1a9224b6d6df6f7b238",
+  "fingerprint": "f1804dad3b2891b0b3a4a0e7e3f80a4f3137558c331d829b9bd64440e5661161",
   "malformed_protocol18_messages": 0,
   "operation_requests": {
     "22": 49,
@@ -77,15 +77,18 @@
   "albion_udp_packets": 469,
   "entity_kinds": {
     "harvestable": 2,
-    "own_player_move": 49,
     "mob": 5,
     "move": 149,
-    "leave": 27,
     "static_resource": 29,
     "resource_state": 5,
+    "dungeon_exit": 1,
     "health": 20,
     "health_regeneration": 8,
-    "energy": 9
+    "own_player_move": 49,
+    "player_mounted": 1,
+    "leave": 27,
+    "energy": 9,
+    "target_request": 8
   },
   "source_name": "blue enchanted 2 gholem killed and mined .pcap",
   "operation_responses": {

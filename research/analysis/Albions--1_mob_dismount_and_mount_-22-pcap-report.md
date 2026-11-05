@@ -49,6 +49,7 @@ Mapped entity observations:
   health_regeneration: 3
   leave: 4
   own_player_move: 8
+  player_mounted: 2
 Typed Photon event observations:
 Malformed / unrecognized Photon envelopes: 0
 Encrypted Photon packets: 0
@@ -73,9 +74,10 @@ Limitation: Packet duplicates are counted, not assumed to be packet loss; retran
 Limitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.
 Limitation: Native tap drops were not supplied; no tap-drop penalty was applied.
 
-Detailed entity/player observations: 171
+Detailed entity/player observations: 173
   t=1793399468561 outbound_request op=199 params={0=639289962690262643 1=593017 253=199}
   t=1793399468755 outbound_request op=199 params={0=639289962690262643 1=593017 253=199}
+  t=1793399468813 kind=player_mounted id=593016
   t=1793399469354 outbound_request op=22 params={0=639289962697972643 1=[-368.23163, 220.28891] 2=159.12535 3=[-366.88922, 219.61263] 4=5.5 253=22}
   t=1793399469354 kind=own_player_move x=-368.23162841796875 y=220.28890991210938 heading=159.12535095214844 target_x=-366.88922119140625 target_y=219.6126251220703 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793399469409 outbound_request op=22 params={0=639289962699122643 1=[-367.66684, 220.0043] 2=116.73712 3=[-366.27316, 219.30226] 4=5.5 253=22}
@@ -234,6 +236,7 @@ Detailed entity/player observations: 171
   t=1793399475611 event3 id=475809 raw=03f039cd82d536df08a5c6a5c38d5a31432200004040bbada4c32e573343 p4=-331.5519 p5=177.35371
   t=1793399475729 event3 id=475809 raw=03bf7ddc82d536df082eaaa5c3178e31432200004040bbada4c32e573343 p4=-331.32953 p5=177.55504
   t=1793399475729 event3 id=574930 raw=03bf7ddc82d536df080cf9a2c32a446243be00004040a215a3c38c526243 p4=-325.94568 p5=226.26627
+  t=1793399475729 kind=player_mounted id=593016
   t=1793399475729 kind=leave id=600313 removed=true
   t=1793399475847 event3 id=475809 raw=0333cceb82d536df08b78da5c3a1c131432200004040bbada4c32e573343 p4=-331.10715 p5=177.75636
   t=1793399475847 event3 id=574930 raw=0133cceb82d536df08a215a3c38c526243ca00004040 p4=null p5=null

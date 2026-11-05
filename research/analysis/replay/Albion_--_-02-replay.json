@@ -68,7 +68,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "4ed27ff57802632ad6b08abd43727e6121de4449bda81655cc4f245d37374fc1",
   "ip_packets": 1811,
-  "fingerprint": "66a08cb797901521e0cdf70110416847911856c75ff4e9d2223c51e5dfd395a5",
+  "fingerprint": "3cc012fe12ad1ceeb7f03eea4e03ad7196e0b3d5f3d4aa3f4f4d577037a7d95f",
   "malformed_protocol18_messages": 0,
   "operation_requests": {
     "22": 361,
@@ -84,14 +84,16 @@
     "move": 82,
     "static_resource": 41,
     "resource_state": 1,
+    "dungeon_exit": 4,
     "health": 113,
     "health_regeneration": 6,
     "own_player_move": 361,
-    "player_mounted": 1,
+    "player_mounted": 9,
     "leave": 94,
     "player_move": 172,
     "energy": 28,
-    "player_spawn": 8
+    "player_spawn": 8,
+    "target_request": 30
   },
   "source_name": "فقط ماب کشتم.pcap",
   "operation_responses": {"23": 3}

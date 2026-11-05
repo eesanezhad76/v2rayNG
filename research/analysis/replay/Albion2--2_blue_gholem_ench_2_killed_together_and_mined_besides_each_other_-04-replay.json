@@ -63,7 +63,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "d6d6e6508e8611809ea70715dad4c4e284cdffabba7e3b20cb443304ab7d66ba",
   "ip_packets": 1819,
-  "fingerprint": "2394cc3077f60224c252d4af221e0aabcf5211340ef28b21a74df1e608e90079",
+  "fingerprint": "1fcf9d6330798cab48bfc83cd13a6fa48aa2c89b0584b663dd9b7ac17042043e",
   "malformed_protocol18_messages": 0,
   "operation_requests": {
     "22": 143,
@@ -76,17 +76,20 @@
   "albion_udp_packets": 994,
   "entity_kinds": {
     "harvestable": 4,
-    "own_player_move": 143,
     "mob": 11,
     "move": 370,
-    "leave": 20,
     "static_resource": 20,
     "resource_state": 6,
+    "dungeon_exit": 1,
     "health": 50,
     "health_regeneration": 14,
+    "own_player_move": 143,
+    "player_mounted": 2,
+    "leave": 20,
     "player_move": 29,
     "energy": 21,
-    "player_spawn": 1
+    "player_spawn": 1,
+    "target_request": 23
   },
   "source_name": "2 blue gholem ench 2 killed together and mined besides each other .pcap",
   "operation_responses": {

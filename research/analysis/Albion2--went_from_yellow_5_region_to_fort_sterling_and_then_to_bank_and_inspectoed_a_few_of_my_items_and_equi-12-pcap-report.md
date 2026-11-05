@@ -100,7 +100,7 @@ Mapped entity observations:
   leave: 63
   own_player_move: 62
   player_equipment: 47
-  player_mounted: 7
+  player_mounted: 81
   player_move: 990
   player_spawn: 102
   static_resource: 15
@@ -128,7 +128,7 @@ Limitation: Packet duplicates are counted, not assumed to be packet loss; retran
 Limitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.
 Limitation: Native tap drops were not supplied; no tap-drop penalty was applied.
 
-Detailed entity/player observations: 2341
+Detailed entity/player observations: 2420
   t=1793403799757 event3 id=643645 raw=0313b30494df36df08f91dfa3c2562ede58e0000044196a4e63cc908f6e5 p4=0.03053187 p5=-1.4012641E23
   t=1793403799913 event3 id=632089 raw=03836a1494df36df082712f83cc4dae1e508cdcc0c41c8daf83c356ae0e5 p4=0.030282093 p5=-1.33321E23
   t=1793403799913 event3 id=643645 raw=0353661694df36df089639fa3c5d9aeae5820000044185c3e53c40e6f7e5 p4=0.030545037 p5=-1.3848516E23
@@ -141,7 +141,6 @@ Detailed entity/player observations: 2341
   t=1793403800327 event3 id=643645 raw=0383196094df36df08d324fa3ceb99e8e57e000004414dc6fa3c705ef7e5 p4=0.030535137 p5=-1.3730354E23
   t=1793403800327 event3 id=632089 raw=03d3be6594df36df08f63bf93ccb97e3e507cdcc0c41b0f5f93cda24e2e5 p4=0.0304241 p5=-1.3434716E23
   t=1793403800327 event3 id=643645 raw=01b3c36c94df36df085d13fa3c6131e8e57e00000441 p4=null p5=null
-  t=1793403800327 kind=player_mounted id=643645 value=0.0
   t=1793403800327 event3 id=632089 raw=03230a7a94df36df085d08f93c123ae2e507cdcc0c4104cbf93c1e48e5e5 p4=0.030399496 p5=-1.3354075E23
   t=1793403800456 event3 id=632089 raw=03837c8e94df36df080fddf93c5aafe2e507cdcc0c41f799f93cfffde5e5 p4=0.030500917 p5=-1.3381119E23
   t=1793403800529 event3 id=632089 raw=03c3a0a294df36df087b93f93ccad2e5e507cdcc0c41d76ffe3c2263e4e5 p4=0.030465832 p5=-1.3566379E23
@@ -187,6 +186,7 @@ Detailed entity/player observations: 2341
   t=1793403802250 kind=own_player_move x=182.51837158203125 y=366.66400146484375 heading=342.4227600097656 target_x=181.18763732910156 target_y=370.8647155761719 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793403802309 event3 id=502445 raw=012e35b795df36df085c791643a0209e439600004040 p4=null p5=null
   t=1793403802310 kind=player_spawn id=647403 name=Trener000v
+  t=1793403802310 kind=player_mounted id=647403
   t=1793403802356 kind=leave id=646955 removed=true
   t=1793403802356 kind=leave id=1530 removed=true
   t=1793403802356 kind=leave id=502445 removed=true
@@ -222,6 +222,7 @@ Detailed entity/player observations: 2341
   t=1793403803255 kind=own_player_move x=182.25001525878906 y=371.5916748046875 heading=12.56294059753418 target_x=182.42642211914062 target_y=371.94329833984375 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793403803308 outbound_request op=22 params={0=639290006038252643 1=[182.13054, 376.4404] 2=0.9239138 3=[182.14575, 377.3844] 4=11.0 253=22}
   t=1793403803308 kind=own_player_move x=182.1305389404297 y=376.4403991699219 heading=0.9239137768745422 target_x=182.145751953125 target_y=377.3843994140625 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793403803308 kind=player_mounted id=643645
   t=1793403803376 outbound_request op=22 params={0=639290006035002643 1=[182.2387, 372.86884] 2=357.89145 3=[182.20561, 373.76703] 4=11.0 253=22}
   t=1793403803376 kind=own_player_move x=182.2386932373047 y=372.86883544921875 heading=357.8914489746094 target_x=182.2056121826172 target_y=373.76702880859375 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793403803421 outbound_request op=22 params={0=639290006039352643 1=[182.14993, 377.65012] 2=0.9185839 3=[182.17953, 379.49582] 4=11.0 253=22}
@@ -266,6 +267,9 @@ Detailed entity/player observations: 2341
   t=1793403804041 kind=leave id=1508 removed=true
   t=1793403804041 kind=leave id=1535 removed=true
   t=1793403804041 kind=leave id=4448 removed=true
+  t=1793403804041 kind=operation_response op=41 return_code=0 param0_type=String param0_value=4000 params={0=4000 253=41 255=45}
+  t=1793403820032 kind=player_mounted id=1821622
+  t=1793403820032 kind=unmapped_event_candidate code=2 params={252=2}
   t=1793403820032 kind=static_resource id=292 x=-28.5 y=-38.5
   t=1793403820032 kind=static_resource id=297 x=-42.5 y=-34.5
   t=1793403820032 kind=static_resource id=298 x=33.5 y=-17.5
@@ -323,54 +327,90 @@ Detailed entity/player observations: 2341
   t=1793403827673 kind=leave id=58 removed=true
   t=1793403827673 kind=leave id=48 removed=true
   t=1793403827673 kind=leave id=42 removed=true
+  t=1793403827673 kind=operation_response op=41 return_code=0 param0_type=String param0_value=4001 params={0=4001 253=41 255=47}
   t=1793403837833 kind=player_spawn id=1508316 name=xlMISTERlx
+  t=1793403837833 kind=player_mounted id=1508316
   t=1793403837833 kind=player_spawn id=1512059 name=GrandFrere
+  t=1793403837833 kind=player_mounted id=1512059
   t=1793403837833 kind=player_spawn id=1509172 name=azginteke
+  t=1793403837833 kind=player_mounted id=1509172
   t=1793403837833 kind=player_spawn id=1521716 name=pxablo
+  t=1793403837833 kind=player_mounted id=1521716
   t=1793403837834 kind=player_spawn id=1517108 name=Natwix01
+  t=1793403837834 kind=player_mounted id=1517108
   t=1793403837834 kind=player_spawn id=1519342 name=KOKYACHE32
   t=1793403837834 kind=player_spawn id=1518876 name=Alien90
+  t=1793403837834 kind=player_mounted id=1518876
   t=1793403837834 kind=player_spawn id=1521394 name=SZYSZKONATOR
   t=1793403837834 kind=player_spawn id=1497989 name=MonkeyModeActive
   t=1793403837834 kind=player_spawn id=1521269 name=Pistoli
+  t=1793403837834 kind=player_mounted id=1521269
   t=1793403837834 kind=player_spawn id=1520540 name=EnjoyApple
+  t=1793403837834 kind=player_mounted id=1520540
   t=1793403837834 kind=player_spawn id=1520843 name=Raceth
+  t=1793403837834 kind=player_mounted id=1520843
   t=1793403837834 kind=player_spawn id=1521354 name=Raikyu
+  t=1793403837834 kind=player_mounted id=1521354
   t=1793403837834 kind=player_spawn id=1519488 name=D1CTA
   t=1793403837834 kind=player_spawn id=1520087 name=RustinDust
   t=1793403837834 kind=player_spawn id=1520182 name=EmmanuelGM
+  t=1793403837834 kind=player_mounted id=1520182
   t=1793403837992 kind=player_spawn id=1521325 name=BuzzerB
+  t=1793403837992 kind=player_mounted id=1521325
   t=1793403837992 kind=player_spawn id=1518857 name=faxerix
+  t=1793403837992 kind=player_mounted id=1518857
   t=1793403837992 kind=player_spawn id=1519475 name=Kaizer404
   t=1793403837992 kind=player_spawn id=1496216 name=hoe23
+  t=1793403837992 kind=player_mounted id=1496216
   t=1793403837992 kind=player_spawn id=1519948 name=PaiinXD
+  t=1793403837992 kind=player_mounted id=1519948
   t=1793403837992 kind=player_spawn id=1519768 name=DiosSalchicha
+  t=1793403837992 kind=player_mounted id=1519768
   t=1793403837992 kind=player_spawn id=1517886 name=widonin
   t=1793403837992 kind=player_spawn id=1515848 name=Cosmopolites
   t=1793403837992 kind=player_spawn id=1508694 name=niikkollas
   t=1793403837992 kind=player_spawn id=1519622 name=Sephir
+  t=1793403837992 kind=player_mounted id=1519622
   t=1793403837992 kind=player_spawn id=1518481 name=MarkusAlexander
+  t=1793403837992 kind=player_mounted id=1518481
   t=1793403837992 kind=player_spawn id=1512045 name=m1lkshake
   t=1793403837992 kind=player_spawn id=1519411 name=LOKYLOKY
+  t=1793403837992 kind=player_mounted id=1519411
   t=1793403837992 kind=player_spawn id=1516074 name=Lagherza
   t=1793403837992 kind=player_spawn id=1519377 name=Sithamus
   t=1793403837992 kind=player_spawn id=1521344 name=Tedio
+  t=1793403837992 kind=player_mounted id=1521344
   t=1793403837992 kind=player_spawn id=1521380 name=PapyFredo
+  t=1793403837992 kind=player_mounted id=1521380
   t=1793403837992 kind=player_spawn id=1520520 name=Tieya
+  t=1793403837992 kind=player_mounted id=1520520
   t=1793403837992 kind=player_spawn id=1521255 name=MadGroot
   t=1793403837992 kind=player_spawn id=1519858 name=orzeszek23
+  t=1793403837992 kind=player_mounted id=1519858
   t=1793403837992 kind=player_spawn id=1520703 name=Eyvazov0
+  t=1793403837992 kind=player_mounted id=1520703
   t=1793403837992 kind=player_spawn id=1515193 name=Schillplz
+  t=1793403837992 kind=player_mounted id=1515193
   t=1793403837992 kind=player_spawn id=1520239 name=knox
+  t=1793403837992 kind=player_mounted id=1520239
   t=1793403837992 kind=player_spawn id=1515900 name=CrystalSoldier
+  t=1793403837992 kind=player_mounted id=1515900
   t=1793403838047 kind=player_spawn id=1519783 name=DenAniMan
+  t=1793403838047 kind=player_mounted id=1519783
   t=1793403838048 kind=player_spawn id=1521244 name=Mediiv
   t=1793403838048 kind=player_spawn id=1466971 name=hopeale
+  t=1793403838048 kind=player_mounted id=1466971
   t=1793403838048 kind=player_spawn id=1517096 name=atothemachine
+  t=1793403838048 kind=player_mounted id=1517096
   t=1793403838048 kind=player_spawn id=1521713 name=Tepee
+  t=1793403838048 kind=player_mounted id=1521713
   t=1793403838134 kind=player_spawn id=1521237 name=MyNickyRho
+  t=1793403838134 kind=player_mounted id=1521237
   t=1793403838134 kind=player_spawn id=1512128 name=Krawat1108
+  t=1793403838134 kind=player_mounted id=1512128
   t=1793403838134 kind=player_spawn id=1521320 name=bigdady55
+  t=1793403838134 kind=player_mounted id=1521722
+  t=1793403838134 kind=unmapped_event_candidate code=2 params={252=2}
   t=1793403838134 event3 id=1521244 raw=038314c2aadf36df08fb240f34a90cca120c0000b040a91cd3c9fe791312 p4=1.3331366E-7 p5=1.2751113E-27
   t=1793403838134 kind=player_move id=1521244 name=Mediiv x=1.3331366E-7 y=1.2751113E-27 raw_hex=038314c2aadf36df08fb240f34a90cca120c0000b040a91cd3c9fe791312 coord_source=unvalidated_event3_payload
   t=1793403838134 event3 id=1521394 raw=03475dc2aadf36df086cf28e344f3679ed3d0000b040e4741634457ec4ed p4=2.6625946E-7 p5=-4.820464E27
@@ -489,41 +529,65 @@ Detailed entity/player observations: 2341
   t=1793403838494 event3 id=1521713 raw=039c0a3dabdf36df08d7e9b3ca38c8e8127ccdcc0c41f821bccb5ee6e313 p4=-5895403.5 p5=1.4690616E-27
   t=1793403838494 kind=player_move id=1521713 name=Tepee x=-5895403.5 y=1.4690616E-27 raw_hex=039c0a3dabdf36df08d7e9b3ca38c8e8127ccdcc0c41f821bccb5ee6e313 coord_source=unvalidated_event3_payload
   t=1793403838494 kind=player_spawn id=1521320 name=bigdady55
+  t=1793403838494 kind=player_mounted id=1512128
   t=1793403838495 kind=player_spawn id=1512128 name=Krawat1108
+  t=1793403838495 kind=player_mounted id=1521237
   t=1793403838495 kind=player_spawn id=1521237 name=MyNickyRho
+  t=1793403838495 kind=player_mounted id=1521713
   t=1793403838495 kind=player_spawn id=1521713 name=Tepee
+  t=1793403838495 kind=player_mounted id=1517096
   t=1793403838495 kind=player_spawn id=1517096 name=atothemachine
+  t=1793403838495 kind=player_mounted id=1466971
   t=1793403838495 kind=player_spawn id=1466971 name=hopeale
   t=1793403838495 kind=player_spawn id=1521244 name=Mediiv
+  t=1793403838495 kind=player_mounted id=1519783
   t=1793403838495 kind=player_spawn id=1519783 name=DenAniMan
+  t=1793403838495 kind=player_mounted id=1515900
   t=1793403838495 kind=player_spawn id=1515900 name=CrystalSoldier
+  t=1793403838495 kind=player_mounted id=1520239
   t=1793403838495 kind=player_spawn id=1520239 name=knox
+  t=1793403838495 kind=player_mounted id=1515193
   t=1793403838495 kind=player_spawn id=1515193 name=Schillplz
+  t=1793403838495 kind=player_mounted id=1520703
   t=1793403838495 kind=player_spawn id=1520703 name=Eyvazov0
+  t=1793403838495 kind=player_mounted id=1519858
   t=1793403838495 kind=player_spawn id=1519858 name=orzeszek23
   t=1793403838495 kind=player_spawn id=1521255 name=MadGroot
+  t=1793403838495 kind=player_mounted id=1520520
   t=1793403838495 kind=player_spawn id=1520520 name=Tieya
+  t=1793403838495 kind=player_mounted id=1521380
   t=1793403838495 kind=player_spawn id=1521380 name=PapyFredo
+  t=1793403838495 kind=player_mounted id=1521344
   t=1793403838495 kind=player_spawn id=1521344 name=Tedio
   t=1793403838495 kind=player_spawn id=1519377 name=Sithamus
   t=1793403838495 kind=player_spawn id=1516074 name=Lagherza
+  t=1793403838495 kind=player_mounted id=1519411
   t=1793403838495 kind=player_spawn id=1519411 name=LOKYLOKY
   t=1793403838495 kind=player_spawn id=1512045 name=m1lkshake
+  t=1793403838495 kind=player_mounted id=1518481
   t=1793403838495 kind=player_spawn id=1518481 name=MarkusAlexander
+  t=1793403838495 kind=player_mounted id=1519622
   t=1793403838495 kind=player_spawn id=1519622 name=Sephir
   t=1793403838495 kind=player_spawn id=1508694 name=niikkollas
   t=1793403838495 kind=player_spawn id=1515848 name=Cosmopolites
   t=1793403838495 kind=player_spawn id=1517886 name=widonin
+  t=1793403838495 kind=player_mounted id=1519768
   t=1793403838495 kind=player_spawn id=1519768 name=DiosSalchicha
+  t=1793403838495 kind=player_mounted id=1519948
   t=1793403838495 kind=player_spawn id=1519948 name=PaiinXD
+  t=1793403838495 kind=player_mounted id=1496216
   t=1793403838495 kind=player_spawn id=1496216 name=hoe23
   t=1793403838495 kind=player_spawn id=1519475 name=Kaizer404
+  t=1793403838495 kind=player_mounted id=1518857
   t=1793403838495 kind=player_spawn id=1518857 name=faxerix
+  t=1793403838495 kind=player_mounted id=1521325
   t=1793403838495 kind=player_spawn id=1521325 name=BuzzerB
   t=1793403838495 event3 id=1518876 raw=0393be3eabdf36df08f32ddd3502b8a793d2666634413957d635522043ec p4=1.6479156E-6 p5=-4.2338172E-27
   t=1793403838495 kind=player_move id=1518876 name=Alien90 x=1.6479156E-6 y=-4.2338172E-27 raw_hex=0393be3eabdf36df08f32ddd3502b8a793d2666634413957d635522043ec coord_source=unvalidated_event3_payload
   t=1793403838495 event3 id=1521244 raw=03539340abdf36df086696904b9f333912090000b04076e982ca13a17b12 p4=1.8951372E7 p5=5.8439335E-28
   t=1793403838495 kind=player_move id=1521244 name=Mediiv x=1.8951372E7 y=5.8439335E-28 raw_hex=03539340abdf36df086696904b9f333912090000b04076e982ca13a17b12 coord_source=unvalidated_event3_payload
+  t=1793403838495 kind=unmapped_event_candidate code=2 params={252=2}
+  t=1793403838495 kind=player_mounted id=1521722
   t=1793403838559 event3 id=1521716 raw=0366ff41abdf36df08f78b5235ddaae76c4700003041b015e5343a3cceec p4=7.843477E-7 p5=2.24055E27
   t=1793403838559 kind=player_move id=1521716 name=pxablo x=7.843477E-7 y=2.24055E27 raw_hex=0366ff41abdf36df08f78b5235ddaae76c4700003041b015e5343a3cceec coord_source=unvalidated_event3_payload
   t=1793403838559 event3 id=1518481 raw=03334540abdf36df0895be5d4b6fcfd1138d3433ff4059d65e3462fe3f93 p4=1.4532245E7 p5=5.2963563E-27
@@ -677,6 +741,7 @@ Detailed entity/player observations: 2341
   t=1793403839843 outbound_request op=22 params={0=639290006403020096 1=[-26.499939, 0.5] 2=90.0 3=[-18.592724, -0.82303095] 4=11.0 253=22}
   t=1793403839843 kind=own_player_move x=-26.49993896484375 y=0.5 heading=90.0 target_x=-18.592723846435547 target_y=-0.823030948638916 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793403839893 kind=player_spawn id=1522039 name=Mazzarbul
+  t=1793403839893 kind=player_mounted id=1522039
   t=1793403839893 event3 id=1518481 raw=0393b410acdf36df08f7d1e1b4f0ac7b13cf66661e41900356b4c8bd4713 p4=-4.2062285E-7 p5=3.1765919E-27
   t=1793403839893 kind=player_move id=1518481 name=MarkusAlexander x=-4.2062285E-7 y=3.1765919E-27 raw_hex=0393b410acdf36df08f7d1e1b4f0ac7b13cf66661e41900356b4c8bd4713 coord_source=unvalidated_event3_payload
   t=1793403840004 event3 id=1521244 raw=01b3371dacdf36df0876e982ca13a17b12090000b040 p4=null p5=null
@@ -684,6 +749,7 @@ Detailed entity/player observations: 2341
   t=1793403840004 event3 id=1521713 raw=03ec4b23acdf36df082413dc4af51e756c87cdcc0c418f832a34f0ad4593 p4=7211410.0 p5=1.1853321E27
   t=1793403840004 kind=player_move id=1521713 name=Tepee x=7211410.0 y=1.1853321E27 raw_hex=03ec4b23acdf36df082413dc4af51e756c87cdcc0c418f832a34f0ad4593 coord_source=unvalidated_event3_payload
   t=1793403840004 kind=player_spawn id=1522066 name=staszk
+  t=1793403840004 kind=player_mounted id=1522066
   t=1793403840004 event3 id=1521924 raw=03fa8122acdf36df08b4829f353f5502ee3a0000b040d551ae354a37f26c p4=1.1884463E-6 p5=-1.0084027E28
   t=1793403840004 kind=player_move id=1521924 name=Wysoki1312 x=1.1884463E-6 y=-1.0084027E28 raw_hex=03fa8122acdf36df08b4829f353f5502ee3a0000b040d551ae354a37f26c coord_source=unvalidated_event3_payload
   t=1793403840079 event3 id=1518481 raw=03e38e22acdf36df08b6d683b423fc4a13d166661e4148691fb4b67bab12 p4=-2.4556874E-7 p5=2.5620297E-27
@@ -755,6 +821,7 @@ Detailed entity/player observations: 2341
   t=1793403840944 event3 id=1518857 raw=03e346abacdf36df082d43e82792a2a774fb6666084163d2ba27096ad975 p4=6.4465768E-15 p5=1.0625133E32
   t=1793403840944 kind=player_move id=1518857 name=faxerix x=6.4465768E-15 y=1.0625133E32 raw_hex=03e346abacdf36df082d43e82792a2a774fb6666084163d2ba27096ad975 coord_source=unvalidated_event3_payload
   t=1793403841024 kind=player_spawn id=1522092 name=Yanvers
+  t=1793403841024 kind=player_mounted id=1522092
   t=1793403841024 event3 id=1522066 raw=03d3e3b4acdf36df0859270b2624ebe40b4433332741cecce3269ae47d8a p4=4.827864E-16 p5=8.8176206E-32
   t=1793403841024 kind=player_move id=1522066 name=staszk x=4.827864E-16 y=8.8176206E-32 raw_hex=03d3e3b4acdf36df0859270b2624ebe40b4433332741cecce3269ae47d8a coord_source=unvalidated_event3_payload
   t=1793403841024 event3 id=1521924 raw=0303e8b2acdf36df081c474226bd7d410a400000b040dccbc226b3b3540a p4=6.740364E-16 p5=9.316261E-33
@@ -925,9 +992,10 @@ Detailed entity/player observations: 2341
   t=1793403842646 event3 id=1518857 raw=03137fc4addf36df08e9be3558626c1975026666084185640258727d6e75 p4=7.9932623E14 p5=1.9448723E32
   t=1793403842646 kind=player_move id=1518857 name=faxerix x=7.9932623E14 y=1.9448723E32 raw_hex=03137fc4addf36df08e9be3558626c1975026666084185640258727d6e75 coord_source=unvalidated_event3_payload
   t=1793403842646 kind=player_spawn id=1522196 name=AlExxPoP
+  t=1793403842646 kind=player_mounted id=1522196
   t=1793403842646 event3 id=1521924 raw=03c34ac1addf36df080d4e3b278d05d30a410000b0409782f627e36b3b09 p4=2.5993775E-15 p5=2.0320649E-32
   t=1793403842646 kind=player_move id=1521924 name=Wysoki1312 x=2.5993775E-15 y=2.0320649E-32 raw_hex=03c34ac1addf36df080d4e3b278d05d30a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
-  t=1793403842716 kind=player_mounted id=1521344 value=0.0
+  t=1793403842716 kind=player_mounted id=1521344
   t=1793403842716 event3 id=1522092 raw=038e3fc6addf36df0818d45026e7bc300b3ecccce4404f8fce267a50730b p4=7.2451937E-16 p5=3.403848E-32
   t=1793403842716 kind=player_move id=1522092 name=Yanvers x=7.2451937E-16 y=3.403848E-32 raw_hex=038e3fc6addf36df0818d45026e7bc300b3ecccce4404f8fce267a50730b coord_source=unvalidated_event3_payload
   t=1793403842716 kind=leave id=1521244 removed=true
@@ -955,7 +1023,8 @@ Detailed entity/player observations: 2341
   t=1793403843090 kind=player_move id=1522092 name=Yanvers x=7.1666484E-16 y=3.8573007E-32 raw_hex=037eecf6addf36df0888904e265248480b40cccce440a6f11f27f98d5b0b coord_source=unvalidated_event3_payload
   t=1793403843091 kind=leave id=1522252 removed=true
   t=1793403843091 kind=player_spawn id=1522196 name=AlExxPoP
-  t=1793403843091 kind=player_mounted id=1521344 value=0.0
+  t=1793403843091 kind=player_mounted id=1522196
+  t=1793403843091 kind=player_mounted id=1521344
   t=1793403843091 event3 id=1521924 raw=03138801aedf36df08de5f6127ac55930a410000b0409782f627e36b3b09 p4=3.1276992E-15 p5=1.4187811E-32
   t=1793403843091 kind=player_move id=1521924 name=Wysoki1312 x=3.1276992E-15 y=1.4187811E-32 raw_hex=03138801aedf36df08de5f6127ac55930a410000b0409782f627e36b3b09 coord_source=unvalidated_event3_payload
   t=1793403843091 event3 id=1518857 raw=03239106aedf36df083de138589fe83b75016666084131fd125824498e76 p4=8.1311012E14 p5=2.3820255E32
@@ -1055,6 +1124,7 @@ Detailed entity/player observations: 2341
   t=1793403844877 event3 id=1521344 raw=0313a50bafdf36df08dd285627fd94d274f70000b040c413cd2616b31075 p4=2.9720618E-15 p5=1.3347219E32
   t=1793403844877 kind=player_move id=1521344 name=Tedio x=2.9720618E-15 y=1.3347219E32 raw_hex=0313a50bafdf36df08dd285627fd94d274f70000b040c413cd2616b31075 coord_source=unvalidated_event3_payload
   t=1793403844877 kind=player_spawn id=1522421 name=Mumio
+  t=1793403844877 kind=player_mounted id=1522421
   t=1793403844877 event3 id=1522039 raw=03138710afdf36df08622f0ed9f68f01757c66660841e3fee0d894fae275 p4=-2.50134654E15 p5=1.6423979E32
   t=1793403844877 kind=player_move id=1522039 name=Mazzarbul x=-2.50134654E15 y=1.6423979E32 raw_hex=03138710afdf36df08622f0ed9f68f01757c66660841e3fee0d894fae275 coord_source=unvalidated_event3_payload
   t=1793403844941 event3 id=1521344 raw=03630e1bafdf36df0873166927039df774fb0000b04040c33927bf9d3e75 p4=3.2347415E-15 p5=1.5694359E32
@@ -1213,6 +1283,7 @@ Detailed entity/player observations: 2341
   t=1793403847158 event3 id=1522039 raw=03a39b56b0df36df08541609d915c8257483666608414280f5d98a1cb074 p4=-2.41166387E15 p5=5.2538277E31
   t=1793403847158 kind=player_move id=1522039 name=Mazzarbul x=-2.41166387E15 y=5.2538277E31 raw_hex=03a39b56b0df36df08541609d915c8257483666608414280f5d98a1cb074 coord_source=unvalidated_event3_payload
   t=1793403847158 kind=player_spawn id=1522441 name=EXIPAY
+  t=1793403847158 kind=player_mounted id=1522441
   t=1793403847158 event3 id=1519768 raw=03d31057b0df36df08c425d926a3f45e74becdcc0c410f0ea226df744074 p4=1.5067636E-15 p5=7.0657454E31
   t=1793403847158 kind=player_move id=1519768 name=DiosSalchicha x=1.5067636E-15 y=7.0657454E31 raw_hex=03d31057b0df36df08c425d926a3f45e74becdcc0c410f0ea226df744074 coord_source=unvalidated_event3_payload
   t=1793403847158 event3 id=1522039 raw=01831160b0df36df089a5a64d9581516748366660841 p4=null p5=null
@@ -1286,6 +1357,7 @@ Detailed entity/player observations: 2341
   t=1793403847814 event3 id=1521344 raw=0363f3d4b0df36df083eb62d2711661675fb0000b04040c33927bf9d3e75 p4=2.4107367E-15 p5=1.90653E32
   t=1793403847814 kind=player_move id=1521344 name=Tedio x=2.4107367E-15 y=1.90653E32 raw_hex=0363f3d4b0df36df083eb62d2711661675fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
   t=1793403847814 kind=player_spawn id=1522492 name=NelorArsm
+  t=1793403847814 kind=player_mounted id=1522492
   t=1793403847875 event3 id=1521354 raw=032339d9b0df36df0835c8e4261d085d0bc29a99154177c76d2685308f74 p4=1.5874944E-15 p5=4.2569156E-32
   t=1793403847875 kind=player_move id=1521354 name=Raikyu x=1.5874944E-15 y=4.2569156E-32 raw_hex=032339d9b0df36df0835c8e4261d085d0bc29a99154177c76d2685308f74 coord_source=unvalidated_event3_payload
   t=1793403847875 event3 id=1519768 raw=0383b2d7b0df36df08ee934b26738c2074b8cdcc0c41c845652695f20374 p4=7.0630255E-16 p5=5.087989E31
@@ -1308,7 +1380,6 @@ Detailed entity/player observations: 2341
   t=1793403848103 kind=player_move id=1519768 name=DiosSalchicha x=7.5597574E-16 y=4.7111554E31 raw_hex=036321f7b0df36df082ae5592669a81474b7cdcc0c41d341732610f8ff74 coord_source=unvalidated_event3_payload
   t=1793403848161 event3 id=1521344 raw=0393cb03b1df36df08f9a8242754b52175fb0000b04040c33927bf9d3e75 p4=2.2851172E-15 p5=2.0498964E32
   t=1793403848161 kind=player_move id=1521344 name=Tedio x=2.2851172E-15 y=2.0498964E32 raw_hex=0393cb03b1df36df08f9a8242754b52175fb0000b04040c33927bf9d3e75 coord_source=unvalidated_event3_payload
-  t=1793403848161 kind=player_mounted id=1521394 value=0.0
   t=1793403848161 event3 id=1520540 raw=03a36306b1df36df0809d2e0d87ec84f75ff66661e41898157d9d44c8076 p4=-1.97754159E15 p5=2.6339646E32
   t=1793403848161 kind=player_move id=1520540 name=EnjoyApple x=-1.97754159E15 y=2.6339646E32 raw_hex=03a36306b1df36df0809d2e0d87ec84f75ff66661e41898157d9d44c8076 coord_source=unvalidated_event3_payload
   t=1793403848161 event3 id=1522196 raw=039590fbb0df36df0824481b2655b58b0b40666608411ac167261fabb575 p4=5.3874197E-16 p5=5.381369E-32
@@ -1385,7 +1456,6 @@ Detailed entity/player observations: 2341
   t=1793403848956 kind=player_move id=1519768 name=DiosSalchicha x=4.798177E-16 y=1.1189035E32 raw_hex=0303f668b1df36df084c4c0a262788b074accdcc0c41a1ab2926c96fd70b coord_source=unvalidated_event3_payload
   t=1793403849011 event3 id=1522420 raw=030f0767b1df36df08e4a90b26ce2f8c8b3a0000b040a86a7d26496a058a p4=4.845556E-16 p5=-5.3997967E-32
   t=1793403849011 kind=player_move id=1522420 name=MaestroDV x=4.845556E-16 y=-5.3997967E-32 raw_hex=030f0767b1df36df08e4a90b26ce2f8c8b3a0000b040a86a7d26496a058a coord_source=unvalidated_event3_payload
-  t=1793403849011 kind=player_mounted id=1521394 value=0.0
   t=1793403849011 event3 id=1521380 raw=03438b7fb1df36df08b3f14ed911b88675069a991541d12770d8e7650875 p4=-3.64059977E15 p5=3.4155327E32
   t=1793403849011 kind=player_move id=1521380 name=PapyFredo x=-3.64059977E15 y=3.4155327E32 raw_hex=03438b7fb1df36df08b3f14ed911b88675069a991541d12770d8e7650875 coord_source=unvalidated_event3_payload
   t=1793403849011 event3 id=1522196 raw=03c56a7db1df36df0834e063268dd413743c6666084102d78e2672923974 p4=7.90603E-16 p5=4.6849285E31
@@ -1425,6 +1495,7 @@ Detailed entity/player observations: 2341
   t=1793403849320 event3 id=1519768 raw=0383a8a9b1df36df088fab1426f72ef20b93cdcc0c4130c32e264dd1438b p4=5.158032E-16 p5=9.3285674E-32
   t=1793403849320 kind=player_move id=1519768 name=DiosSalchicha x=5.158032E-16 y=9.3285674E-32 raw_hex=0383a8a9b1df36df088fab1426f72ef20b93cdcc0c4130c32e264dd1438b coord_source=unvalidated_event3_payload
   t=1793403849376 kind=player_spawn id=1522527 name=yidunxiaoshaokao
+  t=1793403849376 kind=player_mounted id=1522527
   t=1793403849376 event3 id=1522420 raw=036fdca9b1df36df08802b78260d878a0a310000b04071c26c26ac7ab30b p4=8.610124E-16 p5=1.3339717E-32
   t=1793403849376 kind=player_move id=1522420 name=MaestroDV x=8.610124E-16 y=1.3339717E-32 raw_hex=036fdca9b1df36df08802b78260d878a0a310000b04071c26c26ac7ab30b coord_source=unvalidated_event3_payload
   t=1793403849376 event3 id=1522521 raw=03b758b1b1df36df083c2c0726887eb90a560000b040299a6126a166a7f4 p4=4.689748E-16 p5=1.7862448E-32
@@ -1452,6 +1523,7 @@ Detailed entity/player observations: 2341
   t=1793403849526 event3 id=1522196 raw=038541d2b1df36df08d5304d26da3a28743d666608419370e826004a3974 p4=7.118984E-16 p5=5.331418E31
   t=1793403849526 kind=player_move id=1522196 name=AlExxPoP x=7.118984E-16 y=5.331418E31 raw_hex=038541d2b1df36df08d5304d26da3a28743d666608419370e826004a3974 coord_source=unvalidated_event3_payload
   t=1793403849526 kind=player_spawn id=1522536 name=govend
+  t=1793403849527 kind=player_mounted id=1522536
   t=1793403849527 event3 id=1522521 raw=034775d2b1df36df0852d40f262680568a540000b0408a55522619afd3f4 p4=4.990084E-16 p5=-1.0327827E-32
   t=1793403849527 kind=player_move id=1522521 name=MomoMonii x=4.990084E-16 y=-1.0327827E-32 raw_hex=034775d2b1df36df0852d40f262680568a540000b0408a55522619afd3f4 coord_source=unvalidated_event3_payload
   t=1793403849583 event3 id=1522420 raw=031fb8cdb1df36df083cad6f26cdc0a90b2f0000b04007885326eb612c0b p4=8.315456E-16 p5=6.5386526E-32
@@ -1601,6 +1673,7 @@ Detailed entity/player observations: 2341
   t=1793403850639 kind=player_move id=1519768 name=DiosSalchicha x=3.3348836E-16 y=2.2938573E-32 raw_hex=03832d79b2df36df08323ec0253035ee0abacccc38419ae1d22595467f8a coord_source=unvalidated_event3_payload
   t=1793403850639 kind=leave id=1519768 removed=true
   t=1793403850640 kind=player_spawn id=1522557 name=Knopers2112
+  t=1793403850640 kind=player_mounted id=1522557
   t=1793403850699 event3 id=1522521 raw=03173984b2df36df08fef5a93e73549593340000b04064bc0c3efdedbf13 p4=0.3319549 p5=-3.769616E-27
   t=1793403850699 kind=player_move id=1522521 name=MomoMonii x=0.3319549 y=-3.769616E-27 raw_hex=03173984b2df36df08fef5a93e73549593340000b04064bc0c3efdedbf13 coord_source=unvalidated_event3_payload
   t=1793403850699 event3 id=1522441 raw=03138d89b2df36df0819dad0415c4c8c6d7dcccce440ffd239c03ee3496c p4=26.106493 p5=5.427527E27
@@ -1762,6 +1835,7 @@ Detailed entity/player observations: 2341
   t=1793403851997 kind=player_move id=1522536 name=govend x=0.36656222 y=-4.0086757E-27 raw_hex=03f38e3db3df36df080baebb3ecdcc9e933b333327417134183edefd8c92 coord_source=unvalidated_event3_payload
   t=1793403851997 event3 id=1522196 raw=03e34942b3df36df0854deb83f385f026c556666084193ac193ffe64a013 p4=1.4442849 p5=6.3044006E26
   t=1793403851997 kind=player_move id=1522196 name=AlExxPoP x=1.4442849 y=6.3044006E26 raw_hex=03e34942b3df36df0854deb83f385f026c556666084193ac193ffe64a013 coord_source=unvalidated_event3_payload
+  t=1793403851997 kind=player_mounted id=1521394
   t=1793403851997 event3 id=1518481 raw=03d3403db3df36df08f2e0dc415249786df93433ff40264f8440f1b1bf6d p4=27.609837 p5=4.8025576E27
   t=1793403851997 kind=player_move id=1518481 name=MarkusAlexander x=27.609837 y=4.8025576E27 raw_hex=03d3403db3df36df08f2e0dc415249786df93433ff40264f8440f1b1bf6d coord_source=unvalidated_event3_payload
   t=1793403851997 event3 id=1522521 raw=03e34942b3df36df08b085003e7d6f8e93400000b0406794ad40c4388d93 p4=0.12550998 p5=-3.5955775E-27
@@ -1771,6 +1845,7 @@ Detailed entity/player observations: 2341
   t=1793403851997 event3 id=1522557 raw=037e654ab3df36df08b1e4253f7a19926d8a33332741f698a73f572de66c p4=0.6480208 p5=5.6519513E27
   t=1793403851997 kind=player_move id=1522557 name=Knopers2112 x=0.6480208 y=5.6519513E27 raw_hex=037e654ab3df36df08b1e4253f7a19926d8a33332741f698a73f572de66c coord_source=unvalidated_event3_payload
   t=1793403851997 kind=player_spawn id=1522626 name=71Mist
+  t=1793403851997 kind=player_mounted id=1522626
   t=1793403851997 event3 id=1522420 raw=0313bf42b3df36df08e7222f3e3cc3f76c2c0000b040f427cc3fde2eef6c p4=0.17103158 p5=2.3962132E27
   t=1793403851997 kind=player_move id=1522420 name=MaestroDV x=0.17103158 y=2.3962132E27 raw_hex=0313bf42b3df36df08e7222f3e3cc3f76c2c0000b040f427cc3fde2eef6c coord_source=unvalidated_event3_payload
   t=1793403851997 event3 id=1522527 raw=03f35247b3df36df089038ce3f40d28b93416666344198fa57403836bc93 p4=1.6111012 p5=-3.5295856E-27
@@ -1780,6 +1855,7 @@ Detailed entity/player observations: 2341
   t=1793403852111 event3 id=1522196 raw=01e34942b3df36df0854deb83f385f026c5566660841 p4=null p5=null
   t=1793403852111 kind=player_move id=1522196 name=AlExxPoP raw_hex=01e34942b3df36df0854deb83f385f026c5566660841 coord_source=unvalidated_event3_payload
   t=1793403852111 kind=player_spawn id=1522638 name=BloodyPeach
+  t=1793403852111 kind=player_mounted id=1522638
   t=1793403852111 event3 id=1518481 raw=0313f44eb3df36df081fe52640b0e0696df93433ff40f8b3f040f8e5b86d p4=2.6077344 p5=4.5238524E27
   t=1793403852111 kind=player_move id=1518481 name=MarkusAlexander x=2.6077344 y=4.5238524E27 raw_hex=0313f44eb3df36df081fe52640b0e0696df93433ff40f8b3f040f8e5b86d coord_source=unvalidated_event3_payload
   t=1793403852111 event3 id=1522441 raw=03236e56b3df36df08c4828b4155fe096d7fcccce44023a738418a8a2b6c p4=17.43885 p5=2.6691822E27
@@ -1884,7 +1960,6 @@ Detailed entity/player observations: 2341
   t=1793403852851 kind=player_move id=1522536 name=govend x=1.5342312 y=-2.8581024E-27 raw_hex=0313d1bcb3df36df08b061c43f347162933a33332741a5753e3fedd90c92 coord_source=unvalidated_event3_payload
   t=1793403852851 event3 id=1520087 raw=018371bbb3df36df08939cb03fecf5fe13080000b040 p4=null p5=null
   t=1793403852851 kind=player_move id=1520087 name=RustinDust raw_hex=018371bbb3df36df08939cb03fecf5fe13080000b040 coord_source=unvalidated_event3_payload
-  t=1793403852851 kind=player_mounted id=1520087 value=0.0
   t=1793403852851 event3 id=1522521 raw=03d334bcb3df36df0845e4cd3f0cab92933c0000b040efb17cbfbfa60111 p4=1.6085287 p5=-3.7024247E-27
   t=1793403852851 kind=player_move id=1522521 name=MomoMonii x=1.6085287 y=-3.7024247E-27 raw_hex=03d334bcb3df36df0845e4cd3f0cab92933c0000b040efb17cbfbfa60111 coord_source=unvalidated_event3_payload
   t=1793403852851 event3 id=1522557 raw=036e50c4b3df36df084d50173fee73126d7e333327417fbc343f9a964213 p4=0.59106904 p5=2.83281E27
@@ -2198,6 +2273,7 @@ Detailed entity/player observations: 2341
   t=1793403855696 kind=player_move id=1521344 name=Tedio x=1.4046416 y=4.435673E27 raw_hex=03e3e684b5df36df084ccbb33fa551656d680000b04070d14040522d356d coord_source=unvalidated_event3_payload
   t=1793403855696 event3 id=1518481 raw=0333577eb5df36df080f6d6a3e7b050c6da266661e415497aa3ecc7bb76c p4=0.22893165 p5=2.708408E27
   t=1793403855696 kind=player_move id=1518481 name=MarkusAlexander x=0.22893165 y=2.708408E27 raw_hex=0333577eb5df36df080f6d6a3e7b050c6da266661e415497aa3ecc7bb76c coord_source=unvalidated_event3_payload
+  t=1793403855803 kind=player_mounted id=1520087
   t=1793403855902 event3 id=1521344 raw=03232994b5df36df08e1e5bd3ffc157c6d670000b0401d4735407a0b0e6d p4=1.4835778 p5=4.87605E27
   t=1793403855902 kind=player_move id=1521344 name=Tedio x=1.4835778 y=4.87605E27 raw_hex=03232994b5df36df08e1e5bd3ffc157c6d670000b0401d4735407a0b0e6d coord_source=unvalidated_event3_payload
   t=1793403855902 kind=raw_health_energy_event code=92 params={0:1522527, 1:49100881, 2:120.0, 3:120.0, 5:1.5, 6:639290006562532361, 252:92}
@@ -2217,15 +2293,18 @@ Detailed entity/player observations: 2341
   t=1793403856134 event3 id=1518481 raw=0313bfb3b5df36df080aee403e0a0bfa6ca266661e41f4d7953e924c396c p4=0.18840805 p5=2.4182687E27
   t=1793403856134 kind=player_move id=1518481 name=MarkusAlexander x=0.18840805 y=2.4182687E27 raw_hex=0313bfb3b5df36df080aee403e0a0bfa6ca266661e41f4d7953e924c396c coord_source=unvalidated_event3_payload
   t=1793403856134 kind=player_spawn id=1522745 name=Wumido
+  t=1793403856134 kind=player_mounted id=1522745
   t=1793403856138 event3 id=1521344 raw=0303afc4b5df36df0831137c3f8333436d670000b040220a67c033a8eb6c p4=0.98466784 p5=3.7757407E27
   t=1793403856138 kind=player_move id=1521344 name=Tedio x=0.98466784 y=3.7757407E27 raw_hex=0303afc4b5df36df0831137c3f8333436d670000b040220a67c033a8eb6c coord_source=unvalidated_event3_payload
   t=1793403856189 kind=player_spawn id=1522760 name=1hpp
-  t=1793403856189 kind=player_mounted id=1522527 value=0.0
+  t=1793403856189 kind=player_mounted id=1522760
+  t=1793403856189 kind=player_mounted id=1522527
   t=1793403856246 event3 id=1518481 raw=036399c5b5df36df084759b93e0698c26ca266661e41c7278f3e14f1ec13 p4=0.36200926 p5=1.8819962E27
   t=1793403856246 kind=player_move id=1518481 name=MarkusAlexander x=0.36200926 y=1.8819962E27 raw_hex=036399c5b5df36df084759b93e0698c26ca266661e41c7278f3e14f1ec13 coord_source=unvalidated_event3_payload
   t=1793403856246 event3 id=1521344 raw=0303c6d5b5df36df0854c8103f75d95b6d710000b040501183410bacce6c p4=0.56555676 p5=4.2525067E27
   t=1793403856246 kind=player_move id=1521344 name=Tedio x=0.56555676 y=4.2525067E27 raw_hex=0303c6d5b5df36df0854c8103f75d95b6d710000b040501183410bacce6c coord_source=unvalidated_event3_payload
   t=1793403856306 kind=player_spawn id=1522778 name=Elthelpan
+  t=1793403856306 kind=player_mounted id=1522778
   t=1793403856306 event3 id=1518481 raw=03a3dbd4b5df36df08a4aeb33e2d9fd76ca266661e416a06893ec0adbf13 p4=0.35094178 p5=2.0853659E27
   t=1793403856306 kind=player_move id=1518481 name=MarkusAlexander x=0.35094178 y=2.0853659E27 raw_hex=03a3dbd4b5df36df08a4aeb33e2d9fd76ca266661e416a06893ec0adbf13 coord_source=unvalidated_event3_payload
   t=1793403856363 event3 id=1521344 raw=03a3f2e5b5df36df084e0a163f1589546d7f0000b04007c6223f699ca06c p4=0.58609474 p5=4.111034E27

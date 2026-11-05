@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "source_sha256": "34e48608aa7eb1fe22384341b783de7ab6b164a13391ca40610841f7270e91de",
+  "source_bundle_count": 4,
+  "entity_records": 9522,
+  "protocol_events": 4599,
+  "learned_patterns": 70,
+  "autonomous_signatures": 296,
+  "entity_mobile_type_groups": 54,
+  "entity_resource_family_groups": 5,
+  "protocol_shape_groups": 117,
+  "policy": "Historical data is evidence-only. Runtime annotations never promote semantic labels or historical coordinates."
+}

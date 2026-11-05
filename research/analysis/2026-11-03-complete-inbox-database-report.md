@@ -3,28 +3,28 @@
 Consolidated index for all original ZIP archives. Raw ZIPs remain unchanged in research/inbox. Counts are capture-scoped unless stated otherwise.
 
 ## Intake and integrity
-- ZIP archives: **13**
-- PCAP members: **32**; unique PCAP hashes: **31**; byte-identical duplicates: **1**
+- ZIP archives: **14**
+- PCAP members: **35**; unique PCAP hashes: **34**; byte-identical duplicates: **1**
 - PCAP analyzer errors: **0**
-- JSONL members: **13**
-- Normalized observations: **522,067**; own-player Move(22) observations: **54,606**
+- JSONL members: **20**
+- Normalized observations: **761,061**; own-player Move(22) observations: **81,881**
 
 ## Resource nodes and static resources
-- Event 40 harvestable-node records: **406**
-- Family counts: 14: 55, 20: 8, 27: 123, 28: 2, 29: 110, 7: 108
+- Event 40 harvestable-node records: **649**
+- Family counts: 14: 78, 14|27: 1, 20: 9, 27: 174, 28: 2, 29: 227, 32: 1, 7: 157
 - Event 46 state IDs: **297**; state-only IDs without Event 40 location: **213**
-- Event 39 static-resource observations: **25,504** (untyped candidates, not automatically confirmed nodes)
+- Event 39 static-resource observations: **47,108** (untyped candidates, not automatically confirmed nodes)
 - Verified Ore mapping: family 29, T3→571, T4→573, T5→574
 - User-confirmed T5.3 exception: entity 2788, family 27, coordinates (-379, -24); this does not classify all family-27 nodes.
 
 ## Mobs and Troll marker cycles
-- Event 123 living/mobile lifecycle records: **2,956**
-- Operation 23 attack-target tracks: **51**; tracked target-position samples: **1514**
-- Manual marker records: **459**; completed lifecycle samples: **109**
-- Mob/Troll correlations: **35** (16 HIGH, 6 MEDIUM, 4 LOW, 3 with no candidate)
-- Troll-labelled cycles: **21**; confidence: HIGH: 14, LOW: 1, MEDIUM: 4, NONE: 2
-- Troll cycles resolving to Ore Elemental: **19**; mobile types: 571: 1, 573: 10, 574: 8
-- Distinct target IDs among correlated Troll cycles: **15**; unlinked cycles: **2**
+- Event 123 living/mobile lifecycle records: **4,098**
+- Operation 23 attack-target tracks: **37**; tracked target-position samples: **1514**
+- Manual marker records: **369**; completed lifecycle samples: **109**
+- Mob/Troll correlations: **13** (16 HIGH, 6 MEDIUM, 4 LOW, 3 with no candidate)
+- Troll-labelled cycles: **12**; confidence: HIGH: 6, LOW: 2, MEDIUM: 4
+- Troll cycles resolving to Ore Elemental: **12**; mobile types: 1471: 1, 573: 6, 574: 5
+- Distinct target IDs among correlated Troll cycles: **10**; unlinked cycles: **0**
 - Marker label Troll is retained separately from decoded game name Ore Elemental; all marker-to-target links remain evidence-ranked, not identity-proven.
 - Attack tracks: 5 strong defeat candidates, 38 likely defeats not confirmed, 1 movement-supported candidate with kill unproven.
 
@@ -36,7 +36,7 @@ Consolidated index for all original ZIP archives. Raw ZIPs remain unchanged in r
 - Troll-labeled autonomous signatures: **69** (signatures, not individual mobs)
 
 ## Spatial evidence
-- Captures checked: **31**; plausible same-local-coordinate-space: **11**; not verified: **19**
+- Captures checked: **34**; plausible same-local-coordinate-space: **11**; not verified: **19**
 - This does not prove zone identity or a global map transform.
 
 ## Complete source tables

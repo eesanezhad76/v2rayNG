@@ -67,7 +67,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "0fbba4850898a6857059a9815194bc35c63279d2a08efb84540348c446437ceb",
   "ip_packets": 1315,
-  "fingerprint": "e49d14b33b83a11fb64d124e708b0b050b2c3430f85467811f0ad1cefd3b947c",
+  "fingerprint": "14670e836d79748347aed55b4d697f80a6cb6f87415fd4ef813c5d96994c52b4",
   "malformed_protocol18_messages": 0,
   "operation_requests": {
     "22": 72,
@@ -81,17 +81,20 @@
   "albion_udp_packets": 591,
   "entity_kinds": {
     "harvestable": 1,
-    "own_player_move": 72,
     "mob": 2,
     "move": 107,
-    "leave": 42,
     "static_resource": 8,
     "resource_state": 6,
+    "dungeon_exit": 2,
     "health": 21,
     "health_regeneration": 10,
+    "own_player_move": 72,
+    "player_mounted": 3,
+    "leave": 42,
     "player_move": 69,
     "energy": 8,
-    "player_spawn": 1
+    "player_spawn": 1,
+    "target_request": 5
   },
   "source_name": "blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap",
   "operation_responses": {

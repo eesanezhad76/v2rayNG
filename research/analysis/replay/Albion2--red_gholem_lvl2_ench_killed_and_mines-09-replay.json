@@ -69,7 +69,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "4a2da2df15ca7804c24259f2c12ad7fc873e3292c9b230005ddb78c7c5790846",
   "ip_packets": 1401,
-  "fingerprint": "ef270c1a3366f45620c9584576daf0aa2aa8739b6322bb9566a60b7dca3db553",
+  "fingerprint": "0fca6174c311594210795a160d29fec950e0d8bf868ed33b2b59bcc8bc24ee69",
   "malformed_protocol18_messages": 0,
   "operation_requests": {
     "22": 55,
@@ -86,14 +86,17 @@
     "move": 519,
     "static_resource": 22,
     "resource_state": 5,
+    "dungeon_exit": 1,
     "health": 29,
     "health_regeneration": 13,
     "own_player_move": 55,
+    "player_mounted": 3,
     "leave": 28,
     "mob_state": 1,
     "player_move": 43,
     "energy": 10,
-    "player_spawn": 2
+    "player_spawn": 2,
+    "target_request": 17
   },
   "source_name": "red gholem lvl2 ench killed and mines.pcap",
   "operation_responses": {

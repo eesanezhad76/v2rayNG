@@ -1,0 +1,33 @@
+{
+  "pending_fragments": 0,
+  "live_store_replayed": false,
+  "replay_scope": "pcap_photon_protocol18_event_mapper",
+  "warnings": ["No UDP datagrams involving port 5056 were found."],
+  "malformed_photon_packets": 0,
+  "event_codes": {},
+  "valid_photon_packets": 0,
+  "overlay_delivery_verified": false,
+  "quality": {
+    "score": 80,
+    "tap_drop_rate_percent": null,
+    "timestamp_regressions": 0,
+    "records": 1821,
+    "grade": "FAIR",
+    "truncated_records": 0,
+    "duplicate_payloads": 7,
+    "gaps_over_one_second": 18,
+    "native_tap_drops": null,
+    "maximum_gap_ms": 9997
+  },
+  "schema_version": 1,
+  "encrypted_photon_packets": 0,
+  "source_sha256": "31db6a0d543ec3518c8f1302bc91e604dbe6885cc4d0d38f334cfe20b89b136c",
+  "ip_packets": 1821,
+  "fingerprint": "27c629a40424ce5b4024f30944733bfefec0537a71e476d9e43900cc6cd86ccc",
+  "malformed_protocol18_messages": 0,
+  "operation_requests": {},
+  "albion_udp_packets": 0,
+  "entity_kinds": {},
+  "source_name": "albion-1793699145258.pcap",
+  "operation_responses": {}
+}

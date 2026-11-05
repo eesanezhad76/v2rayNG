@@ -36647,22 +36647,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793682898043,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 251.1389,
-          "y": 150.1867,
-          "time_ms": 1793682887356,
-          "gap_ms": 802
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Ore",
@@ -36740,17 +36725,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683069698,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": null,
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Troll",
@@ -36763,22 +36738,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683538385,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 132.4359,
-          "y": 165.40768,
-          "time_ms": 1793683060967,
-          "gap_ms": 422
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Ore",
@@ -36804,22 +36764,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683124587,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 98.91133,
-          "y": 151.552,
-          "time_ms": 1793683111061,
-          "gap_ms": 737
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Mobs",
@@ -36832,22 +36777,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683228310,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 133.34406,
-          "y": 153.02419,
-          "time_ms": 1793683147164,
-          "gap_ms": 898
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Mobs",
@@ -36860,107 +36790,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683247568,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 144.13867,
-          "y": 150.78177,
-          "time_ms": 1793683241002,
-          "gap_ms": 361
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 10,
-        "candidates": [
-          {
-            "entity_id": "211058",
-            "name": "Mob candidate",
-            "mobile_type_id": 482,
-            "enchant": 0,
-            "x": 183.08966,
-            "y": 144.84727,
-            "position_ms": 1793683236809,
-            "position_gap_ms": 3832,
-            "distance_from_player": 39.4,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "285411",
-            "name": "Mob candidate",
-            "mobile_type_id": 2535,
-            "enchant": 0,
-            "x": 137.34,
-            "y": 109.24,
-            "position_ms": 1793683236492,
-            "position_gap_ms": 4149,
-            "distance_from_player": 42.09,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "283681",
-            "name": "Mob candidate",
-            "mobile_type_id": 2548,
-            "enchant": 0,
-            "x": 146.1,
-            "y": 107.68,
-            "position_ms": 1793683236492,
-            "position_gap_ms": 4149,
-            "distance_from_player": 43.15,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "293855",
-            "name": "Mob candidate",
-            "mobile_type_id": 2477,
-            "enchant": 0,
-            "x": 187.26,
-            "y": 142.05,
-            "position_ms": 1793683241854,
-            "position_gap_ms": 1213,
-            "distance_from_player": 44.0,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "283064",
-            "name": "Mob candidate",
-            "mobile_type_id": 2549,
-            "enchant": 0,
-            "x": 147.24695,
-            "y": 105.02391,
-            "position_ms": 1793683239508,
-            "position_gap_ms": 1133,
-            "distance_from_player": 45.86,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          }
-        ],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "best_candidate": {
-          "entity_id": "211058",
-          "name": "Mob candidate",
-          "mobile_type_id": 482,
-          "enchant": 0,
-          "x": 183.08966,
-          "y": 144.84727,
-          "position_ms": 1793683236809,
-          "position_gap_ms": 3832,
-          "distance_from_player": 39.4,
-          "health_events_in_window": 0,
-          "player_damage_events": 0,
-          "name_matches_troll": false
-        },
-        "confidence": "AMBIGUOUS",
-        "status": "CANDIDATE_AMBIGUOUS"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Mobs",
@@ -36973,22 +36803,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683285105,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 146.39226,
-          "y": 138.13629,
-          "time_ms": 1793683256147,
-          "gap_ms": 348
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Mobs",
@@ -37001,107 +36816,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683444393,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": -10.520597,
-          "y": 150.1135,
-          "time_ms": 1793683421602,
-          "gap_ms": 589
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 5,
-        "candidates": [
-          {
-            "entity_id": "235380",
-            "name": "Mob candidate",
-            "mobile_type_id": 2474,
-            "enchant": 0,
-            "x": 26.78,
-            "y": 140.69,
-            "position_ms": 1793683419374,
-            "position_gap_ms": 2817,
-            "distance_from_player": 38.47,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "274021",
-            "name": "Mob candidate",
-            "mobile_type_id": 571,
-            "enchant": 0,
-            "x": -25.552946,
-            "y": 191.3215,
-            "position_ms": 1793683417733,
-            "position_gap_ms": 4458,
-            "distance_from_player": 43.86,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "277465",
-            "name": "Mob candidate",
-            "mobile_type_id": 571,
-            "enchant": 0,
-            "x": -33.596355,
-            "y": 191.59386,
-            "position_ms": 1793683417733,
-            "position_gap_ms": 4458,
-            "distance_from_player": 47.47,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "291430",
-            "name": "Mob candidate",
-            "mobile_type_id": 574,
-            "enchant": 0,
-            "x": 18.362633,
-            "y": 194.9157,
-            "position_ms": 1793683417733,
-            "position_gap_ms": 4458,
-            "distance_from_player": 53.31,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "81336",
-            "name": "Mob candidate",
-            "mobile_type_id": 2549,
-            "enchant": 0,
-            "x": 28.078468,
-            "y": 112.384384,
-            "position_ms": 1793683419374,
-            "position_gap_ms": 2817,
-            "distance_from_player": 53.98,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          }
-        ],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "best_candidate": {
-          "entity_id": "235380",
-          "name": "Mob candidate",
-          "mobile_type_id": 2474,
-          "enchant": 0,
-          "x": 26.78,
-          "y": 140.69,
-          "position_ms": 1793683419374,
-          "position_gap_ms": 2817,
-          "distance_from_player": 38.47,
-          "health_events_in_window": 0,
-          "player_damage_events": 0,
-          "name_matches_troll": false
-        },
-        "confidence": "LOW",
-        "status": "CANDIDATE_LOW"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Mobs",
@@ -37114,107 +36829,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683752879,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": -10.520597,
-          "y": 150.1135,
-          "time_ms": 1793683422837,
-          "gap_ms": 211
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 5,
-        "candidates": [
-          {
-            "entity_id": "235380",
-            "name": "Mob candidate",
-            "mobile_type_id": 2474,
-            "enchant": 0,
-            "x": 26.78,
-            "y": 140.69,
-            "position_ms": 1793683419374,
-            "position_gap_ms": 3252,
-            "distance_from_player": 38.47,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "274021",
-            "name": "Mob candidate",
-            "mobile_type_id": 571,
-            "enchant": 0,
-            "x": -25.552946,
-            "y": 191.3215,
-            "position_ms": 1793683417733,
-            "position_gap_ms": 4893,
-            "distance_from_player": 43.86,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "277465",
-            "name": "Mob candidate",
-            "mobile_type_id": 571,
-            "enchant": 0,
-            "x": -33.596355,
-            "y": 191.59386,
-            "position_ms": 1793683417733,
-            "position_gap_ms": 4893,
-            "distance_from_player": 47.47,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "291430",
-            "name": "Mob candidate",
-            "mobile_type_id": 574,
-            "enchant": 0,
-            "x": 18.362633,
-            "y": 194.9157,
-            "position_ms": 1793683417733,
-            "position_gap_ms": 4893,
-            "distance_from_player": 53.31,
-            "health_events_in_window": 25,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "81336",
-            "name": "Mob candidate",
-            "mobile_type_id": 2549,
-            "enchant": 0,
-            "x": 28.078468,
-            "y": 112.384384,
-            "position_ms": 1793683419374,
-            "position_gap_ms": 3252,
-            "distance_from_player": 53.98,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          }
-        ],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "best_candidate": {
-          "entity_id": "235380",
-          "name": "Mob candidate",
-          "mobile_type_id": 2474,
-          "enchant": 0,
-          "x": 26.78,
-          "y": 140.69,
-          "position_ms": 1793683419374,
-          "position_gap_ms": 3252,
-          "distance_from_player": 38.47,
-          "health_events_in_window": 0,
-          "player_damage_events": 0,
-          "name_matches_troll": false
-        },
-        "confidence": "LOW",
-        "status": "CANDIDATE_LOW"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Ore",
@@ -37240,107 +36855,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683853964,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 8.3804245,
-          "y": 160.1054,
-          "time_ms": 1793683483754,
-          "gap_ms": 1100
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 6,
-        "candidates": [
-          {
-            "entity_id": "279844",
-            "name": "Mob candidate",
-            "mobile_type_id": 2474,
-            "enchant": 0,
-            "x": 50.47951,
-            "y": 169.51598,
-            "position_ms": 1793683478502,
-            "position_gap_ms": 4152,
-            "distance_from_player": 43.14,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "286657",
-            "name": "Mob candidate",
-            "mobile_type_id": 2510,
-            "enchant": 0,
-            "x": 27.95,
-            "y": 200.0,
-            "position_ms": 1793683477787,
-            "position_gap_ms": 4867,
-            "distance_from_player": 44.44,
-            "health_events_in_window": 24,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "285562",
-            "name": "Mob candidate",
-            "mobile_type_id": 2474,
-            "enchant": 0,
-            "x": 49.31,
-            "y": 180.78,
-            "position_ms": 1793683478502,
-            "position_gap_ms": 4152,
-            "distance_from_player": 45.85,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "81336",
-            "name": "Mob candidate",
-            "mobile_type_id": 2549,
-            "enchant": 0,
-            "x": 28.289555,
-            "y": 111.84418,
-            "position_ms": 1793683485013,
-            "position_gap_ms": 2359,
-            "distance_from_player": 52.21,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "199098",
-            "name": "Mob candidate",
-            "mobile_type_id": 2549,
-            "enchant": 0,
-            "x": 0.05,
-            "y": 108.39,
-            "position_ms": 1793683485013,
-            "position_gap_ms": 2359,
-            "distance_from_player": 52.38,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          }
-        ],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "best_candidate": {
-          "entity_id": "279844",
-          "name": "Mob candidate",
-          "mobile_type_id": 2474,
-          "enchant": 0,
-          "x": 50.47951,
-          "y": 169.51598,
-          "position_ms": 1793683478502,
-          "position_gap_ms": 4152,
-          "distance_from_player": 43.14,
-          "health_events_in_window": 0,
-          "player_damage_events": 0,
-          "name_matches_troll": false
-        },
-        "confidence": "AMBIGUOUS",
-        "status": "CANDIDATE_AMBIGUOUS"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Troll",
@@ -37353,65 +36868,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683770024,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 14.119373,
-          "y": 194.22246,
-          "time_ms": 1793683524247,
-          "gap_ms": 1716
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 2,
-        "candidates": [
-          {
-            "entity_id": "297429",
-            "name": "Troll candidate",
-            "mobile_type_id": 2489,
-            "enchant": 0,
-            "x": 17.288612,
-            "y": 146.88191,
-            "position_ms": 1793683524821,
-            "position_gap_ms": 2290,
-            "distance_from_player": 47.45,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "296242",
-            "name": "Troll candidate",
-            "mobile_type_id": 2474,
-            "enchant": 0,
-            "x": 38.00935,
-            "y": 237.5432,
-            "position_ms": 1793683524568,
-            "position_gap_ms": 2037,
-            "distance_from_player": 49.47,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          }
-        ],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "best_candidate": {
-          "entity_id": "297429",
-          "name": "Troll candidate",
-          "mobile_type_id": 2489,
-          "enchant": 0,
-          "x": 17.288612,
-          "y": 146.88191,
-          "position_ms": 1793683524821,
-          "position_gap_ms": 2290,
-          "distance_from_player": 47.45,
-          "health_events_in_window": 0,
-          "player_damage_events": 0,
-          "name_matches_troll": false
-        },
-        "confidence": "AMBIGUOUS",
-        "status": "CANDIDATE_AMBIGUOUS"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Mobs",
@@ -37424,107 +36881,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683914323,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 24.638788,
-          "y": 196.08139,
-          "time_ms": 1793683541523,
-          "gap_ms": 6
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 5,
-        "candidates": [
-          {
-            "entity_id": "242320",
-            "name": "Mob candidate",
-            "mobile_type_id": 2712,
-            "enchant": 0,
-            "x": 68.35,
-            "y": 189.0,
-            "position_ms": 1793683541844,
-            "position_gap_ms": 327,
-            "distance_from_player": 44.28,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "301913",
-            "name": "Mob candidate",
-            "mobile_type_id": 2510,
-            "enchant": 0,
-            "x": 40.506325,
-            "y": 240.93398,
-            "position_ms": 1793683542373,
-            "position_gap_ms": 856,
-            "distance_from_player": 47.58,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "210270",
-            "name": "Mob candidate",
-            "mobile_type_id": 571,
-            "enchant": 0,
-            "x": -22.855581,
-            "y": 183.60216,
-            "position_ms": 1793683543973,
-            "position_gap_ms": 2456,
-            "distance_from_player": 49.11,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "297429",
-            "name": "Mob candidate",
-            "mobile_type_id": 2489,
-            "enchant": 0,
-            "x": 18.914318,
-            "y": 146.85887,
-            "position_ms": 1793683542183,
-            "position_gap_ms": 666,
-            "distance_from_player": 49.55,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "242318",
-            "name": "Mob candidate",
-            "mobile_type_id": 2712,
-            "enchant": 0,
-            "x": 71.22,
-            "y": 171.1,
-            "position_ms": 1793683541844,
-            "position_gap_ms": 327,
-            "distance_from_player": 52.86,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          }
-        ],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "best_candidate": {
-          "entity_id": "242320",
-          "name": "Mob candidate",
-          "mobile_type_id": 2712,
-          "enchant": 0,
-          "x": 68.35,
-          "y": 189.0,
-          "position_ms": 1793683541844,
-          "position_gap_ms": 327,
-          "distance_from_player": 44.28,
-          "health_events_in_window": 0,
-          "player_damage_events": 0,
-          "name_matches_troll": false
-        },
-        "confidence": "LOW",
-        "status": "CANDIDATE_LOW"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Ore",
@@ -37630,22 +36987,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793683930767,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 227.42369,
-          "y": 149.51987,
-          "time_ms": 1793683721865,
-          "gap_ms": 175
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Troll",
@@ -37658,17 +37000,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793684450342,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": null,
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Ore",
@@ -37707,79 +37039,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793684125554,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 217.49648,
-          "y": 35.557674,
-          "time_ms": 1793683825586,
-          "gap_ms": 1161
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 3,
-        "candidates": [
-          {
-            "entity_id": "304011",
-            "name": "Mob candidate",
-            "mobile_type_id": 2516,
-            "enchant": 0,
-            "x": 217.44,
-            "y": 1.53,
-            "position_ms": 1793683819870,
-            "position_gap_ms": 4555,
-            "distance_from_player": 34.03,
-            "health_events_in_window": 50,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "287536",
-            "name": "Mob candidate",
-            "mobile_type_id": 2477,
-            "enchant": 0,
-            "x": 222.74,
-            "y": -2.05,
-            "position_ms": 1793683819870,
-            "position_gap_ms": 4555,
-            "distance_from_player": 37.97,
-            "health_events_in_window": 39,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "4520",
-            "name": "Mob candidate",
-            "mobile_type_id": 482,
-            "enchant": 0,
-            "x": 264.96735,
-            "y": 24.309029,
-            "position_ms": 1793683820501,
-            "position_gap_ms": 3924,
-            "distance_from_player": 48.79,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          }
-        ],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "best_candidate": {
-          "entity_id": "304011",
-          "name": "Mob candidate",
-          "mobile_type_id": 2516,
-          "enchant": 0,
-          "x": 217.44,
-          "y": 1.53,
-          "position_ms": 1793683819870,
-          "position_gap_ms": 4555,
-          "distance_from_player": 34.03,
-          "health_events_in_window": 50,
-          "player_damage_events": 0,
-          "name_matches_troll": false
-        },
-        "confidence": "LOW",
-        "status": "CANDIDATE_LOW"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Mobs",
@@ -37792,65 +37052,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793684896033,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": 208.60518,
-          "y": 7.3200665,
-          "time_ms": 1793683873305,
-          "gap_ms": 254
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 2,
-        "candidates": [
-          {
-            "entity_id": "285170",
-            "name": "Mob candidate",
-            "mobile_type_id": 2539,
-            "enchant": 0,
-            "x": 183.02,
-            "y": -25.22,
-            "position_ms": 1793683868828,
-            "position_gap_ms": 4223,
-            "distance_from_player": 41.39,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          },
-          {
-            "entity_id": "4818",
-            "name": "Mob candidate",
-            "mobile_type_id": 482,
-            "enchant": 0,
-            "x": 202.97636,
-            "y": -44.536453,
-            "position_ms": 1793683875510,
-            "position_gap_ms": 2459,
-            "distance_from_player": 52.16,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          }
-        ],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "best_candidate": {
-          "entity_id": "285170",
-          "name": "Mob candidate",
-          "mobile_type_id": 2539,
-          "enchant": 0,
-          "x": 183.02,
-          "y": -25.22,
-          "position_ms": 1793683868828,
-          "position_gap_ms": 4223,
-          "distance_from_player": 41.39,
-          "health_events_in_window": 0,
-          "player_damage_events": 0,
-          "name_matches_troll": false
-        },
-        "confidence": "LOW",
-        "status": "CANDIDATE_LOW"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Ore",
@@ -37904,17 +37106,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793684896098,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": null,
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Ore",
@@ -37966,22 +37158,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793684450538,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": -125.18047,
-          "y": -183.07144,
-          "time_ms": 1793684440696,
-          "gap_ms": 598
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Ore",
@@ -38072,17 +37249,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793684815557,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": null,
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Troll",
@@ -38095,22 +37262,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793684823032,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": -105.25998,
-          "y": -200.26884,
-          "time_ms": 1793684822253,
-          "gap_ms": 218
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Ore",
@@ -38136,51 +37288,7 @@
       "metadata_conflicts": [],
       "status": "TARGET_FOUND_NOT_KILLED",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "mob_killed_ms": null,
-      "spatial_correlation": {
-        "player_position": {
-          "x": -93.95018,
-          "y": -198.18976,
-          "time_ms": 1793684862210,
-          "gap_ms": 414
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 1,
-        "candidates": [
-          {
-            "entity_id": "204176",
-            "name": "Mob candidate",
-            "mobile_type_id": 2510,
-            "enchant": 0,
-            "x": -50.0,
-            "y": -180.05,
-            "position_ms": 1793684860091,
-            "position_gap_ms": 1705,
-            "distance_from_player": 47.55,
-            "health_events_in_window": 0,
-            "player_damage_events": 0,
-            "name_matches_troll": false
-          }
-        ],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "best_candidate": {
-          "entity_id": "204176",
-          "name": "Mob candidate",
-          "mobile_type_id": 2510,
-          "enchant": 0,
-          "x": -50.0,
-          "y": -180.05,
-          "position_ms": 1793684860091,
-          "position_gap_ms": 1705,
-          "distance_from_player": 47.55,
-          "health_events_in_window": 0,
-          "player_damage_events": 0,
-          "name_matches_troll": false
-        },
-        "confidence": "LOW",
-        "status": "CANDIDATE_LOW"
-      }
+      "mob_killed_ms": null
     },
     {
       "activity": "Ore",
@@ -38232,22 +37340,7 @@
       "metadata_conflicts": [],
       "mob_killed_ms": 1793685045961,
       "status": "TARGET_FOUND_TO_KILLED",
-      "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "spatial_correlation": {
-        "player_position": {
-          "x": -367.2069,
-          "y": 20.373316,
-          "time_ms": 1793685016613,
-          "gap_ms": 566
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "identity_scope": "manual_marker_only_no_runtime_entity_id"
     },
     {
       "activity": "Troll",
@@ -38260,22 +37353,7 @@
       "metadata_conflicts": [],
       "status": "TARGET_FOUND_NOT_KILLED",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "mob_killed_ms": null,
-      "spatial_correlation": {
-        "player_position": {
-          "x": -367.2069,
-          "y": 20.373316,
-          "time_ms": 1793685016613,
-          "gap_ms": 385
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "mob_killed_ms": null
     },
     {
       "activity": "Troll",
@@ -38288,22 +37366,7 @@
       "metadata_conflicts": [],
       "status": "TARGET_FOUND_NOT_KILLED",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "mob_killed_ms": null,
-      "spatial_correlation": {
-        "player_position": {
-          "x": -367.2069,
-          "y": 20.373316,
-          "time_ms": 1793685042250,
-          "gap_ms": 1313
-        },
-        "local_player_entity_ids_inferred": [],
-        "candidate_count": 0,
-        "candidates": [],
-        "identity_proven": false,
-        "method": "same-capture marker time + Event22 own-player position + Event123 mob position + Event6/7 health source correlation",
-        "confidence": "NONE",
-        "status": "NO_SPATIAL_CANDIDATE"
-      }
+      "mob_killed_ms": null
     }
   ],
   "unmatched_marker_events": [

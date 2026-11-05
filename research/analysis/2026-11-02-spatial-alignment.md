@@ -136,17 +136,6 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
 
-## AlbionRadar.zip / albion-1793682590317.pcap
-
-- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
-- Player position samples: 14811
-- Typed Event-40 resource nodes: 83
-- Bounding boxes overlap: True
-- Median nearest-node distance: 46.188
-- P90 nearest-node distance: 55.313
-- Node IDs with coordinate conflicts: 0
-- Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
-
 ## AlbionRadar2.zip / albion-1793699111286.pcap
 
 - Status: NOT_VERIFIED
@@ -343,4 +332,48 @@ A plausible result supports local coordinate alignment only. It is not a world-m
 - Median nearest-node distance: 45.071
 - P90 nearest-node distance: 55.007
 - Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
+
+## archiveNew-extracted.zip / albion-1793779572842.pcap
+
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
+- Player position samples: 1079
+- Typed Event-40 resource nodes: 4
+- Bounding boxes overlap: True
+- Median nearest-node distance: 42.42
+- P90 nearest-node distance: 46.898
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
+
+## archiveNew-extracted.zip / albion-1793782308821.pcap
+
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
+- Player position samples: 24486
+- Typed Event-40 resource nodes: 136
+- Bounding boxes overlap: True
+- Median nearest-node distance: 48.685
+- P90 nearest-node distance: 59.442
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
+
+## archiveNew-extracted.zip / albion-1793786223835.pcap
+
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
+- Player position samples: 1090
+- Typed Event-40 resource nodes: 15
+- Bounding boxes overlap: True
+- Median nearest-node distance: 45.624
+- P90 nearest-node distance: 52.898
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.
+
+## archiveNew-extracted.zip / albion-1793789871115.pcap
+
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
+- Player position samples: 15431
+- Typed Event-40 resource nodes: 170
+- Bounding boxes overlap: True
+- Median nearest-node distance: 49.459
+- P90 nearest-node distance: 58.171
+- Node IDs with coordinate conflicts: 1
 - Warning: Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used.

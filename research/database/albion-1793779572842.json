@@ -1,0 +1,3520 @@
+{
+  "dataset_id": "albion-1793779572842",
+  "source_file": "albion-1793779572842.jsonl",
+  "source_sha256": "86e670cc546745fc2bd52f2b1db10797fcbc8f3953d399d32e985def75722158",
+  "counts": {
+    "jsonl_rows": 89592,
+    "malformed_lines": 0,
+    "udp_5056_packets": 4963,
+    "event40_observations": 12,
+    "unique_event40_nodes": 4,
+    "event46_updates": 50,
+    "event46_state_ids": 14,
+    "event46_exact_joins": 0,
+    "state_only_ids": 14,
+    "event123_living_entity_observations": 296,
+    "unique_mob_entities": 112,
+    "own_player_position_samples": 1079,
+    "inferred_local_player_entity_ids": 0,
+    "mob_markers_with_spatial_candidates": 0,
+    "mob_markers_high_confidence": 0,
+    "manual_markers": 1,
+    "resource_marker_cycles": 0,
+    "complete_resource_marker_cycles": 0,
+    "clean_complete_resource_marker_cycles": 0,
+    "completed_with_metadata_conflict_resource_cycles": 0,
+    "incomplete_resource_marker_cycles": 0,
+    "mob_marker_pairs": 0,
+    "incomplete_mob_marker_cycles": 0,
+    "unmatched_marker_events": 0,
+    "marker_metadata_conflicts": 0
+  },
+  "nodes": [
+    {
+      "entity_id": 2885,
+      "mobile_type_id": -1,
+      "type_number": 7,
+      "tier": 4,
+      "enchant": 1,
+      "x": -190,
+      "y": 338,
+      "first_seen_ms": 1793779757186,
+      "last_seen_ms": 1793779757186,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 2594,
+      "mobile_type_id": -1,
+      "type_number": 14,
+      "tier": 4,
+      "enchant": 1,
+      "x": 5.5,
+      "y": 107.5,
+      "first_seen_ms": 1793779687918,
+      "last_seen_ms": 1793779724145,
+      "observations": 6,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 445001,
+      "mobile_type_id": 572,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 1,
+      "x": -49.5,
+      "y": 174,
+      "first_seen_ms": 1793779735395,
+      "last_seen_ms": 1793779735395,
+      "observations": 2,
+      "sizes_seen": [
+        3
+      ],
+      "state_timeline": []
+    },
+    {
+      "entity_id": 446415,
+      "mobile_type_id": 572,
+      "type_number": 29,
+      "tier": 4,
+      "enchant": 1,
+      "x": -116.61091,
+      "y": 242.28423,
+      "first_seen_ms": 1793779745343,
+      "last_seen_ms": 1793779745343,
+      "observations": 2,
+      "sizes_seen": [
+        0
+      ],
+      "state_timeline": []
+    }
+  ],
+  "mobs": [
+    {
+      "entity_id": 948,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779620316,
+      "last_seen_ms": 1793779621032,
+      "positions": [
+        {
+          "time_ms": 1793779620316,
+          "x": -126.69723,
+          "y": -32.7215
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779621032,
+      "x": -126.69723,
+      "y": -32.7215,
+      "last_position_ms": 1793779620316,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 949,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779620316,
+      "last_seen_ms": 1793779621032,
+      "positions": [
+        {
+          "time_ms": 1793779620316,
+          "x": -129.76334,
+          "y": -42.191204
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779621032,
+      "x": -129.76334,
+      "y": -42.191204,
+      "last_position_ms": 1793779620316,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 331051,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779627984,
+      "last_seen_ms": 1793779632775,
+      "positions": [
+        {
+          "time_ms": 1793779627984,
+          "x": 369.3806,
+          "y": 40.535595
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779632775,
+      "x": 369.3806,
+      "y": 40.535595,
+      "last_position_ms": 1793779627984,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 408096,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779627984,
+      "last_seen_ms": 1793779665304,
+      "positions": [
+        {
+          "time_ms": 1793779627984,
+          "x": 306.7676,
+          "y": 40.407234
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779665304,
+      "x": 306.7676,
+      "y": 40.407234,
+      "last_position_ms": 1793779627984,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 4597,
+      "mobile_type_id": 2714,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779627984,
+      "last_seen_ms": 1793779636515,
+      "positions": [
+        {
+          "time_ms": 1793779627984,
+          "x": 335.05444,
+          "y": 73.77281
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779636515,
+      "x": 335.05444,
+      "y": 73.77281,
+      "last_position_ms": 1793779627984,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 4780,
+      "mobile_type_id": 2757,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779627984,
+      "last_seen_ms": 1793779635618,
+      "positions": [
+        {
+          "time_ms": 1793779627984,
+          "x": 359.38,
+          "y": 69.68
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779635618,
+      "x": 359.38,
+      "y": 69.68,
+      "last_position_ms": 1793779627984,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 408573,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779628073,
+      "last_seen_ms": 1793779638531,
+      "positions": [
+        {
+          "time_ms": 1793779628073,
+          "x": 319.7587,
+          "y": 114.35199
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779638531,
+      "x": 319.7587,
+      "y": 114.35199,
+      "last_position_ms": 1793779628073,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 4598,
+      "mobile_type_id": 2714,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779628073,
+      "last_seen_ms": 1793779636515,
+      "positions": [
+        {
+          "time_ms": 1793779628073,
+          "x": 334.6179,
+          "y": 87.65509
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779636515,
+      "x": 334.6179,
+      "y": 87.65509,
+      "last_position_ms": 1793779628073,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 4779,
+      "mobile_type_id": 2757,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779628073,
+      "last_seen_ms": 1793779635618,
+      "positions": [
+        {
+          "time_ms": 1793779628073,
+          "x": 359.24,
+          "y": 90.46
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779635618,
+      "x": 359.24,
+      "y": 90.46,
+      "last_position_ms": 1793779628073,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 435232,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779631022,
+      "last_seen_ms": 1793779665304,
+      "positions": [
+        {
+          "time_ms": 1793779631022,
+          "x": 300.36664,
+          "y": 96.340645
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779665304,
+      "x": 300.36664,
+      "y": 96.340645,
+      "last_position_ms": 1793779631022,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 434262,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779633693,
+      "last_seen_ms": 1793779670079,
+      "positions": [
+        {
+          "time_ms": 1793779633693,
+          "x": 268.36346,
+          "y": 108.51757
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779670079,
+      "x": 268.36346,
+      "y": 108.51757,
+      "last_position_ms": 1793779633693,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 447575,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779635618,
+      "last_seen_ms": 1793779671102,
+      "positions": [
+        {
+          "time_ms": 1793779635618,
+          "x": 254.64546,
+          "y": 91.20707
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779671102,
+      "x": 254.64546,
+      "y": 91.20707,
+      "last_position_ms": 1793779635618,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 321336,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779639420,
+      "last_seen_ms": 1793779667474,
+      "positions": [
+        {
+          "time_ms": 1793779639420,
+          "x": 283.2186,
+          "y": 23.989515
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779667474,
+      "x": 283.2186,
+      "y": 23.989515,
+      "last_position_ms": 1793779639420,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 447600,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779666200,
+      "last_seen_ms": 1793779675895,
+      "positions": [
+        {
+          "time_ms": 1793779666200,
+          "x": 200.24,
+          "y": 88.25
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779675895,
+      "x": 200.24,
+      "y": 88.25,
+      "last_position_ms": 1793779666200,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 433611,
+      "mobile_type_id": 1968,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779669051,
+      "last_seen_ms": 1793779677776,
+      "positions": [
+        {
+          "time_ms": 1793779669051,
+          "x": 184.24,
+          "y": 88.25
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779677776,
+      "x": 184.24,
+      "y": 88.25,
+      "last_position_ms": 1793779669051,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 447107,
+      "mobile_type_id": 1928,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779669051,
+      "last_seen_ms": 1793779677776,
+      "positions": [
+        {
+          "time_ms": 1793779669051,
+          "x": 180.14362,
+          "y": 91.939606
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779677776,
+      "x": 180.14362,
+      "y": 91.939606,
+      "last_position_ms": 1793779669051,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 370001,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779675895,
+      "last_seen_ms": 1793779687021,
+      "positions": [
+        {
+          "time_ms": 1793779675895,
+          "x": 114.01737,
+          "y": 85.29727
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779687021,
+      "x": 114.01737,
+      "y": 85.29727,
+      "last_position_ms": 1793779675895,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 370637,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779675895,
+      "last_seen_ms": 1793779724145,
+      "positions": [
+        {
+          "time_ms": 1793779675895,
+          "x": 111.93254,
+          "y": 106.82705
+        },
+        {
+          "time_ms": 1793779708798,
+          "x": 112.01267,
+          "y": 107.17056
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779724145,
+      "x": 112.01267,
+      "y": 107.17056,
+      "last_position_ms": 1793779708798,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 322572,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779676791,
+      "last_seen_ms": 1793779723278,
+      "positions": [
+        {
+          "time_ms": 1793779676791,
+          "x": 98.54303,
+          "y": 65.26326
+        },
+        {
+          "time_ms": 1793779709565,
+          "x": 101.04319,
+          "y": 66.55769
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779723278,
+      "x": 101.04319,
+      "y": 66.55769,
+      "last_position_ms": 1793779709565,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 439746,
+      "mobile_type_id": 570,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779680665,
+      "last_seen_ms": 1793779728092,
+      "positions": [
+        {
+          "time_ms": 1793779680665,
+          "x": 60.832687,
+          "y": 86.65524
+        },
+        {
+          "time_ms": 1793779705828,
+          "x": 61.670906,
+          "y": 87.166046
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779728092,
+      "x": 61.670906,
+      "y": 87.166046,
+      "last_position_ms": 1793779705828,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 428693,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779682126,
+      "last_seen_ms": 1793779683186,
+      "positions": [
+        {
+          "time_ms": 1793779682126,
+          "x": 52.12558,
+          "y": 45.771084
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779683186,
+      "x": 52.12558,
+      "y": 45.771084,
+      "last_position_ms": 1793779682126,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 282236,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779683186,
+      "last_seen_ms": 1793779724145,
+      "positions": [
+        {
+          "time_ms": 1793779683186,
+          "x": 108.531,
+          "y": 137.90106
+        },
+        {
+          "time_ms": 1793779707886,
+          "x": 104.666954,
+          "y": 140.01805
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779724145,
+      "x": 104.666954,
+      "y": 140.01805,
+      "last_position_ms": 1793779707886,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 444636,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779685835,
+      "last_seen_ms": 1793779736632,
+      "positions": [
+        {
+          "time_ms": 1793779685835,
+          "x": 32.56275,
+          "y": 159.40834
+        },
+        {
+          "time_ms": 1793779722145,
+          "x": 34.81655,
+          "y": 154.44713
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779736632,
+      "x": 34.81655,
+      "y": 154.44713,
+      "last_position_ms": 1793779722145,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 4675,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779685835,
+      "last_seen_ms": 1793779728092,
+      "positions": [
+        {
+          "time_ms": 1793779685835,
+          "x": 33.11835,
+          "y": 90.682465
+        },
+        {
+          "time_ms": 1793779705828,
+          "x": 38.90537,
+          "y": 91.72699
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779728092,
+      "x": 38.90537,
+      "y": 91.72699,
+      "last_position_ms": 1793779705828,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 145337,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779687918,
+      "last_seen_ms": 1793779738530,
+      "positions": [
+        {
+          "time_ms": 1793779687918,
+          "x": 13.818485,
+          "y": 160.46107
+        },
+        {
+          "time_ms": 1793779723278,
+          "x": 15.623017,
+          "y": 160.37724
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779738530,
+      "x": 15.623017,
+      "y": 160.37724,
+      "last_position_ms": 1793779723278,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 216623,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779687918,
+      "last_seen_ms": 1793779730846,
+      "positions": [
+        {
+          "time_ms": 1793779687918,
+          "x": 14.409081,
+          "y": 106.330696
+        },
+        {
+          "time_ms": 1793779702027,
+          "x": 20.0167,
+          "y": 105.15479
+        },
+        {
+          "time_ms": 1793779722599,
+          "x": 18.91827,
+          "y": 104.032364
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779730846,
+      "x": 18.91827,
+      "y": 104.032364,
+      "last_position_ms": 1793779722599,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 429791,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779689721,
+      "last_seen_ms": 1793779732108,
+      "positions": [
+        {
+          "time_ms": 1793779689721,
+          "x": -6.5400696,
+          "y": 114.8381
+        },
+        {
+          "time_ms": 1793779705048,
+          "x": -4.989826,
+          "y": 116.02988
+        },
+        {
+          "time_ms": 1793779725298,
+          "x": -1.3860825,
+          "y": 117.36262
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779732108,
+      "x": -1.3860825,
+      "y": 117.36262,
+      "last_position_ms": 1793779725298,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 178255,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779691821,
+      "last_seen_ms": 1793779738530,
+      "positions": [
+        {
+          "time_ms": 1793779691821,
+          "x": 14.397474,
+          "y": 188.7348
+        },
+        {
+          "time_ms": 1793779729846,
+          "x": 19.57656,
+          "y": 192.52173
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779738530,
+      "x": 19.57656,
+      "y": 192.52173,
+      "last_position_ms": 1793779729846,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 179125,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779691821,
+      "last_seen_ms": 1793779741148,
+      "positions": [
+        {
+          "time_ms": 1793779691821,
+          "x": -3.5599675,
+          "y": 190.68147
+        },
+        {
+          "time_ms": 1793779704577,
+          "x": -4.8062267,
+          "y": 186.44131
+        },
+        {
+          "time_ms": 1793779729846,
+          "x": -0.936699,
+          "y": 188.48682
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779741148,
+      "x": -0.936699,
+      "y": 188.48682,
+      "last_position_ms": 1793779729846,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 339242,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779693198,
+      "last_seen_ms": 1793779736632,
+      "positions": [
+        {
+          "time_ms": 1793779693198,
+          "x": 39.213245,
+          "y": 199.5065
+        },
+        {
+          "time_ms": 1793779730846,
+          "x": 36.528282,
+          "y": 202.06311
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779736632,
+      "x": 36.528282,
+      "y": 202.06311,
+      "last_position_ms": 1793779730846,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 358260,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779693198,
+      "last_seen_ms": 1793779738530,
+      "positions": [
+        {
+          "time_ms": 1793779693198,
+          "x": 13.835046,
+          "y": 200.32677
+        },
+        {
+          "time_ms": 1793779730846,
+          "x": 16.095127,
+          "y": 200.51772
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779738530,
+      "x": 16.095127,
+      "y": 200.51772,
+      "last_position_ms": 1793779730846,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 438230,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779693198,
+      "last_seen_ms": 1793779745343,
+      "positions": [
+        {
+          "time_ms": 1793779693198,
+          "x": -21.677237,
+          "y": 199.89368
+        },
+        {
+          "time_ms": 1793779731013,
+          "x": -22.427952,
+          "y": 200.8913
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779745343,
+      "x": -22.427952,
+      "y": 200.8913,
+      "last_position_ms": 1793779731013,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 4647,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779700867,
+      "last_seen_ms": 1793779731013,
+      "positions": [
+        {
+          "time_ms": 1793779700867,
+          "x": 72.36348,
+          "y": 173.38097
+        },
+        {
+          "time_ms": 1793779727311,
+          "x": 74.98031,
+          "y": 174.9461
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779731013,
+      "x": 74.98031,
+      "y": 174.9461,
+      "last_position_ms": 1793779727311,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 4605,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779702822,
+      "last_seen_ms": 1793779704036,
+      "positions": [
+        {
+          "time_ms": 1793779702822,
+          "x": 90.51314,
+          "y": 175.55228
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779704036,
+      "x": 90.51314,
+      "y": 175.55228,
+      "last_position_ms": 1793779702822,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 4621,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779702822,
+      "last_seen_ms": 1793779704036,
+      "positions": [
+        {
+          "time_ms": 1793779702822,
+          "x": 94.844444,
+          "y": 190.67729
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779704036,
+      "x": 94.844444,
+      "y": 190.67729,
+      "last_position_ms": 1793779702822,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 236857,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779709565,
+      "last_seen_ms": 1793779723278,
+      "positions": [
+        {
+          "time_ms": 1793779709565,
+          "x": 29.108149,
+          "y": 65.46912
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779723278,
+      "x": 29.108149,
+      "y": 65.46912,
+      "last_position_ms": 1793779709565,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 447956,
+      "mobile_type_id": 572,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779724145,
+      "last_seen_ms": 1793779734442,
+      "positions": [
+        {
+          "time_ms": 1793779724145,
+          "x": 14.843454,
+          "y": 132.25987
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779734442,
+      "x": 14.843454,
+      "y": 132.25987,
+      "last_position_ms": 1793779724145,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 435266,
+      "mobile_type_id": 1868,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779733210,
+      "last_seen_ms": 1793779737649,
+      "positions": [
+        {
+          "time_ms": 1793779733210,
+          "x": 28.779057,
+          "y": 217.51392
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779737649,
+      "x": 28.779057,
+      "y": 217.51392,
+      "last_position_ms": 1793779733210,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 443806,
+      "mobile_type_id": 570,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779733210,
+      "last_seen_ms": 1793779744284,
+      "positions": [
+        {
+          "time_ms": 1793779733210,
+          "x": -12.379273,
+          "y": 223.29897
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779744284,
+      "x": -12.379273,
+      "y": 223.29897,
+      "last_position_ms": 1793779733210,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 443089,
+      "mobile_type_id": 570,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779734442,
+      "last_seen_ms": 1793779740012,
+      "positions": [
+        {
+          "time_ms": 1793779734442,
+          "x": 0.75360507,
+          "y": 225.10098
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779740012,
+      "x": 0.75360507,
+      "y": 225.10098,
+      "last_position_ms": 1793779734442,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 440131,
+      "mobile_type_id": 1968,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779735395,
+      "last_seen_ms": 1793779745999,
+      "positions": [
+        {
+          "time_ms": 1793779735395,
+          "x": -51.12543,
+          "y": 209.05016
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779745999,
+      "x": -51.12543,
+      "y": 209.05016,
+      "last_position_ms": 1793779735395,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 283462,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779735684,
+      "last_seen_ms": 1793779747140,
+      "positions": [
+        {
+          "time_ms": 1793779735684,
+          "x": -47.04528,
+          "y": 244.91153
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779747140,
+      "x": -47.04528,
+      "y": 244.91153,
+      "last_position_ms": 1793779735684,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 433939,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779735684,
+      "last_seen_ms": 1793779746127,
+      "positions": [
+        {
+          "time_ms": 1793779735684,
+          "x": -33.81775,
+          "y": 239.89769
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779746127,
+      "x": -33.81775,
+      "y": 239.89769,
+      "last_position_ms": 1793779735684,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 445671,
+      "mobile_type_id": 572,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779736632,
+      "last_seen_ms": 1793779749030,
+      "positions": [
+        {
+          "time_ms": 1793779736632,
+          "x": -60.860302,
+          "y": 231.05826
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779749030,
+      "x": -60.860302,
+      "y": 231.05826,
+      "last_position_ms": 1793779736632,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 444714,
+      "mobile_type_id": 1868,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779736779,
+      "last_seen_ms": 1793779744284,
+      "positions": [
+        {
+          "time_ms": 1793779736779,
+          "x": -12.958469,
+          "y": 249.81387
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779744284,
+      "x": -12.958469,
+      "y": 249.81387,
+      "last_position_ms": 1793779736779,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 446157,
+      "mobile_type_id": 1868,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779736779,
+      "last_seen_ms": 1793779743136,
+      "positions": [
+        {
+          "time_ms": 1793779736779,
+          "x": -8.26819,
+          "y": 247.62335
+        },
+        {
+          "time_ms": 1793779741852,
+          "x": -7.9609966,
+          "y": 247.27892
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779743136,
+      "x": -7.9609966,
+      "y": 247.27892,
+      "last_position_ms": 1793779741852,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 447099,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779736779,
+      "last_seen_ms": 1793779743136,
+      "positions": [
+        {
+          "time_ms": 1793779736779,
+          "x": -7.9563913,
+          "y": 253.00467
+        },
+        {
+          "time_ms": 1793779738883,
+          "x": -7.9563913,
+          "y": 253.00467
+        },
+        {
+          "time_ms": 1793779741852,
+          "x": -7.744019,
+          "y": 252.38115
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779743136,
+      "x": -7.744019,
+      "y": 252.38115,
+      "last_position_ms": 1793779741852,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 447343,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779736779,
+      "last_seen_ms": 1793779744284,
+      "positions": [
+        {
+          "time_ms": 1793779736779,
+          "x": -11.275522,
+          "y": 245.82968
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779744284,
+      "x": -11.275522,
+      "y": 245.82968,
+      "last_position_ms": 1793779736779,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 446106,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779737649,
+      "last_seen_ms": 1793779745999,
+      "positions": [
+        {
+          "time_ms": 1793779737649,
+          "x": -69.5579,
+          "y": 204.20348
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779745999,
+      "x": -69.5579,
+      "y": 204.20348,
+      "last_position_ms": 1793779737649,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 414850,
+      "mobile_type_id": 572,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779740012,
+      "last_seen_ms": 1793779750948,
+      "positions": [
+        {
+          "time_ms": 1793779740012,
+          "x": -89.981674,
+          "y": 226.84682
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779750948,
+      "x": -89.981674,
+      "y": 226.84682,
+      "last_position_ms": 1793779740012,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 415777,
+      "mobile_type_id": 570,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779740012,
+      "last_seen_ms": 1793779740020,
+      "positions": [
+        {
+          "time_ms": 1793779740012,
+          "x": -94.953735,
+          "y": 169.09799
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779740020,
+      "x": -94.953735,
+      "y": 169.09799,
+      "last_position_ms": 1793779740012,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 445634,
+      "mobile_type_id": 572,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779740020,
+      "last_seen_ms": 1793779743136,
+      "positions": [
+        {
+          "time_ms": 1793779740020,
+          "x": -6.280591,
+          "y": 261.1477
+        },
+        {
+          "time_ms": 1793779741852,
+          "x": -6.280591,
+          "y": 261.1477
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779743136,
+      "x": -6.280591,
+      "y": 261.1477,
+      "last_position_ms": 1793779741852,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 447476,
+      "mobile_type_id": 2048,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779740020,
+      "last_seen_ms": 1793779750948,
+      "positions": [
+        {
+          "time_ms": 1793779740020,
+          "x": -87.395256,
+          "y": 263.1801
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779750948,
+      "x": -87.395256,
+      "y": 263.1801,
+      "last_position_ms": 1793779740020,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 447945,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779740020,
+      "last_seen_ms": 1793779745343,
+      "positions": [
+        {
+          "time_ms": 1793779740020,
+          "x": -23.0,
+          "y": 257.0
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779745343,
+      "x": -23.0,
+      "y": 257.0,
+      "last_position_ms": 1793779740020,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 277137,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779741148,
+      "last_seen_ms": 1793779741852,
+      "positions": [
+        {
+          "time_ms": 1793779741148,
+          "x": -104.9145,
+          "y": 189.1729
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779741852,
+      "x": -104.9145,
+      "y": 189.1729,
+      "last_position_ms": 1793779741148,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 355059,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779741148,
+      "last_seen_ms": 1793779745999,
+      "positions": [
+        {
+          "time_ms": 1793779741148,
+          "x": -98.36251,
+          "y": 206.93732
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779745999,
+      "x": -98.36251,
+      "y": 206.93732,
+      "last_position_ms": 1793779741148,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 416909,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779741148,
+      "last_seen_ms": 1793779751819,
+      "positions": [
+        {
+          "time_ms": 1793779741148,
+          "x": -99.97448,
+          "y": 236.84877
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779751819,
+      "x": -99.97448,
+      "y": 236.84877,
+      "last_position_ms": 1793779741148,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 417787,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779741148,
+      "last_seen_ms": 1793779741619,
+      "positions": [
+        {
+          "time_ms": 1793779741148,
+          "x": -99.55923,
+          "y": 178.85744
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779741619,
+      "x": -99.55923,
+      "y": 178.85744,
+      "last_position_ms": 1793779741148,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 434880,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779741148,
+      "last_seen_ms": 1793779750460,
+      "positions": [
+        {
+          "time_ms": 1793779741148,
+          "x": -102.69039,
+          "y": 213.14272
+        },
+        {
+          "time_ms": 1793779743136,
+          "x": -101.91681,
+          "y": 213.59909
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779750460,
+      "x": -101.91681,
+      "y": 213.59909,
+      "last_position_ms": 1793779743136,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 445220,
+      "mobile_type_id": 1968,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779741148,
+      "last_seen_ms": 1793779751819,
+      "positions": [
+        {
+          "time_ms": 1793779741148,
+          "x": -98.25,
+          "y": 218.24
+        },
+        {
+          "time_ms": 1793779751485,
+          "x": -98.25,
+          "y": 218.24
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779751819,
+      "x": -98.25,
+      "y": 218.24,
+      "last_position_ms": 1793779751485,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 363573,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779742298,
+      "last_seen_ms": 1793779748136,
+      "positions": [
+        {
+          "time_ms": 1793779742298,
+          "x": -50.539467,
+          "y": 279.3526
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779748136,
+      "x": -50.539467,
+      "y": 279.3526,
+      "last_position_ms": 1793779742298,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 431758,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779742298,
+      "last_seen_ms": 1793779749912,
+      "positions": [
+        {
+          "time_ms": 1793779742298,
+          "x": -75.98803,
+          "y": 279.0054
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779749912,
+      "x": -75.98803,
+      "y": 279.0054,
+      "last_position_ms": 1793779742298,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 400603,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779743568,
+      "last_seen_ms": 1793779751819,
+      "positions": [
+        {
+          "time_ms": 1793779743568,
+          "x": -95.963524,
+          "y": 287.60504
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779751819,
+      "x": -95.963524,
+      "y": 287.60504,
+      "last_position_ms": 1793779743568,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 433985,
+      "mobile_type_id": 2048,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779743568,
+      "last_seen_ms": 1793779750948,
+      "positions": [
+        {
+          "time_ms": 1793779743568,
+          "x": -88.6348,
+          "y": 291.22836
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779750948,
+      "x": -88.6348,
+      "y": 291.22836,
+      "last_position_ms": 1793779743568,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 363676,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779745999,
+      "last_seen_ms": 1793779749912,
+      "positions": [
+        {
+          "time_ms": 1793779745999,
+          "x": -78.69118,
+          "y": 296.16553
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779749912,
+      "x": -78.69118,
+      "y": 296.16553,
+      "last_position_ms": 1793779745999,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 364230,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779745999,
+      "last_seen_ms": 1793779747140,
+      "positions": [
+        {
+          "time_ms": 1793779745999,
+          "x": -49.341915,
+          "y": 301.65164
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779747140,
+      "x": -49.341915,
+      "y": 301.65164,
+      "last_position_ms": 1793779745999,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 433160,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779745999,
+      "last_seen_ms": 1793779751819,
+      "positions": [
+        {
+          "time_ms": 1793779745999,
+          "x": -94.45496,
+          "y": 302.40424
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779751819,
+      "x": -94.45496,
+      "y": 302.40424,
+      "last_position_ms": 1793779745999,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 322227,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779746127,
+      "last_seen_ms": 1793779756849,
+      "positions": [
+        {
+          "time_ms": 1793779746127,
+          "x": -129.36136,
+          "y": 269.7248
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779756849,
+      "x": -129.36136,
+      "y": 269.7248,
+      "last_position_ms": 1793779746127,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 4753,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779746127,
+      "last_seen_ms": 1793779755626,
+      "positions": [
+        {
+          "time_ms": 1793779746127,
+          "x": -125.422356,
+          "y": 279.70135
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779755626,
+      "x": -125.422356,
+      "y": 279.70135,
+      "last_position_ms": 1793779746127,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 434017,
+      "mobile_type_id": 1968,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779747140,
+      "last_seen_ms": 1793779757916,
+      "positions": [
+        {
+          "time_ms": 1793779747140,
+          "x": -140.24,
+          "y": 251.75
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779757916,
+      "x": -140.24,
+      "y": 251.75,
+      "last_position_ms": 1793779747140,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 442006,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779747140,
+      "last_seen_ms": 1793779756849,
+      "positions": [
+        {
+          "time_ms": 1793779747140,
+          "x": -136.39528,
+          "y": 247.9019
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779756849,
+      "x": -136.39528,
+      "y": 247.9019,
+      "last_position_ms": 1793779747140,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 446954,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779749030,
+      "last_seen_ms": 1793779759959,
+      "positions": [
+        {
+          "time_ms": 1793779749030,
+          "x": -162.421,
+          "y": 279.95456
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779759959,
+      "x": -162.421,
+      "y": 279.95456,
+      "last_position_ms": 1793779749030,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 10223,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779749912,
+      "last_seen_ms": 1793779757186,
+      "positions": [
+        {
+          "time_ms": 1793779749912,
+          "x": -169.94354,
+          "y": 246.59312
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779757186,
+      "x": -169.94354,
+      "y": 246.59312,
+      "last_position_ms": 1793779749912,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 437339,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779749912,
+      "last_seen_ms": 1793779759959,
+      "positions": [
+        {
+          "time_ms": 1793779749912,
+          "x": -167.18246,
+          "y": 291.4742
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779759959,
+      "x": -167.18246,
+      "y": 291.4742,
+      "last_position_ms": 1793779749912,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 437406,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779749912,
+      "last_seen_ms": 1793779759959,
+      "positions": [
+        {
+          "time_ms": 1793779749912,
+          "x": -165.73714,
+          "y": 270.24454
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779759959,
+      "x": -165.73714,
+      "y": 270.24454,
+      "last_position_ms": 1793779749912,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 440877,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779749912,
+      "last_seen_ms": 1793779759959,
+      "positions": [
+        {
+          "time_ms": 1793779749912,
+          "x": -168.25,
+          "y": 263.24
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779759959,
+      "x": -168.25,
+      "y": 263.24,
+      "last_position_ms": 1793779749912,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 440911,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779749912,
+      "last_seen_ms": 1793779760618,
+      "positions": [
+        {
+          "time_ms": 1793779749912,
+          "x": -170.21715,
+          "y": 259.51608
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779760618,
+      "x": -170.21715,
+      "y": 259.51608,
+      "last_position_ms": 1793779749912,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 444943,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779749912,
+      "last_seen_ms": 1793779760618,
+      "positions": [
+        {
+          "time_ms": 1793779749912,
+          "x": -168.24054,
+          "y": 281.0025
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779760618,
+      "x": -168.24054,
+      "y": 281.0025,
+      "last_position_ms": 1793779749912,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 441818,
+      "mobile_type_id": 572,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779750460,
+      "last_seen_ms": 1793779758862,
+      "positions": [
+        {
+          "time_ms": 1793779750460,
+          "x": -155.46687,
+          "y": 310.5142
+        },
+        {
+          "time_ms": 1793779752956,
+          "x": -155.46687,
+          "y": 310.5142
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779758862,
+      "x": -155.46687,
+      "y": 310.5142,
+      "last_position_ms": 1793779752956,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 433727,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779752735,
+      "last_seen_ms": 1793779754900,
+      "positions": [
+        {
+          "time_ms": 1793779752735,
+          "x": -197.6711,
+          "y": 227.36815
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779754900,
+      "x": -197.6711,
+      "y": 227.36815,
+      "last_position_ms": 1793779752735,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 445536,
+      "mobile_type_id": 830,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779753776,
+      "last_seen_ms": 1793779764290,
+      "positions": [
+        {
+          "time_ms": 1793779753776,
+          "x": -213.0,
+          "y": 312.5
+        },
+        {
+          "time_ms": 1793779753991,
+          "x": -213.0,
+          "y": 312.5
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779764290,
+      "x": -213.0,
+      "y": 312.5,
+      "last_position_ms": 1793779753991,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 112851,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779754900,
+      "last_seen_ms": 1793779761504,
+      "positions": [
+        {
+          "time_ms": 1793779754900,
+          "x": -190.03088,
+          "y": 321.58246
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779761504,
+      "x": -190.03088,
+      "y": 321.58246,
+      "last_position_ms": 1793779754900,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 433463,
+      "mobile_type_id": 1968,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779755626,
+      "last_seen_ms": 1793779765301,
+      "positions": [
+        {
+          "time_ms": 1793779755626,
+          "x": -221.0,
+          "y": 319.0
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779765301,
+      "x": -221.0,
+      "y": 319.0,
+      "last_position_ms": 1793779755626,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 401907,
+      "mobile_type_id": 572,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779755845,
+      "last_seen_ms": 1793779759959,
+      "positions": [
+        {
+          "time_ms": 1793779755845,
+          "x": -167.23878,
+          "y": 330.576
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779759959,
+      "x": -167.23878,
+      "y": 330.576,
+      "last_position_ms": 1793779755845,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 443793,
+      "mobile_type_id": 1968,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779756849,
+      "last_seen_ms": 1793779765301,
+      "positions": [
+        {
+          "time_ms": 1793779756849,
+          "x": -228.0,
+          "y": 330.0
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779765301,
+      "x": -228.0,
+      "y": 330.0,
+      "last_position_ms": 1793779756849,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 440560,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779757916,
+      "last_seen_ms": 1793779766358,
+      "positions": [
+        {
+          "time_ms": 1793779757916,
+          "x": -240.64545,
+          "y": 314.98624
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779766358,
+      "x": -240.64545,
+      "y": 314.98624,
+      "last_position_ms": 1793779757916,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 445640,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779757916,
+      "last_seen_ms": 1793779767131,
+      "positions": [
+        {
+          "time_ms": 1793779757916,
+          "x": -239.59915,
+          "y": 326.93817
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779767131,
+      "x": -239.59915,
+      "y": 326.93817,
+      "last_position_ms": 1793779757916,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 433829,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779758862,
+      "last_seen_ms": 1793779768327,
+      "positions": [
+        {
+          "time_ms": 1793779758862,
+          "x": -251.24744,
+          "y": 277.69986
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779768327,
+      "x": -251.24744,
+      "y": 277.69986,
+      "last_position_ms": 1793779758862,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 432677,
+      "mobile_type_id": 1968,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779759959,
+      "last_seen_ms": 1793779776044,
+      "positions": [
+        {
+          "time_ms": 1793779759959,
+          "x": -263.24,
+          "y": 310.75
+        },
+        {
+          "time_ms": 1793779773685,
+          "x": -263.24,
+          "y": 310.75
+        },
+        {
+          "time_ms": 1793779773760,
+          "x": -263.24,
+          "y": 310.75
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779776044,
+      "x": -263.24,
+      "y": 310.75,
+      "last_position_ms": 1793779773760,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 436310,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779759959,
+      "last_seen_ms": 1793779774411,
+      "positions": [
+        {
+          "time_ms": 1793779759959,
+          "x": -261.23035,
+          "y": 306.33044
+        },
+        {
+          "time_ms": 1793779773685,
+          "x": -257.88217,
+          "y": 306.1769
+        },
+        {
+          "time_ms": 1793779773760,
+          "x": -257.88217,
+          "y": 306.1769
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779774411,
+      "x": -257.88217,
+      "y": 306.1769,
+      "last_position_ms": 1793779773760,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 438536,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779760618,
+      "last_seen_ms": 1793779774536,
+      "positions": [
+        {
+          "time_ms": 1793779760618,
+          "x": -270.05606,
+          "y": 321.51398
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779774536,
+      "x": -270.05606,
+      "y": 321.51398,
+      "last_position_ms": 1793779760618,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 446199,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779760618,
+      "last_seen_ms": 1793779778341,
+      "positions": [
+        {
+          "time_ms": 1793779760618,
+          "x": -271.24,
+          "y": 298.75
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779778341,
+      "x": -271.24,
+      "y": 298.75,
+      "last_position_ms": 1793779760618,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 446997,
+      "mobile_type_id": 1848,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779760618,
+      "last_seen_ms": 1793779777014,
+      "positions": [
+        {
+          "time_ms": 1793779760618,
+          "x": -266.74768,
+          "y": 296.63953
+        },
+        {
+          "time_ms": 1793779772484,
+          "x": -266.9155,
+          "y": 294.36218
+        },
+        {
+          "time_ms": 1793779776940,
+          "x": -267.3921,
+          "y": 294.37076
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779777014,
+      "x": -267.3921,
+      "y": 294.37076,
+      "last_position_ms": 1793779776940,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 430458,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779761504,
+      "last_seen_ms": 1793779770654,
+      "positions": [
+        {
+          "time_ms": 1793779761504,
+          "x": -284.01126,
+          "y": 335.09747
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779770654,
+      "x": -284.01126,
+      "y": 335.09747,
+      "last_position_ms": 1793779761504,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 430578,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779761504,
+      "last_seen_ms": 1793779776044,
+      "positions": [
+        {
+          "time_ms": 1793779761504,
+          "x": -277.69,
+          "y": 314.18
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779776044,
+      "x": -277.69,
+      "y": 314.18,
+      "last_position_ms": 1793779761504,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 434621,
+      "mobile_type_id": 1968,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779761504,
+      "last_seen_ms": 1793779770654,
+      "positions": [
+        {
+          "time_ms": 1793779761504,
+          "x": -280.25,
+          "y": 339.24
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779770654,
+      "x": -280.25,
+      "y": 339.24,
+      "last_position_ms": 1793779761504,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 447725,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779761504,
+      "last_seen_ms": 1793779777366,
+      "positions": [
+        {
+          "time_ms": 1793779761504,
+          "x": -279.92,
+          "y": 302.54
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779777366,
+      "x": -279.92,
+      "y": 302.54,
+      "last_position_ms": 1793779761504,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 446870,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779762514,
+      "last_seen_ms": 1793779776044,
+      "positions": [
+        {
+          "time_ms": 1793779762514,
+          "x": -290.67252,
+          "y": 312.1913
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779776044,
+      "x": -290.67252,
+      "y": 312.1913,
+      "last_position_ms": 1793779762514,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 179788,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779763742,
+      "last_seen_ms": 1793779763742,
+      "positions": [
+        {
+          "time_ms": 1793779763742,
+          "x": -303.26367,
+          "y": 268.36044
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": false,
+      "x": -303.26367,
+      "y": 268.36044,
+      "last_position_ms": 1793779763742,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 435959,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779763742,
+      "last_seen_ms": 1793779763742,
+      "positions": [
+        {
+          "time_ms": 1793779763742,
+          "x": -303.76694,
+          "y": 278.5726
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": false,
+      "x": -303.76694,
+      "y": 278.5726,
+      "last_position_ms": 1793779763742,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 447528,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779763742,
+      "last_seen_ms": 1793779777366,
+      "positions": [
+        {
+          "time_ms": 1793779763742,
+          "x": -298.25,
+          "y": 304.24
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779777366,
+      "x": -298.25,
+      "y": 304.24,
+      "last_position_ms": 1793779763742,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 420522,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779764290,
+      "last_seen_ms": 1793779777366,
+      "positions": [
+        {
+          "time_ms": 1793779764290,
+          "x": -305.8837,
+          "y": 304.66232
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779777366,
+      "x": -305.8837,
+      "y": 304.66232,
+      "last_position_ms": 1793779764290,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 430487,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779764290,
+      "last_seen_ms": 1793779774536,
+      "positions": [
+        {
+          "time_ms": 1793779764290,
+          "x": -314.5235,
+          "y": 322.81503
+        },
+        {
+          "time_ms": 1793779771983,
+          "x": -317.73288,
+          "y": 323.6836
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779774536,
+      "x": -317.73288,
+      "y": 323.6836,
+      "last_position_ms": 1793779771983,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 436130,
+      "mobile_type_id": 1888,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779764290,
+      "last_seen_ms": 1793779764290,
+      "positions": [
+        {
+          "time_ms": 1793779764290,
+          "x": -306.41962,
+          "y": 282.13535
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": false,
+      "x": -306.41962,
+      "y": 282.13535,
+      "last_position_ms": 1793779764290,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 437141,
+      "mobile_type_id": 2048,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779764290,
+      "last_seen_ms": 1793779773760,
+      "positions": [
+        {
+          "time_ms": 1793779764290,
+          "x": -309.70285,
+          "y": 330.5733
+        },
+        {
+          "time_ms": 1793779772980,
+          "x": -308.9398,
+          "y": 330.00842
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779773760,
+      "x": -308.9398,
+      "y": 330.00842,
+      "last_position_ms": 1793779772980,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 440036,
+      "mobile_type_id": 1968,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779764290,
+      "last_seen_ms": 1793779764290,
+      "positions": [
+        {
+          "time_ms": 1793779764290,
+          "x": -309.0,
+          "y": 290.0
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": false,
+      "x": -309.0,
+      "y": 290.0,
+      "last_position_ms": 1793779764290,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 381007,
+      "mobile_type_id": 2048,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779766358,
+      "last_seen_ms": 1793779774536,
+      "positions": [
+        {
+          "time_ms": 1793779766358,
+          "x": -325.99866,
+          "y": 320.54803
+        },
+        {
+          "time_ms": 1793779771983,
+          "x": -327.68805,
+          "y": 321.53577
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779774536,
+      "x": -327.68805,
+      "y": 321.53577,
+      "last_position_ms": 1793779771983,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 433685,
+      "mobile_type_id": 1908,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779767131,
+      "last_seen_ms": 1793779777366,
+      "positions": [
+        {
+          "time_ms": 1793779767131,
+          "x": -342.29388,
+          "y": 309.6743
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779777366,
+      "x": -342.29388,
+      "y": 309.6743,
+      "last_position_ms": 1793779767131,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 238323,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779768327,
+      "last_seen_ms": 1793779776044,
+      "positions": [
+        {
+          "time_ms": 1793779768327,
+          "x": -345.2481,
+          "y": 320.502
+        },
+        {
+          "time_ms": 1793779771983,
+          "x": -345.0325,
+          "y": 320.29337
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779776044,
+      "x": -345.0325,
+      "y": 320.29337,
+      "last_position_ms": 1793779771983,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 441005,
+      "mobile_type_id": 570,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779768327,
+      "last_seen_ms": 1793779770654,
+      "positions": [
+        {
+          "time_ms": 1793779768327,
+          "x": -350.10513,
+          "y": 336.49243
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": true,
+      "left_ms": 1793779770654,
+      "x": -350.10513,
+      "y": 336.49243,
+      "last_position_ms": 1793779768327,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 4665,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779770654,
+      "last_seen_ms": 1793779770654,
+      "positions": [
+        {
+          "time_ms": 1793779770654,
+          "x": -307.2872,
+          "y": 241.09023
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": false,
+      "x": -307.2872,
+      "y": 241.09023,
+      "last_position_ms": 1793779770654,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    },
+    {
+      "entity_id": 4726,
+      "mobile_type_id": 482,
+      "enchant": 0,
+      "name": null,
+      "first_seen_ms": 1793779776044,
+      "last_seen_ms": 1793779776044,
+      "positions": [
+        {
+          "time_ms": 1793779776044,
+          "x": -291.07278,
+          "y": 216.42108
+        }
+      ],
+      "health_timeline": [],
+      "health_event_count": 0,
+      "player_damage_events": 0,
+      "left": false,
+      "x": -291.07278,
+      "y": 216.42108,
+      "last_position_ms": 1793779776044,
+      "last_kind": "mob",
+      "classification": "observed_mob",
+      "manual_marker_matches": []
+    }
+  ],
+  "player_marker_positions": [],
+  "state_only_entities": [
+    {
+      "entity_id": 4019,
+      "state_timeline": [
+        {
+          "time_ms": 1793779644409,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779644409,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793779665838,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779665838,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3948,
+      "state_timeline": [
+        {
+          "time_ms": 1793779645719,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779645719,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793779667287,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779667287,
+          "size": 2,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2637,
+      "state_timeline": [
+        {
+          "time_ms": 1793779689417,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779689417,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793779691071,
+          "size": 0,
+          "removed": true
+        },
+        {
+          "time_ms": 1793779691071,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793779691247,
+          "size": 0,
+          "removed": true
+        },
+        {
+          "time_ms": 1793779691247,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793779707420,
+          "size": 0,
+          "removed": true
+        },
+        {
+          "time_ms": 1793779707420,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3895,
+      "state_timeline": [
+        {
+          "time_ms": 1793779693136,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779693136,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3841,
+      "state_timeline": [
+        {
+          "time_ms": 1793779694402,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779694402,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793779714754,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779714754,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2569,
+      "state_timeline": [
+        {
+          "time_ms": 1793779694658,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779694658,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3152,
+      "state_timeline": [
+        {
+          "time_ms": 1793779698780,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779698780,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793779728806,
+          "size": 3,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779728806,
+          "size": 3,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2655,
+      "state_timeline": [
+        {
+          "time_ms": 1793779703378,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779703378,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793779704691,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779704691,
+          "size": 1,
+          "removed": null
+        },
+        {
+          "time_ms": 1793779706205,
+          "size": 0,
+          "removed": true
+        },
+        {
+          "time_ms": 1793779706205,
+          "size": 0,
+          "removed": null
+        },
+        {
+          "time_ms": 1793779733210,
+          "size": 0,
+          "removed": true
+        },
+        {
+          "time_ms": 1793779733210,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2748,
+      "state_timeline": [
+        {
+          "time_ms": 1793779731013,
+          "size": 0,
+          "removed": true
+        },
+        {
+          "time_ms": 1793779731013,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 3955,
+      "state_timeline": [
+        {
+          "time_ms": 1793779733192,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779733192,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2743,
+      "state_timeline": [
+        {
+          "time_ms": 1793779739720,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779739720,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2691,
+      "state_timeline": [
+        {
+          "time_ms": 1793779746268,
+          "size": 0,
+          "removed": true
+        },
+        {
+          "time_ms": 1793779746268,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2673,
+      "state_timeline": [
+        {
+          "time_ms": 1793779747383,
+          "size": 0,
+          "removed": true
+        },
+        {
+          "time_ms": 1793779747383,
+          "size": 0,
+          "removed": null
+        }
+      ]
+    },
+    {
+      "entity_id": 2632,
+      "state_timeline": [
+        {
+          "time_ms": 1793779756347,
+          "size": 2,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779756347,
+          "size": 2,
+          "removed": null
+        },
+        {
+          "time_ms": 1793779760059,
+          "size": 1,
+          "removed": false
+        },
+        {
+          "time_ms": 1793779760059,
+          "size": 1,
+          "removed": null
+        }
+      ]
+    }
+  ],
+  "manual_markers": [
+    {
+      "timestamp_ms": 1793779572936,
+      "elapsed_realtime_ms": 169630466,
+      "event": "capture_started",
+      "activity": "Capture",
+      "source": "capture_worker"
+    }
+  ],
+  "marker_lifecycles": [],
+  "unmatched_marker_events": []
+}

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-04T06:43:39.489700+00:00",
+  "generated_at_utc": "2026-11-05T08:42:59.240164+00:00",
   "branch": "albion-pattern-mining",
   "source_archives": [
     {
@@ -26,11 +26,11 @@
     },
     {
       "archive": "AlbionRadar.zip",
-      "bytes": 12925796,
-      "sha256": "d29e55cea46fe8df9346e14fc0a7e5b535da7d981aa76b80ebece15969aa3aab",
-      "members": 3,
-      "pcaps": 1,
-      "jsonl": 1,
+      "bytes": 7754921,
+      "sha256": "1835862d99a1c697ff53c567598394c5003506f23649059809213e21275560fa",
+      "members": 5,
+      "pcaps": 0,
+      "jsonl": 4,
       "knowledge_entity_records": 0,
       "knowledge_protocol_events": 0,
       "knowledge_autonomous_patterns": 0
@@ -124,6 +124,17 @@
       "knowledge_autonomous_patterns": 240
     },
     {
+      "archive": "archiveNew-extracted.zip",
+      "bytes": 797747472,
+      "sha256": "bca4e9bf9a881f920cd12a6f63b3844b3311e47c5828a6910e87953d0c18decd",
+      "members": 9,
+      "pcaps": 4,
+      "jsonl": 4,
+      "knowledge_entity_records": 0,
+      "knowledge_protocol_events": 0,
+      "knowledge_autonomous_patterns": 0
+    },
+    {
       "archive": "dile2radar.zip",
       "bytes": 95505,
       "sha256": "4ad01551a5bfc0b58999b7b65f883882a492c7def91247cd6ede799fd79cccb8",
@@ -147,35 +158,37 @@
     }
   ],
   "intake": {
-    "zip_archives": 13,
-    "pcap_members": 32,
-    "unique_pcap_sha256": 31,
+    "zip_archives": 14,
+    "pcap_members": 35,
+    "unique_pcap_sha256": 34,
     "byte_identical_duplicate_pcaps": 1,
     "pcap_analyzer_errors": 0,
-    "jsonl_members": 13,
-    "normalized_observations": 522067,
-    "own_player_move_observations": 54606
+    "jsonl_members": 20,
+    "normalized_observations": 761061,
+    "own_player_move_observations": 81881
   },
   "resource_nodes": {
-    "event40_file_scoped_records": 406,
+    "event40_file_scoped_records": 649,
     "by_family_number": {
-      "14": 55,
-      "20": 8,
-      "27": 123,
+      "14": 78,
+      "14|27": 1,
+      "20": 9,
+      "27": 174,
       "28": 2,
-      "29": 110,
-      "7": 108
+      "29": 227,
+      "32": 1,
+      "7": 157
     },
     "by_archive": {
       "Albion اااستسمنسمنش.zip": 4,
       "Albion2.zip": 15,
-      "AlbionRadar.zip": 83,
       "AlbionRadar2.zip": 19,
       "AlbionRadar5.zip": 30,
       "AlbionRadar6json.zip": 93,
       "AlbionRadar8.zip": 75,
       "Albions.zip": 36,
-      "Albionsskkakaks111.zip": 51
+      "Albionsskkakaks111.zip": 51,
+      "archiveNew-extracted.zip": 326
     },
     "state_ids": 297,
     "state_only_ids_without_event40_location": 213,
@@ -197,84 +210,80 @@
     }
   },
   "static_resource_observations": {
-    "event39_records": 25504,
+    "event39_records": 47108,
     "warning": "Event 39 observations are untyped static-resource candidates; do not equate them to confirmed Event 40 nodes without exact identity evidence."
   },
   "mobile_entities": {
-    "event123_lifecycle_records": 2956,
+    "event123_lifecycle_records": 4098,
     "by_archive": {
       "Albion اااستسمنسمنش.zip": 10,
       "Albion2.zip": 52,
-      "AlbionRadar.zip": 656,
       "AlbionRadar2.zip": 228,
       "AlbionRadar5.zip": 235,
       "AlbionRadar6json.zip": 838,
       "AlbionRadar8.zip": 626,
       "Albions.zip": 64,
-      "Albionsskkakaks111.zip": 247
+      "Albionsskkakaks111.zip": 247,
+      "archiveNew-extracted.zip": 1798
     },
     "warning": "Event 123 living/mobile records; not every record is independently proven to be a hostile mob."
   },
   "combat": {
-    "operation23_attack_target_tracks": 51,
+    "operation23_attack_target_tracks": 37,
     "attack_target_position_samples": 1514,
     "interpretations": {
       "attack_target_with_plausible_mode3_movement_kill_not_proven": 1,
       "health_at_or_below_5_then_leave_after_attack_strong_defeat_candidate": 5,
-      "health_updates_then_leave_after_attack_defeat_likely_not_confirmed": 45
+      "health_updates_then_leave_after_attack_defeat_likely_not_confirmed": 31
     },
-    "marker_correlations": 35,
+    "marker_correlations": 13,
     "correlations_by_activity_confidence": {
-      "Mobs|HIGH": 6,
-      "Mobs|LOW": 4,
-      "Mobs|MEDIUM": 3,
-      "Mobs|NONE": 1,
-      "Troll|HIGH": 14,
-      "Troll|LOW": 1,
-      "Troll|MEDIUM": 4,
-      "Troll|NONE": 2
+      "Mobs|LOW": 1,
+      "Troll|HIGH": 6,
+      "Troll|LOW": 2,
+      "Troll|MEDIUM": 4
     },
-    "troll_cycles": 21,
+    "troll_cycles": 12,
     "troll_confidence": {
-      "HIGH": 14,
-      "LOW": 1,
-      "MEDIUM": 4,
-      "NONE": 2
+      "HIGH": 6,
+      "LOW": 2,
+      "MEDIUM": 4
     },
     "troll_resolved_mob_names": {
-      "Ore Elemental": 19
+      "Ore Elemental": 11,
+      "Roaming Morgana Crossbowman": 1
     },
     "troll_mobile_type_ids": {
-      "571": 1,
-      "573": 10,
-      "574": 8
+      "1471": 1,
+      "573": 6,
+      "574": 5
     },
-    "troll_unique_target_ids": 15,
-    "troll_unmatched_cycles": 2,
+    "troll_unique_target_ids": 10,
+    "troll_unmatched_cycles": 0,
     "troll_identity_proven_rows": 0,
-    "mob_cycles": 14,
+    "mob_cycles": 1,
     "warning": "Operation 23 provides exact selected target IDs; marker-to-target links remain confidence-ranked. Leave is not proof of death."
   },
   "manual_markers": {
-    "total": 459,
+    "total": 369,
     "by_activity_event": {
-      "Capture|capture_started": 12,
-      "Capture|capture_stopping": 11,
+      "Capture|capture_started": 15,
+      "Capture|capture_stopping": 12,
       "Fiber|activity_selected": 2,
       "Hide|activity_selected": 2,
       "Mobs|activity_selected": 3,
       "Mobs|enchantment_selected": 3,
-      "Mobs|mob_killed": 13,
-      "Mobs|target_found": 14,
+      "Mobs|mob_killed": 1,
+      "Mobs|target_found": 1,
       "Move|movement_completed": 1,
       "Move|movement_started": 1,
       "Ore|activity_selected": 4,
       "Ore|enchantment_selected": 18,
-      "Ore|gathering_completed": 111,
+      "Ore|gathering_completed": 89,
       "Ore|gathering_started": 21,
       "Ore|node_depleted": 20,
       "Ore|overlay_started": 1,
-      "Ore|target_found": 123,
+      "Ore|target_found": 93,
       "Ore|tier_selected": 28,
       "Other|activity_selected": 5,
       "PvP|activity_selected": 4,
@@ -285,8 +294,8 @@
       "Travel|activity_start": 1,
       "Travel|overlay_collapsed": 1,
       "Travel|tier_selected": 7,
-      "Troll|mob_killed": 20,
-      "Troll|target_found": 21,
+      "Troll|mob_killed": 12,
+      "Troll|target_found": 12,
       "Wood|activity_selected": 3
     },
     "completed_lifecycle_samples": 109
@@ -321,11 +330,11 @@
     "warning": "Troll-labeled signatures are learned patterns, not counts of individual Troll mobs or kills."
   },
   "spatial_alignment": {
-    "captures_checked": 31,
+    "captures_checked": 34,
     "plausible_same_local_coordinate_space": 11,
     "status_counts": {
       "NOT_VERIFIED": 19,
-      "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE": 12
+      "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE": 15
     },
     "capture_details": [
       {
@@ -333,7 +342,7 @@
         "pcap": "بیکار سوار مونت موندم.pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 455,
+        "replay_observation_rows": 456,
         "player_position_samples": 0,
         "typed_resource_nodes": 0,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -351,7 +360,7 @@
         "pcap": "فقط ماب کشتم.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 2992,
+        "replay_observation_rows": 3000,
         "player_position_samples": 361,
         "typed_resource_nodes": 4,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -379,7 +388,7 @@
         "pcap": "پیاده شدم اور ماین کردم دوتا قرمز و سوار .pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 307,
+        "replay_observation_rows": 310,
         "player_position_samples": 7,
         "typed_resource_nodes": 0,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -397,7 +406,7 @@
         "pcap": "2 blue gholem ench 2 killed together and mined besides each other .pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 1744,
+        "replay_observation_rows": 1746,
         "player_position_samples": 143,
         "typed_resource_nodes": 4,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -425,7 +434,7 @@
         "pcap": "6red ores ,each one mined.pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 1254,
+        "replay_observation_rows": 1255,
         "player_position_samples": 117,
         "typed_resource_nodes": 1,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -443,7 +452,7 @@
         "pcap": "blue enchanted 2 gholem killed and mined .pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 683,
+        "replay_observation_rows": 684,
         "player_position_samples": 49,
         "typed_resource_nodes": 2,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -461,7 +470,7 @@
         "pcap": "blue ore ench1 mined .pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 258,
+        "replay_observation_rows": 259,
         "player_position_samples": 16,
         "typed_resource_nodes": 0,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -479,7 +488,7 @@
         "pcap": "blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 868,
+        "replay_observation_rows": 871,
         "player_position_samples": 72,
         "typed_resource_nodes": 1,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -497,7 +506,7 @@
         "pcap": "red gholem lvl2 ench killed and mines.pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 1654,
+        "replay_observation_rows": 1657,
         "player_position_samples": 55,
         "typed_resource_nodes": 2,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -515,7 +524,7 @@
         "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 932,
+        "replay_observation_rows": 942,
         "player_position_samples": 43,
         "typed_resource_nodes": 4,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -543,7 +552,7 @@
         "pcap": "red,ore lvl2.pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 341,
+        "replay_observation_rows": 343,
         "player_position_samples": 25,
         "typed_resource_nodes": 1,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -561,7 +570,7 @@
         "pcap": "went from yellow 5 region to fort sterling, and then to bank and inspectoed a few of my items and equipmentz.pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 2341,
+        "replay_observation_rows": 2420,
         "player_position_samples": 62,
         "typed_resource_nodes": 0,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -572,34 +581,6 @@
         "temporal_tolerance_ms": 5000,
         "median_nearest_player_distance_at_node_observation": null,
         "p90_nearest_player_distance_at_node_observation": null,
-        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
-      },
-      {
-        "archive": "AlbionRadar.zip",
-        "pcap": "albion-1793682590317.pcap",
-        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
-        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 122965,
-        "player_position_samples": 14811,
-        "typed_resource_nodes": 83,
-        "resource_entity_ids_with_coordinate_conflicts": [],
-        "player_bounds": {
-          "min_x": -381.9416198730469,
-          "max_x": 295.5122375488281,
-          "min_y": -382.8958740234375,
-          "max_y": 361.66827392578125
-        },
-        "resource_bounds": {
-          "min_x": -379.0,
-          "max_x": 314.0,
-          "min_y": -385.0,
-          "max_y": 364.0
-        },
-        "bounding_boxes_overlap": true,
-        "temporal_player_node_pairs": 83,
-        "temporal_tolerance_ms": 5000,
-        "median_nearest_player_distance_at_node_observation": 46.188,
-        "p90_nearest_player_distance_at_node_observation": 55.313,
         "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
       },
       {
@@ -643,7 +624,7 @@
         "pcap": "albion-1793699283778.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 35139,
+        "replay_observation_rows": 35161,
         "player_position_samples": 3942,
         "typed_resource_nodes": 19,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -671,7 +652,7 @@
         "pcap": "albion-1793712506879.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 36803,
+        "replay_observation_rows": 36839,
         "player_position_samples": 4626,
         "typed_resource_nodes": 30,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -753,7 +734,7 @@
         "pcap": "albion-1793718384341.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 88089,
+        "replay_observation_rows": 88163,
         "player_position_samples": 9703,
         "typed_resource_nodes": 93,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -781,7 +762,7 @@
         "pcap": "albion-1793769140776.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 181175,
+        "replay_observation_rows": 181376,
         "player_position_samples": 16474,
         "typed_resource_nodes": 75,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -809,7 +790,7 @@
         "pcap": "1 mob dismount and mount .pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 171,
+        "replay_observation_rows": 173,
         "player_position_samples": 8,
         "typed_resource_nodes": 0,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -827,7 +808,7 @@
         "pcap": "2 times 90degred change direction .pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 1506,
+        "replay_observation_rows": 1509,
         "player_position_samples": 203,
         "typed_resource_nodes": 15,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -855,7 +836,7 @@
         "pcap": "2mobs dismount and Mount .pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 1140,
+        "replay_observation_rows": 1143,
         "player_position_samples": 121,
         "typed_resource_nodes": 3,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -883,7 +864,7 @@
         "pcap": "gholem dismount kill mine mount.pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 744,
+        "replay_observation_rows": 746,
         "player_position_samples": 25,
         "typed_resource_nodes": 1,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -901,7 +882,7 @@
         "pcap": "ore 4 3 red 2 blue .pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 1819,
+        "replay_observation_rows": 1825,
         "player_position_samples": 164,
         "typed_resource_nodes": 2,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -919,7 +900,7 @@
         "pcap": "run and stop.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 2489,
+        "replay_observation_rows": 2492,
         "player_position_samples": 233,
         "typed_resource_nodes": 14,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -947,7 +928,7 @@
         "pcap": "stopping.pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 1322,
+        "replay_observation_rows": 1324,
         "player_position_samples": 0,
         "typed_resource_nodes": 1,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -983,7 +964,7 @@
         "pcap": "albion-1793620890462.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 34863,
+        "replay_observation_rows": 34939,
         "player_position_samples": 3346,
         "typed_resource_nodes": 51,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -1005,6 +986,120 @@
         "median_nearest_player_distance_at_node_observation": 45.071,
         "p90_nearest_player_distance_at_node_observation": 55.007,
         "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "archiveNew-extracted.zip",
+        "pcap": "albion-1793779572842.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 10989,
+        "player_position_samples": 1079,
+        "typed_resource_nodes": 4,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -322.48193359375,
+          "max_x": 346.1490173339844,
+          "min_y": -17.852840423583984,
+          "max_y": 301.3921813964844
+        },
+        "resource_bounds": {
+          "min_x": -190.0,
+          "max_x": 5.5,
+          "min_y": 107.5,
+          "max_y": 338.0
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 4,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 42.42,
+        "p90_nearest_player_distance_at_node_observation": 46.898,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "archiveNew-extracted.zip",
+        "pcap": "albion-1793782308821.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 198814,
+        "player_position_samples": 24486,
+        "typed_resource_nodes": 136,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -387.8382263183594,
+          "max_x": 264.75006103515625,
+          "min_y": -310.7713623046875,
+          "max_y": 384.2095642089844
+        },
+        "resource_bounds": {
+          "min_x": -376.0,
+          "max_x": 284.5,
+          "min_y": -319.0,
+          "max_y": 386.142
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 136,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 48.685,
+        "p90_nearest_player_distance_at_node_observation": 59.442,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "archiveNew-extracted.zip",
+        "pcap": "albion-1793786223835.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 9291,
+        "player_position_samples": 1090,
+        "typed_resource_nodes": 15,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -223.74493408203125,
+          "max_x": 218.36607360839844,
+          "min_y": -272.5373229980469,
+          "max_y": 85.11669921875
+        },
+        "resource_bounds": {
+          "min_x": -70.0,
+          "max_x": 260.5,
+          "min_y": -315.0,
+          "max_y": 127.5
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 15,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 45.624,
+        "p90_nearest_player_distance_at_node_observation": 52.898,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+      },
+      {
+        "archive": "archiveNew-extracted.zip",
+        "pcap": "albion-1793789871115.pcap",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 142321,
+        "player_position_samples": 15431,
+        "typed_resource_nodes": 170,
+        "resource_entity_ids_with_coordinate_conflicts": [
+          "2874"
+        ],
+        "player_bounds": {
+          "min_x": -398.25,
+          "max_x": 369.8758850097656,
+          "min_y": -386.6536560058594,
+          "max_y": 377.2270202636719
+        },
+        "resource_bounds": {
+          "min_x": -396.0,
+          "max_x": 361.0,
+          "min_y": -383.605,
+          "max_y": 382.0
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 165,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 49.459,
+        "p90_nearest_player_distance_at_node_observation": 58.171,
+        "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
       }
     ],
     "overall_status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
@@ -1013,48 +1108,48 @@
   "tables": [
     {
       "path": "research/database/2026-11-02-all-inbox-observations.jsonl",
-      "bytes": 97630329,
-      "sha256": "6aaf36f0b33fc22a031e07559163271d5c1026ab862256436c7e2b6b8cbfb33a"
+      "bytes": 146361038,
+      "sha256": "c721ca5c4480fb83bd827843c57c85e1b110f1de7bb892cc0a480d7b89a4e061"
     },
     {
       "path": "research/database/2026-11-02-pcap-harvestable-nodes.csv",
-      "bytes": 69201,
-      "sha256": "c56b27314963794f805678d720b0d48adcbf10ceb83fd2b31708a53fc66f6d12"
+      "bytes": 112817,
+      "sha256": "d8312828887726c6ff91934b78f19cb255399bcd0f3389f2d887217c0836bec2"
     },
     {
       "path": "research/database/2026-11-02-pcap-mob-lifecycle.csv",
-      "bytes": 671014,
-      "sha256": "e55fcaf725da41f8c8d9a6d7959598228f043c728ccfbf09fda37419ddfdba82"
+      "bytes": 947898,
+      "sha256": "8a3418bb00f3c0d39a6c2c605fd41870ed052631d5b80bb14d0257e4ca72c6b6"
     },
     {
       "path": "research/database/2026-11-02-pcap-static-resources.csv",
-      "bytes": 2232732,
-      "sha256": "b136d341ea7d8c5b38c0133530c8e798b2c5b586f35d0321310f6847e77ab258"
+      "bytes": 4305841,
+      "sha256": "0431f38aa6c0e24af911a656b69183b2f7b650357bd3443f5d949c7fa0ef44c8"
     },
     {
       "path": "research/database/2026-11-02-pcap-attack-target-tracks.csv",
-      "bytes": 20557,
-      "sha256": "faf365fa1be084fb43802d66d73f0b8e584214b7327f2dd10b4f8646bbe7c147"
+      "bytes": 15732,
+      "sha256": "2f74f02a6610cd899c840406d5d00af9808d2df781db0cb8ad3acdefb29202a9"
     },
     {
       "path": "research/analysis/2026-11-02-overlay-manual-markers.csv",
-      "bytes": 45998,
-      "sha256": "f686625e5171b5572e982fa05dad29b6985e19edeb7e675a2e81b88471e3791d"
+      "bytes": 37647,
+      "sha256": "6d38cebcb0e87004cebc33a762d8e403d30ca7ddc975782c3dcfb6e90a683b56"
     },
     {
       "path": "research/analysis/2026-11-02-overlay-mob-attack-correlation.csv",
-      "bytes": 9308,
-      "sha256": "ce7bbe11771753e5a02d6909c1ae9ee92a3b7bd6189ea35cfccd49369c657fe5"
+      "bytes": 3665,
+      "sha256": "fe0ca59611425e7196142d1ba5d568f436e4a7eb78882e681ba4c0de81da34e9"
     },
     {
       "path": "research/database/2026-11-02-pcap-resource-state-timelines.csv",
-      "bytes": 38672,
-      "sha256": "7c63d79da159c689c9ab8e389858b949eaff53bb2c27189dbfec267ed69ad49d"
+      "bytes": 68788,
+      "sha256": "d80880fcc70f02d3cab4cfd42f4db629b28f9b41760bd004ad72512702b4f767"
     },
     {
       "path": "research/database/2026-11-02-pcap-health-energy-events.csv",
-      "bytes": 1034838,
-      "sha256": "8396257ef5e4b6af7b1b5dfd694afc6593c192abb9eaa9cfe1d658f9d481c630"
+      "bytes": 1055455,
+      "sha256": "bc1509e7b7a42b3f88c5853a901bf80d0a62e58a5136eab4f7664f97d4a38276"
     },
     {
       "path": "research/database/albion-knowledge-bundle-import.json",
@@ -1063,13 +1158,13 @@
     },
     {
       "path": "research/database/albion-troll-target-correlation-2026-11-03.csv",
-      "bytes": 4785,
-      "sha256": "2d4e2908bbb3b899ce3c296a3b2d3f3a2f73b24fdccd1a110fe97c923b3271cc"
+      "bytes": 2961,
+      "sha256": "6cd1e4e34068937d8e71f8d2f420f4b6cc4f394fe554094dccf58feebaa268df"
     },
     {
       "path": "research/database/albion-mob-target-correlation-2026-11-03.csv",
-      "bytes": 3514,
-      "sha256": "8abd7cb15efbce184c55fd31902c835d3d8f611d5eee6c5e57022de53f001419"
+      "bytes": 509,
+      "sha256": "43cf20acb26af3ed97cc6d54ccad30f595c8a7262fddbcdc105a499d13d374b3"
     }
   ]
 }

@@ -59,7 +59,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "8560fed8045c6ed319e18fc46249334ccbdc95f6401eceaad03b48677d9a13e2",
   "ip_packets": 1592,
-  "fingerprint": "6a23a20298b00b67b0bcb0df4b1aa3fd6096a02e7c65d3084c4780448ed24f69",
+  "fingerprint": "8d0e6931cdae7ba0129c33af89e009c38af7508ea95cf310c41ba87290c0d513",
   "malformed_protocol18_messages": 0,
   "operation_requests": {
     "22": 117,
@@ -70,14 +70,15 @@
   "albion_udp_packets": 775,
   "entity_kinds": {
     "harvestable": 2,
-    "own_player_move": 117,
     "mob": 8,
     "move": 156,
-    "player_mounted": 1,
-    "leave": 26,
     "static_resource": 27,
     "resource_state": 8,
+    "dungeon_exit": 2,
     "health_regeneration": 22,
+    "own_player_move": 117,
+    "player_mounted": 2,
+    "leave": 26,
     "player_move": 3,
     "energy": 4,
     "player_spawn": 1

@@ -62,7 +62,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "9d879a0496ce875d4b8c230ea3862e67efb7acf6e54976538a2160d84bb9345f",
   "ip_packets": 750,
-  "fingerprint": "6e21fc8ae71f34e69d65e54c5a596de359f6dcfed0acc4ef6a24d0698b99cb57",
+  "fingerprint": "b01f7234cd0d389e368bff66e2f3d352cb91ee49f92f247a7f30887a1933689e",
   "malformed_protocol18_messages": 0,
   "operation_requests": {
     "22": 43,
@@ -80,7 +80,7 @@
     "health": 14,
     "health_regeneration": 8,
     "own_player_move": 43,
-    "player_mounted": 1,
+    "player_mounted": 11,
     "leave": 28,
     "player_move": 10,
     "energy": 12,
