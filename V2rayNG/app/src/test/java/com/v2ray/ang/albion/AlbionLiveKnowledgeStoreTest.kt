@@ -454,6 +454,49 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(scan.getJSONObject(0).optString("region_id") == "MAP_B")
     }
 
+    @Test fun respawnGenerationKeysRemainIndependentAcrossRegions() {
+        val store = AlbionLiveKnowledgeStore(context(), 30_000L)
+        fun region(now: Long, id: String) {
+            store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+                kind = "region_change", eventCode = 41, regionId = id
+            )))
+        }
+        fun node(now: Long, amount: Int) {
+            store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+                kind = "harvestable", eventCode = 40, entityId = 55L,
+                typeId = 574, typeNumber = 29, tier = 5, size = amount, x = 10f, y = 20f
+            )))
+        }
+        fun deplete(now: Long) {
+            store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+                kind = "resource_state", eventCode = 46, entityId = 55L,
+                size = 0, removed = true
+            )))
+        }
+
+        region(30_100L, "MAP_A")
+        node(30_200L, 3)
+        deplete(30_300L)
+        node(30_400L, 2)
+
+        region(30_500L, "MAP_B")
+        node(30_600L, 3)
+        deplete(30_700L)
+        node(30_800L, 2)
+
+        region(30_900L, "MAP_A")
+        val mapA = org.json.JSONArray(store.snapshotJson())
+        assertTrue(mapA.length() == 1, "MAP_A generation must survive MAP_B refill: $mapA")
+        assertTrue(mapA.getJSONObject(0).optString("region_id") == "MAP_A")
+        assertTrue(mapA.getJSONObject(0).optInt("spawn_generation") == 1)
+
+        region(31_000L, "MAP_B")
+        val mapB = org.json.JSONArray(store.snapshotJson())
+        assertTrue(mapB.length() == 1, "MAP_B generation must remain independent: $mapB")
+        assertTrue(mapB.getJSONObject(0).optString("region_id") == "MAP_B")
+        assertTrue(mapB.getJSONObject(0).optInt("spawn_generation") == 1)
+    }
+
     @Test fun separatesTrollMarkerFromOreElementalAndTracksAliveDeadHarvestedLifecycle() {
         val store = AlbionLiveKnowledgeStore(context(), 20_000L)
         val now = 20_100L
