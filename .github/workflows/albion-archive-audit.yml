@@ -84,6 +84,8 @@ jobs:
           set -euo pipefail
           out="$RUNNER_TEMP/albion-archive-audit"
           tmp="$RUNNER_TEMP/albion-archive"
+          parts=(research/inbox/archiveNew.7z.t0.[0-9][0-9][0-9])
+          test "${#parts[@]}" -eq 45
           mkdir -p "$tmp/volumes" "$tmp/extracted"
           for i in $(seq 1 45); do
             printf -v n '%03d' "$i"
