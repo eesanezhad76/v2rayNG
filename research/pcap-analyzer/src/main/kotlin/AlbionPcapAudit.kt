@@ -953,9 +953,17 @@ fun main() {
                 detail.contains("outbound_request op=2 ")
         }
         val regionTransitionCsv = buildString {
-            appendLine("archive,pcap,detail")
+            appendLine("archive,pcap,timestamp_ms,operation_code,region_id,detail")
             for ((archive, pcap, detail) in regionTransitionDetails) {
-                appendLine(listOf(archive, pcap, detail).joinToString(",") { csvCell(it) })
+                val timestamp = field(detail, "t") ?: ""
+                val operation = Regex("op=(\\d+)").find(detail)?.groupValues?.get(1) ?: ""
+                val region = when (operation) {
+                    "41" -> field(detail, "param0_value")
+                    "2" -> Regex("(?:^| )8=([^ ]+)").find(detail)?.groupValues?.get(1)
+                    else -> null
+                } ?: ""
+                appendLine(listOf(archive, pcap, timestamp, operation, region, detail)
+                    .joinToString(",") { csvCell(it) })
             }
         }
         File(out, "2026-11-02-region-transition-evidence.csv").writeText(regionTransitionCsv, Charsets.UTF_8)
@@ -964,10 +972,11 @@ fun main() {
             detail.contains("kind=outbound_request op=23 ")
         }
         val targetRequestCsv = buildString {
-            appendLine("archive,pcap,timestamp_ms,detail")
+            appendLine("archive,pcap,region_id,timestamp_ms,detail")
             for ((archive, pcap, detail) in targetRequestDetails) {
-                appendLine(listOf(archive, pcap, field(detail, "t") ?: "", detail)
-                    .joinToString(",") { csvCell(it) })
+                val timestamp = field(detail, "t")?.toLongOrNull() ?: 0L
+                appendLine(listOf(archive, pcap, regionAt(archive, pcap, timestamp) ?: "",
+                    timestamp.toString(), detail).joinToString(",") { csvCell(it) })
             }
         }
         File(out, "2026-11-02-operation23-target-requests.csv").writeText(targetRequestCsv, Charsets.UTF_8)
