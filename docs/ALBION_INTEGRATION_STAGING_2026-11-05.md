@@ -1064,5 +1064,5 @@ The enhanced read-only audit run `42087978698` completed successfully (head `cb3
 - Destination branch: albion-integration-staging-2026-11-05
 - Archive audit run: 42087978698 (success); artifact: 13443078504
 - Verified: 45/45 split parts, 7z CRC/integrity, 9/9 extracted member hashes, 6/6 Master duplicate comparisons, 13/13 original ZIP hashes/sizes against the complete database manifest.
-- Resulting commit SHA and new blob SHA: record from update response.
+- Resulting commit SHA: 427d4a36cdce2bd600ebcb6de003c3a9cc92a82e\n- New blob SHA: bd6c70c53ee3ad5287db196ca18ccf2ac3513907
 - No source data or pre-existing branch changed.
