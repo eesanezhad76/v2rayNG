@@ -96,7 +96,10 @@ jobs:
           git add research/database research/analysis V2rayNG/app/src/main/assets/albion-static-catalog.json V2rayNG/app/src/main/assets/albion-historical-*.json V2rayNG/app/src/main/assets/albion-mobile-type-dictionary.json
           # Preserve oversized generated evidence losslessly as checksum-verified chunks.
           python research/tools/split_large_outputs.py --max-mib 45 --threshold-mib 50
-          git add research/analysis/derived-shards research/analysis/derived-output-shards-manifest.json
+          git add research/analysis/derived-output-shards-manifest.json
+          if [[ -d research/analysis/derived-shards ]]; then
+            git add research/analysis/derived-shards
+          fi
           # Keep only the original oversized containers out of Git; their exact bytes are in the shards.
           while IFS= read -r -d '' oversized; do
             echo "Original oversized container represented by verified shards: $oversized ($(du -h "$oversized" | cut -f1))"
