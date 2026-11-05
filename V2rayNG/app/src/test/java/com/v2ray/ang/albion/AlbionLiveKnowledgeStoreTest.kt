@@ -522,6 +522,28 @@ class AlbionLiveKnowledgeStoreTest {
         assertFalse(mob.optBoolean("manual_marker_identity_proven"), mob.toString())
     }
 
+    @Test fun delayedTrollMarkerJoinNeverLabelsANonMobResource() {
+        val store = AlbionLiveKnowledgeStore(context(), 38_000L)
+        val now = 38_100L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observe(now + 1L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "target_request", eventCode = 23, candidateEntityIds = listOf(9905L)
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("tier", "T4"), now + 2L)
+        store.observe(now + 3L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 9905L,
+            typeId = 574, typeNumber = 32, tier = 4, enchant = 2, size = 30, x = -375f, y = 103f
+        )))
+        val rows = org.json.JSONArray(store.snapshotJson())
+        val resource = (0 until rows.length()).map { rows.getJSONObject(it) }
+            .single { it.optString("entity_id") == "9905" }
+        assertFalse(resource.has("manual_activity"), resource.toString())
+        assertFalse(resource.optBoolean("manual_marker_identity_proven"), resource.toString())
+    }
+
     @Test fun regionChangeClearsOldCurrentTargetBeforeAttachingNewRegionTrollMarker() {
         val store = AlbionLiveKnowledgeStore(context(), 40_000L)
         val now = 40_100L
