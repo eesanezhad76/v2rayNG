@@ -264,3 +264,45 @@ This does **not** mean Raw Pattern Discovery can be merged wholesale into Safe F
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No application source, test, capture, archive or pre-existing branch changed.
 - Resulting commit and new blob SHA: verify from the update response and branch tree.
+
+
+## 13. Pattern Mining evidence-tree inventory
+
+A recursive Git tree inventory of `albion-pattern-mining` at `a453c812483f285dcae97d0ad0bc044c0cec11fa` returned the following blob counts and stored byte totals:
+
+| Area | Files | Stored bytes | Interpretation |
+|---|---:|---:|---|
+| `research/inbox/` | 59 | 527,340,479 | raw uploads and archive pieces |
+| `research/database/` | 136 | 155,060,739 | consolidated databases, catalogs and manifests |
+| `research/analysis/` | 320 | 634,561,104 | derived analysis and replay artifacts |
+| `V2rayNG/app/src/main/assets/` | 19 | 5,847,824 | runtime-consumed assets |
+
+Within `research/inbox/`:
+- 45 split archive parts named `archiveNew.7z.t0.001` through `.045` exist with no missing sequence number.
+- Parts `.001`–`.044` are each 10,485,760 bytes; part `.045` is 3,791,217 bytes.
+- Total split archive bytes: 465,164,657.
+- Parts `.026`–`.031` have exact Git blob SHA matches with the six root-level `master/archiveNew.7z.t0.026`–`.031` files. These six Master files are duplicates of the corresponding Pattern Mining parts, not six additional unique archive parts.
+- The inbox contains 14 additional files beyond those 45 split parts.
+- A dedicated raw split-7z SHA-256 manifest has not yet been verified. The known complete-database manifest describes consolidated ZIP/PCAP/JSONL inputs, not necessarily the raw 45-part 7z set.
+- Archive byte continuity and sequence completeness are established from the Git tree; **7z integrity and exact extracted-content/manifest equivalence are not yet verified**.
+
+The 285-file Pattern Mining vs Safe Integration diff groups exactly as follows:
+- `research/analysis/`: 130 files (53 added, 77 modified)
+- `research/database/`: 78 files (34 added, 44 modified)
+- `research/inbox/`: 46 files (45 added, 1 modified)
+- `V2rayNG/app/`: 19 files (5 added, 14 modified)
+- `research/tools/`: 6 files (1 added, 5 modified)
+- `research/tests/`: 4 files (1 added, 3 modified)
+- `.github/`: 1 modified file
+- `research/other/`: 1 modified file
+
+This confirms that the Pattern Mining delta is not just source code: it is primarily a large research/evidence and derived-output payload. Keep these data layers out of runtime-only PRs unless there is a specific, documented dependency.
+
+## 14. Change log — evidence tree inventory
+
+- Operation: append recursive tree inventory and archive-sequence findings.
+- Repository: `eesanezhad76/v2rayNG`
+- Source file blob SHA before update: `e47ce69c552bb7aba2627d4b8919683934d569f9`
+- Destination branch: `albion-integration-staging-2026-11-05`
+- No raw archive, database, analysis, runtime asset, or pre-existing branch changed.
+- Resulting commit and new blob SHA: verify from the update response and branch tree.
