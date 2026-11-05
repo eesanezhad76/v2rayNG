@@ -234,6 +234,7 @@ fun main() {
                 .lastOrNull { it.first <= timestampMs }?.second
         fun nodesKey(archive: String, pcap: String, regionId: String?, id: String) =
             archive + "\u001f" + pcap + "\u001f" + (regionId ?: "<unknown-region>") + "\u001f" + id
+        fun regionKeyValue(value: String): String = if (value == "<unknown-region>") "" else value
         val movementCsv = buildString {
             appendLine("archive,pcap,region_id,timestamp_ms,x,y,heading,target_x,target_y,speed,source")
             for ((archive, pcap, detail) in movements) {
@@ -346,7 +347,7 @@ fun main() {
             appendLine("archive,pcap,region_id,entity_id,mobile_type_ids,type_numbers,tiers,enchantment_raw_values,coordinates,event40_amount_values,first_seen_ms,last_seen_ms,observation_count,state_event_count,state_values,identity_scope")
             for ((key, node) in nodes.toSortedMap()) {
                 val states = resourceStates[key].orEmpty().sortedBy { it.first }
-                val values = listOf(node.archive, node.pcap, node.id,
+                val values = listOf(node.archive, node.pcap, node.regionId ?: "", node.id,
                     node.mobileTypes.joinToString("|"), node.families.joinToString("|"),
                     node.tiers.joinToString("|"), node.enchants.joinToString("|"),
                     node.coordinates.joinToString("|"), node.event40Amounts.joinToString("|"),
@@ -713,11 +714,11 @@ fun main() {
 
         val unmatchedStates = resourceStates.filterKeys { !nodes.containsKey(it) }
         val stateCsv = buildString {
-            appendLine("archive,pcap,entity_id,first_state_ms,last_state_ms,state_event_count,state_values,has_event40_location")
+            appendLine("archive,pcap,region_id,entity_id,first_state_ms,last_state_ms,state_event_count,state_values,has_event40_location")
             for ((key, states) in resourceStates.toSortedMap()) {
                 val parts = key.split("\u001f")
                 val ordered = states.sortedBy { it.first }
-                val vals = listOf(parts[0], parts[1], parts[2], parts[3], ordered.firstOrNull()?.first?.toString() ?: "",
+                val vals = listOf(parts[0], parts[1], regionKeyValue(parts[2]), parts[3], ordered.firstOrNull()?.first?.toString() ?: "",
                     ordered.lastOrNull()?.first?.toString() ?: "", ordered.size.toString(),
                     ordered.joinToString(">") { it.second }, if (nodes.containsKey(key)) "true" else "false")
                 appendLine(vals.joinToString(",") { csvCell(it) })
