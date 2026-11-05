@@ -11,7 +11,7 @@ Consolidated index for all original ZIP archives. Raw ZIPs remain unchanged in r
 
 ## Resource nodes and static resources
 - Event 40 harvestable-node records: **652**
-- Family counts: 1: 9, 3: 22, 4: 309, 5: 292, 6: 20
+- Family counts: 14: 79, 20: 9, 27: 175, 28: 2, 29: 229, 32: 1, 7: 157
 - Event 46 state IDs: **297**; state-only IDs without Event 40 location: **213**
 - Event 39 static-resource observations: **47,108** (untyped candidates, not automatically confirmed nodes)
 - Verified Ore mapping: family 29, T3→571, T4→573, T5→574

@@ -13,11 +13,13 @@ Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge
 ## Event 40 type-number profiles
 | Type number | Records | Resource mapping | Mobile Type IDs | Tiers | Interpretation |
 |---:|---:|---|---|---|---|
-| 1 | 9 | WOOD | 20 (9) | 0 (9) | type_number_resource_mapping_candidate |
-| 3 | 22 | WOOD | 29 (22) | 0 (22) | type_number_resource_mapping_candidate |
-| 4 | 309 | WOOD | 29 (97), 27 (94), 7 (77), 14 (40), 32 (1) | 1 (189), 0 (65), 2 (48), 3 (7) | type_number_resource_mapping_candidate |
-| 5 | 292 | WOOD | 29 (107), 27 (73), 7 (73), 14 (37), 28 (2) | 1 (171), 0 (80), 2 (34), 3 (6), 1|3 (1) | type_number_resource_mapping_candidate |
-| 6 | 20 | ROCK | 27 (8), 7 (7), 29 (3), 14 (2) | 1 (16), 0 (3), 2 (1) | type_number_resource_mapping_candidate |
+| 14 | 79 | FIBER | -1 (79) | 4 (40), 5 (37), 6 (2) | type_number_resource_mapping_candidate |
+| 20 | 9 | HIDE | 482 (9) | 1 (9) | hide_type_number_with_nonharvestable_mobile_fallback |
+| 27 | 175 | ORE | -1 (175) | 4 (94), 5 (73), 6 (8) | ore_type_number_candidate |
+| 28 | 2 | UNRESOLVED | -1 (2) | 5 (2) | unresolved_type_number_outside_static_range |
+| 29 | 229 | ORE_RESOURCE_CREATURE | 574 (107), 573 (68), 572 (29), 571 (21), 576 (3), 570 (1) | 5 (107), 4 (97), 3 (22), 6 (3) | confirmed_ore_resource_creature |
+| 32 | 1 | UNRESOLVED | -1 (1) | 4 (1) | unclassified |
+| 7 | 157 | ROCK | -1 (157) | 4 (77), 5 (73), 6 (7) | type_number_resource_mapping_candidate |
 
 ## Event 123 mobile TypeID crosswalk
 | Type ID | Name | Tier | Category | Loot type | Harvestable | PCAP records |
@@ -144,10 +146,10 @@ Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge
 - File: albion-mobile-entity-catalog-2026-11-03.csv
 
 ## Enriched Event 40 node catalog
-- Rows: 652; mapped: 652; unresolved: 0
+- Rows: 652; mapped: 649; unresolved: 3
 - File: albion-resource-node-catalog-2026-11-03.csv
-- Resource display counts: Rock=20, Wood=632
-- Mapping status counts: REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL=652
+- Resource display counts: Critter Ore Mountain Green=30, Critter Ore Mountain Red=3, Fiber=79, Hide=9, Ore=175, Ore Elemental=196, Rock=157
+- Mapping status counts: PACKET_CONFIRMED_LIVING_RESOURCE=229, REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL=420, UNRESOLVED=3
 
 ## Mapping caveats and unresolved Type Number
 - Type number 20 maps to HIDE. Its mobile TypeID 482 is Mountain Rabbit and is not harvestable, so the reference OpenRadar handler falls back to type number 20 rather than overriding it.
@@ -160,16 +162,17 @@ Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge
 The JSON report records exact fields and common values for type, family, tier, enchantment, classification, resource, name, labels and IDs. Field-name similarity alone is not proof.
 
 ## Weak filename hints
-- Type number 1 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
-- Type number 3 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
-- Type number 4 — Albion2.zip / 6red ores ,each one mined.pcap (1 rows; filename hint only)
-- Type number 4 — Albion2.zip / blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap (1 rows; filename hint only)
-- Type number 4 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
-- Type number 4 — Albion2.zip / red,ore lvl2.pcap (1 rows; filename hint only)
-- Type number 4 — Albions.zip / 2mobs dismount and Mount .pcap (2 rows; filename hint only)
-- Type number 5 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (2 rows; filename hint only)
-- Type number 5 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
-- Type number 5 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
+- Type number 14 — Albion2.zip / 6red ores ,each one mined.pcap (1 rows; filename hint only)
+- Type number 14 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
+- Type number 14 — Albion2.zip / red,ore lvl2.pcap (1 rows; filename hint only)
+- Type number 20 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
+- Type number 27 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
+- Type number 29 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
+- Type number 29 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
+- Type number 29 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
+- Type number 7 — Albion2.zip / blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap (1 rows; filename hint only)
+- Type number 7 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (2 rows; filename hint only)
+- Type number 7 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
 
 ## Safety rules
 - Runtime IDs are scoped by archive and PCAP/session.

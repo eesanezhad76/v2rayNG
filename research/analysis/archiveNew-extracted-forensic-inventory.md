@@ -1,6 +1,6 @@
 # ZIP forensic inventory: archiveNew-extracted.zip
 
-- ZIP SHA-256: 7a546104c516e4b4074dfd721bcc58750ab94ab0ca94a3ca5699e1c5f8a35ce4
+- ZIP SHA-256: aef720a52fdf0215cb6e9974d3db8341e53e6c7f31b74194cc633216afa3603a
 
 ## Members
 - albion-1793786223835.jsonl (88569688 bytes; SHA-256 5223d16fd2da5aef28d569197fe2e866188f2e6a4ad38c928a33f56b1ff3d4ae)

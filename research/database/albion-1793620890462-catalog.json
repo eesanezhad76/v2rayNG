@@ -4,7 +4,7 @@
   "source_archive": "albion-1793620890462.jsonl",
   "coordinate_semantics": "Capture-local game coordinates. Zone identity is not decoded; do not combine across zones.",
   "node_count": 51,
-  "mob_count": 248,
+  "mob_count": 247,
   "marker_count": 21,
   "correlated_mob_marker_count": 0,
   "confirmed_user_target": null,
@@ -7586,7 +7586,7 @@
       "is_harvestable_mob": false
     },
     {
-      "entity_id": "catalog:mob:29189",
+      "entity_id": "29189",
       "mobile_type_id": 573,
       "enchant": 0,
       "name": "Ore Elemental",
@@ -7596,11 +7596,11 @@
       "player_damage_events": 0,
       "left": true,
       "left_ms": 1793621473280,
-      "x": 369.11414,
-      "y": 279.307,
+      "x": 366.5651550292969,
+      "y": 280.2362365722656,
       "last_position_ms": 1793621411310,
       "last_kind": "mob",
-      "classification": "observed_mob",
+      "classification": "player_attack_target",
       "manual_marker_matches": [],
       "source_entity_id": "29189",
       "health_delta": -26,
@@ -7611,7 +7611,43 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "source_archive": "Albionsskkakaks111.zip",
+      "position_source": "Event3 target movement",
+      "position_last_seen_ms": 1793621473280,
+      "first_attack_ms": 1793621467450,
+      "last_attack_ms": 1793621467958,
+      "attack_action_count": 2,
+      "attack_flag_values": "0|1",
+      "event3_position_samples": 108,
+      "health_observations": 15,
+      "min_current_health": 9,
+      "last_current_health": 9,
+      "health_source_entity_ids": "37103",
+      "leave_observed": true,
+      "leave_after_last_attack": true,
+      "interpretation": "health_updates_then_leave_after_attack_defeat_likely_not_confirmed",
+      "targeted_by_player": true,
+      "target_source": "outbound Photon operation 23 target request",
+      "target_entity_id_proven": true,
+      "marker_matches": [
+        {
+          "activity": "Mobs",
+          "found_ms": 1793621458722,
+          "mob_killed_ms": 1793621470263,
+          "confidence": "LOW",
+          "tier": "T4",
+          "enchantment": "Normal",
+          "identity_proven": false
+        }
+      ],
+      "marker_activity": null,
+      "marker_activity_candidate": "Mobs",
+      "marker_match_confidence": "LOW",
+      "marker_tier": 4,
+      "marker_enchant": 0,
+      "health_value": 9,
+      "health_min": 9
     },
     {
       "entity_id": "catalog:mob:4452",
@@ -8300,48 +8336,6 @@
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
       "is_harvestable_mob": false
-    },
-    {
-      "entity_id": "29189",
-      "source_entity_id": "29189",
-      "region_id": "<unknown-region>",
-      "last_kind": "mob",
-      "source_archive": "Albionsskkakaks111.zip",
-      "mobile_type_id": 573,
-      "name": "Ore Elemental",
-      "x": 366.5651550292969,
-      "y": 280.2362365722656,
-      "tier": 4,
-      "mob_category": "critter",
-      "type_unique_name": "T4_MOB_CRITTER_ORE_MOUNTAIN_RED",
-      "localization_tag": "@MOB_T4_MOB_CRITTER_FOREST_RED_OREELEMENTAL",
-      "mob_danger": "normal",
-      "max_health": 1203,
-      "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true,
-      "first_seen_ms": 1793621467450,
-      "last_seen_ms": 1793621467958,
-      "position_source": "Event3 target movement",
-      "first_attack_ms": 1793621467450,
-      "last_attack_ms": 1793621467958,
-      "attack_action_count": 2,
-      "attack_flag_values": "0|1",
-      "event3_position_samples": 108,
-      "health_observations": 15,
-      "min_current_health": 9,
-      "last_current_health": 9,
-      "health_source_entity_ids": "37103",
-      "leave_observed": true,
-      "leave_after_last_attack": true,
-      "interpretation": "health_updates_then_leave_after_attack_defeat_likely_not_confirmed",
-      "targeted_by_player": true,
-      "target_source": "outbound Photon operation 23 target request",
-      "classification": "player_attack_target",
-      "target_entity_id_proven": true,
-      "marker_matches": [],
-      "health_value": 9,
-      "health_min": 9,
-      "left": true
     }
   ],
   "markers": [
@@ -8622,9 +8616,20 @@
       },
       "region_id": null,
       "attack_target_correlation": {
-        "confidence": "NONE",
-        "candidate_count": 0,
-        "identity_proven": false
+        "target_entity_id": "29189",
+        "mobile_type_id": 573,
+        "first_attack_ms": 1793621467450,
+        "last_attack_ms": 1793621467958,
+        "start_to_attack_delta_ms": 8728,
+        "confidence": "LOW",
+        "candidate_count": 1,
+        "identity_proven": false,
+        "evidence": [
+          "outbound operation 23 target ID",
+          "same-PCAP timestamps",
+          "Event 123 type",
+          "health/leave evidence"
+        ]
       }
     },
     {
@@ -8660,7 +8665,7 @@
     {
       "entity_id": "29189",
       "source_archive": "Albionsskkakaks111.zip",
-      "region_id": "<unknown-region>",
+      "region_id": null,
       "mobile_type_id": 573,
       "name": "Ore Elemental",
       "x": 366.5651550292969,
@@ -8673,10 +8678,10 @@
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
       "is_harvestable_mob": true,
-      "first_seen_ms": 1793621467450,
-      "last_seen_ms": 1793621467958,
+      "first_seen_ms": 1793621411310,
+      "last_seen_ms": 1793621473280,
       "position_source": "Event3 target movement",
-      "position_last_seen_ms": null,
+      "position_last_seen_ms": 1793621473280,
       "first_attack_ms": 1793621467450,
       "last_attack_ms": 1793621467958,
       "attack_action_count": 2,
@@ -8694,10 +8699,20 @@
       "last_kind": "mob",
       "classification": "player_attack_target",
       "target_entity_id_proven": true,
-      "marker_matches": []
+      "marker_matches": [
+        {
+          "activity": "Mobs",
+          "found_ms": 1793621458722,
+          "mob_killed_ms": 1793621470263,
+          "confidence": "LOW",
+          "tier": "T4",
+          "enchantment": "Normal",
+          "identity_proven": false
+        }
+      ]
     }
   ],
   "attack_target_count": 1,
-  "correlated_attack_target_markers": 0,
+  "correlated_attack_target_markers": 1,
   "troll_target_count": 0
 }

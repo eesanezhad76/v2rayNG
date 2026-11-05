@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-05T13:00:59.236808+00:00",
+  "generated_at_utc": "2026-11-05T13:04:58.725299+00:00",
   "branch": "albion-pattern-mining",
   "source_archives": [
     {
@@ -126,7 +126,7 @@
     {
       "archive": "archiveNew-extracted.zip",
       "bytes": 797747472,
-      "sha256": "7a546104c516e4b4074dfd721bcc58750ab94ab0ca94a3ca5699e1c5f8a35ce4",
+      "sha256": "aef720a52fdf0215cb6e9974d3db8341e53e6c7f31b74194cc633216afa3603a",
       "members": 9,
       "pcaps": 4,
       "jsonl": 4,
@@ -170,11 +170,13 @@
   "resource_nodes": {
     "event40_file_scoped_records": 652,
     "by_family_number": {
-      "1": 9,
-      "3": 22,
-      "4": 309,
-      "5": 292,
-      "6": 20
+      "14": 79,
+      "20": 9,
+      "27": 175,
+      "28": 2,
+      "29": 229,
+      "32": 1,
+      "7": 157
     },
     "by_archive": {
       "Albion اااستسمنسمنش.zip": 4,
@@ -1108,8 +1110,8 @@
     },
     {
       "path": "research/database/2026-11-02-pcap-harvestable-nodes.csv",
-      "bytes": 129572,
-      "sha256": "57db42c27f0205c58b9ee49023430af960b31152e369b5d0e8d93f35f247a75d"
+      "bytes": 133692,
+      "sha256": "8553d7b7221630ca1a1a0b0a21f14ca6d5827ac8c56c5d4756288a1163f66bec"
     },
     {
       "path": "research/database/2026-11-02-pcap-mob-lifecycle.csv",
@@ -1123,8 +1125,8 @@
     },
     {
       "path": "research/database/2026-11-02-pcap-attack-target-tracks.csv",
-      "bytes": 16145,
-      "sha256": "9219a0d9a62d4e3f0d16f3aad531948fcc85f9e4474937bfb7831865225aae25"
+      "bytes": 15953,
+      "sha256": "3ccd0f77d7267564380bf3f404af7810ed6016f3de01637c9fd0a1e729b7fa55"
     },
     {
       "path": "research/analysis/2026-11-02-overlay-manual-markers.csv",
@@ -1138,8 +1140,8 @@
     },
     {
       "path": "research/database/2026-11-02-pcap-resource-state-timelines.csv",
-      "bytes": 96760,
-      "sha256": "aaf42f036903ce52be29f5bfff622d9615ce97e9f3a498f510d207d6921dd4a5"
+      "bytes": 94882,
+      "sha256": "1f58396bce987209d06dc0091f54f037eef5c53ece769678f76c11cd1a8975b2"
     },
     {
       "path": "research/database/2026-11-02-pcap-health-energy-events.csv",
