@@ -454,6 +454,62 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(scan.getJSONObject(0).optString("region_id") == "MAP_B")
     }
 
+    @Test fun regionChangeClearsOldCurrentTargetBeforeAttachingNewRegionTrollMarker() {
+        val store = AlbionLiveKnowledgeStore(context(), 40_000L)
+        val now = 40_100L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observe(now + 1L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 777L, typeId = 573, x = 10f, y = 20f
+        )))
+        store.observe(now + 2L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "target_request", eventCode = 23, candidateEntityIds = listOf(777L)
+        )))
+        store.observe(now + 3L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_B"
+        )))
+        // Runtime entity IDs can be reused after a cluster transition.
+        store.observe(now + 4L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 777L, typeId = 574, x = -5f, y = 8f
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("tier", "T4"), now + 5L)
+        store.observe(now + 6L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "target_request", eventCode = 23, candidateEntityIds = listOf(777L)
+        )))
+        val rows = org.json.JSONArray(store.snapshotJson())
+        val current = (0 until rows.length()).map { rows.getJSONObject(it) }
+            .single { it.optString("entity_id") == "777" }
+        assertTrue(current.optString("region_id") == "MAP_B", current.toString())
+        assertTrue(current.optString("manual_activity") == "Troll", current.toString())
+        assertTrue(current.optBoolean("manual_marker_identity_proven"), current.toString())
+    }
+
+    @Test fun regionChangeDiscardsUnresolvedTrollMarkerInsteadOfApplyingItToTheNextRegion() {
+        val store = AlbionLiveKnowledgeStore(context(), 50_000L)
+        val now = 50_100L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("tier", "T4"), now + 1L)
+        store.observe(now + 2L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_B"
+        )))
+        store.observe(now + 3L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 888L, typeId = 573, x = 4f, y = 9f
+        )))
+        store.observe(now + 4L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "target_request", eventCode = 23, candidateEntityIds = listOf(888L)
+        )))
+        val rows = org.json.JSONArray(store.snapshotJson())
+        val current = (0 until rows.length()).map { rows.getJSONObject(it) }
+            .single { it.optString("entity_id") == "888" }
+        assertTrue(!current.has("manual_activity"), current.toString())
+        assertTrue(!current.optBoolean("manual_marker_identity_proven"), current.toString())
+    }
+
     @Test fun separatesTrollMarkerFromOreElementalAndTracksAliveDeadHarvestedLifecycle() {
         val store = AlbionLiveKnowledgeStore(context(), 20_000L)
         val now = 20_100L
