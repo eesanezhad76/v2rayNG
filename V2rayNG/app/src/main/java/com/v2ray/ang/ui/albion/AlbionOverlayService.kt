@@ -830,7 +830,7 @@ class AlbionOverlayService : Service() {
             val saved = markerResult.startsWith("saved:") || markerResult.startsWith("queued:")
             if (saved) repeatPrefs.edit().putLong(repeatKey, now).apply()
             title.text = if (saved) "ALBION • $activity ✓" else "ALBION • $activity !"
-            if (!saved) Toast.makeText(this, "Marker not saved. Capture must be running.", Toast.LENGTH_SHORT).show()
+            if (!saved) Toast.makeText(this, "Marker was not saved or queued. Check capture and queue storage.", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             title.text = "ALBION • $activity !"
             Toast.makeText(this, "Marker error: ${e.message ?: "unknown"}", Toast.LENGTH_LONG).show()
