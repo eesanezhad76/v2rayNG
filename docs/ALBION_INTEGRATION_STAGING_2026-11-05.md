@@ -928,8 +928,8 @@ No source commit was cherry-picked, merged, or copied by this assessment. The tr
 
 - Operation: correct the recorded commit/blob identifiers in Sections 19, 22 and 24; replace accidental literal newline escape sequences with normal line breaks.
 - Repository: eesanezhad76/v2rayNG
-- Source document blob SHA: 79ee23f645b64d18f0a309f49e03b78f92117fbe
+- Source document blob SHA: 77066f4737b57df7a51923d093f1190eab1c9a8f
 - Destination branch: albion-integration-staging-2026-11-05
-- Resulting commit SHA: 088cd9791bed613b3d28a818f46c7e594d0a3684
-- New blob SHA: 77066f4737b57df7a51923d093f1190eab1c9a8f
+- Resulting commit SHA: 8709a3d8bf783c944676f44412375f388dce414b
+- New blob SHA: 6a7c3f364badecda60039c7cd65d594bf182a1d2
 - No application source, tests, runtime assets, research outputs, raw evidence, archive parts, or pre-existing branches changed.
