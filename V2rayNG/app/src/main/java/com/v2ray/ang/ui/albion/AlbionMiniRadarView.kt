@@ -267,11 +267,18 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                     if (tx.isFinite() && ty.isFinite()) trailPoints.add(tx to ty)
                 }
             }
-            val resources = visibleEntities().filter { it.optString("last_kind") in RESOURCE_KINDS }
-            // Keep the closest active resource visibly selected on the mini radar.
-            // A type-ambiguous observation can still be a real, coordinate-backed node.
+            val currentRegionId = you.optString("region_id").takeIf { it.isNotBlank() }
+            val resources = visibleEntities().filter {
+                it.optString("last_kind") in RESOURCE_KINDS &&
+                    AlbionSpatialIntelligence.isInActiveRegion(currentRegionId, it.optString("region_id"))
+            }
+            // Event 39 candidates remain visible for investigation but cannot guide navigation.
+            // Only typed harvestables or exact user-confirmed targets can be highlighted.
             val nearestTarget = resources.asSequence()
-                .filter { !isUnavailableResource(it) && validPoint(it) }
+                .filter {
+                    !isUnavailableResource(it) && validPoint(it) &&
+                        AlbionSpatialIntelligence.isNavigableResource(it)
+                }
                 .minByOrNull { hypot(it.optDouble("x") - px, it.optDouble("y") - py) }
             val nearestDistance = nearestTarget?.let {
                 hypot(it.optDouble("x") - px, it.optDouble("y") - py)

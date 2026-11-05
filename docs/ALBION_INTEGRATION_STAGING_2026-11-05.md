@@ -1334,7 +1334,7 @@ Additional Raw Pattern Discovery safety findings:
 - Corrected in commit `d1a7716c2d385e564d12d6d8425c86d36d97985a`: the pipeline now first sends Event 46 with missing amount and asserts not depleted, then sends Event 46 with explicit zero and asserts depleted.
 - Python analysis tests passed in run 42090092939.
 - APK artifacts were uploaded, but APK verification, emulator installation and PCAP replay were skipped because the unit-test task failed. The readiness report therefore failed its prerequisite gate.
-- Replacement run: `42092061950`, head `d1a7716c2d385e564d12d6d8425c86d36d97985a`, currently in progress at the time of this record. Do not mark the staging patch validated until this run completes and the JUnit artifact confirms the corrected pipeline test passes.
+- Replacement run: `42092061950`, head `d1a7716c2d385e564d12d6d8425c86d36d97985a`, completed successfully. JUnit artifact: 283 tests, 0 failures, 0 errors, 0 skipped. APK build/package, five-ABI verification, signature verification, Android 15 emulator installation, offline PCAP audit (13 archives / 32 PCAPs / 0 errors), and Python tests all passed. Readiness remains `NOT_READY_FOR_FIELD_TEST` because replay baseline and live device checks are not verified.
 
 The build workflow now ignores `docs/**` changes so future register-only updates do not trigger another full APK pipeline. Source, test, workflow and evidence changes remain covered by the branch's full build gates.
 
@@ -1342,4 +1342,54 @@ The build workflow now ignores `docs/**` changes so future register-only updates
 ### Correction to earlier Troll-marker transfer assessment
 
 A direct source comparison of `AlbionMiniRadarView.kt` and `AlbionSpatialIntelligence.kt` on Pattern Mining vs Safe Fixes shows that the exact manual-marker identity condition is already present in Safe Fixes:
-`manual_activity == "Troll" && manual_marker_identity_proven == true`, with Ore Elemental precedence. The earlier table incorrectly classified this as a missing implementation. It is removed from the code-transfer list; only test coverage may be added if required. The remaining navigation candidates are the active-region UI filter and Family+Tier Event 40 navigability.
+`manual_activity == "Troll" && manual_marker_identity_proven == true`, with Ore Elemental precedence. The earlier table incorrectly classified this as a missing implementation. It is removed from the code-transfer list; only test coverage may be added if required. The active-region UI filter and strict nearest-target gating are the transferable candidates. The broad Family+Tier fallback is rejected: its key test uses an unresolved packet type_number as if it were a verified family.
+
+
+## 44. Pattern Mining → Safe Fixes: Mini Radar transfer audit
+
+The current staging branch was compared directly with `albion-pattern-mining` and `albion-safe-fixes-2026-11-05`. No source branch was changed.
+
+### Evidence-backed disposition
+
+| Candidate | Pattern Mining behavior | Safe Fixes behavior | Decision |
+|---|---|---|---|
+| Active-region filtering | UI filters resource pins by exact player region; tagged pins are rejected when player region is unknown | Live store already scopes observations by active region, but Mini Radar did not independently filter its snapshot | Port as UI defense-in-depth; preserve store guards |
+| Nearest-target eligibility | Uses `isNavigableResource` so untyped Event 39 candidates remain visible but cannot be highlighted as gathering targets | Mini Radar selected any non-depleted coordinate-backed resource | Port strict navigation gate; retain candidate pins for investigation |
+| Family+Tier fallback | `isTypedResource` accepts any positive `family` plus Tier 1–8 even without mobile TypeID | Requires positive mobile TypeID and valid Tier for typed resource | Reject broad fallback pending verified family semantics |
+| Troll marker identity | Pattern Mining requires HIGH/CONFIRMED/USER_CONFIRMED plus `marker_identity_proven` or `manual_marker_identity_proven` for marker-derived Troll identity | Safe Fixes accepts high-confidence marker match without explicit identity proof; manual exact-ID path is already guarded | Keep as separate follow-up; inspect marker producer/provenance before changing runtime classification |
+| Malformed live snapshot | Pattern Mining branch does not contain Safe Fixes' full stale-snapshot clearing behavior | Safe Fixes clears cached live snapshot and rendered entities on malformed input | Preserve Safe Fixes implementation; do not overwrite with Pattern Mining file |
+
+### Why the Family+Tier test is not accepted
+
+The Pattern Mining test `event40FamilyAndTierAreEnoughToNavigateWhenMobileTypeIdIsUnknown` creates a fixture with `family=32` and expects it to be navigable. The audited resource catalog row for entity `877646` instead records:
+- `type_number=32`
+- `tier=4`
+- `mobile_type_id=-1`
+- `mapping_status=UNRESOLVED`
+- one PCAP observation, with a resource-state sequence from 30 down to 0.
+
+This proves the entity's state lifecycle, not its resource family or harvestable type mapping. The Pattern test conflates packet `type_number` with a verified `family`; the positive Family+Tier fallback would therefore turn unresolved evidence into a navigation assertion. It is not transferred. A new staging regression test records the correct schema (`type_number=32`, no verified mobile TypeID) and asserts that it cannot become a navigation target.
+
+### Staged code and tests
+
+- `AlbionSpatialIntelligence.isInActiveRegion` added with exact-match semantics; unknown player region permits only unscoped entities.
+- Mini Radar resource rendering is restricted to the active region.
+- Nearest gathering target now additionally requires the existing Safe Fixes `isNavigableResource` predicate. This keeps candidate-only Event 39 pins visible but prevents them from driving the target highlight.
+- Safe Fixes' malformed-snapshot clearing and exact manual marker identity handling are preserved.
+- Added tests for same/different/missing/unknown region IDs and unresolved `type_number=32`.
+- No raw PCAP, archive, CSV, database, research index or original branch changed.
+
+### Change log — selective spatial safety port
+
+- Operation: edit Mini Radar region filtering and nearest-target eligibility; add exact active-region helper; add regression tests; update this register with CI and source-evidence findings.
+- Repository: `eesanezhad76/v2rayNG`
+- Source branch: `albion-pattern-mining` (review only; no cherry-pick or source mutation)
+- Destination branch: `albion-integration-staging-2026-11-05`
+- Parent before change: `fb09dac850e1acb20a97c5c6038362fffcadc3fa`
+- Source blob SHAs before change:
+  - Mini Radar: `5cb75bf20b162948be9cede6bd5a0f34a382dd3e`
+  - Spatial Intelligence: `f6b531abff2e89399f139e669e20c4ea873f1bb3`
+  - Spatial tests: `7a0dfd22f61ce3fade03cb2fa8e7464de61e24ae`
+  - Staging register: `0d70a15ac14c13caeb7d198678fbe01fa404bab3`
+- Resulting commit and new blob SHAs are recorded after commit creation below.
+- No other path was included in this commit.

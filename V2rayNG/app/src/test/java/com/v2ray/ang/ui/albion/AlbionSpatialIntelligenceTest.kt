@@ -30,6 +30,17 @@ class AlbionSpatialIntelligenceTest {
     }
 
     @Test
+    fun knownActiveRegionRejectsMissingOrDifferentRegionTargets() {
+        assertTrue(AlbionSpatialIntelligence.isInActiveRegion("MAP_A", "MAP_A"))
+        assertFalse(AlbionSpatialIntelligence.isInActiveRegion("MAP_A", "MAP_B"))
+        assertFalse(AlbionSpatialIntelligence.isInActiveRegion("MAP_A", null))
+        assertFalse(AlbionSpatialIntelligence.isInActiveRegion("MAP_A", ""))
+        assertFalse(AlbionSpatialIntelligence.isInActiveRegion(null, "MAP_B"))
+        assertTrue(AlbionSpatialIntelligence.isInActiveRegion(null, null))
+        assertTrue(AlbionSpatialIntelligence.isInActiveRegion("", ""))
+    }
+
+    @Test
     fun oreElementalTypeIdWinsOverConflictingTrollDisplayName() {
         val elemental = resource("ore-elemental", "mob", 12.0, 18.0, typeId = 571)
             .put("name", "Troll")
@@ -120,6 +131,18 @@ class AlbionSpatialIntelligenceTest {
         val typed = resource("typed", "harvestable", 11.0, 10.0, 29, 574, 5, 1)
         assertFalse(AlbionSpatialIntelligence.isNavigableResource(candidate))
         assertTrue(AlbionSpatialIntelligence.isNavigableResource(typed))
+    }
+
+    @Test
+    fun unresolvedTypeNumber32WithoutVerifiedMobileTypeCannotBecomeNavigationTarget() {
+        // The audited catalog records entity 877646 as type_number=32 / UNRESOLVED.
+        // Do not mislabel that packet type_number as a verified resource family or TypeID.
+        val unresolved = JSONObject()
+            .put("entity_id", "877646")
+            .put("last_kind", "harvestable")
+            .put("type_number", 32)
+            .put("tier", 4)
+        assertFalse(AlbionSpatialIntelligence.isNavigableResource(unresolved))
     }
 
     @Test
