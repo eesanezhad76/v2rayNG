@@ -703,4 +703,40 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(generations[1].optInt("spawn_generation") == 1, generations[1].toString())
     }
 
+
+    @Test fun depletionUpdatesTheLatestRegionLocalMobGenerationOnly() {
+        fun mob(generation: Int, seen: Long) = org.json.JSONObject()
+            .put("record_key", "60000:MAP_A:777:spawn:$generation")
+            .put("entity_id", "777").put("session_started_ms", 60_000L)
+            .put("region_id", "MAP_A").put("entity_class", "mob").put("last_kind", "mob")
+            .put("first_seen_ms", seen - 100L).put("last_seen_ms", seen)
+            .put("spawn_generation", generation).put("mob_state", "dead_harvestable")
+            .put("mob_dead", true).put("x", 10.0 + generation).put("y", 10.0)
+        val node = org.json.JSONObject()
+            .put("record_key", "60000:MAP_A:999").put("entity_id", "999")
+            .put("session_started_ms", 60_000L).put("region_id", "MAP_A")
+            .put("entity_class", "resource").put("last_kind", "harvestable")
+            .put("first_seen_ms", 60_300L).put("last_seen_ms", 60_400L)
+            .put("source_mob_entity_id", "777").put("x", 20.0).put("y", 20.0)
+        File(tempDir, "albion-live-knowledge.json").writeText(
+            org.json.JSONArray().put(mob(0, 60_200L)).put(mob(1, 60_350L)).put(node).toString()
+        )
+
+        val store = AlbionLiveKnowledgeStore(context(), 60_000L)
+        store.observe(60_450L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observe(60_500L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "resource_state", eventCode = 46, entityId = 999L, size = 0, removed = true
+        )))
+
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        val mobs = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
+            .filter { it.optString("entity_class") == "mob" }
+            .sortedBy { it.optInt("spawn_generation") }
+        assertTrue(mobs.size == 2, snapshot.toString())
+        assertTrue(mobs[0].optString("mob_state") == "dead_harvestable", mobs[0].toString())
+        assertTrue(mobs[1].optString("mob_state") == "mined", mobs[1].toString())
+    }
+
 }
