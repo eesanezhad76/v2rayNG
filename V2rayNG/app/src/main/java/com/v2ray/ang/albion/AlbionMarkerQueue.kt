@@ -31,7 +31,10 @@ object AlbionMarkerQueue {
             if (existing.optString("marker_id") == id) {
                 // A retry with the same durable payload is idempotent. Reusing an ID for
                 // different content is rejected rather than silently replacing evidence.
-                return@synchronized if (existing.toString() == marker.toString()) id else null
+                if (existing.toString() != marker.toString()) return@synchronized null
+                // SharedPreferences.commit() may update its in-memory map even when disk
+                // persistence fails. Re-commit the complete queue before reporting success.
+                return@synchronized if (writeQueue(prefs, queue)) id else null
             }
         }
         if (queue.length() >= CAPACITY) return@synchronized null
@@ -71,7 +74,8 @@ object AlbionMarkerQueue {
                 next.put(item)
             }
         }
-        if (!found) return@synchronized true
+        // Commit even when the ID is already absent: a previous failed commit may have
+        // changed the in-memory map without durably updating the backing file.
         writeQueue(prefs, next)
     }
 
