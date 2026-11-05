@@ -14,6 +14,12 @@ object AlbionSpatialIntelligence {
     private val resourceKinds = setOf("static_resource", "harvestable", "resource_state")
     private val ORE_ELEMENTAL_TYPE_IDS = setOf(571, 573, 574)
 
+    /** A known active region must match exactly; missing region IDs are not safe navigation targets. */
+    fun isInActiveRegion(activeRegionId: String?, entityRegionId: String?): Boolean {
+        val active = activeRegionId?.takeIf { it.isNotBlank() } ?: return true
+        return entityRegionId == active
+    }
+
     /** Stable TypeIDs from the research dictionary outrank variable display labels. */
     fun isOreElemental(item: JSONObject): Boolean {
         val typeId = item.optInt("mobile_type_id", -1)
