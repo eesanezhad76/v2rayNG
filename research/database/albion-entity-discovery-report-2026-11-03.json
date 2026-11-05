@@ -5334,6 +5334,7 @@
     "protocol_evidence": {}
   },
   "knowledge_type_and_family_field_values": {
+    "entities.family_evidence": [],
     "entities.family": [
       [
         "27",
@@ -5356,7 +5357,6 @@
         2
       ]
     ],
-    "entities.mobile_type_id_evidence": [],
     "entities.mobile_type_id": [
       [
         "482",
@@ -5603,7 +5603,7 @@
         1
       ]
     ],
-    "entities.family_evidence": [],
+    "entities.mobile_type_id_evidence": [],
     "learned_patterns.type_id": [
       [
         "2489",
