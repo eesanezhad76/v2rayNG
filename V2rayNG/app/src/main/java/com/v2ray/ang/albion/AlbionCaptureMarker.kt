@@ -9,6 +9,24 @@ object AlbionCaptureMarker {
     private const val ESCAPED_PREFIX = "ALBION_TAG_V1\\n"
     private val nextId = AtomicInteger(1)
 
+    fun payload(markerJson: String): ByteArray {
+        val canonicalJson = JSONObject(markerJson).toString()
+        return (PREFIX + canonicalJson).toByteArray(Charsets.UTF_8)
+    }
+
+    fun parsePayload(payload: ByteArray, offset: Int = 0, length: Int = payload.size - offset): JSONObject? {
+        if (offset < 0 || length < 0 || offset + length > payload.size) return null
+        return try {
+            val text = String(payload, offset, length, Charsets.UTF_8)
+            val json = when {
+                text.startsWith(PREFIX) -> text.removePrefix(PREFIX)
+                text.startsWith(ESCAPED_PREFIX) -> text.removePrefix(ESCAPED_PREFIX)
+                else -> return null
+            }
+            JSONObject(json)
+        } catch (_: Exception) { null }
+    }
+
     fun build(markerJson: String): ByteArray {
         JSONObject(markerJson)
         val payload = (PREFIX + markerJson).toByteArray(Charsets.UTF_8)
