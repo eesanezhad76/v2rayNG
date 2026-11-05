@@ -131,6 +131,14 @@ class AlbionLiveKnowledgeStore(
                 } else {
                     currentTargetEntityId = null
                     currentTargetSeenMs = 0L
+                    val priorTarget = activeTrollTargetId
+                    if (priorTarget != null && activeTrollMarker != null && !trollMarkerAmbiguous) {
+                        records.values.firstOrNull { it.optString("entity_id") == priorTarget &&
+                            it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                            it.optString("region_id", "") == regionKey }?.let(::clearTrollMarker)
+                        activeTrollTargetId = null
+                        trollMarkerAmbiguous = true
+                    }
                 }
                 return@forEach
             }
