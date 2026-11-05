@@ -656,7 +656,7 @@ fun main() {
                 val windowStart = sample.foundMs - 10000L
                 val windowEnd = (sample.depletedMs ?: sample.completedMs ?: sample.foundMs) + 10000L
                 val spatialTemporalNodes = nodes.values.filter { node ->
-                    node.archive == sample.archive && node.pcap == sample.pcap &&
+                    node.archive == sample.archive && node.pcap == sample.pcap && node.regionId == sample.regionId &&
                         node.first <= windowEnd && node.last >= windowStart &&
                         (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
                         (enchantNumber == null || node.enchants.contains(enchantNumber))
