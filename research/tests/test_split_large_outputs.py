@@ -24,6 +24,9 @@ class SplitLargeOutputsTests(unittest.TestCase):
             self.assertEqual(payload, rebuilt)
             self.assertEqual(len(payload), record["bytes"])
             self.assertGreater(len(record["parts"]), 1)
+            source.unlink()
+            self.assertEqual(1, shards.restore_sources(manifest, root))
+            self.assertEqual(payload, source.read_bytes())
 
 
 if __name__ == "__main__":
