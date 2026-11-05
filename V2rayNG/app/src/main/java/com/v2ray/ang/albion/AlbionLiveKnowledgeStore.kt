@@ -180,7 +180,7 @@ class AlbionLiveKnowledgeStore(
             val confirmedRefill = observation.kind == "harvestable" && incomingAmount > 0
             if (record.optBoolean("depleted", false) && confirmedRefill) {
                 val nextGeneration = record.optInt("spawn_generation", 0) + 1
-                val nextKey = "$sessionStartedMs:$entityId:spawn:$nextGeneration"
+                val nextKey = "$sessionStartedMs:$regionKey:$entityId:spawn:$nextGeneration"
                 record.put("respawn_observed_at_ms", timestampMs)
                     .put("superseded_by_record_key", nextKey)
                 key = nextKey
