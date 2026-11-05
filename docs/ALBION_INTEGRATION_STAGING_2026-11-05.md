@@ -1039,7 +1039,7 @@ Manifest boundary:
 - Therefore the raw split archive was validated by 7z multi-volume CRC/integrity testing, extracted-member SHA-256 comparison, and byte-for-byte Master duplicate checks.
 - The manifest's outer ZIP record is 797,747,472 bytes with SHA-256 `8c93960e9a036f63d2d822d91c6d5288bb1cb565c0acdfb70add61ef79e2e1c7`. The nine extracted members match, but the outer ZIP container hash was not recomputed by this audit.
 
-The enhanced read-only audit run `42087978698` is in progress to additionally verify all 13 original ZIP inputs against the complete database manifest. Its workflow also keeps temporary Master copies outside the uploaded artifact. Do not treat the 13-ZIP manifest check as passed until that run completes successfully.
+The enhanced read-only audit run `42087978698` completed successfully (head `cb38229cfa41f60af89cb3f325347b9785778cfb`). It verified **all 13 original ZIP inputs** against the complete database manifest by exact byte size and SHA-256, including the modified `AlbionRadar.zip`. Final artifact ID: `13443078504` (6,908 bytes). The workflow keeps temporary Master copies outside the uploaded artifact. Thus 13 of the manifest's 14 ZIP entries were verified as source ZIP containers; the remaining derived `archiveNew-extracted.zip` was verified at member level (9/9 files) but its outer ZIP container hash was not recomputed.
 
 ## 30. Change log — archive audit branch and verified evidence
 
@@ -1052,5 +1052,17 @@ The enhanced read-only audit run `42087978698` is in progress to additionally ve
 - Artifact-size cleanup commit: `cb38229cfa41f60af89cb3f325347b9785778cfb`
 - Latest audit branch head at this record: `cb38229cfa41f60af89cb3f325347b9785778cfb`
 - Latest workflow blob SHA: `9dc3f1c5dab26b8bf2f4f16c94824f57aa3d5628`
-- Successful 7z/member audit run: `42087590613`; artifact ID `13444361039`.
+- Initial successful 7z/member audit run: `42087590613`; artifact ID `13444361039`.\n- Final successful full audit run: `42087978698`; artifact ID `13443078504`; 13/13 original ZIPs match the manifest.
 - The audit workflow uses `contents: read`; it writes no repository data and commits no extracted output.
+
+
+## 31. Change log — final archive manifest result
+
+- Operation: update Section 29 with completed full audit results after inspecting the final Actions artifact.
+- Repository: eesanezhad76/v2rayNG
+- Source document blob SHA: e3cda59fa88788b21aeba289fceb8c2686fe78cc
+- Destination branch: albion-integration-staging-2026-11-05
+- Archive audit run: 42087978698 (success); artifact: 13443078504
+- Verified: 45/45 split parts, 7z CRC/integrity, 9/9 extracted member hashes, 6/6 Master duplicate comparisons, 13/13 original ZIP hashes/sizes against the complete database manifest.
+- Resulting commit SHA and new blob SHA: record from update response.
+- No source data or pre-existing branch changed.
