@@ -322,13 +322,19 @@ class AlbionLiveKnowledgeStore(
                         record.put("mob_state", "mined").put("mob_mined_ms", timestampMs)
                     }
                     if (sourceMobId.isNotBlank()) {
-                        records.values.filter {
+                        val sourceRecordKey = record.optString("source_mob_record_key")
+                        val sourceMob = records[sourceRecordKey]?.takeIf {
+                            it.optString("entity_id") == sourceMobId &&
+                                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                                it.optString("region_id", "") == (activeRegionId ?: "") &&
+                                it.optString("entity_class") == "mob"
+                        } ?: records.values.filter {
                             it.optString("entity_id") == sourceMobId &&
                                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                                 it.optString("region_id", "") == (activeRegionId ?: "") &&
                                 it.optString("entity_class") == "mob"
                         }.maxByOrNull { it.optLong("last_seen_ms") }
-                            ?.put("mob_state", "mined")?.put("mob_mined_ms", timestampMs)
+                        sourceMob?.put("mob_state", "mined")?.put("mob_mined_ms", timestampMs)
                     }
                 } else if ((observation.size ?: 0) > 0) {
                     record.put("depleted", false)
@@ -850,6 +856,7 @@ class AlbionLiveKnowledgeStore(
         if (mobId.isBlank() || nodeId.isBlank() || mobId == nodeId ||
             mob.has("superseded_by_harvestable_entity_id") || node.has("source_mob_entity_id")) return
         node.put("source_mob_entity_id", mobId)
+            .put("source_mob_record_key", mob.optString("record_key"))
             .put("mob_state", if (node.optBoolean("depleted", false)) "mined" else "dead_harvestable")
             .put("mob_dead", true)
         mob.put("mob_state", if (node.optBoolean("depleted", false)) "mined" else "dead_harvestable")
