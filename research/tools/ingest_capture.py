@@ -23,7 +23,7 @@ RESOURCE_ACTIVITIES={"Ore","Wood","Stone","Fiber","Hide"}
 RESOURCE_EVENTS={"target_found","gathering_started","gathering_completed","node_depleted"}
 
 def pair_manual_markers(markers):
- """FIFO-pair manual resource and mob markers without inventing runtime entity IDs."""
+ """Pair manual markers conservatively; superseded starts and unmatched stops remain explicit."""
  def compare_metadata(cycle,marker,event):
   conflicts=cycle.setdefault("metadata_conflicts",[])
   for field in ("tier","enchantment"):
@@ -47,7 +47,16 @@ def pair_manual_markers(markers):
   if activity in RESOURCE_ACTIVITIES and event in RESOURCE_EVENTS:
    queue=states[activity]
    if event=="target_found":
-    queue["pending"].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":timestamp,"completed_ms":None,"depleted_ms":None,"metadata_conflicts":[]})
+    # The current overlay has one active resource target at a time. A new
+    # START before END supersedes the older pending START; never let a later
+    # END falsely close that stale window. Preserve the superseded marker.
+    while queue["pending"]:
+     stale=queue["pending"].popleft()
+     stale["status"]="SUPERSEDED_NOT_COMPLETED"
+     stale["superseded_by_ms"]=timestamp
+     lifecycles.append(stale)
+     unmatched.append({"activity":activity,"event":"target_found","timestamp_ms":stale["found_ms"],"reason":"superseded_by_new_target_found","superseded_by_ms":timestamp})
+    queue["pending"].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":timestamp,"completed_ms":None,"depleted_ms":None,"superseded_by_ms":None,"metadata_conflicts":[]})
    elif event=="gathering_started":
     if queue["pending"]:
      cycle=queue["pending"].popleft();compare_metadata(cycle,marker,event);cycle["started_ms"]=timestamp;queue["active"].append(cycle)
@@ -91,7 +100,7 @@ def pair_manual_markers(markers):
  lifecycles.sort(key=lambda x:(x.get("found_ms") or 0,x.get("activity") or ""))
  return lifecycles,unmatched
 def write_marker_lifecycle_csv(stem,marker_lifecycles):
- marker_fields=["activity","tier","enchantment","found_ms","started_ms","completed_ms","depleted_ms","mob_killed_ms","status","metadata_conflicts","identity_scope"]
+ marker_fields=["activity","tier","enchantment","found_ms","started_ms","completed_ms","depleted_ms","mob_killed_ms","superseded_by_ms","status","metadata_conflicts","identity_scope"]
  with (DB/(stem+"-marker-lifecycles.csv")).open("w",newline="",encoding="utf-8") as f:
   w=csv.DictWriter(f,fieldnames=marker_fields,extrasaction="ignore");w.writeheader()
   for cycle in marker_lifecycles:
