@@ -40,11 +40,14 @@ object AlbionEntityEventMapper {
         val p = message.parameters
         if (message.kind == "response") {
             val operation = message.operationCode ?: message.realCode ?: return emptyList()
+            // Join parameter 8 is the cluster/map ID. Depending on the
+            // decoded Photon numeric representation it may be Long/Int or String;
+            // accepting String only silently loses the initial region identity.
             val regionId = when (operation) {
-                OP_CHANGE_CLUSTER -> p[0] as? String
-                OP_JOIN -> p[8] as? String
+                OP_CHANGE_CLUSTER -> p[0]?.toString()
+                OP_JOIN -> p[8]?.toString()
                 else -> null
-            }?.takeIf { it.isNotBlank() } ?: return emptyList()
+            }?.trim()?.takeIf { it.isNotEmpty() && it != "null" } ?: return emptyList()
             return listOf(Observation(kind = "region_change", eventCode = operation, regionId = regionId))
         }
         if (message.kind != "event" && message.kind != "request") return emptyList()
