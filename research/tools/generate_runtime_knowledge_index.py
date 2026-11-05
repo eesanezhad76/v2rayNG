@@ -27,7 +27,7 @@ def read_rows(path: Path) -> list[dict[str, str]]:
 
 def git_blob_sha1(path: Path) -> str:
     data = path.read_bytes()
-    header = f"blob {len(data)}\\0".encode("ascii")
+    header = f"blob {len(data)}\0".encode("ascii")
     return hashlib.sha1(header + data).hexdigest()
 
 
@@ -130,7 +130,7 @@ def main() -> None:
     root = Path(__file__).resolve().parents[2]
     generated = build_index(root, args.source_branch)
     output = root / OUTPUT
-    serialized = json.dumps(generated, ensure_ascii=False, indent=2) + "\\n"
+    serialized = json.dumps(generated, ensure_ascii=False, indent=2) + "\n"
     if args.check:
         if not output.is_file() or output.read_text(encoding="utf-8") != serialized:
             raise SystemExit("runtime knowledge index is stale; regenerate it from the source CSV catalogs")
