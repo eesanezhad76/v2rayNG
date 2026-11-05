@@ -1267,7 +1267,11 @@ First CI run `42090092939` reached 283 tests and reported one failure in `Albion
   - Build workflow: `ab23d4ab007b434a79a51bfcc5b3701e88fd1663`
   - Staging register: `8bb8a877ead1c6f06d65b12da4d73cf4275d913d`
 - Destination branch: `albion-integration-staging-2026-11-05`
-- Resulting commit and blob SHAs: verify after creating the multi-file commit and updating the branch ref.
+- Resulting commit SHA: e1ef6945ae9283ad6eb42e11cc6fe1d1449bbdab
+- Resulting mapper blob SHA: 08d71ff33a1ebc1c6b827b8ebb3df9c9add591f4
+- Resulting mapper-test blob SHA: 05c4c25a4be04119e3dc03bf51df6ba2ac9d609c
+- Resulting build-workflow blob SHA: 5837737ad3c28a4b8955befa0fded013983609bd
+- Resulting register blob SHA: 7871a582877f28c3667e9551b0d7d73dd10043cb
 
 
 ## 41. Remaining legacy branch disposition — complete cross-branch review
@@ -1313,5 +1317,23 @@ Additional Raw Pattern Discovery safety findings:
   - Staging register: 7871a582877f28c3667e9551b0d7d73dd10043cb
 - Destination branch: albion-integration-staging-2026-11-05
 - Previous staged code commit: e1ef6945ae9283ad6eb42e11cc6fe1d1449bbdab
-- Resulting commit and blob SHAs: verify after creating the multi-file commit and updating the branch ref.
+- Resulting commit SHA: d1a7716c2d385e564d12d6d8425c86d36d97985a
+- Resulting pipeline-test blob SHA: 262fbed50d7f887f402a28f6e552f1b799e51084
+- Resulting build-workflow blob SHA: dd3140f923604b52b75e0cc4957984dbb1f7c823
+- Resulting register blob SHA: 119f1b5bdcd2ab5d15c1d832e24d5060557543b6
 - No original source branch, PR, raw evidence, archive or database file changed.
+
+
+## 43. Staging CI run 42090092939 — failure diagnosis and correction
+
+- Head: `e1ef6945ae9283ad6eb42e11cc6fe1d1449bbdab`
+- Result: failed at `testPlaystoreDebugUnitTest`; 283 tests completed, 1 failed.
+- Failing test: `AlbionPipelineSelfTest.playerMovementResourceSpawnDepletionReachOverlaySnapshotWithExactEntityId`, line 90.
+- JUnit evidence: expected `depleted=true`, actual false, because the test's Event 46 included only entity ID 777 and omitted remaining amount.
+- This confirms the corrected mapper behavior. The test fixture was supplying insufficient evidence while expecting a positive depletion conclusion.
+- Corrected in commit `d1a7716c2d385e564d12d6d8425c86d36d97985a`: the pipeline now first sends Event 46 with missing amount and asserts not depleted, then sends Event 46 with explicit zero and asserts depleted.
+- Python analysis tests passed in run 42090092939.
+- APK artifacts were uploaded, but APK verification, emulator installation and PCAP replay were skipped because the unit-test task failed. The readiness report therefore failed its prerequisite gate.
+- Replacement run: `42092061950`, head `d1a7716c2d385e564d12d6d8425c86d36d97985a`, currently in progress at the time of this record. Do not mark the staging patch validated until this run completes and the JUnit artifact confirms the corrected pipeline test passes.
+
+The build workflow now ignores `docs/**` changes so future register-only updates do not trigger another full APK pipeline. Source, test, workflow and evidence changes remain covered by the branch's full build gates.
