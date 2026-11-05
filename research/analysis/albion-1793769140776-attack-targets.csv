@@ -1,8 +1,8 @@
-entity_id,mobile_type_id,name,x,y,first_attack_ms,last_attack_ms,attack_action_count,health_observations,last_current_health,leave_after_last_attack,interpretation
-104009,573,Ore Elemental,98.46387481689453,-52.06372833251953,1793769782694,1793769788854,10,20,18,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
-104276,573,Ore Elemental,88.31372833251953,-44.26801300048828,1793769830674,1793769836929,12,23,16,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
-133526,573,Ore Elemental,-201.4484405517578,316.31536865234375,1793770387521,1793770391830,7,18,20,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
-196301,573,Ore Elemental,-177.1885223388672,282.9089050292969,1793770160133,1793770167832,15,26,53,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
-241366,2492,Keeper Axe Thrower Champion,81.29850769042969,-37.402130126953125,1793769847276,1793769869113,19,35,148,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
-253631,574,Ore Elemental,-255.39810180664062,-269.0027770996094,1793772037665,1793772041238,9,21,6,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
-255066,574,Ore Elemental,-253.56063842773438,-267.63385009765625,1793772501996,1793772509822,12,23,16,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+entity_id,source_archive,region_id,mobile_type_id,name,x,y,first_attack_ms,last_attack_ms,attack_action_count,health_observations,last_current_health,leave_after_last_attack,interpretation
+104009,AlbionRadar8.zip,4209,573,Ore Elemental,98.46387481689453,-52.06372833251953,1793769782694,1793769788854,10,20,18,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+104276,AlbionRadar8.zip,4209,573,Ore Elemental,88.31372833251953,-44.26801300048828,1793769830674,1793769836929,12,23,16,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+133526,AlbionRadar8.zip,4209,573,Ore Elemental,-201.4484405517578,316.31536865234375,1793770387521,1793770391830,7,18,20,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+196301,AlbionRadar8.zip,4209,573,Ore Elemental,-177.1885223388672,282.9089050292969,1793770160133,1793770167832,15,26,53,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+241366,AlbionRadar8.zip,4209,2492,Keeper Axe Thrower Champion,81.29850769042969,-37.402130126953125,1793769847276,1793769869113,19,35,148,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+253631,AlbionRadar8.zip,4209,574,Ore Elemental,-255.39810180664062,-269.0027770996094,1793772037665,1793772041238,9,21,6,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+255066,AlbionRadar8.zip,4209,574,Ore Elemental,-253.56063842773438,-267.63385009765625,1793772501996,1793772509822,12,23,16,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed

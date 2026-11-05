@@ -516,8 +516,7 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:880919",
@@ -543,8 +542,7 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:847607",
@@ -571,8 +569,7 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true,
-      "region_id": null
+      "is_harvestable_mob": true
     },
     {
       "entity_id": "catalog:mob:452792",
@@ -598,8 +595,7 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:849827",
@@ -625,8 +621,7 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:757540",
@@ -653,8 +648,7 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true,
-      "region_id": null
+      "is_harvestable_mob": true
     },
     {
       "entity_id": "catalog:mob:407853",
@@ -680,8 +674,7 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:881178",
@@ -708,8 +701,7 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:883749",
@@ -736,8 +728,7 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:883914",

@@ -1,6 +1,6 @@
-entity_id,mobile_type_id,name,x,y,first_attack_ms,last_attack_ms,attack_action_count,health_observations,last_current_health,leave_after_last_attack,interpretation
-22781,573,Ore Elemental,58.91453170776367,273.187255859375,1793791621964,1793791624127,5,16,7,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
-25229,573,Ore Elemental,82.22207641601562,204.40277099609375,1793791429399,1793791433968,7,18,119,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
-25621,574,Ore Elemental,-66.97504,-378.2153,1793791837534,1793791837534,1,18,125,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
-28922,573,Ore Elemental,-88.62249755859375,-260.0559997558594,1793792777646,1793792791104,31,35,69,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
-7480,1471,Roaming Morgana Crossbowman,-76.59017181396484,-260.349365234375,1793792797075,1793792810621,20,26,95,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+entity_id,source_archive,region_id,mobile_type_id,name,x,y,first_attack_ms,last_attack_ms,attack_action_count,health_observations,last_current_health,leave_after_last_attack,interpretation
+22781,archiveNew-extracted.zip,4219,573,Ore Elemental,58.91453170776367,273.187255859375,1793791621964,1793791624127,5,16,7,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+25229,archiveNew-extracted.zip,4219,573,Ore Elemental,82.22207641601562,204.40277099609375,1793791429399,1793791433968,7,18,119,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+25621,archiveNew-extracted.zip,4219,574,Ore Elemental,-66.97504,-378.2153,1793791837534,1793791837534,1,18,125,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+28922,archiveNew-extracted.zip,4219,573,Ore Elemental,-88.62249755859375,-260.0559997558594,1793792777646,1793792791104,31,35,69,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+7480,archiveNew-extracted.zip,4219,1471,Roaming Morgana Crossbowman,-76.59017181396484,-260.349365234375,1793792797075,1793792810621,20,26,95,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed

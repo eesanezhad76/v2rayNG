@@ -1297,8 +1297,7 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:65747",
@@ -1325,8 +1324,7 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:4692",
@@ -1352,8 +1350,7 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:64323",
@@ -1380,8 +1377,7 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:65594",
@@ -1408,8 +1404,7 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:65101",
@@ -1436,8 +1431,7 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:5669",
@@ -1463,8 +1457,7 @@
       "localization_tag": "@MOB_T4_MOB_CITY_MOUNTAIN_GUARD",
       "mob_danger": "normal",
       "max_health": 1509,
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:5672",
@@ -1490,8 +1483,7 @@
       "localization_tag": "@MOB_T4_MOB_CITY_MOUNTAIN_GUARD",
       "mob_danger": "normal",
       "max_health": 1509,
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:5667",
@@ -1517,8 +1509,7 @@
       "localization_tag": "@MOB_T4_MOB_CITY_MOUNTAIN_GUARD",
       "mob_danger": "normal",
       "max_health": 1509,
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:62622",
@@ -1545,8 +1536,7 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:56104",

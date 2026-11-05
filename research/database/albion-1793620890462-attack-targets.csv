@@ -1,2 +1,2 @@
-entity_id,mobile_type_id,name,x,y,first_attack_ms,last_attack_ms,attack_action_count,health_observations,last_current_health,leave_after_last_attack,interpretation
-29189,573,Ore Elemental,366.5651550292969,280.2362365722656,1793621467450,1793621467958,2,15,9,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+entity_id,source_archive,region_id,mobile_type_id,name,x,y,first_attack_ms,last_attack_ms,attack_action_count,health_observations,last_current_health,leave_after_last_attack,interpretation
+29189,Albionsskkakaks111.zip,<unknown-region>,573,Ore Elemental,366.5651550292969,280.2362365722656,1793621467450,1793621467958,2,15,9,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed

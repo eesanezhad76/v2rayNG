@@ -3627,8 +3627,7 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:134223",
@@ -3655,8 +3654,7 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true,
-      "region_id": null
+      "is_harvestable_mob": true
     },
     {
       "entity_id": "catalog:mob:134220",
@@ -3683,8 +3681,7 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true,
-      "region_id": null
+      "is_harvestable_mob": true
     },
     {
       "entity_id": "catalog:mob:4834",
@@ -3710,8 +3707,7 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:225473",
@@ -3737,8 +3733,7 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:4849",
@@ -3764,8 +3759,7 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:4848",

@@ -2873,8 +2873,7 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true,
-      "region_id": null
+      "is_harvestable_mob": true
     },
     {
       "entity_id": "catalog:mob:57824",
@@ -2902,8 +2901,7 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true,
-      "region_id": null
+      "is_harvestable_mob": true
     },
     {
       "entity_id": "catalog:mob:4648",
@@ -2930,8 +2928,7 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:4651",
@@ -2957,8 +2954,7 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:83232",
@@ -2985,8 +2981,7 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true,
-      "region_id": null
+      "is_harvestable_mob": true
     },
     {
       "entity_id": "catalog:mob:85768",
@@ -3013,8 +3008,7 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true,
-      "region_id": null
+      "is_harvestable_mob": true
     },
     {
       "entity_id": "catalog:mob:55116",
@@ -3040,8 +3034,7 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:94924",
@@ -3068,8 +3061,7 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false,
-      "region_id": null
+      "is_harvestable_mob": false
     },
     {
       "entity_id": "catalog:mob:81580",
