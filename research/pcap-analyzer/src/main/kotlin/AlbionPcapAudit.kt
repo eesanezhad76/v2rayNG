@@ -462,7 +462,7 @@ fun main() {
         fun hasActiveResourceEvidence(
             node: NodeAgg, sample: OverlayMiningSample, windowStart: Long, windowEnd: Long
         ): Boolean {
-            val states = resourceStates[scopedKey(node.archive, node.pcap, node.id)].orEmpty().sortedBy { it.first }
+            val states = resourceStates[nodesKey(node.archive, node.pcap, node.regionId, node.id)].orEmpty().sortedBy { it.first }
             val referenceMs = sample.startedMs ?: sample.foundMs
             val before = states.lastOrNull { it.first <= referenceMs }
             val later = states.filter { it.first > referenceMs && it.first <= windowEnd }
@@ -777,7 +777,8 @@ fun main() {
         }
         for ((archive, pcap, detail) in allDetails) {
             val t = field(detail, "t")?.toLongOrNull() ?: 0L
-            val keyFor = { id: String -> scopedKey(archive, pcap, id) }
+            val regionId = regionAt(archive, pcap, t)
+            val keyFor = { id: String -> nodesKey(archive, pcap, regionId, id) }
             if (detail.contains("kind=player_spawn")) {
                 field(detail, "id")?.let { playerIds += keyFor(it) }
             }
