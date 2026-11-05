@@ -933,3 +933,70 @@ No source commit was cherry-picked, merged, or copied by this assessment. The tr
 - Resulting commit SHA: 8709a3d8bf783c944676f44412375f388dce414b
 - New blob SHA: 6a7c3f364badecda60039c7cd65d594bf182a1d2
 - No application source, tests, runtime assets, research outputs, raw evidence, archive parts, or pre-existing branches changed.
+
+
+## 26. Complete repository branch snapshot — refreshed after audit branches
+
+A fresh GitHub branch enumeration returned **44 branches**. This section supersedes the earlier partial branch inventory in Section 1. Every branch is preserved; equal head SHAs identify aliases/checkpoints, not deletion candidates.
+
+| Branch | Head commit SHA |
+|---|---|
+| `albion-archive-audit-2026-11-05` | `cb38229cfa41f60af89cb3f325347b9785778cfb` |
+| `albion-database-integration-completion` | `2b1097c3cafe2390cdcc522d586c90cab59715fa` |
+| `albion-db-runtime-wiring-2026-11-05` | `a611c8125c91c3d6beb655897dc7e58745ac00fb` |
+| `albion-decoder-lab` | `77a8c3e2c58761d6bd2d40aa8eebef0cb32068a5` |
+| `albion-decoder-lab-failed-merge-backup` | `0a21332de0bfc2f70c4982eb4af7a35d051b5d8e` |
+| `albion-decoder-radar` | `ac7e90cd29a874ccd367cf7ea126372f8920a96a` |
+| `albion-decoder-radar-ci` | `023705a103ccff3ccb6b59d5bd71a5bfc882252c` |
+| `albion-decoder-radar-rebuild` | `77a8c3e2c58761d6bd2d40aa8eebef0cb32068a5` |
+| `albion-integration-staging-2026-11-05` | `76284e75f7bfacb585003390d725cdedcdc11481` |
+| `albion-integrity-autosave` | `39a125b9de84a9101e610f33deb663095e8c10c7` |
+| `albion-knowledge-integration-2026-11-04` | `8a5cc3905fc0fb6f621e1d751d9ed3d058eac833` |
+| `albion-pattern-mining` | `a453c812483f285dcae97d0ad0bc044c0cec11fa` |
+| `albion-radar` | `2a34a8473643cb0084057ac535a2cf8bdbdfb391` |
+| `albion-radar-fix-2026-11-03` | `53efd9d2815f15b36e00b6d2c7094bce863f79fd` |
+| `albion-radar-phase1-remediation` | `d0f4845a3cf740a0e726ad760b3f16fa4dafce03` |
+| `albion-raw-pattern-discovery-2026-11-05` | `c508c2b54eecced896862e401732e2e0ce44ce29` |
+| `albion-reliability-audit-2026-11-05` | `b75011e6ab9d605bd0ae687fea9dfe55353ab930` |
+| `albion-reliability-runtime-wiring-2026-11-05` | `3e0c139641be7cce12209c5f7c3e5ac0a87ca549` |
+| `albion-reliability-ux` | `506d24730c51d4debd434ffaf652ad81d482b748` |
+| `albion-safe-fixes-2026-11-05` | `c51481253ff4b5b0bd5bd0223a9e6a2674af680a` |
+| `albion-safe-integration-2026-11-05` | `a4282483d6a4f40eabbd74aabda8a04e4bf61ae5` |
+| `albion-v2rayng-2.2.6-port` | `d41804beecec085eb5f774009ac47935cfa03b24` |
+| `albion-zone-evidence-phase6` | `8d9d536b173b2e7f410b4b4393c8999da62dd5f4` |
+| `albion-zone-forensics` | `a420346a14b0f7a5261fcc8f28489242f9d48c3d` |
+| `albion-zone-forensics-integration-2026-11-05` | `436e7f60eea014977d01c2b570d52d3017691b97` |
+| `audit/detection-engine-2026-11-04` | `10d3a0a0f6caea55f31ad3d61de4e546b36189a0` |
+| `backup/albion-capture-e3f95d9` | `e3f95d9e03b08a9e31a4d0467a6d8cc224773831` |
+| `backup/albion-decoder-lab-before-2.2.6` | `f31ba8d3318d929eb1b22e0e94297112d08bf193` |
+| `backup/albion-radar-2026-10-31` | `e3f95d9e03b08a9e31a4d0467a6d8cc224773831` |
+| `checkpoint/albion-radar-stable-2026-11-04` | `9db20f3334dad17b86883b20061e2f2ace637f51` |
+| `master` | `d4542fadfee6d3b40ac3a65053d3b7031c602f16` |
+| `safety/database-integration-2026-11-05` | `2b1097c3cafe2390cdcc522d586c90cab59715fa` |
+| `safety/db-runtime-wiring-2026-11-05` | `a611c8125c91c3d6beb655897dc7e58745ac00fb` |
+| `safety/integration-after-knowledge-2026-11-05` | `6fa9d10555aa2ab5e36f64ca831f0e4869faaeb0` |
+| `safety/integration-after-master-2026-11-05` | `dba99f7e8c1421b2483c0f0136ed74537c6b197f` |
+| `safety/knowledge-2026-11-05` | `8a5cc3905fc0fb6f621e1d751d9ed3d058eac833` |
+| `safety/master-2026-11-05` | `ec7ed4278896336b24f8c2152345702687acb30a` |
+| `safety/pattern-mining-2026-11-05` | `e5941f67a0cf8b0651298450611a9e25065add45` |
+| `safety/reliability-audit-2026-11-05` | `b75011e6ab9d605bd0ae687fea9dfe55353ab930` |
+| `safety/reliability-runtime-wiring-2026-11-05` | `3e0c139641be7cce12209c5f7c3e5ac0a87ca549` |
+| `safety/reliability-ux-2026-11-05` | `506d24730c51d4debd434ffaf652ad81d482b748` |
+| `safety/remediation-2026-11-05` | `d0f4845a3cf740a0e726ad760b3f16fa4dafce03` |
+| `safety/zone-evidence-2026-11-05` | `8d9d536b173b2e7f410b4b4393c8999da62dd5f4` |
+| `safety/zone-forensics-integration-2026-11-05` | `c7e8cb21e8878385e4b7b9fa3db8aa2cd1d9e549` |
+
+The two audit branches created during this work are:
+- `albion-integration-staging-2026-11-05`: isolated documentation/transfer plan based on Safe Fixes.
+- `albion-archive-audit-2026-11-05`: read-only archive verification branch based on Pattern Mining.
+
+The complete snapshot also includes `checkpoint/albion-radar-stable-2026-11-04`, which was absent from the initial branch summary and is now explicitly recorded. No branch was removed, renamed, force-pushed, or merged.
+
+## 27. Change log — complete branch snapshot
+
+- Operation: append complete branch inventory and current head SHAs for all 44 branches.
+- Repository: eesanezhad76/v2rayNG
+- Source document blob SHA: e113cb37785e832fc40758032975b7f1b384c2a5
+- Destination branch: albion-integration-staging-2026-11-05
+- No pre-existing branch or application/data file changed.
+- Resulting commit SHA and new blob SHA: record from update response.
