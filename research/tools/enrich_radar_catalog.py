@@ -72,15 +72,20 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
  for cycle in cycles:
   start=num(cycle,"found_ms")
   if start is None:continue
+  if cycle.get("status")=="TARGET_FOUND_SUPERSEDED_NOT_KILLED":
+   cycle["attack_target_correlation"]={"confidence":"SUPERSEDED","candidate_count":0,"identity_proven":False}
+   continue
   finish=num(cycle,"mob_killed_ms",start+15000)
   candidates=[]
   for target in targets:
    first=target.get("first_attack_ms");last=target.get("last_attack_ms")
    if first is None or last is None:continue
-   delta=first-start
-   if delta < -2500 or delta > 20000 or last < start-1500 or first > finish+2500:continue
+   if last < start-1500 or first > finish+2500:continue
    if target["health_observations"]<=0 and not target["leave_after_last_attack"]:continue
-   candidates.append((abs(delta),target))
+   # An attack interval spanning the marker is a stronger temporal match than
+   # requiring the first attack packet to occur after the user pressed START.
+   interval_gap=0 if first<=start<=last else min(abs(first-start),abs(last-start))
+   candidates.append((interval_gap,target))
   candidates.sort(key=lambda p:(p[0],-p[1]["health_observations"],-p[1]["attack_action_count"]))
   if not candidates:
    cycle["attack_target_correlation"]={"confidence":"NONE","candidate_count":0,"identity_proven":False}
