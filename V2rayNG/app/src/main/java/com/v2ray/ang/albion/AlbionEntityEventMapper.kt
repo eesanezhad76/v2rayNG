@@ -39,6 +39,9 @@ object AlbionEntityEventMapper {
     fun map(message: AlbionProtocol18Decoder.Message): List<Observation> {
         val p = message.parameters
         if (message.kind == "response") {
+            // Photon operation responses carry an explicit return code. A region
+            // transition is evidence only when the server confirms success (0).
+            if (message.returnCode != 0) return emptyList()
             val operation = message.operationCode ?: message.realCode ?: return emptyList()
             val regionId = when (operation) {
                 OP_CHANGE_CLUSTER -> p[0] as? String
