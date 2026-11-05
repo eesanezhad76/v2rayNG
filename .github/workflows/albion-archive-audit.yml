@@ -70,7 +70,7 @@ jobs:
           for i in 26 27 28 29 30 31; do
             printf -v n '%03d' "$i"
             source="research/inbox/archiveNew.7z.t0.$n"
-            master="$RUNNER_TEMP/albion-archive-audit/master-$n"
+            master="$RUNNER_TEMP/master-$n"
             git show "origin/master:archiveNew.7z.t0.$n" > "$master"
             cmp "$source" "$master"
             source_hash=$(sha256sum "$source" | awk '{print $1}')
