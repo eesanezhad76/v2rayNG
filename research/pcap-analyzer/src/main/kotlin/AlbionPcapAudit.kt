@@ -935,6 +935,18 @@ fun main() {
         }
         File(out, "2026-11-02-region-transition-evidence.csv").writeText(regionTransitionCsv, Charsets.UTF_8)
 
+        val targetRequestDetails = allDetails.filter { (_, _, detail) ->
+            detail.contains("kind=outbound_request op=23 ")
+        }
+        val targetRequestCsv = buildString {
+            appendLine("archive,pcap,timestamp_ms,detail")
+            for ((archive, pcap, detail) in targetRequestDetails) {
+                appendLine(listOf(archive, pcap, field(detail, "t") ?: "", detail)
+                    .joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-operation23-target-requests.csv").writeText(targetRequestCsv, Charsets.UTF_8)
+
         val databaseArtifacts = listOf(
             "2026-11-02-all-inbox-observations.jsonl",
             "2026-11-02-own-player-movement-timeline.csv",
@@ -945,7 +957,8 @@ fun main() {
             "2026-11-02-pcap-health-energy-events.csv",
             "2026-11-02-pcap-attack-target-tracks.csv",
             "2026-11-02-overlay-mob-attack-correlation.csv",
-            "2026-11-02-region-transition-evidence.csv"
+            "2026-11-02-region-transition-evidence.csv",
+            "2026-11-02-operation23-target-requests.csv"
         )
         val exportedDatabaseArtifacts = databaseArtifacts.filter { name ->
             val source = File(out, name)
