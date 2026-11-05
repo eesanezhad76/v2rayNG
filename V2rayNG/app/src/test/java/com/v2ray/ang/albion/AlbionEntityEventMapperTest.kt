@@ -212,6 +212,18 @@ class AlbionEntityEventMapperTest {
             parameters = mapOf(8 to "MAP_RED_02", 253 to 2), operationCode = 2
         )).single()
         assertEquals("MAP_RED_02", joined.regionId)
+
+        val joinedLong = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 2,
+            parameters = mapOf(8 to 4209L, 253 to 2), operationCode = 2
+        )).single()
+        assertEquals("4209", joinedLong.regionId)
+
+        val joinedInt = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 2,
+            parameters = mapOf(8 to 4000, 253 to 2), operationCode = 2
+        )).single()
+        assertEquals("4000", joinedInt.regionId)
     }
 
     @Test
