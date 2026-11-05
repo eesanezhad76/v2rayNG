@@ -223,7 +223,7 @@ jobs:
         disable-animations: true
         script: |
           test -s "V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
-          timeout 180s adb install -r "V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
+          timeout 300s adb install --no-streaming -r "V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
           timeout 30s adb shell pm path com.v2ray.ang.radar
           timeout 30s adb shell monkey -p com.v2ray.ang.radar -c android.intent.category.LAUNCHER 1
 
@@ -269,35 +269,35 @@ jobs:
 
     - name: Upload arm64-v8a APK
       uses: actions/upload-artifact@v7
-      if: ${{  success() }}
+      if: ${{ always() }}
       with:
         name: arm64-v8a
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*arm64-v8a*.apk
 
     - name: Upload armeabi-v7a APK
       uses: actions/upload-artifact@v7
-      if: ${{  success() }}
+      if: ${{ always() }}
       with:
         name: armeabi-v7a
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*armeabi-v7a*.apk
 
     - name: Upload x86 APK
       uses: actions/upload-artifact@v7
-      if: ${{  success() }}
+      if: ${{ always() }}
       with:
         name: x86-apk
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*_x86.apk
 
     - name: Upload universal APK
       uses: actions/upload-artifact@v7
-      if: ${{ success() }}
+      if: ${{ always() }}
       with:
         name: universal-apk
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*universal*.apk
 
     - name: Upload x86_64 APK
       uses: actions/upload-artifact@v7
-      if: ${{ success() }}
+      if: ${{ always() }}
       with:
         name: x86_64-apk
         path: ${{ github.workspace }}/V2rayNG/app/build/outputs/apk/playstore/debug/*x86_64*.apk
