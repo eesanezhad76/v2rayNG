@@ -1,4 +1,5 @@
 name: Build APK
+# Keep the audited Albion fixes branch on the same full build and regression gates.
 
 on:
   workflow_dispatch:
