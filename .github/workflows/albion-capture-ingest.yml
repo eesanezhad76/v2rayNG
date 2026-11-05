@@ -37,7 +37,8 @@ jobs:
           fi
           tmp="$RUNNER_TEMP/albion-archive"
           mkdir -p "$tmp/volumes" research/inbox/archiveNew-extracted
-          for n in $(seq -w 1 45); do
+          for i in $(seq 1 45); do
+            printf -v n "%03d" "$i"
             source="research/inbox/archiveNew.7z.t0.$n"
             test -s "$source"
             cp "$source" "$tmp/volumes/archiveNew.7z.$n"
