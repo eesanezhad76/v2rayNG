@@ -400,7 +400,7 @@ fun main() {
         // Preserve and correlate manually labelled overlay lifecycle markers with Event 40 nodes.
         // This is candidate evidence only: time/tier/enchantment overlap does not prove entity identity.
         data class OverlayMiningSample(
-            val archive: String, val pcap: String, val activity: String, val foundMs: Long,
+            val archive: String, val pcap: String, val regionId: String?, val activity: String, val foundMs: Long,
             val tierLabel: String?, val enchantLabel: String?,
             var startedMs: Long? = null, var completedMs: Long? = null, var depletedMs: Long? = null
         )
@@ -411,14 +411,16 @@ fun main() {
         var unmatchedDepletions = 0
         val markerDetails = allDetails.filter { field(it.third, "kind") == "manual_marker" }
             .sortedBy { field(it.third, "t")?.toLongOrNull() ?: 0L }
-        fun markerKey(archive: String, pcap: String, activity: String) = archive + "\u001f" + pcap + "\u001f" + activity
+        fun markerKey(archive: String, pcap: String, regionId: String?, activity: String) =
+            archive + "\u001f" + pcap + "\u001f" + (regionId ?: "<unknown-region>") + "\u001f" + activity
         for ((archive, pcap, detail) in markerDetails) {
             val t = field(detail, "t")?.toLongOrNull() ?: continue
             val activity = field(detail, "activity") ?: "Unknown"
-            val key = markerKey(archive, pcap, activity)
+            val regionId = regionAt(archive, pcap, t)
+            val key = markerKey(archive, pcap, regionId, activity)
             when (field(detail, "event")) {
                 "target_found" -> pendingMarkers.getOrPut(key) { mutableListOf() }.add(
-                    OverlayMiningSample(archive, pcap, activity, t, field(detail, "tier"), field(detail, "enchantment"))
+                    OverlayMiningSample(archive, pcap, regionId, activity, t, field(detail, "tier"), field(detail, "enchantment"))
                 )
                 "gathering_started" -> {
                     val sample = pendingMarkers[key]?.firstOrNull { it.startedMs == null && it.completedMs == null }
@@ -443,7 +445,7 @@ fun main() {
                 }
                 "node_depleted" -> {
                     val sample = markerSamples.firstOrNull {
-                        it.archive == archive && it.pcap == pcap && it.activity == activity &&
+                        it.archive == archive && it.pcap == pcap && it.regionId == regionId && it.activity == activity &&
                             it.completedMs != null && it.depletedMs == null && it.completedMs!! <= t
                     }
                     if (sample == null) unmatchedDepletions++ else sample.depletedMs = t
@@ -483,9 +485,9 @@ fun main() {
         }
 
         val markerCsv = buildString {
-            appendLine("archive,pcap,timestamp_ms,activity,event,tier_label,enchantment_label")
+            appendLine("archive,pcap,region_id,timestamp_ms,activity,event,tier_label,enchantment_label")
             for ((archive, pcap, detail) in markerDetails) {
-                appendLine(listOf(archive, pcap, field(detail, "t") ?: "", field(detail, "activity") ?: "",
+                appendLine(listOf(archive, pcap, regionAt(archive, pcap, field(detail, "t")?.toLongOrNull() ?: 0L) ?: "", field(detail, "t") ?: "", field(detail, "activity") ?: "",
                     field(detail, "event") ?: "", field(detail, "tier") ?: "", field(detail, "enchantment") ?: "")
                     .joinToString(",") { csvCell(it) })
             }
