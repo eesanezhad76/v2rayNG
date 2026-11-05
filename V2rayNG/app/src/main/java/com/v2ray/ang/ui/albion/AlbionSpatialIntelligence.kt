@@ -16,8 +16,11 @@ object AlbionSpatialIntelligence {
 
     /** A known active region must match exactly; missing region IDs are not safe navigation targets. */
     fun isInActiveRegion(activeRegionId: String?, entityRegionId: String?): Boolean {
-        val active = activeRegionId?.takeIf { it.isNotBlank() } ?: return true
-        return entityRegionId == active
+        val active = activeRegionId?.takeIf { it.isNotBlank() }
+        val entity = entityRegionId?.takeIf { it.isNotBlank() }
+        // When the active region is unknown, only unscoped entities are safe.
+        // A tagged entity cannot be assumed to belong to the player's current map.
+        return if (active == null) entity == null else entity == active
     }
 
     /** Stable TypeIDs from the research dictionary outrank variable display labels. */
