@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-05T12:46:46.452319+00:00",
+  "generated_at_utc": "2026-11-05T12:56:31.258287+00:00",
   "branch": "albion-pattern-mining",
   "source_archives": [
     {
@@ -126,7 +126,7 @@
     {
       "archive": "archiveNew-extracted.zip",
       "bytes": 797747472,
-      "sha256": "6ceaf6bf8ce18417a1d489bf65aed47077f249740fcfa224ffdfb202aeefb537",
+      "sha256": "f5514e4539498b886b3bcfbed92aa92f6af9e484185913e0a7913e91d3ddfe3d",
       "members": 9,
       "pcaps": 4,
       "jsonl": 4,
@@ -168,16 +168,13 @@
     "own_player_move_observations": 81881
   },
   "resource_nodes": {
-    "event40_file_scoped_records": 649,
+    "event40_file_scoped_records": 652,
     "by_family_number": {
-      "14": 78,
-      "14|27": 1,
-      "20": 9,
-      "27": 174,
-      "28": 2,
-      "29": 227,
-      "32": 1,
-      "7": 157
+      "1": 9,
+      "3": 22,
+      "4": 309,
+      "5": 292,
+      "6": 20
     },
     "by_archive": {
       "Albion اااستسمنسمنش.zip": 4,
@@ -188,7 +185,7 @@
       "AlbionRadar8.zip": 75,
       "Albions.zip": 36,
       "Albionsskkakaks111.zip": 51,
-      "archiveNew-extracted.zip": 326
+      "archiveNew-extracted.zip": 329
     },
     "state_ids": 297,
     "state_only_ids_without_event40_location": 213,
@@ -214,17 +211,17 @@
     "warning": "Event 39 observations are untyped static-resource candidates; do not equate them to confirmed Event 40 nodes without exact identity evidence."
   },
   "mobile_entities": {
-    "event123_lifecycle_records": 4098,
+    "event123_lifecycle_records": 4172,
     "by_archive": {
       "Albion اااستسمنسمنش.zip": 10,
       "Albion2.zip": 52,
-      "AlbionRadar2.zip": 228,
-      "AlbionRadar5.zip": 235,
-      "AlbionRadar6json.zip": 838,
-      "AlbionRadar8.zip": 626,
+      "AlbionRadar2.zip": 245,
+      "AlbionRadar5.zip": 243,
+      "AlbionRadar6json.zip": 850,
+      "AlbionRadar8.zip": 632,
       "Albions.zip": 64,
       "Albionsskkakaks111.zip": 247,
-      "archiveNew-extracted.zip": 1798
+      "archiveNew-extracted.zip": 1829
     },
     "warning": "Event 123 living/mobile records; not every record is independently proven to be a hostile mob."
   },
@@ -238,30 +235,28 @@
     },
     "marker_correlations": 13,
     "correlations_by_activity_confidence": {
-      "Mobs|LOW": 1,
-      "Troll|HIGH": 6,
-      "Troll|LOW": 2,
-      "Troll|MEDIUM": 4
+      "1793621458722|false": 1,
+      "1793712914166|false": 1,
+      "1793713380065|false": 1,
+      "1793713380097|false": 1,
+      "1793718943756|false": 1,
+      "1793769780415|false": 1,
+      "1793770161526|false": 1,
+      "1793770386065|false": 1,
+      "1793772028951|false": 1,
+      "1793772030445|false": 1,
+      "1793772501147|false": 1,
+      "1793791616817|false": 1,
+      "1793792784792|false": 1
     },
-    "troll_cycles": 12,
-    "troll_confidence": {
-      "HIGH": 6,
-      "LOW": 2,
-      "MEDIUM": 4
-    },
-    "troll_resolved_mob_names": {
-      "Ore Elemental": 11,
-      "Roaming Morgana Crossbowman": 1
-    },
-    "troll_mobile_type_ids": {
-      "1471": 1,
-      "573": 6,
-      "574": 5
-    },
-    "troll_unique_target_ids": 10,
+    "troll_cycles": 0,
+    "troll_confidence": {},
+    "troll_resolved_mob_names": {},
+    "troll_mobile_type_ids": {},
+    "troll_unique_target_ids": 0,
     "troll_unmatched_cycles": 0,
     "troll_identity_proven_rows": 0,
-    "mob_cycles": 1,
+    "mob_cycles": 0,
     "warning": "Operation 23 provides exact selected target IDs; marker-to-target links remain confidence-ranked. Leave is not proof of death."
   },
   "manual_markers": {
@@ -1113,38 +1108,38 @@
     },
     {
       "path": "research/database/2026-11-02-pcap-harvestable-nodes.csv",
-      "bytes": 124984,
-      "sha256": "cc5a0dda7552b6d7202a4967c3d9d70fc5362d7598c099a705d779f25b50188e"
+      "bytes": 129572,
+      "sha256": "57db42c27f0205c58b9ee49023430af960b31152e369b5d0e8d93f35f247a75d"
     },
     {
       "path": "research/database/2026-11-02-pcap-mob-lifecycle.csv",
-      "bytes": 947898,
-      "sha256": "8a3418bb00f3c0d39a6c2c605fd41870ed052631d5b80bb14d0257e4ca72c6b6"
+      "bytes": 991398,
+      "sha256": "0f30ad463031b6c6325e74bd17cd004e9bd1374ce4a6a3f661a2b245fcb539c9"
     },
     {
       "path": "research/database/2026-11-02-pcap-static-resources.csv",
-      "bytes": 4305841,
-      "sha256": "0431f38aa6c0e24af911a656b69183b2f7b650357bd3443f5d949c7fa0ef44c8"
+      "bytes": 4624611,
+      "sha256": "09daa2cae93c303e2575ae0c3bced8c1fb9e614ee6b3c55a608ac9f479d4f239"
     },
     {
       "path": "research/database/2026-11-02-pcap-attack-target-tracks.csv",
-      "bytes": 15732,
-      "sha256": "2f74f02a6610cd899c840406d5d00af9808d2df781db0cb8ad3acdefb29202a9"
+      "bytes": 16145,
+      "sha256": "9219a0d9a62d4e3f0d16f3aad531948fcc85f9e4474937bfb7831865225aae25"
     },
     {
       "path": "research/analysis/2026-11-02-overlay-manual-markers.csv",
-      "bytes": 37647,
-      "sha256": "6d38cebcb0e87004cebc33a762d8e403d30ca7ddc975782c3dcfb6e90a683b56"
+      "bytes": 39456,
+      "sha256": "9820332fa69824b76e72368117020f80890e5ced4a75ef4a016b8daa90332b17"
     },
     {
       "path": "research/analysis/2026-11-02-overlay-mob-attack-correlation.csv",
-      "bytes": 3665,
-      "sha256": "fe0ca59611425e7196142d1ba5d568f436e4a7eb78882e681ba4c0de81da34e9"
+      "bytes": 3953,
+      "sha256": "6a117eba5ad7a630d03d4d3964afdf596a388283f6fc9219b18cd733f125c11a"
     },
     {
       "path": "research/database/2026-11-02-pcap-resource-state-timelines.csv",
-      "bytes": 89634,
-      "sha256": "05fea0145a1fa117e7bf5d79b7249622225253217dc7cbb0f72c24a0adbd9905"
+      "bytes": 96760,
+      "sha256": "aaf42f036903ce52be29f5bfff622d9615ce97e9f3a498f510d207d6921dd4a5"
     },
     {
       "path": "research/database/2026-11-02-pcap-health-energy-events.csv",

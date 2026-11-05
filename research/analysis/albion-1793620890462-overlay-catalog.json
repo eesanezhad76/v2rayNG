@@ -4,7 +4,7 @@
   "source_archive": "albion-1793620890462.jsonl",
   "coordinate_semantics": "Capture-local game coordinates. Zone identity is not decoded; do not combine across zones.",
   "node_count": 51,
-  "mob_count": 247,
+  "mob_count": 248,
   "marker_count": 21,
   "correlated_mob_marker_count": 0,
   "confirmed_user_target": null,
@@ -31,7 +31,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2877",
@@ -55,7 +56,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2885",
@@ -79,7 +81,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2970",
@@ -114,7 +117,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2975",
@@ -138,7 +142,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2981",
@@ -162,7 +167,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2956",
@@ -186,7 +192,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:3001",
@@ -210,7 +217,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:3013",
@@ -234,7 +242,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:3031",
@@ -258,7 +267,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:3043",
@@ -282,7 +292,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2997",
@@ -306,7 +317,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2594",
@@ -362,7 +374,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2634",
@@ -386,7 +399,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:3240",
@@ -410,7 +424,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:3252",
@@ -506,7 +521,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:3270",
@@ -561,7 +577,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:3266",
@@ -607,7 +624,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2740",
@@ -653,7 +671,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2761",
@@ -688,7 +707,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2770",
@@ -712,7 +732,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2771",
@@ -788,7 +809,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2779",
@@ -812,7 +834,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2788",
@@ -836,7 +859,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": true,
-      "user_confirmation": "First T5.3 target confirmed by user; temporal/state correlation"
+      "user_confirmation": "First T5.3 target confirmed by user; temporal/state correlation",
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:2807",
@@ -871,7 +895,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "typed_resource_family_unresolved",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36522",
@@ -895,7 +920,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36684",
@@ -919,7 +945,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:37205",
@@ -943,7 +970,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36931",
@@ -967,7 +995,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:37494",
@@ -991,7 +1020,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:37506",
@@ -1015,7 +1045,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:37723",
@@ -1039,7 +1070,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:37977",
@@ -1063,7 +1095,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:40288",
@@ -1118,7 +1151,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:34970",
@@ -1142,7 +1176,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:35640",
@@ -1166,7 +1201,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:35912",
@@ -1190,7 +1226,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36114",
@@ -1214,7 +1251,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36151",
@@ -1238,7 +1276,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36181",
@@ -1262,7 +1301,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36325",
@@ -1286,7 +1326,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36336",
@@ -1310,7 +1351,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36601",
@@ -1334,7 +1376,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36602",
@@ -1358,7 +1401,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36607",
@@ -1382,7 +1426,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:36644",
@@ -1406,7 +1451,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:39074",
@@ -1430,7 +1476,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:39075",
@@ -1505,7 +1552,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:39460",
@@ -1580,7 +1628,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:39464",
@@ -1655,7 +1704,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:node:35507",
@@ -1679,7 +1729,8 @@
       "classification": "unclassified_resource_candidate",
       "evidence_grade": "family_29_ore_candidate",
       "user_confirmed_target": false,
-      "user_confirmation": null
+      "user_confirmation": null,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4560",
@@ -1705,7 +1756,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:15540",
@@ -1732,7 +1784,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:15430",
@@ -1759,7 +1812,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4458",
@@ -1785,7 +1839,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4457",
@@ -1811,7 +1866,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4562",
@@ -1837,7 +1893,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5223",
@@ -1864,7 +1921,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:34269",
@@ -1890,7 +1948,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5313",
@@ -1917,7 +1976,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36636",
@@ -1944,7 +2004,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:24150",
@@ -1971,7 +2032,8 @@
       "mob_danger": "roaming",
       "max_health": 3487,
       "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:35085",
@@ -1997,7 +2059,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36688",
@@ -2024,7 +2087,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:34440",
@@ -2051,7 +2115,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4526",
@@ -2077,7 +2142,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9390",
@@ -2104,7 +2170,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5119",
@@ -2131,7 +2198,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5295",
@@ -2158,7 +2226,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4568",
@@ -2184,7 +2253,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:27787",
@@ -2210,7 +2280,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37613",
@@ -2237,7 +2308,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37643",
@@ -2264,7 +2336,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5294",
@@ -2291,7 +2364,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:20550",
@@ -2317,7 +2391,8 @@
       "mob_danger": "normal",
       "max_health": 129,
       "loot_type": "SILVERCOINS_LOOT_CHEST_STANDARD",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5264",
@@ -2344,7 +2419,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37687",
@@ -2371,7 +2447,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5084",
@@ -2398,7 +2475,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:35341",
@@ -2427,7 +2505,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:33143",
@@ -2454,7 +2533,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:33437",
@@ -2481,7 +2561,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:35124",
@@ -2508,7 +2589,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4540",
@@ -2534,7 +2616,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:19762",
@@ -2563,7 +2646,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36950",
@@ -2591,7 +2675,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36111",
@@ -2619,7 +2704,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:33527",
@@ -2645,7 +2731,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36786",
@@ -2672,7 +2759,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37782",
@@ -2700,7 +2788,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37827",
@@ -2726,7 +2815,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4543",
@@ -2752,7 +2842,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36852",
@@ -2779,7 +2870,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:35436",
@@ -2806,7 +2898,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37938",
@@ -2833,7 +2926,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37211",
@@ -2860,7 +2954,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37944",
@@ -2887,7 +2982,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:33144",
@@ -2915,7 +3011,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36239",
@@ -2943,7 +3040,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:34457",
@@ -2969,7 +3067,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4445",
@@ -2995,7 +3094,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4447",
@@ -3021,7 +3121,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4444",
@@ -3047,7 +3148,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4517",
@@ -3073,7 +3175,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:27612",
@@ -3100,7 +3203,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4487",
@@ -3126,7 +3230,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:23806",
@@ -3153,7 +3258,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4460",
@@ -3179,7 +3285,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4459",
@@ -3205,7 +3312,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36646",
@@ -3232,7 +3340,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:22979",
@@ -3259,7 +3368,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4524",
@@ -3285,7 +3395,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4462",
@@ -3311,7 +3422,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37715",
@@ -3338,7 +3450,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5772",
@@ -3365,7 +3478,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37480",
@@ -3392,7 +3506,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:23572",
@@ -3419,7 +3534,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4975",
@@ -3446,7 +3562,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9308",
@@ -3473,7 +3590,8 @@
       "mob_danger": "roaming",
       "max_health": 2407,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:6721",
@@ -3500,7 +3618,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4542",
@@ -3526,7 +3645,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:25770",
@@ -3553,7 +3673,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5225",
@@ -3580,7 +3701,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4508",
@@ -3606,7 +3728,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:32426",
@@ -3633,7 +3756,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:34011",
@@ -3660,7 +3784,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:20390",
@@ -3689,7 +3814,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:29532",
@@ -3717,7 +3843,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:28656",
@@ -3744,7 +3871,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5754",
@@ -3771,7 +3899,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:20866",
@@ -3798,7 +3927,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:6062",
@@ -3825,7 +3955,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9470",
@@ -3852,7 +3983,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:18370",
@@ -3879,7 +4011,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5265",
@@ -3906,7 +4039,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4478",
@@ -3932,7 +4066,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:32440",
@@ -3958,7 +4093,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4468",
@@ -3984,7 +4120,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5776",
@@ -4011,7 +4148,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:8791",
@@ -4038,7 +4176,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5275",
@@ -4065,7 +4204,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9553",
@@ -4092,7 +4232,8 @@
       "mob_danger": "roaming",
       "max_health": 2407,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:19142",
@@ -4119,7 +4260,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:16821",
@@ -4146,7 +4288,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:16158",
@@ -4173,7 +4316,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5308",
@@ -4200,7 +4344,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:18131",
@@ -4227,7 +4372,8 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4454",
@@ -4253,7 +4399,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:19554",
@@ -4282,7 +4429,8 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:28703",
@@ -4308,7 +4456,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4527",
@@ -4334,7 +4483,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:28980",
@@ -4361,7 +4511,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:19356",
@@ -4388,7 +4539,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:22396",
@@ -4415,7 +4567,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:30117",
@@ -4442,7 +4595,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:18303",
@@ -4469,7 +4623,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:21464",
@@ -4496,7 +4651,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4455",
@@ -4522,7 +4678,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:30497",
@@ -4549,7 +4706,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4494",
@@ -4575,7 +4733,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:26845",
@@ -4602,7 +4761,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:27689",
@@ -4629,7 +4789,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:20437",
@@ -4656,7 +4817,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:15228",
@@ -4682,7 +4844,8 @@
       "localization_tag": "@MOB_T4_MOB_CITY_MOUNTAIN_GUARD",
       "mob_danger": "normal",
       "max_health": 1509,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:30261",
@@ -4709,7 +4872,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4535",
@@ -4735,7 +4899,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4482",
@@ -4761,7 +4926,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:32161",
@@ -4788,7 +4954,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:26280",
@@ -4815,7 +4982,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:35510",
@@ -4842,7 +5010,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:38192",
@@ -4869,7 +5038,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:35570",
@@ -4896,7 +5066,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36915",
@@ -4923,7 +5094,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37727",
@@ -4950,7 +5122,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:28368",
@@ -4977,7 +5150,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:30367",
@@ -5004,7 +5178,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37798",
@@ -5031,7 +5206,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:15230",
@@ -5057,7 +5233,8 @@
       "localization_tag": "@MOB_T4_MOB_CITY_MOUNTAIN_GUARD",
       "mob_danger": "normal",
       "max_health": 1509,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36662",
@@ -5084,7 +5261,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:35797",
@@ -5111,7 +5289,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:15231",
@@ -5137,7 +5316,8 @@
       "localization_tag": "@MOB_T4_MOB_CITY_MOUNTAIN_GUARD",
       "mob_danger": "normal",
       "max_health": 1509,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:29125",
@@ -5164,7 +5344,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:38515",
@@ -5191,7 +5372,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:38151",
@@ -5218,7 +5400,8 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5027",
@@ -5245,7 +5428,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4987",
@@ -5272,7 +5456,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37554",
@@ -5299,7 +5484,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:38173",
@@ -5326,7 +5512,8 @@
       "mob_danger": "roaming",
       "max_health": 4307,
       "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:23968",
@@ -5353,7 +5540,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:22125",
@@ -5380,7 +5568,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:19840",
@@ -5407,7 +5596,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:33780",
@@ -5434,7 +5624,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36465",
@@ -5461,7 +5652,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5293",
@@ -5488,7 +5680,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4561",
@@ -5514,7 +5707,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:17320",
@@ -5541,7 +5735,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:38184",
@@ -5567,7 +5762,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:38693",
@@ -5594,7 +5790,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:38969",
@@ -5621,7 +5818,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:39154",
@@ -5648,7 +5846,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:38279",
@@ -5675,7 +5874,8 @@
       "mob_danger": "roaming",
       "max_health": 2297,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37580",
@@ -5704,7 +5904,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37647",
@@ -5732,7 +5933,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:35014",
@@ -5759,7 +5961,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:24386",
@@ -5786,7 +5989,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:33298",
@@ -5813,7 +6017,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:35110",
@@ -5840,7 +6045,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36591",
@@ -5867,7 +6073,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4550",
@@ -5893,7 +6100,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:13541",
@@ -5920,7 +6128,8 @@
       "mob_danger": "roaming",
       "max_health": 3282,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5010",
@@ -5947,7 +6156,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9031",
@@ -5974,7 +6184,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:17974",
@@ -6001,7 +6212,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:23490",
@@ -6028,7 +6240,8 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:39571",
@@ -6055,7 +6268,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4500",
@@ -6081,7 +6295,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:25424",
@@ -6108,7 +6323,8 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:30161",
@@ -6135,7 +6351,8 @@
       "mob_danger": "roaming",
       "max_health": 2407,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:33625",
@@ -6163,7 +6380,8 @@
       "mob_danger": "roaming",
       "max_health": 3282,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37774",
@@ -6190,7 +6408,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:20611",
@@ -6217,7 +6436,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:8824",
@@ -6244,7 +6464,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:26223",
@@ -6271,7 +6492,8 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4456",
@@ -6297,7 +6519,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4477",
@@ -6323,7 +6546,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9215",
@@ -6350,7 +6574,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:11320",
@@ -6377,7 +6602,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:24312",
@@ -6404,7 +6630,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9054",
@@ -6431,7 +6658,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9220",
@@ -6458,7 +6686,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:14203",
@@ -6484,7 +6713,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4564",
@@ -6510,7 +6740,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5254",
@@ -6537,7 +6768,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:17012",
@@ -6564,7 +6796,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5256",
@@ -6591,7 +6824,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:7723",
@@ -6618,7 +6852,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4999",
@@ -6645,7 +6880,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9109",
@@ -6672,7 +6908,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5269",
@@ -6699,7 +6936,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5136",
@@ -6726,7 +6964,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5137",
@@ -6753,7 +6992,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4449",
@@ -6779,7 +7019,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4565",
@@ -6805,7 +7046,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36025",
@@ -6832,7 +7074,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4493",
@@ -6858,7 +7101,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:37590",
@@ -6885,7 +7129,8 @@
       "mob_danger": "roaming",
       "max_health": 3282,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:21976",
@@ -6912,7 +7157,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:19402",
@@ -6939,7 +7185,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:36912",
@@ -6966,7 +7213,8 @@
       "mob_danger": "roaming",
       "max_health": 602,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4453",
@@ -6992,7 +7240,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:39270",
@@ -7019,7 +7268,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5186",
@@ -7046,7 +7296,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:25579",
@@ -7073,7 +7324,8 @@
       "mob_danger": "roaming",
       "max_health": 2407,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4911",
@@ -7100,7 +7352,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9562",
@@ -7127,7 +7380,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:17286",
@@ -7154,7 +7408,8 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:26581",
@@ -7181,7 +7436,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:27245",
@@ -7208,7 +7464,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:7543",
@@ -7235,7 +7492,8 @@
       "mob_danger": "roaming",
       "max_health": 2297,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5251",
@@ -7262,7 +7520,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4985",
@@ -7289,7 +7548,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:24579",
@@ -7316,7 +7576,8 @@
       "mob_danger": "roaming",
       "max_health": 2407,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:21717",
@@ -7343,7 +7604,8 @@
       "mob_danger": "roaming",
       "max_health": 1860,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:16941",
@@ -7370,7 +7632,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:6900",
@@ -7397,7 +7660,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4539",
@@ -7423,7 +7687,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4551",
@@ -7449,7 +7714,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:30233",
@@ -7476,7 +7742,8 @@
       "mob_danger": "roaming",
       "max_health": 574,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9002",
@@ -7503,7 +7770,8 @@
       "mob_danger": "roaming",
       "max_health": 2297,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:39163",
@@ -7530,7 +7798,8 @@
       "mob_danger": "roaming",
       "max_health": 2297,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:16792",
@@ -7557,7 +7826,8 @@
       "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
       "mob_danger": "normal",
       "max_health": 1,
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4489",
@@ -7583,10 +7853,11 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
-      "entity_id": "29189",
+      "entity_id": "catalog:mob:29189",
       "mobile_type_id": 573,
       "enchant": 0,
       "name": "Ore Elemental",
@@ -7596,11 +7867,11 @@
       "player_damage_events": 0,
       "left": true,
       "left_ms": 1793621473280,
-      "x": 366.5651550292969,
-      "y": 280.2362365722656,
+      "x": 369.11414,
+      "y": 279.307,
       "last_position_ms": 1793621411310,
       "last_kind": "mob",
-      "classification": "player_attack_target",
+      "classification": "observed_mob",
       "manual_marker_matches": [],
       "source_entity_id": "29189",
       "health_delta": -26,
@@ -7612,41 +7883,7 @@
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
       "is_harvestable_mob": true,
-      "position_source": "Event3 target movement",
-      "position_last_seen_ms": 1793621473280,
-      "first_attack_ms": 1793621467450,
-      "last_attack_ms": 1793621467958,
-      "attack_action_count": 2,
-      "attack_flag_values": "0|1",
-      "event3_position_samples": 108,
-      "health_observations": 15,
-      "min_current_health": 9,
-      "last_current_health": 9,
-      "health_source_entity_ids": "37103",
-      "leave_observed": true,
-      "leave_after_last_attack": true,
-      "interpretation": "health_updates_then_leave_after_attack_defeat_likely_not_confirmed",
-      "targeted_by_player": true,
-      "target_source": "outbound Photon operation 23 target request",
-      "target_entity_id_proven": true,
-      "marker_matches": [
-        {
-          "activity": "Mobs",
-          "found_ms": 1793621458722,
-          "mob_killed_ms": 1793621470263,
-          "confidence": "LOW",
-          "tier": "T4",
-          "enchantment": "Normal",
-          "identity_proven": false
-        }
-      ],
-      "marker_activity": null,
-      "marker_activity_candidate": "Mobs",
-      "marker_match_confidence": "LOW",
-      "marker_tier": 4,
-      "marker_enchant": 0,
-      "health_value": 9,
-      "health_min": 9
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4452",
@@ -7672,7 +7909,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:8830",
@@ -7699,7 +7937,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:9877",
@@ -7725,7 +7964,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:21978",
@@ -7752,7 +7992,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:38226",
@@ -7779,7 +8020,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:32668",
@@ -7806,7 +8048,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:38224",
@@ -7833,7 +8076,8 @@
       "mob_danger": "normal",
       "max_health": 1367,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4471",
@@ -7859,7 +8103,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5036",
@@ -7886,7 +8131,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:38422",
@@ -7913,7 +8159,8 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:28881",
@@ -7940,7 +8187,8 @@
       "mob_danger": "normal",
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4470",
@@ -7966,7 +8214,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:27299",
@@ -7993,7 +8242,8 @@
       "mob_danger": "normal",
       "max_health": 856,
       "loot_type": "ORE_CRITTER",
-      "is_harvestable_mob": true
+      "is_harvestable_mob": true,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:32043",
@@ -8020,7 +8270,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:32259",
@@ -8047,7 +8298,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:40496",
@@ -8074,7 +8326,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:22867",
@@ -8100,7 +8353,8 @@
       "mob_danger": "roaming",
       "max_health": 1203,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:40778",
@@ -8127,7 +8381,8 @@
       "mob_danger": "roaming",
       "max_health": 3282,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:16234",
@@ -8153,7 +8408,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:4492",
@@ -8178,7 +8434,8 @@
       "mob_danger": "normal",
       "max_health": 20,
       "loot_type": "HIDE",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:29354",
@@ -8204,7 +8461,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:25869",
@@ -8230,7 +8488,8 @@
       "mob_danger": "roaming",
       "max_health": 2297,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:17811",
@@ -8256,7 +8515,8 @@
       "mob_danger": "roaming",
       "max_health": 1860,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5154",
@@ -8282,7 +8542,8 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:5109",
@@ -8308,7 +8569,8 @@
       "mob_danger": "roaming",
       "max_health": 930,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
     },
     {
       "entity_id": "catalog:mob:40250",
@@ -8334,7 +8596,50 @@
       "mob_danger": "roaming",
       "max_health": 1149,
       "loot_type": "SILVERCOINS_LOOT_ROAMING",
-      "is_harvestable_mob": false
+      "is_harvestable_mob": false,
+      "region_id": null
+    },
+    {
+      "entity_id": "29189",
+      "source_entity_id": "29189",
+      "region_id": "<unknown-region>",
+      "last_kind": "mob",
+      "source_archive": "Albionsskkakaks111.zip",
+      "mobile_type_id": 573,
+      "name": "Ore Elemental",
+      "x": 366.5651550292969,
+      "y": 280.2362365722656,
+      "tier": 4,
+      "mob_category": "critter",
+      "type_unique_name": "T4_MOB_CRITTER_ORE_MOUNTAIN_RED",
+      "localization_tag": "@MOB_T4_MOB_CRITTER_FOREST_RED_OREELEMENTAL",
+      "mob_danger": "normal",
+      "max_health": 1203,
+      "loot_type": "ORE_CRITTER",
+      "is_harvestable_mob": true,
+      "first_seen_ms": 1793621467450,
+      "last_seen_ms": 1793621467958,
+      "position_source": "Event3 target movement",
+      "first_attack_ms": 1793621467450,
+      "last_attack_ms": 1793621467958,
+      "attack_action_count": 2,
+      "attack_flag_values": "0|1",
+      "event3_position_samples": 108,
+      "health_observations": 15,
+      "min_current_health": 9,
+      "last_current_health": 9,
+      "health_source_entity_ids": "37103",
+      "leave_observed": true,
+      "leave_after_last_attack": true,
+      "interpretation": "health_updates_then_leave_after_attack_defeat_likely_not_confirmed",
+      "targeted_by_player": true,
+      "target_source": "outbound Photon operation 23 target request",
+      "classification": "player_attack_target",
+      "target_entity_id_proven": true,
+      "marker_matches": [],
+      "health_value": 9,
+      "health_min": 9,
+      "left": true
     }
   ],
   "markers": [
@@ -8613,21 +8918,11 @@
         "confidence": "NONE",
         "status": "NO_SPATIAL_CANDIDATE"
       },
+      "region_id": null,
       "attack_target_correlation": {
-        "target_entity_id": "29189",
-        "mobile_type_id": 573,
-        "first_attack_ms": 1793621467450,
-        "last_attack_ms": 1793621467958,
-        "start_to_attack_delta_ms": 8728,
-        "confidence": "LOW",
-        "candidate_count": 1,
-        "identity_proven": false,
-        "evidence": [
-          "outbound operation 23 target ID",
-          "same-PCAP timestamps",
-          "Event 123 type",
-          "health/leave evidence"
-        ]
+        "confidence": "NONE",
+        "candidate_count": 0,
+        "identity_proven": false
       }
     },
     {
@@ -8662,6 +8957,8 @@
   "attack_targets": [
     {
       "entity_id": "29189",
+      "source_archive": "Albionsskkakaks111.zip",
+      "region_id": "<unknown-region>",
       "mobile_type_id": 573,
       "name": "Ore Elemental",
       "x": 366.5651550292969,
@@ -8674,10 +8971,10 @@
       "max_health": 1203,
       "loot_type": "ORE_CRITTER",
       "is_harvestable_mob": true,
-      "first_seen_ms": 1793621411310,
-      "last_seen_ms": 1793621473280,
+      "first_seen_ms": 1793621467450,
+      "last_seen_ms": 1793621467958,
       "position_source": "Event3 target movement",
-      "position_last_seen_ms": 1793621473280,
+      "position_last_seen_ms": null,
       "first_attack_ms": 1793621467450,
       "last_attack_ms": 1793621467958,
       "attack_action_count": 2,
@@ -8695,20 +8992,10 @@
       "last_kind": "mob",
       "classification": "player_attack_target",
       "target_entity_id_proven": true,
-      "marker_matches": [
-        {
-          "activity": "Mobs",
-          "found_ms": 1793621458722,
-          "mob_killed_ms": 1793621470263,
-          "confidence": "LOW",
-          "tier": "T4",
-          "enchantment": "Normal",
-          "identity_proven": false
-        }
-      ]
+      "marker_matches": []
     }
   ],
   "attack_target_count": 1,
-  "correlated_attack_target_markers": 1,
+  "correlated_attack_target_markers": 0,
   "troll_target_count": 0
 }

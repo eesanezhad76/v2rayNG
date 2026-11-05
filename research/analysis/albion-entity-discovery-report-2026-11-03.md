@@ -3,8 +3,8 @@
 Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge schema. Numeric IDs are not assigned names without independent evidence.
 
 ## Coverage
-- Event 40 node records: **649**
-- Event 123 lifecycle records: **4098**
+- Event 40 node records: **652**
+- Event 123 lifecycle records: **4172**
 - Knowledge entity records: **9522**
 - Learned patterns: **70**; autonomous patterns: **296**; protocol evidence: **4599**
 - Mobile TypeID dictionary coverage: **116/116** PCAP types mapped
@@ -13,35 +13,32 @@ Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge
 ## Event 40 type-number profiles
 | Type number | Records | Resource mapping | Mobile Type IDs | Tiers | Interpretation |
 |---:|---:|---|---|---|---|
-| 14 | 78 | FIBER | -1 (78) | 4 (40), 5 (36), 6 (2) | type_number_resource_mapping_candidate |
-| 14|27 | 1 | UNRESOLVED | -1 (1) | 4|5 (1) | unclassified |
-| 20 | 9 | HIDE | 482 (9) | 1 (9) | hide_type_number_with_nonharvestable_mobile_fallback |
-| 27 | 174 | ORE | -1 (174) | 4 (93), 5 (73), 6 (8) | ore_type_number_candidate |
-| 28 | 2 | UNRESOLVED | -1 (2) | 5 (2) | unresolved_type_number_outside_static_range |
-| 29 | 227 | ORE_RESOURCE_CREATURE | 574 (105), 573 (68), 572 (29), 571 (21), 576 (3), 570 (1) | 5 (105), 4 (97), 3 (22), 6 (3) | confirmed_ore_resource_creature |
-| 32 | 1 | UNRESOLVED | -1 (1) | 4 (1) | unclassified |
-| 7 | 157 | ROCK | -1 (157) | 4 (77), 5 (73), 6 (7) | type_number_resource_mapping_candidate |
+| 1 | 9 | WOOD | 20 (9) | 0 (9) | type_number_resource_mapping_candidate |
+| 3 | 22 | WOOD | 29 (22) | 0 (22) | type_number_resource_mapping_candidate |
+| 4 | 309 | WOOD | 29 (97), 27 (94), 7 (77), 14 (40), 32 (1) | 1 (189), 0 (65), 2 (48), 3 (7) | type_number_resource_mapping_candidate |
+| 5 | 292 | WOOD | 29 (107), 27 (73), 7 (73), 14 (37), 28 (2) | 1 (171), 0 (80), 2 (34), 3 (6), 1|3 (1) | type_number_resource_mapping_candidate |
+| 6 | 20 | ROCK | 27 (8), 7 (7), 29 (3), 14 (2) | 1 (16), 0 (3), 2 (1) | type_number_resource_mapping_candidate |
 
 ## Event 123 mobile TypeID crosswalk
 | Type ID | Name | Tier | Category | Loot type | Harvestable | PCAP records |
 |---:|---|---:|---|---|---|---:|
-| 482 | Mountain Rabbit | 1 | harmless | HIDE | False | 1120 |
-| 2489 | Keeper Axe Thrower | 5 | roaming | SILVERCOINS_LOOT_ROAMING | False | 251 |
-| 2474 | Keeper Berserk | 5 | roaming | SILVERCOINS_LOOT_ROAMING | False | 243 |
-| 571 | Ore Elemental | 3 | critter | ORE_CRITTER | True | 223 |
-| 573 | Ore Elemental | 4 | critter | ORE_CRITTER | True | 206 |
-| 120 | Mists Solo Wisp | 4 | rd_solo | None | False | 162 |
-| 2486 | Keeper Axe Thrower Recruit | 5 | roaming | SILVERCOINS_LOOT_ROAMING | False | 151 |
-| 574 | Ore Elemental | 5 | critter | ORE_CRITTER | True | 120 |
-| 2471 | Keeper Berserk Recruit | 5 | roaming | SILVERCOINS_LOOT_ROAMING | False | 119 |
-| 2712 | Mountain Guard | 5 | factionwarfare | None | False | 101 |
-| 2510 | Keeper Druid | 5 | roaming | SILVERCOINS_LOOT_ROAMING | False | 98 |
-| 2477 | Keeper Berserk Champion | 5 | champion | SILVERCOINS_LOOT_ROAMING | False | 76 |
+| 482 | Mountain Rabbit | 1 | harmless | HIDE | False | 1156 |
+| 2489 | Keeper Axe Thrower | 5 | roaming | SILVERCOINS_LOOT_ROAMING | False | 252 |
+| 2474 | Keeper Berserk | 5 | roaming | SILVERCOINS_LOOT_ROAMING | False | 247 |
+| 571 | Ore Elemental | 3 | critter | ORE_CRITTER | True | 227 |
+| 573 | Ore Elemental | 4 | critter | ORE_CRITTER | True | 210 |
+| 120 | Mists Solo Wisp | 4 | rd_solo | None | False | 163 |
+| 2486 | Keeper Axe Thrower Recruit | 5 | roaming | SILVERCOINS_LOOT_ROAMING | False | 152 |
+| 2471 | Keeper Berserk Recruit | 5 | roaming | SILVERCOINS_LOOT_ROAMING | False | 123 |
+| 574 | Ore Elemental | 5 | critter | ORE_CRITTER | True | 122 |
+| 2712 | Mountain Guard | 5 | factionwarfare | None | False | 104 |
+| 2510 | Keeper Druid | 5 | roaming | SILVERCOINS_LOOT_ROAMING | False | 101 |
+| 2477 | Keeper Berserk Champion | 5 | champion | SILVERCOINS_LOOT_ROAMING | False | 77 |
 | 2492 | Keeper Axe Thrower Champion | 5 | champion | SILVERCOINS_LOOT_ROAMING | False | 68 |
 | 1381 | Roaming Morgana Soldier | 6 | roaming | SILVERCOINS_LOOT_ROAMING | False | 61 |
-| 1888 | Roaming Undead Ghoul | 4 | standard | SILVERCOINS_LOOT_ROAMING | False | 57 |
+| 1888 | Roaming Undead Ghoul | 4 | standard | SILVERCOINS_LOOT_ROAMING | False | 58 |
 | 1908 | Roaming Undead Soldier | 4 | standard | SILVERCOINS_LOOT_ROAMING | False | 55 |
-| 2048 | Roaming Undead Mage | 4 | standard | SILVERCOINS_LOOT_ROAMING | False | 52 |
+| 2048 | Roaming Undead Mage | 4 | standard | SILVERCOINS_LOOT_ROAMING | False | 53 |
 | 1471 | Roaming Morgana Crossbowman | 6 | standard | SILVERCOINS_LOOT_ROAMING | False | 51 |
 | 1968 | Roaming Undead Archer | 4 | standard | SILVERCOINS_LOOT_ROAMING | False | 48 |
 | 1561 | Roaming Morgana Cultist | 6 | standard | SILVERCOINS_LOOT_ROAMING | False | 42 |
@@ -52,20 +49,20 @@ Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge
 | 1453 | Roaming Morgana Recruit | 6 | trash | SILVERCOINS_LOOT_ROAMING | False | 29 |
 | 2549 | Keeper Berserk Champion | 5 | champion | SILVERCOINS_LOOT_VETERAN | False | 29 |
 | 1543 | Roaming Morgana Acolyte | 6 | trash | SILVERCOINS_LOOT_ROAMING | False | 26 |
-| 2512 | Keeper Druid | 5 | camp | SILVERCOINS_LOOT_VETERAN | False | 24 |
+| 2512 | Keeper Druid | 5 | camp | SILVERCOINS_LOOT_VETERAN | False | 26 |
 | 2513 | Keeper Druid Champion | 5 | champion | SILVERCOINS_LOOT_ROAMING | False | 22 |
+| 2491 | Keeper Axe Thrower | 5 | camp | SILVERCOINS_LOOT_VETERAN | False | 21 |
 | 2490 | Keeper Axe Thrower | 5 | camp | SILVERCOINS_LOOT_ROAMING | False | 20 |
 | 2511 | Keeper Druid | 5 | camp | SILVERCOINS_LOOT_ROAMING | False | 20 |
 | 2564 | Keeper Axe Thrower Champion | 5 | champion | SILVERCOINS_LOOT_VETERAN | False | 20 |
 | 1917 | Roaming Undead Camp Soldier | 4 | standard | SILVERCOINS_LOOT_ROAMING | False | 19 |
 | 2476 | Keeper Berserk | 5 | camp | SILVERCOINS_LOOT_VETERAN | False | 19 |
-| 2491 | Keeper Axe Thrower | 5 | camp | SILVERCOINS_LOOT_VETERAN | False | 19 |
 | 1363 | Roaming Morgana Recruit Melee | 6 | roaming | SILVERCOINS_LOOT_ROAMING | False | 18 |
+| 2473 | Keeper Berserk Recruit | 5 | camp | SILVERCOINS_LOOT_VETERAN_TRASH | False | 18 |
 | 2723 | City Swamp Guard | 6 | factionwarfare | None | False | 18 |
 | 2787 | Mountain Watchtower Crossbow | 5 | factionwarfare | None | False | 17 |
 | 1830 | Morgana Imp Summon | 6 | summon | None | False | 16 |
 | 1868 | Roaming Undead Skeleton | 4 | trash | SILVERCOINS_LOOT_ROAMING | False | 16 |
-| 2473 | Keeper Berserk Recruit | 5 | camp | SILVERCOINS_LOOT_VETERAN_TRASH | False | 16 |
 | 1977 | Roaming Undead Camp Archer | 4 | standard | SILVERCOINS_LOOT_ROAMING | False | 15 |
 | 2478 | Keeper Berserk Champion | 5 | champion | SILVERCOINS_LOOT_ROAMING | False | 14 |
 | 1848 | Roaming Undead Skeleton Melee | 4 | trash | SILVERCOINS_LOOT_ROAMING | False | 12 |
@@ -81,12 +78,12 @@ Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge
 | 1489 | Roaming Morgana Crossbowman Champion | 6 | champion | SILVERCOINS_LOOT_ROAMING | False | 7 |
 | 2514 | Roaming Keeper Camp Druid Champion | 5 | champion | SILVERCOINS_LOOT_ROAMING | False | 7 |
 | 2535 | Keeper Bear | 5 | trash | SILVERCOINS_LOOT_VETERAN_TRASH | False | 7 |
+| 2576 | Keeper Druid | 5 | static | SILVERCOINS_LOOT_VETERAN | False | 7 |
 | 835 | Roaming Mountain Chest | 5 | chest | SILVERCOINS_LOOT_CHEST_STANDARD | False | 7 |
 | 1633 | Roaming Morgana Knight Champion | 6 | champion | SILVERCOINS_LOOT_ROAMING | False | 6 |
+| 2494 | Keeper Axe Thrower Champion | 5 | champion | SILVERCOINS_LOOT_VETERAN | False | 6 |
 | 2503 | Roaming Keeper Camp Giant Veteran Champion | 5 | champion | SILVERCOINS_LOOT_VETERAN | False | 6 |
-| 2576 | Keeper Druid | 5 | static | SILVERCOINS_LOOT_VETERAN | False | 6 |
 | 121 | Mists Solo Wisp | 4 | rd_solo | None | False | 5 |
-| 2494 | Keeper Axe Thrower Champion | 5 | champion | SILVERCOINS_LOOT_VETERAN | False | 5 |
 | 2792 | City Fortress Mountain Crossbow | 6 | factionwarfare | None | False | 5 |
 | 1674 | Morgana Bloodhound | 6 | unknown | SILVERCOINS_LOOT_STANDARD_TRASH | False | 4 |
 | 1928 | Roaming Undead Soldier Champion | 4 | champion | SILVERCOINS_LOOT_ROAMING | False | 4 |
@@ -143,14 +140,14 @@ Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge
 | 840 | Roaming Mountain Chest | 6 | chest | SILVERCOINS_LOOT_CHEST_STANDARD | False | 1 |
 
 ## Enriched Event 123 mobile entity catalog
-- Rows: 4098; mapped: 4098; unmapped: 0
+- Rows: 4172; mapped: 4172; unmapped: 0
 - File: albion-mobile-entity-catalog-2026-11-03.csv
 
 ## Enriched Event 40 node catalog
-- Rows: 649; mapped: 645; unresolved: 4
+- Rows: 652; mapped: 652; unresolved: 0
 - File: albion-resource-node-catalog-2026-11-03.csv
-- Resource display counts: Critter Ore Mountain Green=30, Critter Ore Mountain Red=3, Fiber=78, Hide=9, Ore=174, Ore Elemental=194, Rock=157
-- Mapping status counts: PACKET_CONFIRMED_LIVING_RESOURCE=227, REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL=418, UNRESOLVED=4
+- Resource display counts: Rock=20, Wood=632
+- Mapping status counts: REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL=652
 
 ## Mapping caveats and unresolved Type Number
 - Type number 20 maps to HIDE. Its mobile TypeID 482 is Mountain Rabbit and is not harvestable, so the reference OpenRadar handler falls back to type number 20 rather than overriding it.
@@ -163,17 +160,16 @@ Profiles every Event 40 Type Number, Event 123 mobile type, and merged Knowledge
 The JSON report records exact fields and common values for type, family, tier, enchantment, classification, resource, name, labels and IDs. Field-name similarity alone is not proof.
 
 ## Weak filename hints
-- Type number 14 — Albion2.zip / 6red ores ,each one mined.pcap (1 rows; filename hint only)
-- Type number 14 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
-- Type number 14 — Albion2.zip / red,ore lvl2.pcap (1 rows; filename hint only)
-- Type number 20 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
-- Type number 27 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
-- Type number 29 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
-- Type number 29 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
-- Type number 29 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
-- Type number 7 — Albion2.zip / blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap (1 rows; filename hint only)
-- Type number 7 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (2 rows; filename hint only)
-- Type number 7 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
+- Type number 1 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
+- Type number 3 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
+- Type number 4 — Albion2.zip / 6red ores ,each one mined.pcap (1 rows; filename hint only)
+- Type number 4 — Albion2.zip / blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap (1 rows; filename hint only)
+- Type number 4 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (1 rows; filename hint only)
+- Type number 4 — Albion2.zip / red,ore lvl2.pcap (1 rows; filename hint only)
+- Type number 4 — Albions.zip / 2mobs dismount and Mount .pcap (2 rows; filename hint only)
+- Type number 5 — Albion2.zip / red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap (2 rows; filename hint only)
+- Type number 5 — Albions.zip / 2mobs dismount and Mount .pcap (1 rows; filename hint only)
+- Type number 5 — Albions.zip / ore 4 3 red 2 blue .pcap (1 rows; filename hint only)
 
 ## Safety rules
 - Runtime IDs are scoped by archive and PCAP/session.

@@ -1,21 +1,21 @@
 mobile_type_id,pcap_lifecycle_records,display_name,unique_name,tier,category,danger,loot_type,loot_tier,is_harvestable,dictionary_match
-482,1120,Mountain Rabbit,T1_MOB_HIDE_MOUNTAIN_RABBIT,1,harmless,normal,HIDE,1,False,True
-2489,251,Keeper Axe Thrower,T5_MOB_ROAMING_KEEPER_AXE_THROWER,5,roaming,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
-2474,243,Keeper Berserk,T5_MOB_ROAMING_KEEPER_BERSERK,5,roaming,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
-571,223,Ore Elemental,T3_MOB_CRITTER_ORE_MOUNTAIN_RED,3,critter,normal,ORE_CRITTER,3,True,True
-573,206,Ore Elemental,T4_MOB_CRITTER_ORE_MOUNTAIN_RED,4,critter,normal,ORE_CRITTER,4,True,True
-120,162,Mists Solo Wisp,MOB_UNIQUE_MISTS_PORTAL_WISP,4,rd_solo,normal,,,False,True
-2486,151,Keeper Axe Thrower Recruit,T5_MOB_ROAMING_KEEPER_UNPROVEN_FEMALE,5,roaming,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
-574,120,Ore Elemental,T5_MOB_CRITTER_ORE_MOUNTAIN_RED,5,critter,normal,ORE_CRITTER,5,True,True
-2471,119,Keeper Berserk Recruit,T5_MOB_ROAMING_KEEPER_UNPROVEN_MALE,5,roaming,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
-2712,101,Mountain Guard,T5_MOB_CITY_MOUNTAIN_GUARD,5,factionwarfare,normal,,,False,True
-2510,98,Keeper Druid,T5_MOB_ROAMING_KEEPER_DRUID,5,roaming,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
-2477,76,Keeper Berserk Champion,T5_MOB_ROAMING_KEEPER_BERSERK_CHAMPION,5,champion,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
+482,1156,Mountain Rabbit,T1_MOB_HIDE_MOUNTAIN_RABBIT,1,harmless,normal,HIDE,1,False,True
+2489,252,Keeper Axe Thrower,T5_MOB_ROAMING_KEEPER_AXE_THROWER,5,roaming,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
+2474,247,Keeper Berserk,T5_MOB_ROAMING_KEEPER_BERSERK,5,roaming,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
+571,227,Ore Elemental,T3_MOB_CRITTER_ORE_MOUNTAIN_RED,3,critter,normal,ORE_CRITTER,3,True,True
+573,210,Ore Elemental,T4_MOB_CRITTER_ORE_MOUNTAIN_RED,4,critter,normal,ORE_CRITTER,4,True,True
+120,163,Mists Solo Wisp,MOB_UNIQUE_MISTS_PORTAL_WISP,4,rd_solo,normal,,,False,True
+2486,152,Keeper Axe Thrower Recruit,T5_MOB_ROAMING_KEEPER_UNPROVEN_FEMALE,5,roaming,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
+2471,123,Keeper Berserk Recruit,T5_MOB_ROAMING_KEEPER_UNPROVEN_MALE,5,roaming,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
+574,122,Ore Elemental,T5_MOB_CRITTER_ORE_MOUNTAIN_RED,5,critter,normal,ORE_CRITTER,5,True,True
+2712,104,Mountain Guard,T5_MOB_CITY_MOUNTAIN_GUARD,5,factionwarfare,normal,,,False,True
+2510,101,Keeper Druid,T5_MOB_ROAMING_KEEPER_DRUID,5,roaming,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
+2477,77,Keeper Berserk Champion,T5_MOB_ROAMING_KEEPER_BERSERK_CHAMPION,5,champion,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
 2492,68,Keeper Axe Thrower Champion,T5_MOB_ROAMING_KEEPER_AXE_THROWER_CHAMPION,5,champion,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
 1381,61,Roaming Morgana Soldier,T6_MOB_ROAMING_MORGANA_SOLDIER,6,roaming,roaming,SILVERCOINS_LOOT_ROAMING,6,False,True
-1888,57,Roaming Undead Ghoul,T4_MOB_ROAMING_UNDEAD_GHOUL,4,standard,roaming,SILVERCOINS_LOOT_ROAMING,4,False,True
+1888,58,Roaming Undead Ghoul,T4_MOB_ROAMING_UNDEAD_GHOUL,4,standard,roaming,SILVERCOINS_LOOT_ROAMING,4,False,True
 1908,55,Roaming Undead Soldier,T4_MOB_ROAMING_UNDEAD_SOLDIER,4,standard,roaming,SILVERCOINS_LOOT_ROAMING,4,False,True
-2048,52,Roaming Undead Mage,T4_MOB_ROAMING_UNDEAD_MAGE,4,standard,roaming,SILVERCOINS_LOOT_ROAMING,4,False,True
+2048,53,Roaming Undead Mage,T4_MOB_ROAMING_UNDEAD_MAGE,4,standard,roaming,SILVERCOINS_LOOT_ROAMING,4,False,True
 1471,51,Roaming Morgana Crossbowman,T6_MOB_ROAMING_MORGANA_CROSSBOWMAN,6,standard,roaming,SILVERCOINS_LOOT_ROAMING,6,False,True
 1968,48,Roaming Undead Archer,T4_MOB_ROAMING_UNDEAD_ARCHER,4,standard,roaming,SILVERCOINS_LOOT_ROAMING,4,False,True
 1561,42,Roaming Morgana Cultist,T6_MOB_ROAMING_MORGANA_CULTIST,6,standard,roaming,SILVERCOINS_LOOT_ROAMING,6,False,True
@@ -26,20 +26,20 @@ mobile_type_id,pcap_lifecycle_records,display_name,unique_name,tier,category,dan
 1453,29,Roaming Morgana Recruit,T6_MOB_ROAMING_MORGANA_RECRUIT,6,trash,roaming,SILVERCOINS_LOOT_ROAMING,6,False,True
 2549,29,Keeper Berserk Champion,T5_MOB_KEEPER_BERSERK_VETERAN_CHAMPION,5,champion,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
 1543,26,Roaming Morgana Acolyte,T6_MOB_ROAMING_MORGANA_ACOLYTE,6,trash,roaming,SILVERCOINS_LOOT_ROAMING,6,False,True
-2512,24,Keeper Druid,T5_MOB_ROAMING_KEEPER_CAMP_DRUID_VETERAN,5,camp,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
+2512,26,Keeper Druid,T5_MOB_ROAMING_KEEPER_CAMP_DRUID_VETERAN,5,camp,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
 2513,22,Keeper Druid Champion,T5_MOB_ROAMING_KEEPER_DRUID_CHAMPION,5,champion,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
+2491,21,Keeper Axe Thrower,T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_VETERAN,5,camp,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
 2490,20,Keeper Axe Thrower,T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER,5,camp,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
 2511,20,Keeper Druid,T5_MOB_ROAMING_KEEPER_CAMP_DRUID,5,camp,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
 2564,20,Keeper Axe Thrower Champion,T5_MOB_KEEPER_AXE_THROWER_VETERAN_CHAMPION,5,champion,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
 1917,19,Roaming Undead Camp Soldier,T4_MOB_ROAMING_UNDEAD_CAMP_SOLDIER,4,standard,roaming,SILVERCOINS_LOOT_ROAMING,4,False,True
 2476,19,Keeper Berserk,T5_MOB_ROAMING_KEEPER_CAMP_BERSERK_VETERAN,5,camp,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
-2491,19,Keeper Axe Thrower,T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_VETERAN,5,camp,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
 1363,18,Roaming Morgana Recruit Melee,T6_MOB_ROAMING_MORGANA_RECRUIT_MELEE,6,roaming,roaming,SILVERCOINS_LOOT_ROAMING,6,False,True
+2473,18,Keeper Berserk Recruit,T5_MOB_ROAMING_KEEPER_CAMP_UNPROVEN_MALE_VETERAN,5,camp,veteran,SILVERCOINS_LOOT_VETERAN_TRASH,5,False,True
 2723,18,City Swamp Guard,T6_MOB_CITY_SWAMP_GUARD,6,factionwarfare,normal,,,False,True
 2787,17,Mountain Watchtower Crossbow,T5_MOB_CITY_FORTRESS_MOUNTAIN_CROSSBOW,5,factionwarfare,veteran,,,False,True
 1830,16,Morgana Imp Summon,T6_MOB_MORGANA_IMP_SUMMON,6,summon,normal,,,False,True
 1868,16,Roaming Undead Skeleton,T4_MOB_ROAMING_UNDEAD_SKELETON,4,trash,roaming,SILVERCOINS_LOOT_ROAMING,4,False,True
-2473,16,Keeper Berserk Recruit,T5_MOB_ROAMING_KEEPER_CAMP_UNPROVEN_MALE_VETERAN,5,camp,veteran,SILVERCOINS_LOOT_VETERAN_TRASH,5,False,True
 1977,15,Roaming Undead Camp Archer,T4_MOB_ROAMING_UNDEAD_CAMP_ARCHER,4,standard,roaming,SILVERCOINS_LOOT_ROAMING,4,False,True
 2478,14,Keeper Berserk Champion,T5_MOB_ROAMING_KEEPER_CAMP_BERSERK_CHAMPION,5,champion,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
 1848,12,Roaming Undead Skeleton Melee,T4_MOB_ROAMING_UNDEAD_SKELETON_MELEE,4,trash,roaming,SILVERCOINS_LOOT_ROAMING,4,False,True
@@ -55,12 +55,12 @@ mobile_type_id,pcap_lifecycle_records,display_name,unique_name,tier,category,dan
 1489,7,Roaming Morgana Crossbowman Champion,T6_MOB_ROAMING_MORGANA_CROSSBOWMAN_CHAMPION,6,champion,roaming,SILVERCOINS_LOOT_ROAMING,6,False,True
 2514,7,Roaming Keeper Camp Druid Champion,T5_MOB_ROAMING_KEEPER_CAMP_DRUID_CHAMPION,5,champion,roaming,SILVERCOINS_LOOT_ROAMING,5,False,True
 2535,7,Keeper Bear,T5_MOB_KEEPER_BEAR_VETERAN_TRASH,5,trash,veteran,SILVERCOINS_LOOT_VETERAN_TRASH,5,False,True
+2576,7,Keeper Druid,T5_MOB_KEEPER_DRUID_VETERAN,5,static,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
 835,7,Roaming Mountain Chest,T5_MOB_ROAMING_MOUNTAIN_CHEST,5,chest,normal,SILVERCOINS_LOOT_CHEST_STANDARD,5,False,True
 1633,6,Roaming Morgana Knight Champion,T6_MOB_ROAMING_MORGANA_KNIGHT_CHAMPION,6,champion,roaming,SILVERCOINS_LOOT_ROAMING,6,False,True
+2494,6,Keeper Axe Thrower Champion,T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_VETERAN_CHAMPION,5,champion,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
 2503,6,Roaming Keeper Camp Giant Veteran Champion,T5_MOB_ROAMING_KEEPER_CAMP_GIANT_VETERAN_CHAMPION,5,champion,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
-2576,6,Keeper Druid,T5_MOB_KEEPER_DRUID_VETERAN,5,static,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
 121,5,Mists Solo Wisp,MOB_UNIQUE_MISTS_PORTAL_WISP_STANDARD,4,rd_solo,normal,,,False,True
-2494,5,Keeper Axe Thrower Champion,T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_VETERAN_CHAMPION,5,champion,veteran,SILVERCOINS_LOOT_VETERAN,5,False,True
 2792,5,City Fortress Mountain Crossbow,T6_MOB_CITY_FORTRESS_MOUNTAIN_CROSSBOW,6,factionwarfare,veteran,,,False,True
 1674,4,Morgana Bloodhound,T6_MOB_MORGANA_BLOODHOUND,6,unknown,normal,SILVERCOINS_LOOT_STANDARD_TRASH,6,False,True
 1928,4,Roaming Undead Soldier Champion,T4_MOB_ROAMING_UNDEAD_SOLDIER_CHAMPION,4,champion,roaming,SILVERCOINS_LOOT_ROAMING,4,False,True

@@ -10,21 +10,21 @@ Consolidated index for all original ZIP archives. Raw ZIPs remain unchanged in r
 - Normalized observations: **761,082**; own-player Move(22) observations: **81,881**
 
 ## Resource nodes and static resources
-- Event 40 harvestable-node records: **649**
-- Family counts: 14: 78, 14|27: 1, 20: 9, 27: 174, 28: 2, 29: 227, 32: 1, 7: 157
+- Event 40 harvestable-node records: **652**
+- Family counts: 1: 9, 3: 22, 4: 309, 5: 292, 6: 20
 - Event 46 state IDs: **297**; state-only IDs without Event 40 location: **213**
 - Event 39 static-resource observations: **47,108** (untyped candidates, not automatically confirmed nodes)
 - Verified Ore mapping: family 29, T3→571, T4→573, T5→574
 - User-confirmed T5.3 exception: entity 2788, family 27, coordinates (-379, -24); this does not classify all family-27 nodes.
 
 ## Mobs and Troll marker cycles
-- Event 123 living/mobile lifecycle records: **4,098**
+- Event 123 living/mobile lifecycle records: **4,172**
 - Operation 23 attack-target tracks: **37**; tracked target-position samples: **1514**
 - Manual marker records: **369**; completed lifecycle samples: **109**
 - Mob/Troll correlations: **13** (16 HIGH, 6 MEDIUM, 4 LOW, 3 with no candidate)
-- Troll-labelled cycles: **12**; confidence: HIGH: 6, LOW: 2, MEDIUM: 4
-- Troll cycles resolving to Ore Elemental: **12**; mobile types: 1471: 1, 573: 6, 574: 5
-- Distinct target IDs among correlated Troll cycles: **10**; unlinked cycles: **0**
+- Troll-labelled cycles: **0**; confidence: 
+- Troll cycles resolving to Ore Elemental: **0**; mobile types: 
+- Distinct target IDs among correlated Troll cycles: **0**; unlinked cycles: **0**
 - Marker label Troll is retained separately from decoded game name Ore Elemental; all marker-to-target links remain evidence-ranked, not identity-proven.
 - Attack tracks: 5 strong defeat candidates, 38 likely defeats not confirmed, 1 movement-supported candidate with kill unproven.
 
