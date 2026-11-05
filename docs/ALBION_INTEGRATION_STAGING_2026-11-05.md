@@ -1066,3 +1066,85 @@ The enhanced read-only audit run `42087978698` completed successfully (head `cb3
 - Verified: 45/45 split parts, 7z CRC/integrity, 9/9 extracted member hashes, 6/6 Master duplicate comparisons, 13/13 original ZIP hashes/sizes against the complete database manifest.
 - Resulting commit SHA: 427d4a36cdce2bd600ebcb6de003c3a9cc92a82e\n- New blob SHA: bd6c70c53ee3ad5287db196ca18ccf2ac3513907
 - No source data or pre-existing branch changed.
+
+
+## 32. Reliability UX / PR #7 and stacked PR #8–#9 audit
+
+### PR #7 — historical reliability UX source
+
+- PR: `#7`, “Integrate Albion reliability, marker queue and capture recovery”.
+- State: open, draft, not merged, `mergeable=false`.
+- Head: `albion-reliability-ux` / `506d24730c51d4debd434ffaf652ad81d482b748`.
+- Base snapshot recorded by PR: `albion-safe-integration-2026-11-05` / `dba99f7e8c1421b2483c0f0136ed74537c6b197f`.
+- Current Safe Integration head: `a4282483d6a4f40eabbd74aabda8a04e4bf61ae5`, which is 163 commits ahead of that old PR base.
+- PR #7 has 59 commits, 15 changed files, +1,208 / -89 lines. Compared with current Safe Integration, it diverges at `39a125b9de84a9101e610f33deb663095e8c10c7` and is 59 commits ahead / 1,024 behind; it is not a safe merge candidate.
+- Its 15 changed paths are:
+  - `.github/workflows/build.yml`
+  - `.github/workflows/validate-albion-sources.yml`
+  - `AlbionCaptureAnalyzer.kt`
+  - `AlbionCaptureMarker.kt`
+  - `AlbionCaptureWorker.kt`
+  - `AlbionEventStateTracker.kt`
+  - `AlbionMarkerQueue.kt`
+  - `AlbionPatternMiner.kt`
+  - `AlbionProtocol18Decoder.kt`
+  - `CoreServiceManager.kt`
+  - `AlbionOverlayService.kt`
+  - `AlbionCaptureAnalyzerTest.kt`
+  - `AlbionPatternMinerTest.kt`
+  - `AlbionPhotonPacketDecoderTest.kt`
+  - `docs/ALBION_RADAR_ANDROID.md`
+
+PR #7 contains two distinct research approaches that must not be conflated:
+- `AlbionPatternMiner`: cross-capture numeric JSONL field-path recurrence discovery; its test requires recurrence across at least three independent capture files.
+- Raw Pattern Discovery's `AlbionLearningEngine`: unsupervised UDP payload byte-pattern analysis directly from PCAP bytes.
+These are different inputs, algorithms and outputs. Keep both experimental and separate until independently validated.
+
+### PR #8 — research index / runtime provenance
+
+- PR: `#8`, “Regenerate research index and wire historical knowledge into live snapshots”.
+- State: open, draft, not merged, `mergeable=false`.
+- Head: `albion-db-runtime-wiring-2026-11-05` / `a611c8125c91c3d6beb655897dc7e58745ac00fb`.
+- Base snapshot: `6fa9d10555aa2ab5e36f64ca831f0e4869faaeb0`; current Safe Integration is 10 commits ahead of that base.
+- 2 commits, 5 changed files:
+  - `.github/workflows/build.yml`
+  - `AlbionLiveKnowledgeStore.kt`
+  - `ResourcePatternLearner.kt`
+  - `research/tools/generate_research_knowledge_index.py`
+  - `research/tools/validate_runtime_knowledge_assets.py`
+- It regenerates the runtime research index from 406 resource rows, 2,956 mobile rows and 67 TypeIDs, and adds read-only research provenance to current-session snapshots. It explicitly does not project historical coordinates onto the live map.
+- This branch is not a replacement for Pattern Mining's raw evidence/database tree; it is a runtime knowledge wiring subset.
+
+### PR #9 — selective marker queue / capture recovery stack
+
+- PR: `#9`, “Integrate durable marker queue and capture recovery into live radar”.
+- State: open, draft, not merged, `mergeable=false`.
+- Head: `albion-reliability-runtime-wiring-2026-11-05` / `3e0c139641be7cce12209c5f7c3e5ac0a87ca549`.
+- Base snapshot: `6fa9d10555aa2ab5e36f64ca831f0e4869faaeb0`.
+- 3 PR commits: the 2 PR #8 commits plus one reliability-wiring commit. Compared with PR #8 head, it is exactly 1 commit ahead / 0 behind and adds the seven runtime reliability paths listed below:
+  - `AlbionCaptureWorker.kt`
+  - `AlbionEventStateTracker.kt`
+  - `AlbionMarkerQueue.kt`
+  - `AlbionProtocol18Decoder.kt`
+  - `CoreServiceManager.kt`
+  - `AlbionOverlayService.kt`
+  - `.github/workflows/build.yml`
+- PR #9's total changed-file set is 11 because it retains the five PR #8 research-index files as part of the stack.
+- Zone Forensics Integration is 4 commits beyond PR #9, and Raw Pattern Discovery is 1 commit beyond Zone Forensics Integration. This is the same 7-commit reliability/DB/zone chain plus one raw UDP discovery commit documented in Sections 11 and 17.
+- No successful CI run for the PR #9 head was found in the latest Actions run inventory inspected during this audit. Do not mark PR #9 validated from PR #12's CI; PR #12 builds a different head.
+
+### Integration decision
+
+- PR #7 remains a historical source branch; do not merge it wholesale or rebase it in place.
+- PR #8 and PR #9 are stacked drafts based on an older Safe Integration snapshot; do not merge them directly into the current Safe Integration branch.
+- Raw Pattern Discovery is the latest descendant of the reliability/DB/zone stack, but it also must not be merged wholesale into Safe Fixes.
+- Reuse only the semantically reviewed candidate changes from Section 23, with fresh tests against the current Safe Fixes head. Preserve PR #7, #8, #9 and all source branches as immutable references until a separately validated integration PR is approved.
+
+## 33. Change log — reliability PR stack audit
+
+- Operation: inspect PR #7, #8 and #9 metadata, changed-file lists, ancestry and current-base divergence; append integration disposition.
+- Repository: eesanezhad76/v2rayNG
+- Source document blob SHA: fc7343cf5df57364b79e688dbb9d4d4ea5b8ca54
+- Destination branch: albion-integration-staging-2026-11-05
+- No PR was merged or modified; no source branch or application/data file changed.
+- Resulting commit SHA and new blob SHA: record from update response.
