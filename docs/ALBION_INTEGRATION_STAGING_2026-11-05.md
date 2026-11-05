@@ -532,7 +532,8 @@ No commit from these branches has been cherry-picked, merged or copied to the st
 - Source file blob SHA before update: `7c5257d6910a3f387352adc5a0c8454093a95e10`
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No application source, tests, raw evidence, archive parts, generated research data, or pre-existing branch changed.
-- Resulting commit SHA: d75c12484a7646cb36ef5e09bf28dfbfb19e8eaf\n- New blob SHA: 2a1685ef1a884c8495eca1a0dde72ad08757f607
+- Resulting commit SHA: a69c1030c3e3eb51057cb4b2dcfe5291a4822782
+- New blob SHA: 978ed95f52b3c6b8a333a7ea9c56756bea625c21
 
 
 ## 20. Pattern Mining — exact 285-path diff inventory against Safe Integration
@@ -854,7 +855,8 @@ The actual upload path set is 45 split archive parts (`.001`–`.045`) plus a mo
 - Source document blob SHA: `978ed95f52b3c6b8a333a7ea9c56756bea625c21`
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No source branch or file changed; no data copied or moved.
-- Resulting commit SHA: da5f9f160c2e1ff3ada971193bcc63b74c171f67\n- New blob SHA: 5fc53a40e5d64084858aad04a8fff9652e00a965
+- Resulting commit SHA: da5f9f160c2e1ff3ada971193bcc63b74c171f67
+- New blob SHA: 5fc53a40e5d64084858aad04a8fff9652e00a965
 
 
 ## 23. Safe-transfer assessment — semantic review, not merge approval
