@@ -85,7 +85,6 @@ object AlbionCaptureAnalyzer {
         var truncatedPcap = false
         var stateSnapshotCount = 0
         val unknownEventSchemas = linkedMapOf<Int, Int>()
-        val stateTracker = AlbionEventStateTracker()
         val commands = linkedMapOf<Int, Int>()
         val events = linkedMapOf<Int, Int>()
         val requests = linkedMapOf<Int, Int>()
@@ -226,7 +225,6 @@ object AlbionCaptureAnalyzer {
                                     }
                                 }
                                 if (message.kind == "event" && message.realCode != null) {
-                                    stateTracker.observe(message.realCode, message.parameters)
                                     stateSnapshotCount++
                                     val typed = AlbionPhotonEventDecoder.decode(message.realCode, message.parameters)
                                     if (!typed.recognized) {
