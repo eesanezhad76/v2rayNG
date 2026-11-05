@@ -94,9 +94,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add research/database research/analysis V2rayNG/app/src/main/assets/albion-static-catalog.json V2rayNG/app/src/main/assets/albion-historical-*.json V2rayNG/app/src/main/assets/albion-mobile-type-dictionary.json
-          # Keep oversized derived aggregates out of Git; raw uploads remain preserved in research/inbox.
+          # Preserve oversized generated evidence losslessly as checksum-verified chunks.
+          python research/tools/split_large_outputs.py --max-mib 45 --threshold-mib 50
+          git add research/analysis/derived-shards research/analysis/derived-output-shards-manifest.json
+          # Keep only the original oversized containers out of Git; their exact bytes are in the shards.
           while IFS= read -r -d '' oversized; do
-            echo "Leaving oversized regenerable analysis output uncommitted: $oversized ($(du -h "$oversized" | cut -f1))"
+            echo "Original oversized container represented by verified shards: $oversized ($(du -h "$oversized" | cut -f1))"
             git reset -q -- "$oversized"
           done < <(find research/analysis research/database -type f -size +50M -print0)
           if git diff --cached --quiet; then echo "No derived changes"; exit 0; fi
