@@ -60,10 +60,14 @@ object ResourcePatternLearner {
         learnedEnchantmentNames[family.toString() + "|" + tier + "|" + raw] = label
     }
 
-    fun infer(observation: Observation): Result {
+    fun infer(
+        observation: Observation,
+        researchIndex: AlbionResearchKnowledgeIndex.Snapshot? = null
+    ): Result {
         val observedMobileType = observation.mobileTypeId?.takeIf { it > 0 }
         val observedLivingResource = observedMobileType?.let(harvestableMobileResources::get)
-        val staticResource = staticResourceType(observation.family)
+        val familyEvidence = researchIndex?.resourceTypeEvidence(observation.family)
+        val staticResource = familyEvidence?.value ?: staticResourceType(observation.family)
 
         val resource = when {
             observedLivingResource != null -> FieldInference(
@@ -80,9 +84,15 @@ object ResourcePatternLearner {
             )
             staticResource != null -> FieldInference(
                 value = staticResource,
-                status = Status.PROVISIONAL_MAPPING,
-                confidence = 0.90,
-                reason = "Event 40 type number " + observation.family + " maps to " + staticResource + " in the reference HarvestablesDatabase range table."
+                status = if (familyEvidence?.status == "PACKET_CONFIRMED_LIVING_RESOURCE")
+                    Status.CAPTURE_CORROBORATED else Status.PROVISIONAL_MAPPING,
+                confidence = familyEvidence?.confidence ?: 0.90,
+                reason = if (familyEvidence != null)
+                    "Research index: family " + observation.family + " has " + familyEvidence.observationCount +
+                        " observations across " + familyEvidence.captureCount + " captures; mapping status " +
+                        familyEvidence.status + ". Evidence supports classification but does not replace packet facts."
+                else
+                    "Event 40 type number " + observation.family + " maps to " + staticResource + " in the reference HarvestablesDatabase range table."
             )
             observation.family == null -> unknown("Type number is absent.")
             else -> unknown("Type number " + observation.family + " is outside the verified static-resource ranges and has no confirmed living-resource mapping.")

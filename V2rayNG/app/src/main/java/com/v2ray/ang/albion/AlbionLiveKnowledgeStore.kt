@@ -574,7 +574,8 @@ class AlbionLiveKnowledgeStore(
                 tier = if (record.has("tier")) record.optInt("tier") else null,
                 enchantRaw = if (record.has("enchant")) record.optInt("enchant") else null,
                 mobileTypeId = if (record.has("mobile_type_id")) record.optInt("mobile_type_id") else null
-            )
+            ),
+            researchIndex = researchKnowledge
         )
         fun field(value: ResourcePatternLearner.FieldInference, blocked: Boolean, blockedReason: String): JSONObject {
             val conflict = blocked && value.status != ResourcePatternLearner.Status.UNKNOWN
