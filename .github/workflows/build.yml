@@ -16,6 +16,7 @@ on:
       - albion-pattern-mining
       - albion-radar-phase1-remediation
       - albion-zone-forensics
+      - albion-safe-integration-2026-11-05
     # Capture-ingest commits update derived evidence only. They must not queue
     # redundant APK builds; source, tests, decoder and workflow changes still do.
     paths-ignore:
@@ -25,7 +26,6 @@ on:
       - 'research/pcap-analyzer/**'
       - 'research/tools/**'
       - 'research/tests/**'
-      - '.github/workflows/build.yml'
       - '.github/workflows/albion-capture-ingest.yml'
       - 'research/**/*.md'
 
@@ -49,6 +49,12 @@ jobs:
       with:
         submodules: 'recursive'
         fetch-depth: '0'
+
+    - name: Generate runtime mobile TypeID dictionary
+      run: python3 research/tools/generate_mobile_type_dictionary.py
+
+    - name: Generate historical Albion knowledge seed
+      run: python3 research/tools/generate_historical_knowledge_seed.py
 
     - name: Setup Android SDK
       uses: android-actions/setup-android@v4
@@ -91,14 +97,14 @@ jobs:
         cp -r ${{ github.workspace }}/libs ${{ github.workspace }}/V2rayNG/app
 
     - name: Checkout passive-tap AndroidLibXrayLite
-      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics'))
+      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || github.ref == 'refs/heads/albion-safe-integration-2026-11-05'))
       run: |
         git -C AndroidLibXrayLite remote set-url origin https://github.com/eesanezhad76/AndroidLibXrayLite.git
         git -C AndroidLibXrayLite fetch --depth=1 origin albion-passive-tap
         git -C AndroidLibXrayLite checkout --detach FETCH_HEAD
 
     - name: Setup Go for passive-tap library
-      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics'))
+      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || github.ref == 'refs/heads/albion-safe-integration-2026-11-05'))
       uses: actions/setup-go@v6
       with:
         go-version-file: AndroidLibXrayLite/go.mod
@@ -106,7 +112,7 @@ jobs:
         cache-dependency-path: AndroidLibXrayLite/go.sum
 
     - name: Build passive-tap libv2ray AAR
-      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics'))
+      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || github.ref == 'refs/heads/albion-safe-integration-2026-11-05'))
       timeout-minutes: 25
       working-directory: AndroidLibXrayLite
       env:
@@ -128,12 +134,12 @@ jobs:
         gomobile bind -v -androidapi 24 -trimpath -ldflags='-s -w -buildid= -checklinkname=0' -o ../V2rayNG/app/libs/libv2ray.aar ./
 
     - name: Test passive-tap tun package
-      if: success() && (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics'))
+      if: success() && (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || github.ref == 'refs/heads/albion-safe-integration-2026-11-05'))
       working-directory: AndroidLibXrayLite
       run: go test github.com/xtls/xray-core/proxy/tun
 
     - name: Fetch AndroidLibXrayLite tag
-      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'refs/heads/albion-radar-phase1-remediation' && github.ref != 'refs/heads/albion-zone-forensics')
+      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'refs/heads/albion-radar-phase1-remediation' && github.ref != 'refs/heads/albion-zone-forensics' && github.ref != 'refs/heads/albion-safe-integration-2026-11-05')
       run: |
         pushd AndroidLibXrayLite
         CURRENT_TAG=$(git describe --tags --abbrev=0)
@@ -142,7 +148,7 @@ jobs:
         popd
 
     - name: Download libv2ray
-      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'refs/heads/albion-radar-phase1-remediation' && github.ref != 'refs/heads/albion-zone-forensics')
+      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'refs/heads/albion-radar-phase1-remediation' && github.ref != 'refs/heads/albion-zone-forensics' && github.ref != 'refs/heads/albion-safe-integration-2026-11-05')
       uses: robinraju/release-downloader@v1.13
       with:
         repository: '2dust/AndroidLibXrayLite'
@@ -161,7 +167,7 @@ jobs:
       run: echo "Debug radar APK does not require release signing secrets"
 
     - name: Build signed isolated radar APK
-      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics'))
+      if: (github.ref == 'refs/heads/albion-radar' || github.ref == 'refs/heads/albion-decoder-lab' || github.ref == 'refs/heads/albion-decoder-radar-rebuild' || github.ref == 'refs/heads/albion-integrity-autosave' || (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || github.ref == 'refs/heads/albion-safe-integration-2026-11-05'))
       run: |
         cd ${{ github.workspace }}/V2rayNG
         echo "sdk.dir=${ANDROID_HOME}" > local.properties
@@ -171,7 +177,7 @@ jobs:
         ./gradlew assemblePlaystoreDebug
 
     - name: Build signed APK
-      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'refs/heads/albion-radar-phase1-remediation' && github.ref != 'refs/heads/albion-zone-forensics')
+      if: (github.ref != 'refs/heads/albion-radar' && github.ref != 'refs/heads/albion-decoder-lab' && github.ref != 'refs/heads/albion-decoder-radar-rebuild' && github.ref != 'refs/heads/albion-integrity-autosave' && github.ref != 'refs/heads/albion-pattern-mining' && github.ref != 'refs/heads/albion-radar-phase1-remediation' && github.ref != 'refs/heads/albion-zone-forensics' && github.ref != 'refs/heads/albion-safe-integration-2026-11-05')
       run: |
         cd ${{ github.workspace }}/V2rayNG
         echo "sdk.dir=${ANDROID_HOME}" > local.properties
@@ -180,7 +186,7 @@ jobs:
         ./gradlew assembleRelease -Pandroid.injected.signing.store.file=${{ steps.android_keystore.outputs.filePath }} -Pandroid.injected.signing.store.password=${{ secrets.APP_KEYSTORE_PASSWORD }} -Pandroid.injected.signing.key.alias=${{ secrets.APP_KEYSTORE_ALIAS }} -Pandroid.injected.signing.key.password=${{ secrets.APP_KEY_PASSWORD }}
     
     - name: Verify all debug APKs and generate SHA-256 manifest
-      if: success() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics')
+      if: success() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || github.ref == 'refs/heads/albion-safe-integration-2026-11-05')
       shell: bash
       run: |
         set -euo pipefail
@@ -208,7 +214,7 @@ jobs:
         cat "$REPORT_DIR/apk-sha256.txt"
 
     - name: Install universal APK on Android 15 emulator
-      if: success() && github.ref == 'refs/heads/albion-radar-phase1-remediation'
+      if: success() && (github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-safe-integration-2026-11-05')
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: 35
@@ -222,7 +228,7 @@ jobs:
           timeout 30s adb shell monkey -p com.v2ray.ang.radar -c android.intent.category.LAUNCHER 1
 
     - name: Run offline PCAP replay and audit
-      if: success() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics')
+      if: success() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || github.ref == 'refs/heads/albion-safe-integration-2026-11-05')
       shell: bash
       run: |
         set -euo pipefail
@@ -230,19 +236,20 @@ jobs:
         python3 research/tools/analyze_spatial_alignment.py
 
     - name: Test Python analysis, marker FIFO, and readiness logic
-      if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics')
+      if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || github.ref == 'refs/heads/albion-safe-integration-2026-11-05')
       shell: bash
       run: |
         echo "ALBION_PYTHON_TESTS_STATUS=FAIL" >> "$GITHUB_ENV"
         python3 -m unittest discover -s research/tests -p 'test_*.py' -v
+        python3 research/tools/validate_runtime_knowledge_assets.py
         echo "ALBION_PYTHON_TESTS_STATUS=PASS" >> "$GITHUB_ENV"
 
     - name: Generate Albion readiness report
-      if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics')
+      if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || github.ref == 'refs/heads/albion-safe-integration-2026-11-05')
       run: python3 research/tools/generate_readiness_report.py
 
     - name: Upload Albion readiness report
-      if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics')
+      if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || github.ref == 'refs/heads/albion-safe-integration-2026-11-05')
       uses: actions/upload-artifact@v7
       with:
         name: albion-readiness-report
