@@ -107,6 +107,12 @@ jobs:
           done < <(find research/analysis research/database -type f -size +50M -print0)
           if git diff --cached --quiet; then echo "No derived changes"; exit 0; fi
           git commit -m "data(albion): ingest uploaded capture evidence"
+          # Large originals are already preserved byte-for-byte in verified shards.
+          # Stash their unstaged worktree copies so a concurrent branch update can
+          # be rebased safely without discarding or force-pushing any evidence.
+          if ! git diff --quiet || [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
+            git stash push --include-untracked -m "Albion oversized outputs already preserved as verified shards"
+          fi
           # A user may push while this analysis is running. Rebase our derived
           # evidence commit onto the newer branch tip and retry; never force-push.
           for attempt in 1 2 3; do
