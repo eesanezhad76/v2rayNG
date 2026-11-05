@@ -65,14 +65,9 @@ object AlbionMarkerQueue {
         val prefs = preferences(context) ?: return@synchronized false
         val old = readQueue(prefs) ?: return@synchronized false
         val next = JSONArray()
-        var found = false
         for (i in 0 until old.length()) {
             val item = old.getJSONObject(i)
-            if (item.optString("marker_id") == markerId) {
-                found = true
-            } else {
-                next.put(item)
-            }
+            if (item.optString("marker_id") != markerId) next.put(item)
         }
         // Commit even when the ID is already absent: a previous failed commit may have
         // changed the in-memory map without durably updating the backing file.
