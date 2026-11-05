@@ -533,3 +533,325 @@ No commit from these branches has been cherry-picked, merged or copied to the st
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No application source, tests, raw evidence, archive parts, generated research data, or pre-existing branch changed.
 - Resulting commit and new blob SHA: record from update response and verify against branch HEAD.
+
+
+## 20. Pattern Mining — exact 285-path diff inventory against Safe Integration
+
+The following is the full file-path list returned by GitHub compare for base `albion-safe-integration-2026-11-05` and head `albion-pattern-mining`. Status is relative to that base. Binary-file line counts from the compare API may be zero and must not be interpreted as empty content.
+
+### .github (1)
+- `.github/workflows/albion-capture-ingest.yml` — modified; +63/-1
+
+### V2rayNG/app (19)
+- `V2rayNG/app/src/main/assets/albion-historical-autonomous-patterns.json` — added; +1/-0
+- `V2rayNG/app/src/main/assets/albion-historical-entity-evidence.json` — added; +1/-0
+- `V2rayNG/app/src/main/assets/albion-historical-knowledge-manifest.json` — added; +13/-0
+- `V2rayNG/app/src/main/assets/albion-historical-learned-patterns.json` — added; +1/-0
+- `V2rayNG/app/src/main/assets/albion-historical-protocol-shapes.json` — added; +1/-0
+- `V2rayNG/app/src/main/assets/albion-mobile-type-dictionary.json` — modified; +521/-320
+- `V2rayNG/app/src/main/assets/albion-research-knowledge-index.json` — modified; +1/-1
+- `V2rayNG/app/src/main/assets/albion-static-catalog.json` — modified; +67/-1505
+- `V2rayNG/app/src/main/java/com/v2ray/ang/albion/AlbionCaptureAnalyzer.kt` — modified; +3/-3
+- `V2rayNG/app/src/main/java/com/v2ray/ang/albion/AlbionEntityEventMapper.kt` — modified; +6/-3
+- `V2rayNG/app/src/main/java/com/v2ray/ang/albion/AlbionKnowledgeBundle.kt` — modified; +8/-3
+- `V2rayNG/app/src/main/java/com/v2ray/ang/albion/AlbionLiveKnowledgeStore.kt` — modified; +39/-6
+- `V2rayNG/app/src/main/java/com/v2ray/ang/ui/albion/AlbionMiniRadarView.kt` — modified; +17/-9
+- `V2rayNG/app/src/main/java/com/v2ray/ang/ui/albion/AlbionSpatialIntelligence.kt` — modified; +22/-2
+- `V2rayNG/app/src/test/java/com/v2ray/ang/albion/AlbionCaptureAnalyzerTest.kt` — modified; +1/-1
+- `V2rayNG/app/src/test/java/com/v2ray/ang/albion/AlbionEntityEventMapperTest.kt` — modified; +12/-0
+- `V2rayNG/app/src/test/java/com/v2ray/ang/albion/AlbionLiveKnowledgeStoreTest.kt` — modified; +148/-0
+- `V2rayNG/app/src/test/java/com/v2ray/ang/albion/AlbionResearchKnowledgeIndexTest.kt` — modified; +1/-1
+- `V2rayNG/app/src/test/java/com/v2ray/ang/ui/albion/AlbionSpatialIntelligenceTest.kt` — modified; +40/-0
+
+### research/analysis (130)
+- `research/analysis/2026-11-02-operation23-target-requests.csv` — added; +1/-0
+- `research/analysis/2026-11-02-overlay-family-candidate-summary.csv` — modified; +3/-1
+- `research/analysis/2026-11-02-overlay-family-correlation.csv` — modified; +107/-159
+- `research/analysis/2026-11-02-overlay-manual-markers.csv` — modified; +370/-460
+- `research/analysis/2026-11-02-overlay-mob-attack-correlation.csv` — modified; +14/-36
+- `research/analysis/2026-11-02-overlay-spatial-correlation.csv` — modified; +159/-508
+- `research/analysis/2026-11-02-own-player-movement-timeline.csv` — modified; +81882/-54607
+- `research/analysis/2026-11-02-pcap-attack-target-tracks.csv` — modified; +38/-52
+- `research/analysis/2026-11-02-pcap-harvestable-nodes.csv` — modified; +653/-407
+- `research/analysis/2026-11-02-pcap-health-energy-events.csv` — modified; +2230/-2261
+- `research/analysis/2026-11-02-pcap-mob-lifecycle.csv` — modified; +4173/-2957
+- `research/analysis/2026-11-02-pcap-replay-index.json` — modified; +83/-50
+- `research/analysis/2026-11-02-pcap-resource-state-timelines.csv` — modified; +630/-357
+- `research/analysis/2026-11-02-pcap-static-resources.csv` — modified; +47109/-25505
+- `research/analysis/2026-11-02-region-transition-evidence.csv` — added; +34/-0
+- `research/analysis/2026-11-02-replay-regression-report.md` — modified; +15/-5
+- `research/analysis/2026-11-02-resource-pattern-frequency.csv` — modified; +30/-21
+- `research/analysis/2026-11-02-spatial-alignment.json` — modified; +138/-52
+- `research/analysis/2026-11-02-spatial-alignment.md` — modified; +44/-11
+- `research/analysis/2026-11-03-complete-inbox-database-report.md` — modified; +15/-15
+- `research/analysis/Albion2--2_blue_gholem_ench_2_killed_together_and_mined_besides_each_other_-04-pcap-report.md` — modified; +14/-9
+- `research/analysis/Albion2--6red_ores_each_one_mined-05-pcap-report.md` — modified; +14/-12
+- `research/analysis/Albion2--blue_enchanted_2_gholem_killed_and_mined_-06-pcap-report.md` — modified; +10/-6
+- `research/analysis/Albion2--blue_ore_ench1_mined_-07-pcap-report.md` — modified; +6/-4
+- `research/analysis/Albion2--blue_ore_ench2_while_mining_a_mob_attacked_me_and_I_killed_him_but_the_ore_lost_its_enchantment_after-08-pcap-report.md` — modified; +13/-7
+- `research/analysis/Albion2--red_gholem_lvl2_ench_killed_and_mines-09-pcap-report.md` — modified; +13/-7
+- `research/analysis/Albion2--red_ore_ench_1_mined_mount_dismount_3_times_accidentally_before_mine-10-pcap-report.md` — modified; +20/-10
+- `research/analysis/Albion2--red_ore_lvl2-11-pcap-report.md` — modified; +10/-6
+- `research/analysis/Albion2--went_from_yellow_5_region_to_fort_sterling_and_then_to_bank_and_inspectoed_a_few_of_my_items_and_equi-12-pcap-report.md` — modified; +91/-9
+- `research/analysis/AlbionRadar-forensic-inventory.json` — modified; +658/-158
+- `research/analysis/AlbionRadar-forensic-inventory.md` — modified; +14/-10
+- `research/analysis/AlbionRadar2--albion-1793699111286-13-pcap-report.md` — added; +43/-0
+- `research/analysis/AlbionRadar2--albion-1793699145258-14-pcap-report.md` — added; +43/-0
+- `research/analysis/AlbionRadar2--albion-1793699283778-15-pcap-report.md` — added; +35359/-0
+- `research/analysis/AlbionRadar5--albion-1793712506879-16-pcap-report.md` — added; +37052/-0
+- `research/analysis/AlbionRadar6json--albion-1793718210678-17-pcap-report.md` — added; +43/-0
+- `research/analysis/AlbionRadar6json--albion-1793718347142-18-pcap-report.md` — added; +43/-0
+- `research/analysis/AlbionRadar6json--albion-1793718370435-19-pcap-report.md` — added; +43/-0
+- `research/analysis/AlbionRadar6json--albion-1793718384341-20-pcap-report.md` — added; +88424/-0
+- `research/analysis/AlbionRadar8--albion-1793769140776-21-pcap-report.md` — added; +181739/-0
+- `research/analysis/Albion_--_-01-pcap-report.md` — modified; +6/-5
+- `research/analysis/Albion_--_-02-pcap-report.md` — modified; +14/-4
+- `research/analysis/Albion_--_-03-pcap-report.md` — modified; +14/-11
+- `research/analysis/Albions--1_mob_dismount_and_mount_-22-pcap-report.md` — modified; +4/-1
+- `research/analysis/Albions--2_times_90degred_change_direction_-23-pcap-report.md` — modified; +13/-8
+- `research/analysis/Albions--2mobs_dismount_and_Mount_-24-pcap-report.md` — modified; +9/-4
+- `research/analysis/Albions--gholem_dismount_kill_mine_mount-25-pcap-report.md` — modified; +15/-11
+- `research/analysis/Albions--ore_4_3_red_2_blue_-26-pcap-report.md` — modified; +54/-47
+- `research/analysis/Albions--run_and_stop-27-pcap-report.md` — modified; +14/-10
+- `research/analysis/Albions--stopping-28-pcap-report.md` — modified; +5/-2
+- `research/analysis/Albionsskkakaks111--albion-1793620143023-29-pcap-report.md` — modified; +6/-6
+- `research/analysis/Albionsskkakaks111--albion-1793620890462-30-pcap-report.md` — modified; +609/-531
+- `research/analysis/albion-1793620890462-attack-targets.csv` — added; +2/-0
+- `research/analysis/albion-1793620890462-overlay-catalog.json` — modified; +2742/-499
+- `research/analysis/albion-1793682590317-attack-targets.csv` — modified; +0/-27
+- `research/analysis/albion-1793682590317-overlay-catalog.json` — modified; +67/-1505
+- `research/analysis/albion-1793682590317.md` — modified; +9/-9
+- `research/analysis/albion-1793699283778-attack-targets.csv` — added; +2/-0
+- `research/analysis/albion-1793699283778-overlay-catalog.json` — modified; +2632/-482
+- `research/analysis/albion-1793699283778.md` — modified; +1/-1
+- `research/analysis/albion-1793707992278-overlay-catalog.json` — modified; +50/-0
+- `research/analysis/albion-1793712506879-attack-targets.csv` — added; +3/-0
+- `research/analysis/albion-1793712506879-overlay-catalog.json` — modified; +2941/-516
+- `research/analysis/albion-1793712506879.md` — modified; +1/-1
+- `research/analysis/albion-1793718384341-attack-targets.csv` — added; +3/-0
+- `research/analysis/albion-1793718384341-overlay-catalog.json` — modified; +9665/-1779
+- `research/analysis/albion-1793718384341.md` — modified; +4/-4
+- `research/analysis/albion-1793769140776-attack-targets.csv` — added; +8/-0
+- `research/analysis/albion-1793769140776-overlay-catalog.json` — modified; +7836/-1368
+- `research/analysis/albion-1793769140776.md` — modified; +7/-7
+- `research/analysis/albion-1793779572842-overlay-catalog.json` — added; +2232/-0
+- `research/analysis/albion-1793779572842.md` — added; +29/-0
+- `research/analysis/albion-1793782308821-attack-targets.csv` — added; +7/-0
+- `research/analysis/albion-1793782308821-overlay-catalog.json` — added; +30092/-0
+- `research/analysis/albion-1793782308821.md` — added; +29/-0
+- `research/analysis/albion-1793786223835-attack-targets.csv` — added; +3/-0
+- `research/analysis/albion-1793786223835-overlay-catalog.json` — added; +3388/-0
+- `research/analysis/albion-1793786223835.md` — added; +29/-0
+- `research/analysis/albion-1793789871115-attack-targets.csv` — added; +6/-0
+- `research/analysis/albion-1793789871115-overlay-catalog.json` — added; +25651/-0
+- `research/analysis/albion-1793789871115.md` — added; +29/-0
+- `research/analysis/albion-entity-discovery-report-2026-11-03.md` — modified; +114/-64
+- `research/analysis/albion-knowledge-bundle-import.md` — modified; +1/-1
+- `research/analysis/archiveNew-extracted--albion-1793779572842-32-pcap-report.md` — added; +11161/-0
+- `research/analysis/archiveNew-extracted--albion-1793782308821-33-pcap-report.md` — added; +199039/-0
+- `research/analysis/archiveNew-extracted--albion-1793786223835-34-pcap-report.md` — added; +9471/-0
+- `research/analysis/archiveNew-extracted--albion-1793789871115-35-pcap-report.md` — added; +142584/-0
+- `research/analysis/archiveNew-extracted-forensic-inventory.json` — added; +789/-0
+- `research/analysis/archiveNew-extracted-forensic-inventory.md` — added; +36/-0
+- `research/analysis/derived-output-shards-manifest.json` — added; +82/-0
+- `research/analysis/derived-shards/915d2c1cc679da6ec0380b30c1f3784e774affa8a31afbe53b48f32ae701194b/part-0001.bin` — added; +429516/-0
+- `research/analysis/derived-shards/915d2c1cc679da6ec0380b30c1f3784e774affa8a31afbe53b48f32ae701194b/part-0002.bin` — added; +335914/-0
+- `research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0001.bin` — added; +249797/-0
+- `research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0002.bin` — added; +248012/-0
+- `research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0003.bin` — added; +237957/-0
+- `research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0004.bin` — added; +25319/-0
+- `research/analysis/replay/Albion2--2_blue_gholem_ench_2_killed_together_and_mined_besides_each_other_-04-replay.json` — modified; +7/-4
+- `research/analysis/replay/Albion2--6red_ores_each_one_mined-05-replay.json` — modified; +5/-4
+- `research/analysis/replay/Albion2--blue_enchanted_2_gholem_killed_and_mined_-06-replay.json` — modified; +7/-4
+- `research/analysis/replay/Albion2--blue_ore_ench1_mined_-07-replay.json` — modified; +2/-1
+- `research/analysis/replay/Albion2--blue_ore_ench2_while_mining_a_mob_attacked_me_and_I_killed_him_but_the_ore_lost_its_enchantment_after-08-replay.json` — modified; +7/-4
+- `research/analysis/replay/Albion2--red_gholem_lvl2_ench_killed_and_mines-09-replay.json` — modified; +5/-2
+- `research/analysis/replay/Albion2--red_ore_ench_1_mined_mount_dismount_3_times_accidentally_before_mine-10-replay.json` — modified; +2/-2
+- `research/analysis/replay/Albion2--red_ore_lvl2-11-replay.json` — modified; +3/-1
+- `research/analysis/replay/Albion2--went_from_yellow_5_region_to_fort_sterling_and_then_to_bank_and_inspectoed_a_few_of_my_items_and_equi-12-replay.json` — modified; +2/-2
+- `research/analysis/replay/AlbionRadar2--albion-1793699111286-13-replay.json` — added; +33/-0
+- `research/analysis/replay/AlbionRadar2--albion-1793699145258-14-replay.json` — added; +33/-0
+- `research/analysis/replay/AlbionRadar2--albion-1793699283778-15-replay.json` — added; +173/-0
+- `research/analysis/replay/AlbionRadar5--albion-1793712506879-16-replay.json` — added; +173/-0
+- `research/analysis/replay/AlbionRadar6json--albion-1793718210678-17-replay.json` — added; +33/-0
+- `research/analysis/replay/AlbionRadar6json--albion-1793718347142-18-replay.json` — added; +33/-0
+- `research/analysis/replay/AlbionRadar6json--albion-1793718370435-19-replay.json` — added; +33/-0
+- `research/analysis/replay/AlbionRadar6json--albion-1793718384341-20-replay.json` — added; +213/-0
+- `research/analysis/replay/AlbionRadar8--albion-1793769140776-21-replay.json` — added; +243/-0
+- `research/analysis/replay/Albion_--_-01-replay.json` — modified; +2/-2
+- `research/analysis/replay/Albion_--_-02-replay.json` — modified; +5/-3
+- `research/analysis/replay/Albion_--_-03-replay.json` — modified; +2/-2
+- `research/analysis/replay/Albions--1_mob_dismount_and_mount_-22-replay.json` — modified; +2/-1
+- `research/analysis/replay/Albions--2_times_90degred_change_direction_-23-replay.json` — modified; +3/-1
+- `research/analysis/replay/Albions--2mobs_dismount_and_Mount_-24-replay.json` — modified; +4/-2
+- `research/analysis/replay/Albions--gholem_dismount_kill_mine_mount-25-replay.json` — modified; +4/-2
+- `research/analysis/replay/Albions--ore_4_3_red_2_blue_-26-replay.json` — modified; +3/-2
+- `research/analysis/replay/Albions--run_and_stop-27-replay.json` — modified; +3/-2
+- `research/analysis/replay/Albions--stopping-28-replay.json` — modified; +2/-1
+- `research/analysis/replay/Albionsskkakaks111--albion-1793620143023-29-replay.json` — modified; +1/-1
+- `research/analysis/replay/Albionsskkakaks111--albion-1793620890462-30-replay.json` — modified; +5/-3
+- `research/analysis/replay/archiveNew-extracted--albion-1793779572842-32-replay.json` — added; +154/-0
+- `research/analysis/replay/archiveNew-extracted--albion-1793782308821-33-replay.json` — added; +206/-0
+- `research/analysis/replay/archiveNew-extracted--albion-1793786223835-34-replay.json` — added; +162/-0
+- `research/analysis/replay/archiveNew-extracted--albion-1793789871115-35-replay.json` — added; +233/-0
+
+### research/database (78)
+- `research/database/2026-11-02-operation23-target-requests.csv` — added; +1/-0
+- `research/database/2026-11-02-overlay-mob-attack-correlation.csv` — modified; +14/-36
+- `research/database/2026-11-02-own-player-movement-timeline.csv` — modified; +0/-0
+- `research/database/2026-11-02-pcap-attack-target-tracks.csv` — modified; +0/-0
+- `research/database/2026-11-02-pcap-harvestable-nodes.csv` — modified; +0/-0
+- `research/database/2026-11-02-pcap-health-energy-events.csv` — modified; +0/-0
+- `research/database/2026-11-02-pcap-mob-lifecycle.csv` — modified; +0/-0
+- `research/database/2026-11-02-pcap-resource-state-timelines.csv` — modified; +0/-0
+- `research/database/2026-11-02-pcap-static-resources.csv` — modified; +0/-0
+- `research/database/2026-11-02-region-transition-evidence.csv` — added; +0/-0
+- `research/database/albion-1793620143023-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793620890462-attack-targets.csv` — added; +0/-0
+- `research/database/albion-1793620890462-catalog.json` — modified; +0/-0
+- `research/database/albion-1793620890462-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793620890462.json` — modified; +0/-0
+- `research/database/albion-1793682590317-attack-targets.csv` — modified; +0/-0
+- `research/database/albion-1793682590317-catalog.json` — modified; +0/-0
+- `research/database/albion-1793682590317-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793682590317.json` — modified; +0/-0
+- `research/database/albion-1793699111286-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793699145258-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793699283778-attack-targets.csv` — added; +0/-0
+- `research/database/albion-1793699283778-catalog.json` — modified; +0/-0
+- `research/database/albion-1793699283778-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793699283778.json` — modified; +0/-0
+- `research/database/albion-1793707992278-catalog.json` — modified; +0/-0
+- `research/database/albion-1793707992278-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793712506879-attack-targets.csv` — added; +0/-0
+- `research/database/albion-1793712506879-catalog.json` — modified; +0/-0
+- `research/database/albion-1793712506879-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793712506879-mob-marker-spatial-correlation.csv` — modified; +0/-0
+- `research/database/albion-1793712506879.json` — modified; +0/-0
+- `research/database/albion-1793718210678-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793718347142-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793718370435-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793718384341-attack-targets.csv` — added; +0/-0
+- `research/database/albion-1793718384341-catalog.json` — modified; +0/-0
+- `research/database/albion-1793718384341-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793718384341.json` — modified; +0/-0
+- `research/database/albion-1793769140776-attack-targets.csv` — added; +0/-0
+- `research/database/albion-1793769140776-catalog.json` — modified; +0/-0
+- `research/database/albion-1793769140776-marker-lifecycles.csv` — modified; +0/-0
+- `research/database/albion-1793769140776-mob-marker-spatial-correlation.csv` — modified; +0/-0
+- `research/database/albion-1793769140776.json` — modified; +0/-0
+- `research/database/albion-1793779572842-catalog.json` — added; +0/-0
+- `research/database/albion-1793779572842-marker-lifecycles.csv` — added; +0/-0
+- `research/database/albion-1793779572842-mob-entities.csv` — added; +0/-0
+- `research/database/albion-1793779572842-mob-marker-spatial-correlation.csv` — added; +0/-0
+- `research/database/albion-1793779572842.csv` — added; +0/-0
+- `research/database/albion-1793779572842.json` — added; +0/-0
+- `research/database/albion-1793782308821-attack-targets.csv` — added; +0/-0
+- `research/database/albion-1793782308821-catalog.json` — added; +0/-0
+- `research/database/albion-1793782308821-marker-lifecycles.csv` — added; +0/-0
+- `research/database/albion-1793782308821-mob-entities.csv` — added; +0/-0
+- `research/database/albion-1793782308821-mob-marker-spatial-correlation.csv` — added; +0/-0
+- `research/database/albion-1793782308821.csv` — added; +0/-0
+- `research/database/albion-1793782308821.json` — added; +0/-0
+- `research/database/albion-1793786223835-attack-targets.csv` — added; +0/-0
+- `research/database/albion-1793786223835-catalog.json` — added; +0/-0
+- `research/database/albion-1793786223835-marker-lifecycles.csv` — added; +0/-0
+- `research/database/albion-1793786223835-mob-entities.csv` — added; +0/-0
+- `research/database/albion-1793786223835-mob-marker-spatial-correlation.csv` — added; +0/-0
+- `research/database/albion-1793786223835.csv` — added; +0/-0
+- `research/database/albion-1793786223835.json` — added; +0/-0
+- `research/database/albion-1793789871115-attack-targets.csv` — added; +0/-0
+- `research/database/albion-1793789871115-catalog.json` — added; +0/-0
+- `research/database/albion-1793789871115-marker-lifecycles.csv` — added; +0/-0
+- `research/database/albion-1793789871115-mob-entities.csv` — added; +0/-0
+- `research/database/albion-1793789871115-mob-marker-spatial-correlation.csv` — added; +0/-0
+- `research/database/albion-1793789871115.csv` — added; +0/-0
+- `research/database/albion-1793789871115.json` — added; +0/-0
+- `research/database/albion-complete-database-manifest-2026-11-03.json` — modified; +0/-0
+- `research/database/albion-entity-discovery-report-2026-11-03.json` — modified; +0/-0
+- `research/database/albion-mob-target-correlation-2026-11-03.csv` — modified; +0/-0
+- `research/database/albion-mobile-entity-catalog-2026-11-03.csv` — modified; +0/-0
+- `research/database/albion-mobile-type-crosswalk-2026-11-03.csv` — modified; +0/-0
+- `research/database/albion-resource-node-catalog-2026-11-03.csv` — modified; +0/-0
+- `research/database/albion-troll-target-correlation-2026-11-03.csv` — modified; +0/-0
+
+### research/inbox (46)
+- `research/inbox/AlbionRadar.zip` — modified; +0/-0
+- `research/inbox/archiveNew.7z.t0.001` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.002` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.003` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.004` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.005` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.006` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.007` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.008` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.009` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.010` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.011` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.012` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.013` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.014` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.015` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.016` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.017` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.018` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.019` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.020` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.021` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.022` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.023` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.024` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.025` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.026` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.027` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.028` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.029` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.030` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.031` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.032` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.033` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.034` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.035` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.036` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.037` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.038` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.039` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.040` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.041` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.042` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.043` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.044` — added; +0/-0
+- `research/inbox/archiveNew.7z.t0.045` — added; +0/-0
+
+### research/other (1)
+- `research/pcap-analyzer/src/main/kotlin/AlbionPcapAudit.kt` — modified; +0/-0
+
+### research/tests (4)
+- `research/tests/test_enrich_radar_catalog.py` — modified; +0/-0
+- `research/tests/test_ingest_capture.py` — modified; +0/-0
+- `research/tests/test_spatial_alignment.py` — modified; +0/-0
+- `research/tests/test_split_large_outputs.py` — added; +0/-0
+
+### research/tools (6)
+- `research/tools/analyze_spatial_alignment.py` — modified; +0/-0
+- `research/tools/enrich_radar_catalog.py` — modified; +0/-0
+- `research/tools/generate_mobile_type_dictionary.py` — modified; +0/-0
+- `research/tools/ingest_capture.py` — modified; +0/-0
+- `research/tools/split_large_outputs.py` — added; +0/-0
+- `research/tools/validate_runtime_knowledge_assets.py` — modified; +0/-0
+
+
+## 21. Upload commit anomaly resolved
+
+Commit `c6d02e12de6b18736a5e94fb0d6f83491bcab667` has no file list in the GitHub commit response. A direct parent-tree vs commit-tree comparison confirms **zero changed paths and zero removed paths**: it is an empty/no-op commit, not a missing archive part. The 25 upload-labelled commits therefore consist of 24 actual file-changing commits plus this one empty commit.
+
+The actual upload path set is 45 split archive parts (`.001`–`.045`) plus a modified `research/inbox/AlbionRadar.zip`. The ZIP is marked `modified`, not `added`; preserve both its prior and current blob identities until the source/version change is explained.
+
+## 22. Change log — exact Pattern Mining path inventory
+
+- Operation: append full 285-path diff inventory and resolve no-op upload commit by comparing parent and commit trees.
+- Repository: `eesanezhad76/v2rayNG`
+- Source document blob SHA: `978ed95f52b3c6b8a333a7ea9c56756bea625c21`
+- Destination branch: `albion-integration-staging-2026-11-05`
+- No source branch or file changed; no data copied or moved.
+- Resulting commit SHA and blob SHA: record from update response and verify against branch HEAD.
