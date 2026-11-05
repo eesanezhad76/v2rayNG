@@ -30,6 +30,15 @@ class AlbionSpatialIntelligenceTest {
     }
 
     @Test
+    fun knownActiveRegionRejectsMissingOrDifferentRegionTargets() {
+        assertTrue(AlbionSpatialIntelligence.isInActiveRegion("MAP_A", "MAP_A"))
+        assertFalse(AlbionSpatialIntelligence.isInActiveRegion("MAP_A", "MAP_B"))
+        assertFalse(AlbionSpatialIntelligence.isInActiveRegion("MAP_A", null))
+        assertFalse(AlbionSpatialIntelligence.isInActiveRegion("MAP_A", ""))
+        assertTrue(AlbionSpatialIntelligence.isInActiveRegion(null, "MAP_B"))
+    }
+
+    @Test
     fun oreElementalTypeIdWinsOverConflictingTrollDisplayName() {
         val elemental = resource("ore-elemental", "mob", 12.0, 18.0, typeId = 571)
             .put("name", "Troll")
