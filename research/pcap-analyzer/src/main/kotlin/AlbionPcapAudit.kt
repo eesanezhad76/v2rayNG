@@ -633,12 +633,17 @@ fun main() {
                 }
                 val windowStart = sample.foundMs - 10000L
                 val windowEnd = (sample.depletedMs ?: sample.completedMs ?: sample.foundMs) + 10000L
-                val ranked = nodes.values.asSequence()
-                    .filter { node -> node.archive == sample.archive && node.pcap == sample.pcap &&
+                val spatialTemporalNodes = nodes.values.filter { node ->
+                    node.archive == sample.archive && node.pcap == sample.pcap &&
                         node.first <= windowEnd && node.last >= windowStart &&
                         (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
-                        (enchantNumber == null || node.enchants.contains(enchantNumber)) &&
-                        hasActiveResourceEvidence(node, sample, windowStart, windowEnd) }
+                        (enchantNumber == null || node.enchants.contains(enchantNumber))
+                }
+                val inactiveSpatialIds = spatialTemporalNodes.filterNot { node ->
+                    hasActiveResourceEvidence(node, sample, windowStart, windowEnd)
+                }.map { it.id }
+                val ranked = spatialTemporalNodes.asSequence()
+                    .filter { node -> hasActiveResourceEvidence(node, sample, windowStart, windowEnd) }
                     .flatMap { node ->
                         node.coordinates.asSequence().mapNotNull coordinateLoop@ { coordinate ->
                             val pair = coordinate.split(",")
@@ -653,7 +658,9 @@ fun main() {
                     appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
                         referenceMs.toString(), nearestPlayer.t.toString(), kotlin.math.abs(nearestPlayer.t-referenceMs).toString(),
                         nearestPlayer.x.toString(), nearestPlayer.y.toString(), nearestPlayer.source, "", "", "", "", "", "",
-                        "", "", "", "no_coordinate_bearing_time_tier_candidate").joinToString(",") { csvCell(it) })
+                        "", "", "", if (inactiveSpatialIds.isNotEmpty())
+                            "only_depleted_or_inactive_candidates:" + inactiveSpatialIds.joinToString("|")
+                        else "no_coordinate_bearing_time_tier_candidate").joinToString(",") { csvCell(it) })
                 } else {
                     ranked.forEachIndexed { index, item ->
                         val node = item.first
