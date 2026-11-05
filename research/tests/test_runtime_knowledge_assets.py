@@ -6,9 +6,16 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "research" / "tools"))
 
 from validate_runtime_knowledge_assets import validate
+from analyze_spatial_alignment import parse_fields
 
 
 class RuntimeKnowledgeAssetIntegrationTest(unittest.TestCase):
+    def test_spatial_detail_parser_preserves_numeric_field_names(self):
+        fields = parse_fields("t=1793403804041 param0_type=String param0_value=4000 kind=region")
+        self.assertEqual("String", fields["param0_type"])
+        self.assertEqual("4000", fields["param0_value"])
+        self.assertEqual("1793403804041", fields["t"])
+
     def test_shipped_assets_cover_complete_research_index(self):
         report = validate(ROOT)
         self.assertEqual("PASS", report["status"])
