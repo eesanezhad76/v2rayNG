@@ -227,14 +227,48 @@ jobs:
         arch: x86_64
         profile: pixel_6
         disable-animations: true
+        disable-spellchecker: true
         script: |
-          test -s "V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
-          timeout 300s adb install --no-streaming -r "V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
+          set -euo pipefail
+          APK="V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
+          dump_emulator_diagnostics() {
+            echo "=== Emulator boot and service diagnostics ==="
+            adb shell getprop sys.boot_completed || true
+            adb shell service check package || true
+            adb shell service check activity || true
+            echo "=== Recent Android system log ==="
+            adb logcat -b all -d -t 1200 || true
+          }
+
+          test -s "$APK"
+          adb wait-for-device
+          boot_completed=""
+          for attempt in $(seq 1 60); do
+            boot_completed="$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\\r' || true)"
+            if [ "$boot_completed" = "1" ]; then break; fi
+            sleep 2
+          done
+          if [ "$boot_completed" != "1" ]; then
+            echo "Android 15 emulator did not report sys.boot_completed=1."
+            dump_emulator_diagnostics
+            exit 1
+          fi
+
+          if ! timeout 30s adb shell cmd package list packages >/dev/null; then
+            echo "Android package manager service is not responding before installation."
+            dump_emulator_diagnostics
+            exit 1
+          fi
+          if ! timeout 300s adb install --no-streaming -r "$APK"; then
+            echo "APK installation failed; collecting emulator diagnostics."
+            dump_emulator_diagnostics
+            exit 1
+          fi
           timeout 30s adb shell pm path com.v2ray.ang.radar
           timeout 30s adb shell monkey -p com.v2ray.ang.radar -c android.intent.category.LAUNCHER 1
 
     - name: Run offline PCAP replay and audit
-      if: success() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || (github.ref == 'refs/heads/albion-safe-integration-2026-11-05' || github.ref == 'refs/heads/albion-safe-fixes-2026-11-05' || (github.ref == 'refs/heads/albion-integration-staging-2026-11-05' || github.ref == 'refs/heads/albion-marker-queue-hardening-2026-11-06')))
+      if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || (github.ref == 'refs/heads/albion-safe-integration-2026-11-05' || github.ref == 'refs/heads/albion-safe-fixes-2026-11-05' || (github.ref == 'refs/heads/albion-integration-staging-2026-11-05' || github.ref == 'refs/heads/albion-marker-queue-hardening-2026-11-06')))
       shell: bash
       run: |
         set -euo pipefail
