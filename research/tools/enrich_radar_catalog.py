@@ -47,6 +47,8 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
   return found
  attacks=[r for r in read_csv(DB/"2026-11-02-pcap-attack-target-tracks.csv")
           if (archive is None or r.get("archive")==archive) and r.get("pcap")==pcap and not yes(r.get("known_player_spawn"))]
+ attack_archives=sorted({str(r.get("archive") or "") for r in attacks if r.get("archive")})
+ catalog_archive=archive if archive is not None else (attack_archives[0] if len(attack_archives)==1 else None)
  mob_rows={}
  for row in read_csv(DB/"2026-11-02-pcap-mob-lifecycle.csv"):
   if (archive is not None and row.get("archive")!=archive) or row.get("pcap")!=pcap:continue
@@ -68,7 +70,8 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
    x,y=num(mob,"x"),num(mob,"y")
    position_source="Event123 last observed mob position"
   targets.append({
-   "entity_id":eid,"region_id":target_region,"mobile_type_id":mobile,"name":name,"x":x,"y":y,
+   "entity_id":eid,"source_archive":row.get("archive"),"region_id":target_region,
+   "mobile_type_id":mobile,"name":name,"x":x,"y":y,
    "tier":type_info.get("tier"),"mob_category":type_info.get("category"),
    "type_unique_name":type_info.get("unique_name"),"localization_tag":type_info.get("localization_tag"),
    "mob_danger":type_info.get("danger"),"max_health":type_info.get("max_health"),
@@ -92,14 +95,17 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
  for cycle in cycles:
   start=num(cycle,"found_ms")
   if start is None:continue
-  cycle_region=region_at(archive or (attacks[0].get("archive") if attacks else ""),pcap,start)
+  cycle_region=region_at(catalog_archive,pcap,start) if catalog_archive else None
   cycle["region_id"]=cycle_region
+  if catalog_archive is None:
+   cycle["region_scope_status"]="ambiguous_source_archive" if len(attack_archives)>1 else "region_unverified"
   if cycle.get("status")=="TARGET_FOUND_SUPERSEDED_NOT_KILLED":
    cycle["attack_target_correlation"]={"confidence":"SUPERSEDED","candidate_count":0,"identity_proven":False}
    continue
   finish=num(cycle,"mob_killed_ms",start+15000)
   candidates=[]
   for target in targets:
+   if catalog_archive is None or target.get("source_archive")!=catalog_archive:continue
    if target.get("region_id")!=cycle_region:continue
    first=target.get("first_attack_ms");last=target.get("last_attack_ms")
    if first is None or last is None:continue
@@ -139,8 +145,7 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
    if value is not None:entity[{"category":"mob_category","unique_name":"type_unique_name","danger":"mob_danger","is_harvestable":"is_harvestable_mob"}.get(key,key)]=value
  for entity in entities:
   if not entity.get("region_id"):
-   entity["region_id"]=region_at(archive or (attacks[0].get("archive") if attacks else ""),
-                                  pcap,num(entity,"first_seen_ms"))
+   entity["region_id"]=region_at(catalog_archive,pcap,num(entity,"first_seen_ms")) if catalog_archive else None
  by_id={(str(e.get("region_id") or ""),str(e.get("source_entity_id"))):e for e in entities
         if e.get("last_kind")=="mob" and e.get("source_entity_id") is not None}
  for target in targets:
