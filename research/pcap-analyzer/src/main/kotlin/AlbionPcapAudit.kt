@@ -653,7 +653,7 @@ fun main() {
             Triple(archive, pcap, regionId to PlayerPosition(regionId, t, x, y, field(detail, "source") ?: "unknown"))
         }.groupBy { it.first + "::" + it.second + "::" + (it.third.first ?: "<unknown-region>") }
         val spatialCsv = buildString {
-            appendLine("archive,pcap,region_id,activity,found_ms,reference_ms,player_position_ms,player_position_gap_ms,player_x,player_y,player_position_source,candidate_rank,entity_id,family,tier,enchantment,mobile_type,ore_x,ore_y,distance_game_units,spatial_evidence")
+            appendLine("archive,pcap,region_id,activity,found_ms,reference_ms,player_position_ms,player_position_gap_ms,player_x,player_y,player_position_source,candidate_rank,entity_id,family,tier,enchantment,mobile_type,ore_x,ore_y,distance_game_units,label_match,spatial_evidence")
             for (sample in markerSamples) {
                 val referenceMs = sample.startedMs ?: sample.foundMs
                 if (sample.activity !in setOf("Ore", "Wood", "Stone", "Fiber", "Hide")) {
@@ -681,12 +681,22 @@ fun main() {
                 }
                 val windowStart = sample.foundMs - 10000L
                 val windowEnd = (sample.depletedMs ?: sample.completedMs ?: sample.foundMs) + 10000L
-                val spatialTemporalNodes = nodes.values.filter { node ->
+                val contextualTemporalNodes = nodes.values.filter { node ->
                     node.archive == sample.archive && node.pcap == sample.pcap && node.regionId == sample.regionId &&
-                        node.first <= windowEnd && node.last >= windowStart &&
-                        (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
+                        node.first <= windowEnd && node.last >= windowStart
+                }
+                val exactSpatialNodes = contextualTemporalNodes.filter { node ->
+                    (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
                         (enchantNumber == null || node.enchants.contains(enchantNumber))
                 }
+                val exactActiveSpatialNodes = exactSpatialNodes.filter { node ->
+                    hasActiveResourceEvidence(node, sample, windowStart, windowEnd)
+                }
+                // If exact labels have no active packet-backed candidate, still expose
+                // nearby same-region resources as contextual evidence, clearly marked
+                // as a tier/enchantment mismatch rather than silently hiding them.
+                val contextualFallback = exactActiveSpatialNodes.isEmpty()
+                val spatialTemporalNodes = if (contextualFallback) contextualTemporalNodes else exactSpatialNodes
                 val inactiveSpatialIds = spatialTemporalNodes.filterNot { node ->
                     hasActiveResourceEvidence(node, sample, windowStart, windowEnd)
                 }.map { it.id }
@@ -703,22 +713,35 @@ fun main() {
                         }
                     }.sortedBy { it.third }.toList()
                 if (ranked.isEmpty()) {
+                    val confirmedDepletedIds = spatialTemporalNodes.filter {
+                        hasConfirmedDepletionAtMarker(it, sample)
+                    }.map { it.id }
+                    val unverifiedIds = inactiveSpatialIds.filterNot { it in confirmedDepletedIds }
+                    val spatialStatus = when {
+                        inactiveSpatialIds.isNotEmpty() && confirmedDepletedIds.size == inactiveSpatialIds.size ->
+                            "only_confirmed_depleted_candidates:" + confirmedDepletedIds.joinToString("|")
+                        unverifiedIds.isNotEmpty() ->
+                            "candidate_state_unverified_not_proven_depleted:" + unverifiedIds.joinToString("|")
+                        else -> "no_coordinate_bearing_time_tier_candidate"
+                    }
                     appendLine(listOf(sample.archive, sample.pcap, sample.regionId ?: "", sample.activity, sample.foundMs.toString(),
                         referenceMs.toString(), nearestPlayer.t.toString(), kotlin.math.abs(nearestPlayer.t-referenceMs).toString(),
                         nearestPlayer.x.toString(), nearestPlayer.y.toString(), nearestPlayer.source, "", "", "", "", "", "",
-                        "", "", "", if (inactiveSpatialIds.isNotEmpty())
-                            "only_depleted_or_inactive_candidates:" + inactiveSpatialIds.joinToString("|")
-                        else "no_coordinate_bearing_time_tier_candidate").joinToString(",") { csvCell(it) })
+                        "", "", "", "", spatialStatus).joinToString(",") { csvCell(it) })
                 } else {
                     ranked.forEachIndexed { index, item ->
                         val node = item.first
                         val coords = item.second.split(",")
+                        val labelMatch = (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
+                            (enchantNumber == null || node.enchants.contains(enchantNumber))
+                        val spatialEvidence = if (labelMatch) "nearest_player_position_rank_only_not_identity_proof"
+                            else "nearest_contextual_node_not_matching_overlay_labels"
                         appendLine(listOf(sample.archive, sample.pcap, sample.regionId ?: "", sample.activity, sample.foundMs.toString(),
                             referenceMs.toString(), nearestPlayer.t.toString(), kotlin.math.abs(nearestPlayer.t-referenceMs).toString(),
                             nearestPlayer.x.toString(), nearestPlayer.y.toString(), nearestPlayer.source, (index + 1).toString(),
                             node.id, node.families.joinToString("|"), node.tiers.joinToString("|"), node.enchants.joinToString("|"),
                             node.mobileTypes.joinToString("|"), coords[0], coords[1], item.third.toString(),
-                            "nearest_player_position_rank_only_not_identity_proof").joinToString(",") { csvCell(it) })
+                            labelMatch.toString(), spatialEvidence).joinToString(",") { csvCell(it) })
                     }
                 }
             }
