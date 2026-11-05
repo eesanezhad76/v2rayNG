@@ -45,6 +45,10 @@ class AlbionCaptureWorker(
     @Volatile private var pcapFileStream: FileOutputStream? = null
     @Volatile private var logFileStream: FileOutputStream? = null
     private val markerCount = AtomicLong(0)
+    // Per-capture receipts let retries finish only the sink that did not reach durable storage.
+    private val pcapMarkerIds = LinkedHashSet<String>()
+    private val jsonlMarkerIds = LinkedHashSet<String>()
+    private val completedMarkerIds = LinkedHashSet<String>()
     private val nonAlbionCount = AtomicLong(0)
     // Live pipeline diagnostics: distinguish missing packets, missing protocol events,
     // mapper failures, and entities rejected by the snapshot/UI.
@@ -85,6 +89,9 @@ class AlbionCaptureWorker(
             publicLogUri = createDownloadsEntry(context, txt.name, "application/x-ndjson")
             mirrorFailure = null
             markerCount.set(0)
+            pcapMarkerIds.clear()
+            jsonlMarkerIds.clear()
+            completedMarkerIds.clear()
             nonAlbionCount.set(0)
             event39Count.set(0); event40Count.set(0); event46Count.set(0); event123Count.set(0)
             mappedResourceCount.set(0); mappedMobCount.set(0); mappedOwnPositionCount.set(0)
@@ -185,36 +192,46 @@ class AlbionCaptureWorker(
         val now = System.currentTimeMillis()
         val json = JSONObject().put("timestamp_ms", now)
             .put("elapsed_realtime_ms", SystemClock.elapsedRealtime())
-            .put("event", event).put("activity", "Capture")
-            .put("source", "capture_worker").toString()
-        try { appendMarker(AlbionCaptureMarker.build(json), now) } catch (t: Throwable) {
-            failure = "lifecycle checkpoint failed: ${t.message}"
-        }
-    }
-
-    /** Writes a synthetic local annotation record; it is never sent to the VPN or game. */
-    @Synchronized fun appendMarker(packet: ByteArray, timestampMs: Long): Boolean {
+      @Synchronized fun appendMarker(packet: ByteArray, timestampMs: Long): Boolean {
         val out = pcap ?: return false
         val textLog = log ?: return false
+        val pcapStream = pcapFileStream ?: return false
+        val logStream = logFileStream ?: return false
         if (!running.get() || packet.size < 20) return false
         return try {
-            // Require both sinks before writing; otherwise a tap could appear successful
-            // in the overlay while PatternMiner has no JSONL marker to analyze.
             val marker = AlbionCaptureMarker.parse(packet)
-            out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
-            out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
-            out.writeInt(Integer.reverseBytes(packet.size))
-            out.writeInt(Integer.reverseBytes(packet.size))
-            out.write(packet)
-            textLog.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", marker).toString())
-            textLog.newLine()
-            out.flush()
-            pcapFileStream?.fd?.sync()
-            textLog.flush()
-            logFileStream?.fd?.sync()
-            markerCount.incrementAndGet()
-            // The marker is already durable in both sinks. A downstream learner/cache
-            // failure must not report the persisted marker as unsaved and invite duplicates.
+            val markerId = marker.optString("marker_id").takeIf { it.isNotBlank() }
+            if (markerId != null && markerId in completedMarkerIds) return true
+
+            // A sink receipt is recorded only after flush + fsync succeeds. If the second
+            // sink fails, a retry writes only that missing sink instead of duplicating the
+            // already durable PCAP record. A crash between a write and fsync remains
+            // inherently at-least-once; the queue is not a cross-file transaction.
+            if (markerId == null || markerId !in pcapMarkerIds) {
+                out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
+                out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
+                out.writeInt(Integer.reverseBytes(packet.size))
+                out.writeInt(Integer.reverseBytes(packet.size))
+                out.write(packet)
+                out.flush()
+                pcapStream.fd.sync()
+                markerId?.let { pcapMarkerIds.add(it) }
+            }
+
+            if (markerId == null || markerId !in jsonlMarkerIds) {
+                textLog.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", marker).toString())
+                textLog.newLine()
+                textLog.flush()
+                logStream.fd.sync()
+                markerId?.let { jsonlMarkerIds.add(it) }
+            }
+
+            if (markerId == null || completedMarkerIds.add(markerId)) {
+                markerCount.incrementAndGet()
+            }
+
+            // Both sinks are durable now. Enrichment is best-effort and must not cause a
+            // persisted marker to remain queued and be appended again.
             val enrichmentFailures = mutableListOf<String>()
             runCatching { autonomousPatternLearner?.observeMarker(marker, timestampMs) }
                 .onFailure { error -> enrichmentFailures += "autonomous=" + error.message }
@@ -223,6 +240,16 @@ class AlbionCaptureWorker(
             runCatching { knowledgeStore?.observeMarker(marker, timestampMs) }
                 .onFailure { error -> enrichmentFailures += "knowledge=" + error.message }
             if (enrichmentFailures.isNotEmpty()) {
+                failure = "marker persisted; post-write enrichment failed: " + enrichmentFailures.joinToString("; ")
+            }
+            scope.launch(Dispatchers.IO) { mirrorDownloads() }
+            true
+        } catch (t: Throwable) {
+            failure = "marker write failed: ${t.message}"
+            false
+        }
+    }
+    if (enrichmentFailures.isNotEmpty()) {
                 failure = "marker persisted; post-write enrichment failed: " + enrichmentFailures.joinToString("; ")
             }
             scope.launch(Dispatchers.IO) { mirrorDownloads() }
