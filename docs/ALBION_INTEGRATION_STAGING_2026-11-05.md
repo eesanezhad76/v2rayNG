@@ -1623,3 +1623,16 @@ The pre-spawn Store fallback remains an unverified Pattern Mining proposal and i
 - Resulting register blob: fa4a2efce224c98b70e59f05ebe7773dcd0e6c9d
 - Full validation run queued: 42100556508 (head fd5d26b1ad3d361cd247f759630b1921400bf51b).
 - Store runtime, capture analyzer, raw PCAP, archives, generated assets, and source branches were not changed.
+
+
+## 51. CI compile failure — test assertion import only
+
+- Run `42100556508`, head `fd5d26b1ad3d361cd247f759630b1921400bf51b`, failed at Kotlin test compilation before unit tests could execute.
+- Exact compiler errors: unresolved reference `assertEquals` in `AlbionLiveKnowledgeStoreTest.kt` at lines 527, 533 and 534.
+- Root cause: the new Mapper→Store regression test used JUnit Jupiter `assertEquals` without importing it. The test file imported `assertTrue` only.
+- Corrective change: add only `import org.junit.jupiter.api.Assertions.assertEquals`; no test assertions, fixtures, production code, event semantics, evidence or data are changed.
+- The preceding runs `42096841482` and `42097058885` were cancelled because subsequent commits arrived while CI was still running. They are not test failures.
+- Parent before this fix: `2cbbc23fef018bfc1c11aa937ce310e7d7f73ae5`
+- Before test blob: `0e92f47378de91c9e6bad2827565ab6e932fa47c`
+- Before register blob: `2e738f092ecadf35c6433d7bc8bc25ba1e2b92e0`
+- The next CI run will be started by this single commit. No further commits will be pushed to this branch until that run completes.
