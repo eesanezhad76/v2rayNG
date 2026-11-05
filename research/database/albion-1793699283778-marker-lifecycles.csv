@@ -1,5 +1,5 @@
-activity,tier,enchantment,found_ms,started_ms,completed_ms,depleted_ms,mob_killed_ms,status,metadata_conflicts,identity_scope
-Ore,T4,E1,1793699493288,1793699493288,1793699497883,,,COMPLETE,,manual_marker_only_no_runtime_entity_id
-Ore,T4,E2,1793699754774,1793699754774,1793699763707,,,COMPLETE,,manual_marker_only_no_runtime_entity_id
-Ore,T4,E2,1793700013090,1793700013090,,,,STARTED_NOT_COMPLETED,,manual_marker_only_no_runtime_entity_id
-Ore,T5,E1,1793700020226,1793700020226,1793700036013,,,COMPLETE,,manual_marker_only_no_runtime_entity_id
+activity,tier,enchantment,found_ms,started_ms,completed_ms,depleted_ms,mob_killed_ms,superseded_by_ms,status,metadata_conflicts,identity_scope
+Ore,T4,E1,1793699493288,1793699493288,1793699497883,,,,COMPLETE,,manual_marker_only_no_runtime_entity_id
+Ore,T4,E2,1793699754774,1793699754774,1793699763707,,,,COMPLETE,,manual_marker_only_no_runtime_entity_id
+Ore,T4,E2,1793700013090,1793700013090,,,,1793700020226,SUPERSEDED_NOT_COMPLETED,,manual_marker_only_no_runtime_entity_id
+Ore,T5,E1,1793700020226,1793700020226,1793700036013,,,,COMPLETE,,manual_marker_only_no_runtime_entity_id

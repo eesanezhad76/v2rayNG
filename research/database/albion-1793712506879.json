@@ -26,7 +26,7 @@
     "incomplete_resource_marker_cycles": 1,
     "mob_marker_pairs": 2,
     "incomplete_mob_marker_cycles": 1,
-    "unmatched_marker_events": 0,
+    "unmatched_marker_events": 2,
     "marker_metadata_conflicts": 0
   },
   "nodes": [
@@ -6699,7 +6699,7 @@
         {
           "activity": "Troll",
           "found_ms": 1793713380065,
-          "mob_killed_ms": 1793713395781,
+          "mob_killed_ms": null,
           "confidence": "AMBIGUOUS",
           "tier": "T5",
           "enchantment": "E1",
@@ -6708,7 +6708,7 @@
         {
           "activity": "Troll",
           "found_ms": 1793713380097,
-          "mob_killed_ms": null,
+          "mob_killed_ms": 1793713395781,
           "confidence": "AMBIGUOUS",
           "tier": "T5",
           "enchantment": "E1",
@@ -10091,8 +10091,9 @@
       "started_ms": 1793712873596,
       "completed_ms": null,
       "depleted_ms": null,
+      "superseded_by_ms": 1793712879063,
       "metadata_conflicts": [],
-      "status": "STARTED_NOT_COMPLETED",
+      "status": "SUPERSEDED_NOT_COMPLETED",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     },
@@ -10104,6 +10105,7 @@
       "started_ms": 1793712879063,
       "completed_ms": 1793712879081,
       "depleted_ms": null,
+      "superseded_by_ms": null,
       "metadata_conflicts": [],
       "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
@@ -10117,6 +10119,7 @@
       "started_ms": 1793712881314,
       "completed_ms": 1793712887135,
       "depleted_ms": null,
+      "superseded_by_ms": null,
       "metadata_conflicts": [],
       "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
@@ -10130,6 +10133,7 @@
       "started_ms": null,
       "completed_ms": null,
       "depleted_ms": null,
+      "superseded_by_ms": null,
       "metadata_conflicts": [],
       "mob_killed_ms": 1793712924122,
       "status": "TARGET_FOUND_TO_KILLED",
@@ -10158,6 +10162,7 @@
       "started_ms": 1793712937311,
       "completed_ms": 1793712946327,
       "depleted_ms": null,
+      "superseded_by_ms": null,
       "metadata_conflicts": [],
       "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
@@ -10171,6 +10176,7 @@
       "started_ms": 1793713025631,
       "completed_ms": 1793713028481,
       "depleted_ms": null,
+      "superseded_by_ms": null,
       "metadata_conflicts": [],
       "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
@@ -10184,6 +10190,7 @@
       "started_ms": 1793713135843,
       "completed_ms": 1793713139778,
       "depleted_ms": null,
+      "superseded_by_ms": null,
       "metadata_conflicts": [],
       "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
@@ -10197,6 +10204,7 @@
       "started_ms": 1793713241218,
       "completed_ms": 1793713246705,
       "depleted_ms": null,
+      "superseded_by_ms": null,
       "metadata_conflicts": [],
       "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
@@ -10210,6 +10218,7 @@
       "started_ms": 1793713303407,
       "completed_ms": 1793713307599,
       "depleted_ms": null,
+      "superseded_by_ms": null,
       "metadata_conflicts": [],
       "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
@@ -10223,6 +10232,7 @@
       "started_ms": 1793713314064,
       "completed_ms": 1793713314101,
       "depleted_ms": null,
+      "superseded_by_ms": null,
       "metadata_conflicts": [],
       "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
@@ -10236,10 +10246,11 @@
       "started_ms": null,
       "completed_ms": null,
       "depleted_ms": null,
+      "superseded_by_ms": 1793713380097,
       "metadata_conflicts": [],
-      "mob_killed_ms": 1793713395781,
-      "status": "TARGET_FOUND_TO_KILLED",
+      "status": "TARGET_FOUND_SUPERSEDED_NOT_KILLED",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
+      "mob_killed_ms": null,
       "spatial_correlation": {
         "player_position": {
           "x": -103.8702,
@@ -10307,10 +10318,11 @@
       "started_ms": null,
       "completed_ms": null,
       "depleted_ms": null,
+      "superseded_by_ms": null,
       "metadata_conflicts": [],
-      "status": "TARGET_FOUND_NOT_KILLED",
+      "mob_killed_ms": 1793713395781,
+      "status": "TARGET_FOUND_TO_KILLED",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
-      "mob_killed_ms": null,
       "spatial_correlation": {
         "player_position": {
           "x": -103.8702,
@@ -10378,11 +10390,27 @@
       "started_ms": 1793713404932,
       "completed_ms": 1793713412945,
       "depleted_ms": null,
+      "superseded_by_ms": null,
       "metadata_conflicts": [],
       "status": "COMPLETE",
       "identity_scope": "manual_marker_only_no_runtime_entity_id",
       "mob_killed_ms": null
     }
   ],
-  "unmatched_marker_events": []
+  "unmatched_marker_events": [
+    {
+      "activity": "Ore",
+      "event": "target_found",
+      "timestamp_ms": 1793712873596,
+      "reason": "superseded_by_new_target_found",
+      "superseded_by_ms": 1793712879063
+    },
+    {
+      "activity": "Troll",
+      "event": "target_found",
+      "timestamp_ms": 1793713380065,
+      "reason": "superseded_by_new_target_found",
+      "superseded_by_ms": 1793713380097
+    }
+  ]
 }
