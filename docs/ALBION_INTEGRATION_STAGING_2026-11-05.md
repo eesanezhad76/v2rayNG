@@ -1443,17 +1443,19 @@ Direct file-to-file comparisons were performed using the exact Safe Fixes and Pa
 | AlbionCaptureAnalyzer.kt | 5f0823579b4307525a28a8f4f356f9f57aa95ec5 | 24cd47a5e92628a5b146dcba56fc1cd400c54752 | Port raw Operation 2/41 response detail capture as evidence-only; it does not assign zone semantics |
 | AlbionEntityEventMapper.kt | 903848089633bfc44ffa6898302016fadab1f285 | a6842402fcfc169102982a3af0fa025a22640c3d | Port numeric region-ID decoding selectively; retain Safe Fixes returnCode==0 guard and map-local hint clearing |
 | AlbionKnowledgeBundle.kt | 13ef2deee0ecb78079d18427dd1d71d332c6cebe | 7c598395e8a7570aee1a943cbe90cbc7ab5ce481 | Reject Pattern's broad catch around asset open/JSON parse; it converts a corrupt bundled asset into an empty knowledge export |
-| AlbionLiveKnowledgeStore.kt | 2810329189fe47f4bf7cb1fb3289049f59b8085e | acdba3211f8104141b297f6b77db154487669040 | Do not transfer whole file; Pattern removes or weakens Safe Fixes safeguards and introduces an unverified pre-spawn target fallback |
+| AlbionLiveKnowledgeStore.kt | 2810329189fe47f4bf7cb1fb3289049f59b8085e | acdba3211f8104141b297f6b77db154487669040 | Do not transfer whole file; selectively port pre-spawn exact-ID association only after fixing Mapper to extract the verified Operation 23 parameter 1; preserve Safe Fixes generation/source-link/snapshot protections |
 | AlbionEntityEventMapperTest.kt | 8a3a91287713ea91f31e450a88ba9589ad5cf8c7 | 1b031d12ee232951f6904f5d626a6252bfc1e60f | Keep failed-return and map-hint-clearing tests; add numeric Long/Int region-ID tests without deleting safety tests |
 | AlbionLiveKnowledgeStoreTest.kt | ec6e3587345d40e371451887780f502b748b5bde | 8e4a0bf83a03167eebda55357024288508821490 | Keep Safe Fixes generation/source-link tests; Pattern's added target tests do not prove Operation 23 extraction from a real packet |
 
-### Operation 23 evidence gate
+### Operation 23 schema — verified from Safe Fixes PCAP evidence
 
-- Pattern Mining's research/analysis/2026-11-02-operation23-target-requests.csv is header-only: no observed request rows.
-- Pattern's mapsAttackRequestAsCandidateIdsWithoutGuessingParameterIndex test is synthetic and supplies parameter 0 as 777, plus a separate synthetic numeric parameter 1=99. It does not establish which real Operation 23 field is the target entity ID.
-- Pattern's new Store tests construct Observation(candidateEntityIds=...) directly; they bypass the real decoder/mapper and therefore do not validate the raw packet field extraction.
-- Pattern's Store change accepts a single candidate ID even when no matching mob record exists. Without real Operation 23 field evidence, this can promote an unrelated single numeric parameter to a future target.
-- Decision: retain Safe Fixes' requirement that the candidate uniquely matches a currently known mob in the active region. Do not port the pre-spawn fallback until raw PCAP evidence establishes the Operation 23 schema and an end-to-end decoder→mapper→store test covers unrelated numeric parameters.
+- Pattern Mining's research/analysis/2026-11-02-operation23-target-requests.csv is header-only, but this is not the complete evidence set: Safe Fixes contains raw PCAP analyzer reports with decoded Operation 23 requests.
+- Report: research/analysis/Albion2--blue_ore_ench2_while_mining_a_mob_attacked_me_and_I_killed_him_but_the_ore_lost_its_enchantment_after-08-pcap-report.md (blob 5a9bc879966eaf1d6186644a8e08b3569cccc650), lines 694, 706, 726, 734, 742.
+- Five actual requests in that capture all use parameter 1 = 645014; parameter 0 is a large increasing timestamp, parameter 2 alternates 0/1, and parameter 253 is operation code 23. The same entity ID 645014 appears in subsequent Event 3 movement and Event 6 health records.
+- Independent derived tracks: research/analysis/2026-11-02-pcap-attack-target-tracks.csv (blob e3a00fbeda81dcbe7b1f618f76c60d805fe398d3) and research/analysis/2026-11-02-overlay-mob-attack-correlation.csv (blob 43ad0c358e4284dbd7f83e75e82d68060cecfa17) contain multiple target IDs linked to attack/health/leave evidence. These are derived corroboration; the raw report is the field-layout evidence.
+- Pattern's mapsAttackRequestAsCandidateIdsWithoutGuessingParameterIndex test is synthetic and currently mislabels parameter 0 as a target candidate. It must be rewritten against the observed schema.
+- Pattern's new Store tests construct Observation(candidateEntityIds=...) directly; they bypass the real decoder/mapper and therefore do not validate packet extraction.
+- Decision: map only integral parameter 1 as the Operation 23 target ID; exclude timestamp parameter 0, state flag parameter 2, and operation marker parameter 253. Then selectively allow a single exact mapper-produced target ID to be retained before Event 123 spawn, scoped to session and active region. Keep the multiple-candidate/no-guess guard and test the real Mapper→Store sequence end-to-end.
 
 ### Confirmed region-ID evidence
 
@@ -1461,15 +1463,18 @@ Pattern Mining's research/analysis/2026-11-02-region-transition-evidence.csv con
 
 Selective Mapper port must therefore:
 1. Require returnCode == 0 exactly as Safe Fixes does.
-2. Accept String or Number for Operation 2 parameter 8 and Operation 41 parameter 0.
-3. Reject null, blank, and unsupported object types; do not convert arbitrary arrays/objects using generic toString().
-4. Preserve clearing of map-local player/non-player hints after a confirmed region transition.
+2. Accept String or integral numeric values for Operation 2 parameter 8 and Operation 41 parameter 0.
+3. For Operation 23 requests, extract only integral parameter 1 as the target entity ID, based on the Safe Fixes raw PCAP report; do not flatten all numeric parameters.
+4. Reject null, blank, and unsupported object types; do not convert arbitrary arrays/objects using generic toString().
+5. Preserve clearing of map-local player/non-player hints after a confirmed region transition.
+
 
 ### Additional regressions to avoid
 
 - Pattern Mapper removes Safe Fixes' returnCode == 0 guard and removes clearing of knownNonPlayerEntities / knownPlayerEntities after a region transition. Neither deletion is accepted.
 - Pattern KnowledgeBundle catches failures while opening/parsing the bundled autonomous JSON and silently substitutes []. Safe Fixes only treats unavailable mock Context assets as optional; malformed JSON remains a surfaced failure. Preserve that fail-closed behavior.
 - Pattern Store replaces exact source-mob-record-key resolution with weaker entity-ID lookup in one depletion path; preserve Safe Fixes' exact-generation linkage.
+- Pattern Store's pre-spawn fallback is now considered eligible for selective port only when fed by the exact Operation 23 parameter-1 mapper output. Do not port the generic all-numeric-parameters extraction or replace the Safe Fixes store wholesale.
 - Pattern Store removes active-generation filters from several snapshot projections and uses first-match lookups where Safe Fixes selects the latest matching generation. Preserve Safe Fixes' active-generation and latest-generation semantics.
 - Pattern's additional historical JSON assets, expanded mobile dictionary and compressed static catalog remain evidence/data candidates. Do not copy them until their source bundle hashes, generator inputs, row counts, and output reproducibility are independently verified against the current Safe branch.
 
@@ -1482,3 +1487,29 @@ Selective Mapper port must therefore:
 - Source register blob before this audit: b4da8611a7771cc409ef12d2397b00314321949a
 - Resulting docs-only commit and blob SHA are recorded after commit creation.
 - No runtime file, test file, source branch, raw PCAP, archive, database, or generated asset changed in this audit.
+
+
+## 47. Operation 23: raw evidence supersedes the empty Pattern-only CSV
+
+The earlier audit correctly observed that Pattern Mining's operation23-target-requests.csv is header-only, but incorrectly treated it as proof that no real Operation 23 evidence existed anywhere in the project. The Safe Fixes branch contains direct PCAP analyzer output.
+
+For the Albion2 capture named “blue ore ench2 while mining a mob attacked me…”:
+- Operation 23 request at 1793403561547: p0=639290003620112643, p1=645014, p2=0, p253=23.
+- Four subsequent Operation 23 requests repeat p1=645014 while p0 advances and p2 toggles 0/1.
+- The same ID 645014 is observed in Event 6 health records and Event 3 movement records in the same capture.
+- Therefore parameter 1 is the target entity ID for this observed Operation 23 schema; parameter 0 is a timestamp, not an entity ID.
+
+This resolves the schema question for this observed protocol version/capture. It does not justify generic numeric scanning or claim that every future Operation 23 variant is identical. The runtime Mapper must accept only an integral parameter 1; unknown or malformed layouts produce no candidate. The Store may retain that one exact ID before Event 123 spawn only within the current session/region and the existing Troll marker time window. Add an end-to-end regression test using the exact four-parameter shape and a separate ambiguous/invalid shape test.
+
+### Change log — Operation 23 evidence correction
+
+- Operation: update the prior evidence-gate conclusion using the Safe Fixes raw PCAP report and derived target-track datasets; define the exact parameter-1-only integration boundary.
+- Repository: eesanezhad76/v2rayNG
+- Source branch: albion-safe-fixes-2026-11-05
+- Source report blob: 5a9bc879966eaf1d6186644a8e08b3569cccc650
+- Source target-track blob: e3a00fbeda81dcbe7b1f618f76c60d805fe398d3
+- Source overlay-correlation blob: 43ad0c358e4284dbd7f83e75e82d68060cecfa17
+- Destination branch: albion-integration-staging-2026-11-05
+- Source register blob before this correction: 1a8722c8e62fc6179d71075c7688ff79f81bf94b
+- Resulting docs-only commit and blob SHA are recorded after commit creation.
+- No runtime code, source branch, PCAP, archive or derived CSV changed.
