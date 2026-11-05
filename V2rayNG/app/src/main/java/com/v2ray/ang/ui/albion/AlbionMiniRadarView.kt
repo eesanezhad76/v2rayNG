@@ -118,15 +118,14 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private fun resourceColor(item: JSONObject): Int = colorForEnchantment(enchantmentOf(item))
 
     private fun isTroll(item: JSONObject): Boolean =
-        item.optString("type_unique_name").contains("TROLL", ignoreCase = true) ||
-            (item.optString("manual_activity").equals("Troll", ignoreCase = true) &&
-                item.optBoolean("manual_marker_identity_proven", false))
+        !AlbionSpatialIntelligence.isOreElemental(item) &&
+            (AlbionSpatialIntelligence.isTrollMob(item) ||
+                (item.optString("manual_activity").equals("Troll", ignoreCase = true) &&
+                    item.optBoolean("manual_marker_identity_proven", false)))
 
     private fun isOreElemental(item: JSONObject): Boolean =
         item.optString("resource_role") == "ore_elemental" ||
-            (item.optBoolean("is_harvestable_mob", false) &&
-                item.optString("type_unique_name").contains("CRITTER_ORE", ignoreCase = true) &&
-                item.optString("display_name").equals("Ore Elemental", ignoreCase = true))
+            AlbionSpatialIntelligence.isOreElemental(item)
 
     private fun passesFilters(item: JSONObject): Boolean {
         val kind = item.optString("last_kind")
@@ -147,10 +146,22 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             item.optString("evidence_grade") == "conflicting_typed_observation"
         val hasTypedOreEvidence = item.optInt("family", -1) == 29 &&
             item.optString("name").isNotBlank() && item.optString("name") != "Resource"
+        val family = item.optInt("family", -1)
+        val researchResourceType = item.optString("research_catalog_resource_type").lowercase()
+        val researchMappingStatus = item.optString("research_catalog_resource_mapping_status")
+        // Audited research evidence outranks family-number proximity and variable display labels.
         val resourceCategory = when {
-            ambiguousResource -> "unknown_resource"
-            item.optBoolean("user_confirmed_target", false) || hasTypedOreEvidence ||
-                (rawName.contains("ore") && !rawName.contains("candidate")) || markerActivity == "ore" -> "ore"
+            ambiguousResource || researchMappingStatus == "UNRESOLVED" || researchResourceType == "unknown" -> "unknown_resource"
+            item.optBoolean("user_confirmed_target", false) -> "ore"
+            researchResourceType == "ore" -> "ore"
+            researchResourceType == "rock" -> "stone"
+            researchResourceType == "fiber" -> "fiber"
+            researchResourceType == "hide" -> "hide"
+            family == 27 || family == 29 -> "ore"
+            family == 7 -> "stone"
+            family == 14 -> "fiber"
+            family == 20 -> "hide"
+            hasTypedOreEvidence || (rawName.contains("ore") && !rawName.contains("candidate")) || markerActivity == "ore" -> "ore"
             rawName.contains("wood") || rawName.contains("tree") || rawName.contains("logs") || markerActivity == "wood" -> "wood"
             rawName.contains("stone") || rawName.contains("rock") || markerActivity == "stone" -> "stone"
             rawName.contains("fiber") || rawName.contains("cotton") || rawName.contains("flax") || markerActivity == "fiber" -> "fiber"
