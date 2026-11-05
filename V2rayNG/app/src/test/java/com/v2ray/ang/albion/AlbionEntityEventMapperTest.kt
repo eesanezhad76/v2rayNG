@@ -202,16 +202,35 @@ class AlbionEntityEventMapperTest {
         AlbionEntityEventMapper.reset()
         val changed = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
             kind = "response", dispatchCode = 0, realCode = 41,
-            parameters = mapOf(0 to "MAP_BLACK_01", 253 to 41), operationCode = 41
+            parameters = mapOf(0 to "MAP_BLACK_01", 253 to 41), operationCode = 41,
+            returnCode = 0
         )).single()
         assertEquals("region_change", changed.kind)
         assertEquals("MAP_BLACK_01", changed.regionId)
 
         val joined = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
             kind = "response", dispatchCode = 0, realCode = 2,
-            parameters = mapOf(8 to "MAP_RED_02", 253 to 2), operationCode = 2
+            parameters = mapOf(8 to "MAP_RED_02", 253 to 2), operationCode = 2,
+            returnCode = 0
         )).single()
         assertEquals("MAP_RED_02", joined.regionId)
+    }
+
+    @Test
+    fun rejectsFailedOrUnconfirmedRegionOperationResponses() {
+        AlbionEntityEventMapper.reset()
+        val failedChange = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 41,
+            parameters = mapOf(0 to "MAP_BLACK_01", 253 to 41),
+            operationCode = 41, returnCode = 1
+        ))
+        val missingReturnCode = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 2,
+            parameters = mapOf(8 to "MAP_RED_02", 253 to 2),
+            operationCode = 2
+        ))
+        assertTrue(failedChange.isEmpty())
+        assertTrue(missingReturnCode.isEmpty())
     }
 
     @Test
