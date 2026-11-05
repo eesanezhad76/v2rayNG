@@ -371,6 +371,7 @@ object CoreServiceManager {
             return false
         }
         albionCaptureWorker = worker
+        flushPendingAlbionMarkers(worker, service)
         service.getSharedPreferences(ALBION_CAPTURE_PREFS, Context.MODE_PRIVATE)
             .edit().putBoolean(ALBION_AUTO_START, true).apply()
         return true
@@ -378,6 +379,66 @@ object CoreServiceManager {
 
     fun appendAlbionCaptureMarker(packet: ByteArray, timestampMs: Long): Boolean =
         albionCaptureWorker?.appendMarker(packet, timestampMs) ?: false
+
+    /** Persist first; remove from the durable queue only after both capture sinks are synced. */
+    fun recordAlbionCaptureMarker(markerJson: String): String {
+        val service = getService() ?: return "error:no_service"
+        val markerId = com.v2ray.ang.albion.AlbionMarkerQueue.enqueue(service, markerJson)
+            ?: return "error:queue_full_or_storage_or_corrupt"
+        val enriched = try {
+            org.json.JSONObject(markerJson).put("marker_id", markerId).toString()
+        } catch (_: Exception) {
+            return "error:invalid_json"
+        }
+        val worker = albionCaptureWorker
+        if (worker == null || !worker.snapshot().running) return "queued:$markerId"
+        val timestamp = try {
+            org.json.JSONObject(enriched).optLong("timestamp_ms", System.currentTimeMillis())
+        } catch (_: Exception) {
+            System.currentTimeMillis()
+        }
+        val saved = try {
+            worker.appendMarker(com.v2ray.ang.albion.AlbionCaptureMarker.build(enriched), timestamp)
+        } catch (_: Exception) {
+            false
+        }
+        if (!saved) return "queued:$markerId"
+        val acknowledged = com.v2ray.ang.albion.AlbionMarkerQueue.acknowledge(service, markerId)
+        if (!acknowledged) {
+            LogUtil.e(AppConfig.TAG, "Albion marker persisted but queue acknowledgement failed: $markerId")
+            return "queued:$markerId"
+        }
+        return "saved:$markerId"
+    }
+
+    private fun flushPendingAlbionMarkers(worker: AlbionCaptureWorker, service: Service) {
+        val pending = try {
+            com.v2ray.ang.albion.AlbionMarkerQueue.pending(service)
+        } catch (e: Exception) {
+            LogUtil.e(AppConfig.TAG, "Albion marker queue unavailable; preserving stored data", e)
+            return
+        }
+        pending.forEach { marker ->
+            val id = marker.optString("marker_id")
+            if (id.isBlank()) {
+                LogUtil.e(AppConfig.TAG, "Albion marker queue entry has no marker_id; preserving it")
+                return@forEach
+            }
+            val timestamp = marker.optLong("timestamp_ms", System.currentTimeMillis())
+            val saved = try {
+                worker.appendMarker(com.v2ray.ang.albion.AlbionCaptureMarker.build(marker.toString()), timestamp)
+            } catch (_: Exception) {
+                false
+            }
+            if (saved) {
+                if (!com.v2ray.ang.albion.AlbionMarkerQueue.acknowledge(service, id)) {
+                    LogUtil.e(AppConfig.TAG, "Albion queued marker persisted but acknowledgement failed: $id")
+                }
+            } else {
+                LogUtil.e(AppConfig.TAG, "Albion queued marker was not committed: $id")
+            }
+        }
+    }
 
     fun getAlbionCaptureSnapshot(): AlbionCaptureWorker.Snapshot? = albionCaptureWorker?.snapshot()
 
