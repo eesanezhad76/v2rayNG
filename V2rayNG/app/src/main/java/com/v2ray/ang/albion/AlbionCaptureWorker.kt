@@ -20,7 +20,11 @@ import java.util.concurrent.atomic.AtomicLong
 class AlbionCaptureWorker(
     private val readPacket: () -> ByteArray?,
     private val dropped: () -> Long,
-    private val disableTap: () -> Unit
+    private val disableTap: () -> Unit,
+    private val queueDepth: () -> Int = { -1 },
+    private val queueCapacity: () -> Int = { -1 },
+    private val tapEnabled: () -> Boolean = { true },
+    private val recoverTap: () -> Boolean = { false }
 ) {
     data class Snapshot(val running: Boolean, val finished: Boolean, val packets: Long, val dropped: Long, val pcap: File?, val log: File?, val error: String?, val publicPcap: Uri? = null, val publicLog: Uri? = null, val mirrorError: String? = null, val markers: Long = 0, val nonAlbion: Long = 0, val report: File? = null)
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -29,6 +33,7 @@ class AlbionCaptureWorker(
     private val packetCount = AtomicLong(0)
     private val healthMonitor = AlbionCaptureHealthMonitor()
     private val protocol18 = AlbionProtocol18Decoder()
+    private val eventStateTracker = AlbionEventStateTracker()
     @Volatile private var pcapFile: File? = null
     @Volatile private var logFile: File? = null
     @Volatile private var reportFile: File? = null
@@ -45,6 +50,8 @@ class AlbionCaptureWorker(
     @Volatile private var pcapFileStream: FileOutputStream? = null
     @Volatile private var logFileStream: FileOutputStream? = null
     private val markerCount = AtomicLong(0)
+    private val pcapMarkerIds = LinkedHashSet<String>()
+    private val jsonlMarkerIds = LinkedHashSet<String>()
     private val nonAlbionCount = AtomicLong(0)
     // Live pipeline diagnostics: distinguish missing packets, missing protocol events,
     // mapper failures, and entities rejected by the snapshot/UI.
@@ -97,13 +104,18 @@ class AlbionCaptureWorker(
             mirroredLogBytes.set(0)
             reportFile = null
             AlbionPhotonPacketDecoder.reset()
+            protocol18.reset()
             AlbionEntityEventMapper.reset()
+            eventStateTracker.reset()
+            pcapMarkerIds.clear()
+            jsonlMarkerIds.clear()
             failure = null
             finalized = false
             running.set(true)
             job = scope.launch {
                 var lastFlush = System.nanoTime()
                 var lastMirror = lastFlush
+                var lastHealth = lastFlush
                 try {
                     while (isActive && running.get()) {
                         var consumed = 0
@@ -117,6 +129,29 @@ class AlbionCaptureWorker(
                         if (now - lastFlush >= 500000000L) {
                             synchronized(this@AlbionCaptureWorker) { flushFiles() }
                             lastFlush = now
+                        }
+                        if (now - lastHealth >= 5_000_000_000L) {
+                            var tapOk = try { tapEnabled() } catch (_: Throwable) { false }
+                            var recoveryAttempted = false
+                            var recoverySucceeded = false
+                            if (!tapOk && running.get()) {
+                                recoveryAttempted = true
+                                recoverySucceeded = try { recoverTap() } catch (_: Throwable) { false }
+                                tapOk = recoverySucceeded || try { tapEnabled() } catch (_: Throwable) { false }
+                            }
+                            synchronized(this@AlbionCaptureWorker) {
+                                log?.write(JSONObject().put("record_type", "capture_health")
+                                    .put("time_ms", System.currentTimeMillis())
+                                    .put("tap_enabled", tapOk)
+                                    .put("tap_recovery_attempted", recoveryAttempted)
+                                    .put("tap_recovery_succeeded", recoverySucceeded)
+                                    .put("queue_depth", try { queueDepth() } catch (_: Throwable) { -1 })
+                                    .put("queue_capacity", try { queueCapacity() } catch (_: Throwable) { -1 })
+                                    .put("tap_dropped_total", dropped()).put("packets_written", packetCount.get()).toString())
+                                log?.newLine()
+                                log?.flush()
+                            }
+                            lastHealth = now
                         }
                         if (now - lastMirror >= 2_000_000_000L) {
                             synchronized(this@AlbionCaptureWorker) { flushFiles() }
@@ -201,13 +236,21 @@ class AlbionCaptureWorker(
             // Require both sinks before writing; otherwise a tap could appear successful
             // in the overlay while PatternMiner has no JSONL marker to analyze.
             val marker = AlbionCaptureMarker.parse(packet)
-            out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
-            out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
-            out.writeInt(Integer.reverseBytes(packet.size))
-            out.writeInt(Integer.reverseBytes(packet.size))
-            out.write(packet)
-            textLog.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", marker).toString())
-            textLog.newLine()
+            val markerId = marker.optString("marker_id").takeIf { it.isNotBlank() }
+            if (markerId != null && markerId in pcapMarkerIds && markerId in jsonlMarkerIds) return true
+            if (markerId == null || markerId !in pcapMarkerIds) {
+                out.writeInt(Integer.reverseBytes((timestampMs / 1000L).toInt()))
+                out.writeInt(Integer.reverseBytes(((timestampMs % 1000L) * 1000L).toInt()))
+                out.writeInt(Integer.reverseBytes(packet.size))
+                out.writeInt(Integer.reverseBytes(packet.size))
+                out.write(packet)
+                markerId?.let { pcapMarkerIds.add(it) }
+            }
+            if (markerId == null || markerId !in jsonlMarkerIds) {
+                textLog.write(JSONObject().put("time_ms", timestampMs).put("manual_marker", marker).toString())
+                textLog.newLine()
+                markerId?.let { jsonlMarkerIds.add(it) }
+            }
             out.flush()
             pcapFileStream?.fd?.sync()
             textLog.flush()
@@ -276,6 +319,7 @@ class AlbionCaptureWorker(
         val messages = if (decoded?.photon == true && decoded.photonPayload != null) protocol18.receiveDatagram(decoded.photonPayload) else emptyList()
         val messageArray = JSONArray()
         val photonEventAnalysis = JSONArray()
+        val eventStateChanges = JSONArray()
         messages.forEach { message ->
             if (message.kind == "event" && message.realCode != null) {
                 when (message.realCode) {
@@ -298,6 +342,7 @@ class AlbionCaptureWorker(
             messageArray.put(item)
 
             if (message.kind == "event" && message.realCode != null) {
+                eventStateChanges.put(eventStateTracker.observe(message.realCode, message.parameters))
                 val normalized = AlbionPhotonEventDecoder.decode(message.realCode, message.parameters)
                 val eventItem = JSONObject().put("event_code", message.realCode).put("recognized", normalized.recognized)
                 // Keep raw, bounded inventory event fields for schema discovery. These are
@@ -383,6 +428,7 @@ class AlbionCaptureWorker(
             .put("photon_error", decoded?.error ?: JSONObject.NULL).put("command_count", decoded?.commandCount ?: 0)
             .put("command_types", JSONArray(decoded?.commandTypes ?: emptyList<Int>())).put("messages", messageArray)
             .put("photon_event_analysis", photonEventAnalysis)
+            .put("event_state_changes", eventStateChanges)
             .put("entities", entityArray).put("protocol18_encrypted", decoderStats.encrypted)
             .put("protocol18_malformed", decoderStats.malformed)
             .put("fragments_pending", decoderStats.fragmentsPending).toString())

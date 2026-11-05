@@ -60,6 +60,13 @@ class AlbionProtocol18Decoder {
         return output
     }
 
+    /** Reset per-capture state so fragments and counters never leak across sessions. */
+    fun reset() {
+        fragments.clear()
+        encryptedCount = 0
+        malformedCount = 0
+    }
+
     fun stats() = DecodeStats(encryptedCount, malformedCount, fragments.size)
 
     private fun decodeCommandBody(src: ByteArray, start: Int, length: Int, out: MutableList<Message>) {
