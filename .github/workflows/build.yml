@@ -38,7 +38,7 @@ concurrency:
   # Latest source commit wins. Cancel a stale build rather than leaving the
   # newest APK build queued behind a hung gomobile/Go dependency compilation.
   # Keep the dedicated safe-integration validation run alive while follow-up commits queue.
-  cancel-in-progress: ${{ (github.ref != 'refs/heads/albion-safe-integration-2026-11-05' && github.ref != 'refs/heads/albion-safe-fixes-2026-11-05') }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/albion-safe-integration-2026-11-05' }}
 
 jobs:
   build:
