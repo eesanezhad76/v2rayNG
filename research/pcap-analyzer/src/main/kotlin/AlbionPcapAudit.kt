@@ -836,7 +836,7 @@ fun main() {
                 val positions = targetPositions[key].orEmpty().sortedBy { it.t }
                 val xs = positions.map { it.x }; val ys = positions.map { it.y }
                 val vals = listOf(
-                    parts[0], parts[1], parts[2], parts[3], ordered.size.toString(),
+                    parts[0], parts[1], regionKeyValue(parts[2]), parts[3], ordered.size.toString(),
                     ordered.map { it.flag }.distinct().joinToString("|"),
                     ordered.firstOrNull()?.t?.toString() ?: "", ordered.lastOrNull()?.t?.toString() ?: "",
                     positions.size.toString(), positions.firstOrNull()?.x?.toString() ?: "",
