@@ -39,6 +39,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
     fun setSnapshot(json: String): Int? {
         val parsed = AlbionRadarSnapshotParser.parse(json) ?: run {
+            lastLiveSnapshotJson = null
             entities = emptyList()
             filterCacheDirty = true
             invalidate()
@@ -67,7 +68,16 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         if (json == lastLiveSnapshotJson) return entities.size
         // Snapshot JSON parsing can be expensive on large sessions; callers may invoke this
         // from the capture worker. Only publish the immutable parsed list on the UI thread.
-        val parsed = AlbionRadarSnapshotParser.parse(json) ?: return null
+        val parsed = AlbionRadarSnapshotParser.parse(json) ?: run {
+            // Do not leave stale coordinates visible after a malformed live update.
+            lastLiveSnapshotJson = null
+            post {
+                entities = emptyList()
+                filterCacheDirty = true
+                invalidate()
+            }
+            return null
+        }
         lastLiveSnapshotJson = json
         val acceptedCount = parsed.entities.size
         post {
