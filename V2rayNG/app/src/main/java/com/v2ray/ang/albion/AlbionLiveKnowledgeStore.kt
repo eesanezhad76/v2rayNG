@@ -88,7 +88,8 @@ class AlbionLiveKnowledgeStore(
             }
             if (observation.kind == "target_request") {
                 val regionKey = activeRegionId ?: ""
-                val matchingIds = observation.candidateEntityIds.distinct().filter { candidate ->
+                val candidateIds = observation.candidateEntityIds.distinct()
+                val matchingIds = candidateIds.filter { candidate ->
                     records.values.any { record ->
                         record.optString("entity_id") == candidate.toString() &&
                             record.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
@@ -96,8 +97,15 @@ class AlbionLiveKnowledgeStore(
                             record.optString("entity_class") == "mob"
                     }
                 }
-                if (matchingIds.size == 1) {
-                    val selectedId = matchingIds.single().toString()
+                // Operation 23 can precede the first Event 123 spawn observation.
+                // Preserve a single exact server candidate ID so a later mob packet
+                // and/or manual Troll marker can still join by ID, never by proximity.
+                val selectedId = when {
+                    matchingIds.size == 1 -> matchingIds.single().toString()
+                    matchingIds.isEmpty() && candidateIds.size == 1 -> candidateIds.single().toString()
+                    else -> null
+                }
+                if (selectedId != null) {
                     currentTargetEntityId = selectedId
                     currentTargetSeenMs = timestampMs
                     val activeMarker = activeTrollMarker
@@ -306,7 +314,9 @@ class AlbionLiveKnowledgeStore(
                 }
             }
             if (activeTrollTargetId == entityId && activeTrollMarker != null &&
-                !trollMarkerAmbiguous && !record.optBoolean("manual_marker_identity_proven", false)) {
+                !trollMarkerAmbiguous && timestampMs >= activeTrollMarkerStartedMs &&
+                timestampMs - activeTrollMarkerStartedMs <= TROLL_MARKER_MAX_WINDOW_MS &&
+                !record.optBoolean("manual_marker_identity_proven", false)) {
                 applyTrollMarker(record, activeTrollMarker!!, activeTrollMarkerStartedMs)
             }
             if (observation.kind == "resource_state") {
