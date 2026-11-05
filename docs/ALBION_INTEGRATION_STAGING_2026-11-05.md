@@ -1486,7 +1486,7 @@ Selective Mapper port must therefore:
 - Source branch tips: albion-safe-fixes-2026-11-05 / albion-pattern-mining
 - Destination branch: albion-integration-staging-2026-11-05
 - Source register blob before this audit: b4da8611a7771cc409ef12d2397b00314321949a
-- Resulting docs-only commit and blob SHA are recorded after commit creation.
+- Resulting docs-only commit and blob SHA are recorded in the next register update.
 - No runtime file, test file, source branch, raw PCAP, archive, database, or generated asset changed in this audit.
 
 
@@ -1614,5 +1614,12 @@ The pre-spawn Store fallback remains an unverified Pattern Mining proposal and i
   - Spatial helper: b2880fffb69fa263af0823272e55b0b906e4df27
   - Spatial tests: 17d4702da219b7d3d7032e4f46804c68af1bca0e
   - Register: 0fc181a9ae2553e4a4f53efeb81e2500a3e31193
-- Resulting commit and blob SHAs are recorded after commit creation below.
+- Resulting commit: fd5d26b1ad3d361cd247f759630b1921400bf51b
+- Resulting Mapper blob: 2100b53ff7a9860f80f78c9486bdbc2a0d2e4a47
+- Resulting Mapper test blob: 66944d8f7134c65f66a68569facb7edf9454131f
+- Resulting Store test blob: 0e92f47378de91c9e6bad2827565ab6e932fa47c
+- Resulting Spatial helper blob: 36b0e224eea0ff1406e35dbe76381f4fe16caf7c
+- Resulting Spatial test blob: 2a8f64b8e085e5c9f625200288e7b217fb11d375
+- Resulting register blob: fa4a2efce224c98b70e59f05ebe7773dcd0e6c9d
+- Full validation run queued: 42100556508 (head fd5d26b1ad3d361cd247f759630b1921400bf51b).
 - Store runtime, capture analyzer, raw PCAP, archives, generated assets, and source branches were not changed.
