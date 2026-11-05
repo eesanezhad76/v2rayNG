@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Compare own-player and typed resource coordinates within each replayed PCAP only."""
 import argparse
+import csv
 import json
 import math
 import pathlib
@@ -35,7 +36,60 @@ def percentile(values, fraction):
     return ordered[min(len(ordered) - 1, int((len(ordered) - 1) * fraction))]
 
 
-def analyze_rows(rows, temporal_tolerance_ms=5000):
+def analyze_rows(rows, temporal_tolerance_ms=5000, region_transitions=None):
+    rows = list(rows)
+    timelines = defaultdict(list)
+    if region_transitions is not None:
+        for transition in region_transitions:
+            key = (str(transition.get("archive") or ""), str(transition.get("pcap") or ""))
+            try:
+                timestamp = int(transition.get("timestamp_ms"))
+            except (TypeError, ValueError):
+                continue
+            region_id = str(transition.get("region_id") or "").strip()
+            if region_id:
+                timelines[key].append((timestamp, region_id))
+    else:
+        # Derive confirmed region changes directly from the same capture. A
+        # successful op=41 response carries the new region in param0_value;
+        # a successful op=2 join response repeats it in parameter 8.
+        for row in rows:
+            if not isinstance(row, dict):
+                continue
+            archive = str(row.get("archive") or "")
+            pcap = str(row.get("pcap") or "")
+            fields = parse_fields(row.get("detail"))
+            try:
+                timestamp = int(fields.get("t") or row.get("time_ms"))
+            except (TypeError, ValueError):
+                continue
+            if fields.get("kind") != "operation_response":
+                continue
+            operation = fields.get("op")
+            region_id = None
+            if operation == "41":
+                region_id = fields.get("param0_value")
+            elif operation == "2":
+                params = re.search(r"params=\\{([^}]*)\\}", str(row.get("detail") or ""))
+                if params:
+                    match = re.search(r"(?:^|\\s)8=([^\\s]+)", params.group(1))
+                    if match:
+                        region_id = match.group(1)
+            if region_id and region_id not in {"null", ""}:
+                timelines[(archive, pcap)].append((timestamp, region_id))
+    for timeline in timelines.values():
+        timeline.sort()
+
+    def region_at(archive, pcap, timestamp):
+        if timestamp is None:
+            return None
+        region = None
+        for transition_ms, region_id in timelines.get((archive, pcap), []):
+            if transition_ms > timestamp:
+                break
+            region = region_id
+        return region
+
     grouped = defaultdict(lambda: {"player": [], "nodes": defaultdict(list), "rows": 0})
     for row in rows:
         if not isinstance(row, dict):
@@ -44,21 +98,19 @@ def analyze_rows(rows, temporal_tolerance_ms=5000):
         pcap = str(row.get("pcap") or "")
         if not archive or not pcap:
             continue
-        group = grouped[(archive, pcap)]
-        group["rows"] += 1
         fields = parse_fields(row.get("detail"))
         kind = fields.get("kind")
         x = finite_coordinate(fields.get("x"))
         y = finite_coordinate(fields.get("y"))
-        if x is None or y is None:
-            continue
-        # The replay JSONL schema stores packet time inside the detail string
-        # (t=...), not as a top-level time_ms property. Keep time_ms as a fallback
-        # for unit-test fixtures and any future normalized input schema.
         try:
             timestamp = int(fields.get("t") or row.get("time_ms"))
         except (TypeError, ValueError):
             timestamp = None
+        region_id = region_at(archive, pcap, timestamp)
+        group = grouped[(archive, pcap, region_id)]
+        group["rows"] += 1
+        if x is None or y is None:
+            continue
         if kind == "own_player_move":
             group["player"].append({"time_ms": timestamp, "x": x, "y": y})
         elif kind == "harvestable":
@@ -67,7 +119,7 @@ def analyze_rows(rows, temporal_tolerance_ms=5000):
                 group["nodes"][entity_id].append({"time_ms": timestamp, "x": round(x, 3), "y": round(y, 3)})
 
     captures = []
-    for (archive, pcap), group in sorted(grouped.items()):
+    for (archive, pcap, region_id), group in sorted(grouped.items(), key=lambda item: (item[0][0], item[0][1], str(item[0][2] or ""))):
         player = group["player"]
         node_observations = group["nodes"]
         conflicts = sorted(
@@ -118,8 +170,9 @@ def analyze_rows(rows, temporal_tolerance_ms=5000):
         captures.append({
             "archive": archive,
             "pcap": pcap,
+            "region_id": region_id,
             "status": status,
-            "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
+            "evidence_grade": "same_capture_same_region_time_aligned_spatial_heuristic_only",
             "replay_observation_rows": group["rows"],
             "player_position_samples": len(player),
             "typed_resource_nodes": len(nodes),
@@ -131,18 +184,18 @@ def analyze_rows(rows, temporal_tolerance_ms=5000):
             "temporal_tolerance_ms": temporal_tolerance_ms,
             "median_nearest_player_distance_at_node_observation": round(median, 3) if median is not None else None,
             "p90_nearest_player_distance_at_node_observation": round(p90, 3) if p90 is not None else None,
-            "warning": "Candidate evidence only. Distances use player samples within the same capture and within the configured time tolerance; no full-track nearest-point shortcut is used."
+            "warning": "Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed."
         })
 
     overall = "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" if any(
         capture["status"] == "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE" for capture in captures
     ) else "NOT_VERIFIED"
     return {
-        "schema_version": 2,
+        "schema_version": 3,
         "overall_status": overall,
-        "capture_scope": "archive_and_pcap_grouped_independently; time-aligned player/node observations only; no cross-capture joins",
+        "capture_scope": "archive+pcap+confirmed_region grouped independently; time-aligned player/node observations only; no cross-region or cross-capture joins",
         "captures": captures,
-        "warning": "A plausible result supports local coordinate alignment only. It is not a world-map or zone-identity proof."
+        "warning": "A plausible result supports local coordinate alignment only inside one confirmed region. It is not a world-map or zone-identity proof."
     }
 
 def read_rows(path):
@@ -175,8 +228,9 @@ def main():
     ]
     for capture in report["captures"]:
         lines += [
-            "## " + capture["archive"] + " / " + capture["pcap"],
+            "## " + capture["archive"] + " / " + capture["pcap"] + " / region " + str(capture.get("region_id") or "unresolved"),
             "",
+            "- Region ID: " + str(capture.get("region_id") or "unresolved"),
             "- Status: " + capture["status"],
             "- Player position samples: " + str(capture["player_position_samples"]),
             "- Typed Event-40 resource nodes: " + str(capture["typed_resource_nodes"]),
