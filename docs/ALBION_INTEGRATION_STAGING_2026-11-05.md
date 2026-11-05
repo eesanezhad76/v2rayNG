@@ -195,3 +195,45 @@ Do not silently edit historical status reports. Add a new current handoff/status
 - File: `docs/ALBION_INTEGRATION_STAGING_2026-11-05.md`
 - Reason: create a dated, evidence-backed branch/data integration map without touching PR #12 or source evidence.
 - Blob SHA and resulting commit SHA: fill from the successful GitHub create-file response and verify against branch HEAD before claiming completion.
+
+
+## 9. Hot-file blob comparison (exact Git blob identity)
+
+The following blob SHAs were read from recursive Git trees on 2026-11-05. Equal SHA means byte-identical file content; different SHA means the file needs a semantic diff, not a blind copy.
+
+| File | Safe Fixes | Reliability Audit | Zone Forensics Integration | DB Runtime Wiring | Raw Pattern Discovery | Pattern Mining |
+|---|---|---|---|---|---|---|
+| `build.yml` | `ab23d4ab...` | `5bdc09bc...` | `c1434256...` | `43ff15fd...` | `1c5d8103...` | `0fb8f09f...` |
+| `CaptureAnalyzer.kt` | `5f082357...` | `9abfd959...` | `f40cf7ac...` | `cae34340...` | `f40cf7ac...` | `24cd47a5...` |
+| `CaptureMarker.kt` | `8677f41f...` | `d68dae44...` | `d68dae44...` | `8677f41f...` | `d68dae44...` | `8677f41f...` |
+| `CaptureWorker.kt` | `246cfed2...` | `d708bc35...` | `d708bc35...` | `4fa3e003...` | `d708bc35...` | `4fa3e003...` |
+| `EventStateTracker.kt` | absent | `9ca2eb10...` | `9ca2eb10...` | absent | `9ca2eb10...` | absent |
+| `LiveKnowledgeStore.kt` | `28103291...` | `6f1091c8...` | `6f1091c8...` | `6f1091c8...` | `6f1091c8...` | `acdba321...` |
+| `MarkerQueue.kt` | absent | `0cfdb6e9...` | `0cfdb6e9...` | absent | `0cfdb6e9...` | absent |
+| `Protocol18Decoder.kt` | `be8f7450...` | `63cb6d47...` | `63cb6d47...` | `be8f7450...` | `63cb6d47...` | `be8f7450...` |
+| `ResourcePatternLearner.kt` | `7ca47966...` | `3b4dff71...` | `3b4dff71...` | `3b4dff71...` | `3b4dff71...` | `7ca47966...` |
+| `CoreServiceManager.kt` | `9a8a42ac...` | `c2c90474...` | `c2c90474...` | `9a8a42ac...` | `c2c90474...` | `9a8a42ac...` |
+| `OverlayService.kt` | `264a12e5...` | `536cad5a...` | `536cad5a...` | `a2d9b8c6...` | `536cad5a...` | `6677464d...` |
+| `generate_research_knowledge_index.py` | absent | `5c7e43cd...` | `cbd15b74...` | `5c7e43cd...` | `cbd15b74...` | absent |
+| `validate_runtime_knowledge_assets.py` | `2b10a440...` | `53d0f7d3...` | `a1eff654...` | `53d0f7d3...` | `a1eff654...` | `6f983e2b...` |
+
+Full SHAs are available in the audit record for this run; abbreviated values above are for visual comparison only. Do not use abbreviations in any Git operation or change log.
+
+### Immediate implications
+
+1. Safe Fixes has its own newer safety versions of CaptureWorker, LiveKnowledgeStore, Protocol18Decoder, CoreServiceManager and OverlayService; it does **not** contain EventStateTracker.kt, MarkerQueue.kt or generate_research_knowledge_index.py.
+2. Reliability Audit and Zone Forensics Integration have byte-identical blobs for the core reliability files listed above. Zone Forensics Integration adds later zone-specific changes and a different knowledge-index generator/validator pair.
+3. Raw Pattern Discovery shares the same blobs as Zone Forensics Integration for CaptureAnalyzer, CaptureMarker, CaptureWorker, EventStateTracker, LiveKnowledgeStore, MarkerQueue, Protocol18Decoder, ResourcePatternLearner, CoreServiceManager and OverlayService. Its build workflow and knowledge-index generator/validator differ, and it adds its own `AlbionLearningEngine.kt` / raw pattern work.
+4. DB Runtime Wiring is a mixed snapshot: several blobs match Safe Fixes, while LiveKnowledgeStore and ResourcePatternLearner match the reliability/zone line. Its CaptureWorker and OverlayService have separate blobs. It must not be assumed to be a complete superset of either line.
+5. Pattern Mining has older/different CaptureAnalyzer, LiveKnowledgeStore and OverlayService blobs, while several other files match Safe Fixes. Its research payload is substantial and must be handled as a separate evidence/data integration batch.
+
+These identities show why a single branch merge or file-copy operation would be unsafe. The next step is a semantic three-way diff per hot file, with the common ancestor and intended behavior recorded before any transfer.
+
+## 10. Additional change log
+
+- Operation: append exact hot-file blob identity matrix and integration implications.
+- Repository: `eesanezhad76/v2rayNG`
+- Source file blob SHA before update: `1e6ae5529867ba15afd35a1f1443682d1dec1a7a`
+- Destination branch: `albion-integration-staging-2026-11-05`
+- No application source, test, capture, archive or pre-existing branch changed.
+- Resulting commit and new blob SHA: verify from the update response and branch tree.
