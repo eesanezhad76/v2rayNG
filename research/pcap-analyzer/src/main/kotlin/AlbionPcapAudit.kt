@@ -933,7 +933,7 @@ fun main() {
                         c.delta.toString(), c.intervalGap.toString(), c.health.toString(), c.leaveAfter.toString(), c.actions.toString())
                         .joinToString(":")
                 }
-                appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                appendLine(listOf(sample.archive, sample.pcap, sample.regionId ?: "", sample.activity, sample.foundMs.toString(),
                     sample.completedMs?.toString() ?: "", candidates.size.toString(), best?.id ?: "",
                     best?.type ?: "", best?.let { resolvedMobName(it.type, it.name) } ?: "",
                     best?.let { mobileTypeDictionary.optJSONObject(it.type)?.opt("tier")?.toString() ?: "" } ?: "",
