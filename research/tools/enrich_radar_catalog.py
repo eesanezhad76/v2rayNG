@@ -30,7 +30,7 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
  catalog=json.loads(path.read_text(encoding="utf-8"))
  type_dictionary=json.loads((DB/"albion-mobile-type-dictionary.json").read_text(encoding="utf-8")).get("entries",{})
  attacks=[r for r in read_csv(DB/"2026-11-02-pcap-attack-target-tracks.csv")
-          if r.get("archive")==archive and r.get("pcap")==pcap and not yes(r.get("known_player_spawn"))]
+          if (archive is None or r.get("archive")==archive) and r.get("pcap")==pcap and not yes(r.get("known_player_spawn"))]
  mob_rows={str(r.get("entity_id")):r for r in read_csv(DB/"2026-11-02-pcap-mob-lifecycle.csv")
            if r.get("archive")==archive and r.get("pcap")==pcap}
  targets=[]
@@ -152,7 +152,36 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
  return {"nodes":catalog.get("node_count",0),"attack_targets":len(targets),"mob_count":catalog["mob_count"],
          "correlated_markers":catalog["correlated_attack_target_markers"],"troll_targets":catalog["troll_target_count"]}
 
+def enrich_all():
+ """Enrich every per-capture catalog using attack tracks from its matching PCAP.
+
+ The dataset name is derived from the catalog filename, while the source archive
+ is resolved from the attack-track index. This avoids silently enriching only
+ the historical default capture when newer captures contain the actual markers.
+ """
+ track_rows=read_csv(DB/"2026-11-02-pcap-attack-target-tracks.csv")
+ summaries=[]
+ for path in sorted(DB.glob("albion-*-catalog.json")):
+  try:
+   catalog=json.loads(path.read_text(encoding="utf-8"))
+  except (OSError,ValueError):
+   continue
+  dataset=str(catalog.get("dataset") or path.name.removesuffix("-catalog.json"))
+  pcap=dataset+".pcap"
+  if not any(r.get("pcap")==pcap for r in track_rows):
+   continue
+  summaries.append(enrich(dataset, None, pcap))
+ return summaries
+
 def main():
- p=argparse.ArgumentParser();p.add_argument("--dataset",default=DATASET);p.add_argument("--archive",default=ARCHIVE);p.add_argument("--pcap",default=PCAP)
- a=p.parse_args();print(json.dumps(enrich(a.dataset,a.archive,a.pcap),sort_keys=True))
+ p=argparse.ArgumentParser()
+ p.add_argument("--dataset",default=None)
+ p.add_argument("--archive",default=ARCHIVE)
+ p.add_argument("--pcap",default=None)
+ p.add_argument("--all",action="store_true")
+ a=p.parse_args()
+ if a.all or a.dataset is None:
+  print(json.dumps(enrich_all(),sort_keys=True))
+ else:
+  print(json.dumps(enrich(a.dataset,a.archive,a.pcap or (a.dataset+".pcap")),sort_keys=True))
 if __name__=="__main__":main()
