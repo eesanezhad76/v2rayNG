@@ -603,7 +603,7 @@ fun main() {
                             .joinToString(":")
                     }
                 }
-                appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                appendLine(listOf(sample.archive, sample.pcap, sample.regionId ?: "", sample.activity, sample.foundMs.toString(),
                     sample.startedMs?.toString() ?: "", sample.completedMs?.toString() ?: "", sample.depletedMs?.toString() ?: "",
                     sample.tierLabel ?: "", sample.enchantLabel ?: "", candidateCount.toString(),
                     familyCounts.entries.sortedBy { it.key }.joinToString("|") { it.key + ":" + it.value },
@@ -630,7 +630,7 @@ fun main() {
             for (sample in markerSamples) {
                 val referenceMs = sample.startedMs ?: sample.foundMs
                 if (sample.activity !in setOf("Ore", "Wood", "Stone", "Fiber", "Hide")) {
-                    appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                    appendLine(listOf(sample.archive, sample.pcap, sample.regionId ?: "", sample.activity, sample.foundMs.toString(),
                         referenceMs.toString(), "", "", "", "", "", "", "", "", "", "", "", "", "", "",
                         "not_a_resource_spatial_candidate").joinToString(",") { csvCell(it) })
                     continue
@@ -640,7 +640,7 @@ fun main() {
                     .minByOrNull { kotlin.math.abs(it.t - referenceMs) }
                     ?.takeIf { kotlin.math.abs(it.t - referenceMs) <= 5000L }
                 if (nearestPlayer == null) {
-                    appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                    appendLine(listOf(sample.archive, sample.pcap, sample.regionId ?: "", sample.activity, sample.foundMs.toString(),
                         referenceMs.toString(), "", "", "", "", "", "", "", "", "", "", "", "", "", "",
                         "no_valid_player_position_within_5000ms").joinToString(",") { csvCell(it) })
                     continue
