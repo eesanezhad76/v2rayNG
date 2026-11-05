@@ -28,7 +28,10 @@ object AlbionCaptureAnalyzer {
         val warnings: List<String>,
         val checkpoints: List<String>,
         val detailedObservations: List<String>,
-        val quality: AlbionCaptureQualityReport
+        val quality: AlbionCaptureQualityReport,
+        val stateSnapshotCount: Int = 0,
+        val unknownEventSchemas: Map<Int, Int> = emptyMap(),
+        val truncatedPcap: Boolean = false
     ) {
         fun asText(): String = buildString {
             appendLine("Albion / Photon capture report")
@@ -49,6 +52,10 @@ object AlbionCaptureAnalyzer {
             entityKinds.toSortedMap().forEach { (kind, count) -> appendLine("  $kind: $count") }
             appendLine("Typed Photon event observations:")
             typedEventKinds.toSortedMap().forEach { (kind, count) -> appendLine("  $kind: $count") }
+            appendLine("Decoded event state snapshots: $stateSnapshotCount")
+            appendLine("Unknown event schemas (not assumed to be inventory):")
+            unknownEventSchemas.toSortedMap().forEach { (code, count) -> appendLine("  event $code: $count") }
+            appendLine("Truncated PCAP record detected: $truncatedPcap")
             appendLine("Malformed / unrecognized Photon envelopes: $malformedPhotonPackets")
             appendLine("Encrypted Photon packets: $encryptedPhotonPackets")
             appendLine("Encrypted Protocol18 messages: $encryptedProtocol18Messages")
@@ -75,6 +82,9 @@ object AlbionCaptureAnalyzer {
         var outbound = 0
         var malformed = 0
         var encryptedPhoton = 0
+        var truncatedPcap = false
+        var stateSnapshotCount = 0
+        val unknownEventSchemas = linkedMapOf<Int, Int>()
         val commands = linkedMapOf<Int, Int>()
         val events = linkedMapOf<Int, Int>()
         val requests = linkedMapOf<Int, Int>()
@@ -99,12 +109,15 @@ object AlbionCaptureAnalyzer {
             val linkType = readInt(input, little)
             while (true) {
                 try {
+                    val remaining = input.available()
+                    if (remaining == 0) break
+                    if (remaining < 16) { truncatedPcap = true; break }
                     val packetSeconds = readInt(input, little)
                     val packetMicros = readInt(input, little)
                     val packetTimeMs = packetSeconds.toLong() * 1000L + packetMicros.toLong() / 1000L
                     val captured = readInt(input, little)
                     readInt(input, little)
-                    if (captured !in 1..2_000_000) break
+                    if (captured !in 1..2_000_000 || captured > input.available()) { truncatedPcap = true; break }
                     val frame = ByteArray(captured)
                     input.readFully(frame)
                     packets++
@@ -130,7 +143,7 @@ object AlbionCaptureAnalyzer {
                     albion++
                     if (decoded.photon) {
                         valid++
-                        if (decoded.dstPort == AlbionPhotonPacketDecoder.ALBION_PORT) inbound++ else outbound++
+                        if (decoded.srcPort == AlbionPhotonPacketDecoder.ALBION_PORT) inbound++ else outbound++
                         decoded.commandTypes.forEach { type -> commands[type] = (commands[type] ?: 0) + 1 }
                         decoded.photonPayload?.let { payload ->
                             protocol18.receiveDatagram(payload).forEach { message ->
@@ -212,7 +225,12 @@ object AlbionCaptureAnalyzer {
                                     }
                                 }
                                 if (message.kind == "event" && message.realCode != null) {
+                                    stateSnapshotCount++
                                     val typed = AlbionPhotonEventDecoder.decode(message.realCode, message.parameters)
+                                    if (!typed.recognized) {
+                                        unknownEventSchemas[message.realCode] =
+                                            (unknownEventSchemas[message.realCode] ?: 0) + 1
+                                    }
                                     if (typed.resources.isNotEmpty()) typedEvents["resource"] = (typedEvents["resource"] ?: 0) + typed.resources.size
                                     if (typed.livingEntities.isNotEmpty()) typedEvents["living_entity"] = (typedEvents["living_entity"] ?: 0) + typed.livingEntities.size
                                     if (typed.stateUpdate != null) typedEvents["resource_state"] = (typedEvents["resource_state"] ?: 0) + 1
@@ -221,6 +239,7 @@ object AlbionCaptureAnalyzer {
                         }
                     } else if (decoded.encrypted) encryptedPhoton++ else malformed++
                 } catch (_: java.io.EOFException) {
+                    truncatedPcap = true
                     break
                 }
             }
@@ -229,10 +248,14 @@ object AlbionCaptureAnalyzer {
         val warnings = mutableListOf<String>()
         if (albion == 0) warnings += "No UDP datagrams involving port 5056 were found."
         if (malformed > 0) warnings += "Some datagrams on port 5056 did not pass Photon envelope validation."
+        if (truncatedPcap) warnings += "PCAP ended with a partial record or invalid captured-length field."
         return Report(
             packets, albion, valid, inbound, outbound, commands, events, requests, responses, entities, typedEvents, malformed,
             encryptedPhoton, protocolStats.encrypted, protocolStats.malformed, protocolStats.fragmentsPending,
-            warnings, checkpoints, detailed, AlbionCaptureQualityAnalyzer.analyze(file, nativeTapDrops)
+            warnings, checkpoints, detailed, AlbionCaptureQualityAnalyzer.analyze(file, nativeTapDrops),
+            stateSnapshotCount = stateSnapshotCount,
+            unknownEventSchemas = unknownEventSchemas,
+            truncatedPcap = truncatedPcap
         )
     }
 

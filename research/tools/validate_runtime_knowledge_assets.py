@@ -13,16 +13,16 @@ from pathlib import Path
 
 
 EXPECTED_FAMILIES = {
-    "7": ("Rock", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 87),
-    "14": ("Fiber", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 47),
-    "20": ("Hide", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 7),
-    "27": ("Ore", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 88),
+    "7": ("Rock", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 108),
+    "14": ("Fiber", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 55),
+    "20": ("Hide", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 8),
+    "27": ("Ore", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 123),
     "28": ("unknown", "UNRESOLVED", 2),
-    "29": ("Ore", "PACKET_CONFIRMED_LIVING_RESOURCE", 100),
+    "29": ("Ore", "PACKET_CONFIRMED_LIVING_RESOURCE", 110),
 }
-EXPECTED_MOBILE_OBSERVATIONS = 2330
-EXPECTED_MOBILE_TYPE_IDS = 64
-EXPECTED_RESOURCE_OBSERVATIONS = 331
+EXPECTED_MOBILE_OBSERVATIONS = 2956
+EXPECTED_MOBILE_TYPE_IDS = 67
+EXPECTED_RESOURCE_OBSERVATIONS = 406
 
 
 def _json(path: Path):
@@ -100,7 +100,7 @@ def validate(root: Path) -> dict:
     missing_dictionary_ids = sorted(index_ids - dictionary_ids)
     if missing_dictionary_ids:
         raise ValueError(f"mobile dictionary is missing observed IDs: {missing_dictionary_ids}")
-    # The external dictionary is intentionally broader than the 64 IDs observed
+    # The external dictionary is intentionally broader than the 67 IDs observed
     # in this capture corpus. Coverage is measured against observed IDs only.
 
     crosswalk_path = research / "albion-mobile-type-crosswalk-2026-11-03.csv"
@@ -108,7 +108,7 @@ def validate(root: Path) -> dict:
         crosswalk = list(csv.DictReader(stream))
     crosswalk_ids = {row["mobile_type_id"] for row in crosswalk}
     if crosswalk_ids != index_ids or len(crosswalk) != EXPECTED_MOBILE_TYPE_IDS:
-        raise ValueError("mobile type crosswalk does not cover the exact 64 indexed IDs")
+        raise ValueError("mobile type crosswalk does not cover the exact 67 indexed IDs")
     if any(row.get("dictionary_match", "").lower() != "true" for row in crosswalk):
         raise ValueError("one or more observed mobile IDs do not match the external dictionary")
 
