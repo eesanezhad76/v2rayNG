@@ -217,7 +217,7 @@ The following blob SHAs were read from recursive Git trees on 2026-11-05. Equal 
 | `generate_research_knowledge_index.py` | absent | `5c7e43cd...` | `cbd15b74...` | `5c7e43cd...` | `cbd15b74...` | absent |
 | `validate_runtime_knowledge_assets.py` | `2b10a440...` | `53d0f7d3...` | `a1eff654...` | `53d0f7d3...` | `a1eff654...` | `6f983e2b...` |
 
-Full SHAs are available in the audit record for this run; abbreviated values above are for visual comparison only. Do not use abbreviations in any Git operation or change log.
+The table intentionally abbreviates blob SHAs for readability. Re-fetch full blob SHAs from the Git tree immediately before any Git operation or change log; do not use abbreviations as identifiers.
 
 ### Immediate implications
 
@@ -234,6 +234,33 @@ These identities show why a single branch merge or file-copy operation would be 
 - Operation: append exact hot-file blob identity matrix and integration implications.
 - Repository: `eesanezhad76/v2rayNG`
 - Source file blob SHA before update: `1e6ae5529867ba15afd35a1f1443682d1dec1a7a`
+- Destination branch: `albion-integration-staging-2026-11-05`
+- No application source, test, capture, archive or pre-existing branch changed.
+- Resulting commit and new blob SHA: verify from the update response and branch tree.
+
+
+## 11. Confirmed Raw Pattern Discovery ancestry
+
+A direct GitHub comparison confirms:
+
+- Base: `albion-zone-forensics-integration-2026-11-05` at `436e7f60eea014977d01c2b570d52d3017691b97`
+- Head: `albion-raw-pattern-discovery-2026-11-05` at `c508c2b54eecced896862e401732e2e0ce44ce29`
+- Status: `ahead`; 1 commit ahead, 0 behind; merge base is exactly the zone-forensics-integration head.
+- The only additional commit is `c508c2b54eecced896862e401732e2e0ce44ce29`: `feat(albion): restore raw UDP byte-pattern discovery alongside session pattern mining`.
+- That one commit changes exactly 3 files:
+  - `.github/workflows/build.yml` (15 additions, 14 deletions)
+  - `V2rayNG/app/src/main/java/com/v2ray/ang/ui/albion/AlbionLearningEngine.kt` (new, 248 lines)
+  - `V2rayNG/app/src/main/java/com/v2ray/ang/ui/albion/AlbionRadarActivity.kt` (31 additions)
+
+The Raw Pattern Discovery branch therefore contains the complete seven-commit feature chain present in Zone Forensics Integration (research-index wiring, DB/runtime wiring, marker FIFO/network handover, capture audit, package/zone identity, unresolved Family 28 handling, and offline analyzer separation) plus the single raw UDP byte-pattern discovery commit. This means those seven commits should be reviewed as one ancestry chain; do not separately replay the same reliability, DB, or zone commits from their alias/checkpoint branches.
+
+This does **not** mean Raw Pattern Discovery can be merged wholesale into Safe Fixes: the two lines diverged at `6fa9d10555aa2ab5e36f64ca831f0e4869faaeb0`, while Safe Fixes has 46 commits beyond that common ancestor. Resolve the shared runtime files semantically first.
+
+## 12. Change log — ancestry clarification
+
+- Operation: append confirmed ancestry and exact one-commit delta for Raw Pattern Discovery.
+- Repository: `eesanezhad76/v2rayNG`
+- Source file blob SHA before update: `6d5c2d391440645aed60832159e3a35886d669fe`
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No application source, test, capture, archive or pre-existing branch changed.
 - Resulting commit and new blob SHA: verify from the update response and branch tree.
