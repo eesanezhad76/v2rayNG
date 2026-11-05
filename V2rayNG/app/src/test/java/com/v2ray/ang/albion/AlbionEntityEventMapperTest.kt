@@ -186,15 +186,21 @@ class AlbionEntityEventMapperTest {
 
 
     @Test
-    fun event46OnlyMissingAmountMeansDepletedAndCarriesEnchantment() {
+    fun event46ZeroAmountMeansDepletedAndCarriesEnchantment() {
         AlbionEntityEventMapper.reset()
         val zero = AlbionEntityEventMapper.map(event(46, mapOf(0 to 701L, 1 to 0, 2 to 2))).single()
         assertEquals(0, zero.size)
         assertEquals(2, zero.enchant)
         assertTrue(zero.removed)
-        val depleted = AlbionEntityEventMapper.map(event(46, mapOf(0 to 702L, 2 to 3))).single()
-        assertTrue(depleted.removed)
-        assertEquals(3, depleted.enchant)
+    }
+
+    @Test
+    fun event46MissingAmountDoesNotAssertDepletion() {
+        AlbionEntityEventMapper.reset()
+        val missing = AlbionEntityEventMapper.map(event(46, mapOf(0 to 702L, 2 to 3))).single()
+        assertEquals(null, missing.size)
+        assertEquals(3, missing.enchant)
+        assertTrue(!missing.removed)
     }
 
     @Test

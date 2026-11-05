@@ -1235,3 +1235,33 @@ A fresh repository query returned eight open PRs. No PR was merged during this a
 - No PR was merged or edited; no source branch or application/data file changed.
 - Resulting commit SHA: 86ee1119f4e60d141b517c32f37855137b82baa4
 - New blob SHA: 557f2277e5da97fb9df069d2da6bbb424bac41cd
+
+
+## 39. High-priority data-integrity correction staged from detection audit
+
+Source commit: `10d3a0a0f6caea55f31ad3d61de4e546b36189a0` on `audit/detection-engine-2026-11-04` (“Treat missing resource state amount as unknown”).
+
+The source branch's correction was compared against Safe Fixes before transfer. Safe Fixes already had the store-side guard (`resource_state` is persisted only when `observation.size != null`), but its mapper still set `depleted=true` when the Event 46 remaining amount was absent and removed the entity from `knownNonPlayerEntities`. The test also explicitly expected missing amount to mean depleted.
+
+Staged correction:
+- Event 46 with explicit zero/negative remaining amount: depleted.
+- Event 46 with positive amount: non-depleted with that amount.
+- Event 46 with absent amount: `size=null`, `removed=false`; no depletion inference and no removal from the known-entity set.
+- Split the old contradictory test into separate zero-amount and missing-amount tests.
+- Retain the already-correct Safe Fixes store-side null guard; no store implementation change is required.
+- Add the staging branch to the existing full CI workflow branch filters and branch-specific conditions so the exact staged source/test change is validated by the same regression gates as Safe Fixes.
+
+This is a semantic port of source commit `10d3a0a0...`, not a cherry-pick of its old parent history. The source branch and commit remain untouched. The change is isolated to the staging branch and is not part of PR #12.
+
+## 40. Change log — Event 46 missing-amount correction
+
+- Operation: modify Event 46 depletion semantics; replace one test with separate zero/missing amount tests; enable full CI for the staging branch; record source commit provenance.
+- Repository: `eesanezhad76/v2rayNG`
+- Source branch/commit: `audit/detection-engine-2026-11-04` / `10d3a0a0f6caea55f31ad3d61de4e546b36189a0`
+- Source file blob SHAs before staging update:
+  - Mapper: `903848089633bfc44ffa6898302016fadab1f285`
+  - Mapper test: `8a3a91287713ea91f31e450a88ba9589ad5cf8c7`
+  - Build workflow: `ab23d4ab007b434a79a51bfcc5b3701e88fd1663`
+  - Staging register: `8bb8a877ead1c6f06d65b12da4d73cf4275d913d`
+- Destination branch: `albion-integration-staging-2026-11-05`
+- Resulting commit and blob SHAs: verify after creating the multi-file commit and updating the branch ref.

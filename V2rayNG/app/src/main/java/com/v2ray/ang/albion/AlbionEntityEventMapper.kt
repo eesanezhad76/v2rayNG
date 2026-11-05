@@ -221,11 +221,9 @@ object AlbionEntityEventMapper {
             46 -> {
                 val id = number(0) ?: return emptyList()
                 val remaining = (p[1] as? Number)?.toInt()
-                // A zero remaining amount is the terminal point of the observed
-                // 5→4→3→2→1→0 harvest sequence. Keep the entity as a grey historical
-                // record; only exclude it from active navigation. Missing amount is
-                // also treated as depleted by the upstream lifecycle.
-                val depleted = remaining == null || remaining <= 0
+                // A missing amount is unknown state, not proof of depletion.
+                // Only an explicit zero/negative amount marks the node depleted.
+                val depleted = remaining?.let { it <= 0 } ?: false
                 if (depleted) knownNonPlayerEntities.remove(id)
                 listOf(Observation(
                     "resource_state", code, id, size = remaining,
