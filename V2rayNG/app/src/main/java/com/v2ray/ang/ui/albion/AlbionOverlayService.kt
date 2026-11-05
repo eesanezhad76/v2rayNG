@@ -63,6 +63,8 @@ class AlbionOverlayService : Service() {
     private var catalogCaptures = JSONArray()
     private var catalogIndex = 0
     private var mobileTypeDictionary = JSONObject()
+    private var researchKnowledge: com.v2ray.ang.albion.AlbionResearchKnowledgeIndex.Snapshot? = null
+    private var historicalKnowledge: com.v2ray.ang.albion.AlbionHistoricalKnowledgeIndex.Snapshot? = null
     private var catalogNodeCount = 0
     private var catalogMobCount = 0
     private var catalogMarkerCount = 0
@@ -122,7 +124,14 @@ class AlbionOverlayService : Service() {
                 refreshHandler.post {
                     acceptedCount?.let(CoreServiceManager::acknowledgeAlbionOverlaySnapshot)
                     if (::liveStatus.isInitialized) {
-                        liveStatus.text = "DB ${catalogNodeCount}N/${catalogMobCount}M • " + statusText.take(210)
+                        val dictionaryCoverage = researchKnowledge?.mobileDictionaryCoverage(mobileTypeDictionary)
+                        val dictionaryStatus = dictionaryCoverage?.let { " • D${it.label()}" } ?: " • D?/?"
+                        val historicalStatus = historicalKnowledge?.let {
+                            " • H${it.sourceBundleCount}B/${it.entityRecordCount}E/${it.protocolEventCount}P/${it.learnedPatternCount}L/${it.autonomousSignatureCount}A"
+                        } ?: " • H?/?/?/?/?"
+                        liveStatus.text = (researchKnowledge?.statusLabel() ?: "KNOW unavailable") +
+                            dictionaryStatus + historicalStatus +
+                            " • DB ${catalogNodeCount}N/${catalogMobCount}M • " + statusText.take(90)
                     }
                     snapshotRefreshInFlight.set(false)
                     if (controlsRoot != null || radarRoot != null) refreshHandler.postDelayed(this, 200L)
@@ -538,6 +547,9 @@ class AlbionOverlayService : Service() {
     }
 
     private fun loadStaticCatalog() {
+        // These read-only indexes add evidence provenance without projecting historical coordinates.
+        researchKnowledge = com.v2ray.ang.albion.AlbionResearchKnowledgeIndex.load(this)
+        historicalKnowledge = com.v2ray.ang.albion.AlbionHistoricalKnowledgeIndex.load(this)
         // Keep the full external dictionary; the research index is only a capture-scoped supplement.
         try {
             val typeData = assets.open("albion-mobile-type-dictionary.json").bufferedReader().use { JSONObject(it.readText()) }
@@ -631,7 +643,11 @@ class AlbionOverlayService : Service() {
     private fun enrichLiveSnapshot(json: String): String {
         val array = try { JSONArray(json) } catch (_: Exception) { return "[]" }
         for (i in 0 until array.length()) {
-            array.optJSONObject(i)?.let { applyMobTypeInfo(it) }
+            array.optJSONObject(i)?.let {
+                applyMobTypeInfo(it)
+                researchKnowledge?.annotate(it)
+                historicalKnowledge?.annotate(it)
+            }
         }
         return array.toString()
     }
