@@ -118,10 +118,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private fun resourceColor(item: JSONObject): Int = colorForEnchantment(enchantmentOf(item))
 
     private fun isTroll(item: JSONObject): Boolean =
-        !AlbionSpatialIntelligence.isOreElemental(item) &&
-            (AlbionSpatialIntelligence.isTrollMob(item) ||
-                (item.optString("manual_activity").equals("Troll", ignoreCase = true) &&
-                    item.optBoolean("manual_marker_identity_proven", false)))
+        AlbionSpatialIntelligence.isTrollCategoryMember(item)
 
     private fun isOreElemental(item: JSONObject): Boolean =
         item.optString("resource_role") == "ore_elemental" ||
@@ -186,7 +183,10 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         // real category filter normally.
         val categoryEnabled = when {
             node -> "category_$resourceCategory" in enabledFilters
-            mob -> mobCategory in selectedCategories || (mobCategory == "other_mob" && "category_mobs" in enabledFilters)
+            mob -> mobCategory in selectedCategories ||
+                (mobCategory == "other_mob" && "category_mobs" in enabledFilters) ||
+                (troll && "category_troll" in enabledFilters) ||
+                (oreElemental && "category_ore_elemental" in enabledFilters)
             else -> false
         }
         if (!categoryEnabled) return false
@@ -258,10 +258,14 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 }
             }
             val resources = visibleEntities().filter { it.optString("last_kind") in RESOURCE_KINDS }
-            // Keep the closest active resource visibly selected on the mini radar.
-            // A type-ambiguous observation can still be a real, coordinate-backed node.
+            // Candidate-only Event 39 pins remain visible for investigation but must never
+            // drive navigation. Only typed Event 40 harvestables or explicit user-confirmed
+            // targets can become the highlighted destination.
             val nearestTarget = resources.asSequence()
-                .filter { !isUnavailableResource(it) && validPoint(it) }
+                .filter {
+                    !isUnavailableResource(it) && validPoint(it) &&
+                        AlbionSpatialIntelligence.isNavigableResource(it)
+                }
                 .minByOrNull { hypot(it.optDouble("x") - px, it.optDouble("y") - py) }
             val nearestDistance = nearestTarget?.let {
                 hypot(it.optDouble("x") - px, it.optDouble("y") - py)
