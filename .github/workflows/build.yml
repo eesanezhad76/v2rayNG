@@ -274,6 +274,8 @@ jobs:
         set -euo pipefail
         V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
         python3 research/tools/analyze_spatial_alignment.py
+        python3 research/tools/analyze_portal_zone_node_matches.py
+        python3 -m unittest research/tests/test_portal_zone_node_matches.py -v
 
     - name: Test Python analysis, marker FIFO, and readiness logic
       if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || (github.ref == 'refs/heads/albion-safe-integration-2026-11-05' || github.ref == 'refs/heads/albion-safe-fixes-2026-11-05' || (github.ref == 'refs/heads/albion-integration-staging-2026-11-05' || github.ref == 'refs/heads/albion-marker-queue-hardening-2026-11-06')))
