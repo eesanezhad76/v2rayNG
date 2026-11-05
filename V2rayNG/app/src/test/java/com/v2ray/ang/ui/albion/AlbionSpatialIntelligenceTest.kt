@@ -35,7 +35,9 @@ class AlbionSpatialIntelligenceTest {
         assertFalse(AlbionSpatialIntelligence.isInActiveRegion("MAP_A", "MAP_B"))
         assertFalse(AlbionSpatialIntelligence.isInActiveRegion("MAP_A", null))
         assertFalse(AlbionSpatialIntelligence.isInActiveRegion("MAP_A", ""))
-        assertTrue(AlbionSpatialIntelligence.isInActiveRegion(null, "MAP_B"))
+        assertFalse(AlbionSpatialIntelligence.isInActiveRegion(null, "MAP_B"))
+        assertTrue(AlbionSpatialIntelligence.isInActiveRegion(null, null))
+        assertTrue(AlbionSpatialIntelligence.isInActiveRegion("", ""))
     }
 
     @Test
