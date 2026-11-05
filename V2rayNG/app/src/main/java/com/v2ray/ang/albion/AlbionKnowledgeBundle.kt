@@ -39,11 +39,16 @@ object AlbionKnowledgeBundle {
         val liveBytes = live.toByteArray(Charsets.UTF_8)
         val protocolBytes = protocol.toByteArray(Charsets.UTF_8)
         val autonomousFile = dir.resolve(AUTONOMOUS_FILE)
+        val hasBundledAutonomous = runCatching {
+            context.assets.list("")?.contains("albion-historical-autonomous-patterns.json") == true
+        }.getOrDefault(false)
         val autonomousText = if (autonomousFile.isFile) {
             readJsonArray(autonomousFile)
-        } else if (context.assets.list("")?.contains("albion-historical-autonomous-patterns.json") == true) {
-            context.assets.open("albion-historical-autonomous-patterns.json")
-                .bufferedReader(Charsets.UTF_8).use { it.readText() }.also { JSONArray(it) }
+        } else if (hasBundledAutonomous) {
+            runCatching {
+                context.assets.open("albion-historical-autonomous-patterns.json")
+                    .bufferedReader(Charsets.UTF_8).use { it.readText() }.also { JSONArray(it) }
+            }.getOrDefault("[]")
         } else {
             "[]"
         }
