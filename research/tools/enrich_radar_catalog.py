@@ -29,16 +29,35 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
  path=DB/(dataset+"-catalog.json")
  catalog=json.loads(path.read_text(encoding="utf-8"))
  type_dictionary=json.loads((DB/"albion-mobile-type-dictionary.json").read_text(encoding="utf-8")).get("entries",{})
+ region_rows=read_csv(DB/"2026-11-02-region-transition-evidence.csv")
+ region_timelines={}
+ for transition in region_rows:
+  key=(str(transition.get("archive") or ""),str(transition.get("pcap") or ""))
+  timestamp=num(transition,"timestamp_ms")
+  region_id=(transition.get("region_id") or "").strip()
+  if timestamp is not None and region_id:
+   region_timelines.setdefault(key,[]).append((timestamp,region_id))
+ for timeline in region_timelines.values():timeline.sort()
+ def region_at(source_archive,source_pcap,timestamp):
+  if timestamp is None:return None
+  found=None
+  for transition_ms,region_id in region_timelines.get((str(source_archive or ""),str(source_pcap or "")),[]):
+   if transition_ms>timestamp:break
+   found=region_id
+  return found
  attacks=[r for r in read_csv(DB/"2026-11-02-pcap-attack-target-tracks.csv")
           if (archive is None or r.get("archive")==archive) and r.get("pcap")==pcap and not yes(r.get("known_player_spawn"))]
- mob_rows={(str(r.get("archive") or ""),str(r.get("entity_id"))):r
-           for r in read_csv(DB/"2026-11-02-pcap-mob-lifecycle.csv")
-           if (archive is None or r.get("archive")==archive) and r.get("pcap")==pcap}
+ mob_rows={}
+ for row in read_csv(DB/"2026-11-02-pcap-mob-lifecycle.csv"):
+  if (archive is not None and row.get("archive")!=archive) or row.get("pcap")!=pcap:continue
+  row_region=(row.get("region_id") or region_at(row.get("archive"),pcap,num(row,"first_seen_ms")))
+  mob_rows[(str(row.get("archive") or ""),row_region,str(row.get("entity_id")))] = row
  targets=[]
  for row in attacks:
   eid=str(row.get("target_entity_id") or "")
   if not eid:continue
-  mob=mob_rows.get((str(row.get("archive") or ""),eid),{})
+  target_region=(row.get("region_id") or region_at(row.get("archive"),pcap,num(row,"first_attack_ms")))
+  mob=mob_rows.get((str(row.get("archive") or ""),target_region,eid),{})
   mobile=num(row,"event123_mobile_type",num(mob,"mobile_type_id"))
   type_info=type_dictionary.get(str(mobile),{})
   name=(row.get("event123_name") or mob.get("name") or type_info.get("display_name") or "").strip()
@@ -49,7 +68,7 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
    x,y=num(mob,"x"),num(mob,"y")
    position_source="Event123 last observed mob position"
   targets.append({
-   "entity_id":eid,"mobile_type_id":mobile,"name":name,"x":x,"y":y,
+   "entity_id":eid,"region_id":target_region,"mobile_type_id":mobile,"name":name,"x":x,"y":y,
    "tier":type_info.get("tier"),"mob_category":type_info.get("category"),
    "type_unique_name":type_info.get("unique_name"),"localization_tag":type_info.get("localization_tag"),
    "mob_danger":type_info.get("danger"),"max_health":type_info.get("max_health"),
@@ -73,12 +92,15 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
  for cycle in cycles:
   start=num(cycle,"found_ms")
   if start is None:continue
+  cycle_region=region_at(archive or (attacks[0].get("archive") if attacks else ""),pcap,start)
+  cycle["region_id"]=cycle_region
   if cycle.get("status")=="TARGET_FOUND_SUPERSEDED_NOT_KILLED":
    cycle["attack_target_correlation"]={"confidence":"SUPERSEDED","candidate_count":0,"identity_proven":False}
    continue
   finish=num(cycle,"mob_killed_ms",start+15000)
   candidates=[]
   for target in targets:
+   if target.get("region_id")!=cycle_region:continue
    first=target.get("first_attack_ms");last=target.get("last_attack_ms")
    if first is None or last is None:continue
    if last < start-1500 or first > finish+2500:continue
@@ -115,13 +137,19 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
   for key in ("tier","category","unique_name","localization_tag","danger","max_health","loot_type","is_harvestable"):
    value=info.get(key)
    if value is not None:entity[{"category":"mob_category","unique_name":"type_unique_name","danger":"mob_danger","is_harvestable":"is_harvestable_mob"}.get(key,key)]=value
- by_id={str(e.get("source_entity_id")):e for e in entities
+ for entity in entities:
+  if not entity.get("region_id"):
+   entity["region_id"]=region_at(archive or (attacks[0].get("archive") if attacks else ""),
+                                  pcap,num(entity,"first_seen_ms"))
+ by_id={(str(e.get("region_id") or ""),str(e.get("source_entity_id"))):e for e in entities
         if e.get("last_kind")=="mob" and e.get("source_entity_id") is not None}
  for target in targets:
-  item=by_id.get(target["entity_id"])
+  entity_key=(str(target.get("region_id") or ""),target["entity_id"])
+  item=by_id.get(entity_key)
   if item is None:
-   item={"entity_id":"catalog:attack:"+target["entity_id"],"source_entity_id":target["entity_id"],"last_kind":"mob"}
-   entities.append(item);by_id[target["entity_id"]]=item
+   item={"entity_id":"catalog:attack:"+str(target.get("region_id") or "unknown")+":"+target["entity_id"],
+         "source_entity_id":target["entity_id"],"region_id":target.get("region_id"),"last_kind":"mob"}
+   entities.append(item);by_id[entity_key]=item
   for key,value in target.items():
    if value is not None:item[key]=value
   matches=target["marker_matches"]
