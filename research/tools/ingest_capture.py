@@ -31,6 +31,10 @@ def pair_manual_markers(markers):
    if before not in (None,"") and after not in (None,"") and str(before)!=str(after):
     item=f"{field}:{before}->{after}@{event}"
     if item not in conflicts:conflicts.append(item)
+ legacy_resource_semantics={activity:any(
+  str(m.get("activity") or "Unknown")==activity and str(m.get("event") or "") in {"gathering_started","node_depleted"}
+  for m in markers
+ ) for activity in RESOURCE_ACTIVITIES}
  states=collections.defaultdict(lambda:{"pending":collections.deque(),"active":collections.deque(),"completed":collections.deque()})
  mob_pending=collections.defaultdict(collections.deque)
  lifecycles=[]; unmatched=[]
@@ -50,12 +54,13 @@ def pair_manual_markers(markers):
     # The current overlay has one active resource target at a time. A new
     # START before END supersedes the older pending START; never let a later
     # END falsely close that stale window. Preserve the superseded marker.
-    while queue["pending"]:
-     stale=queue["pending"].popleft()
-     stale["status"]="SUPERSEDED_NOT_COMPLETED"
-     stale["superseded_by_ms"]=timestamp
-     lifecycles.append(stale)
-     unmatched.append({"activity":activity,"event":"target_found","timestamp_ms":stale["found_ms"],"reason":"superseded_by_new_target_found","superseded_by_ms":timestamp})
+    if not legacy_resource_semantics.get(activity,False):
+     while queue["pending"]:
+      stale=queue["pending"].popleft()
+      stale["status"]="SUPERSEDED_NOT_COMPLETED"
+      stale["superseded_by_ms"]=timestamp
+      lifecycles.append(stale)
+      unmatched.append({"activity":activity,"event":"target_found","timestamp_ms":stale["found_ms"],"reason":"superseded_by_new_target_found","superseded_by_ms":timestamp})
     queue["pending"].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":timestamp,"completed_ms":None,"depleted_ms":None,"superseded_by_ms":None,"metadata_conflicts":[]})
    elif event=="gathering_started":
     if queue["pending"]:
