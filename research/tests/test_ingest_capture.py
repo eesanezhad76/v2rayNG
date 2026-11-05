@@ -19,8 +19,8 @@ class IngestTests(unittest.TestCase):
   with tempfile.TemporaryDirectory() as td:
    d=pathlib.Path(td)
    rows=[
-    {"time_ms":1,"entities":[{"kind":"harvestable","event_code":40,"entity_id":77,"mobile_type_id":574,"type_number":29,"tier":5,"enchant":0,"x":1,"y":2,"size":5}]},
-    {"time_ms":2,"entities":[{"kind":"harvestable","event_code":40,"entity_id":77,"mobile_type_id":574,"type_number":29,"tier":5,"enchant":0,"x":1,"y":2,"size":5}]},
+    {"time_ms":1,"entities":[{"kind":"harvestable","event_code":40,"entity_id":77,"mobile_type_id":574,"type_number":29,"tier":5,"enchant":0,"x":1,"y":2,"size":30}]},
+    {"time_ms":2,"entities":[{"kind":"harvestable","event_code":40,"entity_id":77,"mobile_type_id":574,"type_number":29,"tier":5,"enchant":0,"x":1,"y":2,"size":30}]},
     {"time_ms":3,"entities":[{"kind":"resource_state","event_code":46,"entity_id":77,"size":4,"removed":False}]},
     {"time_ms":4,"entities":[{"kind":"resource_state","event_code":46,"entity_id":88,"size":0,"removed":False}]}
    ]
@@ -30,6 +30,11 @@ class IngestTests(unittest.TestCase):
    self.assertEqual(out["counts"]["state_only_ids"],1)
    self.assertEqual(out["nodes"][0]["entity_id"],77)
    self.assertEqual(out["nodes"][0]["state_timeline"][0]["size"],4)
+   self.assertEqual(out["nodes"][0]["sizes_seen"],[30])
+   catalog=json.loads((d/"research/database/sample-catalog.json").read_text(encoding="utf-8"))
+   catalog_node=next(x for x in catalog["entities"] if x.get("source_entity_id")==77)
+   self.assertEqual([30],catalog_node["event40_amount_values"])
+   self.assertEqual(30,catalog_node["event40_first_observed_amount"])
    self.assertEqual(out["state_only_entities"][0]["entity_id"],88)
  def test_manual_marker_fifo_pairs_multiple_found_targets_without_crossing_metadata(self):
   with tempfile.TemporaryDirectory() as td:
