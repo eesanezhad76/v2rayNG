@@ -30,7 +30,6 @@ import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import org.json.JSONArray
 import org.json.JSONObject
-import com.v2ray.ang.albion.AlbionCaptureMarker
 import com.v2ray.ang.core.CoreServiceManager
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -752,7 +751,8 @@ class AlbionOverlayService : Service() {
             marker.put(key, metadata.opt(key))
         }
         return runCatching {
-            CoreServiceManager.appendAlbionCaptureMarker(AlbionCaptureMarker.build(marker.toString()), now)
+            val result = CoreServiceManager.recordAlbionCaptureMarker(marker.toString())
+            result.startsWith("saved:") || result.startsWith("queued:")
         }.getOrDefault(false)
     }
 
@@ -826,7 +826,8 @@ class AlbionOverlayService : Service() {
                 }
                 put("source", "manual_overlay")
             }.toString()
-            val saved = CoreServiceManager.appendAlbionCaptureMarker(AlbionCaptureMarker.build(json), now)
+            val markerResult = CoreServiceManager.recordAlbionCaptureMarker(json)
+            val saved = markerResult.startsWith("saved:") || markerResult.startsWith("queued:")
             if (saved) repeatPrefs.edit().putLong(repeatKey, now).apply()
             title.text = if (saved) "ALBION • $activity ✓" else "ALBION • $activity !"
             if (!saved) Toast.makeText(this, "Marker not saved. Capture must be running.", Toast.LENGTH_SHORT).show()
