@@ -218,6 +218,8 @@ fun main() {
             val tiers: MutableSet<String> = sortedSetOf(),
             val enchants: MutableSet<String> = sortedSetOf(),
             val coordinates: MutableSet<String> = sortedSetOf(),
+            val event40Amounts: MutableSet<String> = sortedSetOf(),
+            val observedAt: MutableList<Long> = mutableListOf(),
             var first: Long = Long.MAX_VALUE,
             var last: Long = Long.MIN_VALUE,
             var observations: Int = 0
@@ -264,6 +266,8 @@ fun main() {
                     node.observations++
                     node.first = minOf(node.first, t)
                     node.last = maxOf(node.last, t)
+                    node.observedAt += t
+                    field(detail, "amount")?.let { node.event40Amounts += it }
                     field(detail, "mobileType")?.let { node.mobileTypes += it }
                     field(detail, "family")?.let { node.families += it }
                     field(detail, "tier")?.let { node.tiers += it }
@@ -272,7 +276,9 @@ fun main() {
                     if (x != null && y != null) node.coordinates += "$x,$y"
                 }
                 "resource_state" -> {
-                    val value = field(detail, "amount") ?: if (detail.contains("removed=true")) "removed" else "null"
+                    val amount = field(detail, "amount") ?: "null"
+                    val removed = detail.contains("removed=true")
+                    val value = amount + "|removed=" + removed
                     resourceStates.getOrPut(key) { mutableListOf() }.add(t to value)
                 }
                 "static_resource" -> {
@@ -318,14 +324,14 @@ fun main() {
             }
         }
         val nodeCsv = buildString {
-            appendLine("archive,pcap,entity_id,mobile_type_ids,type_numbers,tiers,enchantment_raw_values,coordinates,first_seen_ms,last_seen_ms,observation_count,state_event_count,state_values,identity_scope")
+            appendLine("archive,pcap,entity_id,mobile_type_ids,type_numbers,tiers,enchantment_raw_values,coordinates,event40_amount_values,first_seen_ms,last_seen_ms,observation_count,state_event_count,state_values,identity_scope")
             for ((key, node) in nodes.toSortedMap()) {
                 val states = resourceStates[key].orEmpty().sortedBy { it.first }
                 val values = listOf(node.archive, node.pcap, node.id,
                     node.mobileTypes.joinToString("|"), node.families.joinToString("|"),
                     node.tiers.joinToString("|"), node.enchants.joinToString("|"),
-                    node.coordinates.joinToString("|"), node.first.toString(), node.last.toString(),
-                    node.observations.toString(), states.size.toString(),
+                    node.coordinates.joinToString("|"), node.event40Amounts.joinToString("|"),
+                    node.first.toString(), node.last.toString(), node.observations.toString(), states.size.toString(),
                     states.joinToString(">") { it.second }, "archive+pcap+runtime_entity_id")
                 appendLine(values.joinToString(",") { csvCell(it) })
             }
@@ -430,6 +436,33 @@ fun main() {
         val unmatchedFoundMarkers = pendingMarkers.values.sumOf { it.size }
         markerSamples += pendingMarkers.values.flatten()
 
+        fun stateAmount(value: String): Int? = value.substringBefore("|").toIntOrNull()
+        fun stateRemoved(value: String): Boolean =
+            value.substringAfter("removed=", "false").equals("true", ignoreCase = true)
+
+        fun hasActiveResourceEvidence(
+            node: NodeAgg, sample: OverlayMiningSample, windowStart: Long, windowEnd: Long
+        ): Boolean {
+            val states = resourceStates[scopedKey(node.archive, node.pcap, node.id)].orEmpty().sortedBy { it.first }
+            val referenceMs = sample.startedMs ?: sample.foundMs
+            val before = states.lastOrNull { it.first <= referenceMs }
+            val later = states.filter { it.first > referenceMs && it.first <= windowEnd }
+            val beforeDepleted = before?.let {
+                stateRemoved(it.second) || (stateAmount(it.second)?.let { amount -> amount <= 0 } == true)
+            } == true
+            val positiveBefore = before?.let {
+                !stateRemoved(it.second) && (stateAmount(it.second)?.let { amount -> amount > 0 } == true)
+            } == true
+            val positiveLater = later.any {
+                !stateRemoved(it.second) && (stateAmount(it.second)?.let { amount -> amount > 0 } == true)
+            }
+            val event40InWindow = node.observedAt.any { it in windowStart..windowEnd }
+            val event40AfterDepletion = beforeDepleted && before != null &&
+                node.observedAt.any { it > before.first && it in windowStart..windowEnd }
+            if (beforeDepleted && !positiveLater && !event40AfterDepletion) return false
+            return event40InWindow || positiveBefore || positiveLater
+        }
+
         val markerCsv = buildString {
             appendLine("archive,pcap,timestamp_ms,activity,event,tier_label,enchantment_label")
             for ((archive, pcap, detail) in markerDetails) {
@@ -448,7 +481,7 @@ fun main() {
         )
         val familyEvidence = linkedMapOf<String, FamilyEvidence>()
         val correlationCsv = buildString {
-            appendLine("archive,pcap,activity,found_ms,started_ms,completed_ms,depleted_ms,tier_label,enchantment_label,candidate_node_count,candidate_families,candidate_entity_ids,candidate_evidence_details,match_status")
+            appendLine("archive,pcap,activity,found_ms,started_ms,completed_ms,depleted_ms,tier_label,enchantment_label,candidate_node_count,candidate_families,candidate_entity_ids,candidate_evidence_details,inactive_candidate_count,inactive_candidate_entity_ids,match_status")
             for (sample in markerSamples) {
                 val tierNumber = sample.tierLabel?.removePrefix("T")?.toIntOrNull()
                 val enchantNumber = when (sample.enchantLabel?.uppercase()?.replace(" ", "")) {
@@ -470,11 +503,17 @@ fun main() {
                     "Ore" -> "29"
                     else -> null
                 }
-                val temporalResourceCandidates = if (!isResourceActivity) emptyList() else nodes.values.filter { node ->
+                val allTemporalResourceCandidates = if (!isResourceActivity) emptyList() else nodes.values.filter { node ->
                     node.archive == sample.archive && node.pcap == sample.pcap &&
                         node.first <= windowEnd && node.last >= windowStart &&
                         (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
                         (enchantNumber == null || node.enchants.contains(enchantNumber))
+                }
+                val temporalResourceCandidates = allTemporalResourceCandidates.filter { node ->
+                    hasActiveResourceEvidence(node, sample, windowStart, windowEnd)
+                }
+                val inactiveResourceCandidates = allTemporalResourceCandidates.filterNot { node ->
+                    hasActiveResourceEvidence(node, sample, windowStart, windowEnd)
                 }
                 val resourceCandidates = if (expectedResourceFamily == null) temporalResourceCandidates
                     else temporalResourceCandidates.filter { it.families.contains(expectedResourceFamily) }
@@ -505,6 +544,7 @@ fun main() {
                     isMobActivity && mobCandidates.isEmpty() -> "no_event123_mob_candidates"
                     isMobActivity && mobCandidates.size == 1 -> "single_event123_mob_candidate_only"
                     isMobActivity -> "ambiguous_event123_mob_candidates"
+                    isResourceActivity && temporalResourceCandidates.isEmpty() && inactiveResourceCandidates.isNotEmpty() -> "only_depleted_or_inactive_candidates"
                     resourceCandidates.isEmpty() && temporalResourceCandidates.isNotEmpty() -> "unverified_family_candidates"
                     resourceCandidates.isEmpty() -> "no_candidates"
                     tierNumber == null || enchantNumber == null -> "incomplete_overlay_labels"
@@ -547,7 +587,8 @@ fun main() {
                     sample.tierLabel ?: "", sample.enchantLabel ?: "", candidateCount.toString(),
                     familyCounts.entries.sortedBy { it.key }.joinToString("|") { it.key + ":" + it.value },
                     (if (isMobActivity) mobCandidates.map { it.id } else reportedResourceCandidates.map { it.id }).joinToString("|"),
-                    candidateDetails, status).joinToString(",") { csvCell(it) })
+                    candidateDetails, inactiveResourceCandidates.size.toString(),
+                    inactiveResourceCandidates.map { it.id }.joinToString("|"), status).joinToString(",") { csvCell(it) })
             }
         }
         File(out, "2026-11-02-overlay-family-correlation.csv").writeText(correlationCsv, Charsets.UTF_8)
@@ -596,7 +637,8 @@ fun main() {
                     .filter { node -> node.archive == sample.archive && node.pcap == sample.pcap &&
                         node.first <= windowEnd && node.last >= windowStart &&
                         (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
-                        (enchantNumber == null || node.enchants.contains(enchantNumber)) }
+                        (enchantNumber == null || node.enchants.contains(enchantNumber)) &&
+                        hasActiveResourceEvidence(node, sample, windowStart, windowEnd) }
                     .flatMap { node ->
                         node.coordinates.asSequence().mapNotNull coordinateLoop@ { coordinate ->
                             val pair = coordinate.split(",")
