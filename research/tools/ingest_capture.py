@@ -75,7 +75,14 @@ def pair_manual_markers(markers):
      cycle=queue["completed"].popleft();compare_metadata(cycle,marker,event);cycle["depleted_ms"]=timestamp;cycle["status"]="COMPLETE" if not cycle["metadata_conflicts"] else "COMPLETE_WITH_METADATA_CONFLICT";lifecycles.append(cycle)
     else: unmatched.append({"activity":activity,"event":event,"timestamp_ms":timestamp,"reason":"depletion_without_completion"})
   elif activity in {"Mob","Mobs","Troll"} and event=="target_found":
-   mob_pending[activity].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":None,"completed_ms":None,"depleted_ms":None,"metadata_conflicts":[]})
+   # A later START supersedes an unclosed target; retain the old marker as an orphan.
+   while mob_pending[activity]:
+    stale=mob_pending[activity].popleft()
+    stale["status"]="TARGET_FOUND_SUPERSEDED_NOT_KILLED"
+    stale["superseded_by_ms"]=timestamp
+    lifecycles.append(stale)
+    unmatched.append({"activity":activity,"event":"target_found","timestamp_ms":stale["found_ms"],"reason":"superseded_by_new_target_found","superseded_by_ms":timestamp})
+   mob_pending[activity].append({"activity":activity,"tier":marker.get("tier"),"enchantment":marker.get("enchantment"),"found_ms":timestamp,"started_ms":None,"completed_ms":None,"depleted_ms":None,"superseded_by_ms":None,"metadata_conflicts":[]})
   elif activity in {"Mob","Mobs","Troll"} and event=="mob_killed":
    if mob_pending[activity]:
     cycle=mob_pending[activity].popleft();cycle["mob_killed_ms"]=timestamp;cycle["status"]="TARGET_FOUND_TO_KILLED";lifecycles.append(cycle)
