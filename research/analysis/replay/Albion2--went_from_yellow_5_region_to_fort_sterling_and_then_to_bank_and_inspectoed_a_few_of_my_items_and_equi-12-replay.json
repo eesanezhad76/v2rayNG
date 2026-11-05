@@ -79,7 +79,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "2a6359c576f8a797ff92e224db8fc281c5f39a65df2adbbf98b651f58c633683",
   "ip_packets": 10828,
-  "fingerprint": "95e563b69845313b94639e7f4f6d0b23a71edeca108892fc25b26e4277af5b06",
+  "fingerprint": "888fc5bf46fc435f8c5d6beff394c9899e9a8fc30163e6892551d30550fec1f0",
   "malformed_protocol18_messages": 3,
   "operation_requests": {
     "22": 62,

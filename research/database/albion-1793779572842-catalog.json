@@ -22,6 +22,10 @@
       "first_seen_ms": 1793779757186,
       "last_seen_ms": 1793779757186,
       "observations": 2,
+      "event40_amount_values": [
+        3
+      ],
+      "event40_first_observed_amount": 3,
       "state_timeline": [],
       "depleted": false,
       "classification": "unclassified_resource_candidate",
@@ -42,6 +46,10 @@
       "first_seen_ms": 1793779687918,
       "last_seen_ms": 1793779724145,
       "observations": 6,
+      "event40_amount_values": [
+        3
+      ],
+      "event40_first_observed_amount": 3,
       "state_timeline": [],
       "depleted": false,
       "classification": "unclassified_resource_candidate",
@@ -62,6 +70,10 @@
       "first_seen_ms": 1793779735395,
       "last_seen_ms": 1793779735395,
       "observations": 2,
+      "event40_amount_values": [
+        3
+      ],
+      "event40_first_observed_amount": 3,
       "state_timeline": [],
       "depleted": false,
       "classification": "unclassified_resource_candidate",
@@ -82,6 +94,10 @@
       "first_seen_ms": 1793779745343,
       "last_seen_ms": 1793779745343,
       "observations": 2,
+      "event40_amount_values": [
+        0
+      ],
+      "event40_first_observed_amount": 0,
       "state_timeline": [],
       "depleted": false,
       "classification": "unclassified_resource_candidate",

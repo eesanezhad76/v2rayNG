@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "algorithm": "sha256",
+  "chunk_size_bytes": 47185920,
+  "threshold_bytes": 52428800,
+  "sources": [
+    {
+      "source_path": "research/analysis/2026-11-02-all-inbox-observations.jsonl",
+      "bytes": 146401898,
+      "sha256": "f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883",
+      "shard_directory": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883",
+      "parts": [
+        {
+          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0001.bin",
+          "bytes": 47185920,
+          "sha256": "5e2efa4c2ac2f3e60cbcf54af64c5ca7518f0180b081d6cdc86422aa9899807e"
+        },
+        {
+          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0002.bin",
+          "bytes": 47185920,
+          "sha256": "809f9306ae729cc92faee93ad0afc5d9a6d3fb54b2d5ff1b850e3ea7bb9dbc53"
+        },
+        {
+          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0003.bin",
+          "bytes": 47185920,
+          "sha256": "8a7d4164633979de2ec701339cb7803b246338ff47ec03482398c703598dda2d"
+        },
+        {
+          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0004.bin",
+          "bytes": 4844138,
+          "sha256": "e3fe6e6b043a40521670d6f0710a80d640358aebe69a8ee3fbcb87971e7e50f6"
+        }
+      ]
+    },
+    {
+      "source_path": "research/analysis/2026-11-02-all-inbox-pcap-analysis.md",
+      "bytes": 85533258,
+      "sha256": "915d2c1cc679da6ec0380b30c1f3784e774affa8a31afbe53b48f32ae701194b",
+      "shard_directory": "research/analysis/derived-shards/915d2c1cc679da6ec0380b30c1f3784e774affa8a31afbe53b48f32ae701194b",
+      "parts": [
+        {
+          "path": "research/analysis/derived-shards/915d2c1cc679da6ec0380b30c1f3784e774affa8a31afbe53b48f32ae701194b/part-0001.bin",
+          "bytes": 47185920,
+          "sha256": "439d9b41fcea823c3c8df470a2020eaf76355ecf22b283ce0afd6a23db58d9ce"
+        },
+        {
+          "path": "research/analysis/derived-shards/915d2c1cc679da6ec0380b30c1f3784e774affa8a31afbe53b48f32ae701194b/part-0002.bin",
+          "bytes": 38347338,
+          "sha256": "f8620d0fc5ba37872061274f56d33f2ea37e28c54f2ef133372241b23a132858"
+        }
+      ]
+    },
+    {
+      "source_path": "research/database/2026-11-02-all-inbox-observations.jsonl",
+      "bytes": 146401898,
+      "sha256": "f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883",
+      "shard_directory": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883",
+      "parts": [
+        {
+          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0001.bin",
+          "bytes": 47185920,
+          "sha256": "5e2efa4c2ac2f3e60cbcf54af64c5ca7518f0180b081d6cdc86422aa9899807e"
+        },
+        {
+          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0002.bin",
+          "bytes": 47185920,
+          "sha256": "809f9306ae729cc92faee93ad0afc5d9a6d3fb54b2d5ff1b850e3ea7bb9dbc53"
+        },
+        {
+          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0003.bin",
+          "bytes": 47185920,
+          "sha256": "8a7d4164633979de2ec701339cb7803b246338ff47ec03482398c703598dda2d"
+        },
+        {
+          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0004.bin",
+          "bytes": 4844138,
+          "sha256": "e3fe6e6b043a40521670d6f0710a80d640358aebe69a8ee3fbcb87971e7e50f6"
+        }
+      ]
+    }
+  ]
+}

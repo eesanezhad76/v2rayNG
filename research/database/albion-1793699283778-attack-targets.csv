@@ -1,0 +1,2 @@
+entity_id,mobile_type_id,name,x,y,first_attack_ms,last_attack_ms,attack_action_count,health_observations,last_current_health,leave_after_last_attack,interpretation
+345823,574,Ore Elemental,-124.60362243652344,126.13055419921875,1793699738020,1793699745822,12,25,1245,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed

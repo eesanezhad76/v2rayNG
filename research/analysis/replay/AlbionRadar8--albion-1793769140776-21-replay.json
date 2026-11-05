@@ -152,7 +152,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "5ffe539391f67913144f6bdb5c1e786f7e24afb4e2e5d328f9f6175ecf67fb5a",
   "ip_packets": 112767,
-  "fingerprint": "46d14e22cf2055260fc535e545b9b428a452f31f94c429954c0166badd671aaa",
+  "fingerprint": "6c260c8ddd5c9bc40f9e221d81b63dd051ffa0199c7dd349c50bfeda15b2f4bf",
   "malformed_protocol18_messages": 5,
   "operation_requests": {
     "22": 16474,

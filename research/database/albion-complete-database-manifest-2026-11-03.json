@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-05T11:22:35.198933+00:00",
+  "generated_at_utc": "2026-11-05T12:39:53.585924+00:00",
   "branch": "albion-pattern-mining",
   "source_archives": [
     {
@@ -126,7 +126,7 @@
     {
       "archive": "archiveNew-extracted.zip",
       "bytes": 797747472,
-      "sha256": "de54f0ee0e96cfbffd1f7d7c7430229ed35f6e2e724ba3f5ea9d5bd7be0ff69f",
+      "sha256": "3a9e0cb8e1541a87173833817b542365d0eb376995cd171e487444f049807144",
       "members": 9,
       "pcaps": 4,
       "jsonl": 4,
@@ -164,7 +164,7 @@
     "byte_identical_duplicate_pcaps": 1,
     "pcap_analyzer_errors": 0,
     "jsonl_members": 20,
-    "normalized_observations": 761061,
+    "normalized_observations": 761082,
     "own_player_move_observations": 81881
   },
   "resource_nodes": {
@@ -570,7 +570,7 @@
         "pcap": "went from yellow 5 region to fort sterling, and then to bank and inspectoed a few of my items and equipmentz.pcap",
         "status": "NOT_VERIFIED",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 2420,
+        "replay_observation_rows": 2423,
         "player_position_samples": 62,
         "typed_resource_nodes": 0,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -624,7 +624,7 @@
         "pcap": "albion-1793699283778.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 35161,
+        "replay_observation_rows": 35162,
         "player_position_samples": 3942,
         "typed_resource_nodes": 19,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -652,7 +652,7 @@
         "pcap": "albion-1793712506879.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 36839,
+        "replay_observation_rows": 36840,
         "player_position_samples": 4626,
         "typed_resource_nodes": 30,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -734,7 +734,7 @@
         "pcap": "albion-1793718384341.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 88163,
+        "replay_observation_rows": 88165,
         "player_position_samples": 9703,
         "typed_resource_nodes": 93,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -762,7 +762,7 @@
         "pcap": "albion-1793769140776.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 181376,
+        "replay_observation_rows": 181380,
         "player_position_samples": 16474,
         "typed_resource_nodes": 75,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -992,7 +992,7 @@
         "pcap": "albion-1793779572842.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 10989,
+        "replay_observation_rows": 10991,
         "player_position_samples": 1079,
         "typed_resource_nodes": 4,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -1020,7 +1020,7 @@
         "pcap": "albion-1793782308821.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 198814,
+        "replay_observation_rows": 198817,
         "player_position_samples": 24486,
         "typed_resource_nodes": 136,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -1048,7 +1048,7 @@
         "pcap": "albion-1793786223835.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 9291,
+        "replay_observation_rows": 9292,
         "player_position_samples": 1090,
         "typed_resource_nodes": 15,
         "resource_entity_ids_with_coordinate_conflicts": [],
@@ -1076,7 +1076,7 @@
         "pcap": "albion-1793789871115.pcap",
         "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
         "evidence_grade": "same_capture_time_aligned_spatial_heuristic_only",
-        "replay_observation_rows": 142321,
+        "replay_observation_rows": 142325,
         "player_position_samples": 15431,
         "typed_resource_nodes": 170,
         "resource_entity_ids_with_coordinate_conflicts": [
@@ -1108,13 +1108,13 @@
   "tables": [
     {
       "path": "research/database/2026-11-02-all-inbox-observations.jsonl",
-      "bytes": 146361038,
-      "sha256": "c721ca5c4480fb83bd827843c57c85e1b110f1de7bb892cc0a480d7b89a4e061"
+      "bytes": 146401898,
+      "sha256": "f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883"
     },
     {
       "path": "research/database/2026-11-02-pcap-harvestable-nodes.csv",
-      "bytes": 112817,
-      "sha256": "d8312828887726c6ff91934b78f19cb255399bcd0f3389f2d887217c0836bec2"
+      "bytes": 124984,
+      "sha256": "cc5a0dda7552b6d7202a4967c3d9d70fc5362d7598c099a705d779f25b50188e"
     },
     {
       "path": "research/database/2026-11-02-pcap-mob-lifecycle.csv",
@@ -1143,8 +1143,8 @@
     },
     {
       "path": "research/database/2026-11-02-pcap-resource-state-timelines.csv",
-      "bytes": 68788,
-      "sha256": "d80880fcc70f02d3cab4cfd42f4db629b28f9b41760bd004ad72512702b4f767"
+      "bytes": 89634,
+      "sha256": "05fea0145a1fa117e7bf5d79b7249622225253217dc7cbb0f72c24a0adbd9905"
     },
     {
       "path": "research/database/2026-11-02-pcap-health-energy-events.csv",

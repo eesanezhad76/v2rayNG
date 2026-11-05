@@ -7,7 +7,7 @@ Consolidated index for all original ZIP archives. Raw ZIPs remain unchanged in r
 - PCAP members: **35**; unique PCAP hashes: **34**; byte-identical duplicates: **1**
 - PCAP analyzer errors: **0**
 - JSONL members: **20**
-- Normalized observations: **761,061**; own-player Move(22) observations: **81,881**
+- Normalized observations: **761,082**; own-player Move(22) observations: **81,881**
 
 ## Resource nodes and static resources
 - Event 40 harvestable-node records: **649**

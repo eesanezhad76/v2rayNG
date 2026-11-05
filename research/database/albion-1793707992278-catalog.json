@@ -22,6 +22,10 @@
       "first_seen_ms": 1793708307391,
       "last_seen_ms": 1793708307520,
       "observations": 4,
+      "event40_amount_values": [
+        2
+      ],
+      "event40_first_observed_amount": 2,
       "state_timeline": [],
       "depleted": false,
       "classification": "unclassified_resource_candidate",
@@ -42,6 +46,10 @@
       "first_seen_ms": 1793708295760,
       "last_seen_ms": 1793708296070,
       "observations": 4,
+      "event40_amount_values": [
+        2
+      ],
+      "event40_first_observed_amount": 2,
       "state_timeline": [
         {
           "time_ms": 1793708298320,
@@ -73,6 +81,11 @@
       "first_seen_ms": 1793708150705,
       "last_seen_ms": 1793708189464,
       "observations": 4,
+      "event40_amount_values": [
+        3,
+        0
+      ],
+      "event40_first_observed_amount": 3,
       "state_timeline": [],
       "depleted": false,
       "classification": "unclassified_resource_candidate",
@@ -93,6 +106,10 @@
       "first_seen_ms": 1793708301332,
       "last_seen_ms": 1793708369938,
       "observations": 6,
+      "event40_amount_values": [
+        5
+      ],
+      "event40_first_observed_amount": 5,
       "state_timeline": [],
       "depleted": false,
       "classification": "unclassified_resource_candidate",
@@ -113,6 +130,10 @@
       "first_seen_ms": 1793708304442,
       "last_seen_ms": 1793708366862,
       "observations": 6,
+      "event40_amount_values": [
+        5
+      ],
+      "event40_first_observed_amount": 5,
       "state_timeline": [
         {
           "time_ms": 1793708416124,
@@ -144,6 +165,10 @@
       "first_seen_ms": 1793708200560,
       "last_seen_ms": 1793708231215,
       "observations": 4,
+      "event40_amount_values": [
+        3
+      ],
+      "event40_first_observed_amount": 3,
       "state_timeline": [],
       "depleted": false,
       "classification": "unclassified_resource_candidate",
@@ -164,6 +189,10 @@
       "first_seen_ms": 1793708304442,
       "last_seen_ms": 1793708304442,
       "observations": 2,
+      "event40_amount_values": [
+        3
+      ],
+      "event40_first_observed_amount": 3,
       "state_timeline": [],
       "depleted": false,
       "classification": "unclassified_resource_candidate",
@@ -184,6 +213,10 @@
       "first_seen_ms": 1793708305539,
       "last_seen_ms": 1793708305539,
       "observations": 2,
+      "event40_amount_values": [
+        1
+      ],
+      "event40_first_observed_amount": 1,
       "state_timeline": [
         {
           "time_ms": 1793708308812,
@@ -215,6 +248,10 @@
       "first_seen_ms": 1793708302583,
       "last_seen_ms": 1793708302583,
       "observations": 2,
+      "event40_amount_values": [
+        1
+      ],
+      "event40_first_observed_amount": 1,
       "state_timeline": [
         {
           "time_ms": 1793708409809,
@@ -256,6 +293,11 @@
       "first_seen_ms": 1793708302583,
       "last_seen_ms": 1793708365689,
       "observations": 6,
+      "event40_amount_values": [
+        2,
+        0
+      ],
+      "event40_first_observed_amount": 2,
       "state_timeline": [
         {
           "time_ms": 1793708313759,
@@ -307,6 +349,10 @@
       "first_seen_ms": 1793708144898,
       "last_seen_ms": 1793708144898,
       "observations": 2,
+      "event40_amount_values": [
+        0
+      ],
+      "event40_first_observed_amount": 0,
       "state_timeline": [
         {
           "time_ms": 1793708180447,
@@ -338,6 +384,10 @@
       "first_seen_ms": 1793708144876,
       "last_seen_ms": 1793708144876,
       "observations": 2,
+      "event40_amount_values": [
+        0
+      ],
+      "event40_first_observed_amount": 0,
       "state_timeline": [],
       "depleted": false,
       "classification": "unclassified_resource_candidate",

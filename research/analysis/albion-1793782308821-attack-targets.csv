@@ -1,0 +1,7 @@
+entity_id,mobile_type_id,name,x,y,first_attack_ms,last_attack_ms,attack_action_count,health_observations,last_current_health,leave_after_last_attack,interpretation
+450416,572,Critter Ore Mountain Green,-42.69044876098633,167.1686553955078,1793783345039,1793783352490,11,20,3,True,health_at_or_below_5_then_leave_after_attack_strong_defeat_candidate
+460757,572,Critter Ore Mountain Green,20.25605583190918,-248.64962768554688,1793782649106,1793782658773,19,28,12,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+462227,572,Critter Ore Mountain Green,-38.009925842285156,165.49179077148438,1793783353742,1793783362490,9,18,40,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+464334,572,Critter Ore Mountain Green,-46.02461624145508,167.23724365234375,1793784092497,1793784092911,2,14,59,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+467147,572,Critter Ore Mountain Green,-37.42473220825195,166.33648681640625,1793784081592,1793784089751,10,21,19,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+870824,574,Ore Elemental,-236.05569458007812,116.6028060913086,1793784844290,1793784853470,11,25,16,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
