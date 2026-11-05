@@ -55,6 +55,14 @@ jobs:
             echo "ARCHIVE_MODE=concatenated-split"
           fi
           find research/inbox/archiveNew-extracted -type f -printf '%P %s bytes\\n' | sort
+      - name: Package extracted test captures for the existing forensic pipeline
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -n "$(find research/inbox/archiveNew-extracted -type f -name '*.pcap' -print -quit)"
+          test -n "$(find research/inbox/archiveNew-extracted -type f -name '*.jsonl' -print -quit)"
+          (cd research/inbox/archiveNew-extracted && zip -0 -q -r ../archiveNew-extracted.zip .)
+          unzip -l research/inbox/archiveNew-extracted.zip
       - name: Forensic ZIP inventory and test-note extraction
         shell: bash
         run: |
