@@ -616,17 +616,18 @@ fun main() {
 
         // Rank compatible Ore candidates by proximity to the nearest valid player position.
         // This is spatial evidence only and does not prove entity identity.
-        data class PlayerPosition(val t: Long, val x: Double, val y: Double, val source: String)
+        data class PlayerPosition(val regionId: String?, val t: Long, val x: Double, val y: Double, val source: String)
         val playerPositions = allDetails.mapNotNull { (archive, pcap, detail) ->
             if (field(detail, "kind") != "own_player_move") return@mapNotNull null
             val t = field(detail, "t")?.toLongOrNull() ?: return@mapNotNull null
             val x = field(detail, "x")?.toDoubleOrNull() ?: return@mapNotNull null
             val y = field(detail, "y")?.toDoubleOrNull() ?: return@mapNotNull null
             if (!x.isFinite() || !y.isFinite() || kotlin.math.abs(x) > 10000.0 || kotlin.math.abs(y) > 10000.0) return@mapNotNull null
-            Triple(archive, pcap, PlayerPosition(t, x, y, field(detail, "source") ?: "unknown"))
-        }.groupBy { it.first + "::" + it.second }
+            val regionId = regionAt(archive, pcap, t)
+            Triple(archive, pcap, regionId to PlayerPosition(regionId, t, x, y, field(detail, "source") ?: "unknown"))
+        }.groupBy { it.first + "::" + it.second + "::" + (it.third.first ?: "<unknown-region>") }
         val spatialCsv = buildString {
-            appendLine("archive,pcap,activity,found_ms,reference_ms,player_position_ms,player_position_gap_ms,player_x,player_y,player_position_source,candidate_rank,entity_id,family,tier,enchantment,mobile_type,ore_x,ore_y,distance_game_units,spatial_evidence")
+            appendLine("archive,pcap,region_id,activity,found_ms,reference_ms,player_position_ms,player_position_gap_ms,player_x,player_y,player_position_source,candidate_rank,entity_id,family,tier,enchantment,mobile_type,ore_x,ore_y,distance_game_units,spatial_evidence")
             for (sample in markerSamples) {
                 val referenceMs = sample.startedMs ?: sample.foundMs
                 if (sample.activity !in setOf("Ore", "Wood", "Stone", "Fiber", "Hide")) {
@@ -635,8 +636,8 @@ fun main() {
                         "not_a_resource_spatial_candidate").joinToString(",") { csvCell(it) })
                     continue
                 }
-                val scoped = sample.archive + "::" + sample.pcap
-                val nearestPlayer = playerPositions[scoped].orEmpty().map { it.third }
+                val scoped = sample.archive + "::" + sample.pcap + "::" + (sample.regionId ?: "<unknown-region>")
+                val nearestPlayer = playerPositions[scoped].orEmpty().map { it.third.second }
                     .minByOrNull { kotlin.math.abs(it.t - referenceMs) }
                     ?.takeIf { kotlin.math.abs(it.t - referenceMs) <= 5000L }
                 if (nearestPlayer == null) {
