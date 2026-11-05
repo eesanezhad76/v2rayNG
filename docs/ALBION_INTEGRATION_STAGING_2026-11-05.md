@@ -1391,5 +1391,10 @@ This proves the entity's state lifecycle, not its resource family or harvestable
   - Spatial Intelligence: `f6b531abff2e89399f139e669e20c4ea873f1bb3`
   - Spatial tests: `7a0dfd22f61ce3fade03cb2fa8e7464de61e24ae`
   - Staging register: `0d70a15ac14c13caeb7d198678fbe01fa404bab3`
-- Resulting commit and new blob SHAs are recorded after commit creation below.
+- Resulting commit SHA: `ac2ebc8b96de9224aa5766e1cf8a902887b5190a`
+- Resulting Mini Radar blob SHA: `552eaeb950b7d9b21efd017eec5cb945e4a8f390`
+- Resulting Spatial Intelligence blob SHA: `2c9d8a9250e9e4df0ff3ac7ac34cf03514f6bc91`
+- Resulting spatial test blob SHA: `f2415e3edefc33ad0478ff018de5c54ddbdbc857`
+- Resulting register blob SHA: `c0ba183d37a698174d819063a95bf9d8b8bdd297`
+- Triggered full CI run: `42096841482`, head `ac2ebc8b96de9224aa5766e1cf8a902887b5190a` (queued at register update).
 - No other path was included in this commit.
