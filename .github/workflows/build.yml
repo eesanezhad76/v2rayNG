@@ -27,6 +27,7 @@ on:
       - 'research/database/**'
       - 'research/analysis/**'
       - 'research/pcap-analyzer/**'
+      - 'docs/**'
       - 'research/tools/**'
       - 'research/tests/**'
       - '.github/workflows/albion-capture-ingest.yml'

@@ -82,8 +82,17 @@ class AlbionPipelineSelfTest {
         assertTrue(beforeRows.any { it.optString("entity_id") == "-1" && it.optString("last_kind") == "own_player_move" })
         assertTrue(beforeRows.any { it.optString("entity_id") == "77" && it.optString("last_kind") == "player_move" })
 
-        val depleted = AlbionEntityEventMapper.map(event(46, mapOf(0 to 777L)))
-        store.observe(now + 10L, depleted)
+        // Missing remaining amount is unknown, not evidence that the node is depleted.
+        val missingAmount = AlbionEntityEventMapper.map(event(46, mapOf(0 to 777L)))
+        store.observe(now + 5L, missingAmount)
+        val unknownRows = records(JSONArray(store.snapshotJson()))
+        val unknownResource = unknownRows.single { it.optString("entity_id") == "777" }
+        assertEquals("resource_state", unknownResource.optString("last_kind"))
+        assertTrue(!unknownResource.optBoolean("depleted"))
+
+        // An explicit zero remaining amount is sufficient to confirm depletion.
+        val explicitZero = AlbionEntityEventMapper.map(event(46, mapOf(0 to 777L, 1 to 0)))
+        store.observe(now + 10L, explicitZero)
         val afterRows = records(JSONArray(store.snapshotJson()))
         val afterResource = afterRows.single { it.optString("entity_id") == "777" }
         assertEquals("resource_state", afterResource.optString("last_kind"))

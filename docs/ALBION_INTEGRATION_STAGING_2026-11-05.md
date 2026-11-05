@@ -874,6 +874,7 @@ Comparison target:
 
 | Change family | Source evidence | Current Safe Fixes state | Assessment | Required guard before transfer |
 |---|---|---|---|---|
+| Missing Event 46 amount | Source commit 10d3a0a... on audit/detection-engine | Safe Fixes mapped absent amount to depleted=true and removed the entity from knownNonPlayerEntities | High-priority correction; semantically ported to staging | Missing amount remains unknown (size=null, removed=false); explicit zero/negative is required for depletion; mapper and pipeline tests cover both cases |
 | Numeric region ID parsing (Join / ChangeCluster) | Pattern Mining mapper and tests; AlbionEntityEventMapper.kt | accepts String IDs only; rejects unsuccessful operation responses (returnCode != 0) | Candidate — low/medium risk | Preserve Safe Fixes return-code gate and map-local hint reset; convert only validated scalar IDs to trimmed strings; test String/Long/Int, null, blank, failed response |
 | Active-region navigation guard | Pattern commits 3186925..., 4a1e040..., c183b7...; AlbionSpatialIntelligence.kt, AlbionMiniRadarView.kt | active snapshot is isolated, but UI target selection does not explicitly compare each entity's region to current player region | Candidate — high value safety guard | Add exact-match tests for same/different/missing region; when active region unknown, never navigate to a tagged entity; derive current player region only from authoritative player record |
 | Strict Troll marker identity | Pattern commit 965440...; AlbionSpatialIntelligence.kt and spatial tests | label substring or high marker confidence can classify Troll without explicit identity proof | Candidate — high value safety guard | Require exact target/entity link for manual marker classification; preserve Ore Elemental game identity; test stale/ambiguous marker and exact-ID positive cases |
@@ -1251,7 +1252,9 @@ Staged correction:
 - Retain the already-correct Safe Fixes store-side null guard; no store implementation change is required.
 - Add the staging branch to the existing full CI workflow branch filters and branch-specific conditions so the exact staged source/test change is validated by the same regression gates as Safe Fixes.
 
-This is a semantic port of source commit `10d3a0a0...`, not a cherry-pick of its old parent history. The source branch and commit remain untouched. The change is isolated to the staging branch and is not part of PR #12.
+This is a semantic port of source commit `10d3a0a0f6caea55f31ad3d61de4e546b36189a0`, not a cherry-pick of its old parent history. The source branch and commit remain untouched. The change is isolated to the staging branch and is not part of PR #12.
+
+First CI run `42090092939` reached 283 tests and reported one failure in `AlbionPipelineSelfTest.playerMovementResourceSpawnDepletionReachOverlaySnapshotWithExactEntityId` at line 90. The fixture had supplied Event 46 with only the entity ID while expecting depletion. This was an invalid test premise under the corrected evidence contract, not a reason to restore the unsafe mapper behavior. The pipeline test is now split into a missing-amount observation (must remain non-depleted) followed by an explicit zero-amount observation (must become depleted). Python tests passed in that run; APK verification, emulator and PCAP replay were skipped because the unit-test step failed.
 
 ## 40. Change log — Event 46 missing-amount correction
 
@@ -1265,3 +1268,50 @@ This is a semantic port of source commit `10d3a0a0...`, not a cherry-pick of its
   - Staging register: `8bb8a877ead1c6f06d65b12da4d73cf4275d913d`
 - Destination branch: `albion-integration-staging-2026-11-05`
 - Resulting commit and blob SHAs: verify after creating the multi-file commit and updating the branch ref.
+
+
+## 41. Remaining legacy branch disposition — complete cross-branch review
+
+The full 44-branch snapshot is in Section 26. The remaining distinct heads were compared with Safe Integration and with their nearest branch ancestors.
+
+| Branch / group | Exact relationship and unique content | Disposition |
+|---|---|---|
+| `checkpoint/albion-radar-stable-2026-11-04` | ancestor of Safe Integration; no unique paths | preserve as checkpoint; no transfer |
+| `albion-integrity-autosave` | ancestor of Safe Integration; no unique paths | preserve as checkpoint |
+| `albion-radar-fix-2026-11-03` and `albion-radar-phase1-remediation` | ancestors of Safe Integration; no unique paths | already represented in later history |
+| `albion-decoder-lab` and `albion-decoder-radar-rebuild` | exact same head SHA | aliases; preserve both refs |
+| `backup/albion-decoder-lab-before-2.2.6` | base snapshot for the decoder-radar line | preserve as rollback point |
+| `albion-decoder-radar` and `albion-decoder-lab-failed-merge-backup` | backup is one empty commit ahead; both have identical tree content | preserve failed-merge backup; no extra file content to transfer |
+| `backup/albion-capture-e3f95d9` and `backup/albion-radar-2026-10-31` | exact same head SHA; base snapshot for the older radar line | preserve both refs |
+| `albion-radar` | 15 unique commits from e3f95d9; 5 changed files; contains older overlay/activity implementation | its `AlbionLearningEngine.kt` blob is identical to the one in `albion-decoder-radar` and Raw Pattern Discovery; no duplicate engine transfer. Keep old overlay as historical UI prototype |
+| `albion-decoder-radar` | 5 unique commits from f31ba8; 6 changed files; includes old direct marker receiver and compact overlay | predecessor to durable marker queue; preserve, do not copy receiver wholesale |
+| `albion-v2rayng-2.2.6-port` | 13 unique commits from f31ba8; 2 changed files, including ARM64 release workflow and app build configuration | separate release/package line; do not mix private signing/release flow into Albion runtime integration |
+| `albion-zone-forensics` | 4 unique commits from 9ec8807; 5 changed paths | its portal-zone analyzer and test blobs are identical to the newer Zone Forensics Integration line; older workflow and analyzer differ, so no missing core research algorithm was found |
+| `safety/zone-forensics-integration-2026-11-05` | ancestor of `albion-zone-forensics-integration-2026-11-05` by 2 commits | checkpoint only; later branch carries the follow-up analyzer/index tests |
+| `audit/detection-engine-2026-11-04` | one unique commit, `10d3a0a...`, changes mapper, store guard and mapper test | missing-amount safety semantics are now ported to staging; source branch remains untouched |
+| `albion-zone-evidence-phase6`, `safety/integration-after-knowledge`, `safety/integration-after-master`, `safety/master`, `safety/pattern-mining` | ancestor snapshots of later Safe Integration history; no unique paths against the current base | preserve as historical checkpoints, not transfer sources |
+
+Exact raw learning engine identity:
+- `AlbionLearningEngine.kt` blob SHA `b6f13304becac6ea900c3a82b3a7e3ef3db62baf` in `albion-radar`, `albion-decoder-radar`, and `albion-raw-pattern-discovery-2026-11-05`.
+- Overlay/activity implementations differ between those branches. The engine is shared; the UI and marker transport are not interchangeable.
+
+Additional Raw Pattern Discovery safety findings:
+- `AlbionMarkerQueue.pending()` converts malformed SharedPreferences JSON into an empty queue; `acknowledge()` also converts malformed JSON into an empty array and commits it. That can silently erase pending evidence. Preserve corrupt bytes and surface a recoverable error before adoption.
+- The queue's marker ID de-duplication is in-memory inside the capture worker. A process restart after only one sink (PCAP or JSONL) was written can replay the same marker into a new capture file. Add restart/partial-write idempotency tests.
+- `AlbionEventStateTracker` keeps previous snapshots keyed only by event code, not entity identity. Interleaved entities with the same event code can generate cross-entity deltas. Its array diff also uses sets, so duplicates/order changes are not represented. Keep full snapshots as raw unknown-schema evidence; do not promote its deltas to entity or inventory facts until identity-aware grouping and tests exist.
+- `AlbionLearningEngine` selects its candidate UDP port by frequency. This can select a common unrelated service port; keep the result heuristic and out of production decoder rules.
+
+
+## 42. Change log — pipeline fixture correction and remaining branch disposition
+
+- Operation: correct the integration fixture to distinguish missing amount from explicit zero; add docs-only path exclusion; append complete legacy-branch disposition and Raw queue/tracker risk findings.
+- Repository: eesanezhad76/v2rayNG
+- Source branch/commit for semantic rule: audit/detection-engine-2026-11-04 / 10d3a0a0f6caea55f31ad3d61de4e546b36189a0
+- Source file blob SHA before this update:
+  - Pipeline test: 57d10e3b8c37f1c1fdbb3384270f6cf356213edd
+  - Build workflow: 5837737ad3c28a4b8955befa0fded013983609bd
+  - Staging register: 7871a582877f28c3667e9551b0d7d73dd10043cb
+- Destination branch: albion-integration-staging-2026-11-05
+- Previous staged code commit: e1ef6945ae9283ad6eb42e11cc6fe1d1449bbdab
+- Resulting commit and blob SHAs: verify after creating the multi-file commit and updating the branch ref.
+- No original source branch, PR, raw evidence, archive or database file changed.
