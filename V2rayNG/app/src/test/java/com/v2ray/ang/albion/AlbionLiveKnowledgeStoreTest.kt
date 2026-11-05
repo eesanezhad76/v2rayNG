@@ -96,16 +96,25 @@ class AlbionLiveKnowledgeStoreTest {
             kind = "harvestable", eventCode = 40, entityId = 7002L,
             typeId = 574, typeNumber = 29, tier = 6, enchant = 2, size = 2, x = 20f, y = 30f
         )))
-        val rows = org.json.JSONArray(store.snapshotJson())
-        assertTrue(rows.length() == 2, "Expected old depleted node plus new spawn: $rows")
-        val old = (0 until rows.length()).map { rows.getJSONObject(it) }
-            .first { it.optInt("spawn_generation") == 0 }
-        val fresh = (0 until rows.length()).map { rows.getJSONObject(it) }
-            .first { it.optInt("spawn_generation") == 1 }
-        assertTrue(old.optBoolean("depleted"), old.toString())
-        assertTrue(old.optString("superseded_by_record_key") == fresh.optString("record_key"))
+        // The UI snapshot intentionally exposes only the active generation.
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        assertTrue(snapshot.length() == 1, "Expected only the active respawn in the UI snapshot: $snapshot")
+        val fresh = snapshot.getJSONObject(0)
+        assertTrue(fresh.optInt("spawn_generation") == 1, fresh.toString())
         assertTrue(!fresh.optBoolean("depleted"), fresh.toString())
         assertTrue(fresh.optInt("resource_remaining") == 2, fresh.toString())
+
+        // The superseded depleted generation must remain in the durable evidence history.
+        store.flush()
+        val persisted = org.json.JSONArray(File(tempDir, "albion-live-knowledge.json").readText())
+        assertTrue(persisted.length() == 2, "Expected both generations in persistent history: $persisted")
+        val old = (0 until persisted.length()).map { persisted.getJSONObject(it) }
+            .first { it.optInt("spawn_generation") == 0 }
+        val savedFresh = (0 until persisted.length()).map { persisted.getJSONObject(it) }
+            .first { it.optInt("spawn_generation") == 1 }
+        assertTrue(old.optBoolean("depleted"), old.toString())
+        assertTrue(old.optString("superseded_by_record_key") == savedFresh.optString("record_key"))
+        assertTrue(savedFresh.optInt("resource_remaining") == 2, savedFresh.toString())
     }
 
     @Test fun attachesProvenanceAwareResourceMappingsWithoutOverwritingRawPacketFields() {
