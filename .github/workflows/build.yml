@@ -216,12 +216,10 @@ jobs:
         profile: pixel_6
         disable-animations: true
         script: |
-          set -eu
-          APK="V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
-          test -s "$APK"
-          adb install -r "$APK"
-          adb shell pm path com.v2ray.ang.radar
-          adb shell monkey -p com.v2ray.ang.radar -c android.intent.category.LAUNCHER 1
+          test -s "V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
+          timeout 180s adb install -r "V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
+          timeout 30s adb shell pm path com.v2ray.ang.radar
+          timeout 30s adb shell monkey -p com.v2ray.ang.radar -c android.intent.category.LAUNCHER 1
 
     - name: Run offline PCAP replay and audit
       if: success() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics')
