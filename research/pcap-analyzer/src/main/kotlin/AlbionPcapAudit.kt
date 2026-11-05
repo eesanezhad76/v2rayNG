@@ -871,6 +871,21 @@ fun main() {
         File(out, "2026-11-02-overlay-mob-attack-correlation.csv").writeText(mobMarkerCorrelationCsv, Charsets.UTF_8)
 
         val databaseDir = File(repo, "research/database").apply { mkdirs() }
+        // Keep a compact, searchable record of join/change-cluster parameters.
+        // These are candidate region identifiers only; their meaning is not inferred here.
+        val regionTransitionDetails = allDetails.filter { (_, _, detail) ->
+            detail.contains("kind=operation_response op=2 ") ||
+                detail.contains("kind=operation_response op=41 ") ||
+                detail.contains("outbound_request op=2 ")
+        }
+        val regionTransitionCsv = buildString {
+            appendLine("archive,pcap,detail")
+            for ((archive, pcap, detail) in regionTransitionDetails) {
+                appendLine(listOf(archive, pcap, detail).joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-region-transition-evidence.csv").writeText(regionTransitionCsv, Charsets.UTF_8)
+
         val databaseArtifacts = listOf(
             "2026-11-02-all-inbox-observations.jsonl",
             "2026-11-02-own-player-movement-timeline.csv",
@@ -880,7 +895,8 @@ fun main() {
             "2026-11-02-pcap-mob-lifecycle.csv",
             "2026-11-02-pcap-health-energy-events.csv",
             "2026-11-02-pcap-attack-target-tracks.csv",
-            "2026-11-02-overlay-mob-attack-correlation.csv"
+            "2026-11-02-overlay-mob-attack-correlation.csv",
+            "2026-11-02-region-transition-evidence.csv"
         )
         val exportedDatabaseArtifacts = databaseArtifacts.filter { name ->
             val source = File(out, name)
