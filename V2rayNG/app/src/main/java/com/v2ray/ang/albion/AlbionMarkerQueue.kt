@@ -19,28 +19,24 @@ object AlbionMarkerQueue {
     private val lock = Any()
 
     fun enqueue(context: Context, markerJson: String): String? = synchronized(lock) {
-        val marker = try {
-            JSONObject(markerJson)
-        } catch (_: Exception) {
-            return null
-        }
+        val marker = runCatching { JSONObject(markerJson) }.getOrNull() ?: return@synchronized null
         val requestedId = marker.optString("marker_id").takeIf { it.isNotBlank() }
         val id = requestedId ?: UUID.randomUUID().toString()
         marker.put("marker_id", id)
 
-        val prefs = preferences(context) ?: return null
-        val queue = readQueue(prefs) ?: return null
+        val prefs = preferences(context) ?: return@synchronized null
+        val queue = readQueue(prefs) ?: return@synchronized null
         for (i in 0 until queue.length()) {
-            val existing = queue.optJSONObject(i) ?: return null
+            val existing = queue.optJSONObject(i) ?: return@synchronized null
             if (existing.optString("marker_id") == id) {
                 // A retry with the same durable payload is idempotent. Reusing an ID for
                 // different content is rejected rather than silently replacing evidence.
-                return if (existing.toString() == marker.toString()) id else null
+                return@synchronized if (existing.toString() == marker.toString()) id else null
             }
         }
-        if (queue.length() >= CAPACITY) return null
+        if (queue.length() >= CAPACITY) return@synchronized null
         queue.put(marker)
-        if (!writeQueue(prefs, queue)) return null
+        if (!writeQueue(prefs, queue)) return@synchronized null
         id
     }
 
@@ -62,9 +58,9 @@ object AlbionMarkerQueue {
      * A missing ID is an idempotent success; corrupt data is never rewritten.
      */
     fun acknowledge(context: Context, markerId: String): Boolean = synchronized(lock) {
-        if (markerId.isBlank()) return false
-        val prefs = preferences(context) ?: return false
-        val old = readQueue(prefs) ?: return false
+        if (markerId.isBlank()) return@synchronized false
+        val prefs = preferences(context) ?: return@synchronized false
+        val old = readQueue(prefs) ?: return@synchronized false
         val next = JSONArray()
         var found = false
         for (i in 0 until old.length()) {
@@ -75,13 +71,13 @@ object AlbionMarkerQueue {
                 next.put(item)
             }
         }
-        if (!found) return true
+        if (!found) return@synchronized true
         writeQueue(prefs, next)
     }
 
     /** Returns -1 when storage is corrupt or unavailable; never reports corruption as empty. */
     fun count(context: Context): Int = synchronized(lock) {
-        val prefs = preferences(context) ?: return -1
+        val prefs = preferences(context) ?: return@synchronized -1
         readQueue(prefs)?.length() ?: -1
     }
 
@@ -91,20 +87,36 @@ object AlbionMarkerQueue {
         null
     }
 
-    private fun readQueue(prefs: SharedPreferences): JSONArray? = try {
-        if (!prefs.contains(KEY)) return JSONArray()
-        val raw = prefs.getString(KEY, null) ?: return null
-        val array = JSONArray(raw)
-        if (array.length() > CAPACITY) return null
-        val ids = HashSet<String>()
-        for (i in 0 until array.length()) {
-            val item = array.optJSONObject(i) ?: return null
-            val id = item.optString("marker_id").takeIf { it.isNotBlank() } ?: return null
-            if (!ids.add(id)) return null
+    private fun readQueue(prefs: SharedPreferences): JSONArray? {
+        return try {
+            if (!prefs.contains(KEY)) {
+                JSONArray()
+            } else {
+                val raw = prefs.getString(KEY, null)
+                if (raw == null) {
+                    null
+                } else {
+                    val array = JSONArray(raw)
+                    if (array.length() > CAPACITY) {
+                        null
+                    } else {
+                        val ids = HashSet<String>()
+                        var valid = true
+                        for (i in 0 until array.length()) {
+                            val item = array.optJSONObject(i)
+                            val id = item?.optString("marker_id")?.takeIf { it.isNotBlank() }
+                            if (id == null || !ids.add(id)) {
+                                valid = false
+                                break
+                            }
+                        }
+                        if (valid) array else null
+                    }
+                }
+            }
+        } catch (_: Exception) {
+            null
         }
-        array
-    } catch (_: Exception) {
-        null
     }
 
     private fun writeQueue(prefs: SharedPreferences, queue: JSONArray): Boolean = try {
