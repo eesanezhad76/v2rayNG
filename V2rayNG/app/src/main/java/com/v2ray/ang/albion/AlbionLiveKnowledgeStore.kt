@@ -57,7 +57,15 @@ class AlbionLiveKnowledgeStore(
             if (observation.kind == "region_change") {
                 val newRegionId = observation.regionId?.takeIf { it.isNotBlank() }
                 if (newRegionId != null && newRegionId != activeRegionId) {
+                    // A region transition is a hard identity boundary for runtime entity IDs.
+                    // Never carry a selected mob or a pending Troll marker into the next region.
                     activeRegionId = newRegionId
+                    currentTargetEntityId = null
+                    currentTargetSeenMs = 0L
+                    activeTrollMarker = null
+                    activeTrollMarkerStartedMs = 0L
+                    activeTrollTargetId = null
+                    trollMarkerAmbiguous = false
                     snapshotDirty = true
                     runCatching { beginRegionScan(timestampMs, newRegionId) }
                 }
@@ -100,11 +108,14 @@ class AlbionLiveKnowledgeStore(
                             activeTrollTargetId = selectedId
                             records.values.firstOrNull { it.optString("entity_id") == selectedId &&
                                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                                it.optString("region_id", "") == regionKey &&
                                 it.optString("entity_class") == "mob" }?.let {
                                 applyTrollMarker(it, activeMarker, activeTrollMarkerStartedMs)
                             }
                         } else if (activeTrollTargetId != selectedId) {
-                            records.values.firstOrNull { it.optString("entity_id") == activeTrollTargetId }?.let(::clearTrollMarker)
+                            records.values.firstOrNull { it.optString("entity_id") == activeTrollTargetId &&
+                                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                                it.optString("region_id", "") == regionKey }?.let(::clearTrollMarker)
                             activeTrollTargetId = null
                             trollMarkerAmbiguous = true
                         }
@@ -728,9 +739,11 @@ class AlbionLiveKnowledgeStore(
             }
             val targetId = explicitId ?: recentTarget
             if (targetId != null) {
+                val regionKey = activeRegionId ?: ""
                 val record = records.values.firstOrNull {
                     it.optString("entity_id") == targetId &&
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                        it.optString("region_id", "") == regionKey &&
                         it.optString("entity_class") == "mob"
                 }
                 activeTrollTargetId = targetId
@@ -748,6 +761,7 @@ class AlbionLiveKnowledgeStore(
                 if (recentTarget != null) {
                     records.values.firstOrNull { it.optString("entity_id") == recentTarget &&
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                        it.optString("region_id", "") == (activeRegionId ?: "") &&
                         it.optString("entity_class") == "mob" }?.let {
                         activeTrollTargetId = recentTarget
                         applyTrollMarker(it, active, activeTrollMarkerStartedMs)
