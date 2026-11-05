@@ -855,3 +855,67 @@ The actual upload path set is 45 split archive parts (`.001`–`.045`) plus a mo
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No source branch or file changed; no data copied or moved.
 - Resulting commit SHA and blob SHA: record from update response and verify against branch HEAD.
+
+
+## 23. Safe-transfer assessment — semantic review, not merge approval
+
+Comparison target:
+- Safe Fixes: c51481253ff4b5b0bd5bd0223a9e6a2674af680a
+- Pattern Mining: a453c812483f285dcae97d0ad0bc044c0cec11fa
+- Raw Pattern Discovery: c508c2b54eecced896862e401732e2e0ce44ce29
+
+### Candidate transfer matrix
+
+| Change family | Source evidence | Current Safe Fixes state | Assessment | Required guard before transfer |
+|---|---|---|---|---|
+| Numeric region ID parsing (Join / ChangeCluster) | Pattern Mining mapper and tests; AlbionEntityEventMapper.kt | accepts String IDs only; rejects unsuccessful operation responses (returnCode != 0) | Candidate — low/medium risk | Preserve Safe Fixes return-code gate and map-local hint reset; convert only validated scalar IDs to trimmed strings; test String/Long/Int, null, blank, failed response |
+| Active-region navigation guard | Pattern commits 3186925..., 4a1e040..., c183b7...; AlbionSpatialIntelligence.kt, AlbionMiniRadarView.kt | active snapshot is isolated, but UI target selection does not explicitly compare each entity's region to current player region | Candidate — high value safety guard | Add exact-match tests for same/different/missing region; when active region unknown, never navigate to a tagged entity; derive current player region only from authoritative player record |
+| Strict Troll marker identity | Pattern commit 965440...; AlbionSpatialIntelligence.kt and spatial tests | label substring or high marker confidence can classify Troll without explicit identity proof | Candidate — high value safety guard | Require exact target/entity link for manual marker classification; preserve Ore Elemental game identity; test stale/ambiguous marker and exact-ID positive cases |
+| Family + tier resource navigation without mobile TypeID | Pattern branch AlbionSpatialIntelligence.kt and test event40FamilyAndTierAreEnoughToNavigateWhenMobileTypeIdIsUnknown | currently requires mobile_type_id > 0 for typed resources | Candidate — evidence-backed | Allow only Event 40 harvestable/resource_state with valid positive family and tier 1–8; do not make Event 39 candidates navigable; add depletion/conflict/unknown-family guards |
+| Exact target request before mob spawn | Pattern commits ac7b15... and related tests; AlbionLiveKnowledgeStore.kt | currently accepts only candidates matching an already-known mob record | Blocked pending wire-schema proof | Mapper collects integral values from all parameter values; generic numeric fields (including protocol metadata such as key 253 in test fixtures) can pollute candidates. The store's single-candidate fallback can bind the wrong ID. Identify the exact Operation 23 parameter key from raw captures, then test mapper→store end-to-end with unrelated integers and delayed spawn |
+| Region-scoped target / marker / respawn lifecycle | Pattern fixes in AlbionLiveKnowledgeStore.kt and research pipeline | Safe Fixes already scopes runtime IDs and generations by active region and clears pending Troll target/marker on region change | Mostly already covered; compare behavior, do not copy | Verify each exact behavior against Safe Fixes tests; port only demonstrable missing cases |
+| Offline PCAP region-scoped joins and evidence exports | Pattern commits 4244d6..., aaa3f22..., 412354..., etc.; AlbionPcapAudit.kt, ingest_capture.py, enrichment tools | Safe Fixes includes the audited capture pipeline but not all later region-aware analysis rules | Separate research-pipeline batch | Run on immutable raw PCAPs; compare source-archive/PCAP-scoped IDs, row counts and output hashes; never overwrite existing CSVs |
+| Durable marker FIFO and network-handover recovery | Raw commit 3e0c139...; AlbionMarkerQueue.kt, CoreServiceManager.kt, AlbionCaptureWorker.kt | Safe Fixes worker syncs PCAP and JSONL file descriptors before acknowledging a marker, but has no durable queue / event-state tracker | Candidate architecture; not ready to port | Add tests for FIFO ordering, process restart, duplicate ID, partial PCAP/JSONL write, full queue, corrupt preferences, acknowledgement failure and network handover. Current pending() silently treats malformed JSON as an empty queue; this could hide queued data and must be fixed before adoption |
+| Event-state snapshots for unknown Photon schemas | Raw commit 3e0c139...; AlbionEventStateTracker.kt | no equivalent state tracker | Research-only candidate | Preserve raw values and explicit unknown_schema; test bounded arrays/maps, reset between sessions, repeated values, nulls and memory limits; never infer inventory semantics from deltas alone |
+| Raw UDP byte-pattern discovery UI | Raw commit c508c2...; AlbionLearningEngine.kt, AlbionRadarActivity.kt | absent from Safe Fixes | Optional experimental feature | Keep output explicitly heuristic; test PCAP endianness, IPv4/IPv6, fragments, UDP direction and empty/malformed captures. Candidate-port selection currently picks the most frequent observed port and can select a non-Albion service; never use it as a production decoder |
+| Capture analyzer truncation / unknown-schema audit | Raw commit b75011...; analyzer + tests | Safe Fixes has different analyzer changes and return-code handling | Candidate after focused tests | Add tests for short PCAP headers, truncated packet records, captured-length overflow, both packet directions, unknown event counts, and reset across captures; preserve Safe Fixes operation response returnCode==0 logic |
+| Workflow branch gates | Pattern/Raw workflow commits | Safe Fixes CI already passes | Do not copy workflow wholesale | Consolidate branch conditions only after all target branches are decided; avoid another long nested boolean expression and ensure source/data-only commits do not trigger unnecessary APK builds |
+| Historical runtime assets / generated catalogs | Pattern data-ingest commits | Safe Fixes already regenerates selected runtime assets and validates the research index | Do not overwrite | Rebuild deterministically from immutable inputs; compare source hashes, generator version, schema, counts and unresolved labels before promotion |
+
+### Verified test evidence and gaps
+
+Pattern Mining has explicit tests for:
+- Numeric Join / ChangeCluster IDs (Long and Int in addition to strings).
+- Cross-region snapshot isolation and active-region scan.
+- Same-region-only navigation and unknown-region blocking.
+- Strict Troll identity proof and Ore Elemental precedence.
+- Family 32 / T4 Event 40 navigation when mobile TypeID is absent.
+- Target request before and after mob spawn, using a manually constructed single candidate ID.
+
+Important limitation: target-before-spawn tests exercise the store with a pre-filtered candidateEntityIds = listOf(9901L). They do not prove that the live mapper extracts the correct single ID from the real Operation 23 parameter map. The mapper test itself includes additional integer parameters; because the mapper scans all numeric values, this is not sufficient evidence to safely enable the fallback.
+
+Raw Pattern Discovery test coverage is incomplete for its newly introduced components:
+- No test source file was found for AlbionMarkerQueue.
+- No test source file was found for AlbionEventStateTracker.
+- AlbionCaptureAnalyzerTest covers inbound/outbound port-side classification, but not truncated PCAP detection or unknown event schema counting.
+- No test source file was found for AlbionLearningEngine raw UDP candidate discovery.
+
+### Proposed transfer order
+
+1. Port the active-region UI guard and strict Troll identity rule as one small safety batch, with Pattern tests adapted to Safe Fixes APIs.
+2. Port numeric region ID scalar normalization while retaining the Safe Fixes successful-response gate.
+3. Port family+valid-tier navigability for Event 40 only, retaining conflict/depletion safeguards. The Pattern test uses family 32 / T4; the user's previously verified Type 32, T4 node observation is consistent with testing this case, but does not justify generalizing beyond valid typed Event 40 evidence.
+4. Re-evaluate target-before-spawn only after exact Operation 23 wire parameter identification.
+5. Add marker FIFO / event tracker / raw UDP discovery as separate research or reliability PRs only after test coverage and corruption handling.
+6. Regenerate research outputs in a new versioned output directory; compare manifests and row-level deltas before considering promotion.
+
+No source commit was cherry-picked, merged, or copied by this assessment. The transfer plan preserves all original branch histories and file versions.
+
+## 24. Change log — safe-transfer assessment
+
+- Operation: append semantic transfer assessment, test-coverage review, and ordered integration plan.
+- Repository: eesanezhad76/v2rayNG
+- Source document blob SHA: 5fc53a40e5d64084858aad04a8fff9652e00a965
+- Destination branch: albion-integration-staging-2026-11-05
+- No application source, tests, runtime assets, research outputs, raw evidence, or pre-existing branches changed.
+- Resulting commit and new blob SHA: record from update response and verify against branch HEAD.
