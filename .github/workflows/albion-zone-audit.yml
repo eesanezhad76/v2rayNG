@@ -1,0 +1,53 @@
+name: Albion zone forensic audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - albion-zone-forensics
+      - albion-zone-forensics-integration-2026-11-05
+    paths:
+      - '.github/workflows/albion-zone-audit.yml'
+      - 'V2rayNG/app/src/main/java/com/v2ray/ang/albion/AlbionCaptureAnalyzer.kt'
+      - 'V2rayNG/app/src/main/java/com/v2ray/ang/albion/AlbionProtocol18Decoder.kt'
+      - 'research/pcap-analyzer/**'
+      - 'research/tools/analyze_portal_zone_node_matches.py'
+      - 'research/tests/test_portal_zone_node_matches.py'
+      - 'research/inbox/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: albion-zone-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Replay all committed PCAP captures
+        run: V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
+      - name: Cross-match Portal nodes using exact cluster IDs
+        run: python3 research/tools/analyze_portal_zone_node_matches.py
+      - name: Test forensic matching logic
+        run: python3 -m unittest research/tests/test_portal_zone_node_matches.py -v
+      - name: Upload Portal zone forensic evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: portal-zone-forensic-evidence
+          path: |
+            research/analysis/2026-11-04-portal-zone-cross-capture-matches.md
+            research/analysis/2026-11-04-portal-zone-cross-capture-matches.json
+            research/analysis/2026-11-02-all-inbox-pcap-analysis.md
+            research/analysis/*-pcap-report.md
+          if-no-files-found: warn
