@@ -25,6 +25,35 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Reassemble and validate uploaded split 7z archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          parts=(research/inbox/archiveNew.7z.t0.[0-9][0-9][0-9])
+          if [[ "${#parts[@]}" -ne 45 ]]; then
+            echo "Expected 45 archiveNew split parts, found ${#parts[@]}"
+            printf '%s\\n' "${parts[@]}"
+            exit 1
+          fi
+          tmp="$RUNNER_TEMP/albion-archive"
+          mkdir -p "$tmp/volumes" research/inbox/archiveNew-extracted
+          for n in $(seq -w 1 45); do
+            source="research/inbox/archiveNew.7z.t0.$n"
+            test -s "$source"
+            cp "$source" "$tmp/volumes/archiveNew.7z.$n"
+          done
+          sudo apt-get update
+          sudo apt-get install -y p7zip-full
+          if 7z t -bd -y "$tmp/volumes/archiveNew.7z.001"; then
+            7z x -bd -y "$tmp/volumes/archiveNew.7z.001" "-o$PWD/research/inbox/archiveNew-extracted"
+            echo "ARCHIVE_MODE=multi-volume"
+          else
+            cat "${parts[@]}" > "$tmp/archiveNew-concatenated.7z"
+            7z t -bd -y "$tmp/archiveNew-concatenated.7z"
+            7z x -bd -y "$tmp/archiveNew-concatenated.7z" "-o$PWD/research/inbox/archiveNew-extracted"
+            echo "ARCHIVE_MODE=concatenated-split"
+          fi
+          find research/inbox/archiveNew-extracted -type f -printf '%P %s bytes\\n' | sort
       - name: Forensic ZIP inventory and test-note extraction
         shell: bash
         run: |
@@ -36,8 +65,15 @@ jobs:
           set -euo pipefail
           shopt -s nullglob globstar
           zips=(research/inbox/*.zip research/inbox/**/*.zip)
+          if [[ "${#zips[@]}" -eq 0 ]]; then
+            echo "No ZIP archives found after split-archive extraction"
+            exit 1
+          fi
           python research/tools/ingest_capture.py --refresh-existing "${zips[@]}"
           python research/tools/ingest_knowledge_bundle.py --rebuild "${zips[@]}"
+          python research/tools/generate_mobile_type_dictionary.py
+          python research/tools/generate_historical_knowledge_seed.py
+          python research/tools/validate_runtime_knowledge_assets.py
           python -m unittest discover -s research/tests -p 'test_*.py' -v
           chmod +x V2rayNG/gradlew
           V2rayNG/gradlew -p research/pcap-analyzer auditInbox --no-daemon
@@ -48,7 +84,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add research/database research/analysis V2rayNG/app/src/main/assets/albion-static-catalog.json
+          git add research/database research/analysis V2rayNG/app/src/main/assets/albion-static-catalog.json V2rayNG/app/src/main/assets/albion-historical-*.json V2rayNG/app/src/main/assets/albion-mobile-type-dictionary.json
           if git diff --cached --quiet; then echo "No derived changes"; exit 0; fi
           git commit -m "data(albion): ingest uploaded capture evidence"
           # A user may push while this analysis is running. Rebase our derived
