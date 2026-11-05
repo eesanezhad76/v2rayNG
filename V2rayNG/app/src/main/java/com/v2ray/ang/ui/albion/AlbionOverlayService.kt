@@ -827,10 +827,17 @@ class AlbionOverlayService : Service() {
                 put("source", "manual_overlay")
             }.toString()
             val markerResult = CoreServiceManager.recordAlbionCaptureMarker(json)
-            val saved = markerResult.startsWith("saved:") || markerResult.startsWith("queued:")
-            if (saved) repeatPrefs.edit().putLong(repeatKey, now).apply()
-            title.text = if (saved) "ALBION • $activity ✓" else "ALBION • $activity !"
-            if (!saved) Toast.makeText(this, "Marker was not saved or queued. Check capture and queue storage.", Toast.LENGTH_SHORT).show()
+            val durablySaved = markerResult.startsWith("saved:")
+            val queued = markerResult.startsWith("queued:")
+            val accepted = durablySaved || queued
+            if (accepted) repeatPrefs.edit().putLong(repeatKey, now).apply()
+            title.text = when {
+                durablySaved -> "ALBION • $activity ✓"
+                queued -> "ALBION • $activity …"
+                else -> "ALBION • $activity !"
+            }
+            if (queued) Toast.makeText(this, "Marker queued; waiting for the capture writer.", Toast.LENGTH_SHORT).show()
+            if (!accepted) Toast.makeText(this, "Marker was not saved or queued. Check capture and queue storage.", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
             title.text = "ALBION • $activity !"
             Toast.makeText(this, "Marker error: ${e.message ?: "unknown"}", Toast.LENGTH_LONG).show()
