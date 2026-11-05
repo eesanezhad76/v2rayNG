@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Generate observed mobile TypeID display metadata from the audited research index."""
 from __future__ import annotations
+import csv
 import json
 from pathlib import Path
 INDEX = Path("V2rayNG/app/src/main/assets/albion-research-knowledge-index.json")
@@ -86,6 +87,43 @@ def build(root: Path):
         "total_dictionary_entries": len(entries),
     }
     output["entries"] = entries
+    # Keep the audited CSV crosswalk complete as new TypeIDs enter the
+    # selected research corpus. Existing rows are preserved verbatim.
+    crosswalk_path = root / "research/database/albion-mobile-type-crosswalk-2026-11-03.csv"
+    if crosswalk_path.is_file():
+        with crosswalk_path.open("r", encoding="utf-8-sig", newline="") as stream:
+            crosswalk_rows = list(csv.DictReader(stream))
+        existing_ids = {row["mobile_type_id"] for row in crosswalk_rows}
+        for raw_id, row in sorted(mobile.items(), key=lambda item: int(item[0])):
+            if raw_id in existing_ids:
+                continue
+            metadata = entries.get(str(raw_id), {})
+            source_unique = dominant(row.get("unique_names", {}))
+            dictionary_unique = str(metadata.get("unique_name", ""))
+            if not source_unique or source_unique != dictionary_unique:
+                raise ValueError(f"crosswalk dictionary mismatch for TypeID {raw_id}")
+            harvest_values = row.get("harvestable_values", {})
+            harvestable = str(dominant(harvest_values)).lower() == "true"
+            crosswalk_rows.append({
+                "mobile_type_id": raw_id,
+                "pcap_lifecycle_records": int(row.get("observation_count", 0)),
+                "display_name": metadata.get("display_name", dominant(row.get("names", {}))),
+                "unique_name": dictionary_unique,
+                "tier": metadata.get("tier", ""),
+                "category": metadata.get("category", ""),
+                "danger": metadata.get("danger", ""),
+                "loot_type": metadata.get("loot_type", ""),
+                "loot_tier": metadata.get("loot_tier", ""),
+                "is_harvestable": str(harvestable),
+                "dictionary_match": "True",
+            })
+        with crosswalk_path.open("w", encoding="utf-8", newline="") as stream:
+            writer = csv.DictWriter(stream, fieldnames=[
+                "mobile_type_id", "pcap_lifecycle_records", "display_name", "unique_name",
+                "tier", "category", "danger", "loot_type", "loot_tier", "is_harvestable", "dictionary_match"
+            ])
+            writer.writeheader()
+            writer.writerows(crosswalk_rows)
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return {"status": "PASS", "entries": len(entries), "output": str(destination)}
