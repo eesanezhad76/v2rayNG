@@ -383,13 +383,20 @@ object CoreServiceManager {
     /** Persist first; remove from the durable queue only after both capture sinks are synced. */
     fun recordAlbionCaptureMarker(markerJson: String): String {
         val service = getService() ?: return "error:no_service"
-        val markerId = com.v2ray.ang.albion.AlbionMarkerQueue.enqueue(service, markerJson)
-            ?: return "error:queue_full_or_storage_or_corrupt"
-        val enriched = try {
-            org.json.JSONObject(markerJson).put("marker_id", markerId).toString()
+        val marker = try {
+            org.json.JSONObject(markerJson)
         } catch (_: Exception) {
             return "error:invalid_json"
         }
+        try {
+            // Validate framing and the maximum synthetic packet size before persisting it.
+            com.v2ray.ang.albion.AlbionCaptureMarker.build(marker.toString())
+        } catch (_: Exception) {
+            return "error:invalid_marker"
+        }
+        val markerId = com.v2ray.ang.albion.AlbionMarkerQueue.enqueue(service, marker.toString())
+            ?: return "error:queue_full_or_storage_or_corrupt"
+        val enriched = marker.put("marker_id", markerId).toString()
         val worker = albionCaptureWorker
         if (worker == null || !worker.snapshot().running) return "queued:$markerId"
         val timestamp = try {
