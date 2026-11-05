@@ -51,6 +51,7 @@ class AlbionRadarActivity : ComponentActivity() {
     private lateinit var export: Button
     private lateinit var copyAll: Button
     private lateinit var exportDiagnostics: Button
+    private lateinit var analyzePayloadPatterns: Button
     private lateinit var exportKnowledge: Button
     private var knowledgeBundleFile: File? = null
     private var diagnosticFile: File? = null
@@ -110,6 +111,11 @@ class AlbionRadarActivity : ComponentActivity() {
             isEnabled = false
             setOnClickListener { exportCompactDiagnostics() }
         }
+        analyzePayloadPatterns = Button(this).apply {
+            text = "Analyze raw UDP payload patterns"
+            isEnabled = false
+            setOnClickListener { analyzeRawPayloadPatterns() }
+        }
         exportKnowledge = Button(this).apply {
             text = "Export learned database (ZIP)"
             setOnClickListener { exportKnowledgeBundle() }
@@ -142,6 +148,7 @@ class AlbionRadarActivity : ComponentActivity() {
         }
         root.addView(actions, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(exportDiagnostics, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
+        root.addView(analyzePayloadPatterns, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(exportKnowledge, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 6 })
         root.addView(analysis, LinearLayout.LayoutParams(-1, -2).apply { topMargin = 12 })
         root.addView(
@@ -166,6 +173,7 @@ class AlbionRadarActivity : ComponentActivity() {
             export.isEnabled = existingCapture.pcap?.isFile == true && !existingCapture.running
             copyAll.isEnabled = existingCapture.log?.isFile == true && !existingCapture.running
             exportDiagnostics.isEnabled = existingCapture.pcap?.isFile == true && !existingCapture.running
+            analyzePayloadPatterns.isEnabled = existingCapture.pcap?.isFile == true && !existingCapture.running
             summary.text = "Packets saved: ${existingCapture.packets} | tap drops: ${existingCapture.dropped} | markers: ${existingCapture.markers}"
             status.text = if (existingCapture.running)
                 "Capture is already running in the VPN daemon."
@@ -223,6 +231,7 @@ class AlbionRadarActivity : ComponentActivity() {
                         export.isEnabled = s.pcap?.exists() == true
                         copyAll.isEnabled = s.log?.exists() == true
                         exportDiagnostics.isEnabled = s.pcap?.exists() == true
+                        analyzePayloadPatterns.isEnabled = s.pcap?.exists() == true
                         status.text = if (s.error != null)
                             "Capture stopped with an error: ${s.error}. Existing files were finalized."
                         else
@@ -279,6 +288,7 @@ class AlbionRadarActivity : ComponentActivity() {
             export.isEnabled = captureFile?.exists() == true
             copyAll.isEnabled = captureTextFile?.exists() == true
             exportDiagnostics.isEnabled = captureFile?.exists() == true
+            analyzePayloadPatterns.isEnabled = captureFile?.isFile == true
             status.text = "Capture stopped. Live files and offline report are in Downloads/AlbionRadar."
             val completedReport = reportFile
             if (completedReport?.exists() == true) {
@@ -332,6 +342,27 @@ class AlbionRadarActivity : ComponentActivity() {
                 status.text = "Saved to Downloads/AlbionCaptures. PCAP and packet log are available in Files."
             } catch (e: Exception) {
                 status.text = "Private capture saved, but publishing to Downloads failed: ${e.message}"
+            }
+        }
+    }
+
+    private fun analyzeRawPayloadPatterns() {
+        val file = captureFile?.takeIf { it.isFile }
+        if (file == null || tapping) {
+            status.text = "Stop capture before running raw UDP payload pattern discovery."
+            return
+        }
+        analyzePayloadPatterns.isEnabled = false
+        status.text = "Raw UDP payload pattern discovery is running. These byte-level matches are provisional."
+        captureScope.launch {
+            try {
+                val report = withContext(Dispatchers.IO) { AlbionLearningEngine.analyze(file) }
+                analysis.text = report
+                status.text = "Raw UDP payload pattern discovery completed. Review candidates against repeated captures and markers."
+            } catch (e: Exception) {
+                status.text = "Raw UDP payload pattern discovery failed: ${e.message ?: "unknown error"}"
+            } finally {
+                analyzePayloadPatterns.isEnabled = captureFile?.isFile == true && !tapping
             }
         }
     }
