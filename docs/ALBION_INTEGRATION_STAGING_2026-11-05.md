@@ -1188,3 +1188,49 @@ These are different inputs, algorithms and outputs. Keep both experimental and s
 - Resulting commit SHA: 1500b389c48de16289732bb55486d0936ffb4a35
 - New blob SHA: d43895946f3535725092318863ffa661e3673f75
 - No source branch, PR, application code, tests, runtime assets, raw evidence, archive or derived data changed.
+
+
+## 37. Complete open-PR inventory and CI failure evidence
+
+A fresh repository query returned eight open PRs. No PR was merged during this audit.
+
+| PR | Head → base | State | Commits / files | Mergeable | Current disposition |
+|---|---|---|---:|---|---|
+| #2 | `albion-decoder-radar-ci` → `albion-decoder-lab` | open, not draft | 1 / 1 | true | isolated CI-trigger-only change; old run failed because Actions secret `encodedString` was unset, not because of source compilation |
+| #3 | `albion-pattern-mining` → `albion-reliability-ux` | open, draft | 1,145 / 632 | false | enormous stale-base integration; +6,300,508 / -182 lines; do not merge |
+| #7 | `albion-reliability-ux` → Safe Integration | open, draft | 59 / 15 | false | historical reliability UX source; compile failure in duplicate declarations in `AlbionPatternMiner.kt` (lines 81 and 143) |
+| #8 | `albion-db-runtime-wiring` → Safe Integration | open, draft | 2 / 5 | false | stacked research-index/runtime-provenance draft; CI failure |
+| #9 | `albion-reliability-runtime-wiring` → Safe Integration | open, draft | 3 / 11 | false | stacked marker queue/capture recovery draft; CI failure |
+| #10 | `albion-reliability-audit` → Safe Integration | open, draft | 4 / 15 | false | reliability/PCAP audit draft; CI failure |
+| #11 | `albion-zone-forensics-integration` → Safe Integration | open, draft | 7 / 20 | false | zone forensics draft; CI failure |
+| #12 | `albion-safe-fixes-2026-11-05` → Safe Integration | open, draft | 36 / 17 | true | only currently validated runtime integration PR; CI success, but field readiness still blocked |
+
+### Historical CI results by PR head
+
+- PR #2 / run `41302637938`: stopped at `Decode Keystore`; log says `encodedString value is not set`. This is missing Actions secret/configuration, not evidence of a decoder-code failure.
+- PR #3 / run `42044414509`: capture-ingest workflow failed in `SpatialAlignmentTests.test_same_pcap_regions_are_never_spatially_joined` with `KeyError: 'MAP_A'`. The test fixture/map inventory relationship is unresolved; do not treat the branch's ingest pipeline as passing.
+- PR #7 / run `41530238126`: Kotlin compilation failed in `AlbionPatternMiner.kt` due conflicting declarations at lines 81 and 143. Unit tests were not reached.
+- PR #8 / run `41944493624`: 276 tests, 1 failed — `AlbionResearchKnowledgeIndexTest.parsesCompleteResearchIndexAndReportsSourceCounts` (line 76); Python runtime asset validation also failed with `family 28 type mapping mismatch`.
+- PR #9 / run `41944965587`: same knowledge-index count failure and Family 28 type-mapping mismatch.
+- PR #10 / run `41945615354`: 278 tests, 4 failed — `AlbionCaptureAnalyzerTest.reportsLocalOverlayCheckpointsFromPcap`, `AlbionCaptureReplayEngineTest.replaysCommittedInboxCapturesThroughKnowledgeEvidenceAndOverlayParser`, `AlbionPhotonPacketDecoderTest.mapsDungeonExitCoordinates`, and the research-index count test. Python validation also reported Family 28 mapping mismatch.
+- PR #11 / run `41946500963`: 278 tests, 2 failed — the capture analyzer checkpoint test and dungeon-exit coordinate test. Python validation reported Mountain Rabbit ID 482 was not explicitly non-harvestable and the zone matcher returned `null` instead of `cluster_A`.
+- PR #11 zone-audit workflow / run `41946500978`: failed the same portal/zone matching expectation (`cluster_A` vs `None`).
+- Raw Pattern Discovery / run `41946883759`: 278 tests, 2 failed — capture analyzer checkpoint and dungeon-exit coordinate tests; Python validation repeated the Mountain Rabbit and `cluster_A` failures.
+- PR #12 / run `42080576281`: 282 tests passed, 40 Python tests passed, APK verification and emulator installation passed. Readiness remains `NOT_READY_FOR_FIELD_TEST` because replay/live evidence is not verified.
+
+### What this means for integration
+
+1. PR #2 is technically mergeable but belongs to the isolated decoder-lab line; it is not part of the Safe Integration plan.
+2. PR #3 is not a reasonable merge unit. Its 632-file, 6.3-million-line diff is largely the consequence of a stale base and includes source, tests, assets, docs and research payload. Use the 121-commit / 285-path Pattern Mining vs Safe Integration inventory in Sections 16 and 20 instead.
+3. PR #7–#11 are stacked historical drafts, not five independent merge requests. Their ancestry is PR8 → PR9 → PR10 → PR11 → Raw Pattern Discovery. The failed CI runs show that their current snapshots cannot be promoted as-is.
+4. PR #12 is the only head with a green full build in this audit. Its green status must not be extended to PR #7–#11 or to the Pattern Mining/Raw branches.
+5. Do not merge PR #2 or #12 automatically; do not merge PR #3 or #7–#11 wholesale. Preserve every branch and PR as an audit source.
+
+## 38. Change log — open PR and CI inventory
+
+- Operation: enumerate all open PRs; inspect head/base snapshots, file/commit counts, mergeability and historical Actions failures; append evidence-backed disposition.
+- Repository: eesanezhad76/v2rayNG
+- Source document blob SHA: 60290db0451965a1b1816254263790731d39814d
+- Destination branch: albion-integration-staging-2026-11-05
+- No PR was merged or edited; no source branch or application/data file changed.
+- Resulting commit SHA and new blob SHA: record from update response.
