@@ -639,4 +639,34 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(minedMob.optString("mob_state") == "mined", minedMob.toString())
     }
 
+    @Test fun pendingTrollMarkerCannotAttachToReusedEntityIdAfterRegionChange() {
+        val store = AlbionLiveKnowledgeStore(context(), 40_000L)
+        store.observe(40_100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observe(40_200L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 777L, typeId = 701, x = 10f, y = 10f
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("target_id", "777")
+            .put("tier", "3").put("enchantment", "E1"), 40_300L)
+
+        store.observe(40_400L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_B"
+        )))
+        store.observe(40_500L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 777L, typeId = 701, x = 90f, y = 90f
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "mob_killed"), 40_600L)
+
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        assertTrue(snapshot.length() == 1, snapshot.toString())
+        val mapBMob = snapshot.getJSONObject(0)
+        assertTrue(mapBMob.optString("region_id") == "MAP_B", mapBMob.toString())
+        assertTrue(!mapBMob.optBoolean("manual_marker_identity_proven"), mapBMob.toString())
+        assertTrue(!mapBMob.optBoolean("manual_kill_confirmed"), mapBMob.toString())
+        assertTrue(!mapBMob.optBoolean("mob_dead"), mapBMob.toString())
+    }
+
 }
