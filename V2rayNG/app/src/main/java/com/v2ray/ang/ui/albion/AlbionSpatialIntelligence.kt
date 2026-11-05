@@ -113,7 +113,7 @@ object AlbionSpatialIntelligence {
 
     private fun isTypedResource(item: JSONObject): Boolean =
         item.optString("last_kind") in setOf("harvestable", "resource_state") &&
-            item.optInt("mobile_type_id", -1) > 0 &&
+            (item.optInt("mobile_type_id", -1) > 0 || item.optInt("family", -1) > 0) &&
             item.optInt("tier", -1) in 1..8
 
     private fun isUnclassifiedCandidate(item: JSONObject): Boolean =
