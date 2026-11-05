@@ -704,7 +704,8 @@ class AlbionOverlayService : Service() {
             marker.put(key, metadata.opt(key))
         }
         return runCatching {
-            CoreServiceManager.appendAlbionCaptureMarker(AlbionCaptureMarker.build(marker.toString()), now)
+            val result = CoreServiceManager.recordAlbionCaptureMarker(marker.toString())
+            result.startsWith("saved:") || result.startsWith("queued:")
         }.getOrDefault(false)
     }
 
@@ -779,7 +780,8 @@ class AlbionOverlayService : Service() {
                 }
                 put("source", "manual_overlay")
             }.toString()
-            val saved = CoreServiceManager.appendAlbionCaptureMarker(AlbionCaptureMarker.build(json), now)
+            val markerResult = CoreServiceManager.recordAlbionCaptureMarker(json)
+            val saved = markerResult.startsWith("saved:") || markerResult.startsWith("queued:")
             title.text = if (saved) "ALBION • $activity ✓" else "ALBION • $activity !"
             if (!saved) Toast.makeText(this, "Marker not saved. Capture must be running.", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {

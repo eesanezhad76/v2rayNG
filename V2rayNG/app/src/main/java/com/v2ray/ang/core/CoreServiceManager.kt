@@ -302,14 +302,39 @@ object CoreServiceManager {
         return try {
             val tunFd = currentVpnInterface
 
+            val tapWasRequested = albionTapRequested
             isReloading = true
             connectionTestScope.coroutineContext.cancelChildren()
+            val handoverStart = org.json.JSONObject()
+                .put("timestamp_ms", System.currentTimeMillis())
+                .put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
+                .put("event", "network_handover_gap_start")
+                .put("source", "core_service_manager")
+            recordAlbionCaptureMarker(handoverStart.toString())
             LogUtil.i(AppConfig.TAG, "StartCore-Manager: Core reload start...")
 
             coreController.stopLoop()
             launchCore(service, tunFd, isReload = true)
+            // A core reload can leave the native observer disabled even though the capture
+            // worker is still alive. Restore it only when this session had requested it.
+            val tapRestored = if (!tapWasRequested) {
+                true
+            } else {
+                try {
+                    Libv2ray.packetTapEnabled() || enableAlbionPacketTap(4096)
+                } catch (_: Exception) {
+                    false
+                }
+            }
+            val handoverEnd = org.json.JSONObject()
+                .put("timestamp_ms", System.currentTimeMillis())
+                .put("elapsed_realtime_ms", android.os.SystemClock.elapsedRealtime())
+                .put("event", if (tapRestored) "network_handover_recovered" else "network_handover_tap_missing")
+                .put("tap_restored", tapRestored)
+                .put("source", "core_service_manager")
+            recordAlbionCaptureMarker(handoverEnd.toString())
 
-            LogUtil.i(AppConfig.TAG, "StartCore-Manager: Core reload finished")
+            LogUtil.i(AppConfig.TAG, "StartCore-Manager: Core reload finished; tap restored=$tapRestored")
             true
         } catch (e: Exception) {
             val message = e.message?.takeUnless { it.isBlank() } ?: e.javaClass.simpleName
@@ -360,17 +385,39 @@ object CoreServiceManager {
             // Do not race a second writer against an asynchronous stop/drain.
             if (!state.finished) return false
         }
+        // A new capture session must not inherit stale packets from a prior session.
+        // The previous worker is already finalized above, so it is safe to disable and reset.
+        try {
+            Libv2ray.disablePacketTap()
+            if (!Libv2ray.resetPacketTap()) {
+                LogUtil.e(AppConfig.TAG, "Albion packet tap reset refused; queue may still have an active consumer")
+                return false
+            }
+            albionTapRequested = false
+        } catch (e: Exception) {
+            LogUtil.e(AppConfig.TAG, "Albion packet tap reset failed", e)
+            return false
+        }
         if (!enableAlbionPacketTap(4096)) return false
         val worker = AlbionCaptureWorker(
             readPacket = { readAlbionPacketTap() },
             dropped = { getAlbionPacketTapDropped() },
-            disableTap = { disableAlbionPacketTap() }
+            disableTap = { disableAlbionPacketTap() },
+            queueDepth = { try { Libv2ray.packetTapQueued().toInt() } catch (_: Exception) { -1 } },
+            queueCapacity = { try { Libv2ray.packetTapCapacity().toInt() } catch (_: Exception) { -1 } },
+            tapEnabled = { try { Libv2ray.packetTapEnabled() } catch (_: Exception) { false } },
+            recoverTap = {
+                if (isRunning() && currentVpnInterface != null && !SettingsManager.isUsingHevTun()) {
+                    enableAlbionPacketTap(4096)
+                } else false
+            }
         )
         if (!worker.start(service)) {
             disableAlbionPacketTap()
             return false
         }
         albionCaptureWorker = worker
+        flushPendingAlbionMarkers(worker, service)
         service.getSharedPreferences(ALBION_CAPTURE_PREFS, Context.MODE_PRIVATE)
             .edit().putBoolean(ALBION_AUTO_START, true).apply()
         return true
@@ -378,6 +425,38 @@ object CoreServiceManager {
 
     fun appendAlbionCaptureMarker(packet: ByteArray, timestampMs: Long): Boolean =
         albionCaptureWorker?.appendMarker(packet, timestampMs) ?: false
+
+    /** Persist first; acknowledge only after the writer confirms both capture outputs. */
+    fun recordAlbionCaptureMarker(markerJson: String): String {
+        val service = getService() ?: return "error:no_service"
+        val markerId = com.v2ray.ang.albion.AlbionMarkerQueue.enqueue(service, markerJson)
+            ?: return "error:queue_full_or_storage"
+        val enriched = try {
+            org.json.JSONObject(markerJson).put("marker_id", markerId).toString()
+        } catch (_: Exception) { return "error:invalid_json" }
+        val worker = albionCaptureWorker
+        if (worker == null || !worker.snapshot().running) return "queued:$markerId"
+        val timestamp = try { org.json.JSONObject(enriched).optLong("timestamp_ms", System.currentTimeMillis()) }
+            catch (_: Exception) { System.currentTimeMillis() }
+        val saved = try { worker.appendMarker(com.v2ray.ang.albion.AlbionCaptureMarker.build(enriched), timestamp) }
+            catch (_: Exception) { false }
+        if (saved) {
+            com.v2ray.ang.albion.AlbionMarkerQueue.acknowledge(service, markerId)
+            return "saved:$markerId"
+        }
+        return "queued:$markerId"
+    }
+
+    private fun flushPendingAlbionMarkers(worker: AlbionCaptureWorker, service: Service) {
+        com.v2ray.ang.albion.AlbionMarkerQueue.pending(service).forEach { marker ->
+            val id = marker.optString("marker_id")
+            val timestamp = marker.optLong("timestamp_ms", System.currentTimeMillis())
+            val saved = try { worker.appendMarker(com.v2ray.ang.albion.AlbionCaptureMarker.build(marker.toString()), timestamp) }
+                catch (_: Exception) { false }
+            if (saved) com.v2ray.ang.albion.AlbionMarkerQueue.acknowledge(service, id)
+            else LogUtil.e(AppConfig.TAG, "Albion queued marker was not committed: $id")
+        }
+    }
 
     fun getAlbionCaptureSnapshot(): AlbionCaptureWorker.Snapshot? = albionCaptureWorker?.snapshot()
 
