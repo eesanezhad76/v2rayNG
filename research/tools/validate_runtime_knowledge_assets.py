@@ -107,10 +107,16 @@ def validate(root: Path) -> dict:
     with crosswalk_path.open("r", encoding="utf-8-sig", newline="") as stream:
         crosswalk = list(csv.DictReader(stream))
     crosswalk_ids = {row["mobile_type_id"] for row in crosswalk}
-    if crosswalk_ids != index_ids or len(crosswalk) != EXPECTED_MOBILE_TYPE_IDS:
-        raise ValueError("mobile type crosswalk does not cover the exact 64 indexed IDs")
+    # The crosswalk is a broader audited catalog (67 rows); the runtime index
+    # intentionally contains only the 64 IDs observed in the selected corpus.
+    # Require complete coverage of indexed IDs without discarding valid extra rows.
+    missing_crosswalk_ids = sorted(index_ids - crosswalk_ids)
+    if missing_crosswalk_ids:
+        raise ValueError(f"mobile type crosswalk is missing indexed IDs: {missing_crosswalk_ids}")
+    if len(crosswalk_ids) != len(crosswalk):
+        raise ValueError("mobile type crosswalk contains duplicate TypeIDs")
     if any(row.get("dictionary_match", "").lower() != "true" for row in crosswalk):
-        raise ValueError("one or more observed mobile IDs do not match the external dictionary")
+        raise ValueError("one or more crosswalk mobile IDs do not match the external dictionary")
 
     historical_mobile_ids = {
         str(row["mobile_type_id"]) for row in bundle_database.get("entity_observations", [])
