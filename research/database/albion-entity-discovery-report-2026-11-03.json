@@ -5376,6 +5376,7 @@
       ]
     ],
     "entities.family_evidence": [],
+    "entities.mobile_type_id_evidence": [],
     "entities.mobile_type_id": [
       [
         "482",
@@ -5622,8 +5623,6 @@
         1
       ]
     ],
-    "entities.mobile_type_id_evidence": [],
-    "learned_patterns.family": [],
     "learned_patterns.type_id": [
       [
         "2489",
@@ -5633,7 +5632,8 @@
         "573",
         1
       ]
-    ]
+    ],
+    "learned_patterns.family": []
   },
   "weak_filename_context_hints": [
     {
