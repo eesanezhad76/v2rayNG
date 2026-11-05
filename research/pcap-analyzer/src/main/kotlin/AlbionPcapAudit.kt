@@ -199,18 +199,6 @@ fun main() {
             Charsets.UTF_8
         )
         val movements = allDetails.filter { it.third.contains("kind=own_player_move ") }
-        val csv = buildString {
-            appendLine("archive,pcap,timestamp_ms,x,y,heading,target_x,target_y,speed,source")
-            for ((archive, pcap, detail) in movements) {
-                val fields = Regex("([A-Za-z_]+)=([^\\s]+)").findAll(detail).associate { it.groupValues[1] to it.groupValues[2] }
-                val values = listOf(archive, pcap, fields["t"] ?: "", fields["x"] ?: "", fields["y"] ?: "",
-                    fields["heading"] ?: "", fields["target_x"] ?: "", fields["target_y"] ?: "",
-                    fields["speed"] ?: "", fields["source"] ?: "")
-                appendLine(values.joinToString(",") { "\"" + it.replace("\"", "\"\"") + "\"" })
-            }
-        }
-        File(out, "2026-11-02-own-player-movement-timeline.csv").writeText(csv, Charsets.UTF_8)
-
         data class NodeAgg(
             val archive: String, val pcap: String, val regionId: String?, val id: String,
             val mobileTypes: MutableSet<String> = sortedSetOf(),
@@ -246,6 +234,18 @@ fun main() {
                 .lastOrNull { it.first <= timestampMs }?.second
         fun nodesKey(archive: String, pcap: String, regionId: String?, id: String) =
             archive + "\u001f" + pcap + "\u001f" + (regionId ?: "<unknown-region>") + "\u001f" + id
+        val movementCsv = buildString {
+            appendLine("archive,pcap,region_id,timestamp_ms,x,y,heading,target_x,target_y,speed,source")
+            for ((archive, pcap, detail) in movements) {
+                val t = field(detail, "t")?.toLongOrNull() ?: 0L
+                val values = listOf(archive, pcap, regionAt(archive, pcap, t) ?: "", t.toString(),
+                    field(detail, "x") ?: "", field(detail, "y") ?: "", field(detail, "heading") ?: "",
+                    field(detail, "target_x") ?: "", field(detail, "target_y") ?: "",
+                    field(detail, "speed") ?: "", field(detail, "source") ?: "")
+                appendLine(values.joinToString(",") { csvCell(it) })
+            }
+        }
+        File(out, "2026-11-02-own-player-movement-timeline.csv").writeText(movementCsv, Charsets.UTF_8)
         val nodes = linkedMapOf<String, NodeAgg>()
         val resourceStates = linkedMapOf<String, MutableList<Pair<Long, String>>>()
         val staticResources = mutableListOf<String>()
