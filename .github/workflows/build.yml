@@ -244,7 +244,7 @@ jobs:
           adb wait-for-device
           boot_completed=""
           for attempt in $(seq 1 60); do
-            boot_completed="$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\\r' || true)"
+            boot_completed="$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
             if [ "$boot_completed" = "1" ]; then break; fi
             sleep 2
           done
