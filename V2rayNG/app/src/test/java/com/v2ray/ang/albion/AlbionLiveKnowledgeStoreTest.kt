@@ -454,6 +454,70 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(scan.getJSONObject(0).optString("region_id") == "MAP_B")
     }
 
+    @Test fun targetRequestBeforeMobSpawnCanStillAttachExactTrollMarker() {
+        val store = AlbionLiveKnowledgeStore(context(), 35_000L)
+        val now = 35_100L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observe(now + 1L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "target_request", eventCode = 23, candidateEntityIds = listOf(9901L)
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("tier", "T4"), now + 2L)
+        store.observe(now + 3L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 9901L, typeId = 573, x = 12f, y = 18f
+        )))
+        val rows = org.json.JSONArray(store.snapshotJson())
+        val mob = (0 until rows.length()).map { rows.getJSONObject(it) }
+            .single { it.optString("entity_id") == "9901" }
+        assertEquals("MAP_A", mob.optString("region_id"))
+        assertEquals("Troll", mob.optString("manual_activity"))
+        assertTrue(mob.optBoolean("manual_marker_identity_proven"), mob.toString())
+    }
+
+    @Test fun targetRequestAfterTrollMarkerCanAttachBeforeMobSpawnArrives() {
+        val store = AlbionLiveKnowledgeStore(context(), 36_000L)
+        val now = 36_100L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("tier", "T4"), now + 1L)
+        store.observe(now + 2L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "target_request", eventCode = 23, candidateEntityIds = listOf(9902L)
+        )))
+        store.observe(now + 3L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 9902L, typeId = 573, x = -4f, y = 9f
+        )))
+        val rows = org.json.JSONArray(store.snapshotJson())
+        val mob = (0 until rows.length()).map { rows.getJSONObject(it) }
+            .single { it.optString("entity_id") == "9902" }
+        assertEquals("Troll", mob.optString("manual_activity"))
+        assertTrue(mob.optBoolean("manual_marker_identity_proven"), mob.toString())
+    }
+
+    @Test fun multipleUnseenTargetCandidatesAreNotGuessedFromLaterMobSpawn() {
+        val store = AlbionLiveKnowledgeStore(context(), 37_000L)
+        val now = 37_100L
+        store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observe(now + 1L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "target_request", eventCode = 23, candidateEntityIds = listOf(9903L, 9904L)
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("tier", "T4"), now + 2L)
+        store.observe(now + 3L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 9903L, typeId = 573, x = 5f, y = 7f
+        )))
+        val rows = org.json.JSONArray(store.snapshotJson())
+        val mob = (0 until rows.length()).map { rows.getJSONObject(it) }
+            .single { it.optString("entity_id") == "9903" }
+        assertFalse(mob.has("manual_activity"), mob.toString())
+        assertFalse(mob.optBoolean("manual_marker_identity_proven"), mob.toString())
+    }
+
     @Test fun regionChangeClearsOldCurrentTargetBeforeAttachingNewRegionTrollMarker() {
         val store = AlbionLiveKnowledgeStore(context(), 40_000L)
         val now = 40_100L
