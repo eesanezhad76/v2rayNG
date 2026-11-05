@@ -677,7 +677,7 @@ fun main() {
                         }
                     }.sortedBy { it.third }.toList()
                 if (ranked.isEmpty()) {
-                    appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                    appendLine(listOf(sample.archive, sample.pcap, sample.regionId ?: "", sample.activity, sample.foundMs.toString(),
                         referenceMs.toString(), nearestPlayer.t.toString(), kotlin.math.abs(nearestPlayer.t-referenceMs).toString(),
                         nearestPlayer.x.toString(), nearestPlayer.y.toString(), nearestPlayer.source, "", "", "", "", "", "",
                         "", "", "", if (inactiveSpatialIds.isNotEmpty())
@@ -828,14 +828,14 @@ fun main() {
             }
         }
         val attackCsv = buildString {
-            appendLine("archive,pcap,target_entity_id,attack_action_count,attack_flag_values,first_attack_ms,last_attack_ms,event3_position_samples,first_position_x,first_position_y,last_position_x,last_position_y,min_x,max_x,min_y,max_y,event123_mobile_type,event123_name,known_player_spawn,leave_observed,leave_after_last_attack,health_observations,health_delta_samples,sum_health_delta,health_source_entity_ids,min_current_health,max_current_health,last_current_health,energy_observations,min_current_energy,max_current_energy,last_current_energy,interpretation")
+            appendLine("archive,pcap,region_id,target_entity_id,attack_action_count,attack_flag_values,first_attack_ms,last_attack_ms,event3_position_samples,first_position_x,first_position_y,last_position_x,last_position_y,min_x,max_x,min_y,max_y,event123_mobile_type,event123_name,known_player_spawn,leave_observed,leave_after_last_attack,health_observations,health_delta_samples,sum_health_delta,health_source_entity_ids,min_current_health,max_current_health,last_current_health,energy_observations,min_current_energy,max_current_energy,last_current_energy,interpretation")
             for ((key, values) in attacks.toSortedMap()) {
                 val parts = key.split("\u001f")
                 val ordered = values.sortedBy { it.t }
                 val positions = targetPositions[key].orEmpty().sortedBy { it.t }
                 val xs = positions.map { it.x }; val ys = positions.map { it.y }
                 val vals = listOf(
-                    parts[0], parts[1], parts[2], ordered.size.toString(),
+                    parts[0], parts[1], parts[2], parts[3], ordered.size.toString(),
                     ordered.map { it.flag }.distinct().joinToString("|"),
                     ordered.firstOrNull()?.t?.toString() ?: "", ordered.lastOrNull()?.t?.toString() ?: "",
                     positions.size.toString(), positions.firstOrNull()?.x?.toString() ?: "",
@@ -889,14 +889,14 @@ fun main() {
             return mobileTypeDictionary.optJSONObject(typeId)?.optString("display_name", "") ?: ""
         }
         val mobMarkerCorrelationCsv = buildString {
-            appendLine("archive,pcap,activity,found_ms,mob_killed_ms,candidate_count,best_target_entity_id,mobile_type_id,resolved_mob_name,mob_tier,mob_category,first_attack_ms,last_attack_ms,start_to_attack_delta_ms,health_observations,leave_after_last_attack,confidence,identity_proven,candidate_evidence")
+            appendLine("archive,pcap,region_id,activity,found_ms,mob_killed_ms,candidate_count,best_target_entity_id,mobile_type_id,resolved_mob_name,mob_tier,mob_category,first_attack_ms,last_attack_ms,start_to_attack_delta_ms,attack_interval_gap_ms,health_observations,leave_after_last_attack,confidence,identity_proven,candidate_evidence")
             for (sample in markerSamples.filter { it.activity in setOf("Mob", "Mobs", "Troll") }) {
-                val prefix = sample.archive + "\u001f" + sample.pcap + "\u001f"
+                val prefix = sample.archive + "\u001f" + sample.pcap + "\u001f" + (sample.regionId ?: "<unknown-region>") + "\u001f"
                 val finishMs = sample.completedMs ?: (sample.foundMs + 15_000L)
                 data class MobAttackCandidate(
                     val id: String, val first: Long, val last: Long, val actions: Int,
                     val health: Int, val leaveAfter: Boolean, val type: String, val name: String,
-                    val delta: Long
+                    val delta: Long, val intervalGap: Long
                 )
                 val candidates = attacks.entries.mapNotNull { (key, values) ->
                     if (!key.startsWith(prefix) || key in playerIds || !event123Types.containsKey(key)) return@mapNotNull null
@@ -904,30 +904,32 @@ fun main() {
                     val first = ordered.firstOrNull()?.t ?: return@mapNotNull null
                     val last = ordered.lastOrNull()?.t ?: return@mapNotNull null
                     val delta = first - sample.foundMs
-                    if (delta < -2500L || delta > 20_000L || last < sample.foundMs - 1500L || first > finishMs + 2500L) return@mapNotNull null
+                    if (last < sample.foundMs - 1500L || first > finishMs + 2500L) return@mapNotNull null
+                    val intervalGap = if (first <= sample.foundMs && sample.foundMs <= last) 0L
+                        else minOf(kotlin.math.abs(first - sample.foundMs), kotlin.math.abs(last - sample.foundMs))
                     val health = healthCounts[key] ?: 0
                     val leaveAfter = (leaveTimes[key] ?: Long.MIN_VALUE) > last
                     if (health <= 0 && !leaveAfter) return@mapNotNull null
                     MobAttackCandidate(
                         key.substringAfterLast("\u001f"), first, last, ordered.size, health, leaveAfter,
-                        event123Types[key] ?: "", event123Names[key] ?: "", delta
+                        event123Types[key] ?: "", event123Names[key] ?: "", delta, intervalGap
                     )
-                }.sortedWith(compareBy<MobAttackCandidate> { kotlin.math.abs(it.delta) }
+                }.sortedWith(compareBy<MobAttackCandidate> { it.intervalGap }
                     .thenByDescending { it.health }.thenByDescending { it.actions })
                 val best = candidates.firstOrNull()
                 val nearby = if (best == null) emptyList() else candidates.filter {
-                    kotlin.math.abs(it.delta) <= kotlin.math.abs(best.delta) + 1500L
+                    it.intervalGap <= best.intervalGap + 1500L
                 }
                 val confidence = when {
                     best == null -> "NONE"
                     nearby.size > 1 -> "AMBIGUOUS"
-                    kotlin.math.abs(best.delta) <= 3000L && best.health > 0 && best.leaveAfter -> "HIGH"
-                    kotlin.math.abs(best.delta) <= 8000L && best.health > 0 -> "MEDIUM"
+                    best.intervalGap <= 3000L && best.health > 0 && best.leaveAfter -> "HIGH"
+                    best.intervalGap <= 8000L && best.health > 0 -> "MEDIUM"
                     else -> "LOW"
                 }
                 val candidateEvidence = candidates.joinToString(";") { c ->
                     listOf(c.id, c.type, c.name, c.first.toString(), c.last.toString(),
-                        c.delta.toString(), c.health.toString(), c.leaveAfter.toString(), c.actions.toString())
+                        c.delta.toString(), c.intervalGap.toString(), c.health.toString(), c.leaveAfter.toString(), c.actions.toString())
                         .joinToString(":")
                 }
                 appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
@@ -936,7 +938,7 @@ fun main() {
                     best?.let { mobileTypeDictionary.optJSONObject(it.type)?.opt("tier")?.toString() ?: "" } ?: "",
                     best?.let { mobileTypeDictionary.optJSONObject(it.type)?.optString("category", "") ?: "" } ?: "",
                     best?.first?.toString() ?: "", best?.last?.toString() ?: "", best?.delta?.toString() ?: "",
-                    best?.health?.toString() ?: "", best?.leaveAfter?.toString() ?: "",
+                    best?.intervalGap?.toString() ?: "", best?.health?.toString() ?: "", best?.leaveAfter?.toString() ?: "",
                     confidence, "false", candidateEvidence).joinToString(",") { csvCell(it) })
             }
         }
