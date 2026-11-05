@@ -670,21 +670,25 @@ class AlbionLiveKnowledgeStoreTest {
     }
 
     @Test fun markerTargetLookupUsesLatestSpawnGenerationWithinRegion() {
+        val older = org.json.JSONObject()
+            .put("record_key", "50000:MAP_A:777:spawn:0")
+            .put("entity_id", "777").put("session_started_ms", 50_000L)
+            .put("region_id", "MAP_A").put("entity_class", "mob").put("last_kind", "mob")
+            .put("first_seen_ms", 50_100L).put("last_seen_ms", 50_200L)
+            .put("spawn_generation", 0).put("x", 10.0).put("y", 10.0)
+        val newer = org.json.JSONObject()
+            .put("record_key", "50000:MAP_A:777:spawn:1")
+            .put("entity_id", "777").put("session_started_ms", 50_000L)
+            .put("region_id", "MAP_A").put("entity_class", "mob").put("last_kind", "mob")
+            .put("first_seen_ms", 50_300L).put("last_seen_ms", 50_400L)
+            .put("spawn_generation", 1).put("x", 11.0).put("y", 11.0)
+        File(tempDir, "albion-live-knowledge.json").writeText(
+            org.json.JSONArray().put(older).put(newer).toString()
+        )
+
         val store = AlbionLiveKnowledgeStore(context(), 50_000L)
-        store.observe(50_100L, listOf(AlbionEntityEventMapper.Observation(
+        store.observe(50_450L, listOf(AlbionEntityEventMapper.Observation(
             kind = "region_change", eventCode = 41, regionId = "MAP_A"
-        )))
-        store.observe(50_200L, listOf(AlbionEntityEventMapper.Observation(
-            kind = "harvestable", eventCode = 40, entityId = 777L,
-            typeId = 574, typeNumber = 29, tier = 5, size = 0, x = 10f, y = 10f
-        )))
-        store.observe(50_300L, listOf(AlbionEntityEventMapper.Observation(
-            kind = "resource_state", eventCode = 46, entityId = 777L,
-            size = 0, removed = true
-        )))
-        store.observe(50_400L, listOf(AlbionEntityEventMapper.Observation(
-            kind = "harvestable", eventCode = 40, entityId = 777L,
-            typeId = 574, typeNumber = 29, tier = 5, size = 3, x = 10f, y = 10f
         )))
         store.observeMarker(org.json.JSONObject().put("activity", "Troll")
             .put("event", "target_found").put("target_id", "777")
@@ -698,6 +702,5 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(generations[1].optBoolean("manual_marker_identity_proven"), generations[1].toString())
         assertTrue(generations[1].optInt("spawn_generation") == 1, generations[1].toString())
     }
-
 
 }
