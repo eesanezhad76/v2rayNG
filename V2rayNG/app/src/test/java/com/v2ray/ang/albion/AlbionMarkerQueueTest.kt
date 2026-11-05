@@ -46,11 +46,12 @@ class AlbionMarkerQueueTest {
             override fun clear(): SharedPreferences.Editor = apply { clearRequested = true; changes.clear(); removals.clear() }
 
             override fun commit(): Boolean {
-                if (!commitsSucceed) return false
+                // Android SharedPreferences can expose the in-memory edit even when the
+                // disk write reports failure. Model that behavior to exercise retry safety.
                 if (clearRequested) values.clear()
                 removals.forEach(values::remove)
                 changes.forEach { (key, value) -> if (value == null) values.remove(key) else values[key] = value }
-                return true
+                return commitsSucceed
             }
 
             override fun apply() { commit() }
@@ -129,13 +130,16 @@ class AlbionMarkerQueueTest {
         prefs.commitsSucceed = false
 
         assertNull(AlbionMarkerQueue.enqueue(context, marker("a")))
-        assertEquals(0, AlbionMarkerQueue.count(context))
+        // The failed commit may already be visible in memory; retry must commit it again.
+        assertEquals(1, AlbionMarkerQueue.count(context))
         prefs.commitsSucceed = true
         assertEquals("a", AlbionMarkerQueue.enqueue(context, marker("a")))
 
         prefs.commitsSucceed = false
         assertFalse(AlbionMarkerQueue.acknowledge(context, "a"))
-        assertEquals("a", AlbionMarkerQueue.pending(context).single().getString("marker_id"))
+        prefs.commitsSucceed = true
+        assertTrue(AlbionMarkerQueue.acknowledge(context, "a"))
+        assertEquals(0, AlbionMarkerQueue.count(context))
     }
 
     @Test fun acknowledgeRemovesOnlyTheRequestedIdAndIsIdempotent() {
