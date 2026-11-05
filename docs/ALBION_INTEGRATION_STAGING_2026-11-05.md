@@ -1233,4 +1233,5 @@ A fresh repository query returned eight open PRs. No PR was merged during this a
 - Source document blob SHA: 60290db0451965a1b1816254263790731d39814d
 - Destination branch: albion-integration-staging-2026-11-05
 - No PR was merged or edited; no source branch or application/data file changed.
-- Resulting commit SHA and new blob SHA: record from update response.
+- Resulting commit SHA: 86ee1119f4e60d141b517c32f37855137b82baa4
+- New blob SHA: 557f2277e5da97fb9df069d2da6bbb424bac41cd
