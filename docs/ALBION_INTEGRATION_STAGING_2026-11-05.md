@@ -877,7 +877,7 @@ Comparison target:
 | Missing Event 46 amount | Source commit 10d3a0a... on audit/detection-engine | Safe Fixes mapped absent amount to depleted=true and removed the entity from knownNonPlayerEntities | High-priority correction; semantically ported to staging | Missing amount remains unknown (size=null, removed=false); explicit zero/negative is required for depletion; mapper and pipeline tests cover both cases |
 | Numeric region ID parsing (Join / ChangeCluster) | Pattern Mining mapper and tests; AlbionEntityEventMapper.kt | accepts String IDs only; rejects unsuccessful operation responses (returnCode != 0) | Candidate — low/medium risk | Preserve Safe Fixes return-code gate and map-local hint reset; convert only validated scalar IDs to trimmed strings; test String/Long/Int, null, blank, failed response |
 | Active-region navigation guard | Pattern commits 3186925..., 4a1e040..., c183b7...; AlbionSpatialIntelligence.kt, AlbionMiniRadarView.kt | active snapshot is isolated, but UI target selection does not explicitly compare each entity's region to current player region | Candidate — high value safety guard | Add exact-match tests for same/different/missing region; when active region unknown, never navigate to a tagged entity; derive current player region only from authoritative player record |
-| Strict Troll marker identity | Pattern commit 965440...; AlbionSpatialIntelligence.kt and spatial tests | label substring or high marker confidence can classify Troll without explicit identity proof | Candidate — high value safety guard | Require exact target/entity link for manual marker classification; preserve Ore Elemental game identity; test stale/ambiguous marker and exact-ID positive cases |
+| Strict Troll marker identity | Pattern commit 965440...; AlbionSpatialIntelligence.kt and spatial tests | Safe Fixes already requires `manual_marker_identity_proven` for manual Troll activity and preserves Ore Elemental precedence | Already implemented; no code transfer required | Verify true/false identity regression tests and stale-marker cases; do not duplicate the implementation |
 | Family + tier resource navigation without mobile TypeID | Pattern branch AlbionSpatialIntelligence.kt and test event40FamilyAndTierAreEnoughToNavigateWhenMobileTypeIdIsUnknown | currently requires mobile_type_id > 0 for typed resources | Candidate — evidence-backed | Allow only Event 40 harvestable/resource_state with valid positive family and tier 1–8; do not make Event 39 candidates navigable; add depletion/conflict/unknown-family guards |
 | Exact target request before mob spawn | Pattern commits ac7b15... and related tests; AlbionLiveKnowledgeStore.kt | currently accepts only candidates matching an already-known mob record | Blocked pending wire-schema proof | Mapper collects integral values from all parameter values; generic numeric fields (including protocol metadata such as key 253 in test fixtures) can pollute candidates. The store's single-candidate fallback can bind the wrong ID. Identify the exact Operation 23 parameter key from raw captures, then test mapper→store end-to-end with unrelated integers and delayed spawn |
 | Region-scoped target / marker / respawn lifecycle | Pattern fixes in AlbionLiveKnowledgeStore.kt and research pipeline | Safe Fixes already scopes runtime IDs and generations by active region and clears pending Troll target/marker on region change | Mostly already covered; compare behavior, do not copy | Verify each exact behavior against Safe Fixes tests; port only demonstrable missing cases |
@@ -895,7 +895,7 @@ Pattern Mining has explicit tests for:
 - Numeric Join / ChangeCluster IDs (Long and Int in addition to strings).
 - Cross-region snapshot isolation and active-region scan.
 - Same-region-only navigation and unknown-region blocking.
-- Strict Troll identity proof and Ore Elemental precedence.
+- Strict Troll identity proof and Ore Elemental precedence are already implemented in Safe Fixes; verify test coverage only.
 - Family 32 / T4 Event 40 navigation when mobile TypeID is absent.
 - Target request before and after mob spawn, using a manually constructed single candidate ID.
 
@@ -909,7 +909,7 @@ Raw Pattern Discovery test coverage is incomplete for its newly introduced compo
 
 ### Proposed transfer order
 
-1. Port the active-region UI guard and strict Troll identity rule as one small safety batch, with Pattern tests adapted to Safe Fixes APIs.
+1. Port the active-region UI guard; add only any missing strict-marker regression tests (the implementation is already present in Safe Fixes).
 2. Port numeric region ID scalar normalization while retaining the Safe Fixes successful-response gate.
 3. Port family+valid-tier navigability for Event 40 only, retaining conflict/depletion safeguards. The Pattern test uses family 32 / T4; the user's previously verified Type 32, T4 node observation is consistent with testing this case, but does not justify generalizing beyond valid typed Event 40 evidence.
 4. Re-evaluate target-before-spawn only after exact Operation 23 wire parameter identification.
@@ -1337,3 +1337,9 @@ Additional Raw Pattern Discovery safety findings:
 - Replacement run: `42092061950`, head `d1a7716c2d385e564d12d6d8425c86d36d97985a`, currently in progress at the time of this record. Do not mark the staging patch validated until this run completes and the JUnit artifact confirms the corrected pipeline test passes.
 
 The build workflow now ignores `docs/**` changes so future register-only updates do not trigger another full APK pipeline. Source, test, workflow and evidence changes remain covered by the branch's full build gates.
+
+
+### Correction to earlier Troll-marker transfer assessment
+
+A direct source comparison of `AlbionMiniRadarView.kt` and `AlbionSpatialIntelligence.kt` on Pattern Mining vs Safe Fixes shows that the exact manual-marker identity condition is already present in Safe Fixes:
+`manual_activity == "Troll" && manual_marker_identity_proven == true`, with Ore Elemental precedence. The earlier table incorrectly classified this as a missing implementation. It is removed from the code-transfer list; only test coverage may be added if required. The remaining navigation candidates are the active-region UI filter and Family+Tier Event 40 navigability.
