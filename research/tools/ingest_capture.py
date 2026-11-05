@@ -131,7 +131,7 @@ def refresh_existing_marker_lifecycles():
    "completed_with_metadata_conflict_resource_cycles":sum(x.get("status")=="COMPLETE_WITH_METADATA_CONFLICT" for x in resource_cycles),
    "incomplete_resource_marker_cycles":sum(x.get("status") not in {"COMPLETE","COMPLETE_WITH_METADATA_CONFLICT"} for x in resource_cycles),
    "mob_marker_pairs":sum(x.get("status")=="TARGET_FOUND_TO_KILLED" for x in lifecycles),
-   "incomplete_mob_marker_cycles":sum(x.get("status")=="TARGET_FOUND_NOT_KILLED" for x in lifecycles),
+   "incomplete_mob_marker_cycles":sum(x.get("status") in {"TARGET_FOUND_NOT_KILLED","TARGET_FOUND_SUPERSEDED_NOT_KILLED"} for x in lifecycles),
    "unmatched_marker_events":len(unmatched),
    "marker_metadata_conflicts":sum(bool(x.get("metadata_conflicts")) for x in lifecycles)
   })
@@ -141,7 +141,7 @@ def refresh_existing_marker_lifecycles():
   (ANALYSIS/(path.stem+".md")).write_text(
    "# Capture ingest: "+path.stem+"\n\n"+
    "\n".join("- "+k+": "+str(v) for k,v in counts.items())+
-   "\n\nState updates join only by exact runtime entity ID. Marker lifecycles are FIFO-paired, metadata conflicts are retained, and manual annotations do not establish runtime entity identity. State-only IDs remain separate.\n",
+   "\n\nState updates join only by exact runtime entity ID. Marker lifecycles use single-active-target pairing, metadata conflicts are retained, and manual annotations do not establish runtime entity identity. State-only IDs remain separate.\n",
    encoding="utf-8")
   refreshed+=1
  return refreshed
