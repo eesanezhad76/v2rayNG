@@ -1432,3 +1432,53 @@ The staging predicate follows this boundary: harvestable/resource_state + positi
 - Resulting docs-only commit: `1c588a1df69485a881a63df376d968786fcf0ebc`
 - Resulting register blob: `c3da1aa53c03f5f11165545f8dae625886f63365`
 - No code, raw evidence, archive, database or source branch changed.
+
+
+## 46. Pattern Mining runtime-file audit — selective port decisions
+
+Direct file-to-file comparisons were performed using the exact Safe Fixes and Pattern Mining branch tips, not the merge-base diff. The following source blob pairs are the reviewed inputs:
+
+| File | Safe Fixes blob | Pattern Mining blob | Decision |
+|---|---|---|---|
+| AlbionCaptureAnalyzer.kt | 5f0823579b4307525a28a8f4f356f9f57aa95ec5 | 24cd47a5e92628a5b146dcba56fc1cd400c54752 | Port raw Operation 2/41 response detail capture as evidence-only; it does not assign zone semantics |
+| AlbionEntityEventMapper.kt | 903848089633bfc44ffa6898302016fadab1f285 | a6842402fcfc169102982a3af0fa025a22640c3d | Port numeric region-ID decoding selectively; retain Safe Fixes returnCode==0 guard and map-local hint clearing |
+| AlbionKnowledgeBundle.kt | 13ef2deee0ecb78079d18427dd1d71d332c6cebe | 7c598395e8a7570aee1a943cbe90cbc7ab5ce481 | Reject Pattern's broad catch around asset open/JSON parse; it converts a corrupt bundled asset into an empty knowledge export |
+| AlbionLiveKnowledgeStore.kt | 2810329189fe47f4bf7cb1fb3289049f59b8085e | acdba3211f8104141b297f6b77db154487669040 | Do not transfer whole file; Pattern removes or weakens Safe Fixes safeguards and introduces an unverified pre-spawn target fallback |
+| AlbionEntityEventMapperTest.kt | 8a3a91287713ea91f31e450a88ba9589ad5cf8c7 | 1b031d12ee232951f6904f5d626a6252bfc1e60f | Keep failed-return and map-hint-clearing tests; add numeric Long/Int region-ID tests without deleting safety tests |
+| AlbionLiveKnowledgeStoreTest.kt | ec6e3587345d40e371451887780f502b748b5bde | 8e4a0bf83a03167eebda55357024288508821490 | Keep Safe Fixes generation/source-link tests; Pattern's added target tests do not prove Operation 23 extraction from a real packet |
+
+### Operation 23 evidence gate
+
+- Pattern Mining's research/analysis/2026-11-02-operation23-target-requests.csv is header-only: no observed request rows.
+- Pattern's mapsAttackRequestAsCandidateIdsWithoutGuessingParameterIndex test is synthetic and supplies parameter 0 as 777, plus a separate synthetic numeric parameter 1=99. It does not establish which real Operation 23 field is the target entity ID.
+- Pattern's new Store tests construct Observation(candidateEntityIds=...) directly; they bypass the real decoder/mapper and therefore do not validate the raw packet field extraction.
+- Pattern's Store change accepts a single candidate ID even when no matching mob record exists. Without real Operation 23 field evidence, this can promote an unrelated single numeric parameter to a future target.
+- Decision: retain Safe Fixes' requirement that the candidate uniquely matches a currently known mob in the active region. Do not port the pre-spawn fallback until raw PCAP evidence establishes the Operation 23 schema and an end-to-end decoder→mapper→store test covers unrelated numeric parameters.
+
+### Confirmed region-ID evidence
+
+Pattern Mining's research/analysis/2026-11-02-region-transition-evidence.csv contains successful Operation 2 Join responses where parameter 8 is the region ID (e.g. 4000, 4001, 4206) and parameter 0 is a different Long value. Operation 41 uses parameter 0 as a String region ID. This supports numeric Join IDs but does not justify generic toString() on arbitrary objects.
+
+Selective Mapper port must therefore:
+1. Require returnCode == 0 exactly as Safe Fixes does.
+2. Accept String or Number for Operation 2 parameter 8 and Operation 41 parameter 0.
+3. Reject null, blank, and unsupported object types; do not convert arbitrary arrays/objects using generic toString().
+4. Preserve clearing of map-local player/non-player hints after a confirmed region transition.
+
+### Additional regressions to avoid
+
+- Pattern Mapper removes Safe Fixes' returnCode == 0 guard and removes clearing of knownNonPlayerEntities / knownPlayerEntities after a region transition. Neither deletion is accepted.
+- Pattern KnowledgeBundle catches failures while opening/parsing the bundled autonomous JSON and silently substitutes []. Safe Fixes only treats unavailable mock Context assets as optional; malformed JSON remains a surfaced failure. Preserve that fail-closed behavior.
+- Pattern Store replaces exact source-mob-record-key resolution with weaker entity-ID lookup in one depletion path; preserve Safe Fixes' exact-generation linkage.
+- Pattern Store removes active-generation filters from several snapshot projections and uses first-match lookups where Safe Fixes selects the latest matching generation. Preserve Safe Fixes' active-generation and latest-generation semantics.
+- Pattern's additional historical JSON assets, expanded mobile dictionary and compressed static catalog remain evidence/data candidates. Do not copy them until their source bundle hashes, generator inputs, row counts, and output reproducibility are independently verified against the current Safe branch.
+
+### Change log — Pattern runtime-file audit
+
+- Operation: direct-compare six runtime/test files between Safe Fixes and Pattern Mining; inspect Operation 23 evidence CSV and region-transition evidence; record selective port and rejection decisions.
+- Repository: eesanezhad76/v2rayNG
+- Source branch tips: albion-safe-fixes-2026-11-05 / albion-pattern-mining
+- Destination branch: albion-integration-staging-2026-11-05
+- Source register blob before this audit: b4da8611a7771cc409ef12d2397b00314321949a
+- Resulting docs-only commit and blob SHA are recorded after commit creation.
+- No runtime file, test file, source branch, raw PCAP, archive, database, or generated asset changed in this audit.
