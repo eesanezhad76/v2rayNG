@@ -31,13 +31,14 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
  type_dictionary=json.loads((DB/"albion-mobile-type-dictionary.json").read_text(encoding="utf-8")).get("entries",{})
  attacks=[r for r in read_csv(DB/"2026-11-02-pcap-attack-target-tracks.csv")
           if (archive is None or r.get("archive")==archive) and r.get("pcap")==pcap and not yes(r.get("known_player_spawn"))]
- mob_rows={str(r.get("entity_id")):r for r in read_csv(DB/"2026-11-02-pcap-mob-lifecycle.csv")
-           if r.get("archive")==archive and r.get("pcap")==pcap}
+ mob_rows={(str(r.get("archive") or ""),str(r.get("entity_id"))):r
+           for r in read_csv(DB/"2026-11-02-pcap-mob-lifecycle.csv")
+           if (archive is None or r.get("archive")==archive) and r.get("pcap")==pcap}
  targets=[]
  for row in attacks:
   eid=str(row.get("target_entity_id") or "")
   if not eid:continue
-  mob=mob_rows.get(eid,{})
+  mob=mob_rows.get((str(row.get("archive") or ""),eid),{})
   mobile=num(row,"event123_mobile_type",num(mob,"mobile_type_id"))
   type_info=type_dictionary.get(str(mobile),{})
   name=(row.get("event123_name") or mob.get("name") or type_info.get("display_name") or "").strip()
