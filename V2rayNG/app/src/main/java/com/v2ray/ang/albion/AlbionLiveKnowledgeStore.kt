@@ -322,11 +322,13 @@ class AlbionLiveKnowledgeStore(
                         record.put("mob_state", "mined").put("mob_mined_ms", timestampMs)
                     }
                     if (sourceMobId.isNotBlank()) {
-                        records.values.firstOrNull {
+                        records.values.filter {
                             it.optString("entity_id") == sourceMobId &&
                                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                                it.optString("region_id", "") == (activeRegionId ?: "")
-                        }?.put("mob_state", "mined")?.put("mob_mined_ms", timestampMs)
+                                it.optString("region_id", "") == (activeRegionId ?: "") &&
+                                it.optString("entity_class") == "mob"
+                        }.maxByOrNull { it.optLong("last_seen_ms") }
+                            ?.put("mob_state", "mined")?.put("mob_mined_ms", timestampMs)
                     }
                 } else if ((observation.size ?: 0) > 0) {
                     record.put("depleted", false)
