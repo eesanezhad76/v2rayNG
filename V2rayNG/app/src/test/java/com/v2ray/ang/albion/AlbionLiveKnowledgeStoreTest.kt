@@ -669,4 +669,35 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(!mapBMob.optBoolean("mob_dead"), mapBMob.toString())
     }
 
+    @Test fun markerTargetLookupUsesLatestSpawnGenerationWithinRegion() {
+        val store = AlbionLiveKnowledgeStore(context(), 50_000L)
+        store.observe(50_100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observe(50_200L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 777L,
+            typeId = 574, typeNumber = 29, tier = 5, size = 0, x = 10f, y = 10f
+        )))
+        store.observe(50_300L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "resource_state", eventCode = 46, entityId = 777L,
+            size = 0, removed = true
+        )))
+        store.observe(50_400L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 777L,
+            typeId = 574, typeNumber = 29, tier = 5, size = 3, x = 10f, y = 10f
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("target_id", "777")
+            .put("tier", "5").put("enchantment", "E2"), 50_500L)
+
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        assertTrue(snapshot.length() == 2, snapshot.toString())
+        val generations = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
+            .sortedBy { it.optInt("spawn_generation") }
+        assertTrue(!generations[0].optBoolean("manual_marker_identity_proven"), generations[0].toString())
+        assertTrue(generations[1].optBoolean("manual_marker_identity_proven"), generations[1].toString())
+        assertTrue(generations[1].optInt("spawn_generation") == 1, generations[1].toString())
+    }
+
+
 }
