@@ -190,8 +190,8 @@ def main():
     args.markdown_output.parent.mkdir(parents=True, exist_ok=True)
     args.markdown_output.write_text("\n".join(lines), encoding="utf-8")
     try:
-        from enrich_radar_catalog import enrich
-        radar_summary = enrich()
+        from enrich_radar_catalog import enrich_all
+        radar_summary = enrich_all()
     except Exception as exc:
         raise SystemExit("Radar catalog enrichment failed: " + str(exc))
     print("RADAR_CATALOG_ENRICHMENT " + json.dumps(radar_summary, sort_keys=True))
