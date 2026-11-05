@@ -85,6 +85,9 @@ class AlbionLiveKnowledgeStoreTest {
     @Test fun preservesDepletedE2AndRecordsARefilledSpawnAsANewGeneration() {
         val store = AlbionLiveKnowledgeStore(context())
         val now = System.currentTimeMillis() + 1_000L
+        store.observe(now - 1L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
         store.observe(now, listOf(AlbionEntityEventMapper.Observation(
             kind = "harvestable", eventCode = 40, entityId = 7002L,
             typeId = 574, typeNumber = 29, tier = 6, enchant = 2, size = 3, x = 20f, y = 30f
@@ -104,6 +107,7 @@ class AlbionLiveKnowledgeStoreTest {
             .first { it.optInt("spawn_generation") == 1 }
         assertTrue(old.optBoolean("depleted"), old.toString())
         assertTrue(old.optString("superseded_by_record_key") == fresh.optString("record_key"))
+        assertTrue(fresh.optString("record_key").contains(":MAP_A:7002:spawn:1"), fresh.toString())
         assertTrue(!fresh.optBoolean("depleted"), fresh.toString())
         assertTrue(fresh.optInt("resource_remaining") == 2, fresh.toString())
     }
