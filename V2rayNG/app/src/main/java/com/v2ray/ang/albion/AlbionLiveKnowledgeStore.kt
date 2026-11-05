@@ -17,6 +17,8 @@ class AlbionLiveKnowledgeStore(
     private val sessionStartedMs: Long = System.currentTimeMillis()
 ) {
     private val file = File(context.applicationContext.filesDir, "albion-live-knowledge.json")
+    private val researchKnowledge = AlbionResearchKnowledgeIndex.load(context.applicationContext)
+    private val historicalKnowledge = AlbionHistoricalKnowledgeIndex.load(context.applicationContext)
     private val regionScanDir = File(context.applicationContext.filesDir, "albion-region-scans")
     // Exact server TypeID -> uniqueName/resource role map, sourced from the current
     // OpenRadar mobs.min.json dump (same source commit recorded in this asset).
@@ -470,7 +472,12 @@ class AlbionLiveKnowledgeStore(
             .sortedByDescending { it.optLong("last_seen_ms") }
             // The previous 2,000-row UI cap silently hid older known nodes. Keep the
             // complete current-session coordinate catalog (bounded by MAX_RECORDS).
-            .forEach { array.put(JSONObject(it.toString())) }
+            .forEach { record ->
+                val enriched = JSONObject(record.toString())
+                researchKnowledge?.annotate(enriched)
+                historicalKnowledge?.annotate(enriched)
+                array.put(enriched)
+            }
         return array.toString().also {
             cachedSnapshotJson = it
             snapshotDirty = false
