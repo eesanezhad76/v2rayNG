@@ -213,4 +213,27 @@ class IngestTests(unittest.TestCase):
    self.assertEqual(1,catalog["mob_count"])
    self.assertEqual("Troll",catalog["entities"][0]["marker_activity"])
 
+ def test_troll_repeated_start_and_kill_markers_are_not_cross_paired(self):
+  with tempfile.TemporaryDirectory() as td:
+   d=pathlib.Path(td)
+   markers=[
+    {"timestamp_ms":2028951,"activity":"Troll","event":"target_found","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":2030445,"activity":"Troll","event":"target_found","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":2043268,"activity":"Troll","event":"mob_killed","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":2501147,"activity":"Troll","event":"target_found","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":2513812,"activity":"Troll","event":"mob_killed","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":2515233,"activity":"Troll","event":"mob_killed","tier":"T5","enchantment":"E1"}
+   ]
+   out=self.run_ingest([{"time_ms":m["timestamp_ms"],"manual_marker":m} for m in markers],d)
+   troll=[x for x in out["marker_lifecycles"] if x["activity"]=="Troll"]
+   by_start={x["found_ms"]:x for x in troll if x.get("found_ms")}
+   self.assertEqual("TARGET_FOUND_SUPERSEDED_NOT_KILLED",by_start[2028951]["status"])
+   self.assertEqual(2030445,by_start[2028951]["superseded_by_ms"])
+   self.assertEqual(2043268,by_start[2030445]["mob_killed_ms"])
+   self.assertEqual(2513812,by_start[2501147]["mob_killed_ms"])
+   self.assertEqual(2,out["counts"]["mob_marker_pairs"])
+   self.assertEqual(1,out["counts"]["incomplete_mob_marker_cycles"])
+   self.assertEqual(2,out["counts"]["unmatched_marker_events"])
+   self.assertEqual("mob_kill_without_target_found",out["unmatched_marker_events"][-1]["reason"])
+
 if __name__=="__main__":unittest.main()
