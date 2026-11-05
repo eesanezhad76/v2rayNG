@@ -68,6 +68,7 @@ class AlbionOverlayService : Service() {
     private var catalogNodeCount = 0
     private var catalogMobCount = 0
     private var catalogMarkerCount = 0
+    private var catalogMappedMarkerCount = 0
     private var radarTestPhase = -1
     private var radarTestRunId = ""
     private val radarTestSteps = listOf(
@@ -131,7 +132,7 @@ class AlbionOverlayService : Service() {
                         } ?: " • H?/?/?/?/?"
                         liveStatus.text = (researchKnowledge?.statusLabel() ?: "KNOW unavailable") +
                             dictionaryStatus + historicalStatus +
-                            " • DB ${catalogNodeCount}N/${catalogMobCount}M • " + statusText.take(90)
+                            " • DB ${catalogNodeCount}N/${catalogMobCount}M • ACT ${catalogMappedMarkerCount}/${catalogMarkerCount} • " + statusText.take(70)
                     }
                     snapshotRefreshInFlight.set(false)
                     if (controlsRoot != null || radarRoot != null) refreshHandler.postDelayed(this, 200L)
@@ -572,7 +573,9 @@ class AlbionOverlayService : Service() {
             catalogEntities = data.optJSONArray("entities") ?: JSONArray()
             catalogNodeCount = data.optInt("node_count", catalogEntities.length())
             catalogMobCount = data.optInt("mob_count", 0)
-            catalogMarkerCount = data.optInt("marker_count", 0)
+            val markers = data.optJSONArray("markers") ?: JSONArray()
+            catalogMarkerCount = data.optInt("marker_count", markers.length())
+            appendActivityMarkers(markers)
         } catch (_: Exception) { catalogEntities = JSONArray() }
     }
 
@@ -581,13 +584,42 @@ class AlbionOverlayService : Service() {
         catalogEntities = capture.optJSONArray("entities") ?: JSONArray()
         catalogNodeCount = capture.optInt("node_count", 0)
         catalogMobCount = capture.optInt("mob_count", 0)
-        catalogMarkerCount = capture.optInt("marker_count", 0)
+        val markers = capture.optJSONArray("markers") ?: JSONArray()
+        catalogMarkerCount = capture.optInt("marker_count", markers.length())
+        appendActivityMarkers(markers)
         for (i in 0 until catalogEntities.length()) {
             catalogEntities.optJSONObject(i)?.let { applyMobTypeInfo(it) }
         }
         if (::radarView.isInitialized) radarView.setCatalogSnapshot(catalogEntities.toString())
         if (::nextCatalogButton.isInitialized) nextCatalogButton.text = "${index + 1}/${catalogCaptures.length()}"
         updateCatalogInfo()
+    }
+
+    /**
+     * Archived marker coordinates are player positions at the activity timestamp,
+     * not target positions. They are added only to the selected SAVED capture layer.
+     */
+    private fun appendActivityMarkers(markers: JSONArray) {
+        catalogMappedMarkerCount = 0
+        for (i in 0 until markers.length()) {
+            val marker = markers.optJSONObject(i) ?: continue
+            val correlation = marker.optJSONObject("spatial_correlation") ?: continue
+            val position = correlation.optJSONObject("player_position") ?: continue
+            val x = position.optDouble("x", Double.NaN)
+            val y = position.optDouble("y", Double.NaN)
+            if (!x.isFinite() || !y.isFinite()) continue
+            catalogEntities.put(JSONObject()
+                .put("entity_id", "catalog:activity:$i")
+                .put("last_kind", "activity_marker")
+                .put("x", x).put("y", y)
+                .put("marker_activity", marker.optString("activity", "Activity"))
+                .put("activity_marker_status", marker.optString("status"))
+                .put("activity_marker_timestamp_ms", position.optLong("time_ms", marker.optLong("found_ms")))
+                .put("activity_marker_identity_scope", marker.optString("identity_scope"))
+                .put("activity_marker_spatial_status", correlation.optString("status"))
+                .put("activity_marker_coordinate_role", "player_position_not_target_position"))
+            catalogMappedMarkerCount++
+        }
     }
 
     private fun showNextCatalog() {
