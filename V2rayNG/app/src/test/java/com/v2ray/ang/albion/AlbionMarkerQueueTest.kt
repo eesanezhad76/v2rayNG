@@ -66,6 +66,17 @@ class AlbionMarkerQueueTest {
     private fun marker(id: String, event: String = "test"): String =
         JSONObject().put("marker_id", id).put("event", event).toString()
 
+    @Test fun rejectsMalformedMarkersAndAssignsAnIdWhenMissing() {
+        val prefs = MemoryPreferences()
+        val context = context(prefs)
+        assertNull(AlbionMarkerQueue.enqueue(context, "{broken"))
+        assertEquals(0, AlbionMarkerQueue.count(context))
+
+        val generatedId = AlbionMarkerQueue.enqueue(context, JSONObject().put("event", "test").toString())
+        assertTrue(!generatedId.isNullOrBlank())
+        assertEquals(generatedId, AlbionMarkerQueue.pending(context).single().getString("marker_id"))
+    }
+
     @Test fun persistsAndReturnsDefensiveCopiesInFifoOrder() {
         val prefs = MemoryPreferences()
         val context = context(prefs)
