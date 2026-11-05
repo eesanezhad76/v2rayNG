@@ -12,7 +12,7 @@ class AlbionSpatialIntelligenceTest {
         kind: String,
         x: Double,
         y: Double,
-        family: Int? = null,
+        typeNumber: Int? = null,
         typeId: Int? = null,
         tier: Int? = null,
         enchant: Int? = null,
@@ -23,7 +23,7 @@ class AlbionSpatialIntelligenceTest {
         put("x", x)
         put("y", y)
         put("last_seen_ms", lastSeen)
-        family?.let { put("family", it) }
+        typeNumber?.let { put("family", it) }
         typeId?.let { put("mobile_type_id", it) }
         tier?.let { put("tier", it) }
         enchant?.let { put("enchant", it) }
@@ -126,8 +126,8 @@ class AlbionSpatialIntelligenceTest {
     }
 
     @Test
-    fun event40FamilyAndTierAreEnoughToNavigateWhenMobileTypeIdIsUnknown() {
-        val familyTyped = resource("family32", "harvestable", -375.0, 103.0, family = 32, tier = 4)
+    fun event40PacketTypeNumberAndTierAreEnoughToNavigateWhenMobileTypeIdIsUnknown() {
+        val familyTyped = resource("family32", "harvestable", -375.0, 103.0, typeNumber = 32, tier = 4)
         val untyped = resource("unknown", "harvestable", -375.0, 103.0, tier = 4)
         assertTrue(AlbionSpatialIntelligence.isNavigableResource(familyTyped))
         assertFalse(AlbionSpatialIntelligence.isNavigableResource(untyped))
@@ -142,9 +142,10 @@ class AlbionSpatialIntelligenceTest {
     }
 
     @Test
-    fun unresolvedTypeNumber32WithoutVerifiedMobileTypeCannotBecomeNavigationTarget() {
-        // The audited catalog records entity 877646 as type_number=32 / UNRESOLVED.
-        // Do not mislabel that packet type_number as a verified resource family or TypeID.
+    fun rawTypeNumberKeyWithoutStoreNormalizationIsNotRuntimeSnapshotSchema() {
+        // The raw event field is type_number=32 / UNRESOLVED. The live Store normalizes
+        // Event 40 typeNumber into the snapshot key family; a raw type_number key alone
+        // is not the runtime snapshot schema and must not bypass that normalization.
         val unresolved = JSONObject()
             .put("entity_id", "877646")
             .put("last_kind", "harvestable")

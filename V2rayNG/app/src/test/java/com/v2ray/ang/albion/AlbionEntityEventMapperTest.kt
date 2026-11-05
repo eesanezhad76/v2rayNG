@@ -220,6 +220,27 @@ class AlbionEntityEventMapperTest {
             returnCode = 0
         )).single()
         assertEquals("MAP_RED_02", joined.regionId)
+
+        val numericLongJoin = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 2,
+            parameters = mapOf(8 to 4000L, 253 to 2), operationCode = 2,
+            returnCode = 0
+        )).single()
+        assertEquals("4000", numericLongJoin.regionId)
+
+        val numericIntJoin = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 2,
+            parameters = mapOf(8 to 4206, 253 to 2), operationCode = 2,
+            returnCode = 0
+        )).single()
+        assertEquals("4206", numericIntJoin.regionId)
+
+        val unsupportedJoin = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 2,
+            parameters = mapOf(8 to 4000.5, 253 to 2), operationCode = 2,
+            returnCode = 0
+        ))
+        assertTrue(unsupportedJoin.isEmpty())
     }
 
     @Test
@@ -276,19 +297,31 @@ class AlbionEntityEventMapperTest {
     }
 
     @Test
-    fun mapsAttackRequestAsCandidateIdsWithoutGuessingParameterIndex() {
-        val mapped = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+    fun mapsAttackRequestFromObservedParameterOneOnly() {
+        val longEncoded = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
             kind = "request", dispatchCode = 0, realCode = 23,
-            parameters = mapOf(0 to 777L, 1 to 99, 253 to 23), operationCode = 23
+            parameters = mapOf(
+                0 to 639290003620112643L, 1 to 645014L, 2 to 0, 253 to 23
+            ), operationCode = 23
         )).single()
-        assertEquals("target_request", mapped.kind)
-        assertEquals(23, mapped.eventCode)
-        assertTrue(mapped.candidateEntityIds.contains(777L))
+        assertEquals("target_request", longEncoded.kind)
+        assertEquals(23, longEncoded.eventCode)
+        assertEquals(listOf(645014L), longEncoded.candidateEntityIds)
+
         val intEncoded = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
             kind = "request", dispatchCode = 0, realCode = 23,
-            parameters = mapOf(0 to 777, 253 to 23), operationCode = 23
+            parameters = mapOf(
+                0 to 639290003625462643L, 1 to 645014, 2 to 1, 253 to 23
+            ), operationCode = 23
         )).single()
-        assertTrue(intEncoded.candidateEntityIds.contains(777L))
+        assertEquals(listOf(645014L), intEncoded.candidateEntityIds)
+
+        val missingTarget = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "request", dispatchCode = 0, realCode = 23,
+            parameters = mapOf(0 to 639290003630922643L, 2 to 0, 253 to 23),
+            operationCode = 23
+        )).single()
+        assertTrue(missingTarget.candidateEntityIds.isEmpty())
     }
 
 

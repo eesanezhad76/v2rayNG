@@ -111,6 +111,8 @@ object AlbionSpatialIntelligence {
 
     private fun isTypedResource(item: JSONObject): Boolean =
         item.optString("last_kind") in setOf("harvestable", "resource_state") &&
+            // "family" is the legacy snapshot key for Event 40 packet typeNumber.
+            // It can establish a typed node for navigation, not a semantic resource name/family.
             (item.optInt("mobile_type_id", -1) > 0 || item.optInt("family", -1) > 0) &&
             item.optInt("tier", -1) in 1..8
 

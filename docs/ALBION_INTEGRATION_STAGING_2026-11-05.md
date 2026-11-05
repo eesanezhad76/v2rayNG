@@ -1589,3 +1589,30 @@ The pre-spawn Store fallback remains an unverified Pattern Mining proposal and i
 - Source register blob before this correction: 43a46db9f8951ecc45391abe10d7398cf6fd5427
 - Resulting docs-only commit and blob SHA are recorded after commit creation.
 - No runtime code, source branch, PCAP or archive changed.
+
+
+## 50. Selective Mapper correction — exact Operation 23 and numeric Join region IDs
+
+- Operation 23 target ID is now extracted only from integral parameter 1. Timestamp parameter 0, flag parameter 2 and operation marker parameter 253 are excluded.
+- Operation 2 Join accepts String or integral Byte/Short/Int/Long values at parameter 8, converting them to the canonical region string. Floating-point and arbitrary objects are rejected.
+- Operation 41 ChangeCluster remains String-only at parameter 0, matching the observed source schema.
+- The returnCode==0 requirement and map-local player/non-player hint clearing are unchanged.
+- Store behavior is intentionally unchanged: an Operation 23 target must still uniquely match a currently known mob in the current session/region. No pre-spawn fallback is added.
+- Tests cover the observed Operation 23 four-parameter shape, Long and Int target encodings, missing parameter 1, numeric Join IDs, invalid floating-point Join IDs, failed responses, and Mapper→Store attachment to the exact existing mob.
+
+### Change log — exact target and region parameter decoding
+
+- Operation: replace generic Operation 23 numeric scanning with exact parameter-1 extraction; accept integral numeric Operation 2 Join parameter 8; add Mapper and Mapper→Store regression tests; clarify Event 40 typeNumber snapshot semantics.
+- Repository: eesanezhad76/v2rayNG
+- Destination branch: albion-integration-staging-2026-11-05
+- Parent before change: a52850fa96fa656f2a9c1dbfbf6a6bd5155988f5
+- Source evidence: Safe Fixes PCAP report blob 5a9bc879966eaf1d6186644a8e08b3569cccc650; source archive blob d11920b51c7397edcf94d8c109ce4a6212ad70a1.
+- Before blobs:
+  - Mapper: 08d71ff33a1ebc1c6b827b8ebb3df9c9add591f4
+  - Mapper tests: 05c4c25a4be04119e3dc03bf51df6ba2ac9d609c
+  - Store tests: ec6e3587345d40e371451887780f502b748b5bde
+  - Spatial helper: b2880fffb69fa263af0823272e55b0b906e4df27
+  - Spatial tests: 17d4702da219b7d3d7032e4f46804c68af1bca0e
+  - Register: 0fc181a9ae2553e4a4f53efeb81e2500a3e31193
+- Resulting commit and blob SHAs are recorded after commit creation below.
+- Store runtime, capture analyzer, raw PCAP, archives, generated assets, and source branches were not changed.

@@ -44,10 +44,17 @@ object AlbionEntityEventMapper {
             if (message.returnCode != 0) return emptyList()
             val operation = message.operationCode ?: message.realCode ?: return emptyList()
             val regionId = when (operation) {
-                OP_CHANGE_CLUSTER -> p[0] as? String
-                OP_JOIN -> p[8] as? String
+                OP_CHANGE_CLUSTER -> (p[0] as? String)?.trim()?.takeIf { it.isNotEmpty() }
+                OP_JOIN -> when (val raw = p[8]) {
+                    is String -> raw.trim().takeIf { it.isNotEmpty() }
+                    is Byte -> raw.toString()
+                    is Short -> raw.toString()
+                    is Int -> raw.toString()
+                    is Long -> raw.toString()
+                    else -> null
+                }
                 else -> null
-            }?.takeIf { it.isNotBlank() } ?: return emptyList()
+            } ?: return emptyList()
             // Runtime entity IDs and their player/non-player hints are map-local.
             // Clear the previous map's lookup state before decoding new-map movement.
             knownNonPlayerEntities.clear()
@@ -84,36 +91,18 @@ object AlbionEntityEventMapper {
         }
         if (message.kind == "request") {
             if (code == 23) {
-                // Attack request: keep numeric candidates, but the store will accept
-                // only a unique value that exactly matches a currently known mob ID.
-                val candidates = p.values.flatMap { value ->
-                    // Keep only integral values. The store later intersects these with
-                    // exact, currently-known mob runtime IDs; unrelated parameters are
-                    // therefore not accepted as targets, while Int/Short ID encodings
-                    // are no longer silently discarded.
-                    when (value) {
-                        is Byte -> listOf(value.toLong())
-                        is Short -> listOf(value.toLong())
-                        is Int -> listOf(value.toLong())
-                        is Long -> listOf(value)
-                        is ShortArray -> value.map { it.toLong() }
-                        is IntArray -> value.map { it.toLong() }
-                        is LongArray -> value.toList()
-                        is List<*> -> value.mapNotNull { item ->
-                            when (item) {
-                                is Byte -> item.toLong()
-                                is Short -> item.toLong()
-                                is Int -> item.toLong()
-                                is Long -> item
-                                else -> null
-                            }
-                        }
-                        else -> emptyList()
-                    }
-                }.filter { it > 0L }.distinct()
+                // Observed request shape: p0=timestamp, p1=target entity ID,
+                // p2=state flag, p253=operation code. Never scan unrelated numeric fields.
+                val targetId = when (val raw = p[1]) {
+                    is Byte -> raw.toLong()
+                    is Short -> raw.toLong()
+                    is Int -> raw.toLong()
+                    is Long -> raw
+                    else -> null
+                }?.takeIf { it > 0L }
                 return listOf(Observation(
                     kind = "target_request", eventCode = code,
-                    candidateEntityIds = candidates
+                    candidateEntityIds = targetId?.let(::listOf).orEmpty()
                 ))
             }
             if (code != 22) return emptyList()
