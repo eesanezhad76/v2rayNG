@@ -81,6 +81,35 @@ class AlbionSpatialIntelligenceTest {
     }
 
     @Test
+    fun exactManualTrollMarkerCanAddOreElementalToTrollLayerWithoutChangingItsGameIdentity() {
+        val elemental = resource("ore", "mob", 1.0, 2.0, typeId = 574)
+            .put("name", "Ore Elemental")
+            .put("manual_activity", "Troll")
+            .put("manual_marker_identity_proven", true)
+        assertTrue(AlbionSpatialIntelligence.isOreElemental(elemental))
+        assertTrue(AlbionSpatialIntelligence.isUserMarkedTroll(elemental))
+        assertTrue(AlbionSpatialIntelligence.isTrollCategoryMember(elemental))
+    }
+
+    @Test
+    fun timeRankedTrollMarkerWithoutExactIdentityDoesNotEnterTrollLayer() {
+        val elemental = resource("ore", "mob", 1.0, 2.0, typeId = 574)
+            .put("marker_activity", "Troll")
+            .put("marker_match_confidence", "HIGH")
+            .put("marker_identity_proven", false)
+        assertFalse(AlbionSpatialIntelligence.isUserMarkedTroll(elemental))
+        assertFalse(AlbionSpatialIntelligence.isTrollCategoryMember(elemental))
+    }
+
+    @Test
+    fun event40FamilyAndTierAreEnoughToNavigateWhenMobileTypeIdIsUnknown() {
+        val node = resource("family32", "harvestable", -375.0, 103.0, family = 32, tier = 4, enchant = 2)
+        assertTrue(AlbionSpatialIntelligence.isNavigableResource(node))
+        val event39 = resource("candidate32", "static_resource", -375.0, 103.0, family = 32, tier = 4, enchant = 2)
+        assertFalse(AlbionSpatialIntelligence.isNavigableResource(event39))
+    }
+
+    @Test
     fun typedResourceSupersedesEvent39CandidateAtSameCoordinate() {
         val candidate = resource("event39", "static_resource", 12.0, 18.0)
         val typed = resource("event40", "harvestable", 12.0, 18.0, 29, 574, 5, 1, 10L)
