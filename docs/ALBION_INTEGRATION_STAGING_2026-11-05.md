@@ -1429,5 +1429,6 @@ The staging predicate follows this boundary: harvestable/resource_state + positi
 - Source evidence: albion-pattern-mining; Event 40 mapper, live-store serialization, and catalog row for entity 877646.
 - Destination branch: albion-integration-staging-2026-11-05
 - Source register blob: 7966bd6b68a3944bec092e4963a23f95481d4e84
-- Resulting commit/blob identifiers are recorded after this docs-only commit.
+- Resulting docs-only commit: `1c588a1df69485a881a63df376d968786fcf0ebc`
+- Resulting register blob: `c3da1aa53c03f5f11165545f8dae625886f63365`
 - No code, raw evidence, archive, database or source branch changed.
