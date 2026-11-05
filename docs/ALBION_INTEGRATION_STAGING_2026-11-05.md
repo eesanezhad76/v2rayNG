@@ -194,7 +194,8 @@ Do not silently edit historical status reports. Add a new current handoff/status
 - Destination branch: `albion-integration-staging-2026-11-05`
 - File: `docs/ALBION_INTEGRATION_STAGING_2026-11-05.md`
 - Reason: create a dated, evidence-backed branch/data integration map without touching PR #12 or source evidence.
-- New file blob SHA: `1e6ae5529867ba15afd35a1f1443682d1dec1a7a`\n- Commit SHA: `ab29239679a2d3ff485b78d68a9cf9befdc696ed`
+- New file blob SHA: `1e6ae5529867ba15afd35a1f1443682d1dec1a7a`
+- Commit SHA: `ab29239679a2d3ff485b78d68a9cf9befdc696ed`
 
 
 ## 9. Hot-file blob comparison (exact Git blob identity)
@@ -236,7 +237,8 @@ These identities show why a single branch merge or file-copy operation would be 
 - Source file blob SHA before update: `1e6ae5529867ba15afd35a1f1443682d1dec1a7a`
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No application source, test, capture, archive or pre-existing branch changed.
-- Resulting commit SHA: `79c55dcaeb1a1b8c2f06675195e47f14c8229786`\n- New blob SHA: `6d5c2d391440645aed60832159e3a35886d669fe`
+- Resulting commit SHA: `79c55dcaeb1a1b8c2f06675195e47f14c8229786`
+- New blob SHA: `6d5c2d391440645aed60832159e3a35886d669fe`
 
 
 ## 11. Confirmed Raw Pattern Discovery ancestry
@@ -263,7 +265,8 @@ This does **not** mean Raw Pattern Discovery can be merged wholesale into Safe F
 - Source file blob SHA before update: `6d5c2d391440645aed60832159e3a35886d669fe`
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No application source, test, capture, archive or pre-existing branch changed.
-- Resulting commit SHA: `29c1dd3ab70de7f267941ff264f1bebf6e52a929`\n- New blob SHA: `e47ce69c552bb7aba2627d4b8919683934d569f9`
+- Resulting commit SHA: `29c1dd3ab70de7f267941ff264f1bebf6e52a929`
+- New blob SHA: `e47ce69c552bb7aba2627d4b8919683934d569f9`
 
 
 ## 13. Pattern Mining evidence-tree inventory
@@ -305,7 +308,8 @@ This confirms that the Pattern Mining delta is not just source code: it is prima
 - Source file blob SHA before update: `e47ce69c552bb7aba2627d4b8919683934d569f9`
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No raw archive, database, analysis, runtime asset, or pre-existing branch changed.
-- Resulting commit SHA: `e5774bd251bb4d0d127538e22e55089dc0ba5556`\n- New blob SHA: `4974f734dd2b5dee95e9f5ca7a1753e171e3474e`
+- Resulting commit SHA: `e5774bd251bb4d0d127538e22e55089dc0ba5556`
+- New blob SHA: `4974f734dd2b5dee95e9f5ca7a1753e171e3474e`
 
 
 ## 15. CI run 42080576281 — artifact-level verification
@@ -1052,7 +1056,8 @@ The enhanced read-only audit run `42087978698` completed successfully (head `cb3
 - Artifact-size cleanup commit: `cb38229cfa41f60af89cb3f325347b9785778cfb`
 - Latest audit branch head at this record: `cb38229cfa41f60af89cb3f325347b9785778cfb`
 - Latest workflow blob SHA: `9dc3f1c5dab26b8bf2f4f16c94824f57aa3d5628`
-- Initial successful 7z/member audit run: `42087590613`; artifact ID `13444361039`.\n- Final successful full audit run: `42087978698`; artifact ID `13443078504`; 13/13 original ZIPs match the manifest.
+- Initial successful 7z/member audit run: `42087590613`; artifact ID `13444361039`.
+- Final successful full audit run: `42087978698`; artifact ID `13443078504`; 13/13 original ZIPs match the manifest.
 - The audit workflow uses `contents: read`; it writes no repository data and commits no extracted output.
 
 
@@ -1064,7 +1069,8 @@ The enhanced read-only audit run `42087978698` completed successfully (head `cb3
 - Destination branch: albion-integration-staging-2026-11-05
 - Archive audit run: 42087978698 (success); artifact: 13443078504
 - Verified: 45/45 split parts, 7z CRC/integrity, 9/9 extracted member hashes, 6/6 Master duplicate comparisons, 13/13 original ZIP hashes/sizes against the complete database manifest.
-- Resulting commit SHA: 427d4a36cdce2bd600ebcb6de003c3a9cc92a82e\n- New blob SHA: bd6c70c53ee3ad5287db196ca18ccf2ac3513907
+- Resulting commit SHA: 427d4a36cdce2bd600ebcb6de003c3a9cc92a82e
+- New blob SHA: bd6c70c53ee3ad5287db196ca18ccf2ac3513907
 - No source data or pre-existing branch changed.
 
 
@@ -1167,6 +1173,17 @@ These are different inputs, algorithms and outputs. Keep both experimental and s
 - Operation: replace the remaining literal newline escapes and finalize Section 34 identifiers.
 - Repository: eesanezhad76/v2rayNG
 - Source document blob SHA: ddf380e46242c882197f6689fba357fe8b5d4fb3
+- Destination branch: albion-integration-staging-2026-11-05
+- Resulting commit SHA: ceed59bb34915ea0380ff2086aee911213b95f91
+- New blob SHA: 284d4e03532b90a2fbd4b09a48a2c39b7695e148
+- No source branch, PR, application code, tests, runtime assets, raw evidence, archive or derived data changed.
+
+
+## 36. Change log — global line-break normalization
+
+- Operation: replace all remaining literal backslash-n sequences in the staging register with actual line breaks; finalize Section 35 identifiers.
+- Repository: eesanezhad76/v2rayNG
+- Source document blob SHA: 284d4e03532b90a2fbd4b09a48a2c39b7695e148
 - Destination branch: albion-integration-staging-2026-11-05
 - Resulting commit SHA and new blob SHA: record from update response.
 - No source branch, PR, application code, tests, runtime assets, raw evidence, archive or derived data changed.
