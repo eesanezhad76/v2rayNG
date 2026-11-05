@@ -73,7 +73,7 @@ class AlbionResearchKnowledgeIndexTest {
         val snapshot = AlbionResearchKnowledgeIndex.parse(fixture())
         assertEquals(331, snapshot?.resourceObservationCount)
         assertEquals(2330, snapshot?.mobileEntityObservationCount)
-        assertEquals(2, snapshot?.resourceFamilyCount)
+        assertEquals(3, snapshot?.resourceFamilyCount)
         assertEquals(2, snapshot?.mobileTypeCount)
         assertEquals("KNOW 331R/2330M", snapshot?.statusLabel())
     }

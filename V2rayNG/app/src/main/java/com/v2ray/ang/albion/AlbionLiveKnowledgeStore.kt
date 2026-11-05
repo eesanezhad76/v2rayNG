@@ -58,6 +58,14 @@ class AlbionLiveKnowledgeStore(
                 val newRegionId = observation.regionId?.takeIf { it.isNotBlank() }
                 if (newRegionId != null && newRegionId != activeRegionId) {
                     activeRegionId = newRegionId
+                    // Target and user-marker associations are local to a server region.
+                    // Discard pending associations rather than carrying them across maps.
+                    currentTargetEntityId = null
+                    currentTargetSeenMs = 0L
+                    activeTrollMarker = null
+                    activeTrollMarkerStartedMs = 0L
+                    activeTrollTargetId = null
+                    trollMarkerAmbiguous = false
                     snapshotDirty = true
                     runCatching { beginRegionScan(timestampMs, newRegionId) }
                 }
@@ -70,6 +78,7 @@ class AlbionLiveKnowledgeStore(
                     playerMountedAtMs = timestampMs
                     records.values.filter {
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                            it.optString("region_id", "") == (activeRegionId ?: "") &&
                             it.optString("last_kind") == "own_player_move"
                     }.maxByOrNull { it.optLong("last_seen_ms") }?.put("mounted", mounted)
                         ?.put("mount_state_seen_ms", timestampMs)
@@ -98,13 +107,18 @@ class AlbionLiveKnowledgeStore(
                         timestampMs - activeTrollMarkerStartedMs <= TROLL_MARKER_MAX_WINDOW_MS) {
                         if (activeTrollTargetId == null) {
                             activeTrollTargetId = selectedId
-                            records.values.firstOrNull { it.optString("entity_id") == selectedId &&
+                            records.values.filter { it.optString("entity_id") == selectedId &&
                                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                                it.optString("entity_class") == "mob" }?.let {
-                                applyTrollMarker(it, activeMarker, activeTrollMarkerStartedMs)
-                            }
+                                it.optString("region_id", "") == regionKey &&
+                                it.optString("entity_class") == "mob" }
+                                .maxByOrNull { it.optLong("last_seen_ms") }?.let {
+                                    applyTrollMarker(it, activeMarker, activeTrollMarkerStartedMs)
+                                }
                         } else if (activeTrollTargetId != selectedId) {
-                            records.values.firstOrNull { it.optString("entity_id") == activeTrollTargetId }?.let(::clearTrollMarker)
+                            records.values.filter { it.optString("entity_id") == activeTrollTargetId &&
+                                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                                it.optString("region_id", "") == regionKey }
+                                .maxByOrNull { it.optLong("last_seen_ms") }?.let(::clearTrollMarker)
                             activeTrollTargetId = null
                             trollMarkerAmbiguous = true
                         }
@@ -180,7 +194,7 @@ class AlbionLiveKnowledgeStore(
             val confirmedRefill = observation.kind == "harvestable" && incomingAmount > 0
             if (record.optBoolean("depleted", false) && confirmedRefill) {
                 val nextGeneration = record.optInt("spawn_generation", 0) + 1
-                val nextKey = "$sessionStartedMs:$entityId:spawn:$nextGeneration"
+                val nextKey = "$sessionStartedMs:$regionKey:$entityId:spawn:$nextGeneration"
                 record.put("respawn_observed_at_ms", timestampMs)
                     .put("superseded_by_record_key", nextKey)
                 key = nextKey
@@ -308,11 +322,19 @@ class AlbionLiveKnowledgeStore(
                         record.put("mob_state", "mined").put("mob_mined_ms", timestampMs)
                     }
                     if (sourceMobId.isNotBlank()) {
-                        records.values.firstOrNull {
+                        val sourceRecordKey = record.optString("source_mob_record_key")
+                        val sourceMob = records[sourceRecordKey]?.takeIf {
                             it.optString("entity_id") == sourceMobId &&
                                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                                it.optString("region_id", "") == (activeRegionId ?: "")
-                        }?.put("mob_state", "mined")?.put("mob_mined_ms", timestampMs)
+                                it.optString("region_id", "") == (activeRegionId ?: "") &&
+                                it.optString("entity_class") == "mob"
+                        } ?: records.values.filter {
+                            it.optString("entity_id") == sourceMobId &&
+                                it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                                it.optString("region_id", "") == (activeRegionId ?: "") &&
+                                it.optString("entity_class") == "mob"
+                        }.maxByOrNull { it.optLong("last_seen_ms") }
+                        sourceMob?.put("mob_state", "mined")?.put("mob_mined_ms", timestampMs)
                     }
                 } else if ((observation.size ?: 0) > 0) {
                     record.put("depleted", false)
@@ -405,6 +427,7 @@ class AlbionLiveKnowledgeStore(
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                     it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
                     it.optString("region_id", "") == (regionScanRegionId ?: "") &&
+                    !it.has("superseded_by_record_key") &&
                     it.has("x") && it.has("y")
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
@@ -453,6 +476,7 @@ class AlbionLiveKnowledgeStore(
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                     it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
                     it.optString("region_id", "") == (regionScanRegionId ?: "") &&
+                    !it.has("superseded_by_record_key") &&
                     it.has("x") && it.has("y")
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
@@ -472,6 +496,7 @@ class AlbionLiveKnowledgeStore(
             .filter {
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                     (activeRegionId == null || it.optString("region_id", "") == activeRegionId) &&
+                    !it.has("superseded_by_record_key") &&
                     it.has("x") && it.has("y")
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
@@ -728,11 +753,12 @@ class AlbionLiveKnowledgeStore(
             }
             val targetId = explicitId ?: recentTarget
             if (targetId != null) {
-                val record = records.values.firstOrNull {
+                val record = records.values.filter {
                     it.optString("entity_id") == targetId &&
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                        it.optString("region_id", "") == (activeRegionId ?: "") &&
                         it.optString("entity_class") == "mob"
-                }
+                }.maxByOrNull { it.optLong("last_seen_ms") }
                 activeTrollTargetId = targetId
                 if (record != null) applyTrollMarker(record, marker, timestampMs)
             }
@@ -746,22 +772,24 @@ class AlbionLiveKnowledgeStore(
                     timestampMs >= currentTargetSeenMs && timestampMs - currentTargetSeenMs <= TARGET_MARKER_ATTACH_WINDOW_MS
                 }
                 if (recentTarget != null) {
-                    records.values.firstOrNull { it.optString("entity_id") == recentTarget &&
+                    records.values.filter { it.optString("entity_id") == recentTarget &&
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                        it.optString("entity_class") == "mob" }?.let {
-                        activeTrollTargetId = recentTarget
-                        applyTrollMarker(it, active, activeTrollMarkerStartedMs)
-                    }
+                        it.optString("region_id", "") == (activeRegionId ?: "") &&
+                        it.optString("entity_class") == "mob" }
+                        .maxByOrNull { it.optLong("last_seen_ms") }?.let {
+                            activeTrollTargetId = recentTarget
+                            applyTrollMarker(it, active, activeTrollMarkerStartedMs)
+                        }
                 }
             }
             val killedTarget = activeTrollTargetId
             if (killedTarget != null && !trollMarkerAmbiguous) {
-                records.values.firstOrNull {
+                records.values.filter {
                     it.optString("entity_id") == killedTarget &&
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                         it.optString("region_id", "") == (activeRegionId ?: "") &&
                         it.optString("entity_class") == "mob"
-                }?.let { mob ->
+                }.maxByOrNull { it.optLong("last_seen_ms") }?.let { mob ->
                     mob.put("manual_kill_confirmed", true)
                         .put("manual_killed_ms", timestampMs)
                         .put("mob_state", "dead_manual")
@@ -831,6 +859,7 @@ class AlbionLiveKnowledgeStore(
         if (mobId.isBlank() || nodeId.isBlank() || mobId == nodeId ||
             mob.has("superseded_by_harvestable_entity_id") || node.has("source_mob_entity_id")) return
         node.put("source_mob_entity_id", mobId)
+            .put("source_mob_record_key", mob.optString("record_key"))
             .put("mob_state", if (node.optBoolean("depleted", false)) "mined" else "dead_harvestable")
             .put("mob_dead", true)
         mob.put("mob_state", if (node.optBoolean("depleted", false)) "mined" else "dead_harvestable")

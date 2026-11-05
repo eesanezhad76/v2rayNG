@@ -96,16 +96,25 @@ class AlbionLiveKnowledgeStoreTest {
             kind = "harvestable", eventCode = 40, entityId = 7002L,
             typeId = 574, typeNumber = 29, tier = 6, enchant = 2, size = 2, x = 20f, y = 30f
         )))
-        val rows = org.json.JSONArray(store.snapshotJson())
-        assertTrue(rows.length() == 2, "Expected old depleted node plus new spawn: $rows")
-        val old = (0 until rows.length()).map { rows.getJSONObject(it) }
-            .first { it.optInt("spawn_generation") == 0 }
-        val fresh = (0 until rows.length()).map { rows.getJSONObject(it) }
-            .first { it.optInt("spawn_generation") == 1 }
-        assertTrue(old.optBoolean("depleted"), old.toString())
-        assertTrue(old.optString("superseded_by_record_key") == fresh.optString("record_key"))
+        // The UI snapshot intentionally exposes only the active generation.
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        assertTrue(snapshot.length() == 1, "Expected only the active respawn in the UI snapshot: $snapshot")
+        val fresh = snapshot.getJSONObject(0)
+        assertTrue(fresh.optInt("spawn_generation") == 1, fresh.toString())
         assertTrue(!fresh.optBoolean("depleted"), fresh.toString())
         assertTrue(fresh.optInt("resource_remaining") == 2, fresh.toString())
+
+        // The superseded depleted generation must remain in the durable evidence history.
+        store.flush()
+        val persisted = org.json.JSONArray(File(tempDir, "albion-live-knowledge.json").readText())
+        assertTrue(persisted.length() == 2, "Expected both generations in persistent history: $persisted")
+        val old = (0 until persisted.length()).map { persisted.getJSONObject(it) }
+            .first { it.optInt("spawn_generation") == 0 }
+        val savedFresh = (0 until persisted.length()).map { persisted.getJSONObject(it) }
+            .first { it.optInt("spawn_generation") == 1 }
+        assertTrue(old.optBoolean("depleted"), old.toString())
+        assertTrue(old.optString("superseded_by_record_key") == savedFresh.optString("record_key"))
+        assertTrue(savedFresh.optInt("resource_remaining") == 2, savedFresh.toString())
     }
 
     @Test fun attachesProvenanceAwareResourceMappingsWithoutOverwritingRawPacketFields() {
@@ -454,6 +463,49 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(scan.getJSONObject(0).optString("region_id") == "MAP_B")
     }
 
+    @Test fun respawnGenerationKeysRemainIndependentAcrossRegions() {
+        val store = AlbionLiveKnowledgeStore(context(), 30_000L)
+        fun region(now: Long, id: String) {
+            store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+                kind = "region_change", eventCode = 41, regionId = id
+            )))
+        }
+        fun node(now: Long, amount: Int) {
+            store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+                kind = "harvestable", eventCode = 40, entityId = 55L,
+                typeId = 574, typeNumber = 29, tier = 5, size = amount, x = 10f, y = 20f
+            )))
+        }
+        fun deplete(now: Long) {
+            store.observe(now, listOf(AlbionEntityEventMapper.Observation(
+                kind = "resource_state", eventCode = 46, entityId = 55L,
+                size = 0, removed = true
+            )))
+        }
+
+        region(30_100L, "MAP_A")
+        node(30_200L, 3)
+        deplete(30_300L)
+        node(30_400L, 2)
+
+        region(30_500L, "MAP_B")
+        node(30_600L, 3)
+        deplete(30_700L)
+        node(30_800L, 2)
+
+        region(30_900L, "MAP_A")
+        val mapA = org.json.JSONArray(store.snapshotJson())
+        assertTrue(mapA.length() == 1, "MAP_A generation must survive MAP_B refill: $mapA")
+        assertTrue(mapA.getJSONObject(0).optString("region_id") == "MAP_A")
+        assertTrue(mapA.getJSONObject(0).optInt("spawn_generation") == 1)
+
+        region(31_000L, "MAP_B")
+        val mapB = org.json.JSONArray(store.snapshotJson())
+        assertTrue(mapB.length() == 1, "MAP_B generation must remain independent: $mapB")
+        assertTrue(mapB.getJSONObject(0).optString("region_id") == "MAP_B")
+        assertTrue(mapB.getJSONObject(0).optInt("spawn_generation") == 1)
+    }
+
     @Test fun separatesTrollMarkerFromOreElementalAndTracksAliveDeadHarvestedLifecycle() {
         val store = AlbionLiveKnowledgeStore(context(), 20_000L)
         val now = 20_100L
@@ -594,6 +646,108 @@ class AlbionLiveKnowledgeStoreTest {
             .first { it.optString("entity_id") == "777" }
         assertTrue(minedNode.optString("mob_state") == "mined", minedNode.toString())
         assertTrue(minedMob.optString("mob_state") == "mined", minedMob.toString())
+    }
+
+    @Test fun pendingTrollMarkerCannotAttachToReusedEntityIdAfterRegionChange() {
+        val store = AlbionLiveKnowledgeStore(context(), 40_000L)
+        store.observe(40_100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observe(40_200L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 777L, typeId = 701, x = 10f, y = 10f
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("target_id", "777")
+            .put("tier", "3").put("enchantment", "E1"), 40_300L)
+
+        store.observe(40_400L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_B"
+        )))
+        store.observe(40_500L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "mob", eventCode = 123, entityId = 777L, typeId = 701, x = 90f, y = 90f
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "mob_killed"), 40_600L)
+
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        assertTrue(snapshot.length() == 1, snapshot.toString())
+        val mapBMob = snapshot.getJSONObject(0)
+        assertTrue(mapBMob.optString("region_id") == "MAP_B", mapBMob.toString())
+        assertTrue(!mapBMob.optBoolean("manual_marker_identity_proven"), mapBMob.toString())
+        assertTrue(!mapBMob.optBoolean("manual_kill_confirmed"), mapBMob.toString())
+        assertTrue(!mapBMob.optBoolean("mob_dead"), mapBMob.toString())
+    }
+
+    @Test fun markerTargetLookupUsesLatestSpawnGenerationWithinRegion() {
+        val older = org.json.JSONObject()
+            .put("record_key", "50000:MAP_A:777:spawn:0")
+            .put("entity_id", "777").put("session_started_ms", 50_000L)
+            .put("region_id", "MAP_A").put("entity_class", "mob").put("last_kind", "mob")
+            .put("first_seen_ms", 50_100L).put("last_seen_ms", 50_200L)
+            .put("spawn_generation", 0).put("x", 10.0).put("y", 10.0)
+        val newer = org.json.JSONObject()
+            .put("record_key", "50000:MAP_A:777:spawn:1")
+            .put("entity_id", "777").put("session_started_ms", 50_000L)
+            .put("region_id", "MAP_A").put("entity_class", "mob").put("last_kind", "mob")
+            .put("first_seen_ms", 50_300L).put("last_seen_ms", 50_400L)
+            .put("spawn_generation", 1).put("x", 11.0).put("y", 11.0)
+        File(tempDir, "albion-live-knowledge.json").writeText(
+            org.json.JSONArray().put(older).put(newer).toString()
+        )
+
+        val store = AlbionLiveKnowledgeStore(context(), 50_000L)
+        store.observe(50_450L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observeMarker(org.json.JSONObject().put("activity", "Troll")
+            .put("event", "target_found").put("target_id", "777")
+            .put("tier", "5").put("enchantment", "E2"), 50_500L)
+
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        assertTrue(snapshot.length() == 2, snapshot.toString())
+        val generations = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
+            .sortedBy { it.optInt("spawn_generation") }
+        assertTrue(!generations[0].optBoolean("manual_marker_identity_proven"), generations[0].toString())
+        assertTrue(generations[1].optBoolean("manual_marker_identity_proven"), generations[1].toString())
+        assertTrue(generations[1].optInt("spawn_generation") == 1, generations[1].toString())
+    }
+
+
+    @Test fun depletionUpdatesTheExactLinkedMobGenerationAfterEntityIdReuse() {
+        fun mob(generation: Int, seen: Long) = org.json.JSONObject()
+            .put("record_key", "60000:MAP_A:777:spawn:$generation")
+            .put("entity_id", "777").put("session_started_ms", 60_000L)
+            .put("region_id", "MAP_A").put("entity_class", "mob").put("last_kind", "mob")
+            .put("first_seen_ms", seen - 100L).put("last_seen_ms", seen)
+            .put("spawn_generation", generation).put("mob_state", "dead_harvestable")
+            .put("mob_dead", true).put("x", 10.0 + generation).put("y", 10.0)
+        val node = org.json.JSONObject()
+            .put("record_key", "60000:MAP_A:999").put("entity_id", "999")
+            .put("session_started_ms", 60_000L).put("region_id", "MAP_A")
+            .put("entity_class", "resource").put("last_kind", "harvestable")
+            .put("first_seen_ms", 60_300L).put("last_seen_ms", 60_400L)
+            .put("source_mob_entity_id", "777")
+            .put("source_mob_record_key", "60000:MAP_A:777:spawn:0")
+            .put("x", 20.0).put("y", 20.0)
+        File(tempDir, "albion-live-knowledge.json").writeText(
+            org.json.JSONArray().put(mob(0, 60_200L)).put(mob(1, 60_350L)).put(node).toString()
+        )
+
+        val store = AlbionLiveKnowledgeStore(context(), 60_000L)
+        store.observe(60_450L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 41, regionId = "MAP_A"
+        )))
+        store.observe(60_500L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "resource_state", eventCode = 46, entityId = 999L, size = 0, removed = true
+        )))
+
+        val snapshot = org.json.JSONArray(store.snapshotJson())
+        val mobs = (0 until snapshot.length()).map { snapshot.getJSONObject(it) }
+            .filter { it.optString("entity_class") == "mob" }
+            .sortedBy { it.optInt("spawn_generation") }
+        assertTrue(mobs.size == 2, snapshot.toString())
+        assertTrue(mobs[0].optString("mob_state") == "mined", mobs[0].toString())
+        assertTrue(mobs[1].optString("mob_state") == "dead_harvestable", mobs[1].toString())
     }
 
 }

@@ -34,8 +34,7 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          shopt -s nullglob globstar
-          zips=(research/inbox/*.zip research/inbox/**/*.zip)
+          mapfile -t zips < <(find research/inbox -type f -name '*.zip' -print | sort)
           python research/tools/ingest_capture.py --refresh-existing "${zips[@]}"
           python research/tools/ingest_knowledge_bundle.py --rebuild "${zips[@]}"
           python -m unittest discover -s research/tests -p 'test_*.py' -v

@@ -41,11 +41,21 @@ object AlbionKnowledgeBundle {
         val autonomousFile = dir.resolve(AUTONOMOUS_FILE)
         val autonomousText = if (autonomousFile.isFile) {
             readJsonArray(autonomousFile)
-        } else if (context.assets.list("")?.contains("albion-historical-autonomous-patterns.json") == true) {
-            context.assets.open("albion-historical-autonomous-patterns.json")
-                .bufferedReader(Charsets.UTF_8).use { it.readText() }.also { JSONArray(it) }
         } else {
-            "[]"
+            // Local JVM tests use Android's mockable Context, whose getAssets() throws.
+            // The bundled historical catalog is optional; absence of an accessible asset
+            // must not prevent exporting an otherwise valid empty knowledge bundle.
+            val hasHistoricalAsset = try {
+                context.assets.list("")?.contains("albion-historical-autonomous-patterns.json") == true
+            } catch (_: RuntimeException) {
+                false
+            }
+            if (hasHistoricalAsset) {
+                context.assets.open("albion-historical-autonomous-patterns.json")
+                    .bufferedReader(Charsets.UTF_8).use { it.readText() }.also { JSONArray(it) }
+            } else {
+                "[]"
+            }
         }
         val autonomousBytes = autonomousText.toByteArray(Charsets.UTF_8)
         val patternsFile = dir.resolve("albion-learned-patterns.json")

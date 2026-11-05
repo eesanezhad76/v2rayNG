@@ -1,3 +1,4 @@
+import json
 import sys
 import unittest
 from pathlib import Path
@@ -5,16 +6,31 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "research" / "tools"))
 
+from generate_runtime_knowledge_index import build_index
 from validate_runtime_knowledge_assets import validate
+from analyze_spatial_alignment import parse_fields
 
 
 class RuntimeKnowledgeAssetIntegrationTest(unittest.TestCase):
+    def test_shipped_runtime_index_is_reproducible_from_current_csv_sources(self):
+        generated = build_index(ROOT)
+        shipped_path = ROOT / "V2rayNG/app/src/main/assets/albion-research-knowledge-index.json"
+        shipped = json.loads(shipped_path.read_text(encoding="utf-8"))
+        self.assertEqual(generated, shipped)
+        self.assertEqual("albion-db-runtime-wiring-2026-11-05", shipped["generated_from"]["source_branch"])
+
+    def test_spatial_detail_parser_preserves_numeric_field_names(self):
+        fields = parse_fields("t=1793403804041 param0_type=String param0_value=4000 kind=region")
+        self.assertEqual("String", fields["param0_type"])
+        self.assertEqual("4000", fields["param0_value"])
+        self.assertEqual("1793403804041", fields["t"])
+
     def test_shipped_assets_cover_complete_research_index(self):
         report = validate(ROOT)
         self.assertEqual("PASS", report["status"])
-        self.assertEqual(331, report["resource_observations"])
-        self.assertEqual(2330, report["mobile_entity_observations"])
-        self.assertEqual("64/64", report["dictionary_coverage"])
+        self.assertEqual(406, report["resource_observations"])
+        self.assertEqual(2956, report["mobile_entity_observations"])
+        self.assertEqual("67/67", report["dictionary_coverage"])
         self.assertGreater(report["external_dictionary_entries"], 64)
         self.assertEqual(54, report["historical_mobile_type_ids"])
         self.assertEqual("54/54", report["historical_mobile_dictionary_coverage"])

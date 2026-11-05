@@ -13,16 +13,16 @@ from pathlib import Path
 
 
 EXPECTED_FAMILIES = {
-    "7": ("Rock", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 87),
-    "14": ("Fiber", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 47),
-    "20": ("Hide", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 7),
-    "27": ("Ore", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 88),
+    "7": ("Rock", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 108),
+    "14": ("Fiber", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 55),
+    "20": ("Hide", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 8),
+    "27": ("Ore", "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL", 123),
     "28": ("unknown", "UNRESOLVED", 2),
-    "29": ("Ore", "PACKET_CONFIRMED_LIVING_RESOURCE", 100),
+    "29": ("Ore", "PACKET_CONFIRMED_LIVING_RESOURCE", 110),
 }
-EXPECTED_MOBILE_OBSERVATIONS = 2330
-EXPECTED_MOBILE_TYPE_IDS = 64
-EXPECTED_RESOURCE_OBSERVATIONS = 331
+EXPECTED_MOBILE_OBSERVATIONS = 2956
+EXPECTED_MOBILE_TYPE_IDS = 67
+EXPECTED_RESOURCE_OBSERVATIONS = 406
 
 
 def _json(path: Path):
@@ -134,16 +134,16 @@ def validate(root: Path) -> dict:
         raise ValueError("historical resource families are not covered by the runtime research index")
 
     rabbit = mobile.get("482", {})
-    if rabbit.get("names") != {"Mountain Rabbit": 469} or rabbit.get("harvestable_values") != {"False": 469}:
+    if rabbit.get("names") != {"Mountain Rabbit": 661} or rabbit.get("harvestable_values") != {"False": 661}:
         raise ValueError("Mountain Rabbit ID 482 must remain explicitly non-harvestable")
     ore_family = families["29"]
     if ore_family.get("mobile_type_ids") != [571, 573, 574]:
         raise ValueError("family 29 Ore Elemental crosswalk mismatch")
-    for type_id, tier in (("571", 3), ("573", 4), ("574", 5)):
+    for type_id, tier, expected_count in (("571", 3, 217), ("573", 4, 171), ("574", 5, 107)):
         row = mobile.get(type_id, {})
-        if row.get("names") != {"Ore Elemental": row.get("observation_count")}:
+        if row.get("observation_count") != expected_count or row.get("names") != {"Ore Elemental": expected_count}:
             raise ValueError(f"Ore Elemental name mismatch for type {type_id}")
-        if row.get("tiers") != [tier] or row.get("harvestable_values") != {"True": row.get("observation_count")}:
+        if row.get("tiers") != [tier] or row.get("harvestable_values") != {"True": expected_count}:
             raise ValueError(f"Ore Elemental tier/harvestability mismatch for type {type_id}")
 
     resource_csv = research / "albion-resource-node-catalog-2026-11-03.csv"

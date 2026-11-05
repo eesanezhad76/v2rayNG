@@ -213,9 +213,18 @@ class AlbionCaptureWorker(
             textLog.flush()
             logFileStream?.fd?.sync()
             markerCount.incrementAndGet()
-            autonomousPatternLearner?.observeMarker(marker, timestampMs)
-            gatheringPatternLearner?.observeMarker(marker, timestampMs)
-            knowledgeStore?.observeMarker(marker, timestampMs)
+            // The marker is already durable in both sinks. A downstream learner/cache
+            // failure must not report the persisted marker as unsaved and invite duplicates.
+            val enrichmentFailures = mutableListOf<String>()
+            runCatching { autonomousPatternLearner?.observeMarker(marker, timestampMs) }
+                .onFailure { error -> enrichmentFailures += "autonomous=" + error.message }
+            runCatching { gatheringPatternLearner?.observeMarker(marker, timestampMs) }
+                .onFailure { error -> enrichmentFailures += "gathering=" + error.message }
+            runCatching { knowledgeStore?.observeMarker(marker, timestampMs) }
+                .onFailure { error -> enrichmentFailures += "knowledge=" + error.message }
+            if (enrichmentFailures.isNotEmpty()) {
+                failure = "marker persisted; post-write enrichment failed: " + enrichmentFailures.joinToString("; ")
+            }
             scope.launch(Dispatchers.IO) { mirrorDownloads() }
             true
         } catch (t: Throwable) {

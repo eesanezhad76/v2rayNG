@@ -11,7 +11,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 DEFAULT_INPUT = ROOT / "research/analysis/2026-11-02-all-inbox-observations.jsonl"
 DEFAULT_JSON = ROOT / "research/analysis/2026-11-02-spatial-alignment.json"
 DEFAULT_MD = ROOT / "research/analysis/2026-11-02-spatial-alignment.md"
-FIELD_RE = re.compile(r"([A-Za-z_]+)=([^\s]+)")
+FIELD_RE = re.compile(r"([A-Za-z_][A-Za-z0-9_]*)=([^\s]+)")
 
 
 def parse_fields(detail):
