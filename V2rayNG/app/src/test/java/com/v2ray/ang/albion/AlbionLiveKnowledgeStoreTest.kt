@@ -704,7 +704,7 @@ class AlbionLiveKnowledgeStoreTest {
     }
 
 
-    @Test fun depletionUpdatesTheLatestRegionLocalMobGenerationOnly() {
+    @Test fun depletionUpdatesTheExactLinkedMobGenerationAfterEntityIdReuse() {
         fun mob(generation: Int, seen: Long) = org.json.JSONObject()
             .put("record_key", "60000:MAP_A:777:spawn:$generation")
             .put("entity_id", "777").put("session_started_ms", 60_000L)
@@ -717,7 +717,9 @@ class AlbionLiveKnowledgeStoreTest {
             .put("session_started_ms", 60_000L).put("region_id", "MAP_A")
             .put("entity_class", "resource").put("last_kind", "harvestable")
             .put("first_seen_ms", 60_300L).put("last_seen_ms", 60_400L)
-            .put("source_mob_entity_id", "777").put("x", 20.0).put("y", 20.0)
+            .put("source_mob_entity_id", "777")
+            .put("source_mob_record_key", "60000:MAP_A:777:spawn:0")
+            .put("x", 20.0).put("y", 20.0)
         File(tempDir, "albion-live-knowledge.json").writeText(
             org.json.JSONArray().put(mob(0, 60_200L)).put(mob(1, 60_350L)).put(node).toString()
         )
@@ -735,8 +737,8 @@ class AlbionLiveKnowledgeStoreTest {
             .filter { it.optString("entity_class") == "mob" }
             .sortedBy { it.optInt("spawn_generation") }
         assertTrue(mobs.size == 2, snapshot.toString())
-        assertTrue(mobs[0].optString("mob_state") == "dead_harvestable", mobs[0].toString())
-        assertTrue(mobs[1].optString("mob_state") == "mined", mobs[1].toString())
+        assertTrue(mobs[0].optString("mob_state") == "mined", mobs[0].toString())
+        assertTrue(mobs[1].optString("mob_state") == "dead_harvestable", mobs[1].toString())
     }
 
 }
