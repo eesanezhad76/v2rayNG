@@ -48,6 +48,10 @@ object AlbionEntityEventMapper {
                 OP_JOIN -> p[8] as? String
                 else -> null
             }?.takeIf { it.isNotBlank() } ?: return emptyList()
+            // Runtime entity IDs and their player/non-player hints are map-local.
+            // Clear the previous map's lookup state before decoding new-map movement.
+            knownNonPlayerEntities.clear()
+            knownPlayerEntities.clear()
             return listOf(Observation(kind = "region_change", eventCode = operation, regionId = regionId))
         }
         if (message.kind != "event" && message.kind != "request") return emptyList()
@@ -249,6 +253,8 @@ object AlbionEntityEventMapper {
                 // destination map/cluster identity at p2.
                 val newRegion = p[2] as? String
                 if (p[3] == true && !newRegion.isNullOrBlank()) {
+                    knownNonPlayerEntities.clear()
+                    knownPlayerEntities.clear()
                     listOf(Observation(kind = "region_change", eventCode = code, regionId = newRegion))
                 } else emptyList()
             }
