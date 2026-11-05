@@ -528,7 +528,7 @@ fun main() {
         )
         val familyEvidence = linkedMapOf<String, FamilyEvidence>()
         val correlationCsv = buildString {
-            appendLine("archive,pcap,region_id,activity,found_ms,started_ms,completed_ms,depleted_ms,tier_label,enchantment_label,candidate_node_count,candidate_families,candidate_entity_ids,candidate_evidence_details,inactive_candidate_count,inactive_candidate_entity_ids,match_status")
+            appendLine("archive,pcap,region_id,activity,found_ms,started_ms,completed_ms,depleted_ms,tier_label,enchantment_label,candidate_node_count,candidate_families,candidate_entity_ids,candidate_evidence_details,not_confirmed_active_candidate_count,not_confirmed_active_candidate_ids,confirmed_depleted_candidate_count,confirmed_depleted_candidate_ids,unverified_candidate_count,unverified_candidate_ids,match_status")
             for (sample in markerSamples) {
                 val tierNumber = sample.tierLabel?.removePrefix("T")?.toIntOrNull()
                 val enchantNumber = when (sample.enchantLabel?.uppercase()?.replace(" ", "")) {
@@ -591,13 +591,23 @@ fun main() {
                     isMobActivity && mobCandidates.isEmpty() -> "no_event123_mob_candidates"
                     isMobActivity && mobCandidates.size == 1 -> "single_event123_mob_candidate_only"
                     isMobActivity -> "ambiguous_event123_mob_candidates"
-                    isResourceActivity && temporalResourceCandidates.isEmpty() && inactiveResourceCandidates.isNotEmpty() -> "only_depleted_or_inactive_candidates"
+                    isResourceActivity && temporalResourceCandidates.isEmpty() &&
+                        inactiveResourceCandidates.isNotEmpty() &&
+                        inactiveResourceCandidates.all { hasConfirmedDepletionAtMarker(it, sample) } -> "only_confirmed_depleted_candidates"
+                    isResourceActivity && temporalResourceCandidates.isEmpty() && inactiveResourceCandidates.isNotEmpty() ->
+                        "candidate_state_unverified_not_proven_depleted"
                     resourceCandidates.isEmpty() && temporalResourceCandidates.isNotEmpty() -> "unverified_family_candidates"
                     resourceCandidates.isEmpty() -> "no_candidates"
                     tierNumber == null || enchantNumber == null -> "incomplete_overlay_labels"
                     familyCounts.isEmpty() -> "family_unavailable"
                     familyCounts.size == 1 -> "single_family_candidate_only"
                     else -> "ambiguous_families"
+                }
+                val confirmedDepletedResourceCandidates = inactiveResourceCandidates.filter {
+                    hasConfirmedDepletionAtMarker(it, sample)
+                }
+                val unverifiedResourceCandidates = inactiveResourceCandidates.filterNot {
+                    hasConfirmedDepletionAtMarker(it, sample)
                 }
                 val candidateDetails = if (isMobActivity) {
                     mobCandidates.sortedBy { mob ->
@@ -611,23 +621,29 @@ fun main() {
                             mob.first.toString(), mob.last.toString()).joinToString(":")
                     }
                 } else {
-                    reportedResourceCandidates.sortedBy { node ->
-                        when {
-                            sample.foundMs < node.first -> node.first - sample.foundMs
-                            sample.foundMs > node.last -> sample.foundMs - node.last
-                            else -> 0L
+                    (reportedResourceCandidates + inactiveResourceCandidates).distinctBy { it.id }
+                        .sortedBy { node ->
+                            when {
+                                sample.foundMs < node.first -> node.first - sample.foundMs
+                                sample.foundMs > node.last -> sample.foundMs - node.last
+                                else -> 0L
+                            }
+                        }.joinToString(";") { node ->
+                            val gap = when {
+                                sample.foundMs < node.first -> node.first - sample.foundMs
+                                sample.foundMs > node.last -> sample.foundMs - node.last
+                                else -> 0L
+                            }
+                            val evidenceStatus = when {
+                                hasActiveResourceEvidence(node, sample, windowStart, windowEnd) -> "active_or_possible"
+                                hasConfirmedDepletionAtMarker(node, sample) -> "confirmed_depleted_at_marker"
+                                else -> "state_unverified_not_proven_depleted"
+                            }
+                            listOf(node.id, node.families.joinToString("|"), node.tiers.joinToString("|"),
+                                node.enchants.joinToString("|"), node.mobileTypes.joinToString("|"),
+                                node.coordinates.joinToString("|"), node.first.toString(), node.last.toString(),
+                                gap.toString(), evidenceStatus).joinToString(":")
                         }
-                    }.joinToString(";") { node ->
-                        val gap = when {
-                            sample.foundMs < node.first -> node.first - sample.foundMs
-                            sample.foundMs > node.last -> sample.foundMs - node.last
-                            else -> 0L
-                        }
-                        listOf(node.id, node.families.joinToString("|"), node.tiers.joinToString("|"),
-                            node.enchants.joinToString("|"), node.mobileTypes.joinToString("|"),
-                            node.coordinates.joinToString("|"), node.first.toString(), node.last.toString(), gap.toString())
-                            .joinToString(":")
-                    }
                 }
                 appendLine(listOf(sample.archive, sample.pcap, sample.regionId ?: "", sample.activity, sample.foundMs.toString(),
                     sample.startedMs?.toString() ?: "", sample.completedMs?.toString() ?: "", sample.depletedMs?.toString() ?: "",
@@ -635,7 +651,11 @@ fun main() {
                     familyCounts.entries.sortedBy { it.key }.joinToString("|") { it.key + ":" + it.value },
                     (if (isMobActivity) mobCandidates.map { it.id } else reportedResourceCandidates.map { it.id }).joinToString("|"),
                     candidateDetails, inactiveResourceCandidates.size.toString(),
-                    inactiveResourceCandidates.map { it.id }.joinToString("|"), status).joinToString(",") { csvCell(it) })
+                    inactiveResourceCandidates.map { it.id }.joinToString("|"),
+                    confirmedDepletedResourceCandidates.size.toString(),
+                    confirmedDepletedResourceCandidates.map { it.id }.joinToString("|"),
+                    unverifiedResourceCandidates.size.toString(),
+                    unverifiedResourceCandidates.map { it.id }.joinToString("|"), status).joinToString(",") { csvCell(it) })
             }
         }
         File(out, "2026-11-02-overlay-family-correlation.csv").writeText(correlationCsv, Charsets.UTF_8)
