@@ -153,22 +153,28 @@ class IngestTests(unittest.TestCase):
    self.assertEqual("T5",cycle["tier"])
    self.assertEqual("E3",cycle["enchantment"])
 
- def test_current_overlay_pairs_end_to_most_recent_pending_start(self):
+ def test_current_overlay_supersedes_old_pending_start_and_preserves_duplicate_end(self):
   with tempfile.TemporaryDirectory() as td:
    d=pathlib.Path(td)
    markers=[
-    {"timestamp_ms":10,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"Normal"},
-    {"timestamp_ms":20,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"E1"},
-    {"timestamp_ms":30,"activity":"Ore","event":"gathering_completed","tier":"T5","enchantment":"E1"},
-    {"timestamp_ms":40,"activity":"Ore","event":"gathering_completed","tier":"T5","enchantment":"Normal"}
+    {"timestamp_ms":1098339,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":1105571,"activity":"Ore","event":"target_found","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":1111961,"activity":"Ore","event":"gathering_completed","tier":"T5","enchantment":"E1"},
+    {"timestamp_ms":1315035,"activity":"Ore","event":"target_found","tier":"T4","enchantment":"E2"},
+    {"timestamp_ms":1319942,"activity":"Ore","event":"gathering_completed","tier":"T4","enchantment":"E2"},
+    {"timestamp_ms":1320625,"activity":"Ore","event":"gathering_completed","tier":"T4","enchantment":"E2"}
    ]
    out=self.run_ingest([{"time_ms":m["timestamp_ms"],"manual_marker":m} for m in markers],d)
    cycles=out["marker_lifecycles"]
-   self.assertEqual(2,out["counts"]["complete_resource_marker_cycles"])
    by_start={x["found_ms"]:x for x in cycles}
-   self.assertEqual(30,by_start[20]["completed_ms"])
-   self.assertEqual(40,by_start[10]["completed_ms"])
-   self.assertEqual(0,out["counts"]["incomplete_resource_marker_cycles"])
+   self.assertEqual("SUPERSEDED_NOT_COMPLETED",by_start[1098339]["status"])
+   self.assertEqual(1105571,by_start[1098339]["superseded_by_ms"])
+   self.assertEqual(1111961,by_start[1105571]["completed_ms"])
+   self.assertEqual(1319942,by_start[1315035]["completed_ms"])
+   self.assertEqual(2,out["counts"]["complete_resource_marker_cycles"])
+   self.assertEqual(1,out["counts"]["incomplete_resource_marker_cycles"])
+   self.assertEqual(2,out["counts"]["unmatched_marker_events"])
+   self.assertEqual("completion_without_target_found",out["unmatched_marker_events"][-1]["reason"])
 
  def test_legacy_event_analysis_schema_still_supported(self):
   with tempfile.TemporaryDirectory() as td:
