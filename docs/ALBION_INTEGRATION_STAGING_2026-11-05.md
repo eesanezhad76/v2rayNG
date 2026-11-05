@@ -1012,3 +1012,45 @@ The complete snapshot also includes `checkpoint/albion-radar-stable-2026-11-04`,
 - Resulting commit SHA: 76284e75f7bfacb585003390d725cdedcdc11481
 - New blob SHA: e113cb37785e832fc40758032975b7f1b384c2a5
 - No application source, tests, runtime assets, research outputs, raw evidence, archive parts, or pre-existing branches changed.
+
+
+## 29. Raw 45-part archive — completed 7z and member-integrity verification
+
+Read-only audit branch:
+- Branch: `albion-archive-audit-2026-11-05`
+- Source snapshot: Pattern Mining commit `a453c812483f285dcae97d0ad0bc044c0cec11fa`
+- Audit workflow file: `.github/workflows/albion-archive-audit.yml`
+- Workflow run: `42087590613` (completed, success)
+- Job: `127456762723` (success)
+- Artifact: `albion-archive-integrity-audit`, ID `13444361039`
+
+Verified results from the uploaded artifact:
+- All 45 source parts present, sequence complete, total 465,164,657 bytes.
+- 7-Zip 23.01 recognized the archive as a 45-volume multi-volume 7z and reported `Everything is Ok`.
+- Archive contained 9 files, total uncompressed member bytes 797,745,828.
+- Extracted members: 4 PCAP, 4 JSONL, 1 report.
+- All 9 extracted files matched the exact byte size and SHA-256 recorded in `research/analysis/archiveNew-extracted-forensic-inventory.md`.
+- The six Master files (026–031) were compared byte-for-byte against the corresponding Pattern Mining split parts; all six matched. Their computed SHA-256 values are recorded in the artifact.
+- A SHA-256 list for all 45 raw split parts is retained in the same artifact.
+- No raw source part or Master file was rewritten, moved, or deleted.
+
+Manifest boundary:
+- The complete database manifest lists 14 ZIP archives, including the derived `archiveNew-extracted.zip`; it does **not** define SHA-256 values for the 45 raw 7z split parts.
+- Therefore the raw split archive was validated by 7z multi-volume CRC/integrity testing, extracted-member SHA-256 comparison, and byte-for-byte Master duplicate checks.
+- The manifest's outer ZIP record is 797,747,472 bytes with SHA-256 `8c93960e9a036f63d2d822d91c6d5288bb1cb565c0acdfb70add61ef79e2e1c7`. The nine extracted members match, but the outer ZIP container hash was not recomputed by this audit.
+
+The enhanced read-only audit run `42087978698` is in progress to additionally verify all 13 original ZIP inputs against the complete database manifest. Its workflow also keeps temporary Master copies outside the uploaded artifact. Do not treat the 13-ZIP manifest check as passed until that run completes successfully.
+
+## 30. Change log — archive audit branch and verified evidence
+
+- Operation: create isolated archive-audit branch from Pattern Mining; add and refine a read-only workflow; run 7z and member-integrity verification.
+- Repository: `eesanezhad76/v2rayNG`
+- New branch: `albion-archive-audit-2026-11-05`, source commit `a453c812483f285dcae97d0ad0bc044c0cec11fa`
+- Workflow file creation commit: `27d212a5c28350ac9c5ca82e72c9c679365bb422`
+- Workflow correction commit: `27857cf19fc3541030b3addba9af8cd1527758ef`
+- ZIP-manifest validation commit: `aedc0f55ae3929aaf869295d66a0ae5e39dcc3ff`
+- Artifact-size cleanup commit: `cb38229cfa41f60af89cb3f325347b9785778cfb`
+- Latest audit branch head at this record: `cb38229cfa41f60af89cb3f325347b9785778cfb`
+- Latest workflow blob SHA: `9dc3f1c5dab26b8bf2f4f16c94824f57aa3d5628`
+- Successful 7z/member audit run: `42087590613`; artifact ID `13444361039`.
+- The audit workflow uses `contents: read`; it writes no repository data and commits no extracted output.
