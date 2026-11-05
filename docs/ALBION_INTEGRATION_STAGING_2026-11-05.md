@@ -1513,3 +1513,57 @@ This resolves the schema question for this observed protocol version/capture. It
 - Source register blob before this correction: 1a8722c8e62fc6179d71075c7688ff79f81bf94b
 - Resulting docs-only commit and blob SHA are recorded after commit creation.
 - No runtime code, source branch, PCAP, archive or derived CSV changed.
+
+
+## 48. Research assets and historical knowledge: current Safe branch is newer
+
+Exact asset comparisons show that Pattern Mining is not the authoritative copy for the current runtime research index:
+
+| Asset | Pattern Mining | Safe Fixes | Decision |
+|---|---:|---:|---|
+| Research index observations | 331 resource / 2,330 mobile | 406 resource / 2,956 mobile | Keep Safe Fixes; Pattern is older by 75 resource and 626 mobile observations |
+| Research index mobile TypeIDs | 64 | 67 | Keep Safe Fixes; three additional IDs are present in the newer index |
+| Family 28 | 2 observations, UNRESOLVED | 2 observations, UNRESOLVED | Preserve unresolved status in both; never promote it |
+| Family 29 Ore Elemental | 100 observations | 110 observations | Keep Safe Fixes' newer count and capture coverage |
+| Static catalog base | 83 nodes / 656 mobs / 56 markers | 83 nodes / 656 mobs / 56 markers | Base geometry counts match, but content is not equivalent |
+| Static catalog attack targets | 0 | 27 | Keep Safe Fixes |
+| Correlated attack-target markers | 0 | 21 | Keep Safe Fixes |
+| Troll target count | 0 | 7 | Keep Safe Fixes |
+
+Exact blobs:
+- Pattern research index: 98b185488552903550faed2a46c06c00e452dd0a
+- Safe research index: 8fb279d360164ef8f6c9192b8ece243c40eea1e0
+- Pattern static catalog: 35b9d6e6807c5b77191f36eff23f44d6a0ab7299
+- Safe static catalog: 5bc1c8d8ede00ff569cf2d43619d9e3d09fb45db
+- Pattern mobile dictionary blob: 70038fa5fab73450fcb186eee5e47de6cf79fb1d
+- Safe mobile dictionary blob: 3aed3fdc61c87ef0b889def70cc33bf2b39f3b9e
+
+The Pattern static catalog's node/mob/marker counts match Safe Fixes, but it omits all 27 attack-target records and their 21 correlated marker links. This is a material evidence regression despite matching headline entity counts.
+
+### Historical seed is already integrated as a build-time generated asset
+
+The following are byte-identical across Pattern Mining and Safe Fixes:
+- research/database/albion-knowledge-bundle-import.json — Git blob 776fd0e76f3abbe992ecf23bb77bb1b1d72d7ab5, 17,141,749 bytes.
+- research/tools/generate_historical_knowledge_seed.py — blob 02e69f924e4a1583f9281d86da5f3889d1107802.
+- AlbionHistoricalKnowledgeIndex.kt — blob 25856eb38252495fac67303109d67da69c302500.
+- AlbionAutonomousPatternLearner.kt — blob 4b92dec42f39e150cdcbc5fe75bcfaf4c70e8967.
+- AlbionPatternMiner.kt — blob f86e3ebfd599ff991d6eccf823adbe4f671adca6.
+
+The Safe Fixes build workflow already runs generate_historical_knowledge_seed.py before the Android build. The generated historical assets are therefore produced in CI and packaged into the APK; their absence as checked-in files on Safe Fixes is not a missing transfer. Do not duplicate or overwrite them. The source import, generator and runtime classes are already shared identically between the two branches.
+
+### Decision
+
+- Do not copy Pattern's older research index, static catalog, or mobile dictionary over Safe Fixes.
+- Keep Safe Fixes' 27 attack targets / 21 marker correlations / 7 Troll targets.
+- Keep the shared source import and generator as-is; CI already generates the bounded historical seed.
+- Any future generated-index refresh must use the canonical CSV blobs and reproduce exact counts/hashes before replacing an asset.
+
+### Change log — research asset comparison
+
+- Operation: compare Pattern and Safe runtime index/static catalog/dictionary assets; verify shared historical source import, generator and runtime knowledge classes.
+- Repository: eesanezhad76/v2rayNG
+- Source branches: albion-pattern-mining / albion-safe-fixes-2026-11-05
+- Destination branch: albion-integration-staging-2026-11-05
+- Source register blob before this audit: 02e5498f254d471e6e66f4369b03233b7f2f0c33
+- Resulting docs-only commit and blob SHA are recorded after commit creation.
+- No generated asset, raw evidence, database, source branch or runtime code changed.
