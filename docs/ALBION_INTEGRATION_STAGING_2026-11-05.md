@@ -918,4 +918,5 @@ No source commit was cherry-picked, merged, or copied by this assessment. The tr
 - Source document blob SHA: 5fc53a40e5d64084858aad04a8fff9652e00a965
 - Destination branch: albion-integration-staging-2026-11-05
 - No application source, tests, runtime assets, research outputs, raw evidence, or pre-existing branches changed.
-- Resulting commit and new blob SHA: record from update response and verify against branch HEAD.
+- Resulting commit SHA: d75c12484a7646cb36ef5e09bf28dfbfb19e8eaf
+- New blob SHA: 2a1685ef1a884c8495eca1a0dde72ad08757f607
