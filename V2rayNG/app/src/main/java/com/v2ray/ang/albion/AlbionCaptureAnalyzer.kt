@@ -163,6 +163,13 @@ object AlbionCaptureAnalyzer {
                                     val hex = raw?.take(128)?.joinToString("") { "%02x".format(it) } ?: "null"
                                     detailed += "t=" + packetTimeMs + " event3 id=" + message.parameters[0] + " raw=" + hex + " p4=" + message.parameters[4] + " p5=" + message.parameters[5]
                                 }
+                                if (message.kind == "event" && message.realCode == 2) {
+                                    // Retain the exact decoded candidate shape for offline review.
+                                    // Event 2 is not assigned zone-transition semantics here.
+                                    val params = message.parameters.entries.sortedBy { it.key }
+                                        .joinToString(" ") { (key, value) -> key.toString() + "=" + describeValue(value) }
+                                    detailed += "t=" + packetTimeMs + " kind=unmapped_event_candidate code=2 params={" + params + "}"
+                                }
                                 if (message.kind == "request" && message.realCode in setOf(22, 23, 24, 54, 199, 554)) {
                                     val params = message.parameters.entries.sortedBy { it.key }.joinToString(" ") { (key, value) -> key.toString() + "=" + describeValue(value) }
                                     detailed += "t=" + packetTimeMs + " outbound_request op=" + message.realCode + " params={" + params + "}"
@@ -274,6 +281,11 @@ object AlbionCaptureAnalyzer {
             buildString {
                 append("t=").append(marker.optLong("timestamp_ms"))
                 append(" kind=manual_marker")
+                // Preserve both clocks: PCAP packet time is wall-clock epoch time,
+                // while elapsedRealtime is monotonic and supports drift/order audits.
+                if (marker.has("elapsed_realtime_ms")) {
+                    append(" elapsed_realtime_ms=").append(marker.optLong("elapsed_realtime_ms"))
+                }
                 append(" activity=").append(safe(marker.optString("activity", "Unknown")))
                 append(" event=").append(safe(marker.optString("event", "event")))
                 marker.optString("tier", "").takeIf { it.isNotBlank() && it != "null" }?.let {
@@ -284,6 +296,9 @@ object AlbionCaptureAnalyzer {
                 }
                 marker.optString("target_id", "").takeIf { it.isNotBlank() && it != "null" }?.let {
                     append(" target_id=").append(safe(it))
+                }
+                marker.optString("marker_type", "").takeIf { it.isNotBlank() && it != "null" }?.let {
+                    append(" marker_type=").append(safe(it))
                 }
             }
         } catch (_: Exception) { null }
