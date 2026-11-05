@@ -375,7 +375,7 @@ fun main() {
                     ResourcePatternAgg(family, tier, enchant, mobileType)
                 }
                 pattern.entities += nodeKey
-                pattern.captures += node.archive + "/" + node.pcap + "/" + (node.regionId ?: "<unknown-region>")
+                pattern.captures += node.archive + "/" + node.pcap
                 if (node.coordinates.isNotEmpty()) pattern.coordinateEntities++
             }
         }
@@ -558,7 +558,7 @@ fun main() {
                     val evidenceKey = (sample.regionId ?: "<unknown-region>") + "\u001f" + sample.activity + "\u001f" + singleFamily
                     val evidence = familyEvidence.getOrPut(evidenceKey) { FamilyEvidence(sample.activity, singleFamily) }
                     evidence.samples += sample.archive + "\u001f" + sample.pcap + "\u001f" + (sample.regionId ?: "<unknown-region>") + "\u001f" + sample.foundMs
-                    evidence.captures += sample.archive + "/" + sample.pcap + "/" + (sample.regionId ?: "<unknown-region>")
+                    evidence.captures += sample.archive + "/" + sample.pcap
                     evidence.candidateNodes += familyCounts[singleFamily] ?: 0
                 }
                 val status = when {
