@@ -1,0 +1,209 @@
+name: Albion archive integrity audit (read-only)
+
+on:
+  push:
+    branches:
+      - albion-archive-audit-2026-11-05
+    paths:
+      - 'research/inbox/archiveNew.7z.t0.*'
+      - 'research/analysis/archiveNew-extracted-forensic-inventory.md'
+      - 'research/database/albion-complete-database-manifest-2026-11-03.json'
+      - '.github/workflows/albion-archive-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: albion-archive-audit-2026-11-05
+  cancel-in-progress: false
+
+jobs:
+  verify-raw-archive:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Checkout immutable audit snapshot
+        uses: actions/checkout@v4
+        with:
+          ref: albion-archive-audit-2026-11-05
+          fetch-depth: 0
+
+      - name: Install archive verifier
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y p7zip-full
+
+      - name: Hash all source parts and verify the six Master duplicates
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/albion-archive-audit"
+          out="$RUNNER_TEMP/albion-archive-audit"
+          parts=(research/inbox/archiveNew.7z.t0.[0-9][0-9][0-9])
+          if [[ "${#parts[@]}" -ne 45 ]]; then
+            printf 'Expected 45 split parts, found %s\n' "${#parts[@]}" | tee "$out/source-parts-check.txt"
+            exit 1
+          fi
+          for i in $(seq 1 45); do
+            printf -v n '%03d' "$i"
+            file="research/inbox/archiveNew.7z.t0.$n"
+            test -s "$file"
+            if [[ "$i" -le 44 ]]; then
+              expected=10485760
+            else
+              expected=3791217
+            fi
+            actual=$(stat -c '%s' "$file")
+            if [[ "$actual" -ne "$expected" ]]; then
+              printf 'SIZE_MISMATCH %s expected=%s actual=%s\n' "$file" "$expected" "$actual" | tee -a "$out/source-parts-check.txt"
+              exit 1
+            fi
+            printf 'OK %s bytes=%s\n' "$file" "$actual" >> "$out/source-parts-check.txt"
+          done
+          sha256sum "${parts[@]}" > "$out/raw-split-parts.sha256"
+
+          git fetch --no-tags origin master
+          : > "$out/master-duplicate-check.txt"
+          for i in 26 27 28 29 30 31; do
+            printf -v n '%03d' "$i"
+            source="research/inbox/archiveNew.7z.t0.$n"
+            master="$RUNNER_TEMP/albion-archive-audit/master-$n"
+            git show "origin/master:archiveNew.7z.t0.$n" > "$master"
+            cmp "$source" "$master"
+            source_hash=$(sha256sum "$source" | awk '{print $1}')
+            master_hash=$(sha256sum "$master" | awk '{print $1}')
+            printf 'MATCH part=%s source_sha256=%s master_sha256=%s\n' "$n" "$source_hash" "$master_hash" >> "$out/master-duplicate-check.txt"
+          done
+
+      - name: Reassemble, test and extract the 45-part 7z archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/albion-archive-audit"
+          tmp="$RUNNER_TEMP/albion-archive"
+          mkdir -p "$tmp/volumes" "$tmp/extracted"
+          for i in $(seq 1 45); do
+            printf -v n '%03d' "$i"
+            cp "research/inbox/archiveNew.7z.t0.$n" "$tmp/volumes/archiveNew.7z.$n"
+          done
+
+          if 7z t -bd -y "$tmp/volumes/archiveNew.7z.001" > "$out/7z-test.log" 2>&1; then
+            echo "archive_mode=multi-volume" > "$out/archive-mode.txt"
+            7z x -bd -y "$tmp/volumes/archiveNew.7z.001" "-o$tmp/extracted" >> "$out/7z-test.log" 2>&1
+          else
+            cat "${parts[@]}" > "$tmp/archiveNew-concatenated.7z"
+            if ! 7z t -bd -y "$tmp/archiveNew-concatenated.7z" > "$out/7z-test.log" 2>&1; then
+              cat "$out/7z-test.log"
+              exit 1
+            fi
+            echo "archive_mode=concatenated-split" > "$out/archive-mode.txt"
+            7z x -bd -y "$tmp/archiveNew-concatenated.7z" "-o$tmp/extracted" >> "$out/7z-test.log" 2>&1
+          fi
+
+          find "$tmp/extracted" -type f -printf '%P %s bytes\n' | sort > "$out/extracted-file-list.txt"
+          find "$tmp/extracted" -type f -print0 | sort -z | xargs -0 sha256sum > "$out/extracted-members.sha256"
+          echo "$tmp/extracted" > "$out/extracted-directory.txt"
+
+      - name: Verify every extracted member against the forensic inventory and database manifest
+        shell: bash
+        env:
+          EXTRACTED_DIR_FILE: ${{ runner.temp }}/albion-archive-audit/extracted-directory.txt
+          AUDIT_OUT: ${{ runner.temp }}/albion-archive-audit
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os, re
+          from pathlib import Path
+
+          out = Path(os.environ["AUDIT_OUT"])
+          extracted_dir = Path(Path(os.environ["EXTRACTED_DIR_FILE"]).read_text().strip())
+          inventory_path = Path("research/analysis/archiveNew-extracted-forensic-inventory.md")
+          manifest_path = Path("research/database/albion-complete-database-manifest-2026-11-03.json")
+          inventory = inventory_path.read_text(encoding="utf-8")
+          expected = {}
+          for line in inventory.splitlines():
+              match = re.match(r"^- (.+) \((\d+) bytes; SHA-256 ([0-9a-f]{64})\)$", line)
+              if match:
+                  name, size, digest = match.groups()
+                  expected[name] = (int(size), digest)
+          if len(expected) != 9:
+              raise SystemExit(f"Expected 9 member hashes in forensic inventory; found {len(expected)}")
+
+          actual_files = [p for p in extracted_dir.rglob("*") if p.is_file()]
+          by_name = {}
+          for p in actual_files:
+              if p.name in by_name:
+                  raise SystemExit(f"Duplicate extracted basename: {p.name}")
+              by_name[p.name] = p
+          if set(by_name) != set(expected):
+              raise SystemExit(
+                  "Extracted member set mismatch: "
+                  f"missing={sorted(set(expected)-set(by_name))}, "
+                  f"unexpected={sorted(set(by_name)-set(expected))}"
+              )
+
+          rows = []
+          total_bytes = 0
+          pcap_count = jsonl_count = report_count = 0
+          for name, (expected_size, expected_hash) in sorted(expected.items()):
+              p = by_name[name]
+              data_hash = hashlib.sha256()
+              size = 0
+              with p.open("rb") as stream:
+                  for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                      size += len(chunk)
+                      data_hash.update(chunk)
+              digest = data_hash.hexdigest()
+              if size != expected_size or digest != expected_hash:
+                  raise SystemExit(
+                      f"MEMBER_MISMATCH {name}: size {size}/{expected_size}; sha256 {digest}/{expected_hash}"
+                  )
+              total_bytes += size
+              pcap_count += name.lower().endswith(".pcap")
+              jsonl_count += name.lower().endswith(".jsonl")
+              report_count += name.lower().endswith(".report.txt")
+              rows.append({"name": name, "bytes": size, "sha256": digest, "status": "MATCH"})
+
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          archive = next((x for x in manifest["source_archives"] if x["archive"] == "archiveNew-extracted.zip"), None)
+          if archive is None:
+              raise SystemExit("archiveNew-extracted.zip is missing from complete database manifest")
+          if archive.get("members") != 9 or archive.get("pcaps") != 4 or archive.get("jsonl") != 4:
+              raise SystemExit(f"Manifest member counts do not match expected 9/4/4: {archive}")
+          if (pcap_count, jsonl_count, report_count) != (4, 4, 1):
+              raise SystemExit(f"Extracted type counts mismatch: PCAP={pcap_count}, JSONL={jsonl_count}, reports={report_count}")
+
+          summary = {
+              "status": "PASS",
+              "archive_mode": (out / "archive-mode.txt").read_text().strip(),
+              "split_parts": 45,
+              "split_total_bytes": sum(p.stat().st_size for p in Path("research/inbox").glob("archiveNew.7z.t0.[0-9][0-9][0-9]")),
+              "extracted_members": len(rows),
+              "extracted_total_member_bytes": total_bytes,
+              "pcap_members": pcap_count,
+              "jsonl_members": jsonl_count,
+              "report_members": report_count,
+              "manifest_zip_bytes": archive["bytes"],
+              "manifest_zip_sha256": archive["sha256"],
+              "note": "Member bytes and SHA-256 values are verified against the forensic inventory. The enclosing ZIP container hash is recorded from the manifest but is not recomputed by this audit.",
+              "members": rows,
+          }
+          (out / "archive-audit-summary.json").write_text(json.dumps(summary, indent=2) + "\n", encoding="utf-8")
+          (out / "extracted-members-verified.txt").write_text(
+              "\n".join(f"MATCH {x['name']} bytes={x['bytes']} sha256={x['sha256']}" for x in rows) + "\n",
+              encoding="utf-8",
+          )
+          print(json.dumps({k: v for k, v in summary.items() if k != "members"}, indent=2))
+          PY
+
+      - name: Upload read-only archive integrity evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: albion-archive-integrity-audit
+          path: ${{ runner.temp }}/albion-archive-audit/
+          if-no-files-found: warn
+          retention-days: 30
