@@ -688,7 +688,7 @@ fun main() {
                     ranked.forEachIndexed { index, item ->
                         val node = item.first
                         val coords = item.second.split(",")
-                        appendLine(listOf(sample.archive, sample.pcap, sample.activity, sample.foundMs.toString(),
+                        appendLine(listOf(sample.archive, sample.pcap, sample.regionId ?: "", sample.activity, sample.foundMs.toString(),
                             referenceMs.toString(), nearestPlayer.t.toString(), kotlin.math.abs(nearestPlayer.t-referenceMs).toString(),
                             nearestPlayer.x.toString(), nearestPlayer.y.toString(), nearestPlayer.source, (index + 1).toString(),
                             node.id, node.families.joinToString("|"), node.tiers.joinToString("|"), node.enchants.joinToString("|"),
