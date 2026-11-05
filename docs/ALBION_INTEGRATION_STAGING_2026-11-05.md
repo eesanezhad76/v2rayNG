@@ -1376,7 +1376,7 @@ This proves the entity's state lifecycle, not its resource family or harvestable
 - Mini Radar resource rendering is restricted to the active region.
 - Nearest gathering target now additionally requires the existing Safe Fixes `isNavigableResource` predicate. This keeps candidate-only Event 39 pins visible but prevents them from driving the target highlight.
 - Safe Fixes' malformed-snapshot clearing and exact manual marker identity handling are preserved.
-- Added tests for same/different/missing/unknown region IDs and unresolved `type_number=32`.
+- Added tests for same/different/missing/unknown region IDs. A separate follow-up commit adds the Family+Tier Event 40 navigation test.
 - No raw PCAP, archive, CSV, database, research index or original branch changed.
 
 ### Change log — selective spatial safety port
@@ -1398,3 +1398,16 @@ This proves the entity's state lifecycle, not its resource family or harvestable
 - Resulting register blob SHA: `c0ba183d37a698174d819063a95bf9d8b8bdd297`
 - Triggered full CI run: `42096841482`, head `ac2ebc8b96de9224aa5766e1cf8a902887b5190a` (queued at register update).
 - No other path was included in this commit.
+
+
+### Follow-up change log — Family+Tier typed Event 40 eligibility
+
+- Operation: modify `AlbionSpatialIntelligence.isTypedResource` to accept either a positive mobile TypeID or positive Family, while still requiring tier 1..8; add a test proving family 32 / tier 4 is navigable without a TypeID and a tier-only observation is not.
+- Repository: `eesanezhad76/v2rayNG`
+- Branch: `albion-integration-staging-2026-11-05`
+- Parent: `24d19f61ae5e4a3f6936ae6ebd6102610f84e8bf`
+- Before spatial helper blob: `2c9d8a9250e9e4df0ff3ac7ac34cf03514f6bc91`
+- Before spatial test blob: `f2415e3edefc33ad0478ff018de5c54ddbdbc857`
+- Before register blob: `754750a25a3e4845f74e4e1f8e8e9e591b550e52`
+- Source reference: `albion-pattern-mining`, helper blob `cbcc8a78f2cb4ef191dfacc2ca9eda4ce3123e34`; semantic change reviewed and applied selectively.
+- No source branch, raw evidence, or archive modified.

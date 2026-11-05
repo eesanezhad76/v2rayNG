@@ -126,6 +126,14 @@ class AlbionSpatialIntelligenceTest {
     }
 
     @Test
+    fun event40FamilyAndTierAreEnoughToNavigateWhenMobileTypeIdIsUnknown() {
+        val familyTyped = resource("family32", "harvestable", -375.0, 103.0, family = 32, tier = 4)
+        val untyped = resource("unknown", "harvestable", -375.0, 103.0, tier = 4)
+        assertTrue(AlbionSpatialIntelligence.isNavigableResource(familyTyped))
+        assertFalse(AlbionSpatialIntelligence.isNavigableResource(untyped))
+    }
+
+    @Test
     fun untypedEvent39CandidateCannotBecomeGatheringNavigationTarget() {
         val candidate = resource("candidate", "static_resource", 10.0, 10.0)
         val typed = resource("typed", "harvestable", 11.0, 10.0, 29, 574, 5, 1)
