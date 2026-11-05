@@ -343,7 +343,7 @@ fun main() {
             }
         }
         val nodeCsv = buildString {
-            appendLine("archive,pcap,entity_id,mobile_type_ids,type_numbers,tiers,enchantment_raw_values,coordinates,event40_amount_values,first_seen_ms,last_seen_ms,observation_count,state_event_count,state_values,identity_scope")
+            appendLine("archive,pcap,region_id,entity_id,mobile_type_ids,type_numbers,tiers,enchantment_raw_values,coordinates,event40_amount_values,first_seen_ms,last_seen_ms,observation_count,state_event_count,state_values,identity_scope")
             for ((key, node) in nodes.toSortedMap()) {
                 val states = resourceStates[key].orEmpty().sortedBy { it.first }
                 val values = listOf(node.archive, node.pcap, node.id,
@@ -351,7 +351,7 @@ fun main() {
                     node.tiers.joinToString("|"), node.enchants.joinToString("|"),
                     node.coordinates.joinToString("|"), node.event40Amounts.joinToString("|"),
                     node.first.toString(), node.last.toString(), node.observations.toString(), states.size.toString(),
-                    states.joinToString(">") { it.second }, "archive+pcap+runtime_entity_id")
+                    states.joinToString(">") { it.second }, "archive+pcap+region+runtime_entity_id")
                 appendLine(values.joinToString(",") { csvCell(it) })
             }
         }
@@ -375,7 +375,7 @@ fun main() {
                     ResourcePatternAgg(family, tier, enchant, mobileType)
                 }
                 pattern.entities += nodeKey
-                pattern.captures += node.archive + "/" + node.pcap
+                pattern.captures += node.archive + "/" + node.pcap + "/" + (node.regionId ?: "<unknown-region>")
                 if (node.coordinates.isNotEmpty()) pattern.coordinateEntities++
             }
         }
@@ -500,7 +500,7 @@ fun main() {
         )
         val familyEvidence = linkedMapOf<String, FamilyEvidence>()
         val correlationCsv = buildString {
-            appendLine("archive,pcap,activity,found_ms,started_ms,completed_ms,depleted_ms,tier_label,enchantment_label,candidate_node_count,candidate_families,candidate_entity_ids,candidate_evidence_details,inactive_candidate_count,inactive_candidate_entity_ids,match_status")
+            appendLine("archive,pcap,region_id,activity,found_ms,started_ms,completed_ms,depleted_ms,tier_label,enchantment_label,candidate_node_count,candidate_families,candidate_entity_ids,candidate_evidence_details,inactive_candidate_count,inactive_candidate_entity_ids,match_status")
             for (sample in markerSamples) {
                 val tierNumber = sample.tierLabel?.removePrefix("T")?.toIntOrNull()
                 val enchantNumber = when (sample.enchantLabel?.uppercase()?.replace(" ", "")) {
@@ -523,7 +523,7 @@ fun main() {
                     else -> null
                 }
                 val allTemporalResourceCandidates = if (!isResourceActivity) emptyList() else nodes.values.filter { node ->
-                    node.archive == sample.archive && node.pcap == sample.pcap &&
+                    node.archive == sample.archive && node.pcap == sample.pcap && node.regionId == sample.regionId &&
                         node.first <= windowEnd && node.last >= windowStart &&
                         (tierNumber == null || node.tiers.contains(tierNumber.toString())) &&
                         (enchantNumber == null || node.enchants.contains(enchantNumber))
@@ -540,7 +540,7 @@ fun main() {
                 // Event 123 mob observations are kept in their own entity namespace.
                 // They are temporal candidates only, never resource-family evidence.
                 val mobCandidates = if (!isMobActivity) emptyList() else mobs.values.filter { mob ->
-                    mob.archive == sample.archive && mob.pcap == sample.pcap &&
+                    mob.archive == sample.archive && mob.pcap == sample.pcap && mob.regionId == sample.regionId &&
                         mob.first <= windowEnd && mob.last >= windowStart &&
                         (enchantNumber == null || mob.enchant == enchantNumber)
                 }
@@ -553,10 +553,10 @@ fun main() {
                 }
                 val singleFamily = familyCounts.keys.singleOrNull()
                 if (singleFamily != null) {
-                    val evidenceKey = sample.activity + "\u001f" + singleFamily
+                    val evidenceKey = (sample.regionId ?: "<unknown-region>") + "\u001f" + sample.activity + "\u001f" + singleFamily
                     val evidence = familyEvidence.getOrPut(evidenceKey) { FamilyEvidence(sample.activity, singleFamily) }
-                    evidence.samples += sample.archive + "\u001f" + sample.pcap + "\u001f" + sample.foundMs
-                    evidence.captures += sample.archive + "/" + sample.pcap
+                    evidence.samples += sample.archive + "\u001f" + sample.pcap + "\u001f" + (sample.regionId ?: "<unknown-region>") + "\u001f" + sample.foundMs
+                    evidence.captures += sample.archive + "/" + sample.pcap + "/" + (sample.regionId ?: "<unknown-region>")
                     evidence.candidateNodes += familyCounts[singleFamily] ?: 0
                 }
                 val status = when {
@@ -714,7 +714,7 @@ fun main() {
             for ((key, states) in resourceStates.toSortedMap()) {
                 val parts = key.split("\u001f")
                 val ordered = states.sortedBy { it.first }
-                val vals = listOf(parts[0], parts[1], parts[2], ordered.firstOrNull()?.first?.toString() ?: "",
+                val vals = listOf(parts[0], parts[1], parts[2], parts[3], ordered.firstOrNull()?.first?.toString() ?: "",
                     ordered.lastOrNull()?.first?.toString() ?: "", ordered.size.toString(),
                     ordered.joinToString(">") { it.second }, if (nodes.containsKey(key)) "true" else "false")
                 appendLine(vals.joinToString(",") { csvCell(it) })
@@ -722,13 +722,13 @@ fun main() {
         }
         File(out, "2026-11-02-pcap-resource-state-timelines.csv").writeText(stateCsv, Charsets.UTF_8)
         File(out, "2026-11-02-pcap-static-resources.csv").writeText(
-            (listOf("archive,pcap,timestamp_ms,entity_id,x,y") + staticResources).joinToString("\n") + "\n",
+            (listOf("archive,pcap,region_id,timestamp_ms,entity_id,x,y") + staticResources).joinToString("\n") + "\n",
             Charsets.UTF_8
         )
         val mobCsv = buildString {
-            appendLine("archive,pcap,entity_id,mobile_type_id,enchantment,name,x,y,first_seen_ms,last_seen_ms,spawn_observations,movement_observations,health_observations,energy_observations,health_regeneration_observations,energy_regeneration_observations,min_observed_health,max_observed_health,last_observed_health,min_observed_energy,max_observed_energy,last_observed_energy,last_health_regeneration,last_energy_regeneration,state_observations,left_after_seen,interpretation")
+            appendLine("archive,pcap,region_id,entity_id,mobile_type_id,enchantment,name,x,y,first_seen_ms,last_seen_ms,spawn_observations,movement_observations,health_observations,energy_observations,health_regeneration_observations,energy_regeneration_observations,min_observed_health,max_observed_health,last_observed_health,min_observed_energy,max_observed_energy,last_observed_energy,last_health_regeneration,last_energy_regeneration,state_observations,left_after_seen,interpretation")
             for ((_, mob) in mobs.toSortedMap()) {
-                val values = listOf(mob.archive, mob.pcap, mob.id, mob.mobileType, mob.enchant,
+                val values = listOf(mob.archive, mob.pcap, mob.regionId ?: "", mob.id, mob.mobileType, mob.enchant,
                     mob.name, mob.x, mob.y, mob.first.toString(), mob.last.toString(),
                     mob.spawnObservations.toString(), mob.movementObservations.toString(),
                     mob.healthObservations.toString(), mob.energyObservations.toString(),
