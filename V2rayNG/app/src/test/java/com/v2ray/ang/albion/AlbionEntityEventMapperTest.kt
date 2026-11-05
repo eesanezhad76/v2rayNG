@@ -285,4 +285,27 @@ class AlbionEntityEventMapperTest {
         assertTrue(intEncoded.candidateEntityIds.contains(777L))
     }
 
+
+    @Test
+    fun clearsPreviousRegionEntityHintsAfterConfirmedClusterChange() {
+        AlbionEntityEventMapper.reset()
+        AlbionEntityEventMapper.map(event(29, mapOf(0 to 777L, 1 to "Old player")))
+        AlbionEntityEventMapper.map(event(39, mapOf(
+            0 to longArrayOf(888L), 1 to intArrayOf(29), 2 to intArrayOf(5),
+            3 to floatArrayOf(10f, 20f), 4 to intArrayOf(3)
+        )))
+        val transition = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 41,
+            parameters = mapOf(0 to "MAP_B", 253 to 41), operationCode = 41,
+            returnCode = 0
+        ))
+        assertEquals("region_change", transition.single().kind)
+
+        AlbionEntityEventMapper.map(event(123, mapOf(0 to 777L, 1 to 701, 7 to floatArrayOf(90f, 90f))))
+        val reusedPlayerId = AlbionEntityEventMapper.map(event(3, mapOf(0 to 777L, 4 to 91f, 5 to 92f)))
+        val staleResourceId = AlbionEntityEventMapper.map(event(3, mapOf(0 to 888L, 4 to 11f, 5 to 21f)))
+        assertEquals("move", reusedPlayerId.single().kind)
+        assertTrue(staleResourceId.isEmpty())
+    }
+
 }
