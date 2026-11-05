@@ -306,3 +306,230 @@ This confirms that the Pattern Mining delta is not just source code: it is prima
 - Destination branch: `albion-integration-staging-2026-11-05`
 - No raw archive, database, analysis, runtime asset, or pre-existing branch changed.
 - Resulting commit SHA: `e5774bd251bb4d0d127538e22e55089dc0ba5556`\n- New blob SHA: `4974f734dd2b5dee95e9f5ca7a1753e171e3474e`
+
+
+## 15. CI run 42080576281 — artifact-level verification
+
+The completed run was inspected beyond its green workflow badge.
+
+- Run: `42080576281`; head: `c51481253ff4b5b0bd5bd0223a9e6a2674af680a`
+- Overall workflow: `success`; build job: `success`; release-signing job: `skipped` (debug radar build path).
+- Gradle unit tests: 282 tests across 47 XML result suites; 0 failures, 0 errors, 0 skipped.
+- Python research tests: 40 passed.
+- Offline PCAP audit: 13 archives, 32 PCAP members, 31 unique, 1 byte-identical duplicate, 0 errors.
+- Android 15 emulator: universal APK installation and launch command completed successfully.
+- APKs: arm64-v8a, armeabi-v7a, x86, x86_64 and universal artifacts uploaded; universal APK SHA-256 `1331a58887ccb1f4b7b9862685c8c19ac92e7d0af4fdf122b5b2309eaa2f102b`, 84,735,605 bytes.
+- `apksigner`: all five debug APKs report `Verifies`; one V2 signer; certificate SHA-256 `8a3a5bbc02af4f04a06703737b5cb2665cec0e703688630a47874d8d1c2274ca`. This is the Android Debug certificate, not a release-key signature.
+- Readiness report: `NOT_READY_FOR_FIELD_TEST`, because deterministic replay is `NOT_VERIFIED` (31 unique captures, 0 stable, 31 review-required), live capture and live overlay rendering are unverified, and Item ID / Stack Delta semantics still require live evidence.
+- APK metadata has a separate `signing_block=PRESENT_NOT_CRYPTOGRAPHICALLY_VERIFIED` field even though the dedicated `apksigner` check passes. Keep these as separate checks; do not report the APK signing block parser field as cryptographic verification.
+
+Artifacts retained by GitHub Actions:
+- `albion-readiness-report` ID `13442404948`
+- `apk-verification` ID `13443545610`
+- `unit-test-diagnostics` ID `13443430727`
+- APK artifacts: `13443420818` (arm64), `13443510607` (armeabi-v7a), `13442064157` (x86), `13442198967` (x86_64), `13441514444` (universal).
+
+This completes CI validation for the Safe Fixes head at that commit. It does not authorize PR merge and does not establish field readiness.
+
+## 16. Pattern Mining — complete unique commit inventory
+
+GitHub compare result:
+- Base/common ancestor: `a4282483d6a4f40eabbd74aabda8a04e4bf61ae5`
+- Head: `a453c812483f285dcae97d0ad0bc044c0cec11fa`
+- Ahead: 121; behind: 0; 121 commits returned.
+- Group counts: 25 generic evidence-upload commits, 8 capture-ingest/derived-data commits, 8 CI/archive-pipeline commits, 1 data-provenance commit, 15 feature commits, 42 runtime/analysis fixes, 21 test commits, 1 refactor commit. Total: 121.
+- The generic upload commits mostly add the 45-piece `archiveNew.7z.t0.*` sequence plus `AlbionRadar.zip`. One upload commit `c6d02e12de6b18736a5e94fb0d6f83491bcab667` returned no file list from the commit endpoint and remains to be checked via its raw Git tree/diff; do not infer it is empty.
+
+The following list records every unique commit SHA and subject, grouped by purpose. It is the authoritative commit-level checklist for later transfer review:
+
+### Evidence upload commits (25)
+
+- `0b021c0fe465f5427e9f8c44a5334277b7b659a2` — Add files via upload
+- `2f6ea6adb097af8b36780177ffe53b60422b7391` — Add files via upload
+- `e7ddae713e69368b745fca13f545969083729eea` — Add files via upload
+- `020406f32415a7e7ba95c087961e8b27eb2ebc57` — Add files via upload
+- `f732c050b34f6ee592192c2143f884d0cd97d8ec` — Add files via upload
+- `37f06969af6a841f1c6f55fbe4b81f528cc2e80c` — Add files via upload
+- `1d1c0346058ade7849e29104bb5fb86a05572720` — Add files via upload
+- `043072d92226ddc479e1ca940604b8ee2ffb9783` — Add files via upload
+- `4ec5f5764cfd2a26eb32f90ad3922814af7cd65d` — Add files via upload
+- `5851bc3285a815fd453737fd386c06f41cf7b21e` — Add files via upload
+- `b55fac329d9f1cc98692ecc120d9e5344e584526` — Add files via upload
+- `de7e06edd09f27febff3ab543c28cc03f5dc1622` — Add files via upload
+- `be0ae49dcbd4f867584ec32340f8bb54e11ce8ab` — Add files via upload
+- `c6d02e12de6b18736a5e94fb0d6f83491bcab667` — Add files via upload
+- `5a804688ed7283104bb49cf398b3f8c3b37611b9` — Add files via upload
+- `210e7058852313f20e2fdb1448283bf965c52248` — Add files via upload
+- `642d10e2705e2947fe2673eb5a5ead2ea6089520` — Add files via upload
+- `68209c46891aa329d08054d2a8afb290a25b5e75` — Add files via upload
+- `791c16fbec9a47f1034be66483dbf8c822bbaeb4` — Add files via upload
+- `e59e10d114aac757cd9d3f227156539499d00f45` — Add files via upload
+- `94dc7e9d40432fedabf831bd8a80c089303c40c8` — Add files via upload
+- `86818f315d3ff0740cf215d8dbbb1d35397e1fc8` — Add files via upload
+- `430fbd9d05740de854c932a4e75c1345f950290a` — Add files via upload
+- `7994092a63dd036f9f8b07c73688827d267336c6` — Add files via upload
+- `68fe0a1d66ecac13cf78f053f2b037970280f735` — Add files via upload
+
+### Capture ingest / derived data commits (8)
+
+- `a21780a681ae54d0f487578c363f718ff4959df9` — data(albion): ingest uploaded capture evidence
+- `58911e8e565352b906c22578d2c600b7b12e4a20` — data(albion): ingest uploaded capture evidence
+- `7a56dd17cd68122cadea0d59ac10ef3e0b9a17c0` — data(albion): ingest uploaded capture evidence
+- `a7dc5bc7f95be190dd5fd9cbe1cdfe17caf5ac02` — data(albion): ingest uploaded capture evidence
+- `62cc97b4d0f14aa43d6bda85fda7d11965ba90c8` — data(albion): ingest uploaded capture evidence
+- `f688d18c2031b223aa99bb30b7986b4ae1f23437` — data(albion): ingest uploaded capture evidence
+- `65790ef07e7a5ce0b21318def8afe48975035cf7` — data(albion): ingest uploaded capture evidence
+- `6ce9402ab480d02d081ce0a3b17073039f0d20f8` — data(albion): ingest uploaded capture evidence
+
+### CI / archive pipeline commits (8)
+
+- `f6d5996c933b67756da4ab25f7552ce84cf0ceab` — ci(albion): reassemble split 7z captures before ingest
+- `6e1209608158707ae101ad7207e0d61e6f8290b4` — fix(ci): zero-pad split archive volume sequence
+- `757f1cb1c0d585555d5d696131f5a8c59ce2e790` — fix(ci): route extracted PCAP and JSONL into forensic pipeline
+- `c989db1d90d737620b5687d2c90dfd23362c03df` — ci(albion): exclude oversized derived aggregates from git commit
+- `e9baa807f7453823cea51ab367971160d83d9aec` — ci(albion): commit oversized derived outputs as verified shards
+- `15007df292022f5ef6a8553d8773d8eebc85ad62` — ci(albion): tolerate empty shard sets during ingest
+- `2b4ddfc7cf8fde687aacf473848ed529f36c91e7` — ci(albion): stash oversized originals before safe rebase retries
+- `20b9151a10bd3247e8cced59509a55eed06b90ff` — ci(albion): stash only tracked originals before rebase
+
+### Data provenance commits (1)
+
+- `34de2fa69d5fe96b5369e2e7773f87274e06706b` — fix(data): align research index provenance with merged CSV blobs
+
+### Feature commits (15)
+
+- `dc7987f99f4276e3d04d6c54b2559c9d3c8fc31f` — feat(albion): retain join and cluster transition parameters
+- `69024fce17421db03fa62342b6538868da35e041` — feat(albion): export compact region transition evidence
+- `8dc9f3e4f49835da85cdd60456dcb5a6807f01cb` — feat(albion): preserve Event 40 observed resource amounts in catalog
+- `e38b331d5bf2890263f847ead354378307e7fb25` — feat(albion): preserve oversized derived outputs as verified shards
+- `508d85634bc56950e54525f6766c9bdd1789e02a` — feat(albion): add verified reconstruction for sharded evidence
+- `3186925d5fb9448bf0b2cb31800317de3ff3cfef` — feat(albion): expose explicit active-region spatial guard
+- `c13cfb4a30fa7c08a5fb06ef25ba6bedc55dac5c` — feat(albion): export exact operation 23 target request evidence
+- `b228da225b42b0cb98080d8ebcaa103dceb9b977` — feat(albion): scope offline entity evidence by verified region ID
+- `ef41db778333f10b6050e8573894bfd5cfdf2637` — feat(albion): include region IDs in resource and mob evidence exports
+- `62aa27e1bd52c63b5a72854e81e3308daae4782c` — feat(albion): keep manual marker lifecycles inside one region
+- `e7a42df79f298b4e869e384d0063b2316e2c51cb` — feat(albion): label spatial marker correlations by region
+- `01aaeead6c4351d1bdff63d202809681b0536766` — feat(albion): expose parsed region IDs beside raw transition packets
+- `ca0238136bbe0aa03221c3e0cf304c92dfc7b1e0` — feat(albion): attach verified region IDs to player movement timeline
+- `4665a8361901671be0a7b741566659fa730fe058` — feat(albion): show nearby same-region resources when marker labels do not match
+- `a453c812483f285dcae97d0ad0bc044c0cec11fa` — feat(albion): retain uncertain resource candidates without mislabeling markers
+
+### Runtime / analysis fix commits (42)
+
+- `cd80649060b9c46262cde0cbf8a8bf6a2cd20e0f` — fix(albion): isolate target and Troll markers across regions
+- `96544090d51720743f0bb9ebd5954612a918c267` — fix(albion): require exact proof for manual Troll classification
+- `ae55141041615496a4c14599ed1fa3679e0e771a` — fix(albion): navigate packet-typed harvestables without mobile type IDs
+- `a40e9b03dc2df1a61bfc89022c84a6be81828f88` — fix(albion): prevent candidate pins from hijacking radar guidance
+- `253d34973905a9b85de9bd1ef6955640be714c61` — fix(albion): prevent stale marker windows from absorbing later stops
+- `deb8e5ebbebc3822c7340528b7727feb5679ded1` — fix(albion): extend mobile crosswalk for newly observed TypeIDs
+- `737d6936b773d941f3d911152a26acda008a75a0` — fix(albion): supersede stale unclosed mob marker targets
+- `b5f8b687c032a137b8b1045a411a081f9319157f` — fix(albion): count superseded mob starts as incomplete markers
+- `e5bee60fa8d37b7f6d424c349948c9b927f00831` — fix(albion): retain legacy multi-stage marker pairing semantics
+- `29a19d4cd19e0a7f79ebf88b86596216840b96ef` — fix(albion): preserve provenance of historical cross-branch research index
+- `94edfa222a3d0416bddb679cd85acaaafac9d36a` — fix(albion): include superseded troll targets in incomplete marker totals
+- `5fbb6f27a31aeef3b33479abd4060181d7434f27` — fix(albion): enrich radar catalogs for every captured PCAP
+- `220eea2519506527e8c27a962c4372bb5441895e` — fix(albion): run radar enrichment across all captures
+- `f5ff6c92067677d23493349eaade27ab1f73bd57` — fix(albion): correlate overlapping attack windows without pairing superseded markers
+- `1bdfb7bff9279eaab0c87b958f8b2e418fdf389d` — fix(albion): scope mob lifecycle joins by source archive and PCAP
+- `03474e843f723f3ed49a2a3e34c7c9ea4100fe83` — fix(albion): tolerate unavailable bundled asset in knowledge export
+- `42969213f48734c2da5ae7924bee5409f6456e09` — fix(albion): exclude depleted resource candidates from marker alignment
+- `4a1e0402d5659cd5ef667daf7ffc8b4fa5de023b` — fix(albion): block cross-region resource navigation on mini radar
+- `13c560af2d5f84dde5ecc8b6e8064a34f4cb559e` — fix(albion): label depleted-only spatial candidates explicitly
+- `ac7b15b2540e1f1356a7e5e8c7d9a128a85e1d6b` — fix(albion): retain exact target IDs when mob spawn arrives later
+- `5b7eccbc9cc60492d4955a6bb043771ba35f844d` — fix(albion): invalidate Troll pairing after ambiguous target request
+- `3b0ce0fbb7efd11f4ef095f3c4688d8a94a68273` — fix(albion): scope respawn generation keys to active region
+- `de175e2ce532144c195571a5aabdfb8b48eef3a1` — fix(albion): restrict delayed Troll marker joins to mob records
+- `4244d6e7257860db1f6ee89b0ef1623d5c5889c9` — fix(albion): use region-scoped identity keys throughout audit
+- `8def2478d801bd908b6aaee9696012941809e228` — fix(albion): correlate player positions only within the marker region
+- `d149d3e28cc9bdcd3af72263de6638204e7b89a4` — fix(albion): correlate Troll attacks within the same region and attack interval
+- `7aa3b85d4da33287ff953a8d51c03bd326b78895` — fix(albion): keep Troll marker enrichment within verified region
+- `82afa8a854c989ca66a74eaa7beeb2e3e11923bb` — fix(albion): resolve marker region from its unique source archive
+- `aaa3f22d3a7f5fe61e05a55a6c60beb37d6825c5` — fix(albion): enforce region match in spatial resource candidates
+- `30efa7d44c5659516987a8dbe9aa8dd0919ec7c1` — fix(albion): keep distinct PCAP counts separate from region counts
+- `078b3ba11523c976c2fbc5aee2637439a8c2cd2b` — fix(albion): refresh entity region tags and retain them in target exports
+- `c242f7c4784723df3169a49c5a10b8a55fc00572` — fix(albion): align region columns in node and resource-state CSV exports
+- `7c9f170e28c0e1fa8c71c8c725d7c668749607b9` — fix(albion): serialize unknown attack-target regions as blank
+- `5b41496bea8a62885f4ea0ece5c4656c82bea22b` — fix(albion): preserve region column in ranked spatial correlations
+- `85773d439870403ea16ac5aa814f7872e19e262a` — fix(albion): preserve region column in mob marker correlations
+- `c350ef4e995f69d7a4b8086d9288e576bc2ba38b` — fix(albion): isolate spatial alignment by confirmed region
+- `ddc80cfde036ab207b44625f31cb3456f8221c1b` — fix(albion): parse region ID from operation 2 response parameters
+- `8320c8be5ef1ef11f93c00e2b6980e5c29eb0a7b` — fix(albion): accept numeric cluster IDs in initial Join responses
+- `2e113ae6631d734517f5c3c276abfd693a826358` — fix(albion): correct operation response region parsing regex
+- `c183b7ce0f53226f7b48bbf8d66774ecf33553bd` — fix(albion): reject region-tagged navigation targets until active region is known
+- `cff7fc8ecfa2832c2e6722b2868d0da2148135b9` — fix(albion): parse numeric Photon parameter names in region evidence
+- `412354a02099cbd57a893c3fd0dc58b4bebd866b` — fix(albion): distinguish confirmed depletion from missing fresh resource evidence
+
+### Test commits (21)
+
+- `10f4f2fc3ede1acd825e4867883c20dc3038fb99` — test(albion): cover manual Troll identity and typed unknown-family navigation
+- `1f6709f324196de58d3fd4663b191c5f24101c50` — test(albion): prevent Troll target leakage across region transitions
+- `dbca76d9fab2a08ae50db6faaeecfaa7c15c5605` — test(albion): cover superseded starts and duplicate stop markers
+- `509a0435e143e307243708582ea4112df1ecb5e1` — test(albion): protect troll marker windows from stale pairing
+- `42ab1c845fedf41d3e4f72034fa91eb9c2eccc0f` — test(albion): cover enrichment of newly uploaded captures
+- `5031ed074a6d35bb2726b38910a5cc71d4d9f384` — test(albion): prevent superseded troll marker cross-pairing
+- `257016c833beef4c399004544ad567190acf0d7f` — test(albion): assert initial Event 40 amount survives catalog export
+- `63234b51595e5bab681b1d707f7488df9e48c406` — test(albion): verify lossless sharding of large analysis outputs
+- `c54f2e07630a2e54fc7bc956471aa5b7fc6ed7a1` — test(albion): verify exact reconstruction from evidence shards
+- `e63220575aed859dc3bebcb0ca7fe52402979fdf` — test(albion): expect preserved marker elapsed realtime timestamp
+- `9141cc2cf0ff923dab7fad9f38b2792c5ad02423` — test(albion): count unresolved research family in parsed index
+- `1f84e305cb876a525da1c04fc086465a08622948` — test(albion): prevent mini radar cross-region target selection
+- `6a6585482cf37670952a7d3374933d9467dcf0d2` — test(albion): cover target requests arriving before mob spawn events
+- `258ff2f33d2fe64279da38e46977c9426c7d7a02` — test(albion): verify respawn keys retain region identity
+- `b21722b3810a20e85d50668c3d5dfd98b7ead8cc` — test(albion): keep Troll markers off non-mob resources
+- `90135da4b5e3c2ec463aa8627d5639dee949e046` — test(albion): prevent cross-region Troll marker enrichment
+- `25dd91c106c419e1e44abb25f88f55f35f3abf06` — test(albion): import assertions for delayed target and region cases
+- `cf49be7aa09c60a1d7379ede03e8f282830f12a4` — test(albion): cover numeric Join cluster identifiers
+- `0baffcc37d6f5ae4cee83af4842a63e2126796c1` — test(albion): reject cross-region spatial alignment
+- `02b786fa5908641a0d3114afaab2fd0a2e0b6476` — test(albion): enforce unknown-region navigation safety
+- `a3252b73c67af88f8a8145d801cb121c3aacbe3c` — test(albion): cover numeric cluster IDs in ChangeCluster responses
+
+### Refactor commits (1)
+
+- `ea74173f46cd7b263b6f8081d91bab00a55f336c` — refactor(albion): use tested active-region guard in radar
+
+### Other commits (0)
+
+
+
+## 17. Raw Pattern Discovery — exact 8-commit file inventory
+
+Raw Pattern Discovery is a strict descendant of Zone Forensics Integration:
+- Common ancestor: `6fa9d10555aa2ab5e36f64ca831f0e4869faaeb0`
+- Zone Forensics Integration head: `436e7f60eea014977d01c2b570d52d3017691b97`
+- Raw Pattern Discovery head: `c508c2b54eecced896862e401732e2e0ce44ce29`
+- 8 commits total: the seven zone/reliability commits plus the Raw UDP discovery commit.
+
+Per-commit paths (names shortened only for readability; exact repository paths are represented by the filename suffixes):
+- `145ffa105a37e25eddb61db39d51aef5579d4ac2`: .github/workflows/build.yml; AlbionLiveKnowledgeStore.kt; generate_research_knowledge_index.py; validate_runtime_knowledge_assets.py
+- `a611c8125c91c3d6beb655897dc7e58745ac00fb`: .github/workflows/build.yml; AlbionLiveKnowledgeStore.kt; ResourcePatternLearner.kt
+- `3e0c139641be7cce12209c5f7c3e5ac0a87ca549`: .github/workflows/build.yml; AlbionCaptureWorker.kt; AlbionEventStateTracker.kt; AlbionMarkerQueue.kt; AlbionProtocol18Decoder.kt; CoreServiceManager.kt; AlbionOverlayService.kt
+- `b75011e6ab9d605bd0ae687fea9dfe55353ab930`: .github/workflows/build.yml; AlbionCaptureAnalyzer.kt; AlbionCaptureMarker.kt; AlbionCaptureAnalyzerTest.kt; AlbionPhotonPacketDecoderTest.kt
+- `c7e8cb21e8878385e4b7b9fa3db8aa2cd1d9e549`: .github/workflows/albion-zone-audit.yml; .github/workflows/build.yml; app/build.gradle.kts; test_portal_zone_node_matches.py; analyze_portal_zone_node_matches.py
+- `9c5c3e3ad1c87b523da50feb478f618a2520b8a4`: AlbionResearchKnowledgeIndexTest.kt; generate_research_knowledge_index.py; validate_runtime_knowledge_assets.py
+- `436e7f60eea014977d01c2b570d52d3017691b97`: AlbionCaptureAnalyzer.kt
+- `c508c2b54eecced896862e401732e2e0ce44ce29`: .github/workflows/build.yml; AlbionLearningEngine.kt; AlbionRadarActivity.kt
+
+The final Raw UDP discovery commit changes:
+- `.github/workflows/build.yml`: adds the Raw Pattern Discovery branch to build/test/replay workflow conditions.
+- `V2rayNG/app/src/main/java/com/v2ray/ang/ui/albion/AlbionLearningEngine.kt`: adds the raw UDP byte-pattern discovery engine.
+- `V2rayNG/app/src/main/java/com/v2ray/ang/ui/albion/AlbionRadarActivity.kt`: wires the learning engine into the radar activity.
+
+No commit from these branches has been cherry-picked, merged or copied to the staging branch in this audit.
+
+## 18. Data-preservation classification for Pattern Mining commits
+
+- The 25 generic upload commits are source/evidence inputs. Preserve original blobs byte-for-byte and verify all 45 archive parts plus the separately uploaded `AlbionRadar.zip`.
+- The 8 `data(albion)` commits add or revise generated outputs in `research/analysis/`, `research/database/` and historical runtime assets. Treat these as derived data until their source archive/PCAP hashes and generator versions are reconciled; do not blindly accept later CSV/JSON outputs as canonical.
+- The 8 CI/archive commits change reconstruction, ingest, sharding, and retry behavior. These are executable pipeline changes and require tests against immutable raw inputs.
+- The 42 fix and 15 feature commits include production behavior and offline evidence logic. Review each against Safe Fixes, especially region identity, marker pairing, stale-target invalidation, resource depletion, and provenance guards.
+- The 21 test commits are not automatically trustworthy simply because they pass. Separate synthetic fixtures from observed captures; tests must not promote low-confidence or single-session evidence into global protocol semantics.
+- The 1 data-provenance commit and 1 refactor commit must be evaluated with their affected manifests/generators.
+
+## 19. Change log — CI and commit inventory extension
+
+- Operation: append CI artifact verification, full 121-commit Pattern Mining inventory, and exact Raw Pattern Discovery ancestry/file inventory.
+- Repository: `eesanezhad76/v2rayNG`
+- Source file blob SHA before update: `7c5257d6910a3f387352adc5a0c8454093a95e10`
+- Destination branch: `albion-integration-staging-2026-11-05`
+- No application source, tests, raw evidence, archive parts, generated research data, or pre-existing branch changed.
+- Resulting commit and new blob SHA: record from update response and verify against branch HEAD.
