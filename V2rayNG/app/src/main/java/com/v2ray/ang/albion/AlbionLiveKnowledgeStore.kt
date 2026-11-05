@@ -322,6 +322,7 @@ class AlbionLiveKnowledgeStore(
                 }
             }
             if (activeTrollTargetId == entityId && activeTrollMarker != null &&
+                record.optString("entity_class") == "mob" &&
                 !trollMarkerAmbiguous && timestampMs >= activeTrollMarkerStartedMs &&
                 timestampMs - activeTrollMarkerStartedMs <= TROLL_MARKER_MAX_WINDOW_MS &&
                 !record.optBoolean("manual_marker_identity_proven", false)) {
