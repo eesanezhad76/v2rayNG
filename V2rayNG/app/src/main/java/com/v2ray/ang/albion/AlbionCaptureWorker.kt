@@ -249,17 +249,6 @@ class AlbionCaptureWorker(
             false
         }
     }
-    if (enrichmentFailures.isNotEmpty()) {
-                failure = "marker persisted; post-write enrichment failed: " + enrichmentFailures.joinToString("; ")
-            }
-            scope.launch(Dispatchers.IO) { mirrorDownloads() }
-            true
-        } catch (t: Throwable) {
-            failure = "marker write failed: ${t.message}"
-            false
-        }
-    }
-
     fun snapshot() = Snapshot(running.get(), finalized, packetCount.get(), (dropped() - dropBaseline.get()).coerceAtLeast(0), pcapFile, logFile, failure, publicPcapUri, publicLogUri, mirrorFailure, markerCount.get(), nonAlbionCount.get(), reportFile)
 
     fun liveKnowledgeSnapshot(): String = buildString {
