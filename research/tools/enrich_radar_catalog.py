@@ -144,8 +144,8 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
    value=info.get(key)
    if value is not None:entity[{"category":"mob_category","unique_name":"type_unique_name","danger":"mob_danger","is_harvestable":"is_harvestable_mob"}.get(key,key)]=value
  for entity in entities:
-  if not entity.get("region_id"):
-   entity["region_id"]=region_at(catalog_archive,pcap,num(entity,"first_seen_ms")) if catalog_archive else None
+  inferred_region=region_at(catalog_archive,pcap,num(entity,"first_seen_ms")) if catalog_archive else None
+  if inferred_region is not None:entity["region_id"]=inferred_region
  by_id={(str(e.get("region_id") or ""),str(e.get("source_entity_id"))):e for e in entities
         if e.get("last_kind")=="mob" and e.get("source_entity_id") is not None}
  for target in targets:
@@ -182,7 +182,7 @@ def enrich(dataset=DATASET,archive=ARCHIVE,pcap=PCAP):
  (ANALYSIS/(dataset+"-overlay-catalog.json")).write_text(text,encoding="utf-8")
  if dataset==DATASET:
   ASSET.parent.mkdir(parents=True,exist_ok=True);ASSET.write_text(text,encoding="utf-8")
- fields=["entity_id","mobile_type_id","name","x","y","first_attack_ms","last_attack_ms",
+ fields=["entity_id","source_archive","region_id","mobile_type_id","name","x","y","first_attack_ms","last_attack_ms",
          "attack_action_count","health_observations","last_current_health","leave_after_last_attack","interpretation"]
  for dest in (DB/(dataset+"-attack-targets.csv"),ANALYSIS/(dataset+"-attack-targets.csv")):
   with dest.open("w",encoding="utf-8",newline="") as f:
