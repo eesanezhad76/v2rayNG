@@ -207,6 +207,7 @@ fun main() {
             val enchants: MutableSet<String> = sortedSetOf(),
             val coordinates: MutableSet<String> = sortedSetOf(),
             val event40Amounts: MutableSet<String> = sortedSetOf(),
+            val event40Timeline: MutableList<Pair<Long, String?>> = mutableListOf(),
             val observedAt: MutableList<Long> = mutableListOf(),
             var first: Long = Long.MAX_VALUE,
             var last: Long = Long.MIN_VALUE,
@@ -287,7 +288,9 @@ fun main() {
                     node.first = minOf(node.first, t)
                     node.last = maxOf(node.last, t)
                     node.observedAt += t
-                    field(detail, "amount")?.let { node.event40Amounts += it }
+                    val event40Amount = field(detail, "amount")
+                    event40Amount?.let { node.event40Amounts += it }
+                    node.event40Timeline += t to event40Amount
                     field(detail, "mobileType")?.let { node.mobileTypes += it }
                     field(detail, "family")?.let { node.families += it }
                     field(detail, "tier")?.let { node.tiers += it }
@@ -462,27 +465,49 @@ fun main() {
         fun stateRemoved(value: String): Boolean =
             value.substringAfter("removed=", "false").equals("true", ignoreCase = true)
 
+        fun hasConfirmedDepletionAtMarker(node: NodeAgg, sample: OverlayMiningSample): Boolean {
+            val states = resourceStates[nodesKey(node.archive, node.pcap, node.regionId, node.id)].orEmpty().sortedBy { it.first }
+            val referenceMs = sample.startedMs ?: sample.foundMs
+            val before = states.lastOrNull { it.first <= referenceMs } ?: return false
+            val depleted = stateRemoved(before.second) ||
+                (stateAmount(before.second)?.let { amount -> amount <= 0 } == true)
+            if (!depleted) return false
+            // A later positive Event 40 before the marker is evidence of a refill/spawn
+            // after the last depleted state; do not call that node depleted at the marker.
+            val positiveEvent40AfterState = node.event40Timeline.any { (timestamp, amount) ->
+                timestamp > before.first && timestamp <= referenceMs &&
+                    amount?.toIntOrNull()?.let { it > 0 } == true
+            }
+            return !positiveEvent40AfterState
+        }
+
         fun hasActiveResourceEvidence(
             node: NodeAgg, sample: OverlayMiningSample, windowStart: Long, windowEnd: Long
         ): Boolean {
             val states = resourceStates[nodesKey(node.archive, node.pcap, node.regionId, node.id)].orEmpty().sortedBy { it.first }
             val referenceMs = sample.startedMs ?: sample.foundMs
             val before = states.lastOrNull { it.first <= referenceMs }
-            val later = states.filter { it.first > referenceMs && it.first <= windowEnd }
             val beforeDepleted = before?.let {
                 stateRemoved(it.second) || (stateAmount(it.second)?.let { amount -> amount <= 0 } == true)
             } == true
-            val positiveBefore = before?.let {
+            val positiveStateBefore = before?.let {
                 !stateRemoved(it.second) && (stateAmount(it.second)?.let { amount -> amount > 0 } == true)
             } == true
-            val positiveLater = later.any {
-                !stateRemoved(it.second) && (stateAmount(it.second)?.let { amount -> amount > 0 } == true)
+            val positiveStateLater = states.any { (timestamp, value) ->
+                timestamp > referenceMs && timestamp <= windowEnd &&
+                    !stateRemoved(value) && stateAmount(value)?.let { it > 0 } == true
             }
-            val event40InWindow = node.observedAt.any { it in windowStart..windowEnd }
-            val event40AfterDepletion = beforeDepleted && before != null &&
-                node.observedAt.any { it > before.first && it in windowStart..windowEnd }
-            if (beforeDepleted && !positiveLater && !event40AfterDepletion) return false
-            return event40InWindow || positiveBefore || positiveLater
+            val positiveEvent40Before = node.event40Timeline.any { (timestamp, amount) ->
+                timestamp <= referenceMs &&
+                    (!beforeDepleted || before == null || timestamp > before.first) &&
+                    amount?.toIntOrNull()?.let { it > 0 } == true
+            }
+            val positiveEvent40Later = node.event40Timeline.any { (timestamp, amount) ->
+                timestamp > referenceMs && timestamp <= windowEnd &&
+                    amount?.toIntOrNull()?.let { it > 0 } == true
+            }
+            if (beforeDepleted && !positiveStateLater && !positiveEvent40Before && !positiveEvent40Later) return false
+            return positiveStateBefore || positiveStateLater || positiveEvent40Before || positiveEvent40Later
         }
 
         val markerCsv = buildString {
