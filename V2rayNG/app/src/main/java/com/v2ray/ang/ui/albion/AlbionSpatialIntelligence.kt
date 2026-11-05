@@ -32,8 +32,19 @@ object AlbionSpatialIntelligence {
         val marker = item.optString("marker_activity")
         val confidence = item.optString("marker_match_confidence").uppercase()
         return marker.equals("Troll", ignoreCase = true) &&
-            confidence in setOf("HIGH", "CONFIRMED", "USER_CONFIRMED")
+            confidence in setOf("HIGH", "CONFIRMED", "USER_CONFIRMED") &&
+            (item.optBoolean("marker_identity_proven", false) ||
+                item.optBoolean("manual_marker_identity_proven", false))
     }
+
+    /** A manual Troll activity label is authoritative only when linked to an exact target ID. */
+    fun isUserMarkedTroll(item: JSONObject): Boolean =
+        item.optString("manual_activity").equals("Troll", ignoreCase = true) &&
+            item.optBoolean("manual_marker_identity_proven", false)
+
+    /** Exact user-tagged targets and packet-identified Troll mobs share the Troll radar layer. */
+    fun isTrollCategoryMember(item: JSONObject): Boolean =
+        isUserMarkedTroll(item) || isTrollMob(item)
 
     /** Collapse duplicate observations at the same half-unit coordinate without merging distinct typed resources. */
     fun deduplicate(entities: List<JSONObject>): List<JSONObject> {
