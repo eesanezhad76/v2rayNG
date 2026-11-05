@@ -85,6 +85,26 @@ def verify_sources(manifest, root):
     return checked
 
 
+def restore_sources(manifest, root):
+    restored = 0
+    for source in manifest.get("sources", []):
+        target = root / source["source_path"]
+        target.parent.mkdir(parents=True, exist_ok=True)
+        with target.open("wb") as output:
+            for part in source.get("parts", []):
+                with (root / part["path"]).open("rb") as stream:
+                    while True:
+                        block = stream.read(1024 * 1024)
+                        if not block:
+                            break
+                        output.write(block)
+        size, sha256 = digest_file(target)
+        if size != source["bytes"] or sha256 != source["sha256"]:
+            raise RuntimeError(f"Restored file checksum mismatch: {source['source_path']}")
+        restored += 1
+    return restored
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--root", type=pathlib.Path, default=ROOT)
@@ -92,10 +112,16 @@ def main():
     parser.add_argument("--threshold-mib", type=int, default=50)
     parser.add_argument("--output-dir", type=pathlib.Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--manifest", type=pathlib.Path, default=DEFAULT_MANIFEST)
+    parser.add_argument("--restore", action="store_true", help="reassemble original files from the manifest")
     args = parser.parse_args()
     root = args.root.resolve()
-    output_dir = args.output_dir.resolve()
     manifest_path = args.manifest.resolve()
+    if args.restore:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        restored = restore_sources(manifest, root)
+        print(json.dumps({"restored_sources": restored, "manifest": manifest_path.relative_to(root).as_posix()}, sort_keys=True))
+        return
+    output_dir = args.output_dir.resolve()
     chunk_size = args.max_mib * 1024 * 1024
     threshold = args.threshold_mib * 1024 * 1024
     if chunk_size <= 0 or threshold <= 0:
