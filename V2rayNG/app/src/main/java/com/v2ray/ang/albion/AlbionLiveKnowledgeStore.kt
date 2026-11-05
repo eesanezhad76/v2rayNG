@@ -334,6 +334,10 @@ class AlbionLiveKnowledgeStore(
                 kotlin.math.abs(targetX) <= MAX_COORDINATE && kotlin.math.abs(targetY) <= MAX_COORDINATE) {
                 record.put("target_x", targetX).put("target_y", targetY)
             }
+            // Attach cross-capture provenance before grading/classification; these indexes
+            // annotate evidence only and never overwrite packet facts or coordinates.
+            researchKnowledge?.annotate(record)
+            historicalKnowledge?.annotate(record)
             val conflicts = conflictingEvidenceFields(record).toMutableList()
             updateResourceInference(record, conflicts)
             val inferredMobileStatus = record.optJSONObject("resource_inference")
