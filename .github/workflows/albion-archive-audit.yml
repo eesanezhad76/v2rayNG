@@ -16,7 +16,7 @@ permissions:
 
 concurrency:
   group: albion-archive-audit-2026-11-05
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   verify-raw-archive:
@@ -199,6 +199,38 @@ jobs:
               encoding="utf-8",
           )
           print(json.dumps({k: v for k, v in summary.items() if k != "members"}, indent=2))
+          PY
+
+
+      - name: Verify all original ZIP inputs against the complete database manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          manifest = json.loads(Path("research/database/albion-complete-database-manifest-2026-11-03.json").read_text(encoding="utf-8"))
+          expected = [x for x in manifest["source_archives"] if x["archive"] != "archiveNew-extracted.zip"]
+          inbox = Path("research/inbox")
+          actual_zips = {p.name: p for p in inbox.glob("*.zip") if p.is_file()}
+          expected_names = {x["archive"] for x in expected}
+          if len(expected) != 13 or set(actual_zips) != expected_names:
+              raise SystemExit(f"ZIP set mismatch: expected={sorted(expected_names)}, actual={sorted(actual_zips)}")
+          rows = []
+          for item in sorted(expected, key=lambda x: x["archive"]):
+              p = actual_zips[item["archive"]]
+              digest = hashlib.sha256(p.read_bytes()).hexdigest()
+              size = p.stat().st_size
+              if size != item["bytes"] or digest != item["sha256"]:
+                  raise SystemExit(
+                      f"ZIP_MISMATCH {p.name}: size={size}/{item['bytes']} sha256={digest}/{item['sha256']}"
+                  )
+              rows.append(f"MATCH {p.name} bytes={size} sha256={digest}")
+          out = Path("${{ runner.temp }}/albion-archive-audit")
+          (out / "source-zip-manifest-check.txt").write_text("\n".join(rows) + "\n", encoding="utf-8")
+          print("\n".join(rows))
+          print(f"PASS: {len(rows)} original ZIP inputs match the complete database manifest")
           PY
 
       - name: Upload read-only archive integrity evidence
