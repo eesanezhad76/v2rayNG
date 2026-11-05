@@ -212,7 +212,7 @@ fun main() {
         File(out, "2026-11-02-own-player-movement-timeline.csv").writeText(csv, Charsets.UTF_8)
 
         data class NodeAgg(
-            val archive: String, val pcap: String, val id: String,
+            val archive: String, val pcap: String, val regionId: String?, val id: String,
             val mobileTypes: MutableSet<String> = sortedSetOf(),
             val families: MutableSet<String> = sortedSetOf(),
             val tiers: MutableSet<String> = sortedSetOf(),
@@ -227,12 +227,31 @@ fun main() {
         fun field(detail: String, key: String): String? =
             Regex("(?:^| )" + Regex.escape(key) + "=([^ ]+)").find(detail)?.groupValues?.get(1)
         fun csvCell(value: String): String = "\"" + value.replace("\"", "\"\"") + "\""
+        val regionTimelineByCapture = linkedMapOf<String, List<Pair<Long, String>>>()
+        for ((captureKey, rows) in allDetails.groupBy { it.first + "\u001f" + it.second }) {
+            val transitions = rows.mapNotNull { (_, _, detail) ->
+                val t = field(detail, "t")?.toLongOrNull() ?: return@mapNotNull null
+                val regionId = when {
+                    detail.contains("kind=operation_response op=41 ") -> field(detail, "param0_value")
+                    detail.contains("kind=operation_response op=2 ") ->
+                        Regex("(?:^| )8=([^ ]+)").find(detail)?.groupValues?.get(1)
+                    else -> null
+                }?.takeIf { it.isNotBlank() && it != "null" } ?: return@mapNotNull null
+                t to regionId
+            }.sortedBy { it.first }
+            regionTimelineByCapture[captureKey] = transitions
+        }
+        fun regionAt(archive: String, pcap: String, timestampMs: Long): String? =
+            regionTimelineByCapture[archive + "\u001f" + pcap].orEmpty()
+                .lastOrNull { it.first <= timestampMs }?.second
+        fun nodesKey(archive: String, pcap: String, regionId: String?, id: String) =
+            archive + "\u001f" + pcap + "\u001f" + (regionId ?: "<unknown-region>") + "\u001f" + id
         val nodes = linkedMapOf<String, NodeAgg>()
         val resourceStates = linkedMapOf<String, MutableList<Pair<Long, String>>>()
         val staticResources = mutableListOf<String>()
         val rawHealthEnergyEvents = mutableListOf<String>()
         data class MobAgg(
-            val archive: String, val pcap: String, val id: String,
+            val archive: String, val pcap: String, val regionId: String?, val id: String,
             var mobileType: String = "", var enchant: String = "",
             var name: String = "", var x: String = "", var y: String = "",
             var first: Long = Long.MAX_VALUE, var last: Long = Long.MIN_VALUE,
@@ -248,10 +267,10 @@ fun main() {
             var leaveAfterSeen: Boolean = false
         )
         val mobs = linkedMapOf<String, MobAgg>()
-        fun scopedKey(archive: String, pcap: String, id: String) = archive + "\u001f" + pcap + "\u001f" + id
         for ((archive, pcap, detail) in allDetails) {
             val kind = field(detail, "kind") ?: continue
             val t = field(detail, "t")?.toLongOrNull() ?: 0L
+            val regionId = regionAt(archive, pcap, t)
             if (kind == "raw_health_energy_event") {
                 val code = Regex("code=(\\d+)").find(detail)?.groupValues?.get(1) ?: ""
                 rawHealthEnergyEvents += listOf(archive, pcap, t.toString(), code, detail)
@@ -259,10 +278,10 @@ fun main() {
                 continue
             }
             val id = field(detail, "id") ?: continue
-            val key = scopedKey(archive, pcap, id)
+            val key = nodesKey(archive, pcap, regionId, id)
             when (kind) {
                 "harvestable" -> {
-                    val node = nodes.getOrPut(key) { NodeAgg(archive, pcap, id) }
+                    val node = nodes.getOrPut(key) { NodeAgg(archive, pcap, regionId, id) }
                     node.observations++
                     node.first = minOf(node.first, t)
                     node.last = maxOf(node.last, t)
@@ -282,11 +301,11 @@ fun main() {
                     resourceStates.getOrPut(key) { mutableListOf() }.add(t to value)
                 }
                 "static_resource" -> {
-                    staticResources += listOf(archive, pcap, t.toString(), id,
+                    staticResources += listOf(archive, pcap, regionId ?: "", t.toString(), id,
                         field(detail, "x") ?: "", field(detail, "y") ?: "").joinToString(",") { csvCell(it) }
                 }
                 "mob" -> {
-                    val mob = mobs.getOrPut(key) { MobAgg(archive, pcap, id) }
+                    val mob = mobs.getOrPut(key) { MobAgg(archive, pcap, regionId, id) }
                     mob.spawnObservations++
                     mob.first = minOf(mob.first, t); mob.last = maxOf(mob.last, t)
                     mob.mobileType = field(detail, "mobileType") ?: mob.mobileType
