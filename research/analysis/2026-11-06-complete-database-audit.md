@@ -139,7 +139,7 @@ The index builder now:
 - Separates candidate target names from identity-proven names and records main-vs-curated disagreements.
 - Preserves exact region joins and reports how many marker rows remain unjoined.
 
-The corrected builder completed successfully in CI run #369 (run ID 42252090655): **49 tests passed**, including five new database-integrity checks; the Gradle audit completed successfully and the workflow committed derived evidence in `4a4b620f7fbeb3cbd6694fce3818e1861589a398`. The builder/report metric label was then clarified so raw lifecycle event rows are not called matched samples; follow-up CI runs #370 (42253906168) and #371 (42253917521) are currently in progress/pending for that small clarification.
+The corrected builder completed successfully in CI run #369 (run ID 42252090655): **49 tests passed**, including five new database-integrity checks; the Gradle audit completed successfully and the workflow committed derived evidence in `4a4b620f7fbeb3cbd6694fce3818e1861589a398`. The builder/report metric label was then clarified so raw lifecycle event rows are not called matched samples; follow-up CI run #370 (42253906168) is in progress and run #372 (42254101768) is queued for that small clarification; intervening run #371 was cancelled by the newer push.
 
 ## 8. Exact file changes in this audit
 
