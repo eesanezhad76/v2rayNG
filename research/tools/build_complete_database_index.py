@@ -270,7 +270,7 @@ def main():
   "- albion-mob-target-correlation-2026-11-03.csv — dedicated Mobs subset",
   "- Machine-readable file SHA-256 manifest: albion-complete-database-manifest-2026-11-03.json","",
   "## Preservation rules",
-  "- Runtime IDs are scoped by archive + PCAP/session; never merge numeric IDs alone.",
+  "- Event 40/46 entity IDs are scoped by archive + PCAP + region_id when known + entity_id; never merge numeric IDs alone or across regions.",
   "- Event 39 static-resource observations are not automatically typed Event 40 nodes.",
   "- Event 123 records are not all independently proven hostile mobs.",
   "- Leave is not kill confirmation.",
