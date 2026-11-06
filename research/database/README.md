@@ -55,7 +55,7 @@ These six variants account for 229 Event 40 nodes and 637 Event 123 lifecycle re
 
 ## Identity and join rules
 
-- `entity_id`: runtime identity of one world node; scope it by archive + PCAP/session.
+- `entity_id`: runtime identity of one world node; scope it by archive + PCAP/session + region ID when available.
 - `type_number`: Event 40 resource-family number.
 - `mobile_type_id`: separate game mobile code; null or unknown when not established.
 - Static resource type_number ranges from the imported MIT code reference: WOOD 0–5, ROCK 6–10, FIBER 11–15, HIDE 16–22, ORE 23–27.
@@ -64,7 +64,7 @@ These six variants account for 229 Event 40 nodes and 637 Event 123 lifecycle re
 - Event 39 is untyped static-resource evidence; do not automatically merge it with Event 40 nodes.
 - Event 123 records are not all independently proven hostile mobs.
 - Marker-to-target matches are candidates. `identity_proven=false` means no confirmed species or kill identity.
-- Event 46 must be joined to Event 40 by exact runtime entity ID only, never by proximity or guessed matching.
+- Event 46 must be joined to Event 40 by the exact composite key archive + PCAP + region_id + entity_id when region is known; never join across captures/regions or by proximity/guessing.
 - Zone names and world-map geometry remain reference-only until a reusable, licensed dataset and a validated coordinate transform are available.
 
 ## Spatial and map limitations
