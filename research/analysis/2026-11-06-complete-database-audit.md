@@ -123,11 +123,11 @@ Other map/pathfinder/dungeon repositories were audited. Unlicensed map JSON, coo
 
 ## 6. Spatial alignment correction
 
-The authoritative per-capture spatial report contains 34 captures:
-- PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE: **15**
-- NOT_VERIFIED: **19**
+The latest region-aware per-capture spatial report contains 54 capture-region slices:
+- PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE: **18**
+- NOT_VERIFIED: **36**
 
-A bug in `build_complete_database_index.py` used a nonexistent `plausible_captures` key and defaulted to 11. The builder now derives this value from the 34 per-capture status rows, and the aggregate manifest is corrected to 15. This remains local coordinate alignment only; it does not prove zone identity or a global world-map transform.
+The builder now derives counts from the actual per-capture status rows. This remains local coordinate alignment only; it does not prove zone identity or a global world-map transform.
 
 ## 7. Database builder and manifest repairs
 
@@ -139,7 +139,7 @@ The index builder now:
 - Separates candidate target names from identity-proven names and records main-vs-curated disagreements.
 - Preserves exact region joins and reports how many marker rows remain unjoined.
 
-The manifest and builder were reconciled with the evidence. CI run #365 (run ID 42250739007) completed 44 tests successfully, including the corrected Spatial test, but the builder step failed on accidental JavaScript syntax in Python report formatting. That syntax was corrected in commit `d3dc5b81d577c02dea34a680c440494977bfa7a2`. CI run #369 (run ID 42252090655) is currently in progress and includes the new `test_capture_database_integrity.py` regression suite plus the corrected builder. No success is claimed until that run completes.
+The corrected builder completed successfully in CI run #369 (run ID 42252090655): **49 tests passed**, including five new database-integrity checks; the Gradle audit completed successfully and the workflow committed derived evidence in `4a4b620f7fbeb3cbd6694fce3818e1861589a398`. The builder/report metric label was then clarified so raw lifecycle event rows are not called matched samples; follow-up CI runs #370 (42253906168) and #371 (42253917521) are currently in progress/pending for that small clarification.
 
 ## 8. Exact file changes in this audit
 
@@ -153,4 +153,4 @@ The manifest and builder were reconciled with the evidence. CI run #365 (run ID 
 | Update | `research/tools/build_complete_database_index.py` | `c7cb4da59621b8da21875b2a14e59eee99fa9909` | `5645a1b043b78b0753f6ac8216c2bd7efbd036bf` |
 | Update | `research/database/albion-complete-database-manifest-2026-11-03.json` | `afca48704cd2d4a3919a9c7a4697060255ce2329` | `b6886bc153908a0e1611f4ab8b19e78e753f7228` |
 
-No production app source, runtime asset, raw PCAP, original archive, user data or third-party upstream repository was modified. The latest completed re-ingest working-tree output (not yet committed because the builder step failed) reported 54 spatial captures with 18 plausible local alignments, 3,015 Event 3 target-position samples and 106 completed lifecycle marker events. The committed manifest remains on the previous snapshot until run #369 completes.
+No production app source, runtime asset, raw PCAP, original archive, user data or third-party upstream repository was modified. The committed manifest now records 54 spatial capture-region slices (18 plausible, 36 not verified). Distinguish related diagnostics: the curated 37-row Operation 23 track table sums to 3,007 Event 3 position samples; the Kotlin audit's `tracked_attack_target_positions=3015` is actually `targetPositions.size` (distinct entity keys with Event 3 positions), not a sample count. The overlay diagnostic's `completed_samples=106` counts matched lifecycle samples, while the manual-marker CSV has 109 raw `gathering_completed` + `node_depleted` event rows. These are different metrics, not contradictions.
