@@ -67,7 +67,7 @@ jobs:
       with:
         log-accepted-android-sdk-licenses: false
         cmdline-tools-version: '14742923'
-        packages: 'platforms;android-37.0 build-tools;37.0.0 platform-tools'
+        packages: 'platforms;android-37.0 build-tools;37.0.0 platform-tools emulator system-images;android-35;google_apis;x86_64'
 
     - name: Install NDK
       run: |
@@ -220,53 +220,72 @@ jobs:
         cat "$REPORT_DIR/apk-sha256.txt"
 
     - name: Install universal APK on Android 15 emulator
-      if: success() && (github.ref == 'refs/heads/albion-radar-phase1-remediation' || (github.ref == 'refs/heads/albion-safe-integration-2026-11-05' || github.ref == 'refs/heads/albion-safe-fixes-2026-11-05' || (github.ref == 'refs/heads/albion-integration-staging-2026-11-05' || github.ref == 'refs/heads/albion-marker-queue-hardening-2026-11-06')))
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        api-level: 35
-        arch: x86_64
-        profile: pixel_6
-        disable-animations: true
-        disable-spellchecker: true
-        script: |
-          set -eu
-          APK="V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
-          dump_emulator_diagnostics() {
-            echo "=== Emulator boot and service diagnostics ==="
-            adb shell getprop sys.boot_completed || true
-            adb shell service check package || true
-            adb shell service check activity || true
-            echo "=== Recent Android system log ==="
-            adb logcat -b all -d -t 1200 || true
-          }
+      if: success() && (github.ref == 'refs/heads/albion-radar-phase1-remediation' || (github.ref == 'refs/heads/albion-safe-integration-2026-11-05' || github.ref == 'refs/heads/albion-safe-fixes-2026-11-05' || (github.ref == 'refs/heads/albion-integration-staging-2026-11-05' || github.ref == 'refs/heads/albion-marker-queue-hardening-2026-11-06' || github.ref == 'refs/heads/albion-ci-emulator-recovery-2026-11-06')))
+      shell: bash
+      timeout-minutes: 20
+      run: |
+        set -euo pipefail
+        AVD_NAME="albion-api35"
+        APK="V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
+        SYSTEM_IMAGE="system-images;android-35;google_apis;x86_64"
+        REPORT_DIR="V2rayNG/app/build/reports/albion"
+        mkdir -p "$REPORT_DIR"
+        LOG="$REPORT_DIR/emulator-boot.log"
 
-          test -s "$APK"
-          adb wait-for-device
-          boot_completed=""
-          for attempt in $(seq 1 60); do
-            boot_completed="$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
-            if [ "$boot_completed" = "1" ]; then break; fi
-            sleep 2
-          done
-          if [ "$boot_completed" != "1" ]; then
-            echo "Android 15 emulator did not report sys.boot_completed=1."
-            dump_emulator_diagnostics
+        test -s "$APK"
+        echo "no" | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd \
+          --name "$AVD_NAME" --package "$SYSTEM_IMAGE" --device "pixel_6" --force
+
+        adb start-server
+        emulator -avd "$AVD_NAME" -port 5554 -no-window -no-audio -no-boot-anim \
+          -no-snapshot -wipe-data -gpu swiftshader_indirect -memory 4096 -cores 2 \
+          >"$LOG" 2>&1 &
+        EMULATOR_PID=$!
+        cleanup() {
+          adb -s emulator-5554 emu kill >/dev/null 2>&1 || true
+          wait "$EMULATOR_PID" 2>/dev/null || true
+        }
+        trap cleanup EXIT
+
+        adb -s emulator-5554 wait-for-device
+        boot_completed=""
+        for attempt in $(seq 1 180); do
+          boot_completed="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
+          if [[ "$boot_completed" == "1" ]]; then break; fi
+          if ! kill -0 "$EMULATOR_PID" 2>/dev/null; then
+            echo "Emulator process exited before boot completed."
+            cat "$LOG"
             exit 1
           fi
+          sleep 3
+        done
 
-          if ! timeout 30s adb shell cmd package list packages >/dev/null; then
-            echo "Android package manager service is not responding before installation."
-            dump_emulator_diagnostics
-            exit 1
-          fi
-          if ! timeout 300s adb install --no-streaming -r "$APK"; then
-            echo "APK installation failed; collecting emulator diagnostics."
-            dump_emulator_diagnostics
-            exit 1
-          fi
-          timeout 30s adb shell pm path com.v2ray.ang.radar
-          timeout 30s adb shell monkey -p com.v2ray.ang.radar -c android.intent.category.LAUNCHER 1
+        if [[ "$boot_completed" != "1" ]]; then
+          echo "Android 15 emulator did not complete boot within 9 minutes."
+          adb -s emulator-5554 shell getprop 2>&1 | tail -n 80 || true
+          adb -s emulator-5554 logcat -b all -d -t 2000 > "$REPORT_DIR/emulator-logcat.txt" 2>&1 || true
+          cat "$LOG"
+          exit 1
+        fi
 
+        echo "Emulator boot completed; checking Android framework services."
+        adb -s emulator-5554 shell getprop > "$REPORT_DIR/emulator-getprop.txt"
+        adb -s emulator-5554 shell service check package
+        adb -s emulator-5554 shell service check activity
+        timeout 45s adb -s emulator-5554 shell cmd package list packages > "$REPORT_DIR/emulator-packages.txt"
+
+        if ! timeout 300s adb -s emulator-5554 install --no-streaming -r "$APK"; then
+          echo "APK installation failed; collecting diagnostics."
+          adb -s emulator-5554 logcat -b all -d -t 3000 > "$REPORT_DIR/emulator-logcat.txt" 2>&1 || true
+          adb -s emulator-5554 shell dumpsys package > "$REPORT_DIR/emulator-package-dump.txt" 2>&1 || true
+          cat "$LOG"
+          exit 1
+        fi
+        timeout 30s adb -s emulator-5554 shell pm path com.v2ray.ang.radar
+        timeout 30s adb -s emulator-5554 shell monkey -p com.v2ray.ang.radar -c android.intent.category.LAUNCHER 1
+        adb -s emulator-5554 logcat -b all -d -t 1200 > "$REPORT_DIR/emulator-postlaunch-logcat.txt" 2>&1 || true
+        echo "APK install and launcher invocation completed on Android 15."
+        
     - name: Run offline PCAP replay and audit
       if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || (github.ref == 'refs/heads/albion-safe-integration-2026-11-05' || github.ref == 'refs/heads/albion-safe-fixes-2026-11-05' || (github.ref == 'refs/heads/albion-integration-staging-2026-11-05' || github.ref == 'refs/heads/albion-marker-queue-hardening-2026-11-06')))
       shell: bash
