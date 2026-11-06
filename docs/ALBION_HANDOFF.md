@@ -170,7 +170,7 @@ Treat this file as mandatory project continuity context. Do not restart analysis
 - 14 source archive inventories; 35 PCAP members; 34 unique PCAP SHA-256; one byte-identical duplicate; 20 JSONL members; zero analyzer errors.
 - 761,082 normalized observations; 81,881 own-player Move(22) observations.
 - Event 39: 47,108 untyped static-resource candidates.
-- Event 40: 652 node records; Event 46: 297 state IDs, including 213 state-only IDs.
+- Event 40: 652 node records; Event 46: 629 region-scoped state IDs, 161 exact Event 40 joins and 468 state-only IDs (1,523 state updates).
 - Event 123: 4,172 lifecycle records; 116 distinct observed Mobile TypeIDs, all 116 matched to the current dictionary.
 - The machine-readable source of truth is `research/database/albion-complete-database-manifest-2026-11-03.json`; the latest human audit is `research/analysis/2026-11-06-complete-database-audit.md`. `research/database/README.md` now lists the current aggregate files.
 
