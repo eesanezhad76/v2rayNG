@@ -171,7 +171,9 @@ Treat this file as mandatory project continuity context. Do not restart analysis
 - 761,082 normalized observations; 81,881 own-player Move(22) observations.
 - Event 39: 47,108 untyped static-resource candidates.
 - Event 40: 652 node records; Event 46: 629 region-scoped state IDs, 161 exact Event 40 joins and 468 state-only IDs (1,523 state updates).
-- Event 123: 4,172 lifecycle records; 116 distinct observed Mobile TypeIDs, all 116 matched to the current dictionary.\n- Operation 23: 37 attack-target tracks with 3,007 Event 3 target-position samples.\n- Manual marker log: 369 events; 109 gathering_completed + node_depleted events.
+- Event 123: 4,172 lifecycle records; 116 distinct observed Mobile TypeIDs, all 116 matched to the current dictionary.
+- Operation 23: 37 attack-target tracks with 3,007 Event 3 target-position samples.
+- Manual marker log: 369 events; 109 gathering_completed + node_depleted events.
 - The machine-readable source of truth is `research/database/albion-complete-database-manifest-2026-11-03.json`; the latest human audit is `research/analysis/2026-11-06-complete-database-audit.md`. `research/database/README.md` now lists the current aggregate files.
 
 ### Ore Critter coverage
