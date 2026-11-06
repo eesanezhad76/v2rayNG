@@ -5,7 +5,7 @@ This directory is the durable, versioned knowledge base. Raw captures belong in 
 ## Current authoritative aggregate
 
 - [Complete database manifest](albion-complete-database-manifest-2026-11-03.json) — capture inventory, table hashes, Event 39/40/46/123 counts, Ore Critter variants, marker candidate evidence, zone IDs and spatial status.
-- [2026-11-06 complete database audit](../analysis/2026-11-06-complete-database-audit.md) — latest coverage and unresolved gaps.
+- [2026-11-06 complete database audit](../analysis/2026-11-06-complete-database-audit.md) — source decisions, integrity fixes and remaining gaps.\n- [2026-11-06 generated database report](../analysis/2026-11-06-complete-inbox-database-report.md) — latest manifest-derived counts and source-table inventory.
 - [All normalized observations](2026-11-02-all-inbox-observations.jsonl)
 - [Event 40 harvestable nodes](2026-11-02-pcap-harvestable-nodes.csv)
 - [Resource-node catalog](albion-resource-node-catalog-2026-11-03.csv)
@@ -69,7 +69,7 @@ These six variants account for 229 Event 40 nodes and 637 Event 123 lifecycle re
 
 ## Spatial and map limitations
 
-The 34-capture spatial report currently has 15 `PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE` and 19 `NOT_VERIFIED` results. This only supports local coordinate alignment; it does not establish a zone or global world-map transform.
+The latest region-aware spatial report has 54 capture-region slices: 18 `PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE` and 36 `NOT_VERIFIED`. This only supports local coordinate alignment; it does not establish a zone or global world-map transform.
 
 Event 46 state IDs are scoped by archive + PCAP + region + entity ID: 629 total, 161 exact Event 40 joins and 468 state-only. The earlier 297/213 counts collapsed IDs across sessions/regions and are superseded.
 
