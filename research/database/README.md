@@ -33,7 +33,7 @@ This directory is the durable, versioned knowledge base. Raw captures belong in 
 | Own-player Move(22) observations | 81,881 |
 | Event 39 static-resource candidates | 47,108 |
 | Event 40 resource-node records | 652 |
-| Event 46 state IDs | 629 (161 exact Event 40 joins; 468 state-only) |
+| Event 46 state IDs | 629 (161 exact Event 40 joins; 468 state-only; 1,523 updates) |
 | Event 123 lifecycle records | 4,172 |
 | Distinct observed Mobile TypeIDs mapped | 116/116 |
 | Region-transition records | 33 across 9 numeric IDs |
