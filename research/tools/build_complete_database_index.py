@@ -77,13 +77,15 @@ def main():
  troll_types=count_by([r for r in troll if r.get("mobile_type_id")],"mobile_type_id")
  marker_counts=collections.Counter(f'{r.get("activity","")}|{r.get("event","")}' for r in markers)
  unique_pcap_hashes={r.get("sha256") for r in pcap_members if r.get("sha256")}
+ node_counts_by_mobile_type=collections.Counter(str(row.get("mobile_type_id") or "UNKNOWN") for row in nodes)
  ore_critter_by_tier=collections.defaultdict(list)
  for row in mobile_crosswalk:
   if row.get("loot_type")=="ORE_CRITTER" and str(row.get("is_harvestable","")).lower()=="true":
    tier=str(row.get("tier") or "UNKNOWN")
    ore_critter_by_tier[tier].append({
     "mobile_type_id":row.get("mobile_type_id"),"display_name":row.get("display_name"),
-    "unique_name":row.get("unique_name"),"pcap_lifecycle_records":int(row.get("pcap_lifecycle_records") or 0)})
+    "unique_name":row.get("unique_name"),"pcap_lifecycle_records":int(row.get("pcap_lifecycle_records") or 0),
+    "event40_node_records":node_counts_by_mobile_type.get(str(row.get("mobile_type_id")),0)})
  ore_critter_by_tier={tier:sorted(items,key=lambda item:int(item["mobile_type_id"])) for tier,items in sorted(ore_critter_by_tier.items())}
  recognized_family_numbers={str(i) for i in range(28)} | {"29"}
  unresolved_family_counts={k:v for k,v in family_counts.items() if k not in recognized_family_numbers}
