@@ -192,7 +192,15 @@ class AlbionCaptureWorker(
         val now = System.currentTimeMillis()
         val json = JSONObject().put("timestamp_ms", now)
             .put("elapsed_realtime_ms", SystemClock.elapsedRealtime())
-      @Synchronized fun appendMarker(packet: ByteArray, timestampMs: Long): Boolean {
+            .put("event", event).put("activity", "Capture")
+            .put("source", "capture_worker").toString()
+        try { appendMarker(AlbionCaptureMarker.build(json), now) } catch (t: Throwable) {
+            failure = "lifecycle checkpoint failed: ${t.message}"
+        }
+    }
+
+    /** Writes a synthetic local annotation record; it is never sent to the VPN or game. */
+    @Synchronized fun appendMarker(packet: ByteArray, timestampMs: Long): Boolean {
         val out = pcap ?: return false
         val textLog = log ?: return false
         val pcapStream = pcapFileStream ?: return false
