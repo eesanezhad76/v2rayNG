@@ -82,7 +82,7 @@ The dedicated table is intentionally preserved separately from the broader aggre
 | Ore Elemental | 574 | 5 |
 | Roaming Morgana Crossbowman | 1471 | 1 |
 
-Confidence in the dedicated table: HIGH 6, MEDIUM 4, LOW 2. **Identity-proven rows: 0.** These are marker-to-target candidates, not verified species identities or kill confirmations.
+Confidence in the dedicated table: HIGH 6, MEDIUM 4, LOW 2. **Identity-proven rows: 0.** These are marker-to-target candidates, not verified species identities or kill confirmations. The 116-row observed Mobile TypeID crosswalk contains no display_name or unique_name with “Troll”; the pinned OpenRadar source search likewise found no Troll data entry. “Troll” therefore remains a user activity-marker label, not a decoded game Mob name.
 
 ### Important unresolved disagreement
 
