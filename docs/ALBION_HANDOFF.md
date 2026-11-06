@@ -164,7 +164,7 @@ Treat this file as mandatory project continuity context. Do not restart analysis
 ### Active branch and current research baseline
 - Active branch remains `albion-pattern-mining`; do not merge into `albion-safe-integration-2026-11-05`, recovery, master, or Draft PR #3 without explicit instruction.
 - This audit began at app HEAD `a453c812483f285dcae97d0ad0bc044c0cec11fa`. Database/script commits in this audit include `91694e790b0007e2cb58eecba29eec5c5b9985d8`, `86e48e06634589d660611bd21b16b374ac814a18`, `c176b707ed921a4ee4f66c9d93098528f986f9b1`, and manifest reconciliation `1d7d9565cb8f2b6543d8d2ab84c84cba1f907ee4`. Later report/README/handoff commits advance the branch; query live HEAD next session.
-- External source quarantine: `eesanezhad76/AlbionRadar-External-Research`, branch `external-data-quarantine-2026-11-06`, last verified HEAD before handoff update `8b720dc856b0fda28a33c67b1dd3caba1d421021`.
+- External source quarantine: `eesanezhad76/AlbionRadar-External-Research`, branch `external-data-quarantine-2026-11-06`, last verified HEAD `a040f2dde938bbb7639a99ffbbdabeceb0f58ffa`.
 
 ### Capture corpus coverage
 - 14 source archive inventories; 35 PCAP members; 34 unique PCAP SHA-256; one byte-identical duplicate; 20 JSONL members; zero analyzer errors.
@@ -199,5 +199,8 @@ Treat this file as mandatory project continuity context. Do not restart analysis
 
 ### Validation and outstanding work
 - No app source or runtime asset was changed in this audit.
-- The index-builder script and aggregate manifest were updated, but the generator was not executed; no Python tests, Gradle tests, CI build, APK creation, live capture or physical-device test was performed.
+- CI run #365 (`42250739007`) passed 44 tests, including the fixed Spatial test, then failed in `build_complete_database_index.py` because two report lines accidentally contained JavaScript syntax. The builder was corrected in commit `d3dc5b81d577c02dea34a680c440494977bfa7a2`.
+- CI run #369 (`42252090655`) is currently in progress. It includes the new `research/tests/test_capture_database_integrity.py` suite (five checks for region-scoped Event 46 joins, marker CSV schema, curated Troll candidates, Ore TypeIDs and manifest/evidence totals) and the corrected builder. Do not claim final validation until the run completes.
+- Latest uncommitted re-ingest output from run #365: 54 spatial captures, 18 plausible local alignments, 36 not verified; 3,015 Event 3 target-position samples; 106 completed lifecycle marker events. The committed manifest and README still reflect the prior snapshot until run #369 successfully regenerates and commits the derived evidence.
+- No production APK source or runtime assets were changed; no live capture or physical-device test was performed.
 - Next: run the database generator in a controlled checkout; verify Python syntax and output diffs; ensure it preserves the curated Troll/Mobs tables; add regression tests for the 21-column marker CSV and region join; investigate the one unresolved Troll disagreement; obtain a licensed zone/world map dataset and validate a global coordinate transform; leave unknown IDs unresolved until direct evidence appears.
