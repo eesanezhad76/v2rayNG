@@ -38,7 +38,10 @@ This directory is the durable, versioned knowledge base. Raw captures belong in 
 | Distinct observed Mobile TypeIDs mapped | 116/116 |
 | Region-transition records | 33 across 9 numeric IDs |
 
-| Operation 23 attack-target tracks | 37 (3,007 Event 3 position samples) |\n| Manual marker events | 369 (109 gathering_completed + node_depleted) |\n\n## Ore Critter variants observed
+| Operation 23 attack-target tracks | 37 (3,007 Event 3 position samples) |
+| Manual marker events | 369 (109 gathering_completed + node_depleted) |
+
+## Ore Critter variants observed
 
 | Tier | Mobile TypeID | Display name | Event 40 nodes | Event 123 records |
 |---:|---:|---|---:|---:|
@@ -69,6 +72,8 @@ These six variants account for 229 Event 40 nodes and 637 Event 123 lifecycle re
 
 The 34-capture spatial report currently has 15 `PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE` and 19 `NOT_VERIFIED` results. This only supports local coordinate alignment; it does not establish a zone or global world-map transform.
 
-Event 46 state IDs are scoped by archive + PCAP + region + entity ID: 629 total, 161 exact Event 40 joins and 468 state-only. The earlier 297/213 counts collapsed IDs across sessions/regions and are superseded.\n\nThe region-transition database contains numeric IDs from user captures. Candidate names were cross-referenced for analysis only against an external game-derived dataset whose redistribution license is unverified; no world-zone names, map tiles, terrain, roads or coordinate database were copied into this repository or the APK.
+Event 46 state IDs are scoped by archive + PCAP + region + entity ID: 629 total, 161 exact Event 40 joins and 468 state-only. The earlier 297/213 counts collapsed IDs across sessions/regions and are superseded.
+
+The region-transition database contains numeric IDs from user captures. Candidate names were cross-referenced for analysis only against an external game-derived dataset whose redistribution license is unverified; no world-zone names, map tiles, terrain, roads or coordinate database were copied into this repository or the APK.
 
 Only promote a mapping into app code after independent captures and tests confirm it. Keep the complete evidence and uncertainty in the research vault.
