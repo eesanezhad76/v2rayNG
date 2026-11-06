@@ -20,10 +20,10 @@ The aggregate manifest records 14 source archive inventories (including the extr
 |---|---:|---|
 | Event 39 static-resource observations | 47,108 | Untyped static-resource candidates; not all are confirmed nodes |
 | Event 40 resource-node observations | 652 | File-scoped node records |
-| Event 46 state IDs | 297 | Includes 213 state-only IDs without an Event 40 location snapshot |
+| Event 46 state IDs | 629 | 161 exact Event 40 joins; 468 state-only IDs |
 | Event 123 living/mobile lifecycle records | 4,172 | Not every record is independently proven to be a hostile mob |
 | Distinct observed Event 123 Mobile TypeIDs | 116 | 116/116 matched to the current type dictionary |
-| Operation 23 attack-target tracks | 37 | 1,514 target-position samples |
+| Operation 23 attack-target tracks | 37 | 3,007 Event 3 target-position samples |
 | Manual marker-target aggregate rows | 13 | 12 Troll labels + 1 Mobs label |
 
 Event 40 family/type-number counts:
@@ -57,7 +57,7 @@ Totals: **229 Event 40 nodes** and **637 Event 123 lifecycle records** across th
 
 The prior three-ID summary (571/573/574) was incomplete. TypeID 575 is not present in this capture corpus and must remain unassigned. Event 40 type_number 28 (2 records) and 32 (1 record) also remain unresolved. Do not fill these gaps by interpolation.
 
-The machine-readable manifest now records the full tiered Ore Critter crosswalk and per-type Event 40 / Event 123 counts.
+The machine-readable manifest now records the full tiered Ore Critter crosswalk and per-type Event 40 / Event 123 counts. Event 46 has 1,523 updates across 629 region-scoped IDs; 161 join to Event 40 by exact archive + PCAP + region + entity ID, and 468 remain state-only. The earlier 297/213 summary collapsed IDs across regions/sessions and is superseded.
 
 ## 4. Troll / Mobs marker-to-target evidence — region join repaired
 
@@ -152,4 +152,4 @@ The manifest was reconciled with these facts. No generator was executed during t
 | Update | `research/tools/build_complete_database_index.py` | `c7cb4da59621b8da21875b2a14e59eee99fa9909` | `5645a1b043b78b0753f6ac8216c2bd7efbd036bf` |
 | Update | `research/database/albion-complete-database-manifest-2026-11-03.json` | `afca48704cd2d4a3919a9c7a4697060255ce2329` | `b6886bc153908a0e1611f4ab8b19e78e753f7228` |
 
-No production app source, runtime asset, CI workflow, raw PCAP, original archive, user data or third-party upstream repository was modified. No tests, generator run, build, APK creation, live capture or device test was performed.
+No production app source, runtime asset, raw PCAP, original archive, user data or third-party upstream repository was modified. CI validation was triggered by the research commits; the exact run status is recorded in the handoff after completion. The database generator itself was not executed.
