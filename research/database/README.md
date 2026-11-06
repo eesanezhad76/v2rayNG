@@ -5,7 +5,8 @@ This directory is the durable, versioned knowledge base. Raw captures belong in 
 ## Current authoritative aggregate
 
 - [Complete database manifest](albion-complete-database-manifest-2026-11-03.json) — capture inventory, table hashes, Event 39/40/46/123 counts, Ore Critter variants, marker candidate evidence, zone IDs and spatial status.
-- [2026-11-06 complete database audit](../analysis/2026-11-06-complete-database-audit.md) — source decisions, integrity fixes and remaining gaps.\n- [2026-11-06 generated database report](../analysis/2026-11-06-complete-inbox-database-report.md) — latest manifest-derived counts and source-table inventory.
+- [2026-11-06 complete database audit](../analysis/2026-11-06-complete-database-audit.md) — source decisions, integrity fixes and remaining gaps.
+- [2026-11-06 generated database report](../analysis/2026-11-06-complete-inbox-database-report.md) — latest manifest-derived counts and source-table inventory.
 - [All normalized observations](2026-11-02-all-inbox-observations.jsonl)
 - [Event 40 harvestable nodes](2026-11-02-pcap-harvestable-nodes.csv)
 - [Resource-node catalog](albion-resource-node-catalog-2026-11-03.csv)
