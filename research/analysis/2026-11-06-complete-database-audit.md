@@ -114,7 +114,7 @@ Cross-reference names from the pinned OpenRadar `zones.json` reference are:
 
 The other captured IDs also cross-reference to Fort Sterling, its bank/market, Pen Gent, Cairn Camain and Pen Fenair. These names are **analysis-only candidates** from game-derived data with no verified redistribution license. No zone-name dataset, world JSON, map tiles, global coordinates, exits or terrain geometry was copied into the app or research database.
 
-### AODP atlas discovery
+### Additional protocol/map schema reference\n\nThe existing MIT `ao-data/albiondata-client@c6edd9456bec4657755c25f173e8ebc7a31a17f7` snapshot was expanded with five exact upstream blobs: event enum/string mapping, red-zone world-map event model, `GetClusterMapInfo` response and `MapDataUpload` coordinate/building schema. This provides an independent EventType and zone/building-coordinate schema reference, but no actual world-map data. The Photon parser/deserializer was excluded due separately restrictive JPCodeCraft/AlbionDataAvalonia provenance. No captures, `zones.json`, map images, tiles or game data were copied. See `analysis/2026-11-06-albiondata-client-event-map-expansion.md` in the external quarantine.\n\n### AODP atlas discovery
 
 The separate external quarantine branch now contains the AODP `boxes.json` metadata (327 unlabeled rectangles; pixel extent x=1..2047 and y=850..2047) plus its bundled MIT notice. The matching 2.88 MB `MiniMapAtlas.png` was not imported. The boxes have no zone IDs/names and cannot yet be joined to the capture region IDs. The atlas remains quarantined pending license-scope and mapping verification.
 
