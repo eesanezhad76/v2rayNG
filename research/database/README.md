@@ -37,7 +37,6 @@ This directory is the durable, versioned knowledge base. Raw captures belong in 
 | Event 123 lifecycle records | 4,172 |
 | Distinct observed Mobile TypeIDs mapped | 116/116 |
 | Region-transition records | 33 across 9 numeric IDs |
-
 | Operation 23 attack-target tracks | 37 (3,007 Event 3 position samples) |
 | Manual marker events | 369 (109 gathering_completed + node_depleted) |
 
