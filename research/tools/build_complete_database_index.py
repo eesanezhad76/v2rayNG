@@ -166,7 +166,9 @@ def main():
    "marker_region_joined_rows":sum(1 for r in correlations if r.get("region_id")),
    "warning":"Operation 23 provides exact selected target IDs; marker-to-target links remain confidence-ranked. Candidate mob names are not proven species identities; Leave is not proof of death."},
   "manual_markers":{"total":len(markers),"by_activity_event":dict(sorted(marker_counts.items())),
-   "completed_lifecycle_samples":completed_lifecycle_samples},
+   "completed_lifecycle_event_rows":completed_lifecycle_samples,
+   "completed_lifecycle_samples":completed_lifecycle_samples,
+   "completed_lifecycle_metric_note":"Raw gathering_completed + node_depleted event rows; not matched lifecycle sample pairs."},
   "knowledge_bundles":{"imported_bundles":len(knowledge.get("imported_bundles",[])),
    "source_entity_records_sum_from_manifests":sum(x["knowledge_entity_records"] for x in archive_rows),
    "deduplicated_session_scoped_entity_records":len(entities),
@@ -197,7 +199,7 @@ def main():
     "state_only":len(state_only_keys),"updates":state_update_observations,
     "join_key":"archive+pcap+region_id+entity_id"},
    "attack_target_position_samples":attack_position_samples,
-   "manual_marker_records":len(markers),"manual_completed_lifecycle_samples":completed_lifecycle_samples,
+   "manual_marker_records":len(markers),"manual_completed_lifecycle_event_rows":completed_lifecycle_samples,
    "external_source_license_note":"Game-derived world map/zone payloads remain reference-only; no unlicensed data was copied."}}
  out_json=DATABASE/"albion-complete-database-manifest-2026-11-03.json"
  files=[DATABASE/"2026-11-02-all-inbox-observations.jsonl",
@@ -236,7 +238,7 @@ def main():
   "## Mobs and Troll marker cycles",
   f'- Event 123 living/mobile lifecycle records: **{len(mobs):,}**; distinct Mobile TypeIDs: **{len(observed_mobile_type_ids)}**; dictionary mapped: **{len(mapped_mobile_type_ids)}/{len(observed_mobile_type_ids)}**',
   f'- Operation 23 attack-target tracks: **{len(attacks)}**; Event 3 target-position samples: **{attack_position_samples}**',
-  f'- Manual marker records: **{len(markers)}**; completed lifecycle samples (gathering_completed + node_depleted): **{completed_lifecycle_samples}**',
+  f'- Manual marker records: **{len(markers)}**; completed lifecycle event rows (gathering_completed + node_depleted): **{completed_lifecycle_samples}**',
   f'- Aggregate marker-target rows: **{len(correlations)}**; by activity/confidence: '+", ".join(f'{k}: {v}' for k,v in sorted(corr_conf.items())),
   f'- Curated Troll marker candidates: **{len(troll)}**; candidate target names: '+", ".join(f'{k}: {v}' for k,v in troll_candidate_names.items()),
   f'- Troll identity-proven rows: **{len(troll_confirmed)}**; distinct candidate target IDs: **{len(troll_targets)}**; unlinked candidates: **{troll_unmatched}**',
