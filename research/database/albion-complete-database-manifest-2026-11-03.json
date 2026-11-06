@@ -297,19 +297,10 @@
     },
     "marker_correlations": 13,
     "correlations_by_activity_confidence": {
-      "1793621458722|false": 1,
-      "1793712914166|false": 1,
-      "1793713380065|false": 1,
-      "1793713380097|false": 1,
-      "1793718943756|false": 1,
-      "1793769780415|false": 1,
-      "1793770161526|false": 1,
-      "1793770386065|false": 1,
-      "1793772028951|false": 1,
-      "1793772030445|false": 1,
-      "1793772501147|false": 1,
-      "1793791616817|false": 1,
-      "1793792784792|false": 1
+      "Mobs|LOW": 1,
+      "Troll|HIGH": 7,
+      "Troll|LOW": 1,
+      "Troll|MEDIUM": 4
     },
     "troll_cycles": 0,
     "troll_confidence": {
@@ -329,7 +320,59 @@
       "Roaming Morgana Crossbowman": 1
     },
     "troll_distinct_found_markers": 12,
-    "troll_rows_with_killed_timestamp": 10
+    "troll_rows_with_killed_timestamp": 10,
+    "troll_candidate_rows": 12,
+    "troll_candidate_mobile_type_ids": {
+      "573": 6,
+      "574": 5,
+      "1471": 1
+    },
+    "troll_main_candidate_rows": 12,
+    "troll_main_candidate_names": {
+      "Ore Elemental": 12
+    },
+    "troll_main_confidence": {
+      "HIGH": 7,
+      "MEDIUM": 4,
+      "LOW": 1
+    },
+    "troll_main_vs_curated_disagreements": [
+      {
+        "found_ms": "1793792784792",
+        "region_id": "4219",
+        "main": {
+          "best_target_entity_id": "28922",
+          "mobile_type_id": "573",
+          "resolved_mob_name": "Ore Elemental",
+          "candidate_count": 2,
+          "confidence": "HIGH",
+          "candidate_evidence": "28922:573::1793792777646:1793792791104:-7146:0:35:true:31;7480:1471::1793792797075:1793792810621:12283:12283:26:true:20"
+        },
+        "curated": {
+          "best_target_entity_id": "7480",
+          "mobile_type_id": "1471",
+          "resolved_mob_name": "Roaming Morgana Crossbowman",
+          "candidate_count": 1,
+          "confidence": "LOW",
+          "candidate_evidence": "7480:1471::1793792797075:1793792810621:12283:26:true:20"
+        },
+        "identity_proven": false
+      }
+    ],
+    "troll_region_joined_rows": 12,
+    "mob_candidate_rows": 1,
+    "mob_candidate_rows_by_resolved_mob_name": {
+      "Ore Elemental": 1
+    },
+    "mob_identity_proven_rows": 0,
+    "mob_region_joined_rows": 0,
+    "marker_region_joined_rows": 12,
+    "marker_region_unjoined_rows": 1,
+    "marker_region_counts": {
+      "4206": 4,
+      "4209": 6,
+      "4219": 2
+    }
   },
   "manual_markers": {
     "total": 369,
@@ -1273,6 +1316,9 @@
     },
     "zone_transition_records": 33,
     "zone_region_ids": 9,
-    "external_source_license_note": "Game-derived world map/zone datasets remain reference-only; no unlicensed payload copied."
+    "external_source_license_note": "Game-derived world map/zone datasets remain reference-only; no unlicensed payload copied.",
+    "marker_region_joined_rows": 12,
+    "marker_region_unjoined_rows": 1,
+    "troll_main_curated_disagreement_count": 1
   }
 }
