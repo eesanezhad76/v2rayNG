@@ -35,6 +35,7 @@ def main():
 
  nodes=read_csv(DATABASE/"2026-11-02-pcap-harvestable-nodes.csv")
  mobs=read_csv(DATABASE/"2026-11-02-pcap-mob-lifecycle.csv")
+ state_rows=read_csv(DATABASE/"2026-11-02-pcap-resource-state-timelines.csv")
  mobile_crosswalk_path=DATABASE/"albion-mobile-type-crosswalk-2026-11-03.csv"
  mobile_crosswalk=read_csv(mobile_crosswalk_path) if mobile_crosswalk_path.exists() else []
  zone_evidence_path=DATABASE/"2026-11-02-region-transition-evidence.csv"
@@ -96,6 +97,17 @@ def main():
  mob_candidate_names=count_by([r for r in mob if r.get("resolved_mob_name")],"resolved_mob_name")
  marker_counts=collections.Counter(f'{r.get("activity","")}|{r.get("event","")}' for r in markers)
  unique_pcap_hashes={r.get("sha256") for r in pcap_members if r.get("sha256")}
+ state_keys={(r.get("archive",""),r.get("pcap",""),r.get("region_id",""),r.get("entity_id","")) for r in state_rows if r.get("entity_id")}
+ node_keys={(r.get("archive",""),r.get("pcap",""),r.get("region_id",""),r.get("entity_id","")) for r in nodes if r.get("entity_id")}
+ state_only_keys=state_keys-node_keys
+ state_exact_event40_joins=state_keys & node_keys
+ state_update_observations=sum(int(r.get("state_event_count") or 0) for r in state_rows)
+ attack_position_samples=sum(int(r.get("event3_position_samples") or 0) for r in attacks)
+ completed_lifecycle_samples=sum(1 for r in markers if r.get("event") in {"gathering_completed","node_depleted"})
+ observed_mobile_type_ids=sorted({str(r.get("mobile_type_id")) for r in mobs if r.get("mobile_type_id") not in (None,"","-1")})
+ dictionary_mobile_type_ids={str(r.get("mobile_type_id")) for r in mobile_crosswalk if r.get("mobile_type_id") not in (None,"")}
+ mapped_mobile_type_ids=sorted(set(observed_mobile_type_ids)&dictionary_mobile_type_ids)
+ unmapped_mobile_type_ids=sorted(set(observed_mobile_type_ids)-dictionary_mobile_type_ids)
  node_counts_by_mobile_type=collections.Counter(str(row.get("mobile_type_id") or "UNKNOWN") for row in nodes)
  ore_critter_by_tier=collections.defaultdict(list)
  for row in mobile_crosswalk:
@@ -124,15 +136,19 @@ def main():
    "pcap_analyzer_errors":0,"jsonl_members":sum(x["jsonl"] for x in archive_rows),
    "normalized_observations":observation_count,"own_player_move_observations":own_move_count},
   "resource_nodes":{"event40_file_scoped_records":len(nodes),"by_family_number":family_counts,
-   "by_archive":count_by(nodes,"archive"),"state_ids":297,"state_only_ids_without_event40_location":213,
+   "by_archive":count_by(nodes,"archive"),"state_ids":len(state_keys),
+   "state_only_ids_without_event40_location":len(state_only_keys),"state_exact_event40_joins":len(state_exact_event40_joins),
+   "event46_update_observations":state_update_observations,"state_join_key":"archive+pcap+region_id+entity_id",
    "known_ore_family":29,"known_ore_mobile_types_by_tier":{"T3":571,"T4":573,"T5":574},
    "ore_critter_mobile_types_by_tier":ore_critter_by_tier,"unresolved_type_number_counts":unresolved_family_counts,
    "user_confirmed_exception":{"entity_id":"2788","family":27,"tier":5,"enchant":3,"coordinates":[-379,-24]}},
   "static_resource_observations":{"event39_records":len(static),
    "warning":"Event 39 observations are untyped static-resource candidates; do not equate them to confirmed Event 40 nodes without exact identity evidence."},
   "mobile_entities":{"event123_lifecycle_records":len(mobs),"by_archive":count_by(mobs,"archive"),
+   "distinct_mobile_type_ids":len(observed_mobile_type_ids),"dictionary_mapped_type_ids":len(mapped_mobile_type_ids),
+   "unmapped_mobile_type_ids":unmapped_mobile_type_ids,
    "warning":"Event 123 living/mobile records; not every record is independently proven to be a hostile mob."},
-  "combat":{"operation23_attack_target_tracks":len(attacks),"attack_target_position_samples":1514,
+  "combat":{"operation23_attack_target_tracks":len(attacks),"attack_target_position_samples":attack_position_samples,
    "interpretations":count_by(attacks,"interpretation"),"marker_correlations":len(correlations),
    "correlations_by_activity_confidence":dict(sorted(corr_conf.items())),
    "troll_cycles":len(troll_confirmed),"troll_candidate_rows":len(troll),"troll_confidence":count_by(troll,"confidence"),
@@ -150,7 +166,7 @@ def main():
    "marker_region_joined_rows":sum(1 for r in correlations if r.get("region_id")),
    "warning":"Operation 23 provides exact selected target IDs; marker-to-target links remain confidence-ranked. Candidate mob names are not proven species identities; Leave is not proof of death."},
   "manual_markers":{"total":len(markers),"by_activity_event":dict(sorted(marker_counts.items())),
-   "completed_lifecycle_samples":109},
+   "completed_lifecycle_samples":completed_lifecycle_samples},
   "knowledge_bundles":{"imported_bundles":len(knowledge.get("imported_bundles",[])),
    "source_entity_records_sum_from_manifests":sum(x["knowledge_entity_records"] for x in archive_rows),
    "deduplicated_session_scoped_entity_records":len(entities),
@@ -193,16 +209,16 @@ def main():
   "## Resource nodes and static resources",
   f'- Event 40 harvestable-node records: **{len(nodes)}**',
   "- Family counts: "+", ".join(f'{k}: {v}' for k,v in family_counts.items()),
-  "- Event 46 state IDs: **297**; state-only IDs without Event 40 location: **213**",
+  f'- Event 46 state IDs: **{manifest["resource_nodes"]["state_ids"]}**; exact Event 40 joins: **{manifest["resource_nodes"]["state_exact_event40_joins"]}**; state-only: **{manifest["resource_nodes"]["state_only_ids_without_event40_location"]}** (join key: archive + PCAP + region + entity ID)',
   f'- Event 39 static-resource observations: **{len(static):,}** (untyped candidates, not automatically confirmed nodes)',
   "- Ore critter mobile TypeIDs by tier: "+Object.entries(ore_critter_by_tier).map(([tier,items])=>"T"+tier+": "+items.map(item=>item.mobile_type_id+" "+item.display_name).join(", ")).join("; "),
   "- Unresolved Event 40 type-number counts: "+(Object.entries(unresolved_family_counts).map(([key,value])=>key+": "+value).join(", ")||"none"),
   "- Static Ore type_number family is 23–27; living Ore Critters are separately identified by mobile TypeID and Loot.Harvestable semantics.",
   "- User-confirmed T5.3 exception: entity 2788, family 27, coordinates (-379, -24); this does not classify all family-27 nodes.","",
   "## Mobs and Troll marker cycles",
-  f'- Event 123 living/mobile lifecycle records: **{len(mobs):,}**',
-  f'- Operation 23 attack-target tracks: **{len(attacks)}**; tracked target-position samples: **1514**',
-  f'- Manual marker records: **{len(markers)}**; completed lifecycle samples: **109**',
+  f'- Event 123 living/mobile lifecycle records: **{len(mobs):,}**; distinct Mobile TypeIDs: **{len(observed_mobile_type_ids)}**; dictionary mapped: **{len(mapped_mobile_type_ids)}/{len(observed_mobile_type_ids)}**',
+  f'- Operation 23 attack-target tracks: **{len(attacks)}**; Event 3 target-position samples: **{attack_position_samples}**',
+  f'- Manual marker records: **{len(markers)}**; completed lifecycle samples (gathering_completed + node_depleted): **{completed_lifecycle_samples}**',
   f'- Aggregate marker-target rows: **{len(correlations)}**; by activity/confidence: '+", ".join(f'{k}: {v}' for k,v in sorted(corr_conf.items())),
   f'- Curated Troll marker candidates: **{len(troll)}**; candidate target names: '+", ".join(f'{k}: {v}' for k,v in troll_candidate_names.items()),
   f'- Troll identity-proven rows: **{len(troll_confirmed)}**; distinct candidate target IDs: **{len(troll_targets)}**; unlinked candidates: **{troll_unmatched}**',
@@ -210,7 +226,7 @@ def main():
   f'- Mobs marker candidates: **{len(mob)}**; target-name candidates: '+", ".join(f'{k}: {v}' for k,v in mob_candidate_names.items())+'; identity-proven: **'+str(sum(1 for r in mob if r.get("identity_proven")=="true"))+'**',
   f'- Marker rows with exact region transition: **{sum(1 for r in correlations if r.get("region_id"))}/{len(correlations)}**',
   "- Marker label Troll is retained separately from decoded game name Ore Elemental; all marker-to-target links remain evidence-ranked, not identity-proven.",
-  "- Attack tracks: 5 strong defeat candidates, 38 likely defeats not confirmed, 1 movement-supported candidate with kill unproven.","",
+  "- Attack-track interpretations: "+", ".join(f'{k}: {v}' for k,v in manifest["combat"]["interpretations"].items())+". Leave is not proof of death.","",
   "## Knowledge bundles",
   f'- Imported bundles: **{len(knowledge.get("imported_bundles",[]))}**',
   f'- Source entity records across manifests: **{manifest["knowledge_bundles"]["source_entity_records_sum_from_manifests"]:,}**; deduplicated session-scoped records: **{len(entities):,}**',
