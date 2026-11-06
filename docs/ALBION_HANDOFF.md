@@ -108,7 +108,7 @@ Implemented in current branch (must still pass the current CI run before claimin
 
 Not yet proven/complete:
 - Physical-device rendering and live snapshot delivery on the user's Poco F5.
-- Same-capture player-position / typed-resource coordinate alignment has been analyzed across 34 captures: 15 are PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE and 19 are NOT_VERIFIED. This supports local alignment only, not zone identity or a global/world-map transform.
+- Same-capture player-position / typed-resource coordinate alignment has been analyzed across 54 capture-region slices: 18 are PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE and 36 are NOT_VERIFIED. This supports local alignment only, not zone identity or a global/world-map transform.
 - Zone identity and global/world-map coordinate transform; current map is a local coordinate plane, not a complete world map with terrain or roads. 33 region-transition records cover nine numeric IDs; external names are reference-only and no unlicensed zone dataset was imported.
 - Full mob Seen→Killed linkage and exact T4 golem runtime entity identification.
 - Calibrated statistical confidence (current confidence is heuristic).
