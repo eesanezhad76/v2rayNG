@@ -24,7 +24,8 @@ The aggregate manifest records 14 source archive inventories (including the extr
 | Event 123 living/mobile lifecycle records | 4,172 | Not every record is independently proven to be a hostile mob |
 | Distinct observed Event 123 Mobile TypeIDs | 116 | 116/116 matched to the current type dictionary |
 | Operation 23 attack-target tracks | 37 | 3,007 Event 3 target-position samples |
-| Manual marker events | 369 | 109 gathering_completed + node_depleted events |\n| Manual marker-target aggregate rows | 13 | 12 Troll labels + 1 Mobs label |
+| Manual marker events | 369 | 109 gathering_completed + node_depleted events |
+| Manual marker-target aggregate rows | 13 | 12 Troll labels + 1 Mobs label |
 
 Event 40 family/type-number counts:
 
