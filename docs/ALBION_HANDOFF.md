@@ -1,5 +1,5 @@
 # ALBION RADAR — PERSISTENT HANDOFF / SOURCE OF TRUTH
-Last updated: 2026-11-03
+Last updated: 2026-11-06
 Repository: https://github.com/eesanezhad76/v2rayNG
 
 ## 0. Mandatory startup protocol for every new chat
@@ -60,10 +60,12 @@ Primary capture analysis:
 - 51 unique Event 40 nodes across multiple resource families, tiers and enchantments — NOT just five nodes.
 - Detailed counts, IDs, coordinates, raw values and caveats are in the dated capture report and machine-readable database. Always re-read them; this summary is not a replacement.
 
-Verified code mapping from this capture/previous cross-check:
-- Resource family/type_number 29 (Ore): T3 mobile_type_id 571; T4 573; T5 574.
-- Other families 7, 14, 27: mobile_type_id unresolved (-1 in this capture). Do not invent names/codes.
-- Event 40 `type_number` is resource family; `mobile_type_id` is a separate game mobile code; `entity_id` is the runtime ID of one specific node.
+Verified code mapping from the aggregate capture corpus and the pinned MIT database-code reference:
+- Static resource type_number ranges: WOOD 0–5, ROCK 6–10, FIBER 11–15, HIDE 16–22, ORE 23–27.
+- Static Event 40 type_number 27 is the ORE family (175 records); its mobile_type_id is unresolved for the static nodes and must not be borrowed from living Ore Critters.
+- Event 40 type_number 29 is a separate ORE_RESOURCE_CREATURE family (229 records). Observed Mobile TypeIDs: T3 570 (Mountain Green) and 571 (Mountain Red Ore Elemental); T4 572 (Mountain Green) and 573 (Mountain Red Ore Elemental); T5 574 (Mountain Red Ore Elemental); T6 576 (Mountain Red Ore Critter).
+- Event 40 type_number 28 has 2 unresolved records; type_number 32 has 1 unresolved record. Keep both unknown. TypeID 575 is not observed in the current capture corpus.
+- Event 40 `type_number` is a resource-family number; `mobile_type_id` is a separate game mobile code; `entity_id` is the runtime ID of one specific node.
 - Event 46 must be joined to Event 40 by exact runtime entity ID only, never by proximity or guessed matching.
 - Three node IDs (39075, 39460, 39464) have clear complete 4→3→2→1→0 sequences in this capture. Check exact database timelines before quoting more detail.
 - State-only IDs must be retained and investigated, not discarded.
@@ -106,8 +108,8 @@ Implemented in current branch (must still pass the current CI run before claimin
 
 Not yet proven/complete:
 - Physical-device rendering and live snapshot delivery on the user's Poco F5.
-- Same-capture player-position / typed-resource coordinate alignment is being measured from replayed PCAP details; until the report passes, map alignment remains provisional.
-- Zone identity and global/world-map coordinate transform; current map is a local coordinate plane, not a complete world map with terrain or roads.
+- Same-capture player-position / typed-resource coordinate alignment has been analyzed across 34 captures: 15 are PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE and 19 are NOT_VERIFIED. This supports local alignment only, not zone identity or a global/world-map transform.
+- Zone identity and global/world-map coordinate transform; current map is a local coordinate plane, not a complete world map with terrain or roads. 33 region-transition records cover nine numeric IDs; external names are reference-only and no unlicensed zone dataset was imported.
 - Full mob Seen→Killed linkage and exact T4 golem runtime entity identification.
 - Calibrated statistical confidence (current confidence is heuristic).
 - Production-grade mappings for unknown resource families and inventory Item IDs/stack deltas.
@@ -155,3 +157,45 @@ Not yet proven/complete:
 
 ## 10. Instructions to the assistant in the next chat
 Treat this file as mandatory project continuity context. Do not restart analysis from scratch, do not overwrite prior findings, do not claim a feature is complete without evidence, and do not confuse absence in the latest capture with absence in all historical captures. The user values exact coordinates, entity IDs, resource codes, enchantment levels, state timelines, marker correlations and permanent records. Update this handoff after every meaningful discovery or implementation.
+
+
+## 11. Aggregate database and map audit — 2026-11-06
+
+### Active branch and current research baseline
+- Active branch remains `albion-pattern-mining`; do not merge into `albion-safe-integration-2026-11-05`, recovery, master, or Draft PR #3 without explicit instruction.
+- This audit began at app HEAD `a453c812483f285dcae97d0ad0bc044c0cec11fa`. Database/script commits in this audit include `91694e790b0007e2cb58eecba29eec5c5b9985d8`, `86e48e06634589d660611bd21b16b374ac814a18`, `c176b707ed921a4ee4f66c9d93098528f986f9b1`, and manifest reconciliation `1d7d9565cb8f2b6543d8d2ab84c84cba1f907ee4`. Later report/README/handoff commits advance the branch; query live HEAD next session.
+- External source quarantine: `eesanezhad76/AlbionRadar-External-Research`, branch `external-data-quarantine-2026-11-06`, last verified HEAD before handoff update `8b720dc856b0fda28a33c67b1dd3caba1d421021`.
+
+### Capture corpus coverage
+- 14 source archive inventories; 35 PCAP members; 34 unique PCAP SHA-256; one byte-identical duplicate; 20 JSONL members; zero analyzer errors.
+- 761,082 normalized observations; 81,881 own-player Move(22) observations.
+- Event 39: 47,108 untyped static-resource candidates.
+- Event 40: 652 node records; Event 46: 297 state IDs, including 213 state-only IDs.
+- Event 123: 4,172 lifecycle records; 116 distinct observed Mobile TypeIDs, all 116 matched to the current dictionary.
+- The machine-readable source of truth is `research/database/albion-complete-database-manifest-2026-11-03.json`; the latest human audit is `research/analysis/2026-11-06-complete-database-audit.md`. `research/database/README.md` now lists the current aggregate files.
+
+### Ore Critter coverage
+- Six observed variants now appear in the mobile crosswalk and resource-node catalog: 570 T3 green, 571 T3 red, 572 T4 green, 573 T4 red, 574 T5 red, 576 T6 red.
+- Together they account for 229 Event 40 type_number-29 nodes and 637 Event 123 lifecycle records.
+- Static ORE is type_number 23–27; type_number 27 has 175 records. Do not conflate static type_number 27 with living type_number 29.
+- type_number 28 (2 records), type_number 32 (1 record), and TypeID 575 (not observed in this corpus) remain unassigned.
+
+### Troll and Mob target correlation repair
+- The main aggregate marker correlation CSV had a malformed header: 21 columns but only 20 values per row. The original file is preserved as `research/analysis/2026-11-02-overlay-mob-attack-correlation.pre-region-join.csv`.
+- Main analysis and database copies were repaired by joining exact region IDs from the same archive + PCAP transition timeline. 12/13 aggregate marker rows now have region IDs; one older Mobs row has no transition evidence.
+- Dedicated Troll table: 12 candidate rows (11 Ore Elemental, 1 Roaming Morgana Crossbowman), confidence HIGH 6 / MEDIUM 4 / LOW 2; identity_proven remains false for all.
+- Dedicated Mobs table: one Ore Elemental candidate, LOW confidence, no region ID, identity_proven false.
+- The final Troll marker at 1793792784792 in region 4219 has a main-vs-curated disagreement: aggregate candidate table chooses TypeID 573 / Ore Elemental / target 28922 (two candidates, HIGH); dedicated conservative table chooses TypeID 1471 / Roaming Morgana Crossbowman / target 7480 (one candidate, LOW). Preserve both; do not promote either as confirmed. The user marker label `Troll` is an activity label, not a verified species.
+- Troll region IDs: 4206 (4), 4209 (6), 4219 (2). Candidate zone names from an unlicensed reference are Tharcal Fissure, Cairn Darg and Caulder Fissure; names remain analysis-only.
+
+### Map / zone research
+- 33 captured region-transition records cover nine numeric IDs: 4000, 4001, 4002, 4206, 4207, 4209, 4213, 4217, 4219.
+- Spatial report: 34 captures, 15 plausible local coordinate alignments, 19 not verified. A generator default bug that reported 11 was corrected; future builds derive the count from the per-capture status rows.
+- The external quarantine inventory now records 124 source entries / 123 unique IDs. Two MIT OpenRadar database parser references were added (HarvestablesDatabase.js and MobsDatabase.js); game-derived JSON payloads were not copied.
+- AODP `boxes.json` (327 unlabeled rectangles) and its bundled MIT notice were imported into external quarantine only. The 2.88 MB atlas image was not imported; license scope and atlas-to-zone mapping remain unverified.
+- Multiple map/pathfinder/dungeon sources were reviewed. Unlicensed map JSON, grid coordinates, tiles and images remain held. A binary-only radar updater with contradictory license claims was rejected and never executed. Full source review: `analysis/2026-11-06-deep-map-zone-radar-source-sweep.md` in the external quarantine repository.
+
+### Validation and outstanding work
+- No app source or runtime asset was changed in this audit.
+- The index-builder script and aggregate manifest were updated, but the generator was not executed; no Python tests, Gradle tests, CI build, APK creation, live capture or physical-device test was performed.
+- Next: run the database generator in a controlled checkout; verify Python syntax and output diffs; ensure it preserves the curated Troll/Mobs tables; add regression tests for the 21-column marker CSV and region join; investigate the one unresolved Troll disagreement; obtain a licensed zone/world map dataset and validate a global coordinate transform; leave unknown IDs unresolved until direct evidence appears.
