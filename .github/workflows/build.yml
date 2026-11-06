@@ -233,9 +233,16 @@ jobs:
         mkdir -p "$REPORT_DIR"
         LOG="$REPORT_DIR/emulator-boot.log"
 
+        # avdmanager and emulator must resolve the AVD from the same directory.
+        export ANDROID_AVD_HOME="$HOME/.android/avd"
+        mkdir -p "$ANDROID_AVD_HOME"
+
         test -s "$APK"
         echo "no" | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd \
           --name "$AVD_NAME" --package "$SYSTEM_IMAGE" --device "pixel_6" --force
+        test -s "$ANDROID_AVD_HOME/$AVD_NAME.ini"
+        test -s "$ANDROID_AVD_HOME/$AVD_NAME.avd/config.ini"
+        "$ANDROID_HOME/emulator/emulator" -list-avds | grep -Fx "$AVD_NAME"
 
         EMULATOR_BIN="$ANDROID_HOME/emulator/emulator"
         if [[ ! -x "$EMULATOR_BIN" ]]; then
