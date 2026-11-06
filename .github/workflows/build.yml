@@ -251,6 +251,15 @@ jobs:
           exit 1
         fi
 
+        # GitHub-hosted runners may expose KVM without granting the runner user access.
+        if [[ -e /dev/kvm ]]; then
+          sudo chmod a+rw /dev/kvm
+          test -r /dev/kvm && test -w /dev/kvm
+        else
+          echo "KVM device /dev/kvm is unavailable on this runner."
+          exit 1
+        fi
+
         adb start-server
         "$EMULATOR_BIN" -avd "$AVD_NAME" -port 5554 -no-window -no-audio -no-boot-anim \
           -no-snapshot -wipe-data -gpu swiftshader_indirect -memory 4096 -cores 2 \
