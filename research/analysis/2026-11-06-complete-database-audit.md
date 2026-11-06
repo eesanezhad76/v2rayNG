@@ -139,7 +139,7 @@ The index builder now:
 - Separates candidate target names from identity-proven names and records main-vs-curated disagreements.
 - Preserves exact region joins and reports how many marker rows remain unjoined.
 
-The manifest was reconciled with these facts. No generator was executed during this session; the script changes and hand-reconciled manifest are committed, but regeneration and automated validation remain outstanding.
+The manifest and builder were reconciled with the evidence. CI run #365 (run ID 42250739007) completed 44 tests successfully, including the corrected Spatial test, but the builder step failed on accidental JavaScript syntax in Python report formatting. That syntax was corrected in commit `d3dc5b81d577c02dea34a680c440494977bfa7a2`. CI run #369 (run ID 42252090655) is currently in progress and includes the new `test_capture_database_integrity.py` regression suite plus the corrected builder. No success is claimed until that run completes.
 
 ## 8. Exact file changes in this audit
 
@@ -153,4 +153,4 @@ The manifest was reconciled with these facts. No generator was executed during t
 | Update | `research/tools/build_complete_database_index.py` | `c7cb4da59621b8da21875b2a14e59eee99fa9909` | `5645a1b043b78b0753f6ac8216c2bd7efbd036bf` |
 | Update | `research/database/albion-complete-database-manifest-2026-11-03.json` | `afca48704cd2d4a3919a9c7a4697060255ce2329` | `b6886bc153908a0e1611f4ab8b19e78e753f7228` |
 
-No production app source, runtime asset, raw PCAP, original archive, user data or third-party upstream repository was modified. CI validation was triggered by the research commits; the exact run status is recorded in the handoff after completion. The database generator itself was not executed.
+No production app source, runtime asset, raw PCAP, original archive, user data or third-party upstream repository was modified. The latest completed re-ingest working-tree output (not yet committed because the builder step failed) reported 54 spatial captures with 18 plausible local alignments, 3,015 Event 3 target-position samples and 106 completed lifecycle marker events. The committed manifest remains on the previous snapshot until run #369 completes.
