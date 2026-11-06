@@ -237,8 +237,15 @@ jobs:
         echo "no" | "$ANDROID_HOME/cmdline-tools/latest/bin/avdmanager" create avd \
           --name "$AVD_NAME" --package "$SYSTEM_IMAGE" --device "pixel_6" --force
 
+        EMULATOR_BIN="$ANDROID_HOME/emulator/emulator"
+        if [[ ! -x "$EMULATOR_BIN" ]]; then
+          echo "Android emulator binary is missing or not executable: $EMULATOR_BIN"
+          ls -la "$ANDROID_HOME/emulator" || true
+          exit 1
+        fi
+
         adb start-server
-        emulator -avd "$AVD_NAME" -port 5554 -no-window -no-audio -no-boot-anim \
+        "$EMULATOR_BIN" -avd "$AVD_NAME" -port 5554 -no-window -no-audio -no-boot-anim \
           -no-snapshot -wipe-data -gpu swiftshader_indirect -memory 4096 -cores 2 \
           >"$LOG" 2>&1 &
         EMULATOR_PID=$!
