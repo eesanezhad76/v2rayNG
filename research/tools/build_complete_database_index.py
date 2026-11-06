@@ -185,20 +185,38 @@ def main():
    "warning":"This does not establish current zone identity or a global map transform."},
   "zone_evidence":{"region_transition_records":len(zone_evidence_rows),"captured_region_ids":captured_region_ids,
    "distinct_region_id_count":len(captured_region_ids),
-   "warning":"IDs are grounded in user captures. External names/maps were not imported because the referenced game-derived zone dataset has no verified redistribution license."}}
+   "warning":"IDs are grounded in user captures. External names/maps were not imported because the referenced game-derived zone dataset has no verified redistribution license."},
+  "supplemental_audit_2026_11_06":{
+   "active_branch":"albion-pattern-mining",
+   "ore_type_crosswalk_rows":sum(len(items) for items in ore_critter_by_tier.values()),
+   "troll_marker_candidate_rows":len(troll),"troll_candidate_names":troll_candidate_names,
+   "troll_main_curated_disagreement_count":len(troll_disagreements),
+   "spatial_status_counts":dict(sorted(spatial_status_counts.items())),
+   "region_transition_records":len(zone_evidence_rows),"captured_region_ids":captured_region_ids,
+   "event46_counts":{"state_ids":len(state_keys),"exact_event40_joins":len(state_exact_event40_joins),
+    "state_only":len(state_only_keys),"updates":state_update_observations,
+    "join_key":"archive+pcap+region_id+entity_id"},
+   "attack_target_position_samples":attack_position_samples,
+   "manual_marker_records":len(markers),"manual_completed_lifecycle_samples":completed_lifecycle_samples,
+   "external_source_license_note":"Game-derived world map/zone payloads remain reference-only; no unlicensed data was copied."}}
  out_json=DATABASE/"albion-complete-database-manifest-2026-11-03.json"
  files=[DATABASE/"2026-11-02-all-inbox-observations.jsonl",
   DATABASE/"2026-11-02-pcap-harvestable-nodes.csv",DATABASE/"2026-11-02-pcap-mob-lifecycle.csv",
   DATABASE/"2026-11-02-pcap-static-resources.csv",DATABASE/"2026-11-02-pcap-attack-target-tracks.csv",
   ANALYSIS/"2026-11-02-overlay-manual-markers.csv",ANALYSIS/"2026-11-02-overlay-mob-attack-correlation.csv",
+  ANALYSIS/"2026-11-02-overlay-mob-attack-correlation.pre-region-join.csv",
+  ANALYSIS/"2026-11-02-spatial-alignment.json",
   DATABASE/"2026-11-02-pcap-resource-state-timelines.csv",DATABASE/"2026-11-02-pcap-health-energy-events.csv",
+  DATABASE/"2026-11-02-region-transition-evidence.csv",
+  DATABASE/"albion-mobile-type-crosswalk-2026-11-03.csv",
+  DATABASE/"albion-resource-node-catalog-2026-11-03.csv",
   DATABASE/"albion-knowledge-bundle-import.json",DATABASE/"albion-troll-target-correlation-2026-11-03.csv",
   DATABASE/"albion-mob-target-correlation-2026-11-03.csv"]
  manifest["tables"]=[{"path":str(p.relative_to(ROOT)),"bytes":p.stat().st_size,"sha256":sha_file(p)} for p in files if p.exists()]
  out_json.write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 
  report=[
-  "# Complete Albion inbox database — 2026-11-03","",
+  "# Complete Albion inbox database — 2026-11-06","",
   "Consolidated index for all original ZIP archives. Raw ZIPs remain unchanged in research/inbox. Counts are capture-scoped unless stated otherwise.","",
   "## Intake and integrity",
   f'- ZIP archives: **{len(archive_rows)}**',
@@ -257,7 +275,7 @@ def main():
   "- ZIP text keyword-hit counts are not counts of nodes, Trolls, or mobs.",
   "- Unknown family/type evidence remains preserved as unknown."
  ]
- (ANALYSIS/"2026-11-03-complete-inbox-database-report.md").write_text("\n".join(report)+"\n",encoding="utf-8")
+ (ANALYSIS/"2026-11-06-complete-inbox-database-report.md").write_text("\n".join(report)+"\n",encoding="utf-8")
  print(json.dumps({"archives":len(archive_rows),"pcaps":len(pcap_members),"observations":observation_count,
   "nodes":len(nodes),"mobile_entities":len(mobs),"static_resources":len(static),
   "troll_cycles":len(troll),"mob_cycles":len(mob),"knowledge_entities":len(entities)},ensure_ascii=False))
