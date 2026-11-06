@@ -170,13 +170,13 @@
   "resource_nodes": {
     "event40_file_scoped_records": 652,
     "by_family_number": {
+      "7": 157,
       "14": 79,
       "20": 9,
       "27": 175,
       "28": 2,
       "29": 229,
-      "32": 1,
-      "7": 157
+      "32": 1
     },
     "by_archive": {
       "Albion اااستسمنسمنش.zip": 4,
@@ -206,7 +206,64 @@
         -379,
         -24
       ]
-    }
+    },
+    "ore_critter_mobile_types_by_tier": {
+      "T3": [
+        {
+          "mobile_type_id": 570,
+          "display_name": "Critter Ore Mountain Green",
+          "unique_name": "T3_MOB_CRITTER_ORE_MOUNTAIN_GREEN",
+          "pcap_lifecycle_records": 34,
+          "event40_node_records": 1
+        },
+        {
+          "mobile_type_id": 571,
+          "display_name": "Ore Elemental",
+          "unique_name": "T3_MOB_CRITTER_ORE_MOUNTAIN_RED",
+          "pcap_lifecycle_records": 227,
+          "event40_node_records": 21
+        }
+      ],
+      "T4": [
+        {
+          "mobile_type_id": 572,
+          "display_name": "Critter Ore Mountain Green",
+          "unique_name": "T4_MOB_CRITTER_ORE_MOUNTAIN_GREEN",
+          "pcap_lifecycle_records": 42,
+          "event40_node_records": 29
+        },
+        {
+          "mobile_type_id": 573,
+          "display_name": "Ore Elemental",
+          "unique_name": "T4_MOB_CRITTER_ORE_MOUNTAIN_RED",
+          "pcap_lifecycle_records": 210,
+          "event40_node_records": 68
+        }
+      ],
+      "T5": [
+        {
+          "mobile_type_id": 574,
+          "display_name": "Ore Elemental",
+          "unique_name": "T5_MOB_CRITTER_ORE_MOUNTAIN_RED",
+          "pcap_lifecycle_records": 122,
+          "event40_node_records": 107
+        }
+      ],
+      "T6": [
+        {
+          "mobile_type_id": 576,
+          "display_name": "Critter Ore Mountain Red",
+          "unique_name": "T6_MOB_CRITTER_ORE_MOUNTAIN_RED",
+          "pcap_lifecycle_records": 2,
+          "event40_node_records": 3
+        }
+      ]
+    },
+    "unresolved_type_number_counts": {
+      "28": 2,
+      "32": 1
+    },
+    "type_number_semantics_source": "OpenRadar MIT HarvestablesDatabase.js imported to quarantine; static resource type_number ranges are 0-27; family 29 is separately observed as living ORE_CRITTER."
   },
   "static_resource_observations": {
     "event39_records": 47108,
@@ -225,7 +282,10 @@
       "Albionsskkakaks111.zip": 247,
       "archiveNew-extracted.zip": 1829
     },
-    "warning": "Event 123 living/mobile records; not every record is independently proven to be a hostile mob."
+    "warning": "Event 123 living/mobile records; not every record is independently proven to be a hostile mob.",
+    "distinct_mobile_type_ids": 116,
+    "dictionary_mapped_type_ids": 116,
+    "unmapped_mobile_type_ids": []
   },
   "combat": {
     "operation23_attack_target_tracks": 37,
@@ -252,14 +312,24 @@
       "1793792784792|false": 1
     },
     "troll_cycles": 0,
-    "troll_confidence": {},
+    "troll_confidence": {
+      "HIGH": 6,
+      "MEDIUM": 4,
+      "LOW": 2
+    },
     "troll_resolved_mob_names": {},
     "troll_mobile_type_ids": {},
-    "troll_unique_target_ids": 0,
+    "troll_unique_target_ids": 10,
     "troll_unmatched_cycles": 0,
     "troll_identity_proven_rows": 0,
     "mob_cycles": 0,
-    "warning": "Operation 23 provides exact selected target IDs; marker-to-target links remain confidence-ranked. Leave is not proof of death."
+    "warning": "Operation 23 provides exact selected target IDs; marker-to-target links remain confidence-ranked. Leave is not proof of death.",
+    "troll_candidate_rows_by_resolved_mob_name": {
+      "Ore Elemental": 11,
+      "Roaming Morgana Crossbowman": 1
+    },
+    "troll_distinct_found_markers": 12,
+    "troll_rows_with_killed_timestamp": 10
   },
   "manual_markers": {
     "total": 369,
@@ -328,7 +398,7 @@
   },
   "spatial_alignment": {
     "captures_checked": 34,
-    "plausible_same_local_coordinate_space": 11,
+    "plausible_same_local_coordinate_space": 15,
     "status_counts": {
       "NOT_VERIFIED": 19,
       "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE": 15
@@ -369,9 +439,9 @@
         },
         "resource_bounds": {
           "min_x": -342.5,
-          "max_x": -242.0,
+          "max_x": -242,
           "min_y": 30.229,
-          "max_y": 129.0
+          "max_y": 129
         },
         "bounding_boxes_overlap": true,
         "temporal_player_node_pairs": 4,
@@ -533,7 +603,7 @@
         },
         "resource_bounds": {
           "min_x": -229.336,
-          "max_x": -162.0,
+          "max_x": -162,
           "min_y": 334.496,
           "max_y": 367.5
         },
@@ -634,8 +704,8 @@
         "resource_bounds": {
           "min_x": -376.217,
           "max_x": -6.5,
-          "min_y": -308.0,
-          "max_y": 180.0
+          "min_y": -308,
+          "max_y": 180
         },
         "bounding_boxes_overlap": true,
         "temporal_player_node_pairs": 19,
@@ -662,8 +732,8 @@
         "resource_bounds": {
           "min_x": -380.5,
           "max_x": -25.296,
-          "min_y": -312.0,
-          "max_y": 141.0
+          "min_y": -312,
+          "max_y": 141
         },
         "bounding_boxes_overlap": true,
         "temporal_player_node_pairs": 30,
@@ -742,10 +812,10 @@
           "max_y": 386.98785400390625
         },
         "resource_bounds": {
-          "min_x": -379.0,
-          "max_x": 386.0,
-          "min_y": -317.0,
-          "max_y": 387.0
+          "min_x": -379,
+          "max_x": 386,
+          "min_y": -317,
+          "max_y": 387
         },
         "bounding_boxes_overlap": true,
         "temporal_player_node_pairs": 93,
@@ -770,10 +840,10 @@
           "max_y": 371.76861572265625
         },
         "resource_bounds": {
-          "min_x": -368.0,
-          "max_x": 386.0,
-          "min_y": -327.0,
-          "max_y": 370.0
+          "min_x": -368,
+          "max_x": 386,
+          "min_y": -327,
+          "max_y": 370
         },
         "bounding_boxes_overlap": true,
         "temporal_player_node_pairs": 75,
@@ -817,8 +887,8 @@
         },
         "resource_bounds": {
           "min_x": -193.986,
-          "max_x": -7.0,
-          "min_y": 289.0,
+          "max_x": -7,
+          "min_y": 289,
           "max_y": 367.968
         },
         "bounding_boxes_overlap": true,
@@ -844,10 +914,10 @@
           "max_y": 284.3939514160156
         },
         "resource_bounds": {
-          "min_x": -388.0,
-          "max_x": -322.0,
-          "min_y": 227.0,
-          "max_y": 321.0
+          "min_x": -388,
+          "max_x": -322,
+          "min_y": 227,
+          "max_y": 321
         },
         "bounding_boxes_overlap": true,
         "temporal_player_node_pairs": 3,
@@ -908,7 +978,7 @@
           "max_y": 319.42041015625
         },
         "resource_bounds": {
-          "min_x": -102.0,
+          "min_x": -102,
           "max_x": -6.015,
           "min_y": 105.285,
           "max_y": 359.772
@@ -972,9 +1042,9 @@
           "max_y": 382.7960205078125
         },
         "resource_bounds": {
-          "min_x": -387.0,
+          "min_x": -387,
           "max_x": 365.917,
-          "min_y": -217.0,
+          "min_y": -217,
           "max_y": 382.803
         },
         "bounding_boxes_overlap": true,
@@ -1000,10 +1070,10 @@
           "max_y": 301.3921813964844
         },
         "resource_bounds": {
-          "min_x": -190.0,
+          "min_x": -190,
           "max_x": 5.5,
           "min_y": 107.5,
-          "max_y": 338.0
+          "max_y": 338
         },
         "bounding_boxes_overlap": true,
         "temporal_player_node_pairs": 4,
@@ -1028,9 +1098,9 @@
           "max_y": 384.2095642089844
         },
         "resource_bounds": {
-          "min_x": -376.0,
+          "min_x": -376,
           "max_x": 284.5,
-          "min_y": -319.0,
+          "min_y": -319,
           "max_y": 386.142
         },
         "bounding_boxes_overlap": true,
@@ -1056,9 +1126,9 @@
           "max_y": 85.11669921875
         },
         "resource_bounds": {
-          "min_x": -70.0,
+          "min_x": -70,
           "max_x": 260.5,
-          "min_y": -315.0,
+          "min_y": -315,
           "max_y": 127.5
         },
         "bounding_boxes_overlap": true,
@@ -1086,10 +1156,10 @@
           "max_y": 377.2270202636719
         },
         "resource_bounds": {
-          "min_x": -396.0,
-          "max_x": 361.0,
+          "min_x": -396,
+          "max_x": 361,
           "min_y": -383.605,
-          "max_y": 382.0
+          "max_y": 382
         },
         "bounding_boxes_overlap": true,
         "temporal_player_node_pairs": 165,
@@ -1100,7 +1170,13 @@
       }
     ],
     "overall_status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
-    "warning": "This does not establish current zone identity or a global map transform."
+    "warning": "This does not establish current zone identity or a global map transform.",
+    "count_reconciliation": {
+      "previous_value": 11,
+      "corrected_value": 15,
+      "source": "research/analysis/2026-11-02-spatial-alignment.json",
+      "reason": "The generator used spatial.get('plausible_captures', 11), but the authoritative per-capture statuses count 15 PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE and 19 NOT_VERIFIED across 34 captures."
+    }
   },
   "tables": [
     {
@@ -1163,5 +1239,40 @@
       "bytes": 509,
       "sha256": "43cf20acb26af3ed97cc6d54ccad30f595c8a7262fddbcdc105a499d13d374b3"
     }
-  ]
+  ],
+  "zone_evidence": {
+    "region_transition_records": 33,
+    "captured_region_ids": [
+      "4000",
+      "4001",
+      "4002",
+      "4206",
+      "4207",
+      "4209",
+      "4213",
+      "4217",
+      "4219"
+    ],
+    "distinct_region_id_count": 9,
+    "zone_names_imported": false,
+    "reference_only_source": "Nouuu/Albion-Online-OpenRadar@2786827386ee31d37d5a6068b965f42d589fe946:web/ao-bin-dumps/zones.json",
+    "warning": "Names were cross-referenced for analysis only. The game-derived zones.json has no verified redistribution license; no zone-name payload or global map geometry was imported."
+  },
+  "supplemental_audit_2026_11_06": {
+    "active_branch": "albion-pattern-mining",
+    "base_head": "a453c812483f285dcae97d0ad0bc044c0cec11fa",
+    "ore_type_crosswalk_rows": 6,
+    "troll_marker_rows": 12,
+    "troll_candidate_names": {
+      "Ore Elemental": 11,
+      "Roaming Morgana Crossbowman": 1
+    },
+    "spatial_status_counts": {
+      "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE": 15,
+      "NOT_VERIFIED": 19
+    },
+    "zone_transition_records": 33,
+    "zone_region_ids": 9,
+    "external_source_license_note": "Game-derived world map/zone datasets remain reference-only; no unlicensed payload copied."
+  }
 }
