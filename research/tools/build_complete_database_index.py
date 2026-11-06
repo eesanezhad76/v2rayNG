@@ -43,12 +43,14 @@ def main():
  attacks=read_csv(DATABASE/"2026-11-02-pcap-attack-target-tracks.csv")
  correlations=read_csv(ANALYSIS/"2026-11-02-overlay-mob-attack-correlation.csv")
  markers=read_csv(ANALYSIS/"2026-11-02-overlay-manual-markers.csv")
- troll=[r for r in correlations if r.get("activity")=="Troll"]
- mob=[r for r in correlations if r.get("activity")=="Mobs"]
- for label,rows in (("troll",troll),("mob",mob)):
-  if rows:
-   with (DATABASE/f"albion-{label}-target-correlation-2026-11-03.csv").open("w",encoding="utf-8",newline="") as target:
-    writer=csv.DictWriter(target,fieldnames=list(rows[0].keys())); writer.writeheader(); writer.writerows(rows)
+ troll_main=[r for r in correlations if r.get("activity")=="Troll"]
+ mob_main=[r for r in correlations if r.get("activity")=="Mobs"]
+ troll_path=DATABASE/"albion-troll-target-correlation-2026-11-03.csv"
+ mob_path=DATABASE/"albion-mob-target-correlation-2026-11-03.csv"
+ # Curated candidate tables are authoritative for the conservative selected target.
+ # Never overwrite them from the broader main correlation table: preserve disagreements.
+ troll=read_csv(troll_path) if troll_path.exists() else troll_main
+ mob=read_csv(mob_path) if mob_path.exists() else mob_main
 
  observations_path=DATABASE/"2026-11-02-all-inbox-observations.jsonl"
  observation_count=own_move_count=0
@@ -78,6 +80,19 @@ def main():
  troll_confirmed=[r for r in troll if r.get("identity_proven")=="true"]
  troll_names=count_by([r for r in troll_confirmed if r.get("resolved_mob_name")],"resolved_mob_name")
  troll_types=count_by([r for r in troll_confirmed if r.get("mobile_type_id")],"mobile_type_id")
+ troll_main_names=count_by([r for r in troll_main if r.get("resolved_mob_name")],"resolved_mob_name")
+ troll_main_confidence=count_by(troll_main,"confidence")
+ troll_main_by_found={r.get("found_ms"):r for r in troll_main if r.get("found_ms")}
+ troll_disagreements=[]
+ for candidate in troll:
+  main=troll_main_by_found.get(candidate.get("found_ms"))
+  if main and (main.get("best_target_entity_id")!=candidate.get("best_target_entity_id") or main.get("mobile_type_id")!=candidate.get("mobile_type_id")):
+   troll_disagreements.append({"found_ms":candidate.get("found_ms"),
+    "main_best_target_entity_id":main.get("best_target_entity_id"),"main_mobile_type_id":main.get("mobile_type_id"),
+    "main_resolved_mob_name":main.get("resolved_mob_name"),"main_candidate_count":main.get("candidate_count"),
+    "main_confidence":main.get("confidence"),"curated_best_target_entity_id":candidate.get("best_target_entity_id"),
+    "curated_mobile_type_id":candidate.get("mobile_type_id"),"curated_resolved_mob_name":candidate.get("resolved_mob_name"),
+    "curated_confidence":candidate.get("confidence")})
  mob_candidate_names=count_by([r for r in mob if r.get("resolved_mob_name")],"resolved_mob_name")
  marker_counts=collections.Counter(f'{r.get("activity","")}|{r.get("event","")}' for r in markers)
  unique_pcap_hashes={r.get("sha256") for r in pcap_members if r.get("sha256")}
@@ -123,12 +138,15 @@ def main():
    "troll_cycles":len(troll_confirmed),"troll_candidate_rows":len(troll),"troll_confidence":count_by(troll,"confidence"),
    "troll_resolved_mob_names":troll_names,"troll_candidate_rows_by_resolved_mob_name":troll_candidate_names,
    "troll_mobile_type_ids":troll_types,"troll_candidate_mobile_type_ids":troll_candidate_types,
+   "troll_main_candidate_rows":len(troll_main),"troll_main_candidate_names":troll_main_names,
+   "troll_main_confidence":troll_main_confidence,"troll_main_vs_curated_disagreements":troll_disagreements,
    "troll_unique_target_ids":len(troll_targets),"troll_unmatched_cycles":troll_unmatched,
    "troll_identity_proven_rows":len(troll_confirmed),
    "troll_region_joined_rows":sum(1 for r in troll if r.get("region_id")),
    "mob_cycles":sum(1 for r in mob if r.get("identity_proven")=="true"),"mob_candidate_rows":len(mob),
    "mob_candidate_rows_by_resolved_mob_name":mob_candidate_names,
    "mob_identity_proven_rows":sum(1 for r in mob if r.get("identity_proven")=="true"),
+   "mob_region_joined_rows":sum(1 for r in mob if r.get("region_id")),
    "marker_region_joined_rows":sum(1 for r in correlations if r.get("region_id")),
    "warning":"Operation 23 provides exact selected target IDs; marker-to-target links remain confidence-ranked. Candidate mob names are not proven species identities; Leave is not proof of death."},
   "manual_markers":{"total":len(markers),"by_activity_event":dict(sorted(marker_counts.items())),
@@ -185,9 +203,10 @@ def main():
   f'- Event 123 living/mobile lifecycle records: **{len(mobs):,}**',
   f'- Operation 23 attack-target tracks: **{len(attacks)}**; tracked target-position samples: **1514**',
   f'- Manual marker records: **{len(markers)}**; completed lifecycle samples: **109**',
-  f'- Marker-target candidate rows: **{len(correlations)}**; by activity/confidence: '+", ".join(f'{k}: {v}' for k,v in sorted(corr_conf.items())),
-  f'- Troll marker candidates: **{len(troll)}**; target-name candidates: '+", ".join(f'{k}: {v}' for k,v in troll_candidate_names.items()),
+  f'- Aggregate marker-target rows: **{len(correlations)}**; by activity/confidence: '+", ".join(f'{k}: {v}' for k,v in sorted(corr_conf.items())),
+  f'- Curated Troll marker candidates: **{len(troll)}**; candidate target names: '+", ".join(f'{k}: {v}' for k,v in troll_candidate_names.items()),
   f'- Troll identity-proven rows: **{len(troll_confirmed)}**; distinct candidate target IDs: **{len(troll_targets)}**; unlinked candidates: **{troll_unmatched}**',
+  f'- Main-table Troll candidates: **{len(troll_main)}**; names: '+", ".join(f'{k}: {v}' for k,v in troll_main_names.items())+'; main-vs-curated disagreements: **'+str(len(troll_disagreements))+'**',
   f'- Mobs marker candidates: **{len(mob)}**; target-name candidates: '+", ".join(f'{k}: {v}' for k,v in mob_candidate_names.items())+'; identity-proven: **'+str(sum(1 for r in mob if r.get("identity_proven")=="true"))+'**',
   f'- Marker rows with exact region transition: **{sum(1 for r in correlations if r.get("region_id"))}/{len(correlations)}**',
   "- Marker label Troll is retained separately from decoded game name Ore Elemental; all marker-to-target links remain evidence-ranked, not identity-proven.",
