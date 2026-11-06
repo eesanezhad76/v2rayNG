@@ -248,10 +248,15 @@ jobs:
         }
         trap cleanup EXIT
 
-        adb -s emulator-5554 wait-for-device
+        if ! timeout 120s adb -s emulator-5554 wait-for-device; then
+          echo "ADB did not detect emulator-5554 within 120 seconds."
+          adb devices -l || true
+          cat "$LOG" || true
+          exit 1
+        fi
         boot_completed=""
         for attempt in $(seq 1 180); do
-          boot_completed="$(adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
+          boot_completed="$(timeout 20s adb -s emulator-5554 shell getprop sys.boot_completed 2>/dev/null | tr -d '\r' || true)"
           if [[ "$boot_completed" == "1" ]]; then break; fi
           if ! kill -0 "$EMULATOR_PID" 2>/dev/null; then
             echo "Emulator process exited before boot completed."
@@ -270,9 +275,9 @@ jobs:
         fi
 
         echo "Emulator boot completed; checking Android framework services."
-        adb -s emulator-5554 shell getprop > "$REPORT_DIR/emulator-getprop.txt"
-        adb -s emulator-5554 shell service check package
-        adb -s emulator-5554 shell service check activity
+        timeout 30s adb -s emulator-5554 shell getprop > "$REPORT_DIR/emulator-getprop.txt"
+        timeout 30s adb -s emulator-5554 shell service check package
+        timeout 30s adb -s emulator-5554 shell service check activity
         timeout 45s adb -s emulator-5554 shell cmd package list packages > "$REPORT_DIR/emulator-packages.txt"
 
         if ! timeout 300s adb -s emulator-5554 install --no-streaming -r "$APK"; then
@@ -287,6 +292,20 @@ jobs:
         adb -s emulator-5554 logcat -b all -d -t 1200 > "$REPORT_DIR/emulator-postlaunch-logcat.txt" 2>&1 || true
         echo "APK install and launcher invocation completed on Android 15."
         
+    - name: Upload emulator diagnostics
+      if: always() && github.ref == 'refs/heads/albion-ci-emulator-recovery-2026-11-06'
+      uses: actions/upload-artifact@v7
+      with:
+        name: emulator-diagnostics
+        path: |
+          V2rayNG/app/build/reports/albion/emulator-boot.log
+          V2rayNG/app/build/reports/albion/emulator-getprop.txt
+          V2rayNG/app/build/reports/albion/emulator-packages.txt
+          V2rayNG/app/build/reports/albion/emulator-logcat.txt
+          V2rayNG/app/build/reports/albion/emulator-package-dump.txt
+          V2rayNG/app/build/reports/albion/emulator-postlaunch-logcat.txt
+        if-no-files-found: warn
+
     - name: Run offline PCAP replay and audit
       if: always() && (github.ref == 'refs/heads/albion-pattern-mining' || github.ref == 'refs/heads/albion-radar-phase1-remediation' || github.ref == 'refs/heads/albion-zone-forensics' || (github.ref == 'refs/heads/albion-safe-integration-2026-11-05' || github.ref == 'refs/heads/albion-safe-fixes-2026-11-05' || (github.ref == 'refs/heads/albion-integration-staging-2026-11-05' || (github.ref == 'refs/heads/albion-marker-queue-hardening-2026-11-06' || github.ref == 'refs/heads/albion-ci-emulator-recovery-2026-11-06'))))
       shell: bash
