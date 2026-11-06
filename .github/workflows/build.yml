@@ -21,6 +21,7 @@ on:
       - albion-safe-fixes-2026-11-05
       - albion-integration-staging-2026-11-05
       - albion-marker-queue-hardening-2026-11-06
+      - albion-ci-emulator-recovery-2026-11-06
     # Capture-ingest commits update derived evidence only. They must not queue
     # redundant APK builds; source, tests, decoder and workflow changes still do.
     paths-ignore:
