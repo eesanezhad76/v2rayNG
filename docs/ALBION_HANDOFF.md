@@ -66,7 +66,7 @@ Verified code mapping from the aggregate capture corpus and the pinned MIT datab
 - Event 40 type_number 29 is a separate ORE_RESOURCE_CREATURE family (229 records). Observed Mobile TypeIDs: T3 570 (Mountain Green) and 571 (Mountain Red Ore Elemental); T4 572 (Mountain Green) and 573 (Mountain Red Ore Elemental); T5 574 (Mountain Red Ore Elemental); T6 576 (Mountain Red Ore Critter).
 - Event 40 type_number 28 has 2 unresolved records; type_number 32 has 1 unresolved record. Keep both unknown. TypeID 575 is not observed in the current capture corpus.
 - Event 40 `type_number` is a resource-family number; `mobile_type_id` is a separate game mobile code; `entity_id` is the runtime ID of one specific node.
-- Event 46 must be joined to Event 40 by exact runtime entity ID only, never by proximity or guessed matching.
+- Event 46 must be joined to Event 40 by the exact composite key archive + PCAP + region_id + entity_id when region is known; never join across captures/regions or by proximity/guessing.
 - Three node IDs (39075, 39460, 39464) have clear complete 4→3→2→1→0 sequences in this capture. Check exact database timelines before quoting more detail.
 - State-only IDs must be retained and investigated, not discarded.
 
