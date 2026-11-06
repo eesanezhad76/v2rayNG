@@ -164,7 +164,7 @@ Treat this file as mandatory project continuity context. Do not restart analysis
 ### Active branch and current research baseline
 - Active branch remains `albion-pattern-mining`; do not merge into `albion-safe-integration-2026-11-05`, recovery, master, or Draft PR #3 without explicit instruction.
 - This audit began at app HEAD `a453c812483f285dcae97d0ad0bc044c0cec11fa`. Database/script commits in this audit include `91694e790b0007e2cb58eecba29eec5c5b9985d8`, `86e48e06634589d660611bd21b16b374ac814a18`, `c176b707ed921a4ee4f66c9d93098528f986f9b1`, and manifest reconciliation `1d7d9565cb8f2b6543d8d2ab84c84cba1f907ee4`. Later report/README/handoff commits advance the branch; query live HEAD next session.
-- External source quarantine: `eesanezhad76/AlbionRadar-External-Research`, branch `external-data-quarantine-2026-11-06`, last verified HEAD `a040f2dde938bbb7639a99ffbbdabeceb0f58ffa`.
+- External source quarantine: `eesanezhad76/AlbionRadar-External-Research`, branch `external-data-quarantine-2026-11-06`, last verified HEAD `8d9c1e422667205011040c184c326b8caa6badbe`.
 
 ### Capture corpus coverage
 - 14 source archive inventories; 35 PCAP members; 34 unique PCAP SHA-256; one byte-identical duplicate; 20 JSONL members; zero analyzer errors.
@@ -194,6 +194,7 @@ Treat this file as mandatory project continuity context. Do not restart analysis
 - 33 captured region-transition records cover nine numeric IDs: 4000, 4001, 4002, 4206, 4207, 4209, 4213, 4217, 4219.
 - Spatial report: 34 captures, 15 plausible local coordinate alignments, 19 not verified. A generator default bug that reported 11 was corrected; future builds derive the count from the per-capture status rows.
 - The external quarantine inventory now records 124 source entries / 123 unique IDs. Two MIT OpenRadar database parser references were added (HarvestablesDatabase.js and MobsDatabase.js); game-derived JSON payloads were not copied.
+- The existing MIT `ao-data/albiondata-client@c6edd9456bec4657755c25f173e8ebc7a31a17f7` quarantine snapshot gained five exact event/map schema blobs: EventType enum/string mapping, red-zone world-map event model, GetClusterMapInfo response and MapDataUpload coordinate/building schema. No actual map data or Photon parser was imported; the parser's provenance is separately restrictive. See `analysis/2026-11-06-albiondata-client-event-map-expansion.md` in the external quarantine.
 - AODP `boxes.json` (327 unlabeled rectangles) and its bundled MIT notice were imported into external quarantine only. The 2.88 MB atlas image was not imported; license scope and atlas-to-zone mapping remain unverified.
 - Multiple map/pathfinder/dungeon sources were reviewed. Unlicensed map JSON, grid coordinates, tiles and images remain held. A binary-only radar updater with contradictory license claims was rejected and never executed. Full source review: `analysis/2026-11-06-deep-map-zone-radar-source-sweep.md` in the external quarantine repository.
 
