@@ -104,9 +104,9 @@ class SpatialAlignmentTests(unittest.TestCase):
         self.assertEqual({"4000", "4001"}, set(by_region))
         self.assertEqual("NOT_VERIFIED", by_region["4000"]["status"])
         self.assertEqual("NOT_VERIFIED", by_region["4001"]["status"])
-        self.assertEqual(14, by_region["MAP_A"]["player_position_samples"])
-        self.assertEqual(3, by_region["MAP_B"]["typed_resource_nodes"])
-        self.assertEqual(0, by_region["MAP_B"]["player_position_samples"])
+        self.assertEqual(14, by_region["4000"]["player_position_samples"])
+        self.assertEqual(3, by_region["4001"]["typed_resource_nodes"])
+        self.assertEqual(0, by_region["4001"]["player_position_samples"])
 
     def test_operation_2_join_response_reads_region_parameter_8(self):
         rows = [
