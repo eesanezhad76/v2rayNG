@@ -35,6 +35,10 @@ def main():
 
  nodes=read_csv(DATABASE/"2026-11-02-pcap-harvestable-nodes.csv")
  mobs=read_csv(DATABASE/"2026-11-02-pcap-mob-lifecycle.csv")
+ mobile_crosswalk_path=DATABASE/"albion-mobile-type-crosswalk-2026-11-03.csv"
+ mobile_crosswalk=read_csv(mobile_crosswalk_path) if mobile_crosswalk_path.exists() else []
+ zone_evidence_path=DATABASE/"2026-11-02-region-transition-evidence.csv"
+ zone_evidence_rows=read_csv(zone_evidence_path) if zone_evidence_path.exists() else []
  static=read_csv(DATABASE/"2026-11-02-pcap-static-resources.csv")
  attacks=read_csv(DATABASE/"2026-11-02-pcap-attack-target-tracks.csv")
  correlations=read_csv(ANALYSIS/"2026-11-02-overlay-mob-attack-correlation.csv")
@@ -73,6 +77,17 @@ def main():
  troll_types=count_by([r for r in troll if r.get("mobile_type_id")],"mobile_type_id")
  marker_counts=collections.Counter(f'{r.get("activity","")}|{r.get("event","")}' for r in markers)
  unique_pcap_hashes={r.get("sha256") for r in pcap_members if r.get("sha256")}
+ ore_critter_by_tier=collections.defaultdict(list)
+ for row in mobile_crosswalk:
+  if row.get("loot_type")=="ORE_CRITTER" and str(row.get("is_harvestable","")).lower()=="true":
+   tier=str(row.get("tier") or "UNKNOWN")
+   ore_critter_by_tier[tier].append({
+    "mobile_type_id":row.get("mobile_type_id"),"display_name":row.get("display_name"),
+    "unique_name":row.get("unique_name"),"pcap_lifecycle_records":int(row.get("pcap_lifecycle_records") or 0)})
+ ore_critter_by_tier={tier:sorted(items,key=lambda item:int(item["mobile_type_id"])) for tier,items in sorted(ore_critter_by_tier.items())}
+ recognized_family_numbers={str(i) for i in range(28)} | {"29"}
+ unresolved_family_counts={k:v for k,v in family_counts.items() if k not in recognized_family_numbers}
+ captured_region_ids=sorted({str(row.get("region_id") or "").strip() for row in zone_evidence_rows if str(row.get("region_id") or "").strip()})
  spatial_path=ANALYSIS/"2026-11-02-spatial-alignment.json"
  spatial=json.loads(spatial_path.read_text()) if spatial_path.exists() else {}
  spatial_capture_rows=spatial.get("captures",[])
@@ -90,6 +105,7 @@ def main():
   "resource_nodes":{"event40_file_scoped_records":len(nodes),"by_family_number":family_counts,
    "by_archive":count_by(nodes,"archive"),"state_ids":297,"state_only_ids_without_event40_location":213,
    "known_ore_family":29,"known_ore_mobile_types_by_tier":{"T3":571,"T4":573,"T5":574},
+   "ore_critter_mobile_types_by_tier":ore_critter_by_tier,"unresolved_type_number_counts":unresolved_family_counts,
    "user_confirmed_exception":{"entity_id":"2788","family":27,"tier":5,"enchant":3,"coordinates":[-379,-24]}},
   "static_resource_observations":{"event39_records":len(static),
    "warning":"Event 39 observations are untyped static-resource candidates; do not equate them to confirmed Event 40 nodes without exact identity evidence."},
@@ -99,8 +115,8 @@ def main():
    "interpretations":count_by(attacks,"interpretation"),"marker_correlations":len(correlations),
    "correlations_by_activity_confidence":dict(sorted(corr_conf.items())),
    "troll_cycles":len(troll),"troll_confidence":count_by(troll,"confidence"),
-   "troll_resolved_mob_names":troll_names,"troll_mobile_type_ids":troll_types,
-   "troll_unique_target_ids":len(troll_targets),"troll_unmatched_cycles":troll_unmatched,
+   "troll_resolved_mob_names":troll_names,"troll_candidate_rows_by_resolved_mob_name":troll_names,
+   "troll_mobile_type_ids":troll_types,"troll_unique_target_ids":len(troll_targets),"troll_unmatched_cycles":troll_unmatched,
    "troll_identity_proven_rows":sum(1 for r in troll if r.get("identity_proven")=="true"),
    "mob_cycles":len(mob),"warning":"Operation 23 provides exact selected target IDs; marker-to-target links remain confidence-ranked. Leave is not proof of death."},
   "manual_markers":{"total":len(markers),"by_activity_event":dict(sorted(marker_counts.items())),
@@ -116,11 +132,14 @@ def main():
    "troll_labeled_autonomous_signatures":len(troll_signatures),"troll_label_keys":sorted(troll_labels),
    "warning":"Troll-labeled signatures are learned patterns, not counts of individual Troll mobs or kills."},
   "spatial_alignment":{"captures_checked":spatial_capture_count,
-   "plausible_same_local_coordinate_space":spatial.get("plausible_captures",11),
+   "plausible_same_local_coordinate_space":spatial_status_counts.get("PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",0),
    "status_counts":dict(sorted(spatial_status_counts.items())),
    "capture_details":spatial_capture_rows if isinstance(spatial_capture_rows,list) else [],
    "overall_status":spatial.get("overall_status","NOT_REPORTED"),
-   "warning":"This does not establish current zone identity or a global map transform."}}
+   "warning":"This does not establish current zone identity or a global map transform."},
+  "zone_evidence":{"region_transition_records":len(zone_evidence_rows),"captured_region_ids":captured_region_ids,
+   "distinct_region_id_count":len(captured_region_ids),
+   "warning":"IDs are grounded in user captures. External names/maps were not imported because the referenced game-derived zone dataset has no verified redistribution license."}}
  out_json=DATABASE/"albion-complete-database-manifest-2026-11-03.json"
  files=[DATABASE/"2026-11-02-all-inbox-observations.jsonl",
   DATABASE/"2026-11-02-pcap-harvestable-nodes.csv",DATABASE/"2026-11-02-pcap-mob-lifecycle.csv",
@@ -146,7 +165,9 @@ def main():
   "- Family counts: "+", ".join(f'{k}: {v}' for k,v in family_counts.items()),
   "- Event 46 state IDs: **297**; state-only IDs without Event 40 location: **213**",
   f'- Event 39 static-resource observations: **{len(static):,}** (untyped candidates, not automatically confirmed nodes)',
-  "- Verified Ore mapping: family 29, T3→571, T4→573, T5→574",
+  "- Ore critter mobile TypeIDs by tier: "+Object.entries(ore_critter_by_tier).map(([tier,items])=>"T"+tier+": "+items.map(item=>item.mobile_type_id+" "+item.display_name).join(", ")).join("; "),
+  "- Unresolved Event 40 type-number counts: "+(Object.entries(unresolved_family_counts).map(([key,value])=>key+": "+value).join(", ")||"none"),
+  "- Static Ore type_number family is 23–27; living Ore Critters are separately identified by mobile TypeID and Loot.Harvestable semantics.",
   "- User-confirmed T5.3 exception: entity 2788, family 27, coordinates (-379, -24); this does not classify all family-27 nodes.","",
   "## Mobs and Troll marker cycles",
   f'- Event 123 living/mobile lifecycle records: **{len(mobs):,}**',
@@ -154,8 +175,8 @@ def main():
   f'- Manual marker records: **{len(markers)}**; completed lifecycle samples: **109**',
   f'- Mob/Troll correlations: **{len(correlations)}** (16 HIGH, 6 MEDIUM, 4 LOW, 3 with no candidate)',
   f'- Troll-labelled cycles: **{len(troll)}**; confidence: '+", ".join(f'{k}: {v}' for k,v in count_by(troll,"confidence").items()),
-  f'- Troll cycles resolving to Ore Elemental: **{sum(troll_names.values())}**; mobile types: '+", ".join(f'{k}: {v}' for k,v in troll_types.items()),
-  f'- Distinct target IDs among correlated Troll cycles: **{len(troll_targets)}**; unlinked cycles: **{troll_unmatched}**',
+  f'- Troll manual-marker candidate rows: **{len(troll)}**; candidate target names: '+", ".join(f'{k}: {v}' for k,v in troll_names.items()),
+  f'- Troll candidate rows with identity_proven=true: **{sum(1 for r in troll if r.get("identity_proven")=="true")}**; distinct target IDs: **{len(troll_targets)}**; unlinked rows: **{troll_unmatched}**',
   "- Marker label Troll is retained separately from decoded game name Ore Elemental; all marker-to-target links remain evidence-ranked, not identity-proven.",
   "- Attack tracks: 5 strong defeat candidates, 38 likely defeats not confirmed, 1 movement-supported candidate with kill unproven.","",
   "## Knowledge bundles",
@@ -166,7 +187,8 @@ def main():
   f'- Troll-labeled autonomous signatures: **{len(troll_signatures)}** (signatures, not individual mobs)',"",
   "## Spatial evidence",
   f'- Captures checked: **{manifest["spatial_alignment"]["captures_checked"]}**; plausible same-local-coordinate-space: **{manifest["spatial_alignment"]["plausible_same_local_coordinate_space"]}**; not verified: **{manifest["spatial_alignment"]["status_counts"].get("NOT_VERIFIED",0)}**',
-  "- This does not prove zone identity or a global map transform.","",
+  f'- Captured region-transition evidence: **{len(zone_evidence_rows)}** records across **{len(captured_region_ids)}** region IDs: '+", ".join(captured_region_ids),
+  "- Zone names and global map coordinates remain unverified/unlicensed; a local coordinate alignment is not a world-map transform.","",
   "## Complete source tables",
   "- 2026-11-02-all-inbox-observations.jsonl — all normalized timestamped observations",
   "- 2026-11-02-pcap-harvestable-nodes.csv — all Event 40 node records",
