@@ -229,7 +229,7 @@ jobs:
         disable-animations: true
         disable-spellchecker: true
         script: |
-          set -euo pipefail
+          set -eu
           APK="V2rayNG/app/build/outputs/apk/playstore/debug/v2rayNG_2.3.14-radar_universal.apk"
           dump_emulator_diagnostics() {
             echo "=== Emulator boot and service diagnostics ==="
