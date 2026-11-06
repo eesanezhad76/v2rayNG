@@ -1,0 +1,3 @@
+entity_id,source_archive,region_id,mobile_type_id,name,x,y,first_attack_ms,last_attack_ms,attack_action_count,health_observations,last_current_health,leave_after_last_attack,interpretation
+873517,archiveNew-extracted.zip,4213,573,Ore Elemental,-68.84243774414062,-56.20317840576172,1793786349971,1793786352565,7,16,7,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed
+882761,archiveNew-extracted.zip,4213,573,Ore Elemental,-67.24144744873047,-50.18521499633789,1793786343447,1793786349062,9,19,93,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed

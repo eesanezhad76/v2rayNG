@@ -1,0 +1,5707 @@
+{
+  "schema_version": 2,
+  "purpose": "Evidence-ranked Event 40 Type Number and Mobile TypeID discovery; no unproven semantic labels.",
+  "counts": {
+    "event40_node_records": 652,
+    "event123_lifecycle_records": 4172,
+    "knowledge_entity_observations": 9522,
+    "learned_pattern_signatures": 70,
+    "autonomous_pattern_signatures": 296,
+    "protocol_evidence_records": 4599,
+    "distinct_event40_type_numbers": 7,
+    "distinct_event123_mobile_type_ids": 116
+  },
+  "mobile_type_dictionary_source": {
+    "repository": "Nouuu/Albion-Online-OpenRadar",
+    "file": "web/ao-bin-dumps/mobs.min.json",
+    "source_commit": "466c70b04e13ed0e8739ba23e6a950f7caf495e5",
+    "mapping": "server TypeID = array index + 16",
+    "offset": 16,
+    "source_note": "Public OpenRadar mob dump; runtime TypeID mapping follows the source repository's documented offset."
+  },
+  "type_number_mapping_source": {
+    "repository": "Nouuu/Albion-Online-OpenRadar",
+    "files": [
+      "web/scripts/data/HarvestablesDatabase.js",
+      "web/scripts/handlers/HarvestablesHandler.js",
+      "web/scripts/data/MobsDatabase.js"
+    ],
+    "mapping": "0-5 WOOD; 6-10 ROCK; 11-15 FIBER; 16-22 HIDE; 23-27 ORE; living resources override only when MobsDatabase.isHarvestable(TypeID) is true."
+  },
+  "type_number_cross_validation": {
+    "capture": "AlbionRadar.zip/albion-1793682590317.pcap",
+    "matched_records": 0,
+    "mismatches": []
+  },
+  "mobile_type_dictionary_coverage": {
+    "pcap_distinct_type_ids": 116,
+    "mapped_type_ids": 116,
+    "unmapped_type_ids": []
+  },
+  "mobile_entity_catalog": {
+    "rows": 4172,
+    "mapped_rows": 4172,
+    "unmapped_rows": 0,
+    "file": "albion-mobile-entity-catalog-2026-11-03.csv"
+  },
+  "type_number_profiles": [
+    {
+      "type_number": "14",
+      "event40_records": 79,
+      "mobile_type_ids": {
+        "-1": 79
+      },
+      "resource_type_from_type_number": "FIBER",
+      "tiers": {
+        "4": 40,
+        "5": 37,
+        "6": 2
+      },
+      "enchantment_raw_values": {
+        "1": 62,
+        "2": 14,
+        "3": 3
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 43,
+        "AlbionRadar6json.zip": 12,
+        "AlbionRadar8.zip": 8,
+        "Albionsskkakaks111.zip": 7,
+        "Albion2.zip": 3,
+        "AlbionRadar5.zip": 3,
+        "AlbionRadar2.zip": 2,
+        "Albion اااستسمنسمنش.zip": 1
+      },
+      "distinct_pcaps": 13,
+      "interpretation": "type_number_resource_mapping_candidate",
+      "evidence_note": "Type number falls in the public HarvestablesDatabase range mapping; retain as evidence-ranked until marker/state validation."
+    },
+    {
+      "type_number": "20",
+      "event40_records": 9,
+      "mobile_type_ids": {
+        "482": 9
+      },
+      "resource_type_from_type_number": "HIDE",
+      "tiers": {
+        "1": 9
+      },
+      "enchantment_raw_values": {
+        "0": 9
+      },
+      "archives": {
+        "Albion2.zip": 2,
+        "Albions.zip": 2,
+        "archiveNew-extracted.zip": 2,
+        "Albion اااستسمنسمنش.zip": 1,
+        "AlbionRadar6json.zip": 1,
+        "AlbionRadar8.zip": 1
+      },
+      "distinct_pcaps": 9,
+      "interpretation": "hide_type_number_with_nonharvestable_mobile_fallback",
+      "evidence_note": "Type number 20 maps to HIDE. TypeID 482 is Mountain Rabbit with is_harvestable=false, so OpenRadar semantics fall back to type_number rather than overriding it."
+    },
+    {
+      "type_number": "27",
+      "event40_records": 175,
+      "mobile_type_ids": {
+        "-1": 175
+      },
+      "resource_type_from_type_number": "ORE",
+      "tiers": {
+        "4": 94,
+        "5": 73,
+        "6": 8
+      },
+      "enchantment_raw_values": {
+        "1": 143,
+        "2": 27,
+        "3": 4,
+        "1|3": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 79,
+        "AlbionRadar8.zip": 35,
+        "AlbionRadar6json.zip": 28,
+        "Albionsskkakaks111.zip": 11,
+        "AlbionRadar5.zip": 9,
+        "AlbionRadar2.zip": 6,
+        "Albions.zip": 6,
+        "Albion اااستسمنسمنش.zip": 1
+      },
+      "distinct_pcaps": 12,
+      "interpretation": "ore_type_number_candidate",
+      "evidence_note": "Type number 27 maps to ORE in HarvestablesDatabase; entity 2788 remains a separately user-confirmed individual target."
+    },
+    {
+      "type_number": "28",
+      "event40_records": 2,
+      "mobile_type_ids": {
+        "-1": 2
+      },
+      "resource_type_from_type_number": null,
+      "tiers": {
+        "5": 2
+      },
+      "enchantment_raw_values": {
+        "1": 2
+      },
+      "archives": {
+        "Albions.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "interpretation": "unresolved_type_number_outside_static_range",
+      "evidence_note": "Type number 28 is outside the public static-resource mapping 0-27 and is not covered by the confirmed living-resource mapping; retain unresolved."
+    },
+    {
+      "type_number": "29",
+      "event40_records": 229,
+      "mobile_type_ids": {
+        "574": 107,
+        "573": 68,
+        "572": 29,
+        "571": 21,
+        "576": 3,
+        "570": 1
+      },
+      "resource_type_from_type_number": "ORE_RESOURCE_CREATURE",
+      "tiers": {
+        "5": 107,
+        "4": 97,
+        "3": 22,
+        "6": 3
+      },
+      "enchantment_raw_values": {
+        "0": 170,
+        "1": 46,
+        "2": 11,
+        "3": 2
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 133,
+        "Albionsskkakaks111.zip": 26,
+        "AlbionRadar6json.zip": 19,
+        "Albions.zip": 19,
+        "AlbionRadar5.zip": 10,
+        "AlbionRadar8.zip": 10,
+        "Albion2.zip": 6,
+        "AlbionRadar2.zip": 5,
+        "Albion اااستسمنسمنش.zip": 1
+      },
+      "distinct_pcaps": 19,
+      "interpretation": "confirmed_ore_resource_creature",
+      "evidence_note": "TypeIDs 571/573/574 resolve to harvestable Ore Elemental T3/T4/T5; loot_type ORE_CRITTER. Living Ore Elemental is distinct from static Ore type numbers 23-27."
+    },
+    {
+      "type_number": "32",
+      "event40_records": 1,
+      "mobile_type_ids": {
+        "-1": 1
+      },
+      "resource_type_from_type_number": null,
+      "tiers": {
+        "4": 1
+      },
+      "enchantment_raw_values": {
+        "2": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "interpretation": "unclassified",
+      "evidence_note": "Capture-scoped Event 40 observations; no name inferred from family number alone."
+    },
+    {
+      "type_number": "7",
+      "event40_records": 157,
+      "mobile_type_ids": {
+        "-1": 157
+      },
+      "resource_type_from_type_number": "ROCK",
+      "tiers": {
+        "4": 77,
+        "5": 73,
+        "6": 7
+      },
+      "enchantment_raw_values": {
+        "1": 123,
+        "2": 30,
+        "3": 4
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 71,
+        "AlbionRadar6json.zip": 33,
+        "AlbionRadar8.zip": 21,
+        "AlbionRadar5.zip": 8,
+        "Albions.zip": 7,
+        "Albionsskkakaks111.zip": 7,
+        "AlbionRadar2.zip": 6,
+        "Albion2.zip": 4
+      },
+      "distinct_pcaps": 15,
+      "interpretation": "type_number_resource_mapping_candidate",
+      "evidence_note": "Type number falls in the public HarvestablesDatabase range mapping; retain as evidence-ranked until marker/state validation."
+    }
+  ],
+  "mobile_type_profiles": [
+    {
+      "mobile_type_id": "482",
+      "lifecycle_records": 1156,
+      "enchantment_values": {
+        "0": 1156
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 578,
+        "AlbionRadar6json.zip": 222,
+        "AlbionRadar8.zip": 195,
+        "Albionsskkakaks111.zip": 53,
+        "AlbionRadar5.zip": 36,
+        "AlbionRadar2.zip": 33,
+        "Albions.zip": 24,
+        "Albion2.zip": 13,
+        "Albion اااستسمنسمنش.zip": 2
+      },
+      "distinct_pcaps": 19,
+      "movement_observations": 88739,
+      "health_observation_records": 2,
+      "leave_observed_records": 1088,
+      "dictionary_match": true,
+      "unique_name": "T1_MOB_HIDE_MOUNTAIN_RABBIT",
+      "display_name": "Mountain Rabbit",
+      "tier": 1,
+      "category": "harmless",
+      "localization_tag": null,
+      "max_health": 20,
+      "avatar": "SNOWRABBIT1",
+      "danger": "normal",
+      "loot_type": "HIDE",
+      "loot_tier": 1,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2489",
+      "lifecycle_records": 252,
+      "enchantment_values": {
+        "0": 252
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 91,
+        "AlbionRadar8.zip": 58,
+        "archiveNew-extracted.zip": 38,
+        "Albionsskkakaks111.zip": 35,
+        "AlbionRadar2.zip": 14,
+        "AlbionRadar5.zip": 10,
+        "Albion2.zip": 3,
+        "Albions.zip": 3
+      },
+      "distinct_pcaps": 11,
+      "movement_observations": 9268,
+      "health_observation_records": 19,
+      "leave_observed_records": 241,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_AXE_THROWER",
+      "display_name": "Keeper Axe Thrower",
+      "tier": 5,
+      "category": "roaming",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_STANDARD",
+      "max_health": 1149,
+      "avatar": "KEEPERAXETHROWER4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2474",
+      "lifecycle_records": 247,
+      "enchantment_values": {
+        "0": 247
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 72,
+        "AlbionRadar8.zip": 54,
+        "archiveNew-extracted.zip": 39,
+        "Albionsskkakaks111.zip": 32,
+        "AlbionRadar5.zip": 21,
+        "AlbionRadar2.zip": 18,
+        "Albion2.zip": 6,
+        "Albions.zip": 4,
+        "Albion اااستسمنسمنش.zip": 1
+      },
+      "distinct_pcaps": 17,
+      "movement_observations": 4679,
+      "health_observation_records": 84,
+      "leave_observed_records": 234,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_BERSERK",
+      "display_name": "Keeper Berserk",
+      "tier": 5,
+      "category": "roaming",
+      "localization_tag": "@MOB_KEEPER_BERSERK_STANDARD",
+      "max_health": 1203,
+      "avatar": "KEEPERBERSERK4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "571",
+      "lifecycle_records": 227,
+      "enchantment_values": {
+        "0": 227
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 66,
+        "archiveNew-extracted.zip": 54,
+        "AlbionRadar8.zip": 52,
+        "Albionsskkakaks111.zip": 21,
+        "AlbionRadar2.zip": 20,
+        "AlbionRadar5.zip": 7,
+        "Albion2.zip": 4,
+        "Albions.zip": 3
+      },
+      "distinct_pcaps": 13,
+      "movement_observations": 15591,
+      "health_observation_records": 43,
+      "leave_observed_records": 210,
+      "dictionary_match": true,
+      "unique_name": "T3_MOB_CRITTER_ORE_MOUNTAIN_RED",
+      "display_name": "Ore Elemental",
+      "tier": 3,
+      "category": "critter",
+      "localization_tag": "@MOB_T3_MOB_CRITTER_FOREST_RED_OREELEMENTAL",
+      "max_health": 856,
+      "avatar": "CRITTEROREELEMENTAL1",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 3,
+      "is_harvestable": true
+    },
+    {
+      "mobile_type_id": "573",
+      "lifecycle_records": 210,
+      "enchantment_values": {
+        "0": 210
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 68,
+        "AlbionRadar6json.zip": 63,
+        "AlbionRadar8.zip": 35,
+        "AlbionRadar2.zip": 16,
+        "AlbionRadar5.zip": 12,
+        "Albionsskkakaks111.zip": 10,
+        "Albion2.zip": 3,
+        "Albion اااستسمنسمنش.zip": 2,
+        "Albions.zip": 1
+      },
+      "distinct_pcaps": 12,
+      "movement_observations": 21407,
+      "health_observation_records": 262,
+      "leave_observed_records": 198,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_CRITTER_ORE_MOUNTAIN_RED",
+      "display_name": "Ore Elemental",
+      "tier": 4,
+      "category": "critter",
+      "localization_tag": "@MOB_T4_MOB_CRITTER_FOREST_RED_OREELEMENTAL",
+      "max_health": 1203,
+      "avatar": "CRITTERFORESTOREELEMENTAL1",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 4,
+      "is_harvestable": true
+    },
+    {
+      "mobile_type_id": "120",
+      "lifecycle_records": 163,
+      "enchantment_values": {
+        "0": 163
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 56,
+        "AlbionRadar6json.zip": 31,
+        "AlbionRadar8.zip": 29,
+        "Albionsskkakaks111.zip": 13,
+        "AlbionRadar5.zip": 12,
+        "Albions.zip": 9,
+        "AlbionRadar2.zip": 8,
+        "Albion2.zip": 5
+      },
+      "distinct_pcaps": 16,
+      "movement_observations": 12219,
+      "health_observation_records": 3,
+      "leave_observed_records": 147,
+      "dictionary_match": true,
+      "unique_name": "MOB_UNIQUE_MISTS_PORTAL_WISP",
+      "display_name": "Mists Solo Wisp",
+      "tier": 4,
+      "category": "rd_solo",
+      "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
+      "max_health": 1,
+      "avatar": "KEEPERWISP1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2486",
+      "lifecycle_records": 152,
+      "enchantment_values": {
+        "0": 152
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 53,
+        "AlbionRadar6json.zip": 28,
+        "AlbionRadar5.zip": 18,
+        "Albionsskkakaks111.zip": 18,
+        "AlbionRadar2.zip": 10,
+        "AlbionRadar8.zip": 10,
+        "Albions.zip": 9,
+        "Albion2.zip": 4,
+        "Albion اااستسمنسمنش.zip": 2
+      },
+      "distinct_pcaps": 16,
+      "movement_observations": 3618,
+      "health_observation_records": 30,
+      "leave_observed_records": 139,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_UNPROVEN_FEMALE",
+      "display_name": "Keeper Axe Thrower Recruit",
+      "tier": 5,
+      "category": "roaming",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_RECRUIT",
+      "max_health": 574,
+      "avatar": "KEEPERUNPROVENFEMALE2",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2471",
+      "lifecycle_records": 123,
+      "enchantment_values": {
+        "0": 123
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 44,
+        "AlbionRadar6json.zip": 24,
+        "AlbionRadar5.zip": 15,
+        "Albionsskkakaks111.zip": 15,
+        "AlbionRadar8.zip": 11,
+        "Albions.zip": 6,
+        "AlbionRadar2.zip": 4,
+        "Albion اااستسمنسمنش.zip": 2,
+        "Albion2.zip": 2
+      },
+      "distinct_pcaps": 13,
+      "movement_observations": 1360,
+      "health_observation_records": 17,
+      "leave_observed_records": 111,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_UNPROVEN_MALE",
+      "display_name": "Keeper Berserk Recruit",
+      "tier": 5,
+      "category": "roaming",
+      "localization_tag": "@MOB_KEEPER_BERSERK_RECRUIT",
+      "max_health": 602,
+      "avatar": "KEEPERUNPROVENMALE2",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "574",
+      "lifecycle_records": 122,
+      "enchantment_values": {
+        "0": 122
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 44,
+        "AlbionRadar6json.zip": 29,
+        "AlbionRadar8.zip": 22,
+        "Albionsskkakaks111.zip": 15,
+        "Albion2.zip": 5,
+        "AlbionRadar5.zip": 4,
+        "AlbionRadar2.zip": 2,
+        "Albions.zip": 1
+      },
+      "distinct_pcaps": 12,
+      "movement_observations": 7842,
+      "health_observation_records": 292,
+      "leave_observed_records": 115,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CRITTER_ORE_MOUNTAIN_RED",
+      "display_name": "Ore Elemental",
+      "tier": 5,
+      "category": "critter",
+      "localization_tag": "@MOB_T5_MOB_CRITTER_FOREST_RED_OREELEMENTAL",
+      "max_health": 1367,
+      "avatar": "CRITTEROREELEMENTAL2",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 5,
+      "is_harvestable": true
+    },
+    {
+      "mobile_type_id": "2712",
+      "lifecycle_records": 104,
+      "enchantment_values": {
+        "0": 104
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 33,
+        "AlbionRadar8.zip": 21,
+        "AlbionRadar6json.zip": 19,
+        "AlbionRadar5.zip": 17,
+        "AlbionRadar2.zip": 9,
+        "Albionsskkakaks111.zip": 3,
+        "Albion2.zip": 1,
+        "Albions.zip": 1
+      },
+      "distinct_pcaps": 10,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 100,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CITY_MOUNTAIN_GUARD",
+      "display_name": "Mountain Guard",
+      "tier": 5,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_T4_MOB_CITY_MOUNTAIN_GUARD",
+      "max_health": 1509,
+      "avatar": "CITYMOUNTAINGUARD1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2510",
+      "lifecycle_records": 101,
+      "enchantment_values": {
+        "0": 101
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 38,
+        "AlbionRadar8.zip": 19,
+        "Albionsskkakaks111.zip": 13,
+        "archiveNew-extracted.zip": 12,
+        "AlbionRadar2.zip": 8,
+        "AlbionRadar5.zip": 6,
+        "Albion2.zip": 3,
+        "Albions.zip": 2
+      },
+      "distinct_pcaps": 12,
+      "movement_observations": 1477,
+      "health_observation_records": 4,
+      "leave_observed_records": 93,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_DRUID",
+      "display_name": "Keeper Druid",
+      "tier": 5,
+      "category": "roaming",
+      "localization_tag": "@MOB_KEEPER_DRUID_STANDARD",
+      "max_health": 930,
+      "avatar": "KEEPERDRUID3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2477",
+      "lifecycle_records": 77,
+      "enchantment_values": {
+        "0": 77
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 30,
+        "AlbionRadar8.zip": 26,
+        "AlbionRadar2.zip": 8,
+        "Albionsskkakaks111.zip": 5,
+        "archiveNew-extracted.zip": 4,
+        "AlbionRadar5.zip": 2,
+        "Albion2.zip": 1,
+        "Albions.zip": 1
+      },
+      "distinct_pcaps": 9,
+      "movement_observations": 977,
+      "health_observation_records": 25,
+      "leave_observed_records": 75,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_BERSERK_CHAMPION",
+      "display_name": "Keeper Berserk Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_BERSERK_CHAMPION",
+      "max_health": 2407,
+      "avatar": "KEEPERBERSERK3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2492",
+      "lifecycle_records": 68,
+      "enchantment_values": {
+        "0": 68
+      },
+      "archives": {
+        "AlbionRadar8.zip": 32,
+        "AlbionRadar6json.zip": 23,
+        "Albionsskkakaks111.zip": 5,
+        "AlbionRadar2.zip": 4,
+        "archiveNew-extracted.zip": 2,
+        "Albion اااستسمنسمنش.zip": 1,
+        "Albion2.zip": 1
+      },
+      "distinct_pcaps": 8,
+      "movement_observations": 3359,
+      "health_observation_records": 48,
+      "leave_observed_records": 66,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_AXE_THROWER_CHAMPION",
+      "display_name": "Keeper Axe Thrower Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_CHAMPION",
+      "max_health": 2297,
+      "avatar": "KEEPERAXETHROWER3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1381",
+      "lifecycle_records": 61,
+      "enchantment_values": {
+        "0": 61
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 61
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 779,
+      "health_observation_records": 0,
+      "leave_observed_records": 61,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MORGANA_SOLDIER",
+      "display_name": "Roaming Morgana Soldier",
+      "tier": 6,
+      "category": "roaming",
+      "localization_tag": "@MOB_MORGANA_SOLDIER_STANDARD",
+      "max_health": 1416,
+      "avatar": "MORGANASOLDIER3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1888",
+      "lifecycle_records": 58,
+      "enchantment_values": {
+        "0": 58
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 58
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 2286,
+      "health_observation_records": 0,
+      "leave_observed_records": 55,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_GHOUL",
+      "display_name": "Roaming Undead Ghoul",
+      "tier": 4,
+      "category": "standard",
+      "localization_tag": "@MOB_UNDEAD_GHOUL_STANDARD",
+      "max_health": 385,
+      "avatar": "UNDEADGHOUL2",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1908",
+      "lifecycle_records": 55,
+      "enchantment_values": {
+        "0": 55
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 55
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 3979,
+      "health_observation_records": 5,
+      "leave_observed_records": 55,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_SOLDIER",
+      "display_name": "Roaming Undead Soldier",
+      "tier": 4,
+      "category": "standard",
+      "localization_tag": "@MOB_UNDEAD_SOLDIER_STANDARD",
+      "max_health": 1107,
+      "avatar": "UNDEADSOLDIER3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2048",
+      "lifecycle_records": 53,
+      "enchantment_values": {
+        "0": 53
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 53
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 3585,
+      "health_observation_records": 0,
+      "leave_observed_records": 52,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_MAGE",
+      "display_name": "Roaming Undead Mage",
+      "tier": 4,
+      "category": "standard",
+      "localization_tag": "@MOB_UNDEAD_MAGE_STANDARD",
+      "max_health": 866,
+      "avatar": "UNDEADMAGE3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1471",
+      "lifecycle_records": 51,
+      "enchantment_values": {
+        "0": 51
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 51
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 4073,
+      "health_observation_records": 29,
+      "leave_observed_records": 51,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MORGANA_CROSSBOWMAN",
+      "display_name": "Roaming Morgana Crossbowman",
+      "tier": 6,
+      "category": "standard",
+      "localization_tag": "@MOB_MORGANA_CROSSBOWMAN_STANDARD",
+      "max_health": 1180,
+      "avatar": "MORGANACROSSBOWMAN3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1968",
+      "lifecycle_records": 48,
+      "enchantment_values": {
+        "0": 48
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 48
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 828,
+      "health_observation_records": 0,
+      "leave_observed_records": 46,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_ARCHER",
+      "display_name": "Roaming Undead Archer",
+      "tier": 4,
+      "category": "standard",
+      "localization_tag": "@MOB_UNDEAD_ARCHER_STANDARD",
+      "max_health": 914,
+      "avatar": "UNDEADARCHER3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1561",
+      "lifecycle_records": 42,
+      "enchantment_values": {
+        "0": 42
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 42
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 2262,
+      "health_observation_records": 9,
+      "leave_observed_records": 42,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MORGANA_CULTIST",
+      "display_name": "Roaming Morgana Cultist",
+      "tier": 6,
+      "category": "standard",
+      "localization_tag": "@MOB_MORGANA_CULTIST_STANDARD",
+      "max_health": 944,
+      "avatar": "MORGANACULTIST3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "572",
+      "lifecycle_records": 42,
+      "enchantment_values": {
+        "0": 42
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 42
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 3156,
+      "health_observation_records": 116,
+      "leave_observed_records": 42,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_CRITTER_ORE_MOUNTAIN_GREEN",
+      "display_name": "Critter Ore Mountain Green",
+      "tier": 4,
+      "category": "critter",
+      "localization_tag": "@MOB_T4_MOB_CRITTER_FOREST_RED_OREELEMENTAL",
+      "max_health": 1203,
+      "avatar": "CRITTERFORESTOREELEMENTAL1",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 4,
+      "is_harvestable": true
+    },
+    {
+      "mobile_type_id": "570",
+      "lifecycle_records": 34,
+      "enchantment_values": {
+        "0": 34
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 34
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 2060,
+      "health_observation_records": 0,
+      "leave_observed_records": 34,
+      "dictionary_match": true,
+      "unique_name": "T3_MOB_CRITTER_ORE_MOUNTAIN_GREEN",
+      "display_name": "Critter Ore Mountain Green",
+      "tier": 3,
+      "category": "critter",
+      "localization_tag": "@MOB_T3_MOB_CRITTER_FOREST_RED_OREELEMENTAL",
+      "max_health": 856,
+      "avatar": "CRITTEROREELEMENTAL1",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 3,
+      "is_harvestable": true
+    },
+    {
+      "mobile_type_id": "2475",
+      "lifecycle_records": 32,
+      "enchantment_values": {
+        "0": 32
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 22,
+        "AlbionRadar8.zip": 8,
+        "AlbionRadar6json.zip": 2
+      },
+      "distinct_pcaps": 5,
+      "movement_observations": 159,
+      "health_observation_records": 0,
+      "leave_observed_records": 32,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_BERSERK",
+      "display_name": "Keeper Berserk",
+      "tier": 5,
+      "category": "camp",
+      "localization_tag": "@MOB_KEEPER_BERSERK_STANDARD",
+      "max_health": 1135,
+      "avatar": "KEEPERBERSERK4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2501",
+      "lifecycle_records": 30,
+      "enchantment_values": {
+        "0": 30
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 11,
+        "AlbionRadar8.zip": 10,
+        "Albionsskkakaks111.zip": 4,
+        "AlbionRadar2.zip": 2,
+        "AlbionRadar5.zip": 2,
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 6,
+      "movement_observations": 1106,
+      "health_observation_records": 0,
+      "leave_observed_records": 30,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_GIANT_CHAMPION",
+      "display_name": "Keeper Giant Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_GIANT_CHAMPION",
+      "max_health": 3282,
+      "avatar": "KEEPERGIANT2",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1453",
+      "lifecycle_records": 29,
+      "enchantment_values": {
+        "0": 29
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 29
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 2050,
+      "health_observation_records": 6,
+      "leave_observed_records": 29,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MORGANA_RECRUIT",
+      "display_name": "Roaming Morgana Recruit",
+      "tier": 6,
+      "category": "trash",
+      "localization_tag": "@MOB_MORGANA_CROSSBOWMAN_RECRUIT",
+      "max_health": 708,
+      "avatar": "MORGANARECRUIT2",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2549",
+      "lifecycle_records": 29,
+      "enchantment_values": {
+        "0": 29
+      },
+      "archives": {
+        "AlbionRadar2.zip": 19,
+        "AlbionRadar5.zip": 10
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 381,
+      "health_observation_records": 0,
+      "leave_observed_records": 29,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_KEEPER_BERSERK_VETERAN_CHAMPION",
+      "display_name": "Keeper Berserk Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_BERSERK_CHAMPION",
+      "max_health": 10078,
+      "avatar": "KEEPERBERSERK6",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1543",
+      "lifecycle_records": 26,
+      "enchantment_values": {
+        "0": 26
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 26
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 1020,
+      "health_observation_records": 0,
+      "leave_observed_records": 26,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MORGANA_ACOLYTE",
+      "display_name": "Roaming Morgana Acolyte",
+      "tier": 6,
+      "category": "trash",
+      "localization_tag": "@MOB_MORGANA_CULTIST_RECRUIT",
+      "max_health": 472,
+      "avatar": "MORGANACULTISTACOLYTE2",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2512",
+      "lifecycle_records": 26,
+      "enchantment_values": {
+        "0": 26
+      },
+      "archives": {
+        "AlbionRadar2.zip": 8,
+        "AlbionRadar5.zip": 7,
+        "archiveNew-extracted.zip": 6,
+        "AlbionRadar6json.zip": 5
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 24,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_DRUID_VETERAN",
+      "display_name": "Keeper Druid",
+      "tier": 5,
+      "category": "camp",
+      "localization_tag": "@MOB_KEEPER_DRUID_STANDARD",
+      "max_health": 4301,
+      "avatar": "KEEPERDRUID3",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2513",
+      "lifecycle_records": 22,
+      "enchantment_values": {
+        "0": 22
+      },
+      "archives": {
+        "AlbionRadar8.zip": 9,
+        "AlbionRadar6json.zip": 8,
+        "AlbionRadar2.zip": 2,
+        "Albionsskkakaks111.zip": 2,
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 5,
+      "movement_observations": 240,
+      "health_observation_records": 0,
+      "leave_observed_records": 21,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_DRUID_CHAMPION",
+      "display_name": "Keeper Druid Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_DRUID_CHAMPION",
+      "max_health": 1860,
+      "avatar": "KEEPERDRUID4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2491",
+      "lifecycle_records": 21,
+      "enchantment_values": {
+        "0": 21
+      },
+      "archives": {
+        "AlbionRadar2.zip": 6,
+        "AlbionRadar5.zip": 6,
+        "AlbionRadar6json.zip": 6,
+        "archiveNew-extracted.zip": 3
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 158,
+      "health_observation_records": 0,
+      "leave_observed_records": 19,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_VETERAN",
+      "display_name": "Keeper Axe Thrower",
+      "tier": 5,
+      "category": "camp",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_STANDARD",
+      "max_health": 5312,
+      "avatar": "KEEPERAXETHROWER4",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2490",
+      "lifecycle_records": 20,
+      "enchantment_values": {
+        "0": 20
+      },
+      "archives": {
+        "AlbionRadar8.zip": 9,
+        "archiveNew-extracted.zip": 8,
+        "AlbionRadar6json.zip": 3
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 12,
+      "health_observation_records": 5,
+      "leave_observed_records": 20,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER",
+      "display_name": "Keeper Axe Thrower",
+      "tier": 5,
+      "category": "camp",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_STANDARD",
+      "max_health": 1084,
+      "avatar": "KEEPERAXETHROWER4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2511",
+      "lifecycle_records": 20,
+      "enchantment_values": {
+        "0": 20
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 9,
+        "AlbionRadar8.zip": 6,
+        "AlbionRadar6json.zip": 5
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 27,
+      "health_observation_records": 6,
+      "leave_observed_records": 20,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_DRUID",
+      "display_name": "Keeper Druid",
+      "tier": 5,
+      "category": "camp",
+      "localization_tag": "@MOB_KEEPER_DRUID_STANDARD",
+      "max_health": 877,
+      "avatar": "KEEPERDRUID3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2564",
+      "lifecycle_records": 20,
+      "enchantment_values": {
+        "0": 20
+      },
+      "archives": {
+        "AlbionRadar2.zip": 13,
+        "AlbionRadar5.zip": 5,
+        "AlbionRadar6json.zip": 2
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 434,
+      "health_observation_records": 0,
+      "leave_observed_records": 20,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_KEEPER_AXE_THROWER_VETERAN_CHAMPION",
+      "display_name": "Keeper Axe Thrower Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_CHAMPION",
+      "max_health": 9620,
+      "avatar": "KEEPERAXETHROWER6",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1917",
+      "lifecycle_records": 19,
+      "enchantment_values": {
+        "0": 19
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 19
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 842,
+      "health_observation_records": 23,
+      "leave_observed_records": 19,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_SOLDIER",
+      "display_name": "Roaming Undead Camp Soldier",
+      "tier": 4,
+      "category": "standard",
+      "localization_tag": "@MOB_UNDEAD_SOLDIER_STANDARD",
+      "max_health": 1107,
+      "avatar": "UNDEADSOLDIER3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2476",
+      "lifecycle_records": 19,
+      "enchantment_values": {
+        "0": 19
+      },
+      "archives": {
+        "AlbionRadar2.zip": 8,
+        "AlbionRadar5.zip": 8,
+        "AlbionRadar6json.zip": 2,
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 371,
+      "health_observation_records": 0,
+      "leave_observed_records": 19,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_BERSERK_VETERAN",
+      "display_name": "Keeper Berserk",
+      "tier": 5,
+      "category": "camp",
+      "localization_tag": "@MOB_KEEPER_BERSERK_STANDARD",
+      "max_health": 5565,
+      "avatar": "KEEPERBERSERK4",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1363",
+      "lifecycle_records": 18,
+      "enchantment_values": {
+        "0": 18
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 18
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 58,
+      "health_observation_records": 0,
+      "leave_observed_records": 18,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MORGANA_RECRUIT_MELEE",
+      "display_name": "Roaming Morgana Recruit Melee",
+      "tier": 6,
+      "category": "roaming",
+      "localization_tag": "@MOB_MORGANA_SOLDIER_RECRUIT",
+      "max_health": 708,
+      "avatar": "MORGANARECRUITMELEE1",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2473",
+      "lifecycle_records": 18,
+      "enchantment_values": {
+        "0": 18
+      },
+      "archives": {
+        "AlbionRadar2.zip": 7,
+        "AlbionRadar5.zip": 6,
+        "archiveNew-extracted.zip": 5
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 16,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_UNPROVEN_MALE_VETERAN",
+      "display_name": "Keeper Berserk Recruit",
+      "tier": 5,
+      "category": "camp",
+      "localization_tag": "@MOB_KEEPER_BERSERK_RECRUIT",
+      "max_health": 2708,
+      "avatar": "KEEPERUNPROVENMALE2",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN_TRASH",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2723",
+      "lifecycle_records": 18,
+      "enchantment_values": {
+        "0": 18
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 18
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 18,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_SWAMP_GUARD",
+      "display_name": "City Swamp Guard",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_T4_MOB_CITY_SWAMP_GUARD",
+      "max_health": 1628,
+      "avatar": "CITYSWAMPGUARD1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2787",
+      "lifecycle_records": 17,
+      "enchantment_values": {
+        "0": 17
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 17
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 17,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CITY_FORTRESS_MOUNTAIN_CROSSBOW",
+      "display_name": "Mountain Watchtower Crossbow",
+      "tier": 5,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_WATCHTOWER_CROSSBOW",
+      "max_health": 6444,
+      "avatar": "CITYMOUNTAINRANGE1",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1830",
+      "lifecycle_records": 16,
+      "enchantment_values": {
+        "0": 16
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 16
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 727,
+      "health_observation_records": 16,
+      "leave_observed_records": 16,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_MORGANA_IMP_SUMMON",
+      "display_name": "Morgana Imp Summon",
+      "tier": 6,
+      "category": "summon",
+      "localization_tag": null,
+      "max_health": 148,
+      "avatar": "MORGANADEMONIMP1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1868",
+      "lifecycle_records": 16,
+      "enchantment_values": {
+        "0": 16
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 16
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 1526,
+      "health_observation_records": 0,
+      "leave_observed_records": 15,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_SKELETON",
+      "display_name": "Roaming Undead Skeleton",
+      "tier": 4,
+      "category": "trash",
+      "localization_tag": "@MOB_UNDEAD_MAGE_RECRUIT",
+      "max_health": 481,
+      "avatar": "UNDEADSKELETONBRITTLE3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1977",
+      "lifecycle_records": 15,
+      "enchantment_values": {
+        "0": 15
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 15
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 107,
+      "health_observation_records": 7,
+      "leave_observed_records": 15,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_ARCHER",
+      "display_name": "Roaming Undead Camp Archer",
+      "tier": 4,
+      "category": "standard",
+      "localization_tag": "@MOB_UNDEAD_ARCHER_STANDARD",
+      "max_health": 914,
+      "avatar": "UNDEADARCHER3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2478",
+      "lifecycle_records": 14,
+      "enchantment_values": {
+        "0": 14
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 8,
+        "AlbionRadar8.zip": 5,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 5,
+      "movement_observations": 69,
+      "health_observation_records": 3,
+      "leave_observed_records": 14,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_BERSERK_CHAMPION",
+      "display_name": "Keeper Berserk Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_BERSERK_CHAMPION",
+      "max_health": 2270,
+      "avatar": "KEEPERBERSERK3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1848",
+      "lifecycle_records": 12,
+      "enchantment_values": {
+        "0": 12
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 12
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 648,
+      "health_observation_records": 4,
+      "leave_observed_records": 12,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_SKELETON_MELEE",
+      "display_name": "Roaming Undead Skeleton Melee",
+      "tier": 4,
+      "category": "trash",
+      "localization_tag": "@MOB_UNDEAD_SOLDIER_RECRUIT",
+      "max_health": 481,
+      "avatar": "UNDEADSKELETONBRITTLE4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2488",
+      "lifecycle_records": 12,
+      "enchantment_values": {
+        "0": 12
+      },
+      "archives": {
+        "AlbionRadar5.zip": 5,
+        "AlbionRadar2.zip": 4,
+        "AlbionRadar6json.zip": 2,
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 12,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_UNPROVEN_FEMALE_VETERAN",
+      "display_name": "Keeper Axe Thrower Recruit",
+      "tier": 5,
+      "category": "camp",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_RECRUIT",
+      "max_health": 2584,
+      "avatar": "KEEPERUNPROVENFEMALE2",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN_TRASH",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2715",
+      "lifecycle_records": 12,
+      "enchantment_values": {
+        "0": 12
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 4,
+        "AlbionRadar8.zip": 3,
+        "AlbionRadar5.zip": 2,
+        "AlbionRadar6json.zip": 2,
+        "AlbionRadar2.zip": 1
+      },
+      "distinct_pcaps": 5,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 12,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CITY_MOUNTAIN_BOSS",
+      "display_name": "Mountain Boss",
+      "tier": 5,
+      "category": "boss",
+      "localization_tag": "@MOB_T4_MOB_CITY_MOUNTAIN_BOSS",
+      "max_health": 25908,
+      "avatar": "CITYMOUNTAINKNIGHTBOSS1",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2057",
+      "lifecycle_records": 11,
+      "enchantment_values": {
+        "0": 11
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 11
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 30,
+      "health_observation_records": 11,
+      "leave_observed_records": 11,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_MAGE",
+      "display_name": "Roaming Undead Camp Mage",
+      "tier": 4,
+      "category": "standard",
+      "localization_tag": "@MOB_UNDEAD_MAGE_STANDARD",
+      "max_health": 866,
+      "avatar": "UNDEADMAGE3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2502",
+      "lifecycle_records": 11,
+      "enchantment_values": {
+        "0": 11
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 5,
+        "AlbionRadar8.zip": 3,
+        "AlbionRadar6json.zip": 2,
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 5,
+      "movement_observations": 780,
+      "health_observation_records": 32,
+      "leave_observed_records": 11,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_GIANT_CHAMPION",
+      "display_name": "Keeper Giant Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_GIANT_CHAMPION",
+      "max_health": 3096,
+      "avatar": "KEEPERGIANT2",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2493",
+      "lifecycle_records": 10,
+      "enchantment_values": {
+        "0": 10
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 7,
+        "AlbionRadar8.zip": 2,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 10,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_CHAMPION",
+      "display_name": "Keeper Axe Thrower Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_CHAMPION",
+      "max_health": 2167,
+      "avatar": "KEEPERAXETHROWER3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2563",
+      "lifecycle_records": 9,
+      "enchantment_values": {
+        "0": 9
+      },
+      "archives": {
+        "AlbionRadar5.zip": 8,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 309,
+      "health_observation_records": 0,
+      "leave_observed_records": 9,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_KEEPER_AXE_THROWER_VETERAN",
+      "display_name": "Keeper Axe Thrower",
+      "tier": 5,
+      "category": "static",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_STANDARD",
+      "max_health": 5312,
+      "avatar": "KEEPERAXETHROWER5",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "830",
+      "lifecycle_records": 9,
+      "enchantment_values": {
+        "0": 9
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 6,
+        "AlbionRadar8.zip": 3
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 9,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_MOUNTAIN_CHEST",
+      "display_name": "Mountain Chest",
+      "tier": 4,
+      "category": "chest",
+      "localization_tag": null,
+      "max_health": 120,
+      "avatar": "ROAMINGCHESTMOUNTAIN1",
+      "danger": "normal",
+      "loot_type": "SILVERCOINS_LOOT_CHEST_STANDARD",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1579",
+      "lifecycle_records": 8,
+      "enchantment_values": {
+        "0": 8
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 8
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 370,
+      "health_observation_records": 0,
+      "leave_observed_records": 8,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MORGANA_CULTIST_CHAMPION",
+      "display_name": "Roaming Morgana Cultist Champion",
+      "tier": 6,
+      "category": "champion",
+      "localization_tag": "@MOB_MORGANA_CULTIST_CHAMPION",
+      "max_health": 1888,
+      "avatar": "MORGANACULTIST4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2802",
+      "lifecycle_records": 8,
+      "enchantment_values": {
+        "0": 8
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 8
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 8,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CITY_FORTRESS_MOUNTAIN_STAFF",
+      "display_name": "Mountain Watchtower Staff",
+      "tier": 5,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_WATCHTOWER_STAFF",
+      "max_health": 7160,
+      "avatar": "CITYMOUNTAINSUPPORT1",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1489",
+      "lifecycle_records": 7,
+      "enchantment_values": {
+        "0": 7
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 7
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 458,
+      "health_observation_records": 0,
+      "leave_observed_records": 7,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MORGANA_CROSSBOWMAN_CHAMPION",
+      "display_name": "Roaming Morgana Crossbowman Champion",
+      "tier": 6,
+      "category": "champion",
+      "localization_tag": "@MOB_MORGANA_CROSSBOWMAN_CHAMPION",
+      "max_health": 2360,
+      "avatar": "MORGANACROSSBOWMAN4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2514",
+      "lifecycle_records": 7,
+      "enchantment_values": {
+        "0": 7
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 3,
+        "AlbionRadar6json.zip": 2,
+        "AlbionRadar8.zip": 2
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 7,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_DRUID_CHAMPION",
+      "display_name": "Roaming Keeper Camp Druid Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_DRUID_CHAMPION",
+      "max_health": 1754,
+      "avatar": "KEEPERDRUID4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2535",
+      "lifecycle_records": 7,
+      "enchantment_values": {
+        "0": 7
+      },
+      "archives": {
+        "AlbionRadar2.zip": 3,
+        "AlbionRadar5.zip": 3,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 108,
+      "health_observation_records": 0,
+      "leave_observed_records": 7,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_KEEPER_BEAR_VETERAN_TRASH",
+      "display_name": "Keeper Bear",
+      "tier": 5,
+      "category": "trash",
+      "localization_tag": "@MOB_KEEPER_BEAR",
+      "max_health": 3323,
+      "avatar": "KEEPERBEAR2",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN_TRASH",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2576",
+      "lifecycle_records": 7,
+      "enchantment_values": {
+        "0": 7
+      },
+      "archives": {
+        "AlbionRadar5.zip": 4,
+        "AlbionRadar2.zip": 2,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 118,
+      "health_observation_records": 0,
+      "leave_observed_records": 7,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_KEEPER_DRUID_VETERAN",
+      "display_name": "Keeper Druid",
+      "tier": 5,
+      "category": "static",
+      "localization_tag": "@MOB_KEEPER_DRUID_STANDARD",
+      "max_health": 4301,
+      "avatar": "KEEPERDRUID5",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "835",
+      "lifecycle_records": 7,
+      "enchantment_values": {
+        "0": 7
+      },
+      "archives": {
+        "AlbionRadar8.zip": 3,
+        "archiveNew-extracted.zip": 3,
+        "Albionsskkakaks111.zip": 1
+      },
+      "distinct_pcaps": 4,
+      "movement_observations": 1,
+      "health_observation_records": 2,
+      "leave_observed_records": 7,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_MOUNTAIN_CHEST",
+      "display_name": "Roaming Mountain Chest",
+      "tier": 5,
+      "category": "chest",
+      "localization_tag": null,
+      "max_health": 129,
+      "avatar": "ROAMINGCHESTMOUNTAIN1",
+      "danger": "normal",
+      "loot_type": "SILVERCOINS_LOOT_CHEST_STANDARD",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1633",
+      "lifecycle_records": 6,
+      "enchantment_values": {
+        "0": 6
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 6
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 110,
+      "health_observation_records": 0,
+      "leave_observed_records": 6,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MORGANA_KNIGHT_CHAMPION",
+      "display_name": "Roaming Morgana Knight Champion",
+      "tier": 6,
+      "category": "champion",
+      "localization_tag": "@MOB_MORGANA_KNIGHT_CHAMPION",
+      "max_health": 3540,
+      "avatar": "MORGANAKNIGHT2",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2494",
+      "lifecycle_records": 6,
+      "enchantment_values": {
+        "0": 6
+      },
+      "archives": {
+        "AlbionRadar2.zip": 3,
+        "AlbionRadar5.zip": 2,
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 290,
+      "health_observation_records": 0,
+      "leave_observed_records": 5,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_VETERAN_CHAMPION",
+      "display_name": "Keeper Axe Thrower Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_CHAMPION",
+      "max_health": 9620,
+      "avatar": "KEEPERAXETHROWER3",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2503",
+      "lifecycle_records": 6,
+      "enchantment_values": {
+        "0": 6
+      },
+      "archives": {
+        "AlbionRadar5.zip": 4,
+        "AlbionRadar6json.zip": 1,
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 6,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_GIANT_VETERAN_CHAMPION",
+      "display_name": "Roaming Keeper Camp Giant Veteran Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_GIANT_CHAMPION",
+      "max_health": 13743,
+      "avatar": "KEEPERGIANT2",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "121",
+      "lifecycle_records": 5,
+      "enchantment_values": {
+        "1": 5
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 4,
+        "Albion2.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 132,
+      "health_observation_records": 0,
+      "leave_observed_records": 4,
+      "dictionary_match": true,
+      "unique_name": "MOB_UNIQUE_MISTS_PORTAL_WISP_STANDARD",
+      "display_name": "Mists Solo Wisp",
+      "tier": 4,
+      "category": "rd_solo",
+      "localization_tag": "@MOB_UNIQUE_MISTS_PORTAL_WISP_SOLO",
+      "max_health": 1,
+      "avatar": "KEEPERWISP1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2792",
+      "lifecycle_records": 5,
+      "enchantment_values": {
+        "0": 5
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 5
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 5,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_FORTRESS_MOUNTAIN_CROSSBOW",
+      "display_name": "City Fortress Mountain Crossbow",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_WATCHTOWER_CROSSBOW",
+      "max_health": 6951,
+      "avatar": "CITYMOUNTAINRANGE2",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1674",
+      "lifecycle_records": 4,
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 4
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 44,
+      "health_observation_records": 0,
+      "leave_observed_records": 4,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_MORGANA_BLOODHOUND",
+      "display_name": "Morgana Bloodhound",
+      "tier": 6,
+      "category": "unknown",
+      "localization_tag": null,
+      "max_health": 98,
+      "avatar": "MORGANABLOODHOUND1",
+      "danger": "normal",
+      "loot_type": "SILVERCOINS_LOOT_STANDARD_TRASH",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1928",
+      "lifecycle_records": 4,
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 4
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 73,
+      "health_observation_records": 0,
+      "leave_observed_records": 4,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_SOLDIER_CHAMPION",
+      "display_name": "Roaming Undead Soldier Champion",
+      "tier": 4,
+      "category": "champion",
+      "localization_tag": "@MOB_UNDEAD_SOLDIER_CHAMPION",
+      "max_health": 2213,
+      "avatar": "UNDEADSOLDIER4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1957",
+      "lifecycle_records": 4,
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 4
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 280,
+      "health_observation_records": 95,
+      "leave_observed_records": 4,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_SOLDIER_MINIBOSS",
+      "display_name": "Roaming Undead Camp Soldier Miniboss",
+      "tier": 4,
+      "category": "miniboss",
+      "localization_tag": "@MOB_UNDEAD_SOLDIER_MINIBOSS",
+      "max_health": 4150,
+      "avatar": "UNDEADSOLDIERMINIBOSS3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2515",
+      "lifecycle_records": 4,
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "AlbionRadar5.zip": 2,
+        "archiveNew-extracted.zip": 2
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 129,
+      "health_observation_records": 0,
+      "leave_observed_records": 4,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_DRUID_VETERAN_CHAMPION",
+      "display_name": "Roaming Keeper Camp Druid Veteran Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_DRUID_CHAMPION",
+      "max_health": 7787,
+      "avatar": "KEEPERDRUID4",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2539",
+      "lifecycle_records": 4,
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "AlbionRadar2.zip": 3,
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 4,
+      "health_observation_records": 0,
+      "leave_observed_records": 4,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_KEEPER_EARTHCHILD_VETERAN_CHAMPION",
+      "display_name": "Keeper Earthchild Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_EARTHCHILD_CHAMPION",
+      "max_health": 12826,
+      "avatar": "KEEPEREARTHCHILD2",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2590",
+      "lifecycle_records": 4,
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "AlbionRadar2.zip": 3,
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 708,
+      "health_observation_records": 0,
+      "leave_observed_records": 4,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_KEEPER_GIANT_VETERAN_CHAMPION",
+      "display_name": "Keeper Giant Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_GIANT_CHAMPION",
+      "max_health": 13743,
+      "avatar": "KEEPERGIANT3",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2675",
+      "lifecycle_records": 4,
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 4
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 4,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_RANGED_VETERAN",
+      "display_name": "City Camp Caerleon Guard Ranged Veteran",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_RANGED",
+      "max_health": 6942,
+      "avatar": "CITYSMUGGLERRANGE1",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2714",
+      "lifecycle_records": 4,
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 4
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 4,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_CITY_MOUNTAIN_KNIGHT_ELITE",
+      "display_name": "City Mountain Knight Elite",
+      "tier": 4,
+      "category": "factionwarfare",
+      "localization_tag": null,
+      "max_health": 11606,
+      "avatar": "CITYMOUNTAINKNIGHT1",
+      "danger": "elite",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2757",
+      "lifecycle_records": 4,
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 4
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 4,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_GUARD_TOWER",
+      "display_name": "Guard Tower",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": null,
+      "max_health": 153572,
+      "avatar": "HERETICMORTAR1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2772",
+      "lifecycle_records": 4,
+      "enchantment_values": {
+        "0": 4
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 4
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 4,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CITY_FORTRESS_MOUNTAIN_SWORD",
+      "display_name": "Mountain Watchtower Sword",
+      "tier": 5,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_WATCHTOWER_SWORD",
+      "max_health": 8019,
+      "avatar": "CITYMOUNTAINMELEE1",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1399",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MORGANA_SOLDIER_CHAMPION",
+      "display_name": "Roaming Morgana Soldier Champion",
+      "tier": 6,
+      "category": "champion",
+      "localization_tag": "@MOB_MORGANA_SOLDIER_CHAMPION",
+      "max_health": 2832,
+      "avatar": "MORGANASOLDIER4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2479",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar2.zip": 2,
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 547,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_BERSERK_VETERAN_CHAMPION",
+      "display_name": "Keeper Berserk Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_BERSERK_CHAMPION",
+      "max_health": 10078,
+      "avatar": "KEEPERBERSERK3",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2480",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar2.zip": 1,
+        "AlbionRadar6json.zip": 1,
+        "AlbionRadar8.zip": 1
+      },
+      "distinct_pcaps": 3,
+      "movement_observations": 68,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_BERSERK_MINIBOSS",
+      "display_name": "Keeper Berserk Mini-Boss",
+      "tier": 5,
+      "category": "miniboss",
+      "localization_tag": "@MOB_KEEPER_BERSERK_MINIBOSS",
+      "max_health": 4513,
+      "avatar": "KEEPERBERSERKMINIBOSS3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2548",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar5.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 83,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_KEEPER_BERSERK_VETERAN",
+      "display_name": "Keeper Berserk",
+      "tier": 5,
+      "category": "static",
+      "localization_tag": "@MOB_KEEPER_BERSERK_STANDARD",
+      "max_health": 5565,
+      "avatar": "KEEPERBERSERK5",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2577",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar2.zip": 2,
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 36,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_KEEPER_DRUID_VETERAN_CHAMPION",
+      "display_name": "Keeper Druid Champion",
+      "tier": 5,
+      "category": "champion",
+      "localization_tag": "@MOB_KEEPER_DRUID_CHAMPION",
+      "max_health": 7787,
+      "avatar": "KEEPERDRUID6",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2634",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 9,
+      "health_observation_records": 2,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_MALE",
+      "display_name": "City Camp Caerleon Guard Male",
+      "tier": 5,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_MALE",
+      "max_health": 1929,
+      "avatar": "CITYSMUGGLERMELEEMALE1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2635",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_MALE",
+      "display_name": "City Camp Caerleon Guard Male",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_MALE",
+      "max_health": 2337,
+      "avatar": "CITYSMUGGLERMELEEMALE1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2639",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 86,
+      "health_observation_records": 38,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_FEMALE",
+      "display_name": "City Camp Caerleon Guard Female",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_FEMALE",
+      "max_health": 2236,
+      "avatar": "CITYSMUGGLERMELEEFEMALE1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2646",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 10,
+      "health_observation_records": 4,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_RANGED",
+      "display_name": "City Camp Caerleon Guard Ranged",
+      "tier": 5,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_RANGED",
+      "max_health": 2012,
+      "avatar": "CITYSMUGGLERRANGE1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2663",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_MALE_VETERAN",
+      "display_name": "City Camp Caerleon Guard Male Veteran",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_MALE",
+      "max_health": 6653,
+      "avatar": "CITYSMUGGLERMELEEMALE1",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2777",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_FORTRESS_MOUNTAIN_SWORD",
+      "display_name": "City Fortress Mountain Sword",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_WATCHTOWER_SWORD",
+      "max_health": 8650,
+      "avatar": "CITYMOUNTAINMELEE2",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2807",
+      "lifecycle_records": 3,
+      "enchantment_values": {
+        "0": 3
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 3
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 3,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_FORTRESS_MOUNTAIN_STAFF",
+      "display_name": "City Fortress Mountain Staff",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_WATCHTOWER_STAFF",
+      "max_health": 7723,
+      "avatar": "CITYMOUNTAINSUPPORT2",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2068",
+      "lifecycle_records": 2,
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 165,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_MAGE_CHAMPION",
+      "display_name": "Roaming Undead Mage Champion",
+      "tier": 4,
+      "category": "champion",
+      "localization_tag": "@MOB_UNDEAD_MAGE_CHAMPION",
+      "max_health": 1732,
+      "avatar": "UNDEADMAGE4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2495",
+      "lifecycle_records": 2,
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "AlbionRadar8.zip": 1,
+        "Albionsskkakaks111.zip": 1
+      },
+      "distinct_pcaps": 2,
+      "movement_observations": 79,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_AXE_THROWER_MINIBOSS",
+      "display_name": "Roaming Keeper Axe Thrower Miniboss",
+      "tier": 5,
+      "category": "miniboss",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_MINIBOSS",
+      "max_health": 4307,
+      "avatar": "KEEPERAXETHROWERMINIBOSS3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2642",
+      "lifecycle_records": 2,
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_MELEE_ELITE",
+      "display_name": "City Camp Caerleon Guard Melee Elite",
+      "tier": 5,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_MELEE_ELITE",
+      "max_health": 2180,
+      "avatar": "CITYSMUGGLERMELEEMALE2",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2647",
+      "lifecycle_records": 2,
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 88,
+      "health_observation_records": 26,
+      "leave_observed_records": 2,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_RANGED",
+      "display_name": "City Camp Caerleon Guard Ranged",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_RANGED",
+      "max_health": 2439,
+      "avatar": "CITYSMUGGLERRANGE1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2651",
+      "lifecycle_records": 2,
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_RANGED_ELITE",
+      "display_name": "City Camp Caerleon Guard Ranged Elite",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_RANGED_ELITE",
+      "max_health": 2033,
+      "avatar": "CITYSMUGGLERRANGE2",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2667",
+      "lifecycle_records": 2,
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_FEMALE_VETERAN",
+      "display_name": "City Camp Caerleon Guard Female Veteran",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_FEMALE",
+      "max_health": 6364,
+      "avatar": "CITYSMUGGLERMELEEFEMALE1",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2671",
+      "lifecycle_records": 2,
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 16,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_MELEE_ELITE_VETERAN",
+      "display_name": "City Camp Caerleon Guard Melee Elite Veteran",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_MELEE_ELITE",
+      "max_health": 7521,
+      "avatar": "CITYSMUGGLERMELEEMALE2",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2726",
+      "lifecycle_records": 2,
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_SWAMP_BOSS",
+      "display_name": "City Swamp Boss",
+      "tier": 6,
+      "category": "boss",
+      "localization_tag": "@MOB_T4_MOB_CITY_SWAMP_BOSS",
+      "max_health": 26984,
+      "avatar": "CITYSWAMPDRUIDBOSS1",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "576",
+      "lifecycle_records": 2,
+      "enchantment_values": {
+        "0": 2
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 2
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 165,
+      "health_observation_records": 0,
+      "leave_observed_records": 2,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CRITTER_ORE_MOUNTAIN_RED",
+      "display_name": "Critter Ore Mountain Red",
+      "tier": 6,
+      "category": "critter",
+      "localization_tag": "@MOB_T6_MOB_CRITTER_FOREST_RED_OREELEMENTAL",
+      "max_health": 1564,
+      "avatar": "CRITTERFORESTOREELEMENTAL3",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 6,
+      "is_harvestable": true
+    },
+    {
+      "mobile_type_id": "1417",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 15,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MORGANA_SOLDIER_MINIBOSS",
+      "display_name": "Roaming Morgana Soldier Miniboss",
+      "tier": 6,
+      "category": "miniboss",
+      "localization_tag": "@MOB_MORGANA_SOLDIER_MINIBOSS",
+      "max_health": 5310,
+      "avatar": "MORGANASOLDIERMINIBOSS3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 6,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1937",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_SOLDIER_CHAMPION",
+      "display_name": "Roaming Undead Camp Soldier Champion",
+      "tier": 4,
+      "category": "champion",
+      "localization_tag": "@MOB_UNDEAD_SOLDIER_CHAMPION",
+      "max_health": 2213,
+      "avatar": "UNDEADSOLDIER4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1988",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_ARCHER_CHAMPION",
+      "display_name": "Roaming Undead Archer Champion",
+      "tier": 4,
+      "category": "champion",
+      "localization_tag": "@MOB_UNDEAD_ARCHER_CHAMPION",
+      "max_health": 1828,
+      "avatar": "UNDEADARCHER4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "1997",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_ARCHER_CHAMPION",
+      "display_name": "Roaming Undead Camp Archer Champion",
+      "tier": 4,
+      "category": "champion",
+      "localization_tag": "@MOB_UNDEAD_ARCHER_CHAMPION",
+      "max_health": 1828,
+      "avatar": "UNDEADARCHER4",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2017",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_ARCHER_MINIBOSS",
+      "display_name": "Roaming Undead Camp Archer Miniboss",
+      "tier": 4,
+      "category": "miniboss",
+      "localization_tag": "@MOB_UNDEAD_ARCHER_MINIBOSS",
+      "max_health": 3428,
+      "avatar": "UNDEADARCHERMINIBOSS3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2088",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 99,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_MAGE_MINIBOSS",
+      "display_name": "Roaming Undead Mage Miniboss",
+      "tier": 4,
+      "category": "miniboss",
+      "localization_tag": "@MOB_UNDEAD_MAGE_MINIBOSS",
+      "max_health": 3248,
+      "avatar": "UNDEADMAGEMINIBOSS3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 4,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2483",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar8.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_BERSERK_BOSS",
+      "display_name": "Roaming Keeper Berserk Boss",
+      "tier": 5,
+      "category": "boss",
+      "localization_tag": "@MOB_KEEPER_BERSERK_BOSS",
+      "max_health": 6017,
+      "avatar": "KEEPERBERSERKBOSS1",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_BOSS",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2496",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_MINIBOSS",
+      "display_name": "Roaming Keeper Camp Axe Thrower Miniboss",
+      "tier": 5,
+      "category": "miniboss",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_MINIBOSS",
+      "max_health": 4064,
+      "avatar": "KEEPERAXETHROWERMINIBOSS3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2498",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar8.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_AXE_THROWER_BOSS",
+      "display_name": "Roaming Keeper Axe Thrower Boss",
+      "tier": 5,
+      "category": "boss",
+      "localization_tag": "@MOB_KEEPER_AXETHROWER_BOSS",
+      "max_health": 5743,
+      "avatar": "KEEPERAXETHROWERBOSS1",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_BOSS",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2504",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_GIANT_MINIBOSS",
+      "display_name": "Roaming Keeper Giant Miniboss",
+      "tier": 5,
+      "category": "miniboss",
+      "localization_tag": "@MOB_KEEPER_GIANT_MINIBOSS",
+      "max_health": 6153,
+      "avatar": "KEEPERGIANTMINIBOSS2",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2516",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "Albionsskkakaks111.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_DRUID_MINIBOSS",
+      "display_name": "Keeper Druid Mini-Boss",
+      "tier": 5,
+      "category": "miniboss",
+      "localization_tag": "@MOB_KEEPER_DRUID_MINIBOSS",
+      "max_health": 3487,
+      "avatar": "KEEPERDRUIDMINIBOSS3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2517",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar8.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_DRUID_MINIBOSS",
+      "display_name": "Roaming Keeper Camp Druid Miniboss",
+      "tier": 5,
+      "category": "miniboss",
+      "localization_tag": "@MOB_KEEPER_DRUID_MINIBOSS",
+      "max_health": 3290,
+      "avatar": "KEEPERDRUIDMINIBOSS3",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2589",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar5.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 69,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_KEEPER_GIANT_VETERAN",
+      "display_name": "Keeper Giant Veteran",
+      "tier": 5,
+      "category": "static",
+      "localization_tag": "@MOB_KEEPER_GIANT_STANDARD",
+      "max_health": 7589,
+      "avatar": "KEEPERGIANT4",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2654",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar6json.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT",
+      "display_name": "City Camp Caerleon Guard Support",
+      "tier": 5,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT",
+      "max_health": 1342,
+      "avatar": "CITYSMUGGLERSUPPORT1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2655",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT",
+      "display_name": "City Camp Caerleon Guard Support",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT",
+      "max_health": 1626,
+      "avatar": "CITYSMUGGLERSUPPORT1",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2659",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT_ELITE",
+      "display_name": "City Camp Caerleon Guard Support Elite",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT_ELITE",
+      "max_health": 1829,
+      "avatar": "CITYSMUGGLERSUPPORT2",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2662",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar2.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_MALE_VETERAN",
+      "display_name": "City Camp Caerleon Guard Male Veteran",
+      "tier": 5,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_MALE",
+      "max_health": 5489,
+      "avatar": "CITYSMUGGLERMELEEMALE1",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2679",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_RANGED_ELITE_VETERAN",
+      "display_name": "City Camp Caerleon Guard Ranged Elite Veteran",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_RANGED_ELITE",
+      "max_health": 5785,
+      "avatar": "CITYSMUGGLERRANGE2",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2682",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "AlbionRadar2.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT_VETERAN",
+      "display_name": "City Camp Caerleon Guard Support Veteran",
+      "tier": 5,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT",
+      "max_health": 3818,
+      "avatar": "CITYSMUGGLERSUPPORT1",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2683",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT_VETERAN",
+      "display_name": "City Camp Caerleon Guard Support Veteran",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT",
+      "max_health": 4628,
+      "avatar": "CITYSMUGGLERSUPPORT1",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "2687",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 112,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT_ELITE_VETERAN",
+      "display_name": "City Camp Caerleon Guard Support Elite Veteran",
+      "tier": 6,
+      "category": "factionwarfare",
+      "localization_tag": "@MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT_ELITE",
+      "max_health": 5207,
+      "avatar": "CITYSMUGGLERSUPPORT2",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false
+    },
+    {
+      "mobile_type_id": "840",
+      "lifecycle_records": 1,
+      "enchantment_values": {
+        "0": 1
+      },
+      "archives": {
+        "archiveNew-extracted.zip": 1
+      },
+      "distinct_pcaps": 1,
+      "movement_observations": 0,
+      "health_observation_records": 0,
+      "leave_observed_records": 1,
+      "dictionary_match": true,
+      "unique_name": "T6_MOB_ROAMING_MOUNTAIN_CHEST",
+      "display_name": "Roaming Mountain Chest",
+      "tier": 6,
+      "category": "chest",
+      "localization_tag": null,
+      "max_health": 139,
+      "avatar": "ROAMINGCHESTMOUNTAIN1",
+      "danger": "normal",
+      "loot_type": "SILVERCOINS_LOOT_CHEST_STANDARD",
+      "loot_tier": 6,
+      "is_harvestable": false
+    }
+  ],
+  "mobile_type_crosswalk": [
+    {
+      "mobile_type_id": "482",
+      "pcap_lifecycle_records": 1156,
+      "display_name": "Mountain Rabbit",
+      "unique_name": "T1_MOB_HIDE_MOUNTAIN_RABBIT",
+      "tier": 1,
+      "category": "harmless",
+      "danger": "normal",
+      "loot_type": "HIDE",
+      "loot_tier": 1,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2489",
+      "pcap_lifecycle_records": 252,
+      "display_name": "Keeper Axe Thrower",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_AXE_THROWER",
+      "tier": 5,
+      "category": "roaming",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2474",
+      "pcap_lifecycle_records": 247,
+      "display_name": "Keeper Berserk",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_BERSERK",
+      "tier": 5,
+      "category": "roaming",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "571",
+      "pcap_lifecycle_records": 227,
+      "display_name": "Ore Elemental",
+      "unique_name": "T3_MOB_CRITTER_ORE_MOUNTAIN_RED",
+      "tier": 3,
+      "category": "critter",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 3,
+      "is_harvestable": true,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "573",
+      "pcap_lifecycle_records": 210,
+      "display_name": "Ore Elemental",
+      "unique_name": "T4_MOB_CRITTER_ORE_MOUNTAIN_RED",
+      "tier": 4,
+      "category": "critter",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 4,
+      "is_harvestable": true,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "120",
+      "pcap_lifecycle_records": 163,
+      "display_name": "Mists Solo Wisp",
+      "unique_name": "MOB_UNIQUE_MISTS_PORTAL_WISP",
+      "tier": 4,
+      "category": "rd_solo",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2486",
+      "pcap_lifecycle_records": 152,
+      "display_name": "Keeper Axe Thrower Recruit",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_UNPROVEN_FEMALE",
+      "tier": 5,
+      "category": "roaming",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2471",
+      "pcap_lifecycle_records": 123,
+      "display_name": "Keeper Berserk Recruit",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_UNPROVEN_MALE",
+      "tier": 5,
+      "category": "roaming",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "574",
+      "pcap_lifecycle_records": 122,
+      "display_name": "Ore Elemental",
+      "unique_name": "T5_MOB_CRITTER_ORE_MOUNTAIN_RED",
+      "tier": 5,
+      "category": "critter",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 5,
+      "is_harvestable": true,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2712",
+      "pcap_lifecycle_records": 104,
+      "display_name": "Mountain Guard",
+      "unique_name": "T5_MOB_CITY_MOUNTAIN_GUARD",
+      "tier": 5,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2510",
+      "pcap_lifecycle_records": 101,
+      "display_name": "Keeper Druid",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_DRUID",
+      "tier": 5,
+      "category": "roaming",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2477",
+      "pcap_lifecycle_records": 77,
+      "display_name": "Keeper Berserk Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_BERSERK_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2492",
+      "pcap_lifecycle_records": 68,
+      "display_name": "Keeper Axe Thrower Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_AXE_THROWER_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1381",
+      "pcap_lifecycle_records": 61,
+      "display_name": "Roaming Morgana Soldier",
+      "unique_name": "T6_MOB_ROAMING_MORGANA_SOLDIER",
+      "tier": 6,
+      "category": "roaming",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1888",
+      "pcap_lifecycle_records": 58,
+      "display_name": "Roaming Undead Ghoul",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_GHOUL",
+      "tier": 4,
+      "category": "standard",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1908",
+      "pcap_lifecycle_records": 55,
+      "display_name": "Roaming Undead Soldier",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_SOLDIER",
+      "tier": 4,
+      "category": "standard",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2048",
+      "pcap_lifecycle_records": 53,
+      "display_name": "Roaming Undead Mage",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_MAGE",
+      "tier": 4,
+      "category": "standard",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1471",
+      "pcap_lifecycle_records": 51,
+      "display_name": "Roaming Morgana Crossbowman",
+      "unique_name": "T6_MOB_ROAMING_MORGANA_CROSSBOWMAN",
+      "tier": 6,
+      "category": "standard",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1968",
+      "pcap_lifecycle_records": 48,
+      "display_name": "Roaming Undead Archer",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_ARCHER",
+      "tier": 4,
+      "category": "standard",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1561",
+      "pcap_lifecycle_records": 42,
+      "display_name": "Roaming Morgana Cultist",
+      "unique_name": "T6_MOB_ROAMING_MORGANA_CULTIST",
+      "tier": 6,
+      "category": "standard",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "572",
+      "pcap_lifecycle_records": 42,
+      "display_name": "Critter Ore Mountain Green",
+      "unique_name": "T4_MOB_CRITTER_ORE_MOUNTAIN_GREEN",
+      "tier": 4,
+      "category": "critter",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 4,
+      "is_harvestable": true,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "570",
+      "pcap_lifecycle_records": 34,
+      "display_name": "Critter Ore Mountain Green",
+      "unique_name": "T3_MOB_CRITTER_ORE_MOUNTAIN_GREEN",
+      "tier": 3,
+      "category": "critter",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 3,
+      "is_harvestable": true,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2475",
+      "pcap_lifecycle_records": 32,
+      "display_name": "Keeper Berserk",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_BERSERK",
+      "tier": 5,
+      "category": "camp",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2501",
+      "pcap_lifecycle_records": 30,
+      "display_name": "Keeper Giant Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_GIANT_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1453",
+      "pcap_lifecycle_records": 29,
+      "display_name": "Roaming Morgana Recruit",
+      "unique_name": "T6_MOB_ROAMING_MORGANA_RECRUIT",
+      "tier": 6,
+      "category": "trash",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2549",
+      "pcap_lifecycle_records": 29,
+      "display_name": "Keeper Berserk Champion",
+      "unique_name": "T5_MOB_KEEPER_BERSERK_VETERAN_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1543",
+      "pcap_lifecycle_records": 26,
+      "display_name": "Roaming Morgana Acolyte",
+      "unique_name": "T6_MOB_ROAMING_MORGANA_ACOLYTE",
+      "tier": 6,
+      "category": "trash",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2512",
+      "pcap_lifecycle_records": 26,
+      "display_name": "Keeper Druid",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_DRUID_VETERAN",
+      "tier": 5,
+      "category": "camp",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2513",
+      "pcap_lifecycle_records": 22,
+      "display_name": "Keeper Druid Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_DRUID_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2491",
+      "pcap_lifecycle_records": 21,
+      "display_name": "Keeper Axe Thrower",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_VETERAN",
+      "tier": 5,
+      "category": "camp",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2490",
+      "pcap_lifecycle_records": 20,
+      "display_name": "Keeper Axe Thrower",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER",
+      "tier": 5,
+      "category": "camp",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2511",
+      "pcap_lifecycle_records": 20,
+      "display_name": "Keeper Druid",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_DRUID",
+      "tier": 5,
+      "category": "camp",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2564",
+      "pcap_lifecycle_records": 20,
+      "display_name": "Keeper Axe Thrower Champion",
+      "unique_name": "T5_MOB_KEEPER_AXE_THROWER_VETERAN_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1917",
+      "pcap_lifecycle_records": 19,
+      "display_name": "Roaming Undead Camp Soldier",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_SOLDIER",
+      "tier": 4,
+      "category": "standard",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2476",
+      "pcap_lifecycle_records": 19,
+      "display_name": "Keeper Berserk",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_BERSERK_VETERAN",
+      "tier": 5,
+      "category": "camp",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1363",
+      "pcap_lifecycle_records": 18,
+      "display_name": "Roaming Morgana Recruit Melee",
+      "unique_name": "T6_MOB_ROAMING_MORGANA_RECRUIT_MELEE",
+      "tier": 6,
+      "category": "roaming",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2473",
+      "pcap_lifecycle_records": 18,
+      "display_name": "Keeper Berserk Recruit",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_UNPROVEN_MALE_VETERAN",
+      "tier": 5,
+      "category": "camp",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN_TRASH",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2723",
+      "pcap_lifecycle_records": 18,
+      "display_name": "City Swamp Guard",
+      "unique_name": "T6_MOB_CITY_SWAMP_GUARD",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2787",
+      "pcap_lifecycle_records": 17,
+      "display_name": "Mountain Watchtower Crossbow",
+      "unique_name": "T5_MOB_CITY_FORTRESS_MOUNTAIN_CROSSBOW",
+      "tier": 5,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1830",
+      "pcap_lifecycle_records": 16,
+      "display_name": "Morgana Imp Summon",
+      "unique_name": "T6_MOB_MORGANA_IMP_SUMMON",
+      "tier": 6,
+      "category": "summon",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1868",
+      "pcap_lifecycle_records": 16,
+      "display_name": "Roaming Undead Skeleton",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_SKELETON",
+      "tier": 4,
+      "category": "trash",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1977",
+      "pcap_lifecycle_records": 15,
+      "display_name": "Roaming Undead Camp Archer",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_ARCHER",
+      "tier": 4,
+      "category": "standard",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2478",
+      "pcap_lifecycle_records": 14,
+      "display_name": "Keeper Berserk Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_BERSERK_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1848",
+      "pcap_lifecycle_records": 12,
+      "display_name": "Roaming Undead Skeleton Melee",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_SKELETON_MELEE",
+      "tier": 4,
+      "category": "trash",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2488",
+      "pcap_lifecycle_records": 12,
+      "display_name": "Keeper Axe Thrower Recruit",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_UNPROVEN_FEMALE_VETERAN",
+      "tier": 5,
+      "category": "camp",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN_TRASH",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2715",
+      "pcap_lifecycle_records": 12,
+      "display_name": "Mountain Boss",
+      "unique_name": "T5_MOB_CITY_MOUNTAIN_BOSS",
+      "tier": 5,
+      "category": "boss",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2057",
+      "pcap_lifecycle_records": 11,
+      "display_name": "Roaming Undead Camp Mage",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_MAGE",
+      "tier": 4,
+      "category": "standard",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2502",
+      "pcap_lifecycle_records": 11,
+      "display_name": "Keeper Giant Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_GIANT_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2493",
+      "pcap_lifecycle_records": 10,
+      "display_name": "Keeper Axe Thrower Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2563",
+      "pcap_lifecycle_records": 9,
+      "display_name": "Keeper Axe Thrower",
+      "unique_name": "T5_MOB_KEEPER_AXE_THROWER_VETERAN",
+      "tier": 5,
+      "category": "static",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "830",
+      "pcap_lifecycle_records": 9,
+      "display_name": "Mountain Chest",
+      "unique_name": "T4_MOB_ROAMING_MOUNTAIN_CHEST",
+      "tier": 4,
+      "category": "chest",
+      "danger": "normal",
+      "loot_type": "SILVERCOINS_LOOT_CHEST_STANDARD",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1579",
+      "pcap_lifecycle_records": 8,
+      "display_name": "Roaming Morgana Cultist Champion",
+      "unique_name": "T6_MOB_ROAMING_MORGANA_CULTIST_CHAMPION",
+      "tier": 6,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2802",
+      "pcap_lifecycle_records": 8,
+      "display_name": "Mountain Watchtower Staff",
+      "unique_name": "T5_MOB_CITY_FORTRESS_MOUNTAIN_STAFF",
+      "tier": 5,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1489",
+      "pcap_lifecycle_records": 7,
+      "display_name": "Roaming Morgana Crossbowman Champion",
+      "unique_name": "T6_MOB_ROAMING_MORGANA_CROSSBOWMAN_CHAMPION",
+      "tier": 6,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2514",
+      "pcap_lifecycle_records": 7,
+      "display_name": "Roaming Keeper Camp Druid Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_DRUID_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2535",
+      "pcap_lifecycle_records": 7,
+      "display_name": "Keeper Bear",
+      "unique_name": "T5_MOB_KEEPER_BEAR_VETERAN_TRASH",
+      "tier": 5,
+      "category": "trash",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN_TRASH",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2576",
+      "pcap_lifecycle_records": 7,
+      "display_name": "Keeper Druid",
+      "unique_name": "T5_MOB_KEEPER_DRUID_VETERAN",
+      "tier": 5,
+      "category": "static",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "835",
+      "pcap_lifecycle_records": 7,
+      "display_name": "Roaming Mountain Chest",
+      "unique_name": "T5_MOB_ROAMING_MOUNTAIN_CHEST",
+      "tier": 5,
+      "category": "chest",
+      "danger": "normal",
+      "loot_type": "SILVERCOINS_LOOT_CHEST_STANDARD",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1633",
+      "pcap_lifecycle_records": 6,
+      "display_name": "Roaming Morgana Knight Champion",
+      "unique_name": "T6_MOB_ROAMING_MORGANA_KNIGHT_CHAMPION",
+      "tier": 6,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2494",
+      "pcap_lifecycle_records": 6,
+      "display_name": "Keeper Axe Thrower Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_VETERAN_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2503",
+      "pcap_lifecycle_records": 6,
+      "display_name": "Roaming Keeper Camp Giant Veteran Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_GIANT_VETERAN_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "121",
+      "pcap_lifecycle_records": 5,
+      "display_name": "Mists Solo Wisp",
+      "unique_name": "MOB_UNIQUE_MISTS_PORTAL_WISP_STANDARD",
+      "tier": 4,
+      "category": "rd_solo",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2792",
+      "pcap_lifecycle_records": 5,
+      "display_name": "City Fortress Mountain Crossbow",
+      "unique_name": "T6_MOB_CITY_FORTRESS_MOUNTAIN_CROSSBOW",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1674",
+      "pcap_lifecycle_records": 4,
+      "display_name": "Morgana Bloodhound",
+      "unique_name": "T6_MOB_MORGANA_BLOODHOUND",
+      "tier": 6,
+      "category": "unknown",
+      "danger": "normal",
+      "loot_type": "SILVERCOINS_LOOT_STANDARD_TRASH",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1928",
+      "pcap_lifecycle_records": 4,
+      "display_name": "Roaming Undead Soldier Champion",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_SOLDIER_CHAMPION",
+      "tier": 4,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1957",
+      "pcap_lifecycle_records": 4,
+      "display_name": "Roaming Undead Camp Soldier Miniboss",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_SOLDIER_MINIBOSS",
+      "tier": 4,
+      "category": "miniboss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2515",
+      "pcap_lifecycle_records": 4,
+      "display_name": "Roaming Keeper Camp Druid Veteran Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_DRUID_VETERAN_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2539",
+      "pcap_lifecycle_records": 4,
+      "display_name": "Keeper Earthchild Champion",
+      "unique_name": "T5_MOB_KEEPER_EARTHCHILD_VETERAN_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2590",
+      "pcap_lifecycle_records": 4,
+      "display_name": "Keeper Giant Champion",
+      "unique_name": "T5_MOB_KEEPER_GIANT_VETERAN_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2675",
+      "pcap_lifecycle_records": 4,
+      "display_name": "City Camp Caerleon Guard Ranged Veteran",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_RANGED_VETERAN",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2714",
+      "pcap_lifecycle_records": 4,
+      "display_name": "City Mountain Knight Elite",
+      "unique_name": "T4_MOB_CITY_MOUNTAIN_KNIGHT_ELITE",
+      "tier": 4,
+      "category": "factionwarfare",
+      "danger": "elite",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2757",
+      "pcap_lifecycle_records": 4,
+      "display_name": "Guard Tower",
+      "unique_name": "T6_MOB_GUARD_TOWER",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2772",
+      "pcap_lifecycle_records": 4,
+      "display_name": "Mountain Watchtower Sword",
+      "unique_name": "T5_MOB_CITY_FORTRESS_MOUNTAIN_SWORD",
+      "tier": 5,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1399",
+      "pcap_lifecycle_records": 3,
+      "display_name": "Roaming Morgana Soldier Champion",
+      "unique_name": "T6_MOB_ROAMING_MORGANA_SOLDIER_CHAMPION",
+      "tier": 6,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2479",
+      "pcap_lifecycle_records": 3,
+      "display_name": "Keeper Berserk Champion",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_BERSERK_VETERAN_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2480",
+      "pcap_lifecycle_records": 3,
+      "display_name": "Keeper Berserk Mini-Boss",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_BERSERK_MINIBOSS",
+      "tier": 5,
+      "category": "miniboss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2548",
+      "pcap_lifecycle_records": 3,
+      "display_name": "Keeper Berserk",
+      "unique_name": "T5_MOB_KEEPER_BERSERK_VETERAN",
+      "tier": 5,
+      "category": "static",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2577",
+      "pcap_lifecycle_records": 3,
+      "display_name": "Keeper Druid Champion",
+      "unique_name": "T5_MOB_KEEPER_DRUID_VETERAN_CHAMPION",
+      "tier": 5,
+      "category": "champion",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2634",
+      "pcap_lifecycle_records": 3,
+      "display_name": "City Camp Caerleon Guard Male",
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_MALE",
+      "tier": 5,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2635",
+      "pcap_lifecycle_records": 3,
+      "display_name": "City Camp Caerleon Guard Male",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_MALE",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2639",
+      "pcap_lifecycle_records": 3,
+      "display_name": "City Camp Caerleon Guard Female",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_FEMALE",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2646",
+      "pcap_lifecycle_records": 3,
+      "display_name": "City Camp Caerleon Guard Ranged",
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_RANGED",
+      "tier": 5,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2663",
+      "pcap_lifecycle_records": 3,
+      "display_name": "City Camp Caerleon Guard Male Veteran",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_MALE_VETERAN",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2777",
+      "pcap_lifecycle_records": 3,
+      "display_name": "City Fortress Mountain Sword",
+      "unique_name": "T6_MOB_CITY_FORTRESS_MOUNTAIN_SWORD",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2807",
+      "pcap_lifecycle_records": 3,
+      "display_name": "City Fortress Mountain Staff",
+      "unique_name": "T6_MOB_CITY_FORTRESS_MOUNTAIN_STAFF",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2068",
+      "pcap_lifecycle_records": 2,
+      "display_name": "Roaming Undead Mage Champion",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_MAGE_CHAMPION",
+      "tier": 4,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2495",
+      "pcap_lifecycle_records": 2,
+      "display_name": "Roaming Keeper Axe Thrower Miniboss",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_AXE_THROWER_MINIBOSS",
+      "tier": 5,
+      "category": "miniboss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2642",
+      "pcap_lifecycle_records": 2,
+      "display_name": "City Camp Caerleon Guard Melee Elite",
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_MELEE_ELITE",
+      "tier": 5,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2647",
+      "pcap_lifecycle_records": 2,
+      "display_name": "City Camp Caerleon Guard Ranged",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_RANGED",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2651",
+      "pcap_lifecycle_records": 2,
+      "display_name": "City Camp Caerleon Guard Ranged Elite",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_RANGED_ELITE",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2667",
+      "pcap_lifecycle_records": 2,
+      "display_name": "City Camp Caerleon Guard Female Veteran",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_FEMALE_VETERAN",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2671",
+      "pcap_lifecycle_records": 2,
+      "display_name": "City Camp Caerleon Guard Melee Elite Veteran",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_MELEE_ELITE_VETERAN",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2726",
+      "pcap_lifecycle_records": 2,
+      "display_name": "City Swamp Boss",
+      "unique_name": "T6_MOB_CITY_SWAMP_BOSS",
+      "tier": 6,
+      "category": "boss",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "576",
+      "pcap_lifecycle_records": 2,
+      "display_name": "Critter Ore Mountain Red",
+      "unique_name": "T6_MOB_CRITTER_ORE_MOUNTAIN_RED",
+      "tier": 6,
+      "category": "critter",
+      "danger": "normal",
+      "loot_type": "ORE_CRITTER",
+      "loot_tier": 6,
+      "is_harvestable": true,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1417",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Morgana Soldier Miniboss",
+      "unique_name": "T6_MOB_ROAMING_MORGANA_SOLDIER_MINIBOSS",
+      "tier": 6,
+      "category": "miniboss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1937",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Undead Camp Soldier Champion",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_SOLDIER_CHAMPION",
+      "tier": 4,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1988",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Undead Archer Champion",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_ARCHER_CHAMPION",
+      "tier": 4,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "1997",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Undead Camp Archer Champion",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_ARCHER_CHAMPION",
+      "tier": 4,
+      "category": "champion",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2017",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Undead Camp Archer Miniboss",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_CAMP_ARCHER_MINIBOSS",
+      "tier": 4,
+      "category": "miniboss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2088",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Undead Mage Miniboss",
+      "unique_name": "T4_MOB_ROAMING_UNDEAD_MAGE_MINIBOSS",
+      "tier": 4,
+      "category": "miniboss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 4,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2483",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Keeper Berserk Boss",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_BERSERK_BOSS",
+      "tier": 5,
+      "category": "boss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_BOSS",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2496",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Keeper Camp Axe Thrower Miniboss",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_AXE_THROWER_MINIBOSS",
+      "tier": 5,
+      "category": "miniboss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2498",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Keeper Axe Thrower Boss",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_AXE_THROWER_BOSS",
+      "tier": 5,
+      "category": "boss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_BOSS",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2504",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Keeper Giant Miniboss",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_GIANT_MINIBOSS",
+      "tier": 5,
+      "category": "miniboss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2516",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Keeper Druid Mini-Boss",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_DRUID_MINIBOSS",
+      "tier": 5,
+      "category": "miniboss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2517",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Keeper Camp Druid Miniboss",
+      "unique_name": "T5_MOB_ROAMING_KEEPER_CAMP_DRUID_MINIBOSS",
+      "tier": 5,
+      "category": "miniboss",
+      "danger": "roaming",
+      "loot_type": "SILVERCOINS_LOOT_ROAMING_MINIBOSS",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2589",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Keeper Giant Veteran",
+      "unique_name": "T5_MOB_KEEPER_GIANT_VETERAN",
+      "tier": 5,
+      "category": "static",
+      "danger": "veteran",
+      "loot_type": "SILVERCOINS_LOOT_VETERAN",
+      "loot_tier": 5,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2654",
+      "pcap_lifecycle_records": 1,
+      "display_name": "City Camp Caerleon Guard Support",
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT",
+      "tier": 5,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2655",
+      "pcap_lifecycle_records": 1,
+      "display_name": "City Camp Caerleon Guard Support",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2659",
+      "pcap_lifecycle_records": 1,
+      "display_name": "City Camp Caerleon Guard Support Elite",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT_ELITE",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "normal",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2662",
+      "pcap_lifecycle_records": 1,
+      "display_name": "City Camp Caerleon Guard Male Veteran",
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_MALE_VETERAN",
+      "tier": 5,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2679",
+      "pcap_lifecycle_records": 1,
+      "display_name": "City Camp Caerleon Guard Ranged Elite Veteran",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_RANGED_ELITE_VETERAN",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2682",
+      "pcap_lifecycle_records": 1,
+      "display_name": "City Camp Caerleon Guard Support Veteran",
+      "unique_name": "T5_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT_VETERAN",
+      "tier": 5,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2683",
+      "pcap_lifecycle_records": 1,
+      "display_name": "City Camp Caerleon Guard Support Veteran",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT_VETERAN",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "2687",
+      "pcap_lifecycle_records": 1,
+      "display_name": "City Camp Caerleon Guard Support Elite Veteran",
+      "unique_name": "T6_MOB_CITY_CAMP_CAERLEON_GUARD_SUPPORT_ELITE_VETERAN",
+      "tier": 6,
+      "category": "factionwarfare",
+      "danger": "veteran",
+      "loot_type": null,
+      "loot_tier": null,
+      "is_harvestable": false,
+      "dictionary_match": true
+    },
+    {
+      "mobile_type_id": "840",
+      "pcap_lifecycle_records": 1,
+      "display_name": "Roaming Mountain Chest",
+      "unique_name": "T6_MOB_ROAMING_MOUNTAIN_CHEST",
+      "tier": 6,
+      "category": "chest",
+      "danger": "normal",
+      "loot_type": "SILVERCOINS_LOOT_CHEST_STANDARD",
+      "loot_tier": 6,
+      "is_harvestable": false,
+      "dictionary_match": true
+    }
+  ],
+  "resource_node_catalog": {
+    "rows": 652,
+    "mapped_rows": 649,
+    "unresolved_rows": 3,
+    "resource_type_counts": {
+      "Fiber": 79,
+      "Hide": 9,
+      "Ore": 404,
+      "Rock": 157
+    },
+    "resource_display_counts": {
+      "Critter Ore Mountain Green": 30,
+      "Critter Ore Mountain Red": 3,
+      "Fiber": 79,
+      "Hide": 9,
+      "Ore": 175,
+      "Ore Elemental": 196,
+      "Rock": 157
+    },
+    "mapping_status_counts": {
+      "PACKET_CONFIRMED_LIVING_RESOURCE": 229,
+      "REFERENCE_STATIC_TYPE_NUMBER_PROVISIONAL": 420,
+      "UNRESOLVED": 3
+    },
+    "file": "albion-resource-node-catalog-2026-11-03.csv"
+  },
+  "knowledge_schema_inventory": {
+    "entity_observations": {
+      "classification": {
+        "present_in_records": 9520,
+        "top_values": [
+          [
+            "static_resource_candidate",
+            4807
+          ],
+          [
+            "unclassified_observation",
+            4517
+          ],
+          [
+            "typed_resource_observation",
+            194
+          ],
+          [
+            "ambiguous_resource_candidate",
+            1
+          ],
+          [
+            "ambiguous_entity",
+            1
+          ]
+        ]
+      },
+      "enchant": {
+        "present_in_records": 1917,
+        "top_values": [
+          [
+            "0",
+            1743
+          ],
+          [
+            "1",
+            139
+          ],
+          [
+            "2",
+            30
+          ],
+          [
+            "3",
+            5
+          ]
+        ]
+      },
+      "enchant_evidence": {
+        "present_in_records": 1917,
+        "top_values": []
+      },
+      "entity_class": {
+        "present_in_records": 1066,
+        "top_values": [
+          [
+            "mob",
+            1066
+          ]
+        ]
+      },
+      "family": {
+        "present_in_records": 195,
+        "top_values": [
+          [
+            "27",
+            61
+          ],
+          [
+            "7",
+            61
+          ],
+          [
+            "29",
+            38
+          ],
+          [
+            "14",
+            33
+          ],
+          [
+            "20",
+            2
+          ]
+        ]
+      },
+      "family_evidence": {
+        "present_in_records": 195,
+        "top_values": []
+      },
+      "mobile_type_id": {
+        "present_in_records": 1917,
+        "top_values": [
+          [
+            "482",
+            344
+          ],
+          [
+            "2489",
+            170
+          ],
+          [
+            "-1",
+            155
+          ],
+          [
+            "571",
+            138
+          ],
+          [
+            "2474",
+            137
+          ],
+          [
+            "573",
+            120
+          ],
+          [
+            "574",
+            80
+          ],
+          [
+            "120",
+            68
+          ],
+          [
+            "2510",
+            68
+          ],
+          [
+            "2486",
+            61
+          ],
+          [
+            "2471",
+            57
+          ],
+          [
+            "2477",
+            56
+          ],
+          [
+            "2712",
+            49
+          ],
+          [
+            "2564",
+            45
+          ],
+          [
+            "2492",
+            44
+          ],
+          [
+            "2549",
+            41
+          ],
+          [
+            "2787",
+            23
+          ],
+          [
+            "2501",
+            22
+          ],
+          [
+            "2576",
+            16
+          ],
+          [
+            "2513",
+            15
+          ]
+        ]
+      },
+      "mobile_type_id_evidence": {
+        "present_in_records": 1917,
+        "top_values": []
+      },
+      "name": {
+        "present_in_records": 46,
+        "top_values": [
+          [
+            "YOU",
+            3
+          ],
+          [
+            "Folkariks",
+            2
+          ],
+          [
+            "Fqy2Yue",
+            1
+          ],
+          [
+            "EDmars",
+            1
+          ],
+          [
+            "Ezzylone",
+            1
+          ],
+          [
+            "Airsur",
+            1
+          ],
+          [
+            "YukikoMomo",
+            1
+          ],
+          [
+            "cambo06",
+            1
+          ],
+          [
+            "daputana",
+            1
+          ],
+          [
+            "Fredzi0",
+            1
+          ],
+          [
+            "Kreonaddict",
+            1
+          ],
+          [
+            "Godziemba",
+            1
+          ],
+          [
+            "Ekam",
+            1
+          ],
+          [
+            "Hamid061",
+            1
+          ],
+          [
+            "FlorSky",
+            1
+          ],
+          [
+            "007deli007",
+            1
+          ],
+          [
+            "Azabraza",
+            1
+          ],
+          [
+            "MarkusAlexander",
+            1
+          ],
+          [
+            "siyahiboy",
+            1
+          ],
+          [
+            "limpoporo",
+            1
+          ]
+        ]
+      },
+      "resource_inference": {
+        "present_in_records": 5058,
+        "top_values": []
+      },
+      "resource_state_seen": {
+        "present_in_records": 167,
+        "top_values": [
+          [
+            "True",
+            167
+          ]
+        ]
+      },
+      "tier": {
+        "present_in_records": 195,
+        "top_values": [
+          [
+            "4",
+            109
+          ],
+          [
+            "5",
+            78
+          ],
+          [
+            "3",
+            6
+          ],
+          [
+            "1",
+            2
+          ]
+        ]
+      },
+      "tier_evidence": {
+        "present_in_records": 195,
+        "top_values": []
+      },
+      "typed_resource_seen": {
+        "present_in_records": 195,
+        "top_values": [
+          [
+            "True",
+            195
+          ]
+        ]
+      }
+    },
+    "learned_patterns": {
+      "enchant": {
+        "present_in_records": 70,
+        "top_values": [
+          [
+            "0",
+            3
+          ]
+        ]
+      },
+      "family": {
+        "present_in_records": 70,
+        "top_values": []
+      },
+      "overlay_enchant_label": {
+        "present_in_records": 70,
+        "top_values": [
+          [
+            "E2",
+            44
+          ],
+          [
+            "E1",
+            26
+          ]
+        ]
+      },
+      "overlay_tier_label": {
+        "present_in_records": 70,
+        "top_values": [
+          [
+            "T4",
+            70
+          ]
+        ]
+      },
+      "tier": {
+        "present_in_records": 70,
+        "top_values": []
+      },
+      "type_id": {
+        "present_in_records": 70,
+        "top_values": [
+          [
+            "2489",
+            2
+          ],
+          [
+            "573",
+            1
+          ]
+        ]
+      }
+    },
+    "autonomous_patterns": {
+      "labels": {
+        "present_in_records": 296,
+        "top_values": []
+      }
+    },
+    "protocol_evidence": {}
+  },
+  "knowledge_type_and_family_field_values": {
+    "entities.family_evidence": [],
+    "entities.family": [
+      [
+        "27",
+        61
+      ],
+      [
+        "7",
+        61
+      ],
+      [
+        "29",
+        38
+      ],
+      [
+        "14",
+        33
+      ],
+      [
+        "20",
+        2
+      ]
+    ],
+    "entities.mobile_type_id": [
+      [
+        "482",
+        344
+      ],
+      [
+        "2489",
+        170
+      ],
+      [
+        "-1",
+        155
+      ],
+      [
+        "571",
+        138
+      ],
+      [
+        "2474",
+        137
+      ],
+      [
+        "573",
+        120
+      ],
+      [
+        "574",
+        80
+      ],
+      [
+        "120",
+        68
+      ],
+      [
+        "2510",
+        68
+      ],
+      [
+        "2486",
+        61
+      ],
+      [
+        "2471",
+        57
+      ],
+      [
+        "2477",
+        56
+      ],
+      [
+        "2712",
+        49
+      ],
+      [
+        "2564",
+        45
+      ],
+      [
+        "2492",
+        44
+      ],
+      [
+        "2549",
+        41
+      ],
+      [
+        "2787",
+        23
+      ],
+      [
+        "2501",
+        22
+      ],
+      [
+        "2576",
+        16
+      ],
+      [
+        "2513",
+        15
+      ],
+      [
+        "2512",
+        14
+      ],
+      [
+        "2577",
+        13
+      ],
+      [
+        "2535",
+        12
+      ],
+      [
+        "2476",
+        12
+      ],
+      [
+        "2491",
+        12
+      ],
+      [
+        "2590",
+        11
+      ],
+      [
+        "2802",
+        11
+      ],
+      [
+        "2473",
+        9
+      ],
+      [
+        "2539",
+        8
+      ],
+      [
+        "2548",
+        7
+      ],
+      [
+        "2488",
+        7
+      ],
+      [
+        "2490",
+        7
+      ],
+      [
+        "2715",
+        6
+      ],
+      [
+        "2772",
+        6
+      ],
+      [
+        "2563",
+        6
+      ],
+      [
+        "2494",
+        6
+      ],
+      [
+        "2511",
+        6
+      ],
+      [
+        "121",
+        5
+      ],
+      [
+        "2792",
+        5
+      ],
+      [
+        "2480",
+        3
+      ],
+      [
+        "2502",
+        3
+      ],
+      [
+        "2475",
+        3
+      ],
+      [
+        "2479",
+        3
+      ],
+      [
+        "2777",
+        3
+      ],
+      [
+        "2807",
+        3
+      ],
+      [
+        "2646",
+        3
+      ],
+      [
+        "2634",
+        3
+      ],
+      [
+        "830",
+        2
+      ],
+      [
+        "2575",
+        2
+      ],
+      [
+        "2516",
+        2
+      ],
+      [
+        "2493",
+        2
+      ],
+      [
+        "2478",
+        2
+      ],
+      [
+        "2642",
+        2
+      ],
+      [
+        "2514",
+        2
+      ],
+      [
+        "943",
+        1
+      ],
+      [
+        "2592",
+        1
+      ],
+      [
+        "2682",
+        1
+      ],
+      [
+        "2662",
+        1
+      ],
+      [
+        "2503",
+        1
+      ],
+      [
+        "2504",
+        1
+      ],
+      [
+        "2654",
+        1
+      ]
+    ],
+    "entities.mobile_type_id_evidence": [],
+    "learned_patterns.type_id": [
+      [
+        "2489",
+        2
+      ],
+      [
+        "573",
+        1
+      ]
+    ],
+    "learned_patterns.family": []
+  },
+  "weak_filename_context_hints": [
+    {
+      "type_number": "14",
+      "archive": "Albion2.zip",
+      "pcap": "6red ores ,each one mined.pcap",
+      "type_number_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "type_number": "14",
+      "archive": "Albion2.zip",
+      "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
+      "type_number_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "type_number": "14",
+      "archive": "Albion2.zip",
+      "pcap": "red,ore lvl2.pcap",
+      "type_number_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "type_number": "20",
+      "archive": "Albions.zip",
+      "pcap": "ore 4 3 red 2 blue .pcap",
+      "type_number_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "type_number": "27",
+      "archive": "Albions.zip",
+      "pcap": "2mobs dismount and Mount .pcap",
+      "type_number_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "type_number": "29",
+      "archive": "Albion2.zip",
+      "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
+      "type_number_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "type_number": "29",
+      "archive": "Albions.zip",
+      "pcap": "2mobs dismount and Mount .pcap",
+      "type_number_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "type_number": "29",
+      "archive": "Albions.zip",
+      "pcap": "ore 4 3 red 2 blue .pcap",
+      "type_number_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "type_number": "7",
+      "archive": "Albion2.zip",
+      "pcap": "blue ore ench2 , while mining a mob attacked me,, and I killed him, but the ore lost its enchantment after it.pcap",
+      "type_number_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "type_number": "7",
+      "archive": "Albion2.zip",
+      "pcap": "red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap",
+      "type_number_records_in_capture": 2,
+      "hint": "filename_only_unverified"
+    },
+    {
+      "type_number": "7",
+      "archive": "Albions.zip",
+      "pcap": "2mobs dismount and Mount .pcap",
+      "type_number_records_in_capture": 1,
+      "hint": "filename_only_unverified"
+    }
+  ],
+  "guardrails": [
+    "Runtime IDs are scoped by archive and PCAP/session.",
+    "Event 39 static observations are not Event 40 harvestable nodes.",
+    "Event 123 lifecycle rows are not all proven hostile mobs.",
+    "Do not confuse Event 40 Type Number with Mobile Type ID; unknown numbers remain unresolved.",
+    "Do not join by numeric ID alone; require same capture/session and time/coordinate evidence.",
+    "Do not convert filename hints into confirmed labels.",
+    "Unknown values are retained rather than dropped."
+  ]
+}

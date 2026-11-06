@@ -1,0 +1,1015 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-11-06",
+  "source_repository": "eesanezhad76/v2rayNG",
+  "source_branch": "albion-archive-audit-2026-11-05",
+  "source_commit": "cb38229cfa41f60af89cb3f325347b9785778cfb",
+  "source_tree": "a3240bb3da9d6942c2666cd9e814f7790190adad",
+  "target_branch": "albion-ci-emulator-recovery-2026-11-06",
+  "target_parent": "5ae1b4824f858494bd50ce8b5571000e913ac224",
+  "policy": "Additive-only import. No existing active path was overwritten. Differing database and analysis revisions are stored under research/historical-import/archive-audit-2026-11-05/. Raw split archive parts retain original paths and Git blob identities. No runtime source code, generated app assets, build scripts, or workflows were imported.",
+  "imported_entry_count": 144,
+  "imported_entries": [
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.001",
+      "destination_path": "research/inbox/archiveNew.7z.t0.001",
+      "blob_sha": "1f1616feda89477269cafd2f5d9efc1233b35e00",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.002",
+      "destination_path": "research/inbox/archiveNew.7z.t0.002",
+      "blob_sha": "3e5276761487e99c809d39a3898909f343ca63a2",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.003",
+      "destination_path": "research/inbox/archiveNew.7z.t0.003",
+      "blob_sha": "64b0759d3d8ed15e0e4d999ebc6b9731342515fe",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.004",
+      "destination_path": "research/inbox/archiveNew.7z.t0.004",
+      "blob_sha": "dcd9ffc3ba725247aae53e192ca58855fa737906",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.005",
+      "destination_path": "research/inbox/archiveNew.7z.t0.005",
+      "blob_sha": "c0413022851819709d7d0f46c61753d2e9ac07a5",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.006",
+      "destination_path": "research/inbox/archiveNew.7z.t0.006",
+      "blob_sha": "09b4388527bdf05fe474bfb77afb5818abd3ad7e",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.007",
+      "destination_path": "research/inbox/archiveNew.7z.t0.007",
+      "blob_sha": "f33e66d7415c2847c6c57c55ec5561198fd78806",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.008",
+      "destination_path": "research/inbox/archiveNew.7z.t0.008",
+      "blob_sha": "50576f45a37c1727bd2c4db6d5d9ff1caea5f537",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.009",
+      "destination_path": "research/inbox/archiveNew.7z.t0.009",
+      "blob_sha": "2f17488898a3ecedac753b89761253d1d46d0627",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.010",
+      "destination_path": "research/inbox/archiveNew.7z.t0.010",
+      "blob_sha": "b8efd60ea0416f7b1a7228509df5fe1c9af32229",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.011",
+      "destination_path": "research/inbox/archiveNew.7z.t0.011",
+      "blob_sha": "0ead04913e5f1b9e9b4dc07bb6c0d5a18363e829",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.012",
+      "destination_path": "research/inbox/archiveNew.7z.t0.012",
+      "blob_sha": "91c5fdf9afbace9ec1a70b12afea52e15c5ad675",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.013",
+      "destination_path": "research/inbox/archiveNew.7z.t0.013",
+      "blob_sha": "c3dc1d9533a879fa8bfba283b2f375192f9b318d",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.014",
+      "destination_path": "research/inbox/archiveNew.7z.t0.014",
+      "blob_sha": "73b107d8c425d3a6bb8e2b531c9b869f64e65559",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.015",
+      "destination_path": "research/inbox/archiveNew.7z.t0.015",
+      "blob_sha": "0f3ed1e7021ad3a0d10995400badb039e3c18512",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.016",
+      "destination_path": "research/inbox/archiveNew.7z.t0.016",
+      "blob_sha": "f00893e12efed373a9de7c704c96b348e2e8bf9e",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.017",
+      "destination_path": "research/inbox/archiveNew.7z.t0.017",
+      "blob_sha": "cea3b5d5ce9198624b95c46a2f888470669c2588",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.018",
+      "destination_path": "research/inbox/archiveNew.7z.t0.018",
+      "blob_sha": "1a76a2f83f267c507a7abf0cacb911c6e0329824",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.019",
+      "destination_path": "research/inbox/archiveNew.7z.t0.019",
+      "blob_sha": "f9346dc32f2cebae9346857b31b239275e4da156",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.020",
+      "destination_path": "research/inbox/archiveNew.7z.t0.020",
+      "blob_sha": "9bfd8d2e195e44814b159b05d3a76f5fefc76e8a",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.021",
+      "destination_path": "research/inbox/archiveNew.7z.t0.021",
+      "blob_sha": "c6df681911f832ad4d701e8cb3e1b3ed23d8213e",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.022",
+      "destination_path": "research/inbox/archiveNew.7z.t0.022",
+      "blob_sha": "32ad5e9a98661b12e46ab3888f070641f20a5739",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.023",
+      "destination_path": "research/inbox/archiveNew.7z.t0.023",
+      "blob_sha": "20836b24b403b3f07e533c678996d92704e76423",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.024",
+      "destination_path": "research/inbox/archiveNew.7z.t0.024",
+      "blob_sha": "cdf9f2d74dd191d5e2a7b036b063e83a003fc525",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.025",
+      "destination_path": "research/inbox/archiveNew.7z.t0.025",
+      "blob_sha": "982452c79723b6240e55afc1e6655e0bda027a09",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.026",
+      "destination_path": "research/inbox/archiveNew.7z.t0.026",
+      "blob_sha": "dcddffc1c902836b3af1eefc7567b90f70e36cdc",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.027",
+      "destination_path": "research/inbox/archiveNew.7z.t0.027",
+      "blob_sha": "ef6c305845dd104b4156ffa3b3d3c16f769fec42",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.028",
+      "destination_path": "research/inbox/archiveNew.7z.t0.028",
+      "blob_sha": "4c338695bc6e8c8484242e05b08f26a2a8de8ad3",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.029",
+      "destination_path": "research/inbox/archiveNew.7z.t0.029",
+      "blob_sha": "d3af7b8af04d75b75f9c40afd63261519b472731",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.030",
+      "destination_path": "research/inbox/archiveNew.7z.t0.030",
+      "blob_sha": "00aaec6c8bd7ed72cdcf7b81e35b27474291222b",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.031",
+      "destination_path": "research/inbox/archiveNew.7z.t0.031",
+      "blob_sha": "4a82f871a445ecf13e6f17338a8da85ba2380921",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.032",
+      "destination_path": "research/inbox/archiveNew.7z.t0.032",
+      "blob_sha": "c11ce9ab0904b1f02bc9e1945b9f0818710947d6",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.033",
+      "destination_path": "research/inbox/archiveNew.7z.t0.033",
+      "blob_sha": "9b7206f839bd0c355dff8b044c17946e3ca6d518",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.034",
+      "destination_path": "research/inbox/archiveNew.7z.t0.034",
+      "blob_sha": "d01c6a9777e2d831aff669fa82de7022d01ee3e6",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.035",
+      "destination_path": "research/inbox/archiveNew.7z.t0.035",
+      "blob_sha": "7e669d38729a3737c03385c3ceeff2395d50d329",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.036",
+      "destination_path": "research/inbox/archiveNew.7z.t0.036",
+      "blob_sha": "068bc17c6b4b6839a7d94c1f65738c2acc40e0f0",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.037",
+      "destination_path": "research/inbox/archiveNew.7z.t0.037",
+      "blob_sha": "c7405731690fb28605d67bb423f6d9eafac29a7e",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.038",
+      "destination_path": "research/inbox/archiveNew.7z.t0.038",
+      "blob_sha": "48ef97a41a57a6d9a68054489e0570d617a9cb8e",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.039",
+      "destination_path": "research/inbox/archiveNew.7z.t0.039",
+      "blob_sha": "7d05b3674d3cb6b2513c4dd78f8a88904dcdf5f1",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.040",
+      "destination_path": "research/inbox/archiveNew.7z.t0.040",
+      "blob_sha": "1733cf005be40416b48675483a3e4e39ca92eb8a",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.041",
+      "destination_path": "research/inbox/archiveNew.7z.t0.041",
+      "blob_sha": "1eacb837b71ef993f22e72a49341290d67583afe",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.042",
+      "destination_path": "research/inbox/archiveNew.7z.t0.042",
+      "blob_sha": "89bb5ace3e87d3b6154fc9b4ffad39c228ef213d",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.043",
+      "destination_path": "research/inbox/archiveNew.7z.t0.043",
+      "blob_sha": "6d90278a8ffbadf9868e0c717c3ec370f2de9201",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.044",
+      "destination_path": "research/inbox/archiveNew.7z.t0.044",
+      "blob_sha": "90e41ac30ed0e0b40eb368cb407b6a350dedcfa4",
+      "size_bytes": 10485760,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/inbox/archiveNew.7z.t0.045",
+      "destination_path": "research/inbox/archiveNew.7z.t0.045",
+      "blob_sha": "25856256187bc05704aad6c9c63f483e30969eea",
+      "size_bytes": 3791217,
+      "reason": "raw split archive part; exact source blob retained"
+    },
+    {
+      "source_path": "research/database/2026-11-02-operation23-target-requests.csv",
+      "destination_path": "research/database/2026-11-02-operation23-target-requests.csv",
+      "blob_sha": "9ccfa241e66e1dc40482a90f894c34fe6252dc26",
+      "size_bytes": 43,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/2026-11-02-overlay-mob-attack-correlation.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/2026-11-02-overlay-mob-attack-correlation.csv",
+      "blob_sha": "10b6b10eb0971575393adbcaeb6d1cb7699f2907",
+      "size_bytes": 3953,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/2026-11-02-own-player-movement-timeline.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/2026-11-02-own-player-movement-timeline.csv",
+      "blob_sha": "65292959ac725e30ef9c380e5dd13a823d54d789",
+      "size_bytes": 18381510,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/2026-11-02-pcap-attack-target-tracks.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/2026-11-02-pcap-attack-target-tracks.csv",
+      "blob_sha": "b859ce535db64b6c9ff837e42e641add708e1688",
+      "size_bytes": 15953,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/2026-11-02-pcap-harvestable-nodes.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/2026-11-02-pcap-harvestable-nodes.csv",
+      "blob_sha": "2ca782bbebf360c61748a01d408e815ad5102a11",
+      "size_bytes": 133692,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/2026-11-02-pcap-health-energy-events.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/2026-11-02-pcap-health-energy-events.csv",
+      "blob_sha": "151be4e8c1e0b249764a0c70496b0159837ddbac",
+      "size_bytes": 1055455,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/2026-11-02-pcap-mob-lifecycle.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/2026-11-02-pcap-mob-lifecycle.csv",
+      "blob_sha": "e9dde088538b3eb858407aaaf380526bee68e9dd",
+      "size_bytes": 991398,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/2026-11-02-pcap-resource-state-timelines.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/2026-11-02-pcap-resource-state-timelines.csv",
+      "blob_sha": "77931fc71bd3ab6aebf9235336d3a86ebb347298",
+      "size_bytes": 94882,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/2026-11-02-pcap-static-resources.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/2026-11-02-pcap-static-resources.csv",
+      "blob_sha": "58e9eaf2cfaf636a122a092d78df0a015f664adf",
+      "size_bytes": 4624611,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/2026-11-02-region-transition-evidence.csv",
+      "destination_path": "research/database/2026-11-02-region-transition-evidence.csv",
+      "blob_sha": "dceb9967bfc610937ec545c35eafbb6d353761cd",
+      "size_bytes": 43536,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793620143023-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793620143023-marker-lifecycles.csv",
+      "blob_sha": "d5dad61a2895100071949544175dc83d1438ad94",
+      "size_bytes": 144,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793620890462-attack-targets.csv",
+      "destination_path": "research/database/albion-1793620890462-attack-targets.csv",
+      "blob_sha": "1d1222d3f409fed1130e30be8cdac5e66ce987bb",
+      "size_bytes": 382,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793620890462-catalog.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793620890462-catalog.json",
+      "blob_sha": "7fa8eee43633254a99b392f9a91e609c444d3c61",
+      "size_bytes": 263428,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793620890462-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793620890462-marker-lifecycles.csv",
+      "blob_sha": "552c8539b468d9fb6ebe7a501f7e1e2491082d14",
+      "size_bytes": 2676,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793620890462.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793620890462.json",
+      "blob_sha": "aac8ff5fefaf9e9bec65091d0b29baf1452dcc30",
+      "size_bytes": 331548,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793682590317-attack-targets.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793682590317-attack-targets.csv",
+      "blob_sha": "b0c7451cdadd849d709796fc4d92a18dc6a5fee9",
+      "size_bytes": 165,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793682590317-catalog.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793682590317-catalog.json",
+      "blob_sha": "35b9d6e6807c5b77191f36eff23f44d6a0ab7299",
+      "size_bytes": 719124,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793682590317-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793682590317-marker-lifecycles.csv",
+      "blob_sha": "bfd3ffed9493daff008992ec13dcdaa45d282ac5",
+      "size_bytes": 6355,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793682590317.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793682590317.json",
+      "blob_sha": "20d92bfe697dc14d76f8b7713342836028ff429c",
+      "size_bytes": 913596,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793699111286-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793699111286-marker-lifecycles.csv",
+      "blob_sha": "d5dad61a2895100071949544175dc83d1438ad94",
+      "size_bytes": 144,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793699145258-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793699145258-marker-lifecycles.csv",
+      "blob_sha": "d5dad61a2895100071949544175dc83d1438ad94",
+      "size_bytes": 144,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793699283778-attack-targets.csv",
+      "destination_path": "research/database/albion-1793699283778-attack-targets.csv",
+      "blob_sha": "f31ee54ffc782b678443c6f0472ccb10de946047",
+      "size_bytes": 388,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793699283778-catalog.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793699283778-catalog.json",
+      "blob_sha": "96bc4cb9cef5a54dae687735bbace8ce58420ac4",
+      "size_bytes": 220106,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793699283778-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793699283778-marker-lifecycles.csv",
+      "blob_sha": "ca1db21583db10db01d456d09ec929519ad9bf59",
+      "size_bytes": 584,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793699283778.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793699283778.json",
+      "blob_sha": "2931a5ab77e32ddb997a8d1fd29e01e332b94c64",
+      "size_bytes": 228749,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793707992278-catalog.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793707992278-catalog.json",
+      "blob_sha": "1d2275acccce413aa7faff5ade28737f4d78f6fd",
+      "size_bytes": 56643,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793707992278-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793707992278-marker-lifecycles.csv",
+      "blob_sha": "d5dad61a2895100071949544175dc83d1438ad94",
+      "size_bytes": 144,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793712506879-attack-targets.csv",
+      "destination_path": "research/database/albion-1793712506879-attack-targets.csv",
+      "blob_sha": "b89340a99702cf8e9052ed3f1823ccccacf86773",
+      "size_bytes": 581,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793712506879-catalog.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793712506879-catalog.json",
+      "blob_sha": "43f2354586926846737f35f4935f2f4083c1e7fa",
+      "size_bytes": 253433,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793712506879-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793712506879-marker-lifecycles.csv",
+      "blob_sha": "b372d86e92b1c4aa24a11a9c34c7ea9645b96437",
+      "size_bytes": 1559,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793712506879-mob-marker-spatial-correlation.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793712506879-mob-marker-spatial-correlation.csv",
+      "blob_sha": "10577645078f99c949b9ac59d5bcd096ef3d36a9",
+      "size_bytes": 416,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793712506879.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793712506879.json",
+      "blob_sha": "9fc9d678843533a688df86b8e8b56a587f097afe",
+      "size_bytes": 250136,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793718210678-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793718210678-marker-lifecycles.csv",
+      "blob_sha": "d5dad61a2895100071949544175dc83d1438ad94",
+      "size_bytes": 144,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793718347142-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793718347142-marker-lifecycles.csv",
+      "blob_sha": "d5dad61a2895100071949544175dc83d1438ad94",
+      "size_bytes": 144,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793718370435-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793718370435-marker-lifecycles.csv",
+      "blob_sha": "d5dad61a2895100071949544175dc83d1438ad94",
+      "size_bytes": 144,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793718384341-attack-targets.csv",
+      "destination_path": "research/database/albion-1793718384341-attack-targets.csv",
+      "blob_sha": "62b65aefc3ad01f45e1e427efd6eef2e9f6fefc4",
+      "size_bytes": 588,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793718384341-catalog.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793718384341-catalog.json",
+      "blob_sha": "67a70af55c89207f88434532d0013e8a8592d46b",
+      "size_bytes": 806593,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793718384341-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793718384341-marker-lifecycles.csv",
+      "blob_sha": "9fabb8c6841c21e77ef5f5fb2a48ec006cd3d933",
+      "size_bytes": 1785,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793718384341.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793718384341.json",
+      "blob_sha": "deb80bebcc756c3a9552b0d301f334adbc572903",
+      "size_bytes": 710313,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793769140776-attack-targets.csv",
+      "destination_path": "research/database/albion-1793769140776-attack-targets.csv",
+      "blob_sha": "94dd31599dce84811113ee64cc41601c059e28c6",
+      "size_bytes": 1568,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793769140776-catalog.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793769140776-catalog.json",
+      "blob_sha": "04c39f7fdd7bc3c48ea99d8dbf99938defdff3f3",
+      "size_bytes": 674403,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793769140776-marker-lifecycles.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793769140776-marker-lifecycles.csv",
+      "blob_sha": "6e476ab12304dce093a98fef26ea1f74898ac4cf",
+      "size_bytes": 5470,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793769140776-mob-marker-spatial-correlation.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793769140776-mob-marker-spatial-correlation.csv",
+      "blob_sha": "fc9888d8a0fedec76bb1a4882d33952ddd4f9bca",
+      "size_bytes": 646,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793769140776.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-1793769140776.json",
+      "blob_sha": "1464df11a2023e4fc9f74d4a9b58275f8b7e934a",
+      "size_bytes": 792377,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-1793779572842-catalog.json",
+      "destination_path": "research/database/albion-1793779572842-catalog.json",
+      "blob_sha": "f62d715dc8a9e98bf28fa4baccf714bffde8869d",
+      "size_bytes": 62729,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793779572842-marker-lifecycles.csv",
+      "destination_path": "research/database/albion-1793779572842-marker-lifecycles.csv",
+      "blob_sha": "d5dad61a2895100071949544175dc83d1438ad94",
+      "size_bytes": 144,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793779572842-mob-entities.csv",
+      "destination_path": "research/database/albion-1793779572842-mob-entities.csv",
+      "blob_sha": "96511270e67c1f4ed61ebf9585cd380d792bc687",
+      "size_bytes": 8362,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793779572842-mob-marker-spatial-correlation.csv",
+      "destination_path": "research/database/albion-1793779572842-mob-marker-spatial-correlation.csv",
+      "blob_sha": "379632e9bac3c971c8abe9e432411c7473475623",
+      "size_bytes": 122,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793779572842.csv",
+      "destination_path": "research/database/albion-1793779572842.csv",
+      "blob_sha": "d9eb9d8eea5830989a1eb4a04db4ae534f65bca2",
+      "size_bytes": 380,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793779572842.json",
+      "destination_path": "research/database/albion-1793779572842.json",
+      "blob_sha": "088238ee44e12958d923ae1469c531328fabceea",
+      "size_bytes": 85393,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793782308821-attack-targets.csv",
+      "destination_path": "research/database/albion-1793782308821-attack-targets.csv",
+      "blob_sha": "ee6747a0ef5458ad53aae7c4848d41b0b3d2fa7d",
+      "size_bytes": 1472,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793782308821-catalog.json",
+      "destination_path": "research/database/albion-1793782308821-catalog.json",
+      "blob_sha": "85a139736e33ea26bf40e448d9bf6919588efda5",
+      "size_bytes": 905136,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793782308821-marker-lifecycles.csv",
+      "destination_path": "research/database/albion-1793782308821-marker-lifecycles.csv",
+      "blob_sha": "d5dad61a2895100071949544175dc83d1438ad94",
+      "size_bytes": 144,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793782308821-mob-entities.csv",
+      "destination_path": "research/database/albion-1793782308821-mob-entities.csv",
+      "blob_sha": "10082dc07f92150f98bdb2fcffecb003468752a6",
+      "size_bytes": 64005,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793782308821-mob-marker-spatial-correlation.csv",
+      "destination_path": "research/database/albion-1793782308821-mob-marker-spatial-correlation.csv",
+      "blob_sha": "379632e9bac3c971c8abe9e432411c7473475623",
+      "size_bytes": 122,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793782308821.csv",
+      "destination_path": "research/database/albion-1793782308821.csv",
+      "blob_sha": "840bd45b20b2141baaea8b5eca3fa8270edda9d2",
+      "size_bytes": 31952,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793782308821.json",
+      "destination_path": "research/database/albion-1793782308821.json",
+      "blob_sha": "970063a18774befcfe73d8105aeeb9354d5c39c1",
+      "size_bytes": 1115437,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793786223835-attack-targets.csv",
+      "destination_path": "research/database/albion-1793786223835-attack-targets.csv",
+      "blob_sha": "5a2c216c5498e9fc51fa4a20d7acdeffc9c2c7a2",
+      "size_bytes": 593,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793786223835-catalog.json",
+      "destination_path": "research/database/albion-1793786223835-catalog.json",
+      "blob_sha": "0f882ed8d911c9d09af9c6e5562c40fbc7070475",
+      "size_bytes": 102868,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793786223835-marker-lifecycles.csv",
+      "destination_path": "research/database/albion-1793786223835-marker-lifecycles.csv",
+      "blob_sha": "d5dad61a2895100071949544175dc83d1438ad94",
+      "size_bytes": 144,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793786223835-mob-entities.csv",
+      "destination_path": "research/database/albion-1793786223835-mob-entities.csv",
+      "blob_sha": "6557957895363480d965beb8c78b3b554bca4a86",
+      "size_bytes": 7584,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793786223835-mob-marker-spatial-correlation.csv",
+      "destination_path": "research/database/albion-1793786223835-mob-marker-spatial-correlation.csv",
+      "blob_sha": "379632e9bac3c971c8abe9e432411c7473475623",
+      "size_bytes": 122,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793786223835.csv",
+      "destination_path": "research/database/albion-1793786223835.csv",
+      "blob_sha": "4e0a4b974a0988dd68bb0255ee483f3f12035b6b",
+      "size_bytes": 2215,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793786223835.json",
+      "destination_path": "research/database/albion-1793786223835.json",
+      "blob_sha": "e9adf5dd7d048c65ef3631a3f6e71b29cb95a20e",
+      "size_bytes": 94260,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793789871115-attack-targets.csv",
+      "destination_path": "research/database/albion-1793789871115-attack-targets.csv",
+      "blob_sha": "1ca4fdaf221b2928cfb61b324e3b394ae7398883",
+      "size_bytes": 1189,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793789871115-catalog.json",
+      "destination_path": "research/database/albion-1793789871115-catalog.json",
+      "blob_sha": "e2d2ad1c53665c717e0804d8f50770d7d95f595b",
+      "size_bytes": 771092,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793789871115-marker-lifecycles.csv",
+      "destination_path": "research/database/albion-1793789871115-marker-lifecycles.csv",
+      "blob_sha": "6d00a5cf08d39952baf1ecab911d39ac08743d17",
+      "size_bytes": 562,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793789871115-mob-entities.csv",
+      "destination_path": "research/database/albion-1793789871115-mob-entities.csv",
+      "blob_sha": "ad037aac0c572f197adceb79dabaa02f5f709cc7",
+      "size_bytes": 51133,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793789871115-mob-marker-spatial-correlation.csv",
+      "destination_path": "research/database/albion-1793789871115-mob-marker-spatial-correlation.csv",
+      "blob_sha": "7d1983c7e4b61c47cb1b4148ff5633d46fbabfc2",
+      "size_bytes": 255,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793789871115.csv",
+      "destination_path": "research/database/albion-1793789871115.csv",
+      "blob_sha": "f28ec064e786d41db4d9b0955699f6e939ae7a1f",
+      "size_bytes": 24965,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-1793789871115.json",
+      "destination_path": "research/database/albion-1793789871115.json",
+      "blob_sha": "259ffce0c1a03e527c823f2b69a23277cb2ad168",
+      "size_bytes": 797045,
+      "reason": "new capture/database evidence; no target path collision"
+    },
+    {
+      "source_path": "research/database/albion-complete-database-manifest-2026-11-03.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-complete-database-manifest-2026-11-03.json",
+      "blob_sha": "afca48704cd2d4a3919a9c7a4697060255ce2329",
+      "size_bytes": 48225,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-entity-discovery-report-2026-11-03.json",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-entity-discovery-report-2026-11-03.json",
+      "blob_sha": "f476bfd2e8a6ccf76c68f99bc382f5691885716c",
+      "size_bytes": 160708,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-mob-target-correlation-2026-11-03.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-mob-target-correlation-2026-11-03.csv",
+      "blob_sha": "4daad39f7cbb2fe6e469b38ff752a07025c2f2dc",
+      "size_bytes": 509,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-mobile-entity-catalog-2026-11-03.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-mobile-entity-catalog-2026-11-03.csv",
+      "blob_sha": "0dc265285faea33b7df036a9734c54eddbccc652",
+      "size_bytes": 1283743,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-mobile-type-crosswalk-2026-11-03.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-mobile-type-crosswalk-2026-11-03.csv",
+      "blob_sha": "20aa65732d0e0f2b01d48c151cfd68b899a491b7",
+      "size_bytes": 14436,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-resource-node-catalog-2026-11-03.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-resource-node-catalog-2026-11-03.csv",
+      "blob_sha": "8bf7e9d3b8e6b487539e757911f5e6eb5d109574",
+      "size_bytes": 209322,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/database/albion-troll-target-correlation-2026-11-03.csv",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/database/albion-troll-target-correlation-2026-11-03.csv",
+      "blob_sha": "0983fe06501bce0c85b084d35fa6215d48e3bf74",
+      "size_bytes": 2961,
+      "reason": "different historical revision; namespaced to avoid overwriting active database"
+    },
+    {
+      "source_path": "research/analysis/albion-1793779572842-overlay-catalog.json",
+      "destination_path": "research/analysis/albion-1793779572842-overlay-catalog.json",
+      "blob_sha": "f62d715dc8a9e98bf28fa4baccf714bffde8869d",
+      "size_bytes": 62729,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/albion-1793779572842.md",
+      "destination_path": "research/analysis/albion-1793779572842.md",
+      "blob_sha": "122ef876ac1776196ffe7bf0732d29ff5cac5086",
+      "size_bytes": 1123,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/albion-1793782308821-attack-targets.csv",
+      "destination_path": "research/analysis/albion-1793782308821-attack-targets.csv",
+      "blob_sha": "ee6747a0ef5458ad53aae7c4848d41b0b3d2fa7d",
+      "size_bytes": 1472,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/albion-1793782308821-overlay-catalog.json",
+      "destination_path": "research/analysis/albion-1793782308821-overlay-catalog.json",
+      "blob_sha": "85a139736e33ea26bf40e448d9bf6919588efda5",
+      "size_bytes": 905136,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/albion-1793782308821.md",
+      "destination_path": "research/analysis/albion-1793782308821.md",
+      "blob_sha": "fbf22e8c2f51c1485bc33d809b1a0cc60e04e1a1",
+      "size_bytes": 1136,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/albion-1793786223835-attack-targets.csv",
+      "destination_path": "research/analysis/albion-1793786223835-attack-targets.csv",
+      "blob_sha": "5a2c216c5498e9fc51fa4a20d7acdeffc9c2c7a2",
+      "size_bytes": 593,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/albion-1793786223835-overlay-catalog.json",
+      "destination_path": "research/analysis/albion-1793786223835-overlay-catalog.json",
+      "blob_sha": "0f882ed8d911c9d09af9c6e5562c40fbc7070475",
+      "size_bytes": 102868,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/albion-1793786223835.md",
+      "destination_path": "research/analysis/albion-1793786223835.md",
+      "blob_sha": "df413d63c9b25902af3405ce16b3c3e8a2174b6b",
+      "size_bytes": 1124,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/albion-1793789871115-attack-targets.csv",
+      "destination_path": "research/analysis/albion-1793789871115-attack-targets.csv",
+      "blob_sha": "1ca4fdaf221b2928cfb61b324e3b394ae7398883",
+      "size_bytes": 1189,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/albion-1793789871115-overlay-catalog.json",
+      "destination_path": "research/analysis/albion-1793789871115-overlay-catalog.json",
+      "blob_sha": "e2d2ad1c53665c717e0804d8f50770d7d95f595b",
+      "size_bytes": 771092,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/albion-1793789871115.md",
+      "destination_path": "research/analysis/albion-1793789871115.md",
+      "blob_sha": "eb420dd4a41435201890ab2563d78cab5a381b29",
+      "size_bytes": 1134,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/archiveNew-extracted--albion-1793779572842-32-pcap-report.md",
+      "destination_path": "research/analysis/archiveNew-extracted--albion-1793779572842-32-pcap-report.md",
+      "blob_sha": "ce6a459b13d45b0d8ad0720df4b07d51d3b7911b",
+      "size_bytes": 1283329,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/archiveNew-extracted--albion-1793782308821-33-pcap-report.md",
+      "destination_path": "research/analysis/archiveNew-extracted--albion-1793782308821-33-pcap-report.md",
+      "blob_sha": "3fd5794c3143b90f3a25847bd373ede2dcd00df3",
+      "size_bytes": 22671402,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/archiveNew-extracted--albion-1793786223835-34-pcap-report.md",
+      "destination_path": "research/analysis/archiveNew-extracted--albion-1793786223835-34-pcap-report.md",
+      "blob_sha": "933ddb061d9950b981a14bc2da6f824105a40ebd",
+      "size_bytes": 1075539,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/archiveNew-extracted--albion-1793789871115-35-pcap-report.md",
+      "destination_path": "research/analysis/archiveNew-extracted--albion-1793789871115-35-pcap-report.md",
+      "blob_sha": "fd1ccf3d4b524a54d077cd278ed2f4d9610c866d",
+      "size_bytes": 16259207,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/replay/archiveNew-extracted--albion-1793779572842-32-replay.json",
+      "destination_path": "research/analysis/replay/archiveNew-extracted--albion-1793779572842-32-replay.json",
+      "blob_sha": "854dc0ecf10e9be2a0094bace2d005b344e507fc",
+      "size_bytes": 2838,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/replay/archiveNew-extracted--albion-1793782308821-33-replay.json",
+      "destination_path": "research/analysis/replay/archiveNew-extracted--albion-1793782308821-33-replay.json",
+      "blob_sha": "9f801abfee24b531ae94bf2a52f751c4d621fd32",
+      "size_bytes": 3697,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/replay/archiveNew-extracted--albion-1793786223835-34-replay.json",
+      "destination_path": "research/analysis/replay/archiveNew-extracted--albion-1793786223835-34-replay.json",
+      "blob_sha": "f6d85c16b9e848961f66a052b04a1465cf771d11",
+      "size_bytes": 2975,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/analysis/replay/archiveNew-extracted--albion-1793789871115-35-replay.json",
+      "destination_path": "research/analysis/replay/archiveNew-extracted--albion-1793789871115-35-replay.json",
+      "blob_sha": "8475b40a81b34bf339da22ae7a44e8a2b46240e8",
+      "size_bytes": 4060,
+      "reason": "new capture-specific derived analysis; no collision"
+    },
+    {
+      "source_path": "research/inbox/AlbionRadar.zip",
+      "destination_path": "research/historical-import/archive-audit-2026-11-05/raw/AlbionRadar.zip",
+      "blob_sha": "2d5f883be66ff099c746acdd35858e580d190de5",
+      "size_bytes": 7754921,
+      "reason": "same filename but different source blob and size; preserve as separately versioned raw archive"
+    }
+  ]
+}
