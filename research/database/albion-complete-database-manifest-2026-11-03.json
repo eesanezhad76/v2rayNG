@@ -189,8 +189,8 @@
       "Albionsskkakaks111.zip": 51,
       "archiveNew-extracted.zip": 329
     },
-    "state_ids": 297,
-    "state_only_ids_without_event40_location": 213,
+    "state_ids": 629,
+    "state_only_ids_without_event40_location": 468,
     "known_ore_family": 29,
     "known_ore_mobile_types_by_tier": {
       "T3": 571,
@@ -263,7 +263,10 @@
       "28": 2,
       "32": 1
     },
-    "type_number_semantics_source": "OpenRadar MIT HarvestablesDatabase.js imported to quarantine; static resource type_number ranges are 0-27; family 29 is separately observed as living ORE_CRITTER."
+    "type_number_semantics_source": "OpenRadar MIT HarvestablesDatabase.js imported to quarantine; static resource type_number ranges are 0-27; family 29 is separately observed as living ORE_CRITTER.",
+    "state_exact_event40_joins": 161,
+    "event46_update_observations": 1523,
+    "state_join_key": "archive+pcap+region_id+entity_id"
   },
   "static_resource_observations": {
     "event39_records": 47108,
@@ -289,11 +292,11 @@
   },
   "combat": {
     "operation23_attack_target_tracks": 37,
-    "attack_target_position_samples": 1514,
+    "attack_target_position_samples": 3007,
     "interpretations": {
       "attack_target_with_plausible_mode3_movement_kill_not_proven": 1,
-      "health_at_or_below_5_then_leave_after_attack_strong_defeat_candidate": 5,
-      "health_updates_then_leave_after_attack_defeat_likely_not_confirmed": 31
+      "health_updates_then_leave_after_attack_defeat_likely_not_confirmed": 31,
+      "health_at_or_below_5_then_leave_after_attack_strong_defeat_candidate": 5
     },
     "marker_correlations": 13,
     "correlations_by_activity_confidence": {
@@ -1319,6 +1322,20 @@
     "external_source_license_note": "Game-derived world map/zone datasets remain reference-only; no unlicensed payload copied.",
     "marker_region_joined_rows": 12,
     "marker_region_unjoined_rows": 1,
-    "troll_main_curated_disagreement_count": 1
+    "troll_main_curated_disagreement_count": 1,
+    "event46_scoped_counts": {
+      "state_ids": 629,
+      "exact_event40_joins": 161,
+      "state_only": 468,
+      "event46_update_observations": 1523,
+      "join_key": "archive+pcap+region_id+entity_id",
+      "previous_unscoped_summary": {
+        "state_ids": 297,
+        "state_only": 213
+      },
+      "note": "Recomputed using the full capture+region+entity key; prior counts collapsed IDs across regions/sessions and understated the evidence set."
+    },
+    "attack_target_position_samples": 3007,
+    "manual_marker_records": 369
   }
 }
