@@ -18,6 +18,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private var enabledFilters: Set<String> = DEFAULT_FILTERS
     private var catalogOverviewMode = false
     private var lastLiveSnapshotJson: String? = null
+    // Retain the last good frame for context, but never treat it as current after a bad payload.
+    private var liveSnapshotStale = false
     private var previousRegionEntities: List<JSONObject> = emptyList()
     private var showPreviousRegion = false
     // Filtering is independent of player position. Cache it between snapshots/filter changes
@@ -67,7 +69,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
     /** Mark currently discovered, useful resource positions for a short revisit window. */
     fun markCurrentResources(selectedFilters: Set<String>, ttlMs: Long): Int {
-        if (ttlMs <= 0L) return 0
+        if (ttlMs <= 0L || liveSnapshotStale) return 0
         val player = entities.asSequence()
             .filter { it.optString("last_kind") == "own_player_move" && validPoint(it) }
             .maxByOrNull { it.optLong("last_seen_ms") }
@@ -78,10 +80,11 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         val now = android.os.SystemClock.elapsedRealtime()
         val candidates = try {
             entities.filter { item ->
-                item.optString("last_kind") in RESOURCE_KINDS &&
+                val kind = item.optString("last_kind")
+                kind in DISPLAY_KINDS &&
                     item.optString("region_id") == regionId &&
-                    validPoint(item) && !isUnavailableResource(item) &&
-                    passesFilters(item) && AlbionSpatialIntelligence.isNavigableResource(item)
+                    validPoint(item) && passesFilters(item) &&
+                    AlbionSpatialIntelligence.isEligibleForRadarMark(item)
             }
         } finally {
             enabledFilters = oldFilters
@@ -116,17 +119,33 @@ class AlbionMiniRadarView(context: Context) : View(context) {
 
     fun setLiveSnapshot(json: String): Int? {
         // The daemon store returns the same cached snapshot string until an observation
-        // changes. Skip JSON parsing and UI invalidation when the snapshot is unchanged.
-        if (json == lastLiveSnapshotJson) return entities.size
-        // Snapshot JSON parsing can be expensive on large sessions; callers may invoke this
-        // from the capture worker. Only publish the immutable parsed list on the UI thread.
-        val parsed = AlbionRadarSnapshotParser.parse(json) ?: return null
+        // changes. A repeated last-good payload also clears a transient stale state.
+        if (json == lastLiveSnapshotJson) {
+            post {
+                if (liveSnapshotStale) {
+                    liveSnapshotStale = false
+                    invalidate()
+                }
+            }
+            return entities.size
+        }
+        // Keep the last good entities on parse failure, but mark them stale so they are
+        // de-emphasized and cannot drive MARK or navigation.
+        val parsed = AlbionRadarSnapshotParser.parse(json)
+        if (parsed == null) {
+            post {
+                liveSnapshotStale = true
+                invalidate()
+            }
+            return null
+        }
         lastLiveSnapshotJson = json
         val acceptedCount = parsed.entities.size
         post {
             // Live coordinates belong to the active capture. Never merge historical catalog
             // coordinates into the player-centered map until zone identity is verified.
             entities = parsed.entities
+            liveSnapshotStale = false
             filterCacheDirty = true
             invalidate()
         }
@@ -247,8 +266,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             .mapNotNull { it.removePrefix("tier_").toIntOrNull() }.toSet()
         val markerTier = item.optInt("marker_tier", -1)
         val effectiveTier = if (markerTier >= 0) markerTier else item.optInt("tier", -1)
-        // Exact filtering excludes unknown metadata from a selected Tier/Enchantment subset.
-        if (tierFilters.isNotEmpty() && (effectiveTier !in 2..8 || effectiveTier !in tierFilters)) return false
+        // Known tiers obey the exact subset; unknown tier metadata remains visible to avoid false negatives.
+        if (!AlbionSpatialIntelligence.passesTierFilter(effectiveTier, tierFilters)) return false
         val enchantFilters = enabledFilters.filter { it.startsWith("enchant_") }
             .mapNotNull { it.removePrefix("enchant_").toIntOrNull() }.filter { it in 0..3 }.toSet()
         // Enchantment applies only to resources; mobs remain unaffected.
@@ -315,15 +334,18 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 it.optString("last_kind") in RESOURCE_KINDS &&
                     AlbionSpatialIntelligence.isInActiveRegion(currentRegionId, it.optString("region_id"))
             }
-            // Candidate-only Event 39 pins remain visible for investigation but must never
-            // drive navigation. Only typed Event 40 harvestables or explicit user-confirmed
-            // targets can become the highlighted destination.
-            // Include harvestable living mobs as well as static resources. Keep only
-            // three best targets with one O(n) pass; this is passive snapshot processing.
-            val targetCandidates = resources + visibleEntities().filter {
-                it.optString("last_kind") == "mob" && validPoint(it) &&
-                    AlbionSpatialIntelligence.isNavigableResource(it)
+            // Mobs obey the same active-region boundary as resources. Other mob categories
+            // remain opt-in through the existing category filters.
+            val visibleMobs = visibleEntities().filter {
+                it.optString("last_kind") == "mob" &&
+                    !it.has("superseded_by_harvestable_entity_id") && validPoint(it) &&
+                    AlbionSpatialIntelligence.isInActiveRegion(currentRegionId, it.optString("region_id"))
             }
+            // Candidate-only Event 39 pins remain visible for investigation but must never
+            // drive navigation. Only typed resources or eligible living targets can be
+            // highlighted. Keep only three best targets in one O(n) pass.
+            val targetCandidates = if (liveSnapshotStale) emptyList() else
+                resources + visibleMobs.filter { AlbionSpatialIntelligence.isNavigableResource(it) }
             val nearestTargets = ArrayList<Pair<JSONObject, Double>>(3)
             targetCandidates.forEach { item ->
                 if (!isUnavailableResource(item) && validPoint(item) &&
@@ -378,6 +400,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 val trollTarget = entity.optString("manual_activity").equals("Troll", ignoreCase = true) &&
                     entity.optBoolean("manual_marker_identity_proven", false)
                 paint.color = when {
+                    liveSnapshotStale -> 0xFF78838B.toInt()
                     entity.optString("mob_state") == "mined" || entity.optBoolean("depleted", false) -> 0xFF424A52.toInt()
                     isUnavailableResource(entity) -> 0xFF78838B.toInt()
                     else -> resourceColor(entity)
@@ -447,7 +470,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             // typed node is observed at the same position; the real node keeps its enchant color.
             val markNow = android.os.SystemClock.elapsedRealtime()
             temporaryMarks.removeAll { it.expiresAtMs <= markNow }
-            temporaryMarks.filter { it.regionId == currentRegionId }.forEach { mark ->
+            if (!liveSnapshotStale) temporaryMarks.filter { it.regionId == currentRegionId }.forEach { mark ->
                 val actualNodeAppeared = resources.any { node ->
                     val dxNode = node.optDouble("x") - mark.x
                     val dyNode = node.optDouble("y") - mark.y
@@ -455,6 +478,9 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                         (node.optString("last_kind") in setOf("harvestable", "resource_state") ||
                             (node.optInt("tier", -1) in 2..8 && node.optInt("family", -1) >= 0 &&
                                 node.optString("evidence_grade") != "candidate"))
+                } || visibleMobs.any { mob ->
+                    hypot(mob.optDouble("x") - mark.x, mob.optDouble("y") - mark.y) <= 2.5 &&
+                        AlbionSpatialIntelligence.isEligibleForRadarMark(mob)
                 }
                 if (!actualNodeAppeared) {
                     val dx = mark.x - px
@@ -503,11 +529,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 }
             }
 
-            // Show only identity-backed Troll markers and database-confirmed Ore Elementals.
-            visibleEntities().filter {
-                it.optString("last_kind") == "mob" && !it.has("superseded_by_harvestable_entity_id") &&
-                    (isTroll(it) || isOreElemental(it)) && validPoint(it)
-            }.forEach { mob ->
+            // Render only the mob categories enabled by the user; only eligible living targets navigate.
+            visibleMobs.forEach { mob ->
                 val dx = mob.optDouble("x") - px
                 val dy = mob.optDouble("y") - py
                 val distance = hypot(dx, dy)
@@ -520,10 +543,12 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 val dead = mob.optBoolean("mob_dead", false) || mob.optBoolean("left", false) ||
                     state in setOf("dead", "dead_manual", "dead_harvestable", "mined")
                 paint.color = when {
+                    liveSnapshotStale -> 0xFF78838B.toInt()
                     state == "mined" -> 0xFF424A52.toInt()
                     state in setOf("dead", "dead_manual") -> 0xFFB0BEC5.toInt()
                     dead -> 0xFF78838B.toInt()
-                    else -> resourceColor(mob)
+                    isTroll(mob) || isOreElemental(mob) -> resourceColor(mob)
+                    else -> 0xFFB0BEC5.toInt()
                 }
                 canvas.drawCircle(x, y, 3.8f * density, paint)
                 val targetRank = nearestTargets.indexOfFirst { it.first === mob }
