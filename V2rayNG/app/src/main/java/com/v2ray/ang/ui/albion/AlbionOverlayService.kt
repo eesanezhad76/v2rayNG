@@ -465,9 +465,13 @@ class AlbionOverlayService : Service() {
             val dragBounds = Rect()
             dragTitle.getHitRect(dragBounds)
             root.offsetDescendantRectToMyCoords(dragTitle, dragBounds)
+            val resizeBounds = Rect()
+            grip.getHitRect(resizeBounds)
+            root.offsetDescendantRectToMyCoords(grip, resizeBounds)
             val touchRegion = Region().apply {
                 if (!sideBounds.isEmpty) op(sideBounds, Region.Op.UNION)
                 if (!dragBounds.isEmpty) op(dragBounds, Region.Op.UNION)
+                if (!resizeBounds.isEmpty) op(resizeBounds, Region.Op.UNION)
                 if (root.width > 0 && root.height > 0) {
                     op(0, 0, root.width, root.height, Region.Op.INTERSECT)
                 } else {
