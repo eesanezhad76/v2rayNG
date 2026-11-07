@@ -6,20 +6,20 @@ import kotlin.math.hypot
 import kotlin.math.sin
 
 /**
- * Shared calibrated world-to-screen transform for the mini radar and full map.
+ * Calibrated map projection with an independently named movement transform.
  *
  * AlbionRadar11 user-marked UP/DOWN trials in region 4207 produced four
  * time-regression path bearings of 139.072, 140.011 (DOWN reversed),
  * 139.954 and 140.238 degrees in world XY. Their mean is 139.819 degrees,
- * or 49.819 degrees left of world north. The UP control was not traversed
- * perfectly vertically, so inverse DOWN trials are included rather than
- * assuming a 45-degree correction.
+ * or a 49.819-degree clockwise correction from the existing screen basis.
  *
- * Rotating screen-space offsets clockwise by 49.819 degrees aligns the
- * measured marked UI-UP axis with screen-up. This is an input-axis
- * calibration, not an independently verified cardinal-north calibration:
- * PCAP alone cannot separate systematic joystick/touch bias from map bias.
- * Nodes, trails and movement arrows all use this same transform.
+ * This aligns the marked UI-UP input axis with screen-up. It is not proof
+ * of absolute game-world north: PCAP alone cannot separate systematic
+ * joystick/touch bias from map-orientation bias.
+ *
+ * Keep movementToScreen separate from worldToScreen. They currently use
+ * the same measured calibration, but future map/node edits must not silently
+ * rotate the player's movement arrow.
  */
 internal object AlbionMapProjection {
     data class Point(val x: Double, val y: Double)
@@ -29,7 +29,13 @@ internal object AlbionMapProjection {
     private val calibrationCos = cos(calibrationRadians)
     private val calibrationSin = sin(calibrationRadians)
 
-    fun worldToScreen(dx: Double, dy: Double): Point {
+    fun worldToScreen(dx: Double, dy: Double): Point =
+        rotateWorldOffset(dx, dy)
+
+    private fun movementToScreen(dx: Double, dy: Double): Point =
+        rotateWorldOffset(dx, dy)
+
+    private fun rotateWorldOffset(dx: Double, dy: Double): Point {
         val screenX = dx
         val screenY = -dy
         return Point(
@@ -54,7 +60,10 @@ internal object AlbionMapProjection {
             val x = previous.optDouble("x", Double.NaN)
             val y = previous.optDouble("y", Double.NaN)
             if (!x.isFinite() || !y.isFinite()) continue
-            val delta = worldToScreen(lastX - x, lastY - y)
+            // Only Move(22) position history defines movement direction.
+            // Mount/dismount observations and UI markers are state transitions,
+            // never synthetic position deltas or stop/turn vectors.
+            val delta = movementToScreen(lastX - x, lastY - y)
             val length = hypot(delta.x, delta.y)
             if (length >= MIN_DIRECTION_DISTANCE) {
                 return Point(delta.x / length, delta.y / length)

@@ -1,5 +1,5 @@
 # ALBION RADAR — PERSISTENT HANDOFF / SOURCE OF TRUTH
-Last updated: 2026-11-06
+Last updated: 2026-11-07
 Repository: https://github.com/eesanezhad76/v2rayNG
 
 ## 0. Mandatory startup protocol for every new chat
@@ -206,3 +206,15 @@ Treat this file as mandatory project continuity context. Do not restart analysis
 - The curated Operation 23 table has 37 tracks and 3,007 Event 3 position samples. The Kotlin audit's `tracked_attack_target_positions=3015` is actually `targetPositions.size` (distinct entity keys with Event 3 positions), not a sample count.
 - No production APK source or runtime assets were changed; no live capture or physical-device test was performed.
 - Next: investigate the one unresolved Troll candidate disagreement; obtain a licensed zone/world map dataset and validate a global coordinate transform; leave unknown IDs unresolved until direct evidence appears.
+
+
+## 12. Movement-arrow correction — 2026-11-07
+- Current active branch before this correction was `albion-pattern-mining`; a concurrent commit clarified that 49.819° aligns the marked UI-UP input axis and is not an independently verified cardinal-north calibration. Preserve that caveat.
+- The 49.819° clockwise calibration is retained; do not substitute the earlier 45° assumption.
+- `AlbionMapProjection.movementDirection` now calls a separately named `movementToScreen` transform rather than `worldToScreen`. Both presently use the same measured coefficient, but future map/node projection edits cannot silently rotate the movement arrow.
+- Regression tests use exact first/last Move(22) coordinates for UP1, DOWN1, UP2 and DOWN2 in AlbionRadar11 region 4207.
+- Mount/Dismount manual marker windows are state-transition evidence only. They contain zero Move(22) samples; do not interpret them as stationary, turn or direction samples.
+- Nearby Event 210 `player_mounted` observations have runtime IDs 90376/93378, but replay did not infer a local-player entity ID. Do not apply those IDs as local-player mount state or filter local movement history by them.
+- Runtime arrow direction remains based only on outbound own-player Operation 22 position history. The manual Mount/Dismount marker intervals are excluded from calibration, not injected as movement samples.
+- Detailed correction: `research/analysis/2026-11-07-movement-arrow-final-correction.md`.
+- CI, APK and Poco F5 visual validation remain pending; never claim success until verified.
