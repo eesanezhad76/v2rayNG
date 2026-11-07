@@ -26,3 +26,6 @@ No new network calls, active probes, packet polling, or background scan loops. T
 
 - Added `albion-region-name-index.json`, a compact index-to-name table generated from the public `ao-data/ao-bin-dumps/formatted/world.json` game-data snapshot (tree `0483dd97f1581dfaf02eed42f25f5ea2a3cb75e5`). Only numeric map indexes and their display names are included; no world coordinates or inferred resource locations are imported.
 - Region names are loaded once when the overlay initializes. Unknown MAP_/Mists IDs retain their readable identifier fallback.
+
+
+- Region display now reads the store's confirmed active region ID directly, rather than inferring it from the last player-position row. This makes the label and previous-visit reset react to a region transition before the next movement frame arrives.

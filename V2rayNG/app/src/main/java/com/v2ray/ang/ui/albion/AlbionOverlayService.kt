@@ -52,7 +52,6 @@ class AlbionOverlayService : Service() {
     private lateinit var previousRegionButton: Button
     private var showingPreviousRegion = false
     @Volatile private var activeRegionDisplay = "REGION • WAITING FOR JOIN"
-    private var lastRegionDisplaySnapshotJson: String? = null
     private var lastRegionIdForUi: String? = null
     private lateinit var nextCatalogButton: Button
     private lateinit var catalogInfo: TextView
@@ -123,26 +122,19 @@ class AlbionOverlayService : Service() {
                     // Keep historical nodes in SAVED overview only; LIVE uses live-session
                     // observations exclusively until a verified shared coordinate frame exists.
                     if (::radarView.isInitialized) acceptedCount = radarView.setLiveSnapshot(live)
-                    if (live != lastRegionDisplaySnapshotJson) {
-                        lastRegionDisplaySnapshotJson = live
-                        val liveRows = JSONArray(live)
-                        val playerRow = (0 until liveRows.length()).mapNotNull { liveRows.optJSONObject(it) }
-                            .filter { it.optString("last_kind") == "own_player_move" }
-                            .maxByOrNull { it.optLong("last_seen_ms") }
-                        val regionId = playerRow?.optString("region_id")?.takeIf { it.isNotBlank() }
-                        if (regionId != lastRegionIdForUi) {
-                            lastRegionIdForUi = regionId
-                            activeRegionDisplay = regionId?.let { "REGION • " + formatRegionLabel(it) } ?: "REGION • WAITING FOR JOIN"
-                            refreshHandler.post {
-                                if (showingPreviousRegion) {
-                                    showingPreviousRegion = false
-                                    if (::radarView.isInitialized) radarView.setPreviousRegionSnapshot("[]", false)
-                                    if (::previousRegionButton.isInitialized) previousRegionButton.text = "PREV"
-                                }
-                                if (!catalogOverviewMode && ::catalogInfo.isInitialized) {
-                                    catalogInfo.text = activeRegionDisplay
-                                    catalogInfo.visibility = View.VISIBLE
-                                }
+                    val regionId = CoreServiceManager.getAlbionCurrentRegionId()
+                    if (regionId != lastRegionIdForUi) {
+                        lastRegionIdForUi = regionId
+                        activeRegionDisplay = regionId?.let { "REGION • " + formatRegionLabel(it) } ?: "REGION • WAITING FOR JOIN"
+                        refreshHandler.post {
+                            if (showingPreviousRegion) {
+                                showingPreviousRegion = false
+                                if (::radarView.isInitialized) radarView.setPreviousRegionSnapshot("[]", false)
+                                if (::previousRegionButton.isInitialized) previousRegionButton.text = "PREV"
+                            }
+                            if (!catalogOverviewMode && ::catalogInfo.isInitialized) {
+                                catalogInfo.text = activeRegionDisplay
+                                catalogInfo.visibility = View.VISIBLE
                             }
                         }
                     }
