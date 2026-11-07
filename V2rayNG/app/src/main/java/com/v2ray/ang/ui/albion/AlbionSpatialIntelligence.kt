@@ -84,6 +84,8 @@ object AlbionSpatialIntelligence {
         val kind = item.optString("last_kind")
         if (kind !in resourceKinds && kind != "mob") return false
         if (item.optBoolean("depleted", false) || item.optBoolean("left", false)) return false
+        if (kind == "mob" && (item.optBoolean("mob_dead", false) ||
+                item.optString("mob_state") in setOf("dead", "dead_manual", "dead_harvestable", "mined"))) return false
         if (item.optBoolean("user_confirmed_target", false)) return true
         val conflicts = item.optJSONArray("evidence_conflicts")
         if (conflicts != null && conflicts.length() > 0) return false
@@ -102,6 +104,26 @@ object AlbionSpatialIntelligence {
                 item.optInt("tier", -1) in 1..8
         }
         return isTypedResource(item)
+    }
+
+    /**
+     * Unknown tier metadata must not hide an otherwise valid entity when a tier subset is active.
+     * Known tiers still obey the exact selection; T1 is a known tier and is excluded by T2–T8.
+     */
+    fun passesTierFilter(tier: Int, selectedTiers: Set<Int>): Boolean =
+        selectedTiers.isEmpty() || tier !in 1..8 || tier in selectedTiers
+
+    /**
+     * MARK accepts typed/navigable resources, identity-backed Troll targets, and harvestable mobs.
+     * Dead, superseded, or merely unclassified mobs are never promoted to actionable marks.
+     */
+    fun isEligibleForRadarMark(item: JSONObject): Boolean {
+        val kind = item.optString("last_kind")
+        if (kind in resourceKinds) return isNavigableResource(item)
+        if (kind != "mob" || item.has("superseded_by_harvestable_entity_id")) return false
+        if (item.optBoolean("mob_dead", false) || item.optBoolean("left", false) ||
+            item.optString("mob_state") in setOf("dead", "dead_manual", "dead_harvestable", "mined")) return false
+        return isTrollCategoryMember(item) || isNavigableResource(item)
     }
 
     /** Candidate-only pins are intentionally capped when the user enables the unclassified layer. */
