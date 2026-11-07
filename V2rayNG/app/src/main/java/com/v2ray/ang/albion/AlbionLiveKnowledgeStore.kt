@@ -36,6 +36,9 @@ class AlbionLiveKnowledgeStore(
     private var playerMountedState: Boolean? = null
     private var playerMountedAtMs = 0L
     private var activeRegionId: String? = null
+    private var activeRegionVisitId: String? = null
+    private val previousVisitByRegion = LinkedHashMap<String, String>()
+    private var regionScanVisitId: String? = null
     private var regionScanId: String? = null
     private var regionScanRegionId: String? = null
     private var regionScanStartedMs = 0L
@@ -57,9 +60,11 @@ class AlbionLiveKnowledgeStore(
             if (observation.kind == "region_change") {
                 val newRegionId = observation.regionId?.takeIf { it.isNotBlank() }
                 if (newRegionId != null && newRegionId != activeRegionId) {
-                    // A region transition is a hard identity boundary for runtime entity IDs.
-                    // Never carry a selected mob or a pending Troll marker into the next region.
+                    activeRegionId?.let { oldRegion ->
+                        activeRegionVisitId?.let { previousVisitByRegion[oldRegion] = it }
+                    }
                     activeRegionId = newRegionId
+                    activeRegionVisitId = "$newRegionId@$timestampMs"
                     currentTargetEntityId = null
                     currentTargetSeenMs = 0L
                     activeTrollMarker = null
@@ -94,6 +99,7 @@ class AlbionLiveKnowledgeStore(
                         record.optString("entity_id") == candidate.toString() &&
                             record.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                             record.optString("region_id", "") == regionKey &&
+                            record.optString("region_visit_id", "") == (activeRegionVisitId ?: "") &&
                             record.optString("entity_class") == "mob"
                     }
                 }
@@ -117,13 +123,15 @@ class AlbionLiveKnowledgeStore(
                             records.values.firstOrNull { it.optString("entity_id") == selectedId &&
                                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                                 it.optString("region_id", "") == regionKey &&
+                            it.optString("region_visit_id", "") == (activeRegionVisitId ?: "") &&
                                 it.optString("entity_class") == "mob" }?.let {
                                 applyTrollMarker(it, activeMarker, activeTrollMarkerStartedMs)
                             }
                         } else if (activeTrollTargetId != selectedId) {
                             records.values.firstOrNull { it.optString("entity_id") == activeTrollTargetId &&
                                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                                it.optString("region_id", "") == regionKey }?.let(::clearTrollMarker)
+                                it.optString("region_id", "") == regionKey &&
+                            it.optString("region_visit_id", "") == (activeRegionVisitId ?: "") }?.let(::clearTrollMarker)
                             activeTrollTargetId = null
                             trollMarkerAmbiguous = true
                         }
@@ -135,7 +143,8 @@ class AlbionLiveKnowledgeStore(
                     if (priorTarget != null && activeTrollMarker != null && !trollMarkerAmbiguous) {
                         records.values.firstOrNull { it.optString("entity_id") == priorTarget &&
                             it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                            it.optString("region_id", "") == regionKey }?.let(::clearTrollMarker)
+                            it.optString("region_id", "") == regionKey &&
+                            it.optString("region_visit_id", "") == (activeRegionVisitId ?: "") }?.let(::clearTrollMarker)
                         activeTrollTargetId = null
                         trollMarkerAmbiguous = true
                     }
@@ -150,6 +159,7 @@ class AlbionLiveKnowledgeStore(
                         it.optString("entity_id") == id.toString() &&
                             it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                             it.optString("region_id", "") == regionKey &&
+                            it.optString("region_visit_id", "") == (activeRegionVisitId ?: "") &&
                             it.optString("entity_class") == "mob"
                     }
                     .maxByOrNull { it.optLong("last_seen_ms") }
@@ -185,11 +195,13 @@ class AlbionLiveKnowledgeStore(
             // Keep a stable record for each observed spawn generation. Runtime entity IDs can
             // be reused by the server after depletion; never overwrite the depleted E2/E3 node.
             val regionKey = activeRegionId ?: ""
-            val baseKey = "$sessionStartedMs:$regionKey:$entityId"
+            val visitKey = activeRegionVisitId ?: "unscoped"
+            val baseKey = "$sessionStartedMs:$regionKey:$visitKey:$entityId"
             val latestEntry = records.entries
                 .filter { it.value.optString("entity_id") == entityId &&
                     it.value.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                    it.value.optString("region_id", "") == regionKey }
+                    it.value.optString("region_id", "") == regionKey &&
+                    it.value.optString("region_visit_id", "") == (activeRegionVisitId ?: "") }
                 .maxByOrNull { it.value.optInt("spawn_generation", 0) }
             var key = latestEntry?.key ?: baseKey
             var record = records[key] ?: JSONObject()
@@ -200,6 +212,7 @@ class AlbionLiveKnowledgeStore(
                 .put("spawn_generation", 0)
                 .put("sightings", 0).also {
                     if (activeRegionId != null) it.put("region_id", activeRegionId)
+                    activeRegionVisitId?.let { visit -> it.put("region_visit_id", visit) }
                     records[key] = it
                 }
 
@@ -207,7 +220,7 @@ class AlbionLiveKnowledgeStore(
             val confirmedRefill = observation.kind == "harvestable" && incomingAmount > 0
             if (record.optBoolean("depleted", false) && confirmedRefill) {
                 val nextGeneration = record.optInt("spawn_generation", 0) + 1
-                val nextKey = "$sessionStartedMs:$regionKey:$entityId:spawn:$nextGeneration"
+                val nextKey = "$sessionStartedMs:$regionKey:$visitKey:$entityId:spawn:$nextGeneration"
                 record.put("respawn_observed_at_ms", timestampMs)
                     .put("superseded_by_record_key", nextKey)
                 key = nextKey
@@ -217,12 +230,15 @@ class AlbionLiveKnowledgeStore(
                     .put("session_started_ms", sessionStartedMs)
                     .put("first_seen_ms", timestampMs)
                     .put("spawn_generation", nextGeneration)
+                    .put("region_id", regionKey)
+                    .put("region_visit_id", visitKey)
                     .put("previous_spawn_record_key", latestEntry?.key ?: baseKey)
                     .put("sightings", 0)
                 records[key] = record
             }
             record.put("last_seen_ms", timestampMs)
             activeRegionId?.let { record.put("region_id", it) }
+            activeRegionVisitId?.let { record.put("region_visit_id", it) }
             val sightingSignature = listOf(
                 observation.kind, observation.eventCode, observation.typeId, observation.typeNumber,
                 observation.tier, observation.enchant, observation.x, observation.y
@@ -341,7 +357,8 @@ class AlbionLiveKnowledgeStore(
                         records.values.firstOrNull {
                             it.optString("entity_id") == sourceMobId &&
                                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                                it.optString("region_id", "") == (activeRegionId ?: "")
+                                it.optString("region_id", "") == (activeRegionId ?: "") &&
+                            it.optString("region_visit_id", "") == (activeRegionVisitId ?: "")
                         }?.put("mob_state", "mined")?.put("mob_mined_ms", timestampMs)
                     }
                 } else if ((observation.size ?: 0) > 0) {
@@ -413,6 +430,7 @@ class AlbionLiveKnowledgeStore(
         val id = "region-$nowMs"
         regionScanId = id
         regionScanRegionId = regionId
+        regionScanVisitId = activeRegionVisitId
         regionScanStartedMs = nowMs
         regionScanEndsMs = nowMs + REGION_SCAN_DURATION_MS
         lastRegionScanFlushMs = 0L
@@ -435,6 +453,7 @@ class AlbionLiveKnowledgeStore(
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                     it.optLong("last_seen_ms", Long.MIN_VALUE) >= regionScanStartedMs &&
                     it.optString("region_id", "") == (regionScanRegionId ?: "") &&
+                    it.optString("region_visit_id", "") == (regionScanVisitId ?: "") &&
                     it.has("x") && it.has("y")
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
@@ -501,7 +520,10 @@ class AlbionLiveKnowledgeStore(
         records.values
             .filter {
                 it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
-                    (activeRegionId == null || it.optString("region_id", "") == activeRegionId) &&
+                    (activeRegionId == null || (
+                        it.optString("region_id", "") == activeRegionId &&
+                            it.optString("region_visit_id", "") == (activeRegionVisitId ?: "")
+                    )) &&
                     it.has("x") && it.has("y")
             }
             .sortedByDescending { it.optLong("last_seen_ms") }
@@ -517,6 +539,25 @@ class AlbionLiveKnowledgeStore(
             cachedSnapshotJson = it
             snapshotDirty = false
         }
+    }
+
+
+    /** Previous visit to the active region, retained as stale hints only. */
+    @Synchronized
+    fun previousRegionSnapshotJson(): String {
+        val region = activeRegionId ?: return "[]"
+        val previousVisit = previousVisitByRegion[region] ?: return "[]"
+        val array = JSONArray()
+        records.values.filter {
+            it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
+                it.optString("region_id", "") == region &&
+                it.optString("region_visit_id", "") == previousVisit &&
+                it.optString("last_kind") in setOf("static_resource", "harvestable", "resource_state", "mob") &&
+                it.has("x") && it.has("y")
+        }.sortedByDescending { it.optLong("last_seen_ms") }.forEach { row ->
+            array.put(JSONObject(row.toString()).put("archived_visit", true))
+        }
+        return array.toString()
     }
 
     @Synchronized
@@ -763,6 +804,7 @@ class AlbionLiveKnowledgeStore(
                     it.optString("entity_id") == targetId &&
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                         it.optString("region_id", "") == regionKey &&
+                            it.optString("region_visit_id", "") == (activeRegionVisitId ?: "") &&
                         it.optString("entity_class") == "mob"
                 }
                 activeTrollTargetId = targetId
@@ -781,6 +823,7 @@ class AlbionLiveKnowledgeStore(
                     records.values.firstOrNull { it.optString("entity_id") == recentTarget &&
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                         it.optString("region_id", "") == (activeRegionId ?: "") &&
+                            it.optString("region_visit_id", "") == (activeRegionVisitId ?: "") &&
                         it.optString("entity_class") == "mob" }?.let {
                         activeTrollTargetId = recentTarget
                         applyTrollMarker(it, active, activeTrollMarkerStartedMs)
@@ -793,6 +836,7 @@ class AlbionLiveKnowledgeStore(
                     it.optString("entity_id") == killedTarget &&
                         it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                         it.optString("region_id", "") == (activeRegionId ?: "") &&
+                            it.optString("region_visit_id", "") == (activeRegionVisitId ?: "") &&
                         it.optString("entity_class") == "mob"
                 }?.let { mob ->
                     mob.put("manual_kill_confirmed", true)
@@ -826,6 +870,7 @@ class AlbionLiveKnowledgeStore(
                 mob.optInt("tier", -1) == node.optInt("tier", -2) &&
                 mob.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                 mob.optString("region_id", "") == (activeRegionId ?: "") &&
+                mob.optString("region_visit_id", "") == (activeRegionVisitId ?: "") &&
                 kotlin.math.abs(timestampMs - maxOf(mob.optLong("mob_dead_ms"), mob.optLong("manual_killed_ms"))) <= LIVING_NODE_LINK_WINDOW_MS &&
                 distance(mob, node) <= LIVING_NODE_LINK_RADIUS
         }
@@ -842,6 +887,7 @@ class AlbionLiveKnowledgeStore(
                 node.optInt("tier", -1) == mob.optInt("tier", -2) &&
                 node.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
                 node.optString("region_id", "") == (activeRegionId ?: "") &&
+                node.optString("region_visit_id", "") == (activeRegionVisitId ?: "") &&
                 kotlin.math.abs(node.optLong("last_seen_ms") -
                     maxOf(mob.optLong("mob_dead_ms"), mob.optLong("manual_killed_ms"))) <= LIVING_NODE_LINK_WINDOW_MS &&
                 kotlin.math.abs(timestampMs -

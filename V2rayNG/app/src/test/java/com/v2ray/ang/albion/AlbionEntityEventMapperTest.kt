@@ -227,6 +227,21 @@ class AlbionEntityEventMapperTest {
     }
 
     @Test
+    fun ignoresChangeClusterCandidateListsAndNumericCandidatesAsRegionIdentity() {
+        AlbionEntityEventMapper.reset()
+        val candidates = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 41,
+            parameters = mapOf(0 to intArrayOf(4000, 4001), 253 to 41), operationCode = 41
+        ))
+        assertTrue(candidates.isEmpty())
+        val numericCandidate = AlbionEntityEventMapper.map(AlbionProtocol18Decoder.Message(
+            kind = "response", dispatchCode = 0, realCode = 41,
+            parameters = mapOf(0 to 4000, 253 to 41), operationCode = 41
+        ))
+        assertTrue(numericCandidate.isEmpty())
+    }
+
+    @Test
     fun usesPostOctober2026EventNumbersForMountedAndDungeonExit() {
         AlbionEntityEventMapper.reset()
         val mounted = AlbionEntityEventMapper.map(event(210, mapOf(0 to 44L, 1 to true))).single()
