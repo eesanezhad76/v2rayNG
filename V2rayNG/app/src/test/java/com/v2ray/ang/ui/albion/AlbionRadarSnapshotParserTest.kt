@@ -86,45 +86,49 @@ class AlbionRadarSnapshotParserTest {
         assertEquals("T5.3 ✓", AlbionRadarSnapshotParser.labelForEntity(node))
     }
 
-    @Test fun keepsWorldNorthAtTopAndEastAtRight() {
+    @Test fun appliesCaptureCalibratedWorldToScreenRotation() {
+        val angle = Math.toRadians(AlbionMapProjection.CLOCKWISE_CALIBRATION_DEGREES)
+        val c = kotlin.math.cos(angle)
+        val s = kotlin.math.sin(angle)
         val north = AlbionMiniRadarView.rotateOffset(0.0, 10.0)
-        assertEquals(0.0, north.first, 1e-9)
-        assertEquals(-10.0, north.second, 1e-9)
+        assertEquals(10.0 * s, north.first, 1e-9)
+        assertEquals(-10.0 * c, north.second, 1e-9)
         val east = AlbionMiniRadarView.rotateOffset(10.0, 0.0)
-        assertEquals(10.0, east.first, 1e-9)
-        assertEquals(0.0, east.second, 1e-9)
+        assertEquals(10.0 * c, east.first, 1e-9)
+        assertEquals(10.0 * s, east.second, 1e-9)
         val south = AlbionMiniRadarView.rotateOffset(0.0, -10.0)
-        assertEquals(0.0, south.first, 1e-9)
-        assertEquals(10.0, south.second, 1e-9)
+        assertEquals(-10.0 * s, south.first, 1e-9)
+        assertEquals(10.0 * c, south.second, 1e-9)
         val west = AlbionMiniRadarView.rotateOffset(-10.0, 0.0)
-        assertEquals(-10.0, west.first, 1e-9)
-        assertEquals(0.0, west.second, 1e-9)
+        assertEquals(-10.0 * c, west.first, 1e-9)
+        assertEquals(-10.0 * s, west.second, 1e-9)
     }
 
-    @Test fun movementDirectionUsesLatestDistinctWorldCoordinatesInScreenSpace() {
+    @Test fun movementDirectionUsesIndependentCaptureCalibratedTransform() {
+        val d = kotlin.math.sqrt(0.5)
         val north = AlbionMapProjection.movementDirection(
             org.json.JSONArray("""[{"x":0,"y":0},{"x":0,"y":5}]""")
         )
-        assertEquals(0.0, north?.x ?: Double.NaN, 1e-9)
-        assertEquals(-1.0, north?.y ?: Double.NaN, 1e-9)
+        assertEquals(d, north?.x ?: Double.NaN, 1e-9)
+        assertEquals(-d, north?.y ?: Double.NaN, 1e-9)
 
         val east = AlbionMapProjection.movementDirection(
             org.json.JSONArray("""[{"x":0,"y":0},{"x":5,"y":0}]""")
         )
-        assertEquals(1.0, east?.x ?: Double.NaN, 1e-9)
-        assertEquals(0.0, east?.y ?: Double.NaN, 1e-9)
+        assertEquals(d, east?.x ?: Double.NaN, 1e-9)
+        assertEquals(d, east?.y ?: Double.NaN, 1e-9)
 
         val south = AlbionMapProjection.movementDirection(
             org.json.JSONArray("""[{"x":0,"y":5},{"x":0,"y":0}]""")
         )
-        assertEquals(0.0, south?.x ?: Double.NaN, 1e-9)
-        assertEquals(1.0, south?.y ?: Double.NaN, 1e-9)
+        assertEquals(-d, south?.x ?: Double.NaN, 1e-9)
+        assertEquals(d, south?.y ?: Double.NaN, 1e-9)
 
         val west = AlbionMapProjection.movementDirection(
             org.json.JSONArray("""[{"x":5,"y":0},{"x":0,"y":0}]""")
         )
-        assertEquals(-1.0, west?.x ?: Double.NaN, 1e-9)
-        assertEquals(0.0, west?.y ?: Double.NaN, 1e-9)
+        assertEquals(-d, west?.x ?: Double.NaN, 1e-9)
+        assertEquals(-d, west?.y ?: Double.NaN, 1e-9)
     }
 
     @Test fun returnsNoMovementDirectionForStationaryOrInsufficientHistory() {
