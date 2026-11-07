@@ -111,7 +111,7 @@ object AlbionSpatialIntelligence {
      * Known tiers still obey the exact selection; T1 is a known tier and is excluded by T2–T8.
      */
     fun passesTierFilter(tier: Int, selectedTiers: Set<Int>): Boolean =
-        selectedTiers.isEmpty() || tier !in 1..8 || tier in selectedTiers
+        selectedTiers.isEmpty() || tier <= 0 || (tier in 1..8 && tier in selectedTiers)
 
     /**
      * MARK accepts typed/navigable resources, identity-backed Troll targets, and harvestable mobs.
