@@ -16,6 +16,8 @@ class AlbionMiniRadarView(context: Context) : View(context) {
     private var enabledFilters: Set<String> = DEFAULT_FILTERS
     private var catalogOverviewMode = false
     private var lastLiveSnapshotJson: String? = null
+    private var previousRegionEntities: List<JSONObject> = emptyList()
+    private var showPreviousRegion = false
     // Filtering is independent of player position. Cache it between snapshots/filter changes
     // so onDraw does not repeatedly walk and classify every entity on each invalidation.
     private var visibleCache: List<JSONObject> = emptyList()
@@ -59,6 +61,17 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         filterCacheDirty = true
         invalidate()
         return catalogEntities.size
+    }
+
+    fun setPreviousRegionSnapshot(json: String, enabled: Boolean) {
+        showPreviousRegion = enabled
+        if (enabled) {
+            val parsed = AlbionRadarSnapshotParser.parse(json)
+            previousRegionEntities = parsed?.entities?.filter {
+                it.optBoolean("archived_visit", false) && it.optString("last_kind") in RESOURCE_KINDS
+            } ?: emptyList()
+        }
+        invalidate()
     }
 
     fun setLiveSnapshot(json: String): Int? {
@@ -265,15 +278,25 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             // Candidate-only Event 39 pins remain visible for investigation but must never
             // drive navigation. Only typed Event 40 harvestables or explicit user-confirmed
             // targets can become the highlighted destination.
-            val nearestTarget = resources.asSequence()
-                .filter {
-                    !isUnavailableResource(it) && validPoint(it) &&
-                        AlbionSpatialIntelligence.isNavigableResource(it)
-                }
-                .minByOrNull { hypot(it.optDouble("x") - px, it.optDouble("y") - py) }
-            val nearestDistance = nearestTarget?.let {
-                hypot(it.optDouble("x") - px, it.optDouble("y") - py)
+            // Include harvestable living mobs as well as static resources. Keep only
+            // three best targets with one O(n) pass; this is passive snapshot processing.
+            val targetCandidates = resources + visibleEntities().filter {
+                it.optString("last_kind") == "mob" && validPoint(it) &&
+                    AlbionSpatialIntelligence.isNavigableResource(it)
             }
+            val nearestTargets = ArrayList<Pair<JSONObject, Double>>(3)
+            targetCandidates.forEach { item ->
+                if (!isUnavailableResource(item) && validPoint(item) &&
+                    AlbionSpatialIntelligence.isNavigableResource(item)) {
+                    val distance = hypot(item.optDouble("x") - px, item.optDouble("y") - py)
+                    val insertAt = nearestTargets.indexOfFirst { distance < it.second }
+                    if (insertAt >= 0) nearestTargets.add(insertAt, item to distance)
+                    else if (nearestTargets.size < 3) nearestTargets.add(item to distance)
+                    if (nearestTargets.size > 3) nearestTargets.removeAt(3)
+                }
+            }
+            val nearestTarget = nearestTargets.firstOrNull()?.first
+            val nearestDistance = nearestTargets.firstOrNull()?.second
             // Fit both nearby resources and the retained movement path so the trail
             // remains a useful route, not a tiny 16-point trace around the center.
             // Keep the local radar at a stable scale. A single remote catalog node must
@@ -327,6 +350,17 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                     canvas.drawCircle(x, y, 5.2f * density, paint)
                     paint.style = Paint.Style.FILL
                 }
+                val targetRank = nearestTargets.indexOfFirst { it.first === entity }
+                if (targetRank in 1..2) {
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = 1.4f * density
+                    paint.color = if (targetRank == 1) 0xFF9BE7FF.toInt() else 0xFFB8C7D1.toInt()
+                    canvas.drawCircle(x, y, (6.0f - targetRank) * density, paint)
+                    paint.style = Paint.Style.FILL
+                    paint.textSize = 6.5f * density
+                    paint.color = 0xFFFFFFFF.toInt()
+                    canvas.drawText((targetRank + 1).toString(), x + 5f * density, y + 6f * density, paint)
+                }
                 if (entity === nearestTarget) {
                     val arrived = (nearestDistance ?: Double.MAX_VALUE) <= 4.0
                     paint.style = Paint.Style.STROKE
@@ -369,6 +403,28 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                     canvas.drawCircle(x, y, 7f * density, paint)
                 }
             }
+            // Previous visit nodes are shown only on demand as grey, non-actionable hints.
+            if (showPreviousRegion) {
+                previousRegionEntities.forEach { archived ->
+                    if (!validPoint(archived)) return@forEach
+                    val dx = archived.optDouble("x") - px
+                    val dy = archived.optDouble("y") - py
+                    val distance = hypot(dx, dy)
+                    val factor = if (distance > displayRange) displayRange / distance else 1.0
+                    val (rx, ry) = rotateOffset(dx * factor, dy * factor)
+                    val x = cx + (rx / displayRange * radius).toFloat()
+                    val y = cy + (ry / displayRange * radius).toFloat()
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = 1.1f * density
+                    paint.color = 0x997F8C96.toInt()
+                    canvas.drawCircle(x, y, 4.8f * density, paint)
+                    paint.style = Paint.Style.FILL
+                    paint.textSize = 5.5f * density
+                    paint.color = 0xBBCCD5DC.toInt()
+                    canvas.drawText("P", x + 4f * density, y - 3f * density, paint)
+                }
+            }
+
             // Show only identity-backed Troll markers and database-confirmed Ore Elementals.
             visibleEntities().filter {
                 it.optString("last_kind") == "mob" && !it.has("superseded_by_harvestable_entity_id") &&
@@ -392,6 +448,30 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                     else -> resourceColor(mob)
                 }
                 canvas.drawCircle(x, y, 3.8f * density, paint)
+                val targetRank = nearestTargets.indexOfFirst { it.first === mob }
+                if (targetRank == 0) {
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = 2f * density
+                    paint.color = if (distance <= 4.0) 0xFFFFD54F.toInt() else 0xFF55E6FF.toInt()
+                    canvas.drawCircle(x, y, if (distance <= 4.0) 9f * density else 7f * density, paint)
+                    paint.style = Paint.Style.FILL
+                    if (distance <= 4.0) {
+                        paint.textSize = 7f * density
+                        paint.textAlign = Paint.Align.CENTER
+                        paint.color = 0xFFFFE082.toInt()
+                        canvas.drawText("HERE", x, y - 11f * density, paint)
+                        paint.textAlign = Paint.Align.LEFT
+                    }
+                } else if (targetRank in 1..2) {
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = 1.4f * density
+                    paint.color = if (targetRank == 1) 0xFF9BE7FF.toInt() else 0xFFB8C7D1.toInt()
+                    canvas.drawCircle(x, y, (6.0f - targetRank) * density, paint)
+                    paint.style = Paint.Style.FILL
+                    paint.textSize = 6.5f * density
+                    paint.color = 0xFFFFFFFF.toInt()
+                    canvas.drawText((targetRank + 1).toString(), x + 5f * density, y + 6f * density, paint)
+                }
                 val t = mob.optInt("marker_tier", -1).takeIf { it in 1..8 }
                     ?: mob.optInt("tier", -1).takeIf { it in 1..8 } ?: -1
                 val label = when {
