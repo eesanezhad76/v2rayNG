@@ -183,6 +183,14 @@ class AlbionRadarSnapshotParserTest {
         assertFalse(AlbionSpatialIntelligence.passesTierFilter(4, setOf(5)))
         assertFalse(AlbionSpatialIntelligence.passesTierFilter(1, setOf(5)))
         assertTrue(AlbionSpatialIntelligence.passesTierFilter(1, emptySet()))
+        assertFalse(AlbionSpatialIntelligence.passesTierFilter(9, setOf(5)))
+    }
+
+    @Test fun mobRegionScopeRejectsCrossZoneAndTaggedUnknownRegionEntities() {
+        assertTrue(AlbionSpatialIntelligence.isInActiveRegion("ZONE_A", "ZONE_A"))
+        assertFalse(AlbionSpatialIntelligence.isInActiveRegion("ZONE_A", "ZONE_B"))
+        assertFalse(AlbionSpatialIntelligence.isInActiveRegion(null, "ZONE_A"))
+        assertTrue(AlbionSpatialIntelligence.isInActiveRegion(null, null))
     }
 
     @Test fun radarMarkEligibilityIncludesIdentityBackedTrollsAndHarvestableMobsOnly() {
