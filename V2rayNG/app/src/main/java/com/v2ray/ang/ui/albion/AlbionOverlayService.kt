@@ -7,6 +7,7 @@ import android.app.Service
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.PixelFormat
+import android.graphics.Rect
 import android.graphics.Region
 import android.view.ViewTreeObserver
 import android.graphics.Typeface
@@ -144,8 +145,12 @@ class AlbionOverlayService : Service() {
                             }
                         }
                     }
-                    statusText = CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
-                        .replace('\n', ' ').replace('\r', ' ')
+                    statusText = if (acceptedCount == null) {
+                        "LIVE SNAPSHOT INVALID • LAST GOOD FRAME RETAINED (STALE)"
+                    } else {
+                        CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
+                            .replace('\n', ' ').replace('\r', ' ')
+                    }
                 } catch (error: Exception) {
                     statusText = "Snapshot error: ${error.message ?: error.javaClass.simpleName}"
                 }
@@ -452,9 +457,22 @@ class AlbionOverlayService : Service() {
         // The radar is visually transparent and must not block game controls beneath it.
         // Keep only the side controls and the red drag handle inside the touchable region.
         root.viewTreeObserver.addOnComputeInternalInsetsListener { insets ->
+            // Rebuild touch bounds from real descendants on each insets pass. Mapping them
+            // through the view hierarchy includes the current scale transform.
+            val sideBounds = Rect()
+            side.getHitRect(sideBounds)
+            root.offsetDescendantRectToMyCoords(side, sideBounds)
+            val dragBounds = Rect()
+            dragTitle.getHitRect(dragBounds)
+            root.offsetDescendantRectToMyCoords(dragTitle, dragBounds)
             val touchRegion = Region().apply {
-                set(dp(176), 0, dp(236), root.height.coerceAtLeast(dp(28)))
-                op(0, 0, dp(28), dp(28), Region.Op.UNION)
+                if (!sideBounds.isEmpty) op(sideBounds, Region.Op.UNION)
+                if (!dragBounds.isEmpty) op(dragBounds, Region.Op.UNION)
+                if (root.width > 0 && root.height > 0) {
+                    op(0, 0, root.width, root.height, Region.Op.INTERSECT)
+                } else {
+                    setEmpty()
+                }
             }
             insets.setTouchableInsets(ViewTreeObserver.InternalInsetsInfo.TOUCHABLE_INSETS_REGION)
             insets.touchableRegion.set(touchRegion)
