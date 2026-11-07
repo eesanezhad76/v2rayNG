@@ -152,7 +152,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "5ffe539391f67913144f6bdb5c1e786f7e24afb4e2e5d328f9f6175ecf67fb5a",
   "ip_packets": 112767,
-  "fingerprint": "d751ebfb2653aa609dcb11376e3b31758672469578d9b5f3e39f18c931da7126",
+  "fingerprint": "6c260c8ddd5c9bc40f9e221d81b63dd051ffa0199c7dd349c50bfeda15b2f4bf",
   "malformed_protocol18_messages": 5,
   "operation_requests": {
     "22": 16474,
@@ -201,16 +201,18 @@
     "move": 59209,
     "static_resource": 8560,
     "resource_state": 219,
+    "dungeon_exit": 155,
     "energy_regeneration": 2,
     "health": 226,
     "health_regeneration": 253,
     "own_player_move": 16474,
-    "player_mounted": 11,
+    "player_mounted": 205,
     "leave": 7343,
     "mob_state": 16,
     "player_move": 4253,
     "energy": 408,
-    "player_spawn": 134
+    "player_spawn": 134,
+    "target_request": 84
   },
   "source_name": "albion-1793769140776.pcap",
   "operation_responses": {

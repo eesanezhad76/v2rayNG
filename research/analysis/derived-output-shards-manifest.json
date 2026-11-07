@@ -6,75 +6,75 @@
   "sources": [
     {
       "source_path": "research/analysis/2026-11-02-all-inbox-observations.jsonl",
-      "bytes": 146401898,
-      "sha256": "f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883",
-      "shard_directory": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883",
+      "bytes": 155317139,
+      "sha256": "7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4",
+      "shard_directory": "research/analysis/derived-shards/7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4",
       "parts": [
         {
-          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0001.bin",
+          "path": "research/analysis/derived-shards/7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4/part-0001.bin",
           "bytes": 47185920,
-          "sha256": "5e2efa4c2ac2f3e60cbcf54af64c5ca7518f0180b081d6cdc86422aa9899807e"
+          "sha256": "88143712d269a69589100270559f68a5b655664131884abd536ea3bd30fffa0b"
         },
         {
-          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0002.bin",
+          "path": "research/analysis/derived-shards/7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4/part-0002.bin",
           "bytes": 47185920,
-          "sha256": "809f9306ae729cc92faee93ad0afc5d9a6d3fb54b2d5ff1b850e3ea7bb9dbc53"
+          "sha256": "91bbbd636a15b9ca3d5c373b12e93a310acfa0a98cca116f0f4a2aa8e03ac5a0"
         },
         {
-          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0003.bin",
+          "path": "research/analysis/derived-shards/7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4/part-0003.bin",
           "bytes": 47185920,
-          "sha256": "8a7d4164633979de2ec701339cb7803b246338ff47ec03482398c703598dda2d"
+          "sha256": "7c9f14ec3a823ff27a271f611b1f2e3c60665d083306747d6df430b30f665930"
         },
         {
-          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0004.bin",
-          "bytes": 4844138,
-          "sha256": "e3fe6e6b043a40521670d6f0710a80d640358aebe69a8ee3fbcb87971e7e50f6"
+          "path": "research/analysis/derived-shards/7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4/part-0004.bin",
+          "bytes": 13759379,
+          "sha256": "6a1c90a008f7f25b6e5039a182a4d2b2f6f17b225bf3434fd6148de18ad7820e"
         }
       ]
     },
     {
       "source_path": "research/analysis/2026-11-02-all-inbox-pcap-analysis.md",
-      "bytes": 85533258,
-      "sha256": "915d2c1cc679da6ec0380b30c1f3784e774affa8a31afbe53b48f32ae701194b",
-      "shard_directory": "research/analysis/derived-shards/915d2c1cc679da6ec0380b30c1f3784e774affa8a31afbe53b48f32ae701194b",
+      "bytes": 91019166,
+      "sha256": "aff8b4d081201fd320270eb7cbb0a365b9565f466b23d71240d7b90636049c96",
+      "shard_directory": "research/analysis/derived-shards/aff8b4d081201fd320270eb7cbb0a365b9565f466b23d71240d7b90636049c96",
       "parts": [
         {
-          "path": "research/analysis/derived-shards/915d2c1cc679da6ec0380b30c1f3784e774affa8a31afbe53b48f32ae701194b/part-0001.bin",
+          "path": "research/analysis/derived-shards/aff8b4d081201fd320270eb7cbb0a365b9565f466b23d71240d7b90636049c96/part-0001.bin",
           "bytes": 47185920,
-          "sha256": "439d9b41fcea823c3c8df470a2020eaf76355ecf22b283ce0afd6a23db58d9ce"
+          "sha256": "5a6d6263b6a3dc9cc2eb3e34cc5407def429141d0d1c7bdce66ce1ad7e4940c8"
         },
         {
-          "path": "research/analysis/derived-shards/915d2c1cc679da6ec0380b30c1f3784e774affa8a31afbe53b48f32ae701194b/part-0002.bin",
-          "bytes": 38347338,
-          "sha256": "f8620d0fc5ba37872061274f56d33f2ea37e28c54f2ef133372241b23a132858"
+          "path": "research/analysis/derived-shards/aff8b4d081201fd320270eb7cbb0a365b9565f466b23d71240d7b90636049c96/part-0002.bin",
+          "bytes": 43833246,
+          "sha256": "5c3181842f8580dd1d77ee857ee7a4ee19eabd032791245539df8029d49b479d"
         }
       ]
     },
     {
       "source_path": "research/database/2026-11-02-all-inbox-observations.jsonl",
-      "bytes": 146401898,
-      "sha256": "f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883",
-      "shard_directory": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883",
+      "bytes": 155317139,
+      "sha256": "7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4",
+      "shard_directory": "research/analysis/derived-shards/7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4",
       "parts": [
         {
-          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0001.bin",
+          "path": "research/analysis/derived-shards/7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4/part-0001.bin",
           "bytes": 47185920,
-          "sha256": "5e2efa4c2ac2f3e60cbcf54af64c5ca7518f0180b081d6cdc86422aa9899807e"
+          "sha256": "88143712d269a69589100270559f68a5b655664131884abd536ea3bd30fffa0b"
         },
         {
-          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0002.bin",
+          "path": "research/analysis/derived-shards/7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4/part-0002.bin",
           "bytes": 47185920,
-          "sha256": "809f9306ae729cc92faee93ad0afc5d9a6d3fb54b2d5ff1b850e3ea7bb9dbc53"
+          "sha256": "91bbbd636a15b9ca3d5c373b12e93a310acfa0a98cca116f0f4a2aa8e03ac5a0"
         },
         {
-          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0003.bin",
+          "path": "research/analysis/derived-shards/7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4/part-0003.bin",
           "bytes": 47185920,
-          "sha256": "8a7d4164633979de2ec701339cb7803b246338ff47ec03482398c703598dda2d"
+          "sha256": "7c9f14ec3a823ff27a271f611b1f2e3c60665d083306747d6df430b30f665930"
         },
         {
-          "path": "research/analysis/derived-shards/f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883/part-0004.bin",
-          "bytes": 4844138,
-          "sha256": "e3fe6e6b043a40521670d6f0710a80d640358aebe69a8ee3fbcb87971e7e50f6"
+          "path": "research/analysis/derived-shards/7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4/part-0004.bin",
+          "bytes": 13759379,
+          "sha256": "6a1c90a008f7f25b6e5039a182a4d2b2f6f17b225bf3434fd6148de18ad7820e"
         }
       ]
     }

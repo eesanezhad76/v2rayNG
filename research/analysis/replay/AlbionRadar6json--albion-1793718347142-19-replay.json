@@ -23,7 +23,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "212ee0e173dc6edcce7014092fe4091f7df42ded99a5feb82c530db512d6f0bc",
   "ip_packets": 5447,
-  "fingerprint": "7f902457aecdab3d57f6af8c0a33485b3da32c603efb4ed24c8a749cbedcac73",
+  "fingerprint": "a79f663bac6f19132869421229a8350b73ccfea558ac1c409cd519064ad0d793",
   "malformed_protocol18_messages": 0,
   "operation_requests": {},
   "albion_udp_packets": 0,

@@ -1,0 +1,2 @@
+entity_id,source_archive,region_id,mobile_type_id,name,x,y,first_attack_ms,last_attack_ms,attack_action_count,health_observations,last_current_health,leave_after_last_attack,interpretation
+59073,AlbionRadar11.zip,4219,1830,Morgana Imp Summon,317.28714,-21.307043,1794058680598,1794058681624,2,3,16,True,health_updates_then_leave_after_attack_defeat_likely_not_confirmed

@@ -18,8 +18,8 @@ Encrypted Protocol18 messages: 0
 Malformed Protocol18 messages: 0
 Pending fragmented messages: 0
 Manual checkpoints: 2
-  t=1793718210736 kind=manual_marker activity=Capture event=capture_started
-  t=1793718344297 kind=manual_marker activity=Capture event=capture_stopping
+  t=1793718210736 kind=manual_marker elapsed_realtime_ms=108268267 activity=Capture event=capture_started
+  t=1793718344297 kind=manual_marker elapsed_realtime_ms=108401828 activity=Capture event=capture_stopping
 Capture file quality: FAIR (80/100)
 PCAP records: 3647
 Captured bytes: 1258305
@@ -38,6 +38,6 @@ Limitation: A long timestamp gap is a continuity warning, not proof that packets
 Limitation: Native tap drops were not supplied; no tap-drop penalty was applied.
 
 Detailed entity/player observations: 2
-  t=1793718210736 kind=manual_marker activity=Capture event=capture_started
-  t=1793718344297 kind=manual_marker activity=Capture event=capture_stopping
+  t=1793718210736 kind=manual_marker elapsed_realtime_ms=108268267 activity=Capture event=capture_started
+  t=1793718344297 kind=manual_marker elapsed_realtime_ms=108401828 activity=Capture event=capture_stopping
 Warning: No UDP datagrams involving port 5056 were found.

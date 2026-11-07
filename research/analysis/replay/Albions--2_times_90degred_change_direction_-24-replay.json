@@ -53,7 +53,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "78d204804fa5d754a17bce69d367c274b3226e2e5d936897ed92787638272ee6",
   "ip_packets": 1046,
-  "fingerprint": "525d54aeb94f15db016085424704e97189d8e0b3d8835db76499063f179814bc",
+  "fingerprint": "8ec953b4ee6cff6493755f2b71591b4aef0960dac4afbe7e4d2a3c05ce921801",
   "malformed_protocol18_messages": 0,
   "operation_requests": {
     "22": 203,
@@ -65,9 +65,11 @@
     "own_player_move": 203,
     "mob": 25,
     "move": 389,
+    "player_mounted": 3,
     "leave": 99,
     "static_resource": 113,
     "resource_state": 3,
+    "dungeon_exit": 1,
     "energy": 9,
     "player_spawn": 1
   },

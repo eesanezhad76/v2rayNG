@@ -91,6 +91,7 @@ Operation responses:
   operation 52: 66
   operation 53: 21
 Mapped entity observations:
+  dungeon_exit: 37
   energy: 104
   harvestable: 77
   health: 232
@@ -100,11 +101,12 @@ Mapped entity observations:
   mob_state: 1
   move: 9162
   own_player_move: 3346
-  player_mounted: 14
+  player_mounted: 90
   player_move: 1878
   player_spawn: 46
   resource_state: 146
   static_resource: 2256
+  target_request: 2
 Typed Photon event observations:
   living_entity: 448
   resource: 95
@@ -115,181 +117,181 @@ Encrypted Protocol18 messages: 95
 Malformed Protocol18 messages: 0
 Pending fragmented messages: 0
 Manual checkpoints: 175
-  t=1793620890608 kind=manual_marker activity=Capture event=capture_started
-  t=1793620915594 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=Normal
-  t=1793620916536 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=Normal
-  t=1793620921505 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=Normal
-  t=1793620922508 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=Normal
-  t=1793620927592 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=Normal
-  t=1793620930400 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=Normal
-  t=1793620935788 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=Normal
-  t=1793620936449 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=Normal
-  t=1793620944401 kind=manual_marker activity=Ore event=tier_selected tier=T5 enchantment=Normal
-  t=1793620944557 kind=manual_marker activity=Ore event=tier_selected tier=T6 enchantment=Normal
-  t=1793620944708 kind=manual_marker activity=Ore event=tier_selected tier=T7 enchantment=Normal
-  t=1793620945098 kind=manual_marker activity=Ore event=tier_selected tier=T8 enchantment=Normal
-  t=1793620945413 kind=manual_marker activity=Ore event=tier_selected tier=T2 enchantment=Normal
-  t=1793620945844 kind=manual_marker activity=Ore event=tier_selected tier=T3 enchantment=Normal
-  t=1793620947719 kind=manual_marker activity=Ore event=target_found tier=T3 enchantment=Normal
-  t=1793620948345 kind=manual_marker activity=Ore event=gathering_started tier=T3 enchantment=Normal
-  t=1793620951849 kind=manual_marker activity=Ore event=gathering_completed tier=T3 enchantment=Normal
-  t=1793620952651 kind=manual_marker activity=Ore event=node_depleted tier=T3 enchantment=Normal
-  t=1793620973042 kind=manual_marker activity=Ore event=tier_selected tier=T4 enchantment=Normal
-  t=1793620973177 kind=manual_marker activity=Ore event=tier_selected tier=T5 enchantment=Normal
-  t=1793620974913 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
-  t=1793620976193 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
-  t=1793620984501 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
-  t=1793620986063 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
-  t=1793620998125 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=E1
-  t=1793621000943 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=E1
-  t=1793621002805 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=E1
-  t=1793621006489 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=E1
-  t=1793621007591 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=E1
-  t=1793621016525 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=E1
-  t=1793621017334 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=E1
-  t=1793621027027 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=E1
-  t=1793621027628 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=E1
-  t=1793621092351 kind=manual_marker activity=Ore event=tier_selected tier=T6 enchantment=E1
-  t=1793621092513 kind=manual_marker activity=Ore event=tier_selected tier=T7 enchantment=E1
-  t=1793621092938 kind=manual_marker activity=Ore event=tier_selected tier=T8 enchantment=E1
-  t=1793621093165 kind=manual_marker activity=Ore event=tier_selected tier=T2 enchantment=E1
-  t=1793621093690 kind=manual_marker activity=Ore event=tier_selected tier=T3 enchantment=E1
-  t=1793621095249 kind=manual_marker activity=Ore event=tier_selected tier=T4 enchantment=E1
-  t=1793621097283 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=E1
-  t=1793621098569 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=E1
-  t=1793621103716 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=E1
-  t=1793621104289 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=E1
-  t=1793621133476 kind=manual_marker activity=Ore event=tier_selected tier=T5 enchantment=E1
-  t=1793621134988 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=E1
-  t=1793621138686 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=E1
-  t=1793621142232 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=E1
-  t=1793621143299 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=E1
-  t=1793621143824 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=E2
-  t=1793621158429 kind=manual_marker activity=Ore event=tier_selected tier=T6 enchantment=E2
-  t=1793621158565 kind=manual_marker activity=Ore event=tier_selected tier=T7 enchantment=E2
-  t=1793621158721 kind=manual_marker activity=Ore event=tier_selected tier=T8 enchantment=E2
-  t=1793621159362 kind=manual_marker activity=Ore event=tier_selected tier=T2 enchantment=E2
-  t=1793621159518 kind=manual_marker activity=Ore event=tier_selected tier=T3 enchantment=E2
-  t=1793621159934 kind=manual_marker activity=Ore event=tier_selected tier=T4 enchantment=E2
-  t=1793621161388 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E3
-  t=1793621161537 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
-  t=1793621161687 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E1
-  t=1793621163531 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=E1
-  t=1793621165769 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=E1
-  t=1793621170735 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=E1
-  t=1793621171856 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=E1
-  t=1793621236719 kind=manual_marker activity=Ore event=tier_selected tier=T5 enchantment=E1
-  t=1793621238085 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=E1
-  t=1793621241281 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=E1
-  t=1793621245195 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=E1
-  t=1793621245779 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=E1
-  t=1793621258152 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=E2
-  t=1793621258305 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=E3
-  t=1793621258439 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=Normal
-  t=1793621260195 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
-  t=1793621261187 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
-  t=1793621262149 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
-  t=1793621263165 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
-  t=1793621264543 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
-  t=1793621266974 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
-  t=1793621270797 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
-  t=1793621271537 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
-  t=1793621273431 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
-  t=1793621280507 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
-  t=1793621281038 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
-  t=1793621283104 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
-  t=1793621293472 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
-  t=1793621298035 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
-  t=1793621298456 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
-  t=1793621299976 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
-  t=1793621304788 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
-  t=1793621305212 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
-  t=1793621307145 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
-  t=1793621313017 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
-  t=1793621313553 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
-  t=1793621337519 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=E1
-  t=1793621338341 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=E1
-  t=1793621340506 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=E1
-  t=1793621344054 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=E1
-  t=1793621345011 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=E1
-  t=1793621393291 kind=manual_marker activity=Ore event=tier_selected tier=T6 enchantment=E1
-  t=1793621393433 kind=manual_marker activity=Ore event=tier_selected tier=T7 enchantment=E1
-  t=1793621393580 kind=manual_marker activity=Ore event=tier_selected tier=T8 enchantment=E1
-  t=1793621393747 kind=manual_marker activity=Ore event=tier_selected tier=T2 enchantment=E1
-  t=1793621394344 kind=manual_marker activity=Ore event=tier_selected tier=T3 enchantment=E1
-  t=1793621394584 kind=manual_marker activity=Ore event=tier_selected tier=T4 enchantment=E1
-  t=1793621395320 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E2
-  t=1793621395799 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E3
-  t=1793621396170 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
-  t=1793621396295 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E1
-  t=1793621396453 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E2
-  t=1793621397952 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=E2
-  t=1793621400269 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=E2
-  t=1793621404124 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=E2
-  t=1793621404658 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=E2
-  t=1793621419711 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E3
-  t=1793621419851 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
-  t=1793621420307 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E1
-  t=1793621421495 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=E1
-  t=1793621423512 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=E1
-  t=1793621429607 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=E1
-  t=1793621430117 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=E1
-  t=1793621441629 kind=manual_marker activity=Wood event=activity_selected tier=T4 enchantment=E1
-  t=1793621442393 kind=manual_marker activity=Ore event=activity_selected tier=T4 enchantment=E1
-  t=1793621442608 kind=manual_marker activity=Other event=activity_selected tier=T4 enchantment=E1
-  t=1793621443807 kind=manual_marker activity=Travel event=activity_selected tier=T4 enchantment=E1
-  t=1793621444382 kind=manual_marker activity=PvP event=activity_selected tier=T4 enchantment=E1
-  t=1793621445024 kind=manual_marker activity=Mobs event=activity_selected tier=T4 enchantment=E1
-  t=1793621445743 kind=manual_marker activity=Hide event=activity_selected tier=T4 enchantment=E1
-  t=1793621446367 kind=manual_marker activity=Fiber event=activity_selected tier=T4 enchantment=E1
-  t=1793621446933 kind=manual_marker activity=Stone event=activity_selected tier=T4 enchantment=E1
-  t=1793621447597 kind=manual_marker activity=Wood event=activity_selected tier=T4 enchantment=E1
-  t=1793621448778 kind=manual_marker activity=Ore event=activity_selected tier=T4 enchantment=E1
-  t=1793621449420 kind=manual_marker activity=Other event=activity_selected tier=T4 enchantment=E1
-  t=1793621450145 kind=manual_marker activity=Travel event=activity_selected tier=T4 enchantment=E1
-  t=1793621450785 kind=manual_marker activity=PvP event=activity_selected tier=T4 enchantment=E1
-  t=1793621451415 kind=manual_marker activity=Mobs event=activity_selected tier=T4 enchantment=E1
-  t=1793621454932 kind=manual_marker activity=Mobs event=enchantment_selected tier=T4 enchantment=E2
-  t=1793621455111 kind=manual_marker activity=Mobs event=enchantment_selected tier=T4 enchantment=E3
-  t=1793621455509 kind=manual_marker activity=Mobs event=enchantment_selected tier=T4 enchantment=Normal
-  t=1793621458722 kind=manual_marker activity=Mobs event=target_found tier=T4 enchantment=Normal
-  t=1793621470263 kind=manual_marker activity=Mobs event=mob_killed tier=T4 enchantment=Normal
-  t=1793621473705 kind=manual_marker activity=PvP event=activity_selected tier=T4 enchantment=Normal
-  t=1793621474408 kind=manual_marker activity=Travel event=activity_selected tier=T4 enchantment=Normal
-  t=1793621475015 kind=manual_marker activity=Other event=activity_selected tier=T4 enchantment=Normal
-  t=1793621475666 kind=manual_marker activity=Ore event=activity_selected tier=T4 enchantment=Normal
-  t=1793621478267 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=Normal
-  t=1793621479087 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=Normal
-  t=1793621483189 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=Normal
-  t=1793621483619 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=Normal
-  t=1793621488669 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E1
-  t=1793621489610 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=E1
-  t=1793621492330 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=E1
-  t=1793621496676 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=E1
-  t=1793621497391 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=E1
-  t=1793621509751 kind=manual_marker activity=Other event=activity_selected tier=T4 enchantment=E1
-  t=1793621512336 kind=manual_marker activity=Travel event=activity_selected tier=T4 enchantment=E1
-  t=1793621517079 kind=manual_marker activity=Travel event=tier_selected tier=T5 enchantment=E1
-  t=1793621517458 kind=manual_marker activity=Travel event=tier_selected tier=T6 enchantment=E1
-  t=1793621517658 kind=manual_marker activity=Travel event=tier_selected tier=T7 enchantment=E1
-  t=1793621518231 kind=manual_marker activity=Travel event=tier_selected tier=T8 enchantment=E1
-  t=1793621520043 kind=manual_marker activity=Travel event=activity_event tier=T8 enchantment=E1
-  t=1793621521356 kind=manual_marker activity=Travel event=tier_selected tier=T2 enchantment=E1
-  t=1793621521964 kind=manual_marker activity=Travel event=tier_selected tier=T3 enchantment=E1
-  t=1793621522489 kind=manual_marker activity=Travel event=tier_selected tier=T4 enchantment=E1
-  t=1793621523238 kind=manual_marker activity=PvP event=activity_selected tier=T4 enchantment=E1
-  t=1793621523848 kind=manual_marker activity=Mobs event=activity_selected tier=T4 enchantment=E1
-  t=1793621524993 kind=manual_marker activity=Hide event=activity_selected tier=T4 enchantment=E1
-  t=1793621525924 kind=manual_marker activity=Fiber event=activity_selected tier=T4 enchantment=E1
-  t=1793621526822 kind=manual_marker activity=Stone event=activity_selected tier=T4 enchantment=E1
-  t=1793621527159 kind=manual_marker activity=Wood event=activity_selected tier=T4 enchantment=E1
-  t=1793621527562 kind=manual_marker activity=Ore event=activity_selected tier=T4 enchantment=E1
-  t=1793621528235 kind=manual_marker activity=Other event=activity_selected tier=T4 enchantment=E1
-  t=1793621530229 kind=manual_marker activity=Travel event=activity_selected tier=T4 enchantment=E1
-  t=1793621532147 kind=manual_marker activity=Travel event=activity_start tier=T4 enchantment=E1
-  t=1793621547304 kind=manual_marker activity=Travel event=activity_end tier=T4 enchantment=E1
-  t=1793621554375 kind=manual_marker activity=Travel event=overlay_collapsed tier=T4 enchantment=E1
-  t=1793621565750 kind=manual_marker activity=Capture event=capture_stopping
+  t=1793620890608 kind=manual_marker elapsed_realtime_ms=10948139 activity=Capture event=capture_started
+  t=1793620915594 kind=manual_marker elapsed_realtime_ms=10973124 activity=Ore event=target_found tier=T4 enchantment=Normal
+  t=1793620916536 kind=manual_marker elapsed_realtime_ms=10974067 activity=Ore event=gathering_started tier=T4 enchantment=Normal
+  t=1793620921505 kind=manual_marker elapsed_realtime_ms=10979036 activity=Ore event=gathering_completed tier=T4 enchantment=Normal
+  t=1793620922508 kind=manual_marker elapsed_realtime_ms=10980039 activity=Ore event=node_depleted tier=T4 enchantment=Normal
+  t=1793620927592 kind=manual_marker elapsed_realtime_ms=10985123 activity=Ore event=target_found tier=T4 enchantment=Normal
+  t=1793620930400 kind=manual_marker elapsed_realtime_ms=10987931 activity=Ore event=gathering_started tier=T4 enchantment=Normal
+  t=1793620935788 kind=manual_marker elapsed_realtime_ms=10993319 activity=Ore event=gathering_completed tier=T4 enchantment=Normal
+  t=1793620936449 kind=manual_marker elapsed_realtime_ms=10993979 activity=Ore event=node_depleted tier=T4 enchantment=Normal
+  t=1793620944401 kind=manual_marker elapsed_realtime_ms=11001932 activity=Ore event=tier_selected tier=T5 enchantment=Normal
+  t=1793620944557 kind=manual_marker elapsed_realtime_ms=11002087 activity=Ore event=tier_selected tier=T6 enchantment=Normal
+  t=1793620944708 kind=manual_marker elapsed_realtime_ms=11002239 activity=Ore event=tier_selected tier=T7 enchantment=Normal
+  t=1793620945098 kind=manual_marker elapsed_realtime_ms=11002630 activity=Ore event=tier_selected tier=T8 enchantment=Normal
+  t=1793620945413 kind=manual_marker elapsed_realtime_ms=11002943 activity=Ore event=tier_selected tier=T2 enchantment=Normal
+  t=1793620945844 kind=manual_marker elapsed_realtime_ms=11003375 activity=Ore event=tier_selected tier=T3 enchantment=Normal
+  t=1793620947719 kind=manual_marker elapsed_realtime_ms=11005250 activity=Ore event=target_found tier=T3 enchantment=Normal
+  t=1793620948345 kind=manual_marker elapsed_realtime_ms=11005876 activity=Ore event=gathering_started tier=T3 enchantment=Normal
+  t=1793620951849 kind=manual_marker elapsed_realtime_ms=11009380 activity=Ore event=gathering_completed tier=T3 enchantment=Normal
+  t=1793620952651 kind=manual_marker elapsed_realtime_ms=11010182 activity=Ore event=node_depleted tier=T3 enchantment=Normal
+  t=1793620973042 kind=manual_marker elapsed_realtime_ms=11030573 activity=Ore event=tier_selected tier=T4 enchantment=Normal
+  t=1793620973177 kind=manual_marker elapsed_realtime_ms=11030708 activity=Ore event=tier_selected tier=T5 enchantment=Normal
+  t=1793620974913 kind=manual_marker elapsed_realtime_ms=11032443 activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793620976193 kind=manual_marker elapsed_realtime_ms=11033724 activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793620984501 kind=manual_marker elapsed_realtime_ms=11042032 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793620986063 kind=manual_marker elapsed_realtime_ms=11043594 activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793620998125 kind=manual_marker elapsed_realtime_ms=11055656 activity=Ore event=enchantment_selected tier=T5 enchantment=E1
+  t=1793621000943 kind=manual_marker elapsed_realtime_ms=11058474 activity=Ore event=target_found tier=T5 enchantment=E1
+  t=1793621002805 kind=manual_marker elapsed_realtime_ms=11060336 activity=Ore event=gathering_started tier=T5 enchantment=E1
+  t=1793621006489 kind=manual_marker elapsed_realtime_ms=11064020 activity=Ore event=gathering_completed tier=T5 enchantment=E1
+  t=1793621007591 kind=manual_marker elapsed_realtime_ms=11065122 activity=Ore event=node_depleted tier=T5 enchantment=E1
+  t=1793621016525 kind=manual_marker elapsed_realtime_ms=11074055 activity=Ore event=target_found tier=T5 enchantment=E1
+  t=1793621017334 kind=manual_marker elapsed_realtime_ms=11074865 activity=Ore event=gathering_started tier=T5 enchantment=E1
+  t=1793621027027 kind=manual_marker elapsed_realtime_ms=11084558 activity=Ore event=gathering_completed tier=T5 enchantment=E1
+  t=1793621027628 kind=manual_marker elapsed_realtime_ms=11085159 activity=Ore event=node_depleted tier=T5 enchantment=E1
+  t=1793621092351 kind=manual_marker elapsed_realtime_ms=11149882 activity=Ore event=tier_selected tier=T6 enchantment=E1
+  t=1793621092513 kind=manual_marker elapsed_realtime_ms=11150044 activity=Ore event=tier_selected tier=T7 enchantment=E1
+  t=1793621092938 kind=manual_marker elapsed_realtime_ms=11150469 activity=Ore event=tier_selected tier=T8 enchantment=E1
+  t=1793621093165 kind=manual_marker elapsed_realtime_ms=11150695 activity=Ore event=tier_selected tier=T2 enchantment=E1
+  t=1793621093690 kind=manual_marker elapsed_realtime_ms=11151221 activity=Ore event=tier_selected tier=T3 enchantment=E1
+  t=1793621095249 kind=manual_marker elapsed_realtime_ms=11152780 activity=Ore event=tier_selected tier=T4 enchantment=E1
+  t=1793621097283 kind=manual_marker elapsed_realtime_ms=11154813 activity=Ore event=target_found tier=T4 enchantment=E1
+  t=1793621098569 kind=manual_marker elapsed_realtime_ms=11156100 activity=Ore event=gathering_started tier=T4 enchantment=E1
+  t=1793621103716 kind=manual_marker elapsed_realtime_ms=11161247 activity=Ore event=gathering_completed tier=T4 enchantment=E1
+  t=1793621104289 kind=manual_marker elapsed_realtime_ms=11161820 activity=Ore event=node_depleted tier=T4 enchantment=E1
+  t=1793621133476 kind=manual_marker elapsed_realtime_ms=11191006 activity=Ore event=tier_selected tier=T5 enchantment=E1
+  t=1793621134988 kind=manual_marker elapsed_realtime_ms=11192519 activity=Ore event=target_found tier=T5 enchantment=E1
+  t=1793621138686 kind=manual_marker elapsed_realtime_ms=11196216 activity=Ore event=gathering_started tier=T5 enchantment=E1
+  t=1793621142232 kind=manual_marker elapsed_realtime_ms=11199763 activity=Ore event=gathering_completed tier=T5 enchantment=E1
+  t=1793621143299 kind=manual_marker elapsed_realtime_ms=11200830 activity=Ore event=node_depleted tier=T5 enchantment=E1
+  t=1793621143824 kind=manual_marker elapsed_realtime_ms=11201354 activity=Ore event=enchantment_selected tier=T5 enchantment=E2
+  t=1793621158429 kind=manual_marker elapsed_realtime_ms=11215960 activity=Ore event=tier_selected tier=T6 enchantment=E2
+  t=1793621158565 kind=manual_marker elapsed_realtime_ms=11216096 activity=Ore event=tier_selected tier=T7 enchantment=E2
+  t=1793621158721 kind=manual_marker elapsed_realtime_ms=11216252 activity=Ore event=tier_selected tier=T8 enchantment=E2
+  t=1793621159362 kind=manual_marker elapsed_realtime_ms=11216892 activity=Ore event=tier_selected tier=T2 enchantment=E2
+  t=1793621159518 kind=manual_marker elapsed_realtime_ms=11217049 activity=Ore event=tier_selected tier=T3 enchantment=E2
+  t=1793621159934 kind=manual_marker elapsed_realtime_ms=11217465 activity=Ore event=tier_selected tier=T4 enchantment=E2
+  t=1793621161388 kind=manual_marker elapsed_realtime_ms=11218919 activity=Ore event=enchantment_selected tier=T4 enchantment=E3
+  t=1793621161537 kind=manual_marker elapsed_realtime_ms=11219068 activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
+  t=1793621161687 kind=manual_marker elapsed_realtime_ms=11219218 activity=Ore event=enchantment_selected tier=T4 enchantment=E1
+  t=1793621163531 kind=manual_marker elapsed_realtime_ms=11221062 activity=Ore event=target_found tier=T4 enchantment=E1
+  t=1793621165769 kind=manual_marker elapsed_realtime_ms=11223300 activity=Ore event=gathering_started tier=T4 enchantment=E1
+  t=1793621170735 kind=manual_marker elapsed_realtime_ms=11228266 activity=Ore event=gathering_completed tier=T4 enchantment=E1
+  t=1793621171856 kind=manual_marker elapsed_realtime_ms=11229386 activity=Ore event=node_depleted tier=T4 enchantment=E1
+  t=1793621236719 kind=manual_marker elapsed_realtime_ms=11294249 activity=Ore event=tier_selected tier=T5 enchantment=E1
+  t=1793621238085 kind=manual_marker elapsed_realtime_ms=11295615 activity=Ore event=target_found tier=T5 enchantment=E1
+  t=1793621241281 kind=manual_marker elapsed_realtime_ms=11298812 activity=Ore event=gathering_started tier=T5 enchantment=E1
+  t=1793621245195 kind=manual_marker elapsed_realtime_ms=11302726 activity=Ore event=gathering_completed tier=T5 enchantment=E1
+  t=1793621245779 kind=manual_marker elapsed_realtime_ms=11303309 activity=Ore event=node_depleted tier=T5 enchantment=E1
+  t=1793621258152 kind=manual_marker elapsed_realtime_ms=11315683 activity=Ore event=enchantment_selected tier=T5 enchantment=E2
+  t=1793621258305 kind=manual_marker elapsed_realtime_ms=11315835 activity=Ore event=enchantment_selected tier=T5 enchantment=E3
+  t=1793621258439 kind=manual_marker elapsed_realtime_ms=11315970 activity=Ore event=enchantment_selected tier=T5 enchantment=Normal
+  t=1793621260195 kind=manual_marker elapsed_realtime_ms=11317726 activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793621261187 kind=manual_marker elapsed_realtime_ms=11318717 activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793621262149 kind=manual_marker elapsed_realtime_ms=11319680 activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793621263165 kind=manual_marker elapsed_realtime_ms=11320696 activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793621264543 kind=manual_marker elapsed_realtime_ms=11322074 activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793621266974 kind=manual_marker elapsed_realtime_ms=11324505 activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621270797 kind=manual_marker elapsed_realtime_ms=11328327 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793621271537 kind=manual_marker elapsed_realtime_ms=11329068 activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793621273431 kind=manual_marker elapsed_realtime_ms=11330961 activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621280507 kind=manual_marker elapsed_realtime_ms=11338037 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793621281038 kind=manual_marker elapsed_realtime_ms=11338569 activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793621283104 kind=manual_marker elapsed_realtime_ms=11340634 activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621293472 kind=manual_marker elapsed_realtime_ms=11351003 activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621298035 kind=manual_marker elapsed_realtime_ms=11355566 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793621298456 kind=manual_marker elapsed_realtime_ms=11355987 activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793621299976 kind=manual_marker elapsed_realtime_ms=11357507 activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621304788 kind=manual_marker elapsed_realtime_ms=11362318 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793621305212 kind=manual_marker elapsed_realtime_ms=11362743 activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793621307145 kind=manual_marker elapsed_realtime_ms=11364675 activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621313017 kind=manual_marker elapsed_realtime_ms=11370547 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793621313553 kind=manual_marker elapsed_realtime_ms=11371083 activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793621337519 kind=manual_marker elapsed_realtime_ms=11395050 activity=Ore event=enchantment_selected tier=T5 enchantment=E1
+  t=1793621338341 kind=manual_marker elapsed_realtime_ms=11395872 activity=Ore event=target_found tier=T5 enchantment=E1
+  t=1793621340506 kind=manual_marker elapsed_realtime_ms=11398036 activity=Ore event=gathering_started tier=T5 enchantment=E1
+  t=1793621344054 kind=manual_marker elapsed_realtime_ms=11401585 activity=Ore event=gathering_completed tier=T5 enchantment=E1
+  t=1793621345011 kind=manual_marker elapsed_realtime_ms=11402542 activity=Ore event=node_depleted tier=T5 enchantment=E1
+  t=1793621393291 kind=manual_marker elapsed_realtime_ms=11450822 activity=Ore event=tier_selected tier=T6 enchantment=E1
+  t=1793621393433 kind=manual_marker elapsed_realtime_ms=11450964 activity=Ore event=tier_selected tier=T7 enchantment=E1
+  t=1793621393580 kind=manual_marker elapsed_realtime_ms=11451111 activity=Ore event=tier_selected tier=T8 enchantment=E1
+  t=1793621393747 kind=manual_marker elapsed_realtime_ms=11451278 activity=Ore event=tier_selected tier=T2 enchantment=E1
+  t=1793621394344 kind=manual_marker elapsed_realtime_ms=11451875 activity=Ore event=tier_selected tier=T3 enchantment=E1
+  t=1793621394584 kind=manual_marker elapsed_realtime_ms=11452114 activity=Ore event=tier_selected tier=T4 enchantment=E1
+  t=1793621395320 kind=manual_marker elapsed_realtime_ms=11452851 activity=Ore event=enchantment_selected tier=T4 enchantment=E2
+  t=1793621395799 kind=manual_marker elapsed_realtime_ms=11453330 activity=Ore event=enchantment_selected tier=T4 enchantment=E3
+  t=1793621396170 kind=manual_marker elapsed_realtime_ms=11453701 activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
+  t=1793621396295 kind=manual_marker elapsed_realtime_ms=11453826 activity=Ore event=enchantment_selected tier=T4 enchantment=E1
+  t=1793621396453 kind=manual_marker elapsed_realtime_ms=11453984 activity=Ore event=enchantment_selected tier=T4 enchantment=E2
+  t=1793621397952 kind=manual_marker elapsed_realtime_ms=11455483 activity=Ore event=target_found tier=T4 enchantment=E2
+  t=1793621400269 kind=manual_marker elapsed_realtime_ms=11457799 activity=Ore event=gathering_started tier=T4 enchantment=E2
+  t=1793621404124 kind=manual_marker elapsed_realtime_ms=11461654 activity=Ore event=gathering_completed tier=T4 enchantment=E2
+  t=1793621404658 kind=manual_marker elapsed_realtime_ms=11462189 activity=Ore event=node_depleted tier=T4 enchantment=E2
+  t=1793621419711 kind=manual_marker elapsed_realtime_ms=11477242 activity=Ore event=enchantment_selected tier=T4 enchantment=E3
+  t=1793621419851 kind=manual_marker elapsed_realtime_ms=11477382 activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
+  t=1793621420307 kind=manual_marker elapsed_realtime_ms=11477838 activity=Ore event=enchantment_selected tier=T4 enchantment=E1
+  t=1793621421495 kind=manual_marker elapsed_realtime_ms=11479026 activity=Ore event=target_found tier=T4 enchantment=E1
+  t=1793621423512 kind=manual_marker elapsed_realtime_ms=11481043 activity=Ore event=gathering_started tier=T4 enchantment=E1
+  t=1793621429607 kind=manual_marker elapsed_realtime_ms=11487138 activity=Ore event=gathering_completed tier=T4 enchantment=E1
+  t=1793621430117 kind=manual_marker elapsed_realtime_ms=11487648 activity=Ore event=node_depleted tier=T4 enchantment=E1
+  t=1793621441629 kind=manual_marker elapsed_realtime_ms=11499159 activity=Wood event=activity_selected tier=T4 enchantment=E1
+  t=1793621442393 kind=manual_marker elapsed_realtime_ms=11499923 activity=Ore event=activity_selected tier=T4 enchantment=E1
+  t=1793621442608 kind=manual_marker elapsed_realtime_ms=11500138 activity=Other event=activity_selected tier=T4 enchantment=E1
+  t=1793621443807 kind=manual_marker elapsed_realtime_ms=11501338 activity=Travel event=activity_selected tier=T4 enchantment=E1
+  t=1793621444382 kind=manual_marker elapsed_realtime_ms=11501913 activity=PvP event=activity_selected tier=T4 enchantment=E1
+  t=1793621445024 kind=manual_marker elapsed_realtime_ms=11502555 activity=Mobs event=activity_selected tier=T4 enchantment=E1
+  t=1793621445743 kind=manual_marker elapsed_realtime_ms=11503274 activity=Hide event=activity_selected tier=T4 enchantment=E1
+  t=1793621446367 kind=manual_marker elapsed_realtime_ms=11503898 activity=Fiber event=activity_selected tier=T4 enchantment=E1
+  t=1793621446933 kind=manual_marker elapsed_realtime_ms=11504464 activity=Stone event=activity_selected tier=T4 enchantment=E1
+  t=1793621447597 kind=manual_marker elapsed_realtime_ms=11505128 activity=Wood event=activity_selected tier=T4 enchantment=E1
+  t=1793621448778 kind=manual_marker elapsed_realtime_ms=11506309 activity=Ore event=activity_selected tier=T4 enchantment=E1
+  t=1793621449420 kind=manual_marker elapsed_realtime_ms=11506951 activity=Other event=activity_selected tier=T4 enchantment=E1
+  t=1793621450145 kind=manual_marker elapsed_realtime_ms=11507676 activity=Travel event=activity_selected tier=T4 enchantment=E1
+  t=1793621450785 kind=manual_marker elapsed_realtime_ms=11508315 activity=PvP event=activity_selected tier=T4 enchantment=E1
+  t=1793621451415 kind=manual_marker elapsed_realtime_ms=11508945 activity=Mobs event=activity_selected tier=T4 enchantment=E1
+  t=1793621454932 kind=manual_marker elapsed_realtime_ms=11512463 activity=Mobs event=enchantment_selected tier=T4 enchantment=E2
+  t=1793621455111 kind=manual_marker elapsed_realtime_ms=11512642 activity=Mobs event=enchantment_selected tier=T4 enchantment=E3
+  t=1793621455509 kind=manual_marker elapsed_realtime_ms=11513040 activity=Mobs event=enchantment_selected tier=T4 enchantment=Normal
+  t=1793621458722 kind=manual_marker elapsed_realtime_ms=11516253 activity=Mobs event=target_found tier=T4 enchantment=Normal
+  t=1793621470263 kind=manual_marker elapsed_realtime_ms=11527794 activity=Mobs event=mob_killed tier=T4 enchantment=Normal
+  t=1793621473705 kind=manual_marker elapsed_realtime_ms=11531236 activity=PvP event=activity_selected tier=T4 enchantment=Normal
+  t=1793621474408 kind=manual_marker elapsed_realtime_ms=11531939 activity=Travel event=activity_selected tier=T4 enchantment=Normal
+  t=1793621475015 kind=manual_marker elapsed_realtime_ms=11532546 activity=Other event=activity_selected tier=T4 enchantment=Normal
+  t=1793621475666 kind=manual_marker elapsed_realtime_ms=11533197 activity=Ore event=activity_selected tier=T4 enchantment=Normal
+  t=1793621478267 kind=manual_marker elapsed_realtime_ms=11535798 activity=Ore event=target_found tier=T4 enchantment=Normal
+  t=1793621479087 kind=manual_marker elapsed_realtime_ms=11536617 activity=Ore event=gathering_started tier=T4 enchantment=Normal
+  t=1793621483189 kind=manual_marker elapsed_realtime_ms=11540720 activity=Ore event=gathering_completed tier=T4 enchantment=Normal
+  t=1793621483619 kind=manual_marker elapsed_realtime_ms=11541150 activity=Ore event=node_depleted tier=T4 enchantment=Normal
+  t=1793621488669 kind=manual_marker elapsed_realtime_ms=11546200 activity=Ore event=enchantment_selected tier=T4 enchantment=E1
+  t=1793621489610 kind=manual_marker elapsed_realtime_ms=11547141 activity=Ore event=target_found tier=T4 enchantment=E1
+  t=1793621492330 kind=manual_marker elapsed_realtime_ms=11549861 activity=Ore event=gathering_started tier=T4 enchantment=E1
+  t=1793621496676 kind=manual_marker elapsed_realtime_ms=11554206 activity=Ore event=gathering_completed tier=T4 enchantment=E1
+  t=1793621497391 kind=manual_marker elapsed_realtime_ms=11554922 activity=Ore event=node_depleted tier=T4 enchantment=E1
+  t=1793621509751 kind=manual_marker elapsed_realtime_ms=11567282 activity=Other event=activity_selected tier=T4 enchantment=E1
+  t=1793621512336 kind=manual_marker elapsed_realtime_ms=11569867 activity=Travel event=activity_selected tier=T4 enchantment=E1
+  t=1793621517079 kind=manual_marker elapsed_realtime_ms=11574610 activity=Travel event=tier_selected tier=T5 enchantment=E1
+  t=1793621517458 kind=manual_marker elapsed_realtime_ms=11574989 activity=Travel event=tier_selected tier=T6 enchantment=E1
+  t=1793621517658 kind=manual_marker elapsed_realtime_ms=11575189 activity=Travel event=tier_selected tier=T7 enchantment=E1
+  t=1793621518231 kind=manual_marker elapsed_realtime_ms=11575761 activity=Travel event=tier_selected tier=T8 enchantment=E1
+  t=1793621520043 kind=manual_marker elapsed_realtime_ms=11577574 activity=Travel event=activity_event tier=T8 enchantment=E1
+  t=1793621521356 kind=manual_marker elapsed_realtime_ms=11578887 activity=Travel event=tier_selected tier=T2 enchantment=E1
+  t=1793621521964 kind=manual_marker elapsed_realtime_ms=11579495 activity=Travel event=tier_selected tier=T3 enchantment=E1
+  t=1793621522489 kind=manual_marker elapsed_realtime_ms=11580020 activity=Travel event=tier_selected tier=T4 enchantment=E1
+  t=1793621523238 kind=manual_marker elapsed_realtime_ms=11580768 activity=PvP event=activity_selected tier=T4 enchantment=E1
+  t=1793621523848 kind=manual_marker elapsed_realtime_ms=11581379 activity=Mobs event=activity_selected tier=T4 enchantment=E1
+  t=1793621524993 kind=manual_marker elapsed_realtime_ms=11582523 activity=Hide event=activity_selected tier=T4 enchantment=E1
+  t=1793621525924 kind=manual_marker elapsed_realtime_ms=11583454 activity=Fiber event=activity_selected tier=T4 enchantment=E1
+  t=1793621526822 kind=manual_marker elapsed_realtime_ms=11584353 activity=Stone event=activity_selected tier=T4 enchantment=E1
+  t=1793621527159 kind=manual_marker elapsed_realtime_ms=11584690 activity=Wood event=activity_selected tier=T4 enchantment=E1
+  t=1793621527562 kind=manual_marker elapsed_realtime_ms=11585093 activity=Ore event=activity_selected tier=T4 enchantment=E1
+  t=1793621528235 kind=manual_marker elapsed_realtime_ms=11585766 activity=Other event=activity_selected tier=T4 enchantment=E1
+  t=1793621530229 kind=manual_marker elapsed_realtime_ms=11587760 activity=Travel event=activity_selected tier=T4 enchantment=E1
+  t=1793621532147 kind=manual_marker elapsed_realtime_ms=11589678 activity=Travel event=activity_start tier=T4 enchantment=E1
+  t=1793621547304 kind=manual_marker elapsed_realtime_ms=11604835 activity=Travel event=activity_end tier=T4 enchantment=E1
+  t=1793621554375 kind=manual_marker elapsed_realtime_ms=11611906 activity=Travel event=overlay_collapsed tier=T4 enchantment=E1
+  t=1793621565750 kind=manual_marker elapsed_realtime_ms=11623281 activity=Capture event=capture_stopping
 Capture file quality: GOOD (100/100)
 PCAP records: 22093
 Captured bytes: 3447799
@@ -307,8 +309,8 @@ Limitation: Packet duplicates are counted, not assumed to be packet loss; retran
 Limitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.
 Limitation: Native tap drops were not supplied; no tap-drop penalty was applied.
 
-Detailed entity/player observations: 34863
-  t=1793620890608 kind=manual_marker activity=Capture event=capture_started
+Detailed entity/player observations: 34939
+  t=1793620890608 kind=manual_marker elapsed_realtime_ms=10948139 activity=Capture event=capture_started
   t=1793620890615 event3 id=4975 raw=03cb141708d938df0871c1a0c31d731543549a99394023d19fc32d6d1443 p4=-321.51126 p5=149.44966
   t=1793620890615 event3 id=4524 raw=037a891708d938df08b61799c353d35c437a0000404030d098c302035943 p4=-306.18524 p5=220.82549
   t=1793620890641 event3 id=4975 raw=03446a2608d938df08d9a0a0c3964f1543549a99394023d19fc32d6d1443 p4=-321.25662 p5=149.31088
@@ -381,7 +383,7 @@ Detailed entity/player observations: 34863
   t=1793620896390 event3 id=36646 raw=036251940bd938df08e7fa81c327b33143246666e63f8ce980c30d763343 p4=-259.96017 p5=177.69981
   t=1793620896475 event3 id=4462 raw=030487a30bd938df089ed67ec3c54c1d43f0000040408dc67fc3c3a31f43 p4=-254.83835 p5=157.29988
   t=1793620896475 event3 id=36646 raw=03e5ada30bd938df0821e981c379d03143246666e63f8ce980c30d763343 p4=-259.82132 p5=177.81435
-  t=1793620896475 kind=resource_state id=3909 amount=1
+  t=1793620896475 kind=resource_state id=3909 enchant=0 amount=1
   t=1793620896581 event3 id=4462 raw=0395cbb20bd938df082df37ec311941d43f0000040408dc67fc3c3a31f43 p4=-254.9499 p5=157.57838
   t=1793620896581 event3 id=4561 raw=0395cbb20bd938df082fcaa3c3432c2243bb0000404030afa6c3b9742343 p4=-327.57956 p5=162.1729
   t=1793620896581 event3 id=36646 raw=037df2b20bd938df085bd781c3cbed3143246666e63f8ce980c30d763343 p4=-259.68246 p5=177.92888
@@ -663,7 +665,7 @@ Detailed entity/player observations: 34863
   t=1793620911344 outbound_request op=22 params={0=639292177113910737 1=[-304.5383, 183.13617] 2=204.0171 3=[-304.93674, 182.24193] 4=11.0 253=22}
   t=1793620911344 kind=own_player_move x=-304.5382995605469 y=183.13616943359375 heading=204.01710510253906 target_x=-304.9367370605469 target_y=182.24192810058594 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793620911411 event3 id=4524 raw=0108f68614d938df0835bd99c3bd9c57439100004040 p4=null p5=null
-  t=1793620911479 kind=resource_state id=3909 amount=2
+  t=1793620911479 kind=resource_state id=3909 enchant=0 amount=2
   t=1793620911491 outbound_request op=22 params={0=639292177114860737 1=[-305.39075, 182.53185] 2=235.27864 3=[-305.39075, 182.53185] 4=11.0 253=22}
   t=1793620911491 kind=own_player_move x=-305.3907470703125 y=182.53184509277344 heading=235.2786407470703 target_x=-305.3907470703125 target_y=182.53184509277344 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793620911619 event3 id=4975 raw=034c64a514d938df08c1baa0c39f281543c99a993940e3c9a0c32e561543 p4=-321.459 p5=149.15868
@@ -758,7 +760,7 @@ Detailed entity/player observations: 34863
   t=1793620915156 event3 id=4526 raw=03bfd9c116d938df08e7d198c3e26152434d00004040b18a98c393345243 p4=-305.63986 p5=210.38235
   t=1793620915232 event3 id=4526 raw=03e72fd116d938df084ead98c3994a52434d00004040b18a98c393345243 p4=-305.35394 p5=210.2914
   t=1793620915333 event3 id=4526 raw=019e75e016d938df08b18a98c3933452434d00004040 p4=null p5=null
-  t=1793620915594 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=Normal
+  t=1793620915594 kind=manual_marker elapsed_realtime_ms=10973124 activity=Ore event=target_found tier=T4 enchantment=Normal
   t=1793620915778 event3 id=4975 raw=0347b71d17d938df08e3c9a0c32e561543e89a993940be57a0c3baea1343 p4=-321.57724 p5=149.33664
   t=1793620915860 event3 id=4975 raw=03a0fd2c17d938df0825b6a0c350171543699a993940be57a0c3baea1343 p4=-321.423 p5=149.09106
   t=1793620915949 event3 id=4975 raw=034e4a3c17d938df0867a2a0c372d81443699a993940be57a0c3baea1343 p4=-321.26877 p5=148.84549
@@ -772,7 +774,7 @@ Detailed entity/player observations: 34863
   t=1793620916350 kind=move id=4560 x=-346.02313 y=140.8464
   t=1793620916445 event3 id=4560 raw=032d068917d938df08f926adc308be0c43b2000040409e91adc31d6f0c43 p4=-346.30447 p5=140.74231
   t=1793620916445 kind=move id=4560 x=-346.30447 y=140.74231
-  t=1793620916536 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=Normal
+  t=1793620916536 kind=manual_marker elapsed_realtime_ms=10974067 activity=Ore event=gathering_started tier=T4 enchantment=Normal
   t=1793620916566 event3 id=4560 raw=0307669817d938df08fc4aadc362a30c43b2000040409e91adc31d6f0c43 p4=-346.58582 p5=140.63821
   t=1793620916566 kind=move id=4560 x=-346.58582 y=140.63821
   t=1793620916566 event3 id=4524 raw=03cfb39817d938df0835bd99c3bd9c57439100004040fcc498c394255b43 p4=-307.47818 p5=215.61226
@@ -794,6 +796,7 @@ Detailed entity/player observations: 34863
   t=1793620917359 event3 id=4524 raw=0369571318d938df08752999c364b759431400004040fcc498c394255b43 p4=-306.32388 p5=217.71637
   t=1793620917440 event3 id=4524 raw=0394a02218d938df08fd1699c3b7fa59431400004040fcc498c394255b43 p4=-306.1796 p5=217.97935
   t=1793620917552 event3 id=4524 raw=03d2e93118d938df08850499c30a3e5a431400004040fcc498c394255b43 p4=-306.0353 p5=218.24234
+  t=1793620917552 kind=player_mounted id=37103
   t=1793620917552 kind=raw_health_energy_event code=91 params={0:37103, 1:6193291, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292177174952467, 252:91}
   t=1793620917552 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
   t=1793620917664 event3 id=4524 raw=0343354118d938df080af298c35e815a431400004040fcc498c394255b43 p4=-305.89093 p5=218.50534
@@ -802,7 +805,7 @@ Detailed entity/player observations: 34863
   t=1793620917758 event3 id=4524 raw=03cd8f5018d938df0892df98c3b1c45a431400004040fcc498c394255b43 p4=-305.74664 p5=218.76833
   t=1793620917846 event3 id=4524 raw=03ddd55f18d938df0817cd98c305085b431400004040fcc498c394255b43 p4=-305.60226 p5=219.03133
   t=1793620917968 event3 id=4524 raw=0179266f18d938df08fcc498c394255b431400004040 p4=null p5=null
-  t=1793620918481 kind=resource_state id=3239 amount=2
+  t=1793620918481 kind=resource_state id=3239 enchant=0 amount=2
   t=1793620918481 kind=raw_health_energy_event code=91 params={0:37103, 1:6194200, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177184049541, 252:91}
   t=1793620918481 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620918590 kind=raw_health_energy_event code=91 params={0:37103, 1:6194338, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292177185430549, 252:91}
@@ -812,7 +815,7 @@ Detailed entity/player observations: 34863
   t=1793620919277 event3 id=4526 raw=0335653619d938df0809cd98c3ef815243d6000040406f509ac3a5455443 p4=-305.60184 p5=210.50755
   t=1793620919351 event3 id=4526 raw=03d8c14519d938df0836ee98c39ea85243d6000040406f509ac3a5455443 p4=-305.86102 p5=210.65866
   t=1793620919464 event3 id=4526 raw=03de075519d938df08630f99c34dcf5243d6000040406f509ac3a5455443 p4=-306.1202 p5=210.80977
-  t=1793620919543 kind=resource_state id=3239 amount=1
+  t=1793620919543 kind=resource_state id=3239 enchant=0 amount=1
   t=1793620919543 kind=raw_health_energy_event code=91 params={0:37103, 1:6195265, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177194698793, 252:91}
   t=1793620919543 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620919543 event3 id=4526 raw=033b626419d938df08903099c3fcf55243d6000040406f509ac3a5455443 p4=-306.3794 p5=210.96088
@@ -828,7 +831,7 @@ Detailed entity/player observations: 34863
   t=1793620920387 event3 id=4526 raw=03f733df19d938df08f8399ac3742b5443d6000040406f509ac3a5455443 p4=-308.45288 p5=212.16974
   t=1793620920451 event3 id=4526 raw=01377bee19d938df086f509ac3a5455443d600004040 p4=null p5=null
   t=1793620920574 event3 id=36646 raw=0373fcfd19d938df08e45281c388ee3243426666e63fa4e981c3d8033443 p4=-258.64758 p5=178.93176
-  t=1793620920611 kind=resource_state id=3239 amount=0 removed=true
+  t=1793620920611 kind=resource_state id=3239 enchant=0 amount=0 removed=true
   t=1793620920611 kind=raw_health_energy_event code=91 params={0:37103, 1:6196328, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177205322874, 252:91}
   t=1793620920611 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620920667 event3 id=36646 raw=03fe430d1ad938df08d96381c3ba0d3343de6666e63fa4e981c3d8033443 p4=-258.78006 p5=179.05362
@@ -842,10 +845,10 @@ Detailed entity/player observations: 34863
   t=1793620921383 event3 id=36646 raw=0366c7781ad938df088cda81c315e83343de6666e63fa4e981c3d8033443 p4=-259.7074 p5=179.90657
   t=1793620921487 event3 id=4561 raw=039bb1871ad938df08bef4a3c35b042043ad000040402996a5c3f15d1e43 p4=-327.91205 p5=160.01701
   t=1793620921487 event3 id=36646 raw=014726881ad938df08a4e981c3d8033443de6666e63f p4=null p5=null
-  t=1793620921505 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=Normal
+  t=1793620921505 kind=manual_marker elapsed_realtime_ms=10979036 activity=Ore event=gathering_completed tier=T4 enchantment=Normal
   t=1793620921585 event3 id=4561 raw=03700d971ad938df080117a4c3afe11f43ad000040402996a5c3f15d1e43 p4=-328.17972 p5=159.88158
   t=1793620921675 event3 id=4561 raw=032976a61ad938df084439a4c303bf1f43ad000040402996a5c3f15d1e43 p4=-328.4474 p5=159.74614
-  t=1793620921763 kind=resource_state id=4145 amount=1
+  t=1793620921763 kind=resource_state id=4145 enchant=0 amount=1
   t=1793620921763 event3 id=4561 raw=03e8ddb51ad938df08875ba4c3579c1f43ad000040402996a5c3f15d1e43 p4=-328.71506 p5=159.6107
   t=1793620921881 event3 id=4561 raw=039229c51ad938df08ca7da4c3ab791f43ad000040402996a5c3f15d1e43 p4=-328.98273 p5=159.47527
   t=1793620921972 event3 id=4561 raw=03cc84d41ad938df080da0a4c3ff561f43ad000040402996a5c3f15d1e43 p4=-329.2504 p5=159.33983
@@ -854,7 +857,7 @@ Detailed entity/player observations: 34863
   t=1793620922304 event3 id=4561 raw=03a176021bd938df08d606a5c3fbee1e43ad000040402996a5c3f15d1e43 p4=-330.0534 p5=158.93352
   t=1793620922383 event3 id=4561 raw=0327de111bd938df081929a5c34fcc1e43ad000040402996a5c3f15d1e43 p4=-330.32108 p5=158.79808
   t=1793620922483 event3 id=4561 raw=032b28211bd938df085c4ba5c3a3a91e43ad000040402996a5c3f15d1e43 p4=-330.58875 p5=158.66264
-  t=1793620922508 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=Normal
+  t=1793620922508 kind=manual_marker elapsed_realtime_ms=10980039 activity=Ore event=node_depleted tier=T4 enchantment=Normal
   t=1793620922585 event3 id=4561 raw=038b83301bd938df089f6da5c3f7861e43ad000040402996a5c3f15d1e43 p4=-330.8564 p5=158.5272
   t=1793620922673 event3 id=4561 raw=0368e33f1bd938df08e38fa5c34a641e43ad000040402996a5c3f15d1e43 p4=-331.1241 p5=158.39175
   t=1793620922761 event3 id=4561 raw=01fc2c4f1bd938df082996a5c3f15d1e43ad00004040 p4=null p5=null
@@ -864,6 +867,7 @@ Detailed entity/player observations: 34863
   t=1793620923832 event3 id=22979 raw=03a656d91bd938df08724d96c3347e534389000020404b7096c330385243 p4=-300.60504 p5=211.49298
   t=1793620923836 event3 id=4975 raw=03ea12e81bd938df08096ba0c3272a1443ea9a99394047baa0c3b02e1543 p4=-320.8362 p5=148.16466
   t=1793620923836 event3 id=22979 raw=037baee81bd938df08235496c39d3f534389000020404b7096c330385243 p4=-300.65732 p5=211.24849
+  t=1793620923838 kind=player_mounted id=37103
   t=1793620923838 kind=leave id=37577 removed=true
   t=1793620923923 event3 id=4975 raw=032869f71bd938df08547ea0c394691443ea9a99394047baa0c3b02e1543 p4=-320.98694 p5=148.41241
   t=1793620923923 event3 id=22979 raw=0330f3f71bd938df08d45a96c30601534389000020404b7096c330385243 p4=-300.7096 p5=211.004
@@ -974,7 +978,7 @@ Detailed entity/player observations: 34863
   t=1793620926951 event3 id=4524 raw=0385beca1dd938df0802a897c3809e59435900004040747097c342525943 p4=-303.31256 p5=217.61914
   t=1793620927044 event3 id=4524 raw=036306da1dd938df08588897c30c7359435900004040747097c342525943 p4=-303.0652 p5=217.4494
   t=1793620927158 event3 id=4524 raw=011a4ee91dd938df08747097c3425259435900004040 p4=null p5=null
-  t=1793620927592 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=Normal
+  t=1793620927592 kind=manual_marker elapsed_realtime_ms=10985123 activity=Ore event=target_found tier=T4 enchantment=Normal
   t=1793620927889 outbound_request op=22 params={0=639292177279060737 1=[-309.3763, 173.83514] 2=160.4027 3=[-307.86325, 173.79729] 4=11.0 253=22}
   t=1793620927889 kind=own_player_move x=-309.3763122558594 y=173.83514404296875 heading=160.40269470214844 target_x=-307.8632507324219 target_y=173.7972869873047 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793620928001 outbound_request op=22 params={0=639292177280290737 1=[-309.07224, 174.01749] 2=157.42558 3=[-308.60184, 173.17435] 4=11.0 253=22}
@@ -998,12 +1002,13 @@ Detailed entity/player observations: 34863
   t=1793620930183 event3 id=4526 raw=03385fb51fd938df089d4e9ac37a8b5343620000404018249ac37a2e5343 p4=-308.61417 p5=211.54483
   t=1793620930268 event3 id=4526 raw=0356b7c41fd938df08b4349ac3ce525343620000404018249ac37a2e5343 p4=-308.41174 p5=211.32346
   t=1793620930368 event3 id=4526 raw=011b04d41fd938df0818249ac37a2e53436200004040 p4=null p5=null
-  t=1793620930400 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=Normal
+  t=1793620930400 kind=manual_marker elapsed_realtime_ms=10987931 activity=Ore event=gathering_started tier=T4 enchantment=Normal
   t=1793620930895 outbound_request op=22 params={0=639292177309040737 1=[-311.5257, 172.53508] 2=199.79924 3=[-311.91678, 169.62024] 4=11.0 253=22}
   t=1793620930895 kind=own_player_move x=-311.52569580078125 y=172.5350799560547 heading=199.7992401123047 target_x=-311.9167785644531 target_y=169.6202392578125 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793620930996 outbound_request op=22 params={0=639292177310000737 1=[-311.7817, 171.57124] 2=184.85263 3=[-311.7817, 171.57124] 4=11.0 253=22}
   t=1793620930996 kind=own_player_move x=-311.7817077636719 y=171.5712432861328 heading=184.85263061523438 target_x=-311.7817077636719 target_y=171.5712432861328 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793620931169 event3 id=4561 raw=031d964e20d938df082996a5c3f15d1e43ad00004040482fa6c3014b2143 p4=-331.17313 p5=158.36696
+  t=1793620931205 kind=player_mounted id=37103
   t=1793620931205 kind=raw_health_energy_event code=91 params={0:37103, 1:6206930, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292177311346515, 252:91}
   t=1793620931205 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
   t=1793620931263 event3 id=4561 raw=0390ea5d20d938df08b1a4a5c307a51e43f000004040482fa6c3014b2143 p4=-331.28665 p5=158.64464
@@ -1028,7 +1033,7 @@ Detailed entity/player observations: 34863
   t=1793620932069 event3 id=4561 raw=03cb82d820d938df08f118a6c3b7dd2043f000004040482fa6c3014b2143 p4=-332.19485 p5=160.86607
   t=1793620932069 event3 id=15540 raw=03cb82d820d938df0872859cc3a3870243236666e63f196c9cc3c2b20243 p4=-313.04254 p5=130.52983
   t=1793620932069 kind=move id=15540 x=-313.04254 y=130.52983
-  t=1793620932106 kind=resource_state id=3254 amount=2
+  t=1793620932106 kind=resource_state id=3254 enchant=0 amount=2
   t=1793620932106 kind=raw_health_energy_event code=91 params={0:37103, 1:6207853, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177320571792, 252:91}
   t=1793620932106 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620932165 event3 id=4561 raw=03d6e3e720d938df087927a6c3cd242143f000004040482fa6c3014b2143 p4=-332.30838 p5=161.14375
@@ -1039,12 +1044,12 @@ Detailed entity/player observations: 34863
   t=1793620932284 kind=move id=15540
   t=1793620932284 kind=raw_health_energy_event code=91 params={0:37103, 1:6208003, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292177322072920, 252:91}
   t=1793620932284 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
-  t=1793620933201 kind=resource_state id=3254 amount=1
+  t=1793620933201 kind=resource_state id=3254 enchant=0 amount=1
   t=1793620933201 kind=raw_health_energy_event code=91 params={0:37103, 1:6208934, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177331381401, 252:91}
   t=1793620933201 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620933348 kind=raw_health_energy_event code=91 params={0:37103, 1:6209053, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292177332573265, 252:91}
   t=1793620933348 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
-  t=1793620933549 kind=resource_state id=3254 amount=1
+  t=1793620933549 kind=resource_state id=3254 enchant=0 amount=1
   t=1793620933549 kind=raw_health_energy_event code=91 params={0:37103, 1:6208934, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177331381401, 252:91}
   t=1793620933549 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620933549 kind=raw_health_energy_event code=91 params={0:37103, 1:6209053, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292177332573265, 252:91}
@@ -1055,7 +1060,7 @@ Detailed entity/player observations: 34863
   t=1793620934061 event3 id=22979 raw=0356f60a22d938df08e08a96c3d55b5243d800002040dfd997c30a1d5443 p4=-301.08496 p5=210.35872
   t=1793620934197 event3 id=22979 raw=034c3d1a22d938df0875a596c37a7f5243d800002040dfd997c30a1d5443 p4=-301.29263 p5=210.49796
   t=1793620934286 event3 id=22979 raw=03bd852922d938df080ac096c31fa35243d800002040dfd997c30a1d5443 p4=-301.5003 p5=210.63719
-  t=1793620934286 kind=resource_state id=3254 amount=0 removed=true
+  t=1793620934286 kind=resource_state id=3254 enchant=0 amount=0 removed=true
   t=1793620934286 kind=raw_health_energy_event code=91 params={0:37103, 1:6210013, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177342174637, 252:91}
   t=1793620934286 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620934387 event3 id=22979 raw=0313e13822d938df089fda96c3c4c65243d800002040dfd997c30a1d5443 p4=-301.70798 p5=210.77643
@@ -1078,7 +1083,7 @@ Detailed entity/player observations: 34863
   t=1793620935696 kind=move id=4560 x=-343.8791 y=139.57596
   t=1793620935696 event3 id=4524 raw=034ffc0123d938df086ae397c372615943c3000040404a1b99c3a68a5943 p4=-303.77667 p5=217.38065
   t=1793620935696 event3 id=4526 raw=034ffc0123d938df0818249ac37a2e53436200004040e8769bc3c29b5243 p4=-308.28198 p5=211.18155
-  t=1793620935788 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=Normal
+  t=1793620935788 kind=manual_marker elapsed_realtime_ms=10993319 activity=Ore event=gathering_completed tier=T4 enchantment=Normal
   t=1793620935797 event3 id=4560 raw=03c5341123d938df08e716acc302910b43bf00004040c5bcaec3f5650b43 p4=-344.17892 p5=139.56644
   t=1793620935797 kind=move id=4560 x=-344.17892 y=139.56644
   t=1793620935797 event3 id=4524 raw=03ad5b1123d938df08bc0998c382665943c3000040404a1b99c3a68a5943 p4=-304.07605 p5=217.40042
@@ -1103,7 +1108,7 @@ Detailed entity/player observations: 34863
   t=1793620936293 kind=move id=4560 x=-345.6781 y=139.51883
   t=1793620936293 event3 id=4524 raw=03e4f65d23d938df0856c998c3d27f5943c3000040404a1b99c3a68a5943 p4=-305.57294 p5=217.4993
   t=1793620936293 event3 id=4526 raw=03e4f65d23d938df084e059bc3f4cc5243b700004040e8769bc3c29b5243 p4=-310.04144 p5=210.8006
-  t=1793620936449 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=Normal
+  t=1793620936449 kind=manual_marker elapsed_realtime_ms=10993979 activity=Ore event=node_depleted tier=T4 enchantment=Normal
   t=1793620936479 event3 id=4560 raw=03a7146d23d938df082dfdacc362820b43bf00004040c5bcaec3f5650b43 p4=-345.97794 p5=139.50931
   t=1793620936479 kind=move id=4560 x=-345.97794 y=139.50931
   t=1793620936479 event3 id=4524 raw=03883b6d23d938df08a8ef98c3e2845943c3000040404a1b99c3a68a5943 p4=-305.8723 p5=217.51907
@@ -1143,6 +1148,7 @@ Detailed entity/player observations: 34863
   t=1793620937508 kind=move id=4560 x=-349.27612 y=139.40457
   t=1793620937621 event3 id=4560 raw=0144212524d938df08c5bcaec3f5650b43bf00004040 p4=null p5=null
   t=1793620937621 kind=move id=4560
+  t=1793620937746 kind=player_mounted id=37103
   t=1793620937746 kind=leave id=37617 removed=true
   t=1793620937760 outbound_request op=22 params={0=639292177377790737 1=[-311.7817, 171.57124] 2=184.85265 3=[-310.85086, 171.964] 4=5.5 253=22}
   t=1793620937760 kind=own_player_move x=-311.7817077636719 y=171.5712432861328 heading=184.85264587402344 target_x=-310.8508605957031 target_y=171.96400451660156 speed=5.5 source=outbound_photon_operation_22_param_1
@@ -1156,7 +1162,7 @@ Detailed entity/player observations: 34863
   t=1793620938200 kind=own_player_move x=-311.2437744140625 y=175.1823272705078 heading=4.478610515594482 target_x=-311.1976318359375 target_y=175.7716064453125 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793620938313 outbound_request op=22 params={0=639292177383470737 1=[-311.1326, 176.37619] 2=5.3765826 3=[-311.0741, 176.99786] 4=11.0 253=22}
   t=1793620938313 kind=own_player_move x=-311.1325988769531 y=176.37619018554688 heading=5.376582622528076 target_x=-311.0740966796875 target_y=176.99786376953125 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793620938380 kind=resource_state id=3909 amount=2
+  t=1793620938380 kind=resource_state id=3909 enchant=0 amount=2
   t=1793620938405 kind=leave id=15430 removed=true
   t=1793620938405 kind=leave id=4437 removed=true
   t=1793620938405 kind=static_resource id=1550 x=-340.0 y=220.0
@@ -1177,7 +1183,7 @@ Detailed entity/player observations: 34863
   t=1793620939087 kind=own_player_move x=-310.3800354003906 y=184.83383178710938 heading=2.312514543533325 target_x=-310.3539733886719 target_y=185.47901916503906 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793620939191 outbound_request op=22 params={0=639292177392310737 1=[-310.33105, 186.06488] 2=2.087097 3=[-310.2951, 187.0511] 4=11.0 253=22}
   t=1793620939191 kind=own_player_move x=-310.3310546875 y=186.06488037109375 heading=2.087096929550171 target_x=-310.29510498046875 target_y=187.0511016845703 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793620939202 kind=resource_state id=4145 amount=2
+  t=1793620939202 kind=resource_state id=4145 enchant=0 amount=2
   t=1793620939306 outbound_request op=22 params={0=639292177393430737 1=[-310.2869, 187.29607] 2=1.9954666 3=[-310.2636, 187.96414] 4=11.0 253=22}
   t=1793620939306 kind=own_player_move x=-310.2868957519531 y=187.2960662841797 heading=1.9954665899276733 target_x=-310.26361083984375 target_y=187.96414184570312 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793620939406 kind=leave id=3481 removed=true
@@ -1354,20 +1360,20 @@ Detailed entity/player observations: 34863
   t=1793620944227 kind=move id=4457 x=-294.5905 y=242.52199
   t=1793620944342 event3 id=4457 raw=03bc222828d938df08353d93c3693e72437000004040551093c329607143 p4=-294.47818 p5=242.24379
   t=1793620944342 kind=move id=4457 x=-294.47818 y=242.24379
-  t=1793620944401 kind=manual_marker activity=Ore event=tier_selected tier=T5 enchantment=Normal
+  t=1793620944401 kind=manual_marker elapsed_realtime_ms=11001932 activity=Ore event=tier_selected tier=T5 enchantment=Normal
   t=1793620944438 event3 id=4457 raw=03196a3728d938df08d42e93c333f771437000004040551093c329607143 p4=-294.36584 p5=241.96562
   t=1793620944438 kind=move id=4457 x=-294.36584 y=241.96562
   t=1793620944538 event3 id=4457 raw=03f5b04628d938df08732093c3fbaf71437000004040551093c329607143 p4=-294.2535 p5=241.68742
   t=1793620944538 kind=move id=4457 x=-294.2535 y=241.68742
-  t=1793620944557 kind=manual_marker activity=Ore event=tier_selected tier=T6 enchantment=Normal
+  t=1793620944557 kind=manual_marker elapsed_realtime_ms=11002087 activity=Ore event=tier_selected tier=T6 enchantment=Normal
   t=1793620944636 event3 id=4457 raw=0370155628d938df08121293c3c56871437000004040551093c329607143 p4=-294.14117 p5=241.40926
   t=1793620944636 kind=move id=4457 x=-294.14117 y=241.40926
-  t=1793620944708 kind=manual_marker activity=Ore event=tier_selected tier=T7 enchantment=Normal
+  t=1793620944708 kind=manual_marker elapsed_realtime_ms=11002239 activity=Ore event=tier_selected tier=T7 enchantment=Normal
   t=1793620944781 event3 id=4457 raw=01396d6528d938df08551093c3296071437000004040 p4=null p5=null
   t=1793620944781 kind=move id=4457
-  t=1793620945098 kind=manual_marker activity=Ore event=tier_selected tier=T8 enchantment=Normal
-  t=1793620945413 kind=manual_marker activity=Ore event=tier_selected tier=T2 enchantment=Normal
-  t=1793620945844 kind=manual_marker activity=Ore event=tier_selected tier=T3 enchantment=Normal
+  t=1793620945098 kind=manual_marker elapsed_realtime_ms=11002630 activity=Ore event=tier_selected tier=T8 enchantment=Normal
+  t=1793620945413 kind=manual_marker elapsed_realtime_ms=11002943 activity=Ore event=tier_selected tier=T2 enchantment=Normal
+  t=1793620945844 kind=manual_marker elapsed_realtime_ms=11003375 activity=Ore event=tier_selected tier=T3 enchantment=Normal
   t=1793620946042 event3 id=4524 raw=033e062d29d938df084a1b99c3a68a5943c300004040fbb798c34fc85643 p4=-306.2132 p5=217.5416
   t=1793620946159 event3 id=4524 raw=03f14b3c29d938df08e51099c3b74059437500004040fbb798c34fc85643 p4=-306.132 p5=217.25279
   t=1793620946247 event3 id=22979 raw=0307844b29d938df08e26f96c309d951435c000020408cc496c351644e43 p4=-300.87408 p5=209.8478
@@ -1399,12 +1405,12 @@ Detailed entity/player observations: 34863
   t=1793620947562 event3 id=4526 raw=031750142ad938df080a709ac3ec235443af000040408c849ac358115443 p4=-308.8753 p5=212.14032
   t=1793620947677 event3 id=22979 raw=0308ad232ad938df081ac496c301694e4388000020408cc496c351644e43 p4=-301.53204 p5=206.41017
   t=1793620947677 event3 id=4526 raw=0108ad232ad938df088c849ac358115443af00004040 p4=null p5=null
-  t=1793620947719 kind=manual_marker activity=Ore event=target_found tier=T3 enchantment=Normal
+  t=1793620947719 kind=manual_marker elapsed_realtime_ms=11005250 activity=Ore event=target_found tier=T3 enchantment=Normal
   t=1793620947782 event3 id=22979 raw=017409332ad938df088cc496c351644e438800002040 p4=null p5=null
   t=1793620948064 event3 id=4561 raw=03d1f6602ad938df086938a5c3b2ae20434c00004040cd55a2c363502143 p4=-330.4407 p5=160.6824
   t=1793620948168 event3 id=4561 raw=039d5f702ad938df083e12a5c30db720433c00004040cd55a2c363502143 p4=-330.14252 p5=160.71504
   t=1793620948248 event3 id=4561 raw=030dae7f2ad938df0813eca4c368bf20433c00004040cd55a2c363502143 p4=-329.84433 p5=160.74768
-  t=1793620948345 kind=manual_marker activity=Ore event=gathering_started tier=T3 enchantment=Normal
+  t=1793620948345 kind=manual_marker elapsed_realtime_ms=11005876 activity=Ore event=gathering_started tier=T3 enchantment=Normal
   t=1793620948382 event3 id=4561 raw=031e028f2ad938df08e8c5a4c3c3c720433c00004040cd55a2c363502143 p4=-329.54614 p5=160.78032
   t=1793620948474 event3 id=4561 raw=0321479e2ad938df08bd9fa4c31ed020433c00004040cd55a2c363502143 p4=-329.24796 p5=160.81296
   t=1793620948566 event3 id=4561 raw=03c0a0ad2ad938df089279a4c379d820433c00004040cd55a2c363502143 p4=-328.94977 p5=160.8456
@@ -1424,6 +1430,7 @@ Detailed entity/player observations: 34863
   t=1793620948944 event3 id=4561 raw=037dddea2ad938df08e6e0a3c3e5f920433c00004040cd55a2c363502143 p4=-327.75702 p5=160.97615
   t=1793620948944 event3 id=4458 raw=032452eb2ad938df08c7fb89c3f9da724373000040404cac89c3690c7143 p4=-275.967 p5=242.85536
   t=1793620948944 kind=move id=4458 x=-275.967 y=242.85536
+  t=1793620949013 kind=player_mounted id=37103
   t=1793620949013 kind=raw_health_energy_event code=91 params={0:37103, 1:6224742, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292177489469819, 252:91}
   t=1793620949013 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
   t=1793620949068 event3 id=4561 raw=03832efa2ad938df08bbbaa3c3400221433c00004040cd55a2c363502143 p4=-327.45883 p5=161.00879
@@ -1450,7 +1457,7 @@ Detailed entity/player observations: 34863
   t=1793620949574 event3 id=4561 raw=03bce1462bd938df08e4fba2c3072c21433c00004040cd55a2c363502143 p4=-325.9679 p5=161.17198
   t=1793620949574 event3 id=4458 raw=036a56472bd938df08e5b089c32b27714373000040404cac89c3690c7143 p4=-275.382 p5=241.153
   t=1793620949574 kind=move id=4458 x=-275.382 y=241.153
-  t=1793620949649 kind=resource_state id=3914 amount=2
+  t=1793620949649 kind=resource_state id=3914 enchant=0 amount=2
   t=1793620949649 kind=raw_health_energy_event code=91 params={0:37103, 1:6225377, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177495815355, 252:91}
   t=1793620949649 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620949649 event3 id=4562 raw=039825562bd938df089200b4c351fc32438b000040401b7db4c3ee732f43 p4=-360.00446 p5=178.98561
@@ -1480,7 +1487,7 @@ Detailed entity/player observations: 34863
   t=1793620950288 kind=move id=4562 x=-360.48236 y=177.25032
   t=1793620950377 event3 id=4562 raw=037d70c12bd938df08f047b4c30bf630438b000040401b7db4c3ee732f43 p4=-360.562 p5=176.9611
   t=1793620950377 kind=move id=4562 x=-360.562 y=176.9611
-  t=1793620950431 kind=resource_state id=3914 amount=1
+  t=1793620950431 kind=resource_state id=3914 enchant=0 amount=1
   t=1793620950431 kind=raw_health_energy_event code=91 params={0:37103, 1:6226128, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177503325536, 252:91}
   t=1793620950431 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620950463 event3 id=4562 raw=0336d0d02bd938df082252b4c301ac30438b000040401b7db4c3ee732f43 p4=-360.64166 p5=176.67189
@@ -1497,13 +1504,13 @@ Detailed entity/player observations: 34863
   t=1793620950857 kind=move id=4562 x=-360.96027 y=175.51503
   t=1793620950988 event3 id=4562 raw=013d891d2cd938df081b7db4c3ee732f438b00004040 p4=null p5=null
   t=1793620950988 kind=move id=4562
-  t=1793620951153 kind=resource_state id=3914 amount=0 removed=true
+  t=1793620951153 kind=resource_state id=3914 enchant=0 amount=0 removed=true
   t=1793620951153 kind=raw_health_energy_event code=91 params={0:37103, 1:6226885, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177510899997, 252:91}
   t=1793620951153 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
-  t=1793620951849 kind=manual_marker activity=Ore event=gathering_completed tier=T3 enchantment=Normal
-  t=1793620952651 kind=manual_marker activity=Ore event=node_depleted tier=T3 enchantment=Normal
-  t=1793620952834 kind=resource_state id=3254 amount=0 removed=true
-  t=1793620953027 kind=resource_state id=3239 amount=0 removed=true
+  t=1793620951849 kind=manual_marker elapsed_realtime_ms=11009380 activity=Ore event=gathering_completed tier=T3 enchantment=Normal
+  t=1793620952651 kind=manual_marker elapsed_realtime_ms=11010182 activity=Ore event=node_depleted tier=T3 enchantment=Normal
+  t=1793620952834 kind=resource_state id=3254 enchant=0 amount=0 removed=true
+  t=1793620953027 kind=resource_state id=3239 enchant=0 amount=0 removed=true
   t=1793620953706 event3 id=4458 raw=034b20bc2dd938df084cac89c3690c71437300004040159789c3a9147743 p4=-275.34607 p5=241.04848
   t=1793620953706 kind=move id=4458 x=-275.34607 y=241.04848
   t=1793620953798 event3 id=4458 raw=03f06fcb2dd938df083eab89c32e5971430100004040159789c3a9147743 p4=-275.33783 p5=241.34836
@@ -1551,6 +1558,7 @@ Detailed entity/player observations: 34863
   t=1793620954821 kind=move id=4458 x=-275.25543 y=244.34717
   t=1793620954821 event3 id=4524 raw=03b1e1642ed938df08bbc798c303945843fd00004040aed598c3142b5a43 p4=-305.5604 p5=216.57817
   t=1793620954821 event3 id=4526 raw=03b1e1642ed938df083ad09ac318f75343b9000040404cc49cc3a4495343 p4=-309.62677 p5=211.96521
+  t=1793620954900 kind=player_mounted id=37103
   t=1793620954900 kind=leave id=37693 removed=true
   t=1793620954900 event3 id=4457 raw=033e42742ed938df085bfb92c3d7dd72430400004040efce92c317067643 p4=-293.9637 p5=242.86656
   t=1793620954900 kind=move id=4457 x=-293.9637 y=242.86656
@@ -1967,6 +1975,7 @@ Detailed entity/player observations: 34863
   t=1793620962320 kind=own_player_move x=-294.8113708496094 y=257.6703186035156 heading=71.77631378173828 target_x=-294.4277038574219 target_y=257.7966003417969 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793620962367 event3 id=22979 raw=0366f6e532d938df086ce196c3b61252437700002040d07b96c3c2544e43 p4=-301.7611 p5=210.07309
   t=1793620962367 kind=player_spawn id=37232 name=Pumpkindude
+  t=1793620962367 kind=player_mounted id=37232
   t=1793620962367 event3 id=37232 raw=03d1c8e032d938df083f6077130be0024bc4cccce44019da84135b0a004b p4=3.1223236E-27 p5=8577035.0
   t=1793620962367 kind=player_move id=37232 name=Pumpkindude x=3.1223236E-27 y=8577035.0 raw_hex=03d1c8e032d938df083f6077130be0024bc4cccce44019da84135b0a004b coord_source=unvalidated_event3_payload
   t=1793620962451 event3 id=22979 raw=037d4af532d938df08c8da96c31bd451437700002040d07b96c3c2544e43 p4=-301.70923 p5=209.82854
@@ -2505,6 +2514,7 @@ Detailed entity/player observations: 34863
   t=1793620971111 event3 id=5264 raw=03db362038d938df081bae44c3f2b09043d46666e63f787f45c30cea9043 p4=-196.6801 p5=289.3824
   t=1793620971111 kind=move id=5264 x=-196.6801 y=289.3824
   t=1793620971122 kind=player_spawn id=37750 name=LeRenarrd
+  t=1793620971122 kind=player_mounted id=37750
   t=1793620971122 event3 id=37750 raw=0394eb1c38d938df086f7ce5b36be1c67c350000464110ebe5b328cec67c p4=-1.0686278E-7 p5=8.2611744E36
   t=1793620971122 kind=player_move id=37750 name=LeRenarrd x=-1.0686278E-7 y=8.2611744E36 raw_hex=0394eb1c38d938df086f7ce5b36be1c67c350000464110ebe5b328cec67c coord_source=unvalidated_event3_payload
   t=1793620971176 kind=leave id=37750 removed=true
@@ -2559,6 +2569,7 @@ Detailed entity/player observations: 34863
   t=1793620971862 outbound_request op=22 params={0=639292177718900737 1=[-224.81857, 294.0417] 2=96.42529 3=[-224.18753, 293.97064] 4=11.0 253=22}
   t=1793620971862 kind=own_player_move x=-224.81857299804688 y=294.04168701171875 heading=96.42529296875 target_x=-224.18753051757812 target_y=293.97064208984375 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793620971958 kind=player_spawn id=37750 name=LeRenarrd
+  t=1793620971958 kind=player_mounted id=37750
   t=1793620971958 event3 id=37750 raw=03b42d9c38d938df086654e0b3bb70c47c2f00004641cbcae0b3c234c47c p4=-1.0446165E-7 p5=8.159813E36
   t=1793620971958 kind=player_move id=37750 name=LeRenarrd x=-1.0446165E-7 y=8.159813E36 raw_hex=03b42d9c38d938df086654e0b3bb70c47c2f00004641cbcae0b3c234c47c coord_source=unvalidated_event3_payload
   t=1793620971963 outbound_request op=22 params={0=639292177719910737 1=[-223.72426, 293.85446] 2=103.14464 3=[-222.68959, 293.61282] 4=11.0 253=22}
@@ -2592,12 +2603,13 @@ Detailed entity/player observations: 34863
   t=1793620972509 outbound_request op=22 params={0=639292177725220737 1=[-219.05836, 293.92633] 2=76.29992 3=[-219.05836, 293.92633] 4=11.0 253=22}
   t=1793620972509 kind=own_player_move x=-219.05836486816406 y=293.92633056640625 heading=76.29991912841797 target_x=-219.05836486816406 target_y=293.92633056640625 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793620972985 kind=player_spawn id=37750 name=LeRenarrd
+  t=1793620972985 kind=player_mounted id=37750
   t=1793620972985 event3 id=37750 raw=0311ee3839d938df08d8845280f3be48461d000046411dea5280050d4b46 p4=-7.578166E-39 p5=12847.737
   t=1793620972985 kind=player_move id=37750 name=LeRenarrd x=-7.578166E-39 y=12847.737 raw_hex=0311ee3839d938df08d8845280f3be48461d000046411dea5280050d4b46 coord_source=unvalidated_event3_payload
-  t=1793620973042 kind=manual_marker activity=Ore event=tier_selected tier=T4 enchantment=Normal
+  t=1793620973042 kind=manual_marker elapsed_realtime_ms=11030573 activity=Ore event=tier_selected tier=T4 enchantment=Normal
   t=1793620973108 event3 id=37750 raw=0381a54839d938df0856f252809f324b461d00004641de5352804d814b46 p4=-7.617444E-39 p5=13004.655
   t=1793620973108 kind=player_move id=37750 name=LeRenarrd x=-7.617444E-39 y=13004.655 raw_hex=0381a54839d938df0856f252809f324b461d00004641de5352804d814b46 coord_source=unvalidated_event3_payload
-  t=1793620973177 kind=manual_marker activity=Ore event=tier_selected tier=T5 enchantment=Normal
+  t=1793620973177 kind=manual_marker elapsed_realtime_ms=11030708 activity=Ore event=tier_selected tier=T5 enchantment=Normal
   t=1793620973244 event3 id=37750 raw=03a17b5c39d938df086c685280475d4a4619000046414ec453804fdd4a46 p4=-7.56797E-39 p5=12951.319
   t=1793620973244 kind=player_move id=37750 name=LeRenarrd x=-7.56797E-39 y=12951.319 raw_hex=03a17b5c39d938df086c685280475d4a4619000046414ec453804fdd4a46 coord_source=unvalidated_event3_payload
   t=1793620973322 event3 id=33143 raw=03c7877139d938df0808fc34c365cb7843e79a99394018d734c355637a43 p4=-180.9845 p5=248.79451
@@ -2679,7 +2691,7 @@ Detailed entity/player observations: 34863
   t=1793620974828 kind=move id=27787 x=-269.64713 y=316.9394
   t=1793620974892 event3 id=37750 raw=03e1ff5a3ad938df08dbd2a980179e534628000046419bc7a680644c5246 p4=-1.559584E-38 p5=13543.522
   t=1793620974892 kind=player_move id=37750 name=LeRenarrd x=-1.559584E-38 y=13543.522 raw_hex=03e1ff5a3ad938df08dbd2a980179e534628000046419bc7a680644c5246 coord_source=unvalidated_event3_payload
-  t=1793620974913 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793620974913 kind=manual_marker elapsed_realtime_ms=11032443 activity=Ore event=target_found tier=T5 enchantment=Normal
   t=1793620974939 event3 id=27787 raw=03852a673ad938df0819f886c3f96e9e43b600004040bcf087c320319e43 p4=-269.93826 p5=316.86697
   t=1793620974939 kind=move id=27787 x=-269.93826 y=316.86697
   t=1793620975004 event3 id=37750 raw=0331696a3ad938df0824d5a680f9735246270000464172cba7805d2e5246 p4=-1.5321153E-38 p5=13468.993
@@ -2747,7 +2759,7 @@ Detailed entity/player observations: 34863
   t=1793620976148 kind=player_move id=37750 name=LeRenarrd x=-1.7269253E-38 y=13741.384 raw_hex=03e1fc163bd938df08a70bbc8089b556461c0000464104c4bd80d90f5946 coord_source=unvalidated_event3_payload
   t=1793620976148 event3 id=5295 raw=03d0401f3bd938df08590966c3e0c39143276666e63f746e64c3fa559243 p4=-230.03651 p5=291.53027
   t=1793620976148 kind=move id=5295 x=-230.03651 y=291.53027
-  t=1793620976193 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793620976193 kind=manual_marker elapsed_realtime_ms=11033724 activity=Ore event=gathering_started tier=T5 enchantment=Normal
   t=1793620976266 event3 id=37750 raw=033166263bd938df0884d3bd80990859461b00004641f48eba80ba835946 p4=-1.7432786E-38 p5=13890.149
   t=1793620976266 kind=player_move id=37750 name=LeRenarrd x=-1.7432786E-38 y=13890.149 raw_hex=033166263bd938df0884d3bd80990859461b00004641f48eba80ba835946 coord_source=unvalidated_event3_payload
   t=1793620976266 event3 id=5295 raw=03fea62e3bd938df08cce365c33ad19143276666e63f746e64c3fa559243 p4=-229.88983 p5=291.63458
@@ -2778,6 +2790,7 @@ Detailed entity/player observations: 34863
   t=1793620976751 kind=move id=5295 x=-229.15642 y=292.15613
   t=1793620976788 event3 id=37750 raw=0381ba773bd938df086dedb980dca55b461b0000464161aeb680f43f5a46 p4=-1.7074739E-38 p5=14057.465
   t=1793620976788 kind=player_move id=37750 name=LeRenarrd x=-1.7074739E-38 y=14057.465 raw_hex=0381ba773bd938df086dedb980dca55b461b0000464161aeb680f43f5a46 coord_source=unvalidated_event3_payload
+  t=1793620976856 kind=player_mounted id=37103
   t=1793620976856 kind=raw_health_energy_event code=91 params={0:37103, 1:6252580, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292177767842935, 252:91}
   t=1793620976856 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
   t=1793620976856 event3 id=35341 raw=0307608a3bd938df085f123ac363349e43e9cdcc4c40b9343cc36deb9f43 p4=-186.07176 p5=316.40927
@@ -2860,7 +2873,7 @@ Detailed entity/player observations: 34863
   t=1793620978956 kind=move id=33527 x=-259.37384 y=340.7421
   t=1793620979067 event3 id=33527 raw=0328f7db3cd938df0802af81c39938aa437f000040403ca881c37704a943 p4=-259.36725 p5=340.44217
   t=1793620979067 kind=move id=33527 x=-259.36725 y=340.44217
-  t=1793620979067 kind=resource_state id=2791 amount=2
+  t=1793620979067 kind=resource_state id=2791 enchant=0 amount=2
   t=1793620979067 kind=raw_health_energy_event code=91 params={0:37103, 1:6254813, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177790177008, 252:91}
   t=1793620979067 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620979172 event3 id=33527 raw=036b54eb3cd938df082aae81c33512aa437f000040403ca881c37704a943 p4=-259.36066 p5=340.14224
@@ -2897,7 +2910,7 @@ Detailed entity/player observations: 34863
   t=1793620979780 kind=move id=5264 x=-197.66623 y=290.14673
   t=1793620979780 event3 id=5294 raw=035e40473dd938df0821b043c397887f43216666e63f8c5a42c322678043 p4=-195.688 p5=255.53355
   t=1793620979780 kind=move id=5294 x=-195.688 y=255.53355
-  t=1793620979860 kind=resource_state id=2626 amount=2
+  t=1793620979860 kind=resource_state id=2626 enchant=0 amount=2
   t=1793620979860 event3 id=33527 raw=033d8b563dd938df0842a881c37905a9437f000040403ca881c37704a943 p4=-259.3145 p5=338.04276
   t=1793620979860 kind=move id=33527 x=-259.3145 y=338.04276
   t=1793620979860 event3 id=5264 raw=033d8b563dd938df0819c045c326279143ec6666e63ff83e46c31c9f9143 p4=-197.75038 p5=290.30585
@@ -2978,7 +2991,7 @@ Detailed entity/player observations: 34863
   t=1793620980820 kind=move id=5294 x=-194.38525 y=256.77563
   t=1793620980912 event3 id=5294 raw=0172dff43dd938df088c5a42c322678043216666e63f p4=null p5=null
   t=1793620980912 kind=move id=5294
-  t=1793620981475 kind=resource_state id=2791 amount=1
+  t=1793620981475 kind=resource_state id=2791 enchant=0 amount=1
   t=1793620981475 kind=raw_health_energy_event code=91 params={0:37103, 1:6257188, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177813928189, 252:91}
   t=1793620981475 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620981580 kind=raw_health_energy_event code=91 params={0:37103, 1:6257300, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292177815043505, 252:91}
@@ -3027,7 +3040,7 @@ Detailed entity/player observations: 34863
   t=1793620983725 kind=move id=5295 x=-228.38654 y=291.95306
   t=1793620983823 event3 id=5295 raw=03144ab13fd938df08146064c3ffe291437d6666e63f7d2b64c3923e9043 p4=-228.3753 p5=291.7734
   t=1793620983823 kind=move id=5295 x=-228.3753 y=291.7734
-  t=1793620983823 kind=resource_state id=2791 amount=0 removed=true
+  t=1793620983823 kind=resource_state id=2791 enchant=0 amount=0 removed=true
   t=1793620983823 kind=raw_health_energy_event code=91 params={0:37103, 1:6259551, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292177837551864, 252:91}
   t=1793620983823 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793620983909 event3 id=5295 raw=03f09ec03fd938df08345d64c300cc91437d6666e63f7d2b64c3923e9043 p4=-228.36407 p5=291.59375
@@ -3052,7 +3065,7 @@ Detailed entity/player observations: 34863
   t=1793620984428 kind=move id=5295 x=-228.3079 y=290.69547
   t=1793620984428 event3 id=5264 raw=03ba490d40d938df08593346c3d0889143766666e63f288745c37e3e9043 p4=-198.20058 p5=291.06885
   t=1793620984428 kind=move id=5264 x=-198.20058 y=291.06885
-  t=1793620984501 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793620984501 kind=manual_marker elapsed_realtime_ms=11042032 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
   t=1793620984551 event3 id=27787 raw=03ad931c40d938df0800a787c3a4469e4334000040403ee286c314809e43 p4=-271.3047 p5=316.55188
   t=1793620984551 kind=move id=27787 x=-271.3047 y=316.55188
   t=1793620984551 event3 id=4540 raw=03ad931c40d938df08690834c30a5a8043e6000040406cde37c3b7ea8243 p4=-180.03285 p5=256.70343
@@ -3153,7 +3166,7 @@ Detailed entity/player observations: 34863
   t=1793620985944 kind=move id=4540 x=-182.54762 y=260.0667
   t=1793620985944 event3 id=5264 raw=01e539f340d938df08288745c37e3e9043766666e63f p4=null p5=null
   t=1793620985944 kind=move id=5264
-  t=1793620986063 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793620986063 kind=manual_marker elapsed_realtime_ms=11043594 activity=Ore event=node_depleted tier=T5 enchantment=Normal
   t=1793620986072 event3 id=4540 raw=0305840241d938df082dba36c34a278243e6000040406cde37c3b7ea8243 p4=-182.72725 p5=260.30695
   t=1793620986072 kind=move id=4540 x=-182.72725 y=260.30695
   t=1793620986121 event3 id=4540 raw=0323d81141d938df0829e836c30a468243e6000040406cde37c3b7ea8243 p4=-182.90688 p5=260.54718
@@ -3197,6 +3210,7 @@ Detailed entity/player observations: 34863
   t=1793620987467 kind=move id=5294 x=-195.46667 y=255.39117
   t=1793620987479 outbound_request op=22 params={0=639292177875100737 1=[-216.81377, 296.12122] 2=343.32712 3=[-217.31772, 297.80386] 4=5.5 253=22}
   t=1793620987479 kind=own_player_move x=-216.8137664794922 y=296.1212158203125 heading=343.3271179199219 target_x=-217.31771850585938 target_y=297.8038635253906 speed=5.5 source=outbound_photon_operation_22_param_1
+  t=1793620987524 kind=player_mounted id=37103
   t=1793620987524 kind=leave id=37788 removed=true
   t=1793620987560 event3 id=5294 raw=0369a7eb41d938df08f69343c3ed3f7f439b6666e63f262b45c3663a7d43 p4=-195.57797 p5=255.24971
   t=1793620987560 kind=move id=5294 x=-195.57797 y=255.24971
@@ -3778,7 +3792,7 @@ Detailed entity/player observations: 34863
   t=1793620998006 kind=move id=37827 x=-227.68135 y=339.5462
   t=1793620998082 event3 id=37827 raw=034b8a3248d938df08d16b63c3cdb2a94355000040406fd760c34ef5a843 p4=-227.42116 p5=339.39688
   t=1793620998082 kind=move id=37827 x=-227.42116 y=339.39688
-  t=1793620998125 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=E1
+  t=1793620998125 kind=manual_marker elapsed_realtime_ms=11055656 activity=Ore event=enchantment_selected tier=T5 enchantment=E1
   t=1793620998221 event3 id=37827 raw=031ccd4148d938df08352963c3b09fa94355000040406fd760c34ef5a843 p4=-227.16096 p5=339.24756
   t=1793620998221 kind=move id=37827 x=-227.16096 y=339.24756
   t=1793620998297 event3 id=37827 raw=0372335148d938df0899e662c3938ca94355000040406fd760c34ef5a843 p4=-226.90077 p5=339.09824
@@ -3908,7 +3922,7 @@ Detailed entity/player observations: 34863
   t=1793621000206 kind=own_player_move x=-208.71319580078125 y=321.8518371582031 heading=126.87261962890625 target_x=-208.19639587402344 target_y=321.4642028808594 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621000273 outbound_request op=22 params={0=639292178002920737 1=[-208.26355, 321.51633] 2=126.73069 3=[-208.26355, 321.51633] 4=11.0 253=22}
   t=1793621000273 kind=own_player_move x=-208.2635498046875 y=321.5163269042969 heading=126.7306900024414 target_x=-208.2635498046875 target_y=321.5163269042969 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621000943 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=E1
+  t=1793621000943 kind=manual_marker elapsed_realtime_ms=11058474 activity=Ore event=target_found tier=T5 enchantment=E1
   t=1793621000946 event3 id=5264 raw=03973ce449d938df089ae844c347599043336666e63fcc5c45c3581f9043 p4=-196.9086 p5=288.69748
   t=1793621000946 kind=move id=5264 x=-196.9086 y=288.69748
   t=1793621001032 event3 id=5264 raw=03f685f349d938df083b0945c302499043a06666e63fcc5c45c3581f9043 p4=-197.03606 p5=288.57037
@@ -3956,11 +3970,12 @@ Detailed entity/player observations: 34863
   t=1793621002420 kind=move id=37782 x=-187.24272 y=326.31754
   t=1793621002527 event3 id=37782 raw=0125e8d44ad938df08953f3bc3794ca343ffcdcc4c40 p4=null p5=null
   t=1793621002527 kind=move id=37782
-  t=1793621002805 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=E1
+  t=1793621002805 kind=manual_marker elapsed_realtime_ms=11060336 activity=Ore event=gathering_started tier=T5 enchantment=E1
   t=1793621003491 outbound_request op=22 params={0=639292178035090737 1=[-202.69542, 322.63144] 2=110.427246 3=[-202.69542, 322.63144] 4=11.0 253=22}
   t=1793621003491 kind=own_player_move x=-202.69541931152344 y=322.6314392089844 heading=110.42724609375 target_x=-202.69541931152344 target_y=322.6314392089844 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621003658 event3 id=5295 raw=032b45824bd938df08f17f62c36ed09043286666e63fbea565c3f9519143 p4=-226.49977 p5=289.62836
   t=1793621003658 kind=move id=5295 x=-226.49977 y=289.62836
+  t=1793621003680 kind=player_mounted id=37103
   t=1793621003680 kind=raw_health_energy_event code=91 params={0:37103, 1:6279417, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292178036220406, 252:91}
   t=1793621003680 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
   t=1793621003738 event3 id=5295 raw=036d9e914bd938df08cfab62c37bd79043cd6666e63fbea565c3f9519143 p4=-226.67113 p5=289.68344
@@ -4035,7 +4050,7 @@ Detailed entity/player observations: 34863
   t=1793621005875 kind=move id=35341 x=-187.47443 y=319.41925
   t=1793621005940 event3 id=37827 raw=018ab8de4cd938df081fc563c313f5a843c000004040 p4=null p5=null
   t=1793621005940 kind=move id=37827
-  t=1793621005940 kind=resource_state id=2740 amount=0 removed=true
+  t=1793621005940 kind=resource_state id=2740 enchant=1 amount=0 removed=true
   t=1793621005940 kind=raw_health_energy_event code=91 params={0:37103, 1:6281660, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292178058643022, 252:91}
   t=1793621005940 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621005970 event3 id=35341 raw=03d979e54cd938df089aac3bc3aad59f43e5cdcc4c4046393cc3aa2da043 p4=-187.67422 p5=319.66925
@@ -4046,7 +4061,7 @@ Detailed entity/player observations: 34863
   t=1793621006166 kind=move id=35341 x=-188.07385 y=320.16925
   t=1793621006277 event3 id=35341 raw=01f65d134dd938df0846393cc3aa2da043e5cdcc4c40 p4=null p5=null
   t=1793621006277 kind=move id=35341
-  t=1793621006489 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=E1
+  t=1793621006489 kind=manual_marker elapsed_realtime_ms=11064020 activity=Ore event=gathering_completed tier=T5 enchantment=E1
   t=1793621007273 event3 id=4543 raw=03899eac4dd938df086c1071c3bebab443da00004040de5a6ec36b02b443 p4=-241.06415 p5=361.45892
   t=1793621007273 kind=move id=4543 x=-241.06415 y=361.45892
   t=1793621007362 event3 id=4543 raw=0301ffbb4dd938df089bcc70c3b8a8b4435400004040de5a6ec36b02b443 p4=-240.79924 p5=361.3181
@@ -4055,7 +4070,7 @@ Detailed entity/player observations: 34863
   t=1793621007468 kind=move id=4543 x=-240.53433 y=361.1773
   t=1793621007588 event3 id=4543 raw=03829eda4dd938df08f94470c3ac84b4435400004040de5a6ec36b02b443 p4=-240.26942 p5=361.0365
   t=1793621007588 kind=move id=4543 x=-240.26942 y=361.0365
-  t=1793621007591 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=E1
+  t=1793621007591 kind=manual_marker elapsed_realtime_ms=11065122 activity=Ore event=node_depleted tier=T5 enchantment=E1
   t=1793621007690 event3 id=4543 raw=032eeae94dd938df08280170c3a672b4435400004040de5a6ec36b02b443 p4=-240.00452 p5=360.8957
   t=1793621007690 kind=move id=4543 x=-240.00452 y=360.8957
   t=1793621007780 event3 id=4543 raw=034b32f94dd938df0857bd6fc3a060b4435400004040de5a6ec36b02b443 p4=-239.73961 p5=360.75488
@@ -4120,6 +4135,7 @@ Detailed entity/player observations: 34863
   t=1793621009570 kind=move id=37782
   t=1793621009647 outbound_request op=22 params={0=639292178096800737 1=[-202.11461, 323.83102] 2=75.05671 3=[-201.31659, 324.044] 4=5.5 253=22}
   t=1793621009647 kind=own_player_move x=-202.11460876464844 y=323.8310241699219 heading=75.05670928955078 target_x=-201.31658935546875 target_y=324.04400634765625 speed=5.5 source=outbound_photon_operation_22_param_1
+  t=1793621009717 kind=player_mounted id=37103
   t=1793621009717 kind=leave id=37922 removed=true
   t=1793621009769 outbound_request op=22 params={0=639292178098010737 1=[-201.71432, 324.35297] 2=30.085117 3=[-201.34094, 324.99747] 4=5.5 253=22}
   t=1793621009769 kind=own_player_move x=-201.71432495117188 y=324.35296630859375 heading=30.08511734008789 target_x=-201.3409423828125 target_y=324.9974670410156 speed=5.5 source=outbound_photon_operation_22_param_1
@@ -4545,7 +4561,7 @@ Detailed entity/player observations: 34863
   t=1793621016444 kind=move id=5295 x=-230.54274 y=292.202
   t=1793621016459 event3 id=37782 raw=012beb2853d938df08a45439c35ddba14384cdcc4c40 p4=null p5=null
   t=1793621016459 kind=move id=37782
-  t=1793621016525 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=E1
+  t=1793621016525 kind=manual_marker elapsed_realtime_ms=11074055 activity=Ore event=target_found tier=T5 enchantment=E1
   t=1793621016528 event3 id=5295 raw=03c7233053d938df08dda166c3d82d9243eb6666e63fd60e67c3e08c9243 p4=-230.63228 p5=292.35815
   t=1793621016528 kind=move id=5295 x=-230.63228 y=292.35815
   t=1793621016644 event3 id=5295 raw=03308a3f53d938df08c9b866c3d5419243eb6666e63fd60e67c3e08c9243 p4=-230.72182 p5=292.5143
@@ -4558,7 +4574,7 @@ Detailed entity/player observations: 34863
   t=1793621016933 kind=move id=5295 x=-230.99042 y=292.9828
   t=1793621017036 event3 id=5295 raw=0192d67c53d938df08d60e67c3e08c9243eb6666e63f p4=null p5=null
   t=1793621017036 kind=move id=5295
-  t=1793621017334 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=E1
+  t=1793621017334 kind=manual_marker elapsed_realtime_ms=11074865 activity=Ore event=gathering_started tier=T5 enchantment=E1
   t=1793621018052 kind=leave id=33437 removed=true
   t=1793621018052 kind=leave id=3120 removed=true
   t=1793621018052 kind=leave id=3117 removed=true
@@ -4569,6 +4585,7 @@ Detailed entity/player observations: 34863
   t=1793621018052 event3 id=5294 raw=0353951a3ad938df0820be44c3c6067f434b6666e63fe35644c39be97e43 p4=-196.74268 p5=255.02646
   t=1793621018189 outbound_request op=22 params={0=639292178182140737 1=[-194.66716, 306.26086] 2=299.01086 3=[-194.66716, 306.26086] 4=11.0 253=22}
   t=1793621018189 kind=own_player_move x=-194.6671600341797 y=306.2608642578125 heading=299.0108642578125 target_x=-194.6671600341797 target_y=306.2608642578125 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793621018425 kind=player_mounted id=37103
   t=1793621018425 kind=raw_health_energy_event code=91 params={0:37103, 1:6294147, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292178183515962, 252:91}
   t=1793621018425 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
   t=1793621019215 event3 id=37827 raw=03a2d6ca54d938df08748362c337e0ab430900004040a6be5fc39ccea843 p4=-226.51349 p5=343.75168
@@ -4609,7 +4626,7 @@ Detailed entity/player observations: 34863
   t=1793621020529 kind=move id=37827 x=-224.90971 y=340.1966
   t=1793621020605 event3 id=37827 raw=031f9aa155d938df084ec960c329f6a9436f00004040a6be5fc39ccea843 p4=-224.78635 p5=339.92313
   t=1793621020605 kind=move id=37827 x=-224.78635 y=339.92313
-  t=1793621020632 kind=resource_state id=2771 amount=2
+  t=1793621020632 kind=resource_state id=2771 enchant=1 amount=2
   t=1793621020632 kind=raw_health_energy_event code=91 params={0:37103, 1:6296365, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292178205697663, 252:91}
   t=1793621020632 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621020745 event3 id=37827 raw=0321eab055d938df08b9a960c328d3a9436f00004040a6be5fc39ccea843 p4=-224.66298 p5=339.64966
@@ -4620,7 +4637,7 @@ Detailed entity/player observations: 34863
   t=1793621020834 kind=move id=37827 x=-224.53961 y=339.3762
   t=1793621020956 event3 id=37827 raw=03ff84cf55d938df088f6a60c3268da9436f00004040a6be5fc39ccea843 p4=-224.41624 p5=339.10272
   t=1793621020956 kind=move id=37827 x=-224.41624 y=339.10272
-  t=1793621020956 kind=resource_state id=2740 amount=0 removed=true
+  t=1793621020956 kind=resource_state id=2740 enchant=1 amount=0 removed=true
   t=1793621021026 event3 id=37827 raw=0396d1de55d938df08fa4a60c3256aa9436f00004040a6be5fc39ccea843 p4=-224.29288 p5=338.82925
   t=1793621021026 kind=move id=37827 x=-224.29288 y=338.82925
   t=1793621021144 event3 id=37827 raw=03032aee55d938df08652b60c32447a9436f00004040a6be5fc39ccea843 p4=-224.16951 p5=338.5558
@@ -4635,7 +4652,7 @@ Detailed entity/player observations: 34863
   t=1793621021544 kind=move id=37827
   t=1793621022955 event3 id=5264 raw=03f0770557d938df08630741c34fc58f43476666e63f6e7745c3d4029143 p4=-193.02885 p5=287.54147
   t=1793621022955 kind=move id=5264 x=-193.02885 y=287.54147
-  t=1793621023005 kind=resource_state id=2771 amount=1
+  t=1793621023005 kind=resource_state id=2771 enchant=1 amount=1
   t=1793621023005 kind=raw_health_energy_event code=91 params={0:37103, 1:6298726, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292178229302712, 252:91}
   t=1793621023005 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621023059 event3 id=5264 raw=03c7ce1457d938df089c2f41c38dd08f43d56666e63f6e7745c3d4029143 p4=-193.18597 p5=287.6293
@@ -4746,7 +4763,7 @@ Detailed entity/player observations: 34863
   t=1793621025257 kind=move id=37782
   t=1793621025257 event3 id=5264 raw=0376496658d938df0882a444c3e1c79043d56666e63f6e7745c3d4029143 p4=-196.64261 p5=289.56155
   t=1793621025257 kind=move id=5264 x=-196.64261 y=289.56155
-  t=1793621025379 kind=resource_state id=2771 amount=0 removed=true
+  t=1793621025379 kind=resource_state id=2771 enchant=1 amount=0 removed=true
   t=1793621025379 kind=raw_health_energy_event code=91 params={0:37103, 1:6301096, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292178253005721, 252:91}
   t=1793621025379 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621025379 event3 id=5264 raw=03f3ac7558d938df08bbcc44c31fd39043d56666e63f6e7745c3d4029143 p4=-196.79973 p5=289.64938
@@ -4773,7 +4790,7 @@ Detailed entity/player observations: 34863
   t=1793621026906 kind=move id=35341 x=-185.77995 y=321.86844
   t=1793621026980 event3 id=35341 raw=0364446d59d938df08c8103ac3afdca043adcdcc4c401f353cc32152a043 p4=-186.06555 p5=321.7241
   t=1793621026980 kind=move id=35341 x=-186.06555 y=321.7241
-  t=1793621027027 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=E1
+  t=1793621027027 kind=manual_marker elapsed_realtime_ms=11084558 activity=Ore event=gathering_completed tier=T5 enchantment=E1
   t=1793621027110 event3 id=35341 raw=031bab7c59d938df08e4593ac336caa043adcdcc4c401f353cc32152a043 p4=-186.35114 p5=321.57977
   t=1793621027110 kind=move id=35341 x=-186.35114 y=321.57977
   t=1793621027202 event3 id=35341 raw=03d2038c59d938df0800a33ac3bdb7a043adcdcc4c401f353cc32152a043 p4=-186.63672 p5=321.43546
@@ -4786,7 +4803,7 @@ Detailed entity/player observations: 34863
   t=1793621027506 kind=move id=35341 x=-187.49348 y=321.00247
   t=1793621027607 event3 id=35341 raw=03b847c959d938df0871c73bc3d86da043adcdcc4c401f353cc32152a043 p4=-187.77907 p5=320.85815
   t=1793621027607 kind=move id=35341 x=-187.77907 y=320.85815
-  t=1793621027628 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=E1
+  t=1793621027628 kind=manual_marker elapsed_realtime_ms=11085159 activity=Ore event=node_depleted tier=T5 enchantment=E1
   t=1793621027698 event3 id=35341 raw=03e2a5d859d938df088e103cc35e5ba043adcdcc4c401f353cc32152a043 p4=-188.06467 p5=320.7138
   t=1793621027698 kind=move id=35341 x=-188.06467 y=320.7138
   t=1793621027792 event3 id=35341 raw=01630ee859d938df081f353cc32152a043adcdcc4c40 p4=null p5=null
@@ -4813,7 +4830,7 @@ Detailed entity/player observations: 34863
   t=1793621029411 kind=move id=37827 x=-226.03061 y=338.3451
   t=1793621029525 event3 id=37827 raw=03d60fec5ad938df08fc5062c3de37a943cd00004040a8be66c320eda943 p4=-226.31635 p5=338.43646
   t=1793621029525 kind=move id=37827 x=-226.31635 y=338.43646
-  t=1793621029525 kind=resource_state id=2691 amount=2
+  t=1793621029525 kind=resource_state id=2691 enchant=0 amount=2
   t=1793621029589 event3 id=37827 raw=03c054fb5ad938df08229a62c39043a943cd00004040a8be66c320eda943 p4=-226.60208 p5=338.52783
   t=1793621029589 kind=move id=37827 x=-226.60208 y=338.52783
   t=1793621029687 event3 id=37827 raw=030eac0a5bd938df0848e362c3424fa943cd00004040a8be66c320eda943 p4=-226.88782 p5=338.6192
@@ -4830,6 +4847,7 @@ Detailed entity/player observations: 34863
   t=1793621029888 kind=move id=5264 x=-197.46652 y=290.0221
   t=1793621029901 outbound_request op=22 params={0=639292178299400737 1=[-193.60484, 306.24744] 2=122.28734 3=[-192.48782, 305.54163] 4=5.5 253=22}
   t=1793621029901 kind=own_player_move x=-193.60484313964844 y=306.2474365234375 heading=122.28733825683594 target_x=-192.48782348632812 target_y=305.5416259765625 speed=5.5 source=outbound_photon_operation_22_param_1
+  t=1793621029927 kind=player_mounted id=37103
   t=1793621029927 kind=leave id=37971 removed=true
   t=1793621030010 outbound_request op=22 params={0=639292178300480737 1=[-193.1334, 305.88705] 2=131.19536 3=[-191.80473, 304.7241] 4=5.5 253=22}
   t=1793621030010 kind=own_player_move x=-193.13340759277344 y=305.8870544433594 heading=131.1953582763672 target_x=-191.8047332763672 target_y=304.7240905761719 speed=5.5 source=outbound_photon_operation_22_param_1
@@ -6529,7 +6547,7 @@ Detailed entity/player observations: 34863
   t=1793621045136 kind=own_player_move x=-255.07183837890625 y=226.7068328857422 heading=243.00210571289062 target_x=-255.5595245361328 target_y=226.4583740234375 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621045252 outbound_request op=22 params={0=639292178452770737 1=[-256.09915, 226.06851] 2=235.68175 3=[-256.60547, 225.72292] 4=11.0 253=22}
   t=1793621045252 kind=own_player_move x=-256.0991516113281 y=226.06851196289062 heading=235.68174743652344 target_x=-256.60546875 target_y=225.72291564941406 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621045344 kind=mob id=22979 x=-300.3099 y=208.95403 mobileType=120 enchant=0
+  t=1793621045344 kind=mob id=22979 name=MISTS_SOLO_YELLOW x=-300.3099 y=208.95403 mobileType=120 enchant=0
   t=1793621045356 outbound_request op=22 params={0=639292178453810737 1=[-256.90717, 225.26884] 2=212.44571 3=[-257.68015, 224.05295] 4=11.0 253=22}
   t=1793621045356 kind=own_player_move x=-256.90716552734375 y=225.2688446044922 heading=212.44570922851562 target_x=-257.6801452636719 target_y=224.05294799804688 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621045467 outbound_request op=22 params={0=639292178454950737 1=[-257.2785, 224.08543] 2=186.39499 3=[-257.35168, 223.43236] 4=11.0 253=22}
@@ -6904,7 +6922,7 @@ Detailed entity/player observations: 34863
   t=1793621051538 kind=move id=37715 x=-279.5618 y=140.15233
   t=1793621051623 outbound_request op=22 params={0=639292178516540737 1=[-257.04874, 171.98134] 2=228.78452 3=[-257.47827, 171.6051] 4=11.0 253=22}
   t=1793621051623 kind=own_player_move x=-257.0487365722656 y=171.98133850097656 heading=228.78451538085938 target_x=-257.478271484375 target_y=171.6051025390625 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621051661 kind=mob id=22979 x=-300.3099 y=208.95403 mobileType=120 enchant=0
+  t=1793621051661 kind=mob id=22979 name=MISTS_SOLO_YELLOW x=-300.3099 y=208.95403 mobileType=120 enchant=0
   t=1793621051661 kind=static_resource id=4033 x=-304.0 y=142.0
   t=1793621051661 kind=static_resource id=4151 x=-300.0 y=143.0
   t=1793621051661 kind=static_resource id=3275 x=-297.0 y=158.0
@@ -7066,7 +7084,7 @@ Detailed entity/player observations: 34863
   t=1793621053708 kind=leave id=316 removed=true
   t=1793621053708 kind=leave id=22979 removed=true
   t=1793621053708 kind=leave id=4459 removed=true
-  t=1793621053708 kind=mob id=5772 x=-267.56863 y=112.28379 mobileType=120 enchant=0
+  t=1793621053708 kind=mob id=5772 name=MISTS_SOLO_YELLOW x=-267.56863 y=112.28379 mobileType=120 enchant=0
   t=1793621053708 kind=static_resource id=1014 x=-307.5 y=113.5
   t=1793621053708 kind=static_resource id=1270 x=-278.5 y=107.5
   t=1793621053708 kind=static_resource id=1272 x=-281.5 y=106.5
@@ -7165,7 +7183,7 @@ Detailed entity/player observations: 34863
   t=1793621055615 kind=own_player_move x=-274.4188232421875 y=132.60397338867188 heading=208.25340270996094 target_x=-274.70953369140625 target_y=132.06298828125 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621055729 outbound_request op=22 params={0=639292178557590737 1=[-275.02255, 131.51747] 2=209.26178 3=[-275.31668, 130.99245] 4=11.0 253=22}
   t=1793621055729 kind=own_player_move x=-275.0225524902344 y=131.51747131347656 heading=209.26177978515625 target_x=-275.3166809082031 target_y=130.99244689941406 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621055755 kind=resource_state id=4145 amount=3
+  t=1793621055755 kind=resource_state id=4145 enchant=0 amount=3
   t=1793621055837 outbound_request op=22 params={0=639292178558730737 1=[-275.63553, 130.42352] 2=209.26466 3=[-275.95697, 129.84991] 4=11.0 253=22}
   t=1793621055837 kind=own_player_move x=-275.6355285644531 y=130.42352294921875 heading=209.26466369628906 target_x=-275.95697021484375 target_y=129.84991455078125 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621055923 kind=mob id=4975 x=-322.18384 y=149.26242 mobileType=2489 enchant=0
@@ -7455,7 +7473,7 @@ Detailed entity/player observations: 34863
   t=1793621062204 kind=own_player_move x=-260.9779357910156 y=72.6543197631836 heading=142.24615478515625 target_x=-260.58905029296875 target_y=72.15213775634766 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621062314 outbound_request op=22 params={0=639292178623500737 1=[-260.12582, 71.63196] 2=139.88255 3=[-259.73764, 71.17132] 4=11.0 253=22}
   t=1793621062314 kind=own_player_move x=-260.1258239746094 y=71.6319580078125 heading=139.88255310058594 target_x=-259.7376403808594 target_y=71.17131805419922 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621062341 kind=resource_state id=3811 amount=1
+  t=1793621062341 kind=resource_state id=3811 enchant=0 amount=1
   t=1793621062441 outbound_request op=22 params={0=639292178624640737 1=[-259.3178, 70.67302] 2=139.88234 3=[-258.90137, 70.17877] 4=11.0 253=22}
   t=1793621062441 kind=own_player_move x=-259.31781005859375 y=70.67301940917969 heading=139.88233947753906 target_x=-258.9013671875 target_y=70.17877197265625 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621062539 outbound_request op=22 params={0=639292178625660737 1=[-258.59482, 69.81501] 2=139.88333 3=[-257.87546, 68.96126] 4=11.0 253=22}
@@ -7528,7 +7546,7 @@ Detailed entity/player observations: 34863
   t=1793621063820 kind=move id=29532
   t=1793621063873 outbound_request op=22 params={0=639292178639100737 1=[-255.30626, 55.55598] 2=163.58046 3=[-255.03108, 54.622242] 4=11.0 253=22}
   t=1793621063873 kind=own_player_move x=-255.30625915527344 y=55.55598068237305 heading=163.58045959472656 target_x=-255.0310821533203 target_y=54.62224197387695 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621063887 kind=resource_state id=2771 amount=2
+  t=1793621063887 kind=resource_state id=2771 enchant=1 amount=2
   t=1793621063887 kind=raw_health_energy_event code=91 params={0:37103, 1:6296365, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292178205697663, 252:91}
   t=1793621063887 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621063893 event3 id=36298 raw=03b18d546fd938df0895a79051664c0263ce0000b040065a9351e5980063 p4=7.7660856E10 p5=2.4035818E21
@@ -7559,7 +7577,7 @@ Detailed entity/player observations: 34863
   t=1793621064198 kind=leave id=32426 removed=true
   t=1793621064198 kind=leave id=3559 removed=true
   t=1793621064198 kind=mob id=28656 x=-267.95 y=10.0 mobileType=2474 enchant=0
-  t=1793621064198 kind=mob id=5754 x=-254.33463 y=11.902029 mobileType=120 enchant=0
+  t=1793621064198 kind=mob id=5754 name=MISTS_SOLO_YELLOW x=-254.33463 y=11.902029 mobileType=120 enchant=0
   t=1793621064198 kind=static_resource id=696 x=-290.5 y=11.5
   t=1793621064198 kind=static_resource id=697 x=-288.0 y=10.0
   t=1793621064198 kind=static_resource id=3999 x=-213.0 y=35.0
@@ -8025,7 +8043,7 @@ Detailed entity/player observations: 34863
   t=1793621068396 kind=leave id=36298 removed=true
   t=1793621068396 kind=leave id=29532 removed=true
   t=1793621068396 kind=leave id=20390 removed=true
-  t=1793621068396 kind=mob id=20866 x=-321.4283 y=8.596222 mobileType=120 enchant=0
+  t=1793621068396 kind=mob id=20866 name=MISTS_SOLO_YELLOW x=-321.4283 y=8.596222 mobileType=120 enchant=0
   t=1793621068396 kind=mob id=6062 x=-317.78 y=28.31 mobileType=2474 enchant=0
   t=1793621068396 kind=static_resource id=474 x=-317.5 y=23.5
   t=1793621068396 kind=static_resource id=3018 x=-319.5 y=20.5
@@ -8045,7 +8063,7 @@ Detailed entity/player observations: 34863
   t=1793621068650 kind=mob id=4508 x=-225.42865 y=58.95851 mobileType=482 enchant=0
   t=1793621068650 kind=static_resource id=1195 x=-229.5 y=46.5
   t=1793621068650 kind=static_resource id=4012 x=-230.0 y=50.0
-  t=1793621068659 kind=resource_state id=3947 amount=2
+  t=1793621068659 kind=resource_state id=3947 enchant=0 amount=2
   t=1793621068662 outbound_request op=22 params={0=639292178686880737 1=[-271.39108, 23.25076] 2=111.77144 3=[-270.7999, 23.014637] 4=11.0 253=22}
   t=1793621068662 kind=own_player_move x=-271.3910827636719 y=23.25075912475586 heading=111.77143859863281 target_x=-270.7998962402344 target_y=23.014636993408203 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621068710 event3 id=36298 raw=03d19a3872d938df08c46aaf51f5c28f63ba66661e41a5c7af5112738e63 p4=9.4176313E10 p5=5.303865E21
@@ -8069,7 +8087,7 @@ Detailed entity/player observations: 34863
   t=1793621069039 kind=own_player_move x=-270.1454162597656 y=22.851776123046875 heading=103.6533432006836 target_x=-269.5390930175781 target_y=22.70449447631836 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621069063 event3 id=36298 raw=03b1026e72d938df087558a9514879f4633d66661e415f8aae514e23f563 p4=9.0916692E10 p5=9.0194896E21
   t=1793621069063 kind=player_move id=36298 name=ashdmk x=9.0916692E10 y=9.0194896E21 raw_hex=03b1026e72d938df087558a9514879f4633d66661e415f8aae514e23f563 coord_source=unvalidated_event3_payload
-  t=1793621069063 kind=resource_state id=3995 amount=1
+  t=1793621069063 kind=resource_state id=3995 enchant=0 amount=1
   t=1793621069100 outbound_request op=22 params={0=639292178691350737 1=[-266.61517, 22.108025] 2=99.73408 3=[-266.00073, 22.002613] 4=11.0 253=22}
   t=1793621069100 kind=own_player_move x=-266.61517333984375 y=22.10802459716797 heading=99.73407745361328 target_x=-266.000732421875 target_y=22.002613067626953 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621069138 outbound_request op=22 params={0=639292178689130737 1=[-269.00656, 22.601578] 2=102.23731 3=[-267.93704, 22.369612] 4=11.0 253=22}
@@ -8194,7 +8212,7 @@ Detailed entity/player observations: 34863
   t=1793621070440 kind=move id=20390
   t=1793621070440 event3 id=29532 raw=04261c5573d938df08d7a35dc3d7a3ac417aca8d0000 p4=null p5=null
   t=1793621070440 kind=move id=29532
-  t=1793621070477 kind=resource_state id=3753 amount=1
+  t=1793621070477 kind=resource_state id=3753 enchant=0 amount=1
   t=1793621070516 outbound_request op=22 params={0=639292178705580737 1=[-250.99411, 21.352379] 2=89.13659 3=[-250.38194, 21.361605] 4=11.0 253=22}
   t=1793621070516 kind=own_player_move x=-250.99411010742188 y=21.352378845214844 heading=89.13658905029297 target_x=-250.38194274902344 target_y=21.361604690551758 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621070543 event3 id=36298 raw=03614c5073d938df08e020975195e86962350000b040f84a9451cfa26362 p4=8.1136452E10 p5=1.0787127E21
@@ -8426,7 +8444,7 @@ Detailed entity/player observations: 34863
   t=1793621072935 kind=leave id=4426 removed=true
   t=1793621072935 kind=leave id=4542 removed=true
   t=1793621072935 kind=leave id=1450 removed=true
-  t=1793621072935 kind=mob id=32440 x=-210.12584 y=-28.344826 mobileType=120 enchant=0
+  t=1793621072935 kind=mob id=32440 name=MISTS_SOLO_YELLOW x=-210.12584 y=-28.344826 mobileType=120 enchant=0
   t=1793621072935 kind=static_resource id=2303 x=-255.5 y=-28.5
   t=1793621072935 kind=static_resource id=2230 x=-253.5 y=-30.5
   t=1793621072935 kind=static_resource id=2273 x=-252.5 y=-28.5
@@ -8449,7 +8467,7 @@ Detailed entity/player observations: 34863
   t=1793621073133 kind=own_player_move x=-224.69259643554688 y=11.881935119628906 heading=121.23107147216797 target_x=-224.18746948242188 target_y=11.575645446777344 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621073156 event3 id=36298 raw=03f12ddd74d938df081ed21b9891f6bc21bf0000b04090001898eabebc21 p4=-2.0139363E-24 p5=1.2804641E-18
   t=1793621073156 kind=player_move id=36298 name=ashdmk x=-2.0139363E-24 y=1.2804641E-18 raw_hex=03f12ddd74d938df081ed21b9891f6bc21bf0000b04090001898eabebc21 coord_source=unvalidated_event3_payload
-  t=1793621073156 kind=resource_state id=3930 amount=2
+  t=1793621073156 kind=resource_state id=3930 enchant=0 amount=2
   t=1793621073156 event3 id=20390 raw=0475b7f274d938df0800005ec30000704148ca8d0000 p4=null p5=null
   t=1793621073156 kind=move id=20390
   t=1793621073156 event3 id=32440 raw=035adef274d938df081ce151c37a17e3c147000020403e484dc3c24de9c1 p4=-209.87933 p5=-28.386463
@@ -9075,7 +9093,7 @@ Detailed entity/player observations: 34863
   t=1793621078793 kind=leave id=473 removed=true
   t=1793621078793 kind=leave id=4478 removed=true
   t=1793621078793 kind=leave id=409 removed=true
-  t=1793621078793 kind=mob id=5776 x=-209.5781 y=-61.03775 mobileType=120 enchant=0
+  t=1793621078793 kind=mob id=5776 name=MISTS_SOLO_YELLOW x=-209.5781 y=-61.03775 mobileType=120 enchant=0
   t=1793621078793 kind=static_resource id=489 x=-199.0 y=-62.0
   t=1793621078818 outbound_request op=22 params={0=639292178785650737 1=[-194.42096, -16.534382] 2=193.15643 3=[-194.63054, -17.431068] 4=11.0 253=22}
   t=1793621078818 kind=own_player_move x=-194.42095947265625 y=-16.534381866455078 heading=193.15643310546875 target_x=-194.6305389404297 target_y=-17.431068420410156 speed=11.0 source=outbound_photon_operation_22_param_1
@@ -9954,12 +9972,12 @@ Detailed entity/player observations: 34863
   t=1793621092206 kind=move id=18131 x=-226.37384 y=-190.33855
   t=1793621092305 event3 id=18131 raw=03eeb75980d938df084c3e62c3ee363ec3216666e63ffd9461c30f963dc3 p4=-226.24335 p5=-190.21457
   t=1793621092305 kind=move id=18131 x=-226.24335 y=-190.21457
-  t=1793621092351 kind=manual_marker activity=Ore event=tier_selected tier=T6 enchantment=E1
+  t=1793621092351 kind=manual_marker elapsed_realtime_ms=11149882 activity=Ore event=tier_selected tier=T6 enchantment=E1
   t=1793621092455 event3 id=18131 raw=03c5086980d938df08e41c62c330173ec3216666e63ffd9461c30f963dc3 p4=-226.11285 p5=-190.09058
   t=1793621092455 kind=move id=18131 x=-226.11285 y=-190.09058
   t=1793621092501 event3 id=18131 raw=03c7677880d938df087cfb61c372f73dc3216666e63ffd9461c30f963dc3 p4=-225.98236 p5=-189.96658
   t=1793621092501 kind=move id=18131 x=-225.98236 y=-189.96658
-  t=1793621092513 kind=manual_marker activity=Ore event=tier_selected tier=T7 enchantment=E1
+  t=1793621092513 kind=manual_marker elapsed_realtime_ms=11150044 activity=Ore event=tier_selected tier=T7 enchantment=E1
   t=1793621092614 event3 id=18131 raw=0328bc8980d938df0814da61c3b5d73dc3216666e63ffd9461c30f963dc3 p4=-225.85187 p5=-189.8426
   t=1793621092614 kind=move id=18131 x=-225.85187 y=-189.8426
   t=1793621092696 event3 id=18131 raw=0360169980d938df08acb861c3f7b73dc3216666e63ffd9461c30f963dc3 p4=-225.72137 p5=-189.71861
@@ -9968,10 +9986,10 @@ Detailed entity/player observations: 34863
   t=1793621092829 kind=move id=18131 x=-225.59088 y=-189.59462
   t=1793621092923 event3 id=18131 raw=0144d1b780d938df08fd9461c30f963dc3216666e63f p4=null p5=null
   t=1793621092923 kind=move id=18131
-  t=1793621092938 kind=manual_marker activity=Ore event=tier_selected tier=T8 enchantment=E1
-  t=1793621093165 kind=manual_marker activity=Ore event=tier_selected tier=T2 enchantment=E1
-  t=1793621093690 kind=manual_marker activity=Ore event=tier_selected tier=T3 enchantment=E1
-  t=1793621095249 kind=manual_marker activity=Ore event=tier_selected tier=T4 enchantment=E1
+  t=1793621092938 kind=manual_marker elapsed_realtime_ms=11150469 activity=Ore event=tier_selected tier=T8 enchantment=E1
+  t=1793621093165 kind=manual_marker elapsed_realtime_ms=11150695 activity=Ore event=tier_selected tier=T2 enchantment=E1
+  t=1793621093690 kind=manual_marker elapsed_realtime_ms=11151221 activity=Ore event=tier_selected tier=T3 enchantment=E1
+  t=1793621095249 kind=manual_marker elapsed_realtime_ms=11152780 activity=Ore event=tier_selected tier=T4 enchantment=E1
   t=1793621096459 event3 id=4454 raw=030bd6d082d938df088a762fc32e3e3cc3bd000040402f412ec3ab313ec3 p4=-175.46304 p5=-188.24289
   t=1793621096459 kind=move id=4454 x=-175.46304 y=-188.24289
   t=1793621096544 event3 id=4454 raw=032220e082d938df08194e2fc37a7f3cc369000040402f412ec3ab313ec3 p4=-175.30507 p5=-188.49796
@@ -9990,7 +10008,7 @@ Detailed entity/player observations: 34863
   t=1793621097122 kind=move id=4454 x=-174.35722 y=-190.02835
   t=1793621097259 event3 id=4454 raw=013d9b4b83d938df082f412ec3ab313ec36900004040 p4=null p5=null
   t=1793621097259 kind=move id=4454
-  t=1793621097283 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=E1
+  t=1793621097283 kind=manual_marker elapsed_realtime_ms=11154813 activity=Ore event=target_found tier=T4 enchantment=E1
   t=1793621098241 event3 id=5308 raw=03c629e583d938df0806f054c342e223c3d26666e63f499850c366f820c3 p4=-212.93759 p5=-163.88382
   t=1793621098241 kind=move id=5308 x=-212.93759 y=-163.88382
   t=1793621098323 event3 id=5308 raw=032c71f483d938df08c2c954c396c823c3286666e63f499850c366f820c3 p4=-212.78812 p5=-163.78354
@@ -9999,7 +10017,7 @@ Detailed entity/player observations: 34863
   t=1793621098437 kind=move id=5308 x=-212.63864 y=-163.68326
   t=1793621098552 event3 id=5308 raw=03a13a1384d938df083a7d54c33e9523c3286666e63f499850c366f820c3 p4=-212.48917 p5=-163.58298
   t=1793621098552 kind=move id=5308 x=-212.48917 y=-163.58298
-  t=1793621098569 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=E1
+  t=1793621098569 kind=manual_marker elapsed_realtime_ms=11156100 activity=Ore event=gathering_started tier=T4 enchantment=E1
   t=1793621098666 event3 id=5308 raw=03be932284d938df08f65654c3927b23c3286666e63f499850c366f820c3 p4=-212.33969 p5=-163.4827
   t=1793621098666 kind=move id=5308 x=-212.33969 y=-163.4827
   t=1793621098749 event3 id=5308 raw=0342ef3184d938df08b23054c3e66123c3286666e63f499850c366f820c3 p4=-212.19022 p5=-163.38242
@@ -10026,6 +10044,7 @@ Detailed entity/player observations: 34863
   t=1793621099342 kind=move id=18131 x=-225.88966 y=-189.77306
   t=1793621099342 event3 id=5308 raw=0336058e84d938df081a4b53c3dec722c3286666e63f499850c366f820c3 p4=-211.29337 p5=-162.78073
   t=1793621099342 kind=move id=5308 x=-211.29337 y=-162.78073
+  t=1793621099443 kind=player_mounted id=37103
   t=1793621099443 kind=raw_health_energy_event code=91 params={0:37103, 1:6375173, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292178993770872, 252:91}
   t=1793621099443 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
   t=1793621099443 event3 id=18131 raw=03eab39c84d938df08230b62c3d3dd3dc3aa6666e63f71d662c34f593ec3 p4=-226.0435 p5=-189.8665
@@ -10062,7 +10081,7 @@ Detailed entity/player observations: 34863
   t=1793621100260 kind=move id=5308 x=-209.94809 y=-161.8782
   t=1793621100362 event3 id=5308 raw=03367a2785d938df0872cc51c326c721c3286666e63f499850c366f820c3 p4=-209.79861 p5=-161.77792
   t=1793621100362 kind=move id=5308 x=-209.79861 y=-161.77792
-  t=1793621100388 kind=resource_state id=3270 amount=2
+  t=1793621100388 kind=resource_state id=3270 enchant=1 amount=2
   t=1793621100388 kind=raw_health_energy_event code=91 params={0:37103, 1:6376118, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292179003225371, 252:91}
   t=1793621100388 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621100461 event3 id=5308 raw=0370c73685d938df082ea651c37aad21c3286666e63f499850c366f820c3 p4=-209.64914 p5=-161.67764
@@ -10095,7 +10114,7 @@ Detailed entity/player observations: 34863
   t=1793621101249 kind=move id=4454 x=-173.92503 y=-189.35658
   t=1793621101387 event3 id=4454 raw=0398d6c085d938df08afd02dc3d3133dc30f00004040aad92cc332a03ac3 p4=-173.81517 p5=-189.07744
   t=1793621101387 kind=move id=4454 x=-173.81517 y=-189.07744
-  t=1793621101461 kind=resource_state id=3270 amount=1
+  t=1793621101461 kind=resource_state id=3270 enchant=1 amount=1
   t=1793621101461 kind=raw_health_energy_event code=91 params={0:37103, 1:6377179, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292179013839872, 252:91}
   t=1793621101461 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621101461 event3 id=4454 raw=039425d085d938df088fb42dc35dcc3cc30f00004040aad92cc332a03ac3 p4=-173.7053 p5=-188.7983
@@ -10118,17 +10137,18 @@ Detailed entity/player observations: 34863
   t=1793621102199 kind=move id=4454 x=-172.93626 y=-186.84428
   t=1793621102289 event3 id=4454 raw=0118a24c86d938df08aad92cc332a03ac30f00004040 p4=null p5=null
   t=1793621102289 kind=move id=4454
-  t=1793621102520 kind=resource_state id=3270 amount=0 removed=true
+  t=1793621102520 kind=resource_state id=3270 enchant=1 amount=0 removed=true
   t=1793621102520 kind=raw_health_energy_event code=91 params={0:37103, 1:6378239, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292179024439385, 252:91}
   t=1793621102520 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621103468 kind=player_spawn id=36298 name=ashdmk
+  t=1793621103468 kind=player_mounted id=36298
   t=1793621103468 event3 id=36298 raw=036145ee86d938df08875d2c7d197a7eac7c34333d417b502c7d11417fac p4=1.4319552E37 p5=-3.6163349E-12
   t=1793621103468 kind=player_move id=36298 name=ashdmk x=1.4319552E37 y=-3.6163349E-12 raw_hex=036145ee86d938df08875d2c7d197a7eac7c34333d417b502c7d11417fac coord_source=unvalidated_event3_payload
   t=1793621103576 event3 id=36298 raw=03a1f8ff86d938df084d5b2c7dfab87cac8334333d41a5462c7d0f877dac p4=1.431883E37 p5=-3.5914037E-12
   t=1793621103576 kind=player_move id=36298 name=ashdmk x=1.431883E37 y=-3.5914037E-12 raw_hex=03a1f8ff86d938df084d5b2c7dfab87cac8334333d41a5462c7d0f877dac coord_source=unvalidated_event3_payload
   t=1793621103688 event3 id=36298 raw=03e13a0f87d938df08207a2c7dce6273ac8434333d41776b2c7d622870ac p4=1.4328833E37 p5=-3.4587225E-12
   t=1793621103688 kind=player_move id=36298 name=ashdmk x=1.4328833E37 y=-3.4587225E-12 raw_hex=03e13a0f87d938df08207a2c7dce6273ac8434333d41776b2c7d622870ac coord_source=unvalidated_event3_payload
-  t=1793621103716 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=E1
+  t=1793621103716 kind=manual_marker elapsed_realtime_ms=11161247 activity=Ore event=gathering_completed tier=T4 enchantment=E1
   t=1793621103809 event3 id=36298 raw=0331152187d938df08099d2c7dc2a271ac8534333d412eb12c7dda6877ac p4=1.4340162E37 p5=-3.4338509E-12
   t=1793621103809 kind=player_move id=36298 name=ashdmk x=1.4340162E37 y=-3.4338509E-12 raw_hex=0331152187d938df08099d2c7dc2a271ac8534333d412eb12c7dda6877ac coord_source=unvalidated_event3_payload
   t=1793621104101 event3 id=36298 raw=0381ef3287d938df084ed52c7d48e574ac8734333d4196f22c7d63b175ac p4=1.4358422E37 p5=-3.4801762E-12
@@ -10139,7 +10159,7 @@ Detailed entity/player observations: 34863
   t=1793621104159 kind=player_move id=36298 name=ashdmk x=1.438575E37 y=-2.9338812E-12 raw_hex=03117d5687d938df0884292d7d1b744eac8734333d41a9472d7d16404fac coord_source=unvalidated_event3_payload
   t=1793621104285 event3 id=36298 raw=0361576887d938df08e1642d7d89bf4cac8734333d4109822d7da38b4dac p4=1.4405015E37 p5=-2.9096467E-12
   t=1793621104285 kind=player_move id=36298 name=ashdmk x=1.4405015E37 y=-2.9096467E-12 raw_hex=0361576887d938df08e1642d7d89bf4cac8734333d4109822d7da38b4dac coord_source=unvalidated_event3_payload
-  t=1793621104289 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=E1
+  t=1793621104289 kind=manual_marker elapsed_realtime_ms=11161820 activity=Ore event=node_depleted tier=T4 enchantment=E1
   t=1793621104367 event3 id=36298 raw=03a10a7a87d938df08d2d32d7d782b43ac8734333d411ade2d7d97d740ac p4=1.4441017E37 p5=-2.7735297E-12
   t=1793621104367 kind=player_move id=36298 name=ashdmk x=1.4441017E37 y=-2.7735297E-12 raw_hex=03a10a7a87d938df08d2d32d7d782b43ac8734333d411ade2d7d97d740ac coord_source=unvalidated_event3_payload
   t=1793621104504 event3 id=36298 raw=03f1e48b87d938df08bd682a7d05a940ac8434333d41c5652a7dae1d46ac p4=1.4157037E37 p5=-2.7378666E-12
@@ -10171,6 +10191,7 @@ Detailed entity/player observations: 34863
   t=1793621105501 kind=move id=5308 x=-208.59486 y=-160.9703
   t=1793621105551 event3 id=36298 raw=0381f52b88d938df0897e3287d6506abad8834333d413e1d297dd168a8ad p4=1.4030751E37 p5=-1.9443289E-11
   t=1793621105551 kind=player_move id=36298 name=ashdmk x=1.4030751E37 y=-1.9443289E-11 raw_hex=0381f52b88d938df0897e3287d6506abad8834333d413e1d297dd168a8ad coord_source=unvalidated_event3_payload
+  t=1793621105599 kind=player_mounted id=37103
   t=1793621105599 kind=leave id=38218 removed=true
   t=1793621105599 event3 id=18131 raw=032b784688d938df08a76063c34f563ec3c16666e63f940e65c3ff4c3ec3 p4=-227.37755 p5=-190.33714
   t=1793621105599 kind=move id=18131 x=-227.37755 y=-190.33714
@@ -10480,6 +10501,7 @@ Detailed entity/player observations: 34863
   t=1793621109223 kind=move id=4454
   t=1793621109269 kind=mob id=28703 x=-262.861 y=-203.04485 mobileType=482 enchant=0
   t=1793621109269 kind=player_spawn id=23433 name=EDmars
+  t=1793621109269 kind=player_mounted id=23433
   t=1793621109269 kind=static_resource id=2789 x=-262.0 y=-167.0
   t=1793621109269 kind=static_resource id=2339 x=-260.5 y=-138.5
   t=1793621109293 outbound_request op=22 params={0=639292179093190737 1=[-217.21245, -169.89316] 2=246.02808 3=[-217.8347, -170.16985] 4=11.0 253=22}
@@ -10516,6 +10538,7 @@ Detailed entity/player observations: 34863
   t=1793621109833 kind=move id=4527 x=-231.04276 y=-199.54851
   t=1793621109833 event3 id=23433 raw=0171dec38ad938df080eebcf7d0bb68ead63cdcc0c41 p4=null p5=null
   t=1793621109833 kind=player_move id=23433 name=EDmars raw_hex=0171dec38ad938df080eebcf7d0bb68ead63cdcc0c41 coord_source=unvalidated_event3_payload
+  t=1793621109833 kind=player_mounted id=23433
   t=1793621109916 event3 id=4527 raw=03917dda8ad938df08a7c566c386ad47c3520000404031ff63c3f40049c3 p4=-230.77208 p5=-199.67783
   t=1793621109916 kind=move id=4527 x=-230.77208 y=-199.67783
   t=1793621109928 outbound_request op=22 params={0=639292179099560737 1=[-223.77853, -172.24681] 2=261.8487 3=[-224.87396, -172.40372] 4=11.0 253=22}
@@ -10569,6 +10592,7 @@ Detailed entity/player observations: 34863
   t=1793621110579 kind=own_player_move x=-230.93817138671875 y=-172.18251037597656 heading=274.8173828125 target_x=-231.559326171875 target_y=-172.13015747070312 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621110580 event3 id=36298 raw=01110d278bd938df087ac9317d8a868dadd134333d41 p4=null p5=null
   t=1793621110580 kind=player_move id=36298 name=ashdmk raw_hex=01110d278bd938df087ac9317d8a868dadd134333d41 coord_source=unvalidated_event3_payload
+  t=1793621110580 kind=player_mounted id=36298
   t=1793621110611 event3 id=26845 raw=0393a4458bd938df08987086c3d60745c3449a9939403feb85c3682445c3 p4=-268.87964 p5=-197.03061
   t=1793621110611 kind=move id=26845 x=-268.87964 y=-197.03061
   t=1793621110611 event3 id=4527 raw=037acb458bd938df089ae064c3439548c3520000404031ff63c3f40049c3 p4=-228.87735 p5=-200.58305
@@ -10581,7 +10605,7 @@ Detailed entity/player observations: 34863
   t=1793621110746 kind=move id=4527 x=-228.60667 y=-200.71237
   t=1793621110805 outbound_request op=22 params={0=639292179108360737 1=[-233.42625, -171.97285] 2=274.81656 3=[-234.34267, -171.89563] 4=11.0 253=22}
   t=1793621110805 kind=own_player_move x=-233.42625427246094 y=-171.9728546142578 heading=274.8165588378906 target_x=-234.34266662597656 target_y=-171.8956298828125 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621110840 kind=resource_state id=2724 amount=1
+  t=1793621110840 kind=resource_state id=2724 enchant=0 amount=1
   t=1793621110840 event3 id=26845 raw=03ef50648bd938df08c62686c3a71745c3449a9939403feb85c3682445c3 p4=-268.30292 p5=-197.09239
   t=1793621110840 kind=move id=26845 x=-268.30292 y=-197.09239
   t=1793621110840 event3 id=4527 raw=03d477648bd938df08045664c379d748c3520000404031ff63c3f40049c3 p4=-228.336 p5=-200.84169
@@ -10638,12 +10662,11 @@ Detailed entity/player observations: 34863
   t=1793621111821 kind=player_move id=36298 name=ashdmk x=1.509484E37 y=-1.480637E-11 raw_hex=0341d2ea8bd938df0891b2357dfb3c82ad4e0000b040a6cb347dd8ed82ad coord_source=unvalidated_event3_payload
   t=1793621111847 outbound_request op=22 params={0=639292179118760737 1=[-244.45686, -169.18347] 2=291.96924 3=[-245.07645, -168.93353] 4=11.0 253=22}
   t=1793621111847 kind=own_player_move x=-244.4568634033203 y=-169.1834716796875 heading=291.96923828125 target_x=-245.07644653320312 target_y=-168.93353271484375 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621111896 kind=resource_state id=2724 amount=0 removed=true
+  t=1793621111896 kind=resource_state id=2724 enchant=0 amount=0 removed=true
   t=1793621111953 outbound_request op=22 params={0=639292179119880737 1=[-245.59943, -168.72255] 2=291.96924 3=[-246.1271, -168.50967] 4=11.0 253=22}
   t=1793621111953 kind=own_player_move x=-245.59942626953125 y=-168.72254943847656 heading=291.96923828125 target_x=-246.12710571289062 target_y=-168.50967407226562 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621111979 event3 id=36298 raw=0391acfc8bd938df083314357d044382ad4e0000b040432d347dd9ed82ad p4=1.5043447E37 p5=-1.480905E-11
   t=1793621111979 kind=player_move id=36298 name=ashdmk x=1.5043447E37 y=-1.480905E-11 raw_hex=0391acfc8bd938df083314357d044382ad4e0000b040432d347dd9ed82ad coord_source=unvalidated_event3_payload
-  t=1793621111979 kind=player_mounted id=23433 value=0.0
   t=1793621112065 event3 id=36298 raw=03d15f0e8cd938df084079347dfa3c82ad4e0000b04012b0377d96f082ad p4=1.4993163E37 p5=-1.4806368E-11
   t=1793621112065 kind=player_move id=36298 name=ashdmk x=1.4993163E37 y=-1.4806368E-11 raw_hex=03d15f0e8cd938df084079347dfa3c82ad4e0000b04012b0377d96f082ad coord_source=unvalidated_event3_payload
   t=1793621112078 outbound_request op=22 params={0=639292179121080737 1=[-246.8237, -168.22899] 2=291.80548 3=[-247.37242, -168.00943] 4=11.0 253=22}
@@ -10666,7 +10689,6 @@ Detailed entity/player observations: 34863
   t=1793621112246 kind=static_resource id=960 x=-291.0 y=-160.0
   t=1793621112246 kind=static_resource id=2219 x=-294.5 y=-138.5
   t=1793621112246 kind=static_resource id=2363 x=-285.5 y=-128.5
-  t=1793621112246 kind=player_mounted id=23433 value=0.0
   t=1793621112295 outbound_request op=22 params={0=639292179123340737 1=[-249.12996, -167.30084] 2=291.9202 3=[-250.51128, -166.745] 4=11.0 253=22}
   t=1793621112295 kind=own_player_move x=-249.1299591064453 y=-167.30084228515625 heading=291.9201965332031 target_x=-250.5112762451172 target_y=-166.7449951171875 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621112300 event3 id=36298 raw=037114328cd938df08f93f377dbb1182ad470000b0409b4d367dd5f382ad p4=1.5223806E37 p5=-1.4787163E-11
@@ -10681,6 +10703,7 @@ Detailed entity/player observations: 34863
   t=1793621112427 kind=player_move id=36298 name=ashdmk raw_hex=01c1ee438cd938df088b98367dcbfb82ad430000b040 coord_source=unvalidated_event3_payload
   t=1793621112427 event3 id=19554 raw=03a096598cd938df08f61e73c37d2829c3ad6666e63f7ecc76c3430f2bc3 p4=-243.12094 p5=-169.15816
   t=1793621112427 kind=move id=19554 x=-243.12094 y=-169.15816
+  t=1793621112454 kind=player_mounted id=23433
   t=1793621112454 kind=leave id=38278 removed=true
   t=1793621112484 event3 id=23433 raw=0331f95a8cd938df080eebcf7d0bb68ead63cdcc0c41f0fecc7d7c508ead p4=3.4546334E37 p5=-1.6224374E-11
   t=1793621112484 kind=player_move id=23433 name=EDmars x=3.4546334E37 y=-1.6224374E-11 raw_hex=0331f95a8cd938df080eebcf7d0bb68ead63cdcc0c41f0fecc7d7c508ead coord_source=unvalidated_event3_payload
@@ -11108,7 +11131,7 @@ Detailed entity/player observations: 34863
   t=1793621116857 kind=move id=4535 x=-317.80466 y=-190.52037
   t=1793621116894 outbound_request op=22 params={0=639292179169220737 1=[-294.0205, -149.70953] 2=274.26492 3=[-294.65363, -149.66232] 4=11.0 253=22}
   t=1793621116894 kind=own_player_move x=-294.0205078125 y=-149.70953369140625 heading=274.2649230957031 target_x=-294.65362548828125 target_y=-149.66232299804688 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621116939 kind=resource_state id=521 amount=2
+  t=1793621116939 kind=resource_state id=521 enchant=0 amount=2
   t=1793621116939 event3 id=23433 raw=03516e048fd938df0898bb2604e7f8d6ccb8cccc38416af4210410bdd6cc p4=1.9599345E-36 p5=-1.12707384E8
   t=1793621116939 kind=player_move id=23433 name=EDmars x=1.9599345E-36 y=-1.12707384E8 raw_hex=03516e048fd938df0898bb2604e7f8d6ccb8cccc38416af4210410bdd6cc coord_source=unvalidated_event3_payload
   t=1793621116960 event3 id=4535 raw=0149520e8fd938df081ee49ec3c2873ec35100004040 p4=null p5=null
@@ -11216,6 +11239,7 @@ Detailed entity/player observations: 34863
   t=1793621118883 kind=move id=26845 x=-268.3903 y=-197.31912
   t=1793621118929 event3 id=23433 raw=0131892b90d938df08727e2b048553d9ccd9cccc3841 p4=null p5=null
   t=1793621118929 kind=player_move id=23433 name=EDmars raw_hex=0131892b90d938df08727e2b048553d9ccd9cccc3841 coord_source=unvalidated_event3_payload
+  t=1793621118929 kind=player_mounted id=23433
   t=1793621118959 outbound_request op=22 params={0=639292179189950737 1=[-316.2414, -152.7976] 2=256.86642 3=[-316.82962, -152.93486] 4=11.0 253=22}
   t=1793621118959 kind=own_player_move x=-316.24139404296875 y=-152.797607421875 heading=256.8664245605469 target_x=-316.8296203613281 target_y=-152.9348602294922 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621118987 event3 id=26845 raw=03d1244190d938df08505586c3576845c3b39a993940a7b886c3f8a745c3 p4=-268.6665 p5=-197.40758
@@ -11250,7 +11274,7 @@ Detailed entity/player observations: 34863
   t=1793621119745 kind=own_player_move x=-324.6368103027344 y=-154.3592529296875 heading=259.4906921386719 target_x=-325.0559387207031 target_y=-154.43702697753906 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621119850 outbound_request op=22 params={0=639292179198880737 1=[-325.80576, -154.57126] 2=259.71085 3=[-326.47583, -154.6929] 4=11.0 253=22}
   t=1793621119850 kind=own_player_move x=-325.8057556152344 y=-154.57125854492188 heading=259.7108459472656 target_x=-326.475830078125 target_y=-154.69290161132812 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621119887 kind=resource_state id=2643 amount=1
+  t=1793621119887 kind=resource_state id=2643 enchant=0 amount=1
   t=1793621119956 outbound_request op=22 params={0=639292179199880737 1=[-326.88803, -154.76773] 2=259.71024 3=[-327.50192, -154.87918] 4=11.0 253=22}
   t=1793621119956 kind=own_player_move x=-326.8880310058594 y=-154.76773071289062 heading=259.7102355957031 target_x=-327.5019226074219 target_y=-154.87918090820312 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621120046 kind=mob id=36915 x=-370.91 y=-182.26 mobileType=2474 enchant=0
@@ -11293,7 +11317,7 @@ Detailed entity/player observations: 34863
   t=1793621120592 kind=move id=30261 x=-299.08054 y=-189.64311
   t=1793621120607 outbound_request op=22 params={0=639292179206380737 1=[-333.8448, -156.40681] 2=254.88286 3=[-334.35126, -156.54362] 4=11.0 253=22}
   t=1793621120607 kind=own_player_move x=-333.84478759765625 y=-156.4068145751953 heading=254.8828582763672 target_x=-334.35125732421875 target_y=-156.5436248779297 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621120666 kind=resource_state id=2970 amount=1
+  t=1793621120666 kind=resource_state id=2970 enchant=1 amount=1
   t=1793621120692 event3 id=4482 raw=0398e64591d938df08e2b7a2c381bb11c3f1000040401853a3c35fa10ec3 p4=-325.43658 p5=-145.73244
   t=1793621120692 kind=move id=4482 x=-325.43658 y=-145.73244
   t=1793621120692 event3 id=30261 raw=0398e64591d938df08356595c30aa73dc3419a993940d1d694c340b03dc3 p4=-298.79068 p5=-189.6525
@@ -11312,7 +11336,7 @@ Detailed entity/player observations: 34863
   t=1793621120887 kind=move id=30261 x=-298.21097 y=-189.67126
   t=1793621120952 outbound_request op=22 params={0=639292179209840737 1=[-337.34106, -157.90073] 2=244.88809 3=[-337.93585, -158.17949] 4=11.0 253=22}
   t=1793621120952 kind=own_player_move x=-337.341064453125 y=-157.90072631835938 heading=244.88809204101562 target_x=-337.93585205078125 target_y=-158.1794891357422 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621120954 kind=resource_state id=2643 amount=0 removed=true
+  t=1793621120954 kind=resource_state id=2643 enchant=0 amount=0 removed=true
   t=1793621121011 event3 id=4482 raw=032e097491d938df08d3e1a2c3e9e410c3f1000040401853a3c35fa10ec3 p4=-325.76425 p5=-144.89418
   t=1793621121011 kind=move id=4482 x=-325.76425 y=-144.89418
   t=1793621121011 event3 id=30261 raw=032e097491d938df08e7f594c33fae3dc3419a993940d1d694c340b03dc3 p4=-297.9211 p5=-189.68065
@@ -11334,7 +11358,6 @@ Detailed entity/player observations: 34863
   t=1793621121114 kind=move id=4482 x=-325.87347 y=-144.61476
   t=1793621121114 event3 id=30261 raw=01041f8791d938df08d1d694c340b03dc3419a993940 p4=null p5=null
   t=1793621121114 kind=move id=30261
-  t=1793621121114 kind=player_mounted id=23433 value=0.0
   t=1793621121166 outbound_request op=22 params={0=639292179212020737 1=[-339.51236, -158.91837] 2=244.88802 3=[-340.55374, -159.40645] 4=11.0 253=22}
   t=1793621121166 kind=own_player_move x=-339.5123596191406 y=-158.91836547851562 heading=244.8880157470703 target_x=-340.5537414550781 target_y=-159.4064483642578 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621121192 event3 id=4482 raw=03cacb9291d938df08c9fda2c3d95510c3f1000040401853a3c35fa10ec3 p4=-325.9827 p5=-144.33534
@@ -11363,6 +11386,7 @@ Detailed entity/player observations: 34863
   t=1793621121617 kind=move id=4482 x=-326.4196 y=-143.21768
   t=1793621121617 event3 id=30367 raw=0357fad391d938df08516ab8c394d9f0c2369a993940fdf0b7c33a66f0c2 p4=-368.8306 p5=-120.42496
   t=1793621121617 kind=move id=30367 x=-368.8306 y=-120.42496
+  t=1793621121617 kind=player_mounted id=23433
   t=1793621121617 kind=leave id=38362 removed=true
   t=1793621121653 event3 id=23433 raw=0321bfd191d938df08727e2b048553d9ccd9cdcc0c41a7732a049af1d9cc p4=2.0159014E-36 p5=-1.13941544E8
   t=1793621121653 kind=player_move id=23433 name=EDmars x=2.0159014E-36 y=-1.13941544E8 raw_hex=0321bfd191d938df08727e2b048553d9ccd9cdcc0c41a7732a049af1d9cc coord_source=unvalidated_event3_payload
@@ -11449,6 +11473,7 @@ Detailed entity/player observations: 34863
   t=1793621123057 kind=own_player_move x=-354.7030334472656 y=-171.0298614501953 heading=257.72149658203125 target_x=-355.3016357421875 target_y=-171.16012573242188 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621123081 event3 id=23433 raw=0131a0ad92d938df080917932e5073cc06c4cdcc0c41 p4=null p5=null
   t=1793621123081 kind=player_move id=23433 name=EDmars raw_hex=0131a0ad92d938df080917932e5073cc06c4cdcc0c41 coord_source=unvalidated_event3_payload
+  t=1793621123081 kind=player_mounted id=23433
   t=1793621123104 event3 id=4535 raw=03a23fb792d938df08e82b9fc38cd33dc3e500004040ad19a0c3ad7e3bc3 p4=-318.34302 p5=-189.82635
   t=1793621123104 kind=move id=4535 x=-318.34302 y=-189.82635
   t=1793621123184 outbound_request op=22 params={0=639292179232260737 1=[-355.87497, -171.69417] 2=230.68764 3=[-356.3067, -172.04767] 4=11.0 253=22}
@@ -11494,7 +11519,7 @@ Detailed entity/player observations: 34863
   t=1793621124027 kind=move id=4535 x=-320.02557 y=-187.71451
   t=1793621124048 outbound_request op=22 params={0=639292179240860737 1=[-360.3895, -179.6764] 2=229.46222 3=[-360.8971, -180.11052] 4=11.0 253=22}
   t=1793621124048 kind=own_player_move x=-360.3894958496094 y=-179.67640686035156 heading=229.46221923828125 target_x=-360.8970947265625 target_y=-180.1105194091797 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621124097 kind=resource_state id=2594 amount=2
+  t=1793621124097 kind=resource_state id=2594 enchant=1 amount=2
   t=1793621124097 event3 id=37798 raw=03a0435093d938df088844afc3446b4bc317cdcc4c4014ddafc345e64ac3 p4=-350.5354 p5=-203.419
   t=1793621124097 kind=move id=37798 x=-350.5354 y=-203.419
   t=1793621124097 event3 id=4535 raw=01826a5093d938df08ad19a0c3ad7e3bc3e500004040 p4=null p5=null
@@ -11577,7 +11602,7 @@ Detailed entity/player observations: 34863
   t=1793621125128 kind=move id=36662
   t=1793621125153 outbound_request op=22 params={0=639292179251980737 1=[-366.13455, -190.30905] 2=240.04004 3=[-367.038, -190.82982] 4=11.0 253=22}
   t=1793621125153 kind=own_player_move x=-366.1345520019531 y=-190.30905151367188 heading=240.0400390625 target_x=-367.0379943847656 target_y=-190.82981872558594 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621125167 kind=resource_state id=2594 amount=1
+  t=1793621125167 kind=resource_state id=2594 enchant=1 amount=1
   t=1793621125203 event3 id=37727 raw=07f4faf893d938df08fd46b7c3860c37c38c0000f040c2adb7c32eaa39c3ef900000 p4=null p5=null
   t=1793621125203 kind=move id=37727
   t=1793621125203 event3 id=36915 raw=07f4faf893d938df08b4deb6c36b2b37c3470000f04064d6b6c3572e37c3ef900000 p4=null p5=null
@@ -11662,14 +11687,13 @@ Detailed entity/player observations: 34863
   t=1793621126226 kind=move id=37727
   t=1793621126226 event3 id=36915 raw=07e4419294d938df08ccecb8c30fa13bc3d70000f040192bbac32e183ac3ef900000 p4=null p5=null
   t=1793621126226 kind=move id=36915
-  t=1793621126226 kind=resource_state id=2594 amount=0 removed=true
+  t=1793621126226 kind=resource_state id=2594 enchant=1 amount=0 removed=true
   t=1793621126251 outbound_request op=22 params={0=639292179262880737 1=[-376.17212, -187.4043] 2=335.11893 3=[-376.4257, -186.85764] 4=11.0 253=22}
   t=1793621126251 kind=own_player_move x=-376.172119140625 y=-187.404296875 heading=335.1189270019531 target_x=-376.4256896972656 target_y=-186.85763549804688 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621126329 event3 id=37727 raw=06048da194d938df089ae3b8c3d06f3bc3b29a02bac3e6133dc3ef900000 p4=null p5=null
   t=1793621126329 kind=move id=37727
   t=1793621126329 event3 id=36915 raw=06048da194d938df08813eb9c3383c3bc3d7192bbac32e183ac3ef900000 p4=null p5=null
   t=1793621126329 kind=move id=36915
-  t=1793621126329 kind=player_mounted id=23433 value=0.0
   t=1793621126341 kind=leave id=23433 removed=true
   t=1793621126341 kind=leave id=4482 removed=true
   t=1793621126341 kind=leave id=4441 removed=true
@@ -11770,7 +11794,7 @@ Detailed entity/player observations: 34863
   t=1793621127743 kind=move id=37727
   t=1793621127757 outbound_request op=22 params={0=639292179278010737 1=[-376.7831, -170.93958] 2=5.35305 3=[-376.68393, -169.88081] 4=11.0 253=22}
   t=1793621127757 kind=own_player_move x=-376.7831115722656 y=-170.9395751953125 heading=5.353050231933594 target_x=-376.6839294433594 target_y=-169.8808135986328 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621127823 kind=resource_state id=3041 amount=1
+  t=1793621127823 kind=resource_state id=3041 enchant=0 amount=1
   t=1793621127891 outbound_request op=22 params={0=639292179279280737 1=[-376.59393, -169.55641] 2=10.970189 3=[-376.28342, -167.95427] 4=11.0 253=22}
   t=1793621127891 kind=own_player_move x=-376.59393310546875 y=-169.55641174316406 heading=10.970189094543457 target_x=-376.2834167480469 target_y=-167.9542694091797 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621127994 outbound_request op=22 params={0=639292179280360737 1=[-376.27728, -168.41139] 2=15.610611 3=[-375.99722, -167.40904] 4=11.0 253=22}
@@ -11839,7 +11863,7 @@ Detailed entity/player observations: 34863
   t=1793621129428 kind=move id=4482 x=-323.7323 y=-146.0574
   t=1793621129439 outbound_request op=22 params={0=639292179294790737 1=[-372.8644, -152.93251] 2=6.4271765 3=[-372.7996, -152.3569] 4=11.0 253=22}
   t=1793621129439 kind=own_player_move x=-372.8644104003906 y=-152.93251037597656 heading=6.427176475524902 target_x=-372.7995910644531 target_y=-152.35690307617188 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621129506 kind=resource_state id=2721 amount=1
+  t=1793621129506 kind=resource_state id=2721 enchant=0 amount=1
   t=1793621129553 outbound_request op=22 params={0=639292179295880737 1=[-372.73892, -151.74013] 2=5.2618513 3=[-372.69785, -151.29367] 4=11.0 253=22}
   t=1793621129553 kind=own_player_move x=-372.7389221191406 y=-151.74012756347656 heading=5.2618513107299805 target_x=-372.6978454589844 target_y=-151.29367065429688 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621129554 event3 id=4482 raw=0163478c96d938df0827daa1c31d1712c36300004040 p4=null p5=null
@@ -11932,14 +11956,13 @@ Detailed entity/player observations: 34863
   t=1793621130543 kind=move id=35570
   t=1793621130543 event3 id=35151 raw=03210d2497d938df089d058b2e3b03f006d50000b040a8108c2e6d7cff06 p4=6.321985E-11 p5=9.0282713E-35
   t=1793621130543 kind=player_move id=35151 name=Sgtsandwich x=6.321985E-11 y=9.0282713E-35 raw_hex=03210d2497d938df089d058b2e3b03f006d50000b040a8108c2e6d7cff06 coord_source=unvalidated_event3_payload
-  t=1793621130555 kind=resource_state id=2721 amount=0 removed=true
+  t=1793621130555 kind=resource_state id=2721 enchant=0 amount=0 removed=true
   t=1793621130555 event3 id=28368 raw=048d282a97d938df082507b9c37a1716c3eeef900000 p4=null p5=null
   t=1793621130555 kind=move id=28368
   t=1793621130555 event3 id=30367 raw=038d282a97d938df089312b8c376a5f0c2ae9a99394032eab8c37a3bf2c2 p4=-368.1451 p5=-120.323166
   t=1793621130555 kind=move id=30367 x=-368.1451 y=-120.323166
   t=1793621130663 event3 id=35570 raw=07e41b3597d938df08c03eb8c368b113c3c00000f0406ab1b9c352af13c3ef900000 p4=null p5=null
   t=1793621130663 kind=move id=35570
-  t=1793621130663 kind=player_mounted id=23433 value=0.0
   t=1793621130663 event3 id=35151 raw=03a1eb3397d938df0876c58b2e874af006d50000b040a8108c2e6d7cff06 p4=6.356064E-11 p5=9.0387474E-35
   t=1793621130663 kind=player_move id=35151 name=Sgtsandwich x=6.356064E-11 y=9.0387474E-35 raw_hex=03a1eb3397d938df0876c58b2e874af006d50000b040a8108c2e6d7cff06 coord_source=unvalidated_event3_payload
   t=1793621130663 event3 id=28368 raw=04c7713997d938df082507b9c37a1716c3f0ef900000 p4=null p5=null
@@ -11986,6 +12009,7 @@ Detailed entity/player observations: 34863
   t=1793621131085 kind=player_move id=35151 name=Sgtsandwich raw_hex=01a1657397d938df08a8108c2e6d7cff06d50000b040 coord_source=unvalidated_event3_payload
   t=1793621131154 outbound_request op=22 params={0=639292179311990737 1=[-374.34695, -134.12651] 2=343.81354 3=[-374.53317, -133.48494] 4=11.0 253=22}
   t=1793621131154 kind=own_player_move x=-374.3469543457031 y=-134.1265106201172 heading=343.81353759765625 target_x=-374.5331726074219 target_y=-133.4849395751953 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793621131154 kind=player_mounted id=23433
   t=1793621131154 kind=leave id=38490 removed=true
   t=1793621131154 event3 id=35570 raw=0705b28197d938df080c5bb9c3381611c3f10000f0404b10bac39f890dc3ef900000 p4=null p5=null
   t=1793621131154 kind=move id=35570
@@ -12204,7 +12228,7 @@ Detailed entity/player observations: 34863
   t=1793621133396 kind=player_move id=23433 name=EDmars x=-2.2270518E-15 y=-8.7426688E7 raw_hex=03219fd698d938df08db7920a7d0c0a6cc9ccdcc0c4121f720a7f5bea7cc coord_source=unvalidated_event3_payload
   t=1793621133464 event3 id=35570 raw=03d38de298d938df088bfab8c370350cc3600000f040b83eb5c3c3b513c3 p4=-369.95737 p5=-140.20874
   t=1793621133464 kind=move id=35570 x=-369.95737 y=-140.20874
-  t=1793621133476 kind=manual_marker activity=Ore event=tier_selected tier=T5 enchantment=E1
+  t=1793621133476 kind=manual_marker elapsed_realtime_ms=11191006 activity=Ore event=tier_selected tier=T5 enchantment=E1
   t=1793621133489 event3 id=28368 raw=03ca84e798d938df080e7fb9c31f9c12c3740000f0400000b9c333f315c3 p4=-370.9926 p5=-146.60985
   t=1793621133489 kind=move id=28368 x=-370.9926 y=-146.60985
   t=1793621133489 event3 id=23433 raw=037108e698d938df082dcf20a75e13a7cc9dcdcc0c4109b820a73c1fa8cc p4=-2.231677E-15 p5=-8.759576E7
@@ -12282,7 +12306,7 @@ Detailed entity/player observations: 34863
   t=1793621134919 kind=player_move id=35151 name=Sgtsandwich x=-2.5354487E-15 y=-8.8302664E7 raw_hex=0371e0bc99d938df08c6b236a7896ca8cc500000b040195d35a71ad2a9cc coord_source=unvalidated_event3_payload
   t=1793621134978 event3 id=30367 raw=036b64cd99d938df0832eab8c37a3bf2c2ae9a993940724fb9c32802f1c2 p4=-369.82965 p5=-121.116165
   t=1793621134978 kind=move id=30367 x=-369.82965 y=-121.116165
-  t=1793621134988 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=E1
+  t=1793621134988 kind=manual_marker elapsed_realtime_ms=11192519 activity=Ore event=target_found tier=T5 enchantment=E1
   t=1793621135028 event3 id=35151 raw=03f1becc99d938df0819f636a75e24a8cc500000b040195d35a71ad2a9cc p4=-2.5390984E-15 p5=-8.8154864E7
   t=1793621135028 kind=player_move id=35151 name=Sgtsandwich x=-2.5390984E-15 y=-8.8154864E7 raw_hex=03f1becc99d938df0819f636a75e24a8cc500000b040195d35a71ad2a9cc coord_source=unvalidated_event3_payload
   t=1793621135110 event3 id=30367 raw=035cb3dc99d938df088f07b9c3a0e0f1c2db9a993940724fb9c32802f1c2 p4=-370.05905 p5=-120.93872
@@ -12295,7 +12319,6 @@ Detailed entity/player observations: 34863
   t=1793621135232 kind=player_move id=35151 name=Sgtsandwich x=-2.5317612E-15 y=-8.8451576E7 raw_hex=0301a3ec99d938df08c06e36a73fb5a8cc500000b040195d35a71ad2a9cc coord_source=unvalidated_event3_payload
   t=1793621135277 event3 id=35151 raw=01111df499d938df08304e36a73193a8cc500000b040 p4=null p5=null
   t=1793621135277 kind=player_move id=35151 name=Sgtsandwich raw_hex=01111df499d938df08304e36a73193a8cc500000b040 coord_source=unvalidated_event3_payload
-  t=1793621135277 kind=player_mounted id=35151 value=0.0
   t=1793621135277 event3 id=30367 raw=036467fb99d938df084942b9c3e62af1c2db9a993940724fb9c32802f1c2 p4=-370.51785 p5=-120.583786
   t=1793621135277 kind=move id=30367 x=-370.51785 y=-120.583786
   t=1793621135401 event3 id=30367 raw=01fcaf0a9ad938df08724fb9c32802f1c2db9a993940 p4=null p5=null
@@ -12316,6 +12339,7 @@ Detailed entity/player observations: 34863
   t=1793621135768 kind=own_player_move x=-385.2841796875 y=-121.29557800292969 heading=170.66921997070312 target_x=-385.1832275390625 target_y=-121.9100570678711 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621135779 event3 id=29125 raw=034b11439ad938df08dfbcb9c3600fa1c20a9a993940f19db9c3952d9fc2 p4=-371.47556 p5=-80.53003
   t=1793621135779 kind=move id=29125 x=-371.47556 y=-80.53003
+  t=1793621135779 kind=player_mounted id=35151
   t=1793621135779 kind=leave id=37632 removed=true
   t=1793621135859 event3 id=29125 raw=035175529ad938df08a3b3b9c3907fa0c20a9a993940f19db9c3952d9fc2 p4=-371.4034 p5=-80.249146
   t=1793621135859 kind=move id=29125 x=-371.4034 y=-80.249146
@@ -12339,6 +12363,7 @@ Detailed entity/player observations: 34863
   t=1793621136368 kind=leave id=3440 removed=true
   t=1793621136368 kind=static_resource id=3041 x=-368.5 y=-171.5
   t=1793621136464 outbound_request op=199 params={0=639292179364840737 1=37104 253=199}
+  t=1793621136689 kind=player_mounted id=37103
   t=1793621136846 outbound_request op=22 params={0=639292179368700737 1=[-384.54352, -125.54262] 2=166.903 3=[-384.6623, -126.54425] 4=11.0 253=22}
   t=1793621136846 kind=own_player_move x=-384.54351806640625 y=-125.54261779785156 heading=166.9029998779297 target_x=-384.66229248046875 target_y=-126.54425048828125 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621136944 outbound_request op=22 params={0=639292179369870737 1=[-384.60513, -126.37702] 2=168.79044 3=[-384.35632, -127.632545] 4=5.5 253=22}
@@ -12358,9 +12383,11 @@ Detailed entity/player observations: 34863
   t=1793621137689 outbound_request op=22 params={0=639292179377170737 1=[-383.0411, -127.97638] 2=114.692276 3=[-383.0411, -127.97638] 4=5.5 253=22}
   t=1793621137689 kind=own_player_move x=-383.0411071777344 y=-127.97637939453125 heading=114.69227600097656 target_x=-383.0411071777344 target_y=-127.97637939453125 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621137943 kind=player_spawn id=23433 name=EDmars
+  t=1793621137943 kind=player_mounted id=23433
   t=1793621137943 event3 id=23433 raw=03714d8a9bd938df08cc2a3fa7119aaecc08cccc38415a0d3fa7fcc0adcc p4=-2.6529775E-15 p5=-9.154164E7
   t=1793621137943 kind=player_move id=23433 name=EDmars x=-2.6529775E-15 y=-9.154164E7 raw_hex=03714d8a9bd938df08cc2a3fa7119aaecc08cccc38415a0d3fa7fcc0adcc coord_source=unvalidated_event3_payload
   t=1793621138052 kind=player_spawn id=37842 name=kad090a
+  t=1793621138052 kind=player_mounted id=37842
   t=1793621138052 event3 id=37842 raw=0371649b9bd938df0829da3da76a922bcd7c00003041564c3da740ef40cd p4=-2.6347284E-15 p5=-1.79906208E8
   t=1793621138052 kind=player_move id=37842 name=kad090a x=-2.6347284E-15 y=-1.79906208E8 raw_hex=0371649b9bd938df0829da3da76a922bcd7c00003041564c3da740ef40cd coord_source=unvalidated_event3_payload
   t=1793621138097 event3 id=23433 raw=03d1bf9e9bd938df0899123fa78813adcc02cccc3841480a3fa78254accc p4=-2.6516657E-15 p5=-9.0741824E7
@@ -12383,7 +12410,7 @@ Detailed entity/player observations: 34863
   t=1793621138561 kind=player_move id=23433 name=EDmars x=-2.5597946E-15 y=-8.9337264E7 raw_hex=0301e4ea9bd938df08e07338a7b665aacc80cccc38419a7138a7112babcc coord_source=unvalidated_event3_payload
   t=1793621138621 event3 id=37842 raw=03c19af19bd938df0814b13da7a96f38cd8a00003041e5513fa7a17b4bcd p4=-2.6325013E-15 p5=-1.93395344E8
   t=1793621138621 kind=player_move id=37842 name=kad090a x=-2.6325013E-15 y=-1.93395344E8 raw_hex=03c19af19bd938df0814b13da7a96f38cd8a00003041e5513fa7a17b4bcd coord_source=unvalidated_event3_payload
-  t=1793621138686 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=E1
+  t=1793621138686 kind=manual_marker elapsed_realtime_ms=11196216 activity=Ore event=gathering_started tier=T5 enchantment=E1
   t=1793621138702 event3 id=23433 raw=036156ff9bd938df082c4238a708e5abcc74cccc384160913fa7ddb0accc p4=-2.5571001E-15 p5=-9.0122304E7
   t=1793621138702 kind=player_move id=23433 name=EDmars x=-2.5571001E-15 y=-9.0122304E7 raw_hex=036156ff9bd938df082c4238a708e5abcc74cccc384160913fa7ddb0accc coord_source=unvalidated_event3_payload
   t=1793621138745 event3 id=37842 raw=0311e6059cd938df0897613ea74b823acd8c00003041fbc23fa75a3f4dcd p4=-2.64207E-15 p5=-1.95568816E8
@@ -12504,7 +12531,7 @@ Detailed entity/player observations: 34863
   t=1793621141811 kind=move id=36915
   t=1793621141817 event3 id=37842 raw=03d17adc9dd938df0852543aa75fc57acd800000304173593aa79bcc86cc p4=-2.5858395E-15 p5=-2.62952432E8
   t=1793621141817 kind=player_move id=37842 name=kad090a x=-2.5858395E-15 y=-2.62952432E8 raw_hex=03d17adc9dd938df0852543aa75fc57acd800000304173593aa79bcc86cc coord_source=unvalidated_event3_payload
-  t=1793621141830 kind=resource_state id=2807 amount=0 removed=true
+  t=1793621141830 kind=resource_state id=2807 enchant=1 amount=0 removed=true
   t=1793621141830 kind=raw_health_energy_event code=91 params={0:37103, 1:6417571, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292179417751579, 252:91}
   t=1793621141830 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621141900 event3 id=23433 raw=03014ace9dd938df0864ea37a7ec34a6ccffcdcc0c4108f637a71cada4cc p4=-2.5523415E-15 p5=-8.7140192E7
@@ -12535,7 +12562,7 @@ Detailed entity/player observations: 34863
   t=1793621142206 kind=move id=37727
   t=1793621142206 event3 id=36915 raw=078c38199ed938df089d36b9c3681e2ac3f80000f040b6c2b9c3dd6024c3895b p4=null p5=null
   t=1793621142206 kind=move id=36915
-  t=1793621142232 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=E1
+  t=1793621142232 kind=manual_marker elapsed_realtime_ms=11199763 activity=Ore event=gathering_completed tier=T5 enchantment=E1
   t=1793621142305 event3 id=23433 raw=0361a7249ed938df0877cc37a7ae6da5cc05cdcc0c41b93237a7becba3cc p4=-2.5507192E-15 p5=-8.6732144E7
   t=1793621142305 kind=player_move id=23433 name=EDmars x=-2.5507192E-15 y=-8.6732144E7 raw_hex=0361a7249ed938df0877cc37a7ae6da5cc05cdcc0c41b93237a7becba3cc coord_source=unvalidated_event3_payload
   t=1793621142305 event3 id=37727 raw=07848d289ed938df08dd61b9c36f8f2ac3fd0000f0403685b9c3f35627c3895b p4=null p5=null
@@ -12637,7 +12664,7 @@ Detailed entity/player observations: 34863
   t=1793621143224 kind=player_move id=37842 name=kad090a x=4.0233985E19 y=6.9712665E-34 raw_hex=03a1ddb29ed938df08f5960b60faa8670885000030412e330b6098b57d08 coord_source=unvalidated_event3_payload
   t=1793621143235 event3 id=30367 raw=0322c2b79ed938df084949b9c39053f3c27e9a993940e745b9c31499f4c2 p4=-370.57254 p5=-121.66321
   t=1793621143235 kind=move id=30367 x=-370.57254 y=-121.66321
-  t=1793621143299 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=E1
+  t=1793621143299 kind=manual_marker elapsed_realtime_ms=11200830 activity=Ore event=node_depleted tier=T5 enchantment=E1
   t=1793621143308 event3 id=23433 raw=03018cbd9ed938df08a12106604872770803cdcc0c419d350660040a7008 p4=3.8660733E19 p5=7.4463196E-34
   t=1793621143308 kind=player_move id=23433 name=EDmars x=3.8660733E19 y=7.4463196E-34 raw_hex=03018cbd9ed938df08a12106604872770803cdcc0c419d350660040a7008 coord_source=unvalidated_event3_payload
   t=1793621143309 event3 id=37727 raw=0d5cf4c19ed938df08ea36b9c339cb23c3060000f040895b p4=null p5=null
@@ -12702,7 +12729,7 @@ Detailed entity/player observations: 34863
   t=1793621143802 kind=move id=36915
   t=1793621143802 event3 id=35570 raw=0666750e9fd938df08d68db5c3a62613c3c4a38eb5c3382513c3d2930000 p4=null p5=null
   t=1793621143802 kind=move id=35570
-  t=1793621143824 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=E2
+  t=1793621143824 kind=manual_marker elapsed_realtime_ms=11201354 activity=Ore event=enchantment_selected tier=T5 enchantment=E2
   t=1793621143852 event3 id=23433 raw=0351e00e9fd938df0831b007609de67c08f4cdcc0c41cfc5076016817d08 p4=3.9109475E19 p5=7.6104576E-34
   t=1793621143852 kind=player_move id=23433 name=EDmars x=3.9109475E19 y=7.6104576E-34 raw_hex=0351e00e9fd938df0831b007609de67c08f4cdcc0c41cfc5076016817d08 coord_source=unvalidated_event3_payload
   t=1793621143852 event3 id=28368 raw=047cb5159fd938df080000b9c333f315c324d2930000 p4=null p5=null
@@ -12839,7 +12866,7 @@ Detailed entity/player observations: 34863
   t=1793621144919 kind=move id=35570
   t=1793621144919 event3 id=37842 raw=03e143b69fd938df0826730960f769760860666608419be80f60965b4908 p4=3.9617207E19 p5=7.4152493E-34
   t=1793621144919 kind=player_move id=37842 name=kad090a x=3.9617207E19 y=7.4152493E-34 raw_hex=03e143b69fd938df0826730960f769760860666608419be80f60965b4908 coord_source=unvalidated_event3_payload
-  t=1793621144985 kind=resource_state id=2695 amount=0 removed=true
+  t=1793621144985 kind=resource_state id=2695 enchant=0 amount=0 removed=true
   t=1793621144985 event3 id=28368 raw=05b474be9fd938df080000b9c333f315c3640000f040d2930000 p4=null p5=null
   t=1793621144985 kind=move id=28368
   t=1793621145025 event3 id=23433 raw=0341f2c09fd938df08d8840060e0d46608ffcdcc0c417bb90060e36d6708 p4=3.7043057E19 p5=6.946334E-34
@@ -13021,6 +13048,7 @@ Detailed entity/player observations: 34863
   t=1793621146249 kind=player_move id=37842 name=kad090a x=4.0658924E19 y=6.2457877E-34 raw_hex=03d1bf80a0d938df0861100d60498d4f086366660841f2da136045d74208 coord_source=unvalidated_event3_payload
   t=1793621146283 event3 id=28368 raw=07f58f85a0d938df083be8b5c3c6681cc3670000f0400bc1b4c3018f1ec3d2930000 p4=null p5=null
   t=1793621146283 kind=move id=28368
+  t=1793621146320 kind=player_mounted id=37103
   t=1793621146320 kind=leave id=38521 removed=true
   t=1793621146320 event3 id=38192 raw=05f6258ea0d938df083d2ab5c314ee21c34e0000f040d2930000 p4=null p5=null
   t=1793621146320 kind=move id=38192
@@ -13669,7 +13697,7 @@ Detailed entity/player observations: 34863
   t=1793621152448 kind=move id=30367 x=-369.9718 y=-118.256874
   t=1793621152449 outbound_request op=22 params={0=639292179524850737 1=[-378.64786, -73.64468] 2=342.85657 3=[-378.97708, -72.57739] 4=11.0 253=22}
   t=1793621152449 kind=own_player_move x=-378.6478576660156 y=-73.6446762084961 heading=342.8565673828125 target_x=-378.9770812988281 target_y=-72.577392578125 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621152485 kind=resource_state id=3261 amount=3
+  t=1793621152485 kind=resource_state id=3261 enchant=1 amount=3
   t=1793621152485 event3 id=29125 raw=0561f937a4d938df0839dab9c34079a3c2dc0000f040ef900000 p4=null p5=null
   t=1793621152485 kind=move id=29125
   t=1793621152509 event3 id=23433 raw=03017934a4d938df08424a01609b37c30964cccc3841fef601606310c109 p4=3.7265325E19 p5=4.6996834E-33
@@ -13754,6 +13782,7 @@ Detailed entity/player observations: 34863
   t=1793621153350 kind=player_move id=23433 name=EDmars raw_hex=01018baea4d938df083f7f112b7f0a1ebd62cccc3841 coord_source=unvalidated_event3_payload
   t=1793621153368 event3 id=23433 raw=01219db8a4d938df083f7f112b7f0a1ebd60cccc3841 p4=null p5=null
   t=1793621153368 kind=player_move id=23433 name=EDmars raw_hex=01219db8a4d938df083f7f112b7f0a1ebd60cccc3841 coord_source=unvalidated_event3_payload
+  t=1793621153368 kind=player_mounted id=23433
   t=1793621153368 event3 id=29125 raw=07dfd9c1a4d938df086fe7bac34b489dc2eb0000f0403ce0bbc3239796c2ef900000 p4=null p5=null
   t=1793621153368 kind=move id=29125
   t=1793621153421 outbound_request op=22 params={0=639292179534670737 1=[-381.2028, -63.151833] 2=351.91483 3=[-381.2815, -62.597843] 4=11.0 253=22}
@@ -13803,12 +13832,11 @@ Detailed entity/player observations: 34863
   t=1793621154291 kind=move id=29125
   t=1793621154293 outbound_request op=22 params={0=639292179543370737 1=[-379.54504, -54.48469] 2=58.345154 3=[-378.8924, -54.142887] 4=11.0 253=22}
   t=1793621154293 kind=own_player_move x=-379.5450439453125 y=-54.48469161987305 heading=58.34515380859375 target_x=-378.89239501953125 target_y=-54.142887115478516 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621154365 kind=resource_state id=2780 amount=0 removed=true
+  t=1793621154365 kind=resource_state id=2780 enchant=0 amount=0 removed=true
   t=1793621154396 event3 id=29125 raw=07f2185ba5d938df08774ebcc3dd738fc2f60000f0400914bdc3b24183c2ef900000 p4=null p5=null
   t=1793621154396 kind=move id=29125
   t=1793621154409 outbound_request op=22 params={0=639292179544520737 1=[-378.67776, -53.608257] 2=61.46362 3=[-377.7301, -53.151825] 4=11.0 253=22}
   t=1793621154409 kind=own_player_move x=-378.6777648925781 y=-53.60825729370117 heading=61.463619232177734 target_x=-377.7301025390625 target_y=-53.151824951171875 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621154448 kind=player_mounted id=23433 value=0.0
   t=1793621154486 event3 id=29125 raw=07fa6b6aa5d938df080566bcc397ff8dc2f60000f040f610bdc37f837fc2ef900000 p4=null p5=null
   t=1793621154486 kind=move id=29125
   t=1793621154513 kind=static_resource id=1194 x=-370.0 y=-6.0
@@ -13834,6 +13862,7 @@ Detailed entity/player observations: 34863
   t=1793621154875 kind=move id=29125
   t=1793621154876 outbound_request op=22 params={0=639292179549160737 1=[-374.20428, -51.193] 2=63.103157 3=[-373.63818, -50.905846] 4=11.0 253=22}
   t=1793621154876 kind=own_player_move x=-374.20428466796875 y=-51.19300079345703 heading=63.10315704345703 target_x=-373.63818359375 target_y=-50.905845642089844 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793621154949 kind=player_mounted id=23433
   t=1793621154949 kind=leave id=38631 removed=true
   t=1793621154977 outbound_request op=22 params={0=639292179550240737 1=[-373.146, -50.653324] 2=62.60789 3=[-372.62082, -50.3812] 4=11.0 253=22}
   t=1793621154977 kind=own_player_move x=-373.14599609375 y=-50.653324127197266 heading=62.60789108276367 target_x=-372.6208190917969 target_y=-50.38119888305664 speed=11.0 source=outbound_photon_operation_22_param_1
@@ -13977,6 +14006,7 @@ Detailed entity/player observations: 34863
   t=1793621157298 kind=move id=29125 x=-372.98422 y=-76.070145
   t=1793621157362 event3 id=23433 raw=01311e1ba7d938df0853566b2b0c483fbdeccdcc0c41 p4=null p5=null
   t=1793621157362 kind=player_move id=23433 name=EDmars raw_hex=01311e1ba7d938df0853566b2b0c483fbdeccdcc0c41 coord_source=unvalidated_event3_payload
+  t=1793621157362 kind=player_mounted id=23433
   t=1793621157375 outbound_request op=22 params={0=639292179574200737 1=[-373.24542, -35.782707] 2=277.38815 3=[-373.90988, -35.69655] 4=11.0 253=22}
   t=1793621157375 kind=own_player_move x=-373.24542236328125 y=-35.78270721435547 heading=277.3881530761719 target_x=-373.9098815917969 target_y=-35.69654846191406 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621157430 event3 id=38151 raw=03b86a27a7d938df0882d9bfc304a74cc2fb6666e63fb8efbfc3c44147c2 p4=-383.69928 p5=-51.1631
@@ -14019,28 +14049,28 @@ Detailed entity/player observations: 34863
   t=1793621158211 kind=move id=29125 x=-371.74335 y=-79.05598
   t=1793621158299 event3 id=29125 raw=035491b1a7d938df08f3d2b9c3e4a89ec2729a99394057b2b9c3b31fa0c2 p4=-371.64804 p5=-79.329865
   t=1793621158299 kind=move id=29125 x=-371.64804 y=-79.329865
-  t=1793621158376 kind=resource_state id=2730 amount=3
+  t=1793621158376 kind=resource_state id=2730 enchant=0 amount=3
   t=1793621158425 event3 id=29125 raw=0367ecc0a7d938df08c0c6b9c31f359fc2729a99394057b2b9c3b31fa0c2 p4=-371.55273 p5=-79.60375
   t=1793621158425 kind=move id=29125 x=-371.55273 y=-79.60375
-  t=1793621158429 kind=manual_marker activity=Ore event=tier_selected tier=T6 enchantment=E2
+  t=1793621158429 kind=manual_marker elapsed_realtime_ms=11215960 activity=Ore event=tier_selected tier=T6 enchantment=E2
   t=1793621158526 event3 id=29125 raw=03d147d0a7d938df088dbab9c35ac19fc2729a99394057b2b9c3b31fa0c2 p4=-371.45743 p5=-79.87764
   t=1793621158526 kind=move id=29125 x=-371.45743 y=-79.87764
-  t=1793621158565 kind=manual_marker activity=Ore event=tier_selected tier=T7 enchantment=E2
+  t=1793621158565 kind=manual_marker elapsed_realtime_ms=11216096 activity=Ore event=tier_selected tier=T7 enchantment=E2
   t=1793621158594 event3 id=29125 raw=01a396dfa7d938df0857b2b9c3b31fa0c2729a993940 p4=null p5=null
   t=1793621158594 kind=move id=29125
-  t=1793621158721 kind=manual_marker activity=Ore event=tier_selected tier=T8 enchantment=E2
-  t=1793621159362 kind=manual_marker activity=Ore event=tier_selected tier=T2 enchantment=E2
-  t=1793621159447 kind=resource_state id=2730 amount=2
-  t=1793621159518 kind=manual_marker activity=Ore event=tier_selected tier=T3 enchantment=E2
-  t=1793621159934 kind=manual_marker activity=Ore event=tier_selected tier=T4 enchantment=E2
-  t=1793621160484 kind=resource_state id=2730 amount=1
+  t=1793621158721 kind=manual_marker elapsed_realtime_ms=11216252 activity=Ore event=tier_selected tier=T8 enchantment=E2
+  t=1793621159362 kind=manual_marker elapsed_realtime_ms=11216892 activity=Ore event=tier_selected tier=T2 enchantment=E2
+  t=1793621159447 kind=resource_state id=2730 enchant=0 amount=2
+  t=1793621159518 kind=manual_marker elapsed_realtime_ms=11217049 activity=Ore event=tier_selected tier=T3 enchantment=E2
+  t=1793621159934 kind=manual_marker elapsed_realtime_ms=11217465 activity=Ore event=tier_selected tier=T4 enchantment=E2
+  t=1793621160484 kind=resource_state id=2730 enchant=0 amount=1
   t=1793621160709 event3 id=23433 raw=03b1e9558fd938df0848ac2304adfdd5ccbccccc38416a0022048b9cd5cc p4=1.9239666E-36 p5=-1.12192872E8
   t=1793621160709 kind=player_move id=23433 name=EDmars x=1.9239666E-36 y=-1.12192872E8 raw_hex=03b1e9558fd938df0848ac2304adfdd5ccbccccc38416a0022048b9cd5cc coord_source=unvalidated_event3_payload
   t=1793621160709 event3 id=32161 raw=0301055b8fd938df085ee8a7c3031815c30d9a993940b3dda7c39ad614c3 p4=-335.81537 p5=-149.0938
-  t=1793621161388 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E3
-  t=1793621161537 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
-  t=1793621161583 kind=resource_state id=2730 amount=0 removed=true
-  t=1793621161687 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E1
+  t=1793621161388 kind=manual_marker elapsed_realtime_ms=11218919 activity=Ore event=enchantment_selected tier=T4 enchantment=E3
+  t=1793621161537 kind=manual_marker elapsed_realtime_ms=11219068 activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
+  t=1793621161583 kind=resource_state id=2730 enchant=0 amount=0 removed=true
+  t=1793621161687 kind=manual_marker elapsed_realtime_ms=11219218 activity=Ore event=enchantment_selected tier=T4 enchantment=E1
   t=1793621161699 event3 id=23433 raw=03f13eaba9d938df0853566b2b0c483fbdec0000b04033376b2bc35533bd p4=8.360857E-13 p5=-0.04669957
   t=1793621161699 kind=player_move id=23433 name=EDmars x=8.360857E-13 y=-0.04669957 raw_hex=03f13eaba9d938df0853566b2b0c483fbdec0000b04033376b2bc35533bd coord_source=unvalidated_event3_payload
   t=1793621161762 event3 id=23433 raw=0351b1bfa9d938df0838506b2b0ed630bd830000b04039406b2b779033bd p4=8.36001E-13 p5=-0.04317289
@@ -14055,7 +14085,7 @@ Detailed entity/player observations: 34863
   t=1793621162576 kind=own_player_move x=-373.9789123535156 y=-37.130615234375 heading=189.8668670654297 target_x=-374.2308349609375 target_y=-38.57881546020508 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621162623 outbound_request op=22 params={0=639292179626420737 1=[-374.0276, -37.33387] 2=193.45992 3=[-374.0276, -37.33387] 4=11.0 253=22}
   t=1793621162623 kind=own_player_move x=-374.027587890625 y=-37.33386993408203 heading=193.4599151611328 target_x=-374.027587890625 target_y=-37.33386993408203 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621162912 kind=resource_state id=2734 amount=1
+  t=1793621162912 kind=resource_state id=2734 enchant=0 amount=1
   t=1793621163247 event3 id=38151 raw=0397bea0aad938df08b8efbfc3c44147c2fb6666e63f0cb1c0c3063b4bc2 p4=-383.8728 p5=-49.814224
   t=1793621163247 kind=move id=38151 x=-383.8728 y=-49.814224
   t=1793621163333 event3 id=38151 raw=03e21db0aad938df08f802c0c30ea747c2a86666e63f0cb1c0c3063b4bc2 p4=-384.0232 p5=-49.91314
@@ -14064,7 +14094,7 @@ Detailed entity/player observations: 34863
   t=1793621163449 kind=move id=38151 x=-384.17358 y=-50.012054
   t=1793621163531 event3 id=38151 raw=031cd5ceaad938df087829c0c3a27148c2a86666e63f0cb1c0c3063b4bc2 p4=-384.32397 p5=-50.11097
   t=1793621163531 kind=move id=38151 x=-384.32397 y=-50.11097
-  t=1793621163531 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=E1
+  t=1793621163531 kind=manual_marker elapsed_realtime_ms=11221062 activity=Ore event=target_found tier=T4 enchantment=E1
   t=1793621163643 event3 id=38151 raw=030937deaad938df08b83cc0c3ecd648c2a86666e63f0cb1c0c3063b4bc2 p4=-384.47437 p5=-50.209885
   t=1793621163643 kind=move id=38151 x=-384.47437 y=-50.209885
   t=1793621163733 event3 id=38151 raw=03c479edaad938df08f84fc0c3363c49c2a86666e63f0cb1c0c3063b4bc2 p4=-384.62476 p5=-50.3088
@@ -14073,10 +14103,9 @@ Detailed entity/player observations: 34863
   t=1793621163827 kind=move id=38151 x=-384.77515 y=-50.407715
   t=1793621163923 event3 id=38151 raw=031a260cabd938df087876c0c3ca064ac2a86666e63f0cb1c0c3063b4bc2 p4=-384.92554 p5=-50.50663
   t=1793621163923 kind=move id=38151 x=-384.92554 y=-50.50663
-  t=1793621163961 kind=resource_state id=2734 amount=0 removed=true
+  t=1793621163961 kind=resource_state id=2734 enchant=0 amount=0 removed=true
   t=1793621164032 event3 id=38151 raw=03266c1babd938df08b889c0c3146c4ac2a86666e63f0cb1c0c3063b4bc2 p4=-385.07593 p5=-50.605545
   t=1793621164032 kind=move id=38151 x=-385.07593 y=-50.605545
-  t=1793621164088 kind=player_mounted id=23433 value=0.0
   t=1793621164145 event3 id=38151 raw=039ac12aabd938df08f89cc0c35ed14ac2a86666e63f0cb1c0c3063b4bc2 p4=-385.22632 p5=-50.70446
   t=1793621164145 kind=move id=38151 x=-385.22632 y=-50.70446
   t=1793621164223 event3 id=38151 raw=03a0253aabd938df0838b0c0c3a9364bc2a86666e63f0cb1c0c3063b4bc2 p4=-385.3767 p5=-50.80338
@@ -14084,6 +14113,8 @@ Detailed entity/player observations: 34863
   t=1793621164224 outbound_request op=199 params={0=639292179642410737 1=37104 253=199}
   t=1793621164325 event3 id=38151 raw=01d96b49abd938df080cb1c0c3063b4bc2a86666e63f p4=null p5=null
   t=1793621164325 kind=move id=38151
+  t=1793621164427 kind=player_mounted id=37103
+  t=1793621164562 kind=player_mounted id=23433
   t=1793621164562 kind=leave id=38642 removed=true
   t=1793621164579 outbound_request op=22 params={0=639292179646030737 1=[-374.0276, -37.33387] 2=193.4599 3=[-373.0542, -37.599625] 4=5.5 253=22}
   t=1793621164579 kind=own_player_move x=-374.027587890625 y=-37.33386993408203 heading=193.45989990234375 target_x=-373.05419921875 target_y=-37.59962463378906 speed=5.5 source=outbound_photon_operation_22_param_1
@@ -14111,23 +14142,24 @@ Detailed entity/player observations: 34863
   t=1793621165321 kind=player_move id=23433 name=EDmars raw_hex=01513edbabd938df088e9df32a5eb05a7a8ecdcc0c41 coord_source=unvalidated_event3_payload
   t=1793621165377 event3 id=23433 raw=016147e0abd938df088e9df32a5eb05a7aa2cdcc0c41 p4=null p5=null
   t=1793621165377 kind=player_move id=23433 name=EDmars raw_hex=016147e0abd938df088e9df32a5eb05a7aa2cdcc0c41 coord_source=unvalidated_event3_payload
-  t=1793621165668 kind=resource_state id=2601 amount=2
-  t=1793621165769 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=E1
-  t=1793621166359 kind=resource_state id=2707 amount=1
+  t=1793621165377 kind=player_mounted id=23433
+  t=1793621165668 kind=resource_state id=2601 enchant=0 amount=2
+  t=1793621165769 kind=manual_marker elapsed_realtime_ms=11223300 activity=Ore event=gathering_started tier=T4 enchantment=E1
+  t=1793621166359 kind=resource_state id=2707 enchant=0 amount=1
   t=1793621166849 outbound_request op=22 params={0=639292179668750737 1=[-374.6818, -38.109325] 2=235.95424 3=[-374.6818, -38.109325] 4=5.5 253=22}
   t=1793621166849 kind=own_player_move x=-374.6817932128906 y=-38.10932540893555 heading=235.95423889160156 target_x=-374.6817932128906 target_y=-38.10932540893555 speed=5.5 source=outbound_photon_operation_22_param_1
-  t=1793621166931 kind=resource_state id=1426 amount=4
+  t=1793621166931 kind=resource_state id=1426 enchant=0 amount=4
   t=1793621167081 outbound_request op=22 params={0=639292179668750737 1=[-374.6818, -38.109325] 2=235.95424 3=[-374.6818, -38.109325] 4=5.5 253=22}
   t=1793621167081 kind=own_player_move x=-374.6817932128906 y=-38.10932540893555 heading=235.95423889160156 target_x=-374.6817932128906 target_y=-38.10932540893555 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621167084 kind=raw_health_energy_event code=91 params={0:37103, 1:6442803, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292179670072110, 252:91}
   t=1793621167084 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
-  t=1793621167452 kind=resource_state id=2707 amount=0 removed=true
+  t=1793621167452 kind=resource_state id=2707 enchant=0 amount=0 removed=true
   t=1793621167869 event3 id=29125 raw=03eff661add938df0857b2b9c3b31fa0c2729a993940cd77b9c347449fc2 p4=-371.39328 p5=-80.06191
   t=1793621167869 kind=move id=29125 x=-371.39328 y=-80.06191
   t=1793621167958 event3 id=29125 raw=03e14871add938df084197b9c32dba9fc2219a993940cd77b9c347449fc2 p4=-371.18167 p5=-79.863625
   t=1793621167958 kind=move id=29125 x=-371.18167 y=-79.863625
   t=1793621167973 kind=leave id=35507 removed=true
-  t=1793621167989 kind=resource_state id=3261 amount=2
+  t=1793621167989 kind=resource_state id=3261 enchant=1 amount=2
   t=1793621167989 kind=raw_health_energy_event code=91 params={0:37103, 1:6443728, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292179679327976, 252:91}
   t=1793621167989 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621168057 event3 id=29125 raw=0322b180add938df082b7cb9c3a7549fc2219a993940cd77b9c347449fc2 p4=-370.97006 p5=-79.66534
@@ -14144,14 +14176,14 @@ Detailed entity/player observations: 34863
   t=1793621168440 kind=move id=38151 x=-385.31427 y=-50.454292
   t=1793621168574 event3 id=38151 raw=031564cdadd938df08d2a3c0c3481c49c2086666e63f1f9ec0c3653248c2 p4=-385.27985 p5=-50.27762
   t=1793621168574 kind=move id=38151 x=-385.27985 y=-50.27762
-  t=1793621168574 kind=player_mounted id=23433 value=0.0
   t=1793621168662 event3 id=38151 raw=03d0b0dcadd938df08699fc0c35e6748c2086666e63f1f9ec0c3653248c2 p4=-385.2454 p5=-50.100945
   t=1793621168662 kind=move id=38151 x=-385.2454 y=-50.100945
   t=1793621168760 event3 id=38151 raw=012309ecadd938df081f9ec0c3653248c2086666e63f p4=null p5=null
   t=1793621168760 kind=move id=38151
-  t=1793621169072 kind=resource_state id=3261 amount=1
+  t=1793621169072 kind=resource_state id=3261 enchant=1 amount=1
   t=1793621169072 kind=raw_health_energy_event code=91 params={0:37103, 1:6444792, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292179689969809, 252:91}
   t=1793621169072 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
+  t=1793621169072 kind=player_mounted id=23433
   t=1793621169072 kind=leave id=38679 removed=true
   t=1793621169178 kind=raw_health_energy_event code=91 params={0:37103, 1:6444907, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292179691117465, 252:91}
   t=1793621169178 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
@@ -14171,7 +14203,7 @@ Detailed entity/player observations: 34863
   t=1793621170027 kind=player_move id=23433 name=EDmars x=2.4951918E-13 y=2.9390681E35 raw_hex=031168a8aed938df0881778c2ae66a627a19cdcc0c417b098c2a42a76f7a coord_source=unvalidated_event3_payload
   t=1793621170130 event3 id=23433 raw=0361b3bcaed938df085f238c2a811a607a15cdcc0c41bec48c2abb886d7a p4=2.489354E-13 p5=2.9090301E35
   t=1793621170130 kind=player_move id=23433 name=EDmars x=2.489354E-13 y=2.9090301E35 raw_hex=0361b3bcaed938df085f238c2a811a607a15cdcc0c41bec48c2abb886d7a coord_source=unvalidated_event3_payload
-  t=1793621170130 kind=resource_state id=3261 amount=0 removed=true
+  t=1793621170130 kind=resource_state id=3261 enchant=1 amount=0 removed=true
   t=1793621170130 kind=raw_health_energy_event code=91 params={0:37103, 1:6445863, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292179700678692, 252:91}
   t=1793621170130 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621170288 event3 id=23433 raw=03c125d1aed938df08e5eb8c2a3e4a6e7a0ecdcc0c413cae8c2a73206b7a p4=2.503268E-13 p5=3.0931812E35
@@ -14182,7 +14214,7 @@ Detailed entity/player observations: 34863
   t=1793621170529 kind=player_move id=23433 name=EDmars x=2.4989396E-13 y=3.0434158E35 raw_hex=0351b3f4aed938df0884ad8c2acb746a7a06cdcc0c41fa978c2a1201777a coord_source=unvalidated_event3_payload
   t=1793621170610 event3 id=23433 raw=03a11c04afd938df088ba38c2a6108687a05cdcc0c41868e8c2a7bc6757a p4=2.4982476E-13 p5=3.011957E35
   t=1793621170610 kind=player_move id=23433 name=EDmars x=2.4982476E-13 y=3.011957E35 raw_hex=03a11c04afd938df088ba38c2a6108687a05cdcc0c41868e8c2a7bc6757a coord_source=unvalidated_event3_payload
-  t=1793621170735 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=E1
+  t=1793621170735 kind=manual_marker elapsed_realtime_ms=11228266 activity=Ore event=gathering_completed tier=T4 enchantment=E1
   t=1793621170762 event3 id=23433 raw=03e14018afd938df0888968c2ac258767a03cdcc0c41e48a8c2a566f737a p4=2.4973448E-13 p5=3.1977631E35
   t=1793621170762 kind=player_move id=23433 name=EDmars x=2.4973448E-13 y=3.1977631E35 raw_hex=03e14018afd938df0888968c2ac258767a03cdcc0c41e48a8c2a566f737a coord_source=unvalidated_event3_payload
   t=1793621170889 event3 id=23433 raw=03318c2cafd938df0848918c2ac6e1737affcdcc0c41919b8c2ac68b707a p4=2.4969805E-13 p5=3.1657684E35
@@ -14201,7 +14233,7 @@ Detailed entity/player observations: 34863
   t=1793621171644 kind=player_move id=23433 name=EDmars x=2.4928185E-13 y=3.4651075E35 raw_hex=032195a1afd938df084d558c2a9978857af9cdcc0c41d1778c2a13db8f7a coord_source=unvalidated_event3_payload
   t=1793621171721 event3 id=23433 raw=03914cb1afd938df08d86a8c2adcc1817afbcdcc0c41417c8c2a65438c7a p4=2.4943133E-13 p5=3.368691E35
   t=1793621171721 kind=player_move id=23433 name=EDmars x=2.4943133E-13 y=3.368691E35 raw_hex=03914cb1afd938df08d86a8c2adcc1817afbcdcc0c41417c8c2a65438c7a coord_source=unvalidated_event3_payload
-  t=1793621171856 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=E1
+  t=1793621171856 kind=manual_marker elapsed_realtime_ms=11229386 activity=Ore event=node_depleted tier=T4 enchantment=E1
   t=1793621171886 event3 id=23433 raw=03b122c5afd938df083e748c2a805c8d7afdcdcc0c4134878d2a1a36977a p4=2.4949655E-13 p5=3.66995E35
   t=1793621171886 kind=player_move id=23433 name=EDmars x=2.4949655E-13 y=3.66995E35 raw_hex=03b122c5afd938df083e748c2a805c8d7afdcdcc0c4134878d2a1a36977a coord_source=unvalidated_event3_payload
   t=1793621172024 event3 id=23433 raw=031195d9afd938df0832798c2a3605887a00cdcc0c41cd7c8c2a85ff927a p4=2.4953092E-13 p5=3.5312903E35
@@ -14228,7 +14260,7 @@ Detailed entity/player observations: 34863
   t=1793621173302 kind=player_move id=23433 name=EDmars x=3.99506997E11 y=1.08387262E17 raw_hex=0351109bb0d938df08f208ba52d288c05b23cdcc0c41d683bd524045cd5b coord_source=unvalidated_event3_payload
   t=1793621173414 event3 id=23433 raw=03b182afb0d938df084d7bba521dd3cd5b22cdcc0c41a1ffbd523e85c95b p4=4.0046628E11 p5=1.15868983E17
   t=1793621173414 kind=player_move id=23433 name=EDmars x=4.0046628E11 y=1.15868983E17 raw_hex=03b182afb0d938df084d7bba521dd3cd5b22cdcc0c41a1ffbd523e85c95b coord_source=unvalidated_event3_payload
-  t=1793621173489 kind=resource_state id=657 amount=2
+  t=1793621173489 kind=resource_state id=657 enchant=0 amount=2
   t=1793621173547 event3 id=23433 raw=0301cec3b0d938df0853d7bd5252edce5b21cccc3841b969bd52f6f9ca5b p4=4.0768068E11 p5=1.16489563E17
   t=1793621173547 kind=player_move id=23433 name=EDmars x=4.0768068E11 y=1.16489563E17 raw_hex=0301cec3b0d938df0853d7bd5252edce5b21cccc3841b969bd52f6f9ca5b coord_source=unvalidated_event3_payload
   t=1793621173681 event3 id=23433 raw=0341f2d7b0d938df083159bd522091ca5b20cccc38412fc0bc521d5cb75b p4=4.06622601E11 p5=1.14035024E17
@@ -14250,6 +14282,7 @@ Detailed entity/player observations: 34863
   t=1793621174614 kind=player_move id=23433 name=EDmars x=4.04161659E11 y=8.1469826E16 raw_hex=03b19d66b1d938df08d333bc5230b8905bf2cccc38418d0cbc52892e9c5b coord_source=unvalidated_event3_payload
   t=1793621174745 event3 id=23433 raw=03f1c17ab1d938df08a3fcbc520f4d9f5bf0cccc384146b3bc521ffb9a5b p4=4.05846196E11 p5=8.9678496E16
   t=1793621174745 kind=player_move id=23433 name=EDmars x=4.05846196E11 y=8.9678496E16 raw_hex=03f1c17ab1d938df08a3fcbc520f4d9f5bf0cccc384146b3bc521ffb9a5b coord_source=unvalidated_event3_payload
+  t=1793621174869 kind=player_mounted id=37103
   t=1793621174869 kind=leave id=38674 removed=true
   t=1793621174898 event3 id=23433 raw=0351348fb1d938df088f95bc52b3f7855bebcccc3841aa47bd526136815b p4=4.04981514E11 p5=7.541704E16
   t=1793621174898 kind=player_move id=23433 name=EDmars x=4.04981514E11 y=7.541704E16 raw_hex=0351348fb1d938df088f95bc52b3f7855bebcccc3841aa47bd526136815b coord_source=unvalidated_event3_payload
@@ -14258,6 +14291,7 @@ Detailed entity/player observations: 34863
   t=1793621175139 event3 id=23433 raw=03f1cab7b1d938df081ca6bd5284bb8f5be1cccc3841264bba523743885b p4=4.07267836E11 p5=8.0914195E16
   t=1793621175139 kind=player_move id=23433 name=EDmars x=4.07267836E11 y=8.0914195E16 raw_hex=03f1cab7b1d938df081ca6bd5284bb8f5be1cccc3841264bba523743885b coord_source=unvalidated_event3_payload
   t=1793621175139 kind=leave id=38674 removed=true
+  t=1793621175139 kind=player_mounted id=37103
   t=1793621175143 outbound_request op=22 params={0=639292179751660737 1=[-374.6818, -38.109325] 2=235.95424 3=[-373.2096, -37.760124] 4=11.0 253=22}
   t=1793621175143 kind=own_player_move x=-374.6817932128906 y=-38.10932540893555 heading=235.95423889160156 target_x=-373.2095947265625 target_y=-37.76012420654297 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621175240 outbound_request op=22 params={0=639292179752820737 1=[-373.5754, -37.531937] 2=47.585056 3=[-373.1132, -37.109657] 4=11.0 253=22}
@@ -14291,6 +14325,7 @@ Detailed entity/player observations: 34863
   t=1793621175777 kind=own_player_move x=-374.6048278808594 y=-32.039161682128906 heading=352.3985290527344 target_x=-374.68768310546875 target_y=-31.41852569580078 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621175822 event3 id=23433 raw=01918818b2d938df084f19b85251366658d7cccc3841 p4=null p5=null
   t=1793621175822 kind=player_move id=23433 name=EDmars raw_hex=01918818b2d938df084f19b85251366658d7cccc3841 coord_source=unvalidated_event3_payload
+  t=1793621175822 kind=player_mounted id=23433
   t=1793621175883 outbound_request op=22 params={0=639292179759260737 1=[-374.59793, -30.874058] 2=3.4414487 3=[-374.53476, -29.823837] 4=11.0 253=22}
   t=1793621175883 kind=own_player_move x=-374.5979309082031 y=-30.87405776977539 heading=3.44144868850708 target_x=-374.5347595214844 target_y=-29.823837280273438 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621175996 outbound_request op=22 params={0=639292179760390737 1=[-374.44717, -29.641205] 2=10.144795 3=[-374.3373, -29.02718] 4=11.0 253=22}
@@ -14317,7 +14352,7 @@ Detailed entity/player observations: 34863
   t=1793621176806 kind=leave id=4272 removed=true
   t=1793621176806 kind=leave id=3440 removed=true
   t=1793621176806 kind=static_resource id=1192 x=-389.5 y=21.5
-  t=1793621176806 kind=resource_state id=2642 amount=1
+  t=1793621176806 kind=resource_state id=2642 enchant=0 amount=1
   t=1793621176868 outbound_request op=22 params={0=639292179769120737 1=[-368.58957, -22.39593] 2=54.62803 3=[-368.2155, -22.130386] 4=11.0 253=22}
   t=1793621176868 kind=own_player_move x=-368.5895690917969 y=-22.39592933654785 heading=54.628028869628906 target_x=-368.21551513671875 target_y=-22.130386352539062 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621176977 outbound_request op=22 params={0=639292179770180737 1=[-367.69113, -21.656956] 2=43.96145 3=[-367.25064, -21.200207] 4=11.0 253=22}
@@ -14334,7 +14369,7 @@ Detailed entity/player observations: 34863
   t=1793621177521 kind=own_player_move x=-364.4510803222656 y=-16.607505798339844 heading=21.897659301757812 target_x=-364.2097473144531 target_y=-16.007089614868164 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621177624 outbound_request op=22 params={0=639292179776730737 1=[-364.15027, -15.460364] 2=10.361106 3=[-363.9651, -14.447561] 4=11.0 253=22}
   t=1793621177624 kind=own_player_move x=-364.1502685546875 y=-15.46036434173584 heading=10.361105918884277 target_x=-363.965087890625 target_y=-14.447561264038086 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621177705 kind=mob id=20866 x=-319.5572 y=10.562533 mobileType=120 enchant=0
+  t=1793621177705 kind=mob id=20866 name=MISTS_SOLO_YELLOW x=-319.5572 y=10.562533 mobileType=120 enchant=0
   t=1793621177705 kind=static_resource id=2266 x=-318.5 y=-59.5
   t=1793621177705 kind=static_resource id=2314 x=-319.5 y=-59.5
   t=1793621177705 kind=static_resource id=2252 x=-324.5 y=-54.5
@@ -14344,7 +14379,7 @@ Detailed entity/player observations: 34863
   t=1793621177743 kind=own_player_move x=-363.93695068359375 y=-14.202373504638672 heading=9.04259204864502 target_x=-363.8403015136719 target_y=-13.595015525817871 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621177856 outbound_request op=22 params={0=639292179779040737 1=[-363.73828, -12.953067] 2=9.035354 3=[-363.64032, -12.337082] 4=11.0 253=22}
   t=1793621177856 kind=own_player_move x=-363.73828125 y=-12.9530668258667 heading=9.035353660583496 target_x=-363.64031982421875 target_y=-12.337081909179688 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621177893 kind=resource_state id=2642 amount=0 removed=true
+  t=1793621177893 kind=resource_state id=2642 enchant=0 amount=0 removed=true
   t=1793621177938 kind=mob id=4987 x=-332.33356 y=28.52864 mobileType=2486 enchant=0
   t=1793621177938 kind=mob id=6062 x=-317.78 y=28.31 mobileType=2474 enchant=0
   t=1793621177938 kind=static_resource id=2932 x=-368.0 y=31.0
@@ -14400,7 +14435,7 @@ Detailed entity/player observations: 34863
   t=1793621179166 kind=own_player_move x=-356.4105224609375 y=-1.2386693954467773 heading=61.107032775878906 target_x=-355.85498046875 target_y=-0.9320905804634094 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621179278 outbound_request op=22 params={0=639292179793200737 1=[-355.31784, -0.74710757] 2=68.59623 3=[-354.72647, -0.51530755] 4=11.0 253=22}
   t=1793621179278 kind=own_player_move x=-355.3178405761719 y=-0.7471075654029846 heading=68.59622955322266 target_x=-354.7264709472656 target_y=-0.5153075456619263 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621179328 kind=resource_state id=2601 amount=1
+  t=1793621179328 kind=resource_state id=2601 enchant=0 amount=1
   t=1793621179398 outbound_request op=22 params={0=639292179794450737 1=[-353.98822, -0.40606853] 2=79.72101 3=[-353.4382, -0.3063192] 4=11.0 253=22}
   t=1793621179398 kind=own_player_move x=-353.98822021484375 y=-0.4060685336589813 heading=79.72100830078125 target_x=-353.4382019042969 target_y=-0.3063192069530487 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621179507 outbound_request op=22 params={0=639292179795450737 1=[-352.89264, -0.32962134] 2=90.08432 3=[-352.3115, -0.33047676] 4=11.0 253=22}
@@ -14434,7 +14469,7 @@ Detailed entity/player observations: 34863
   t=1793621180271 kind=own_player_move x=-344.4920959472656 y=-1.0767505168914795 heading=91.72535705566406 target_x=-342.2243347167969 target_y=-1.1450588703155518 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621180386 outbound_request op=22 params={0=639292179804350737 1=[-343.13937, -1.100445] 2=90.79459 3=[-342.66968, -1.1069589] 4=11.0 253=22}
   t=1793621180386 kind=own_player_move x=-343.1393737792969 y=-1.100445032119751 heading=90.79459381103516 target_x=-342.669677734375 target_y=-1.1069588661193848 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621180411 kind=resource_state id=2601 amount=0 removed=true
+  t=1793621180411 kind=resource_state id=2601 enchant=0 amount=0 removed=true
   t=1793621180451 kind=mob id=38173 x=-301.6673 y=23.71259 mobileType=2495 enchant=0
   t=1793621180451 kind=static_resource id=2294 x=-301.5 y=-35.5
   t=1793621180451 kind=static_resource id=2228 x=-300.5 y=-34.5
@@ -14450,7 +14485,6 @@ Detailed entity/player observations: 34863
   t=1793621180623 kind=own_player_move x=-340.5656433105469 y=-1.137576937675476 heading=91.48226165771484 target_x=-340.0718078613281 target_y=-1.1503560543060303 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621180640 event3 id=23433 raw=0191f4f4b4d938df081581bb52af907a58fd0000b040 p4=null p5=null
   t=1793621180640 kind=player_move id=23433 name=EDmars raw_hex=0191f4f4b4d938df081581bb52af907a58fd0000b040 coord_source=unvalidated_event3_payload
-  t=1793621180640 kind=player_mounted id=23433 value=0.0
   t=1793621180726 outbound_request op=22 params={0=639292179807720737 1=[-339.43967, -1.2626396] 2=97.08985 3=[-338.9623, -1.3220154] 4=11.0 253=22}
   t=1793621180726 kind=own_player_move x=-339.4396667480469 y=-1.2626396417617798 heading=97.08985137939453 target_x=-338.9623107910156 target_y=-1.322015404701233 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621180837 outbound_request op=22 params={0=639292179808750737 1=[-338.31653, -1.4121468] 2=97.84588 3=[-337.31845, -1.5496818] 4=11.0 253=22}
@@ -14461,6 +14495,7 @@ Detailed entity/player observations: 34863
   t=1793621181024 kind=energy id=20866 secondary_value=1.0
   t=1793621181039 outbound_request op=22 params={0=639292179810830737 1=[-336.05002, -1.7249316] 2=97.85713 3=[-335.43225, -1.8101825] 4=11.0 253=22}
   t=1793621181039 kind=own_player_move x=-336.0500183105469 y=-1.7249315977096558 heading=97.85713195800781 target_x=-335.4322509765625 target_y=-1.8101824522018433 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793621181113 kind=player_mounted id=23433
   t=1793621181113 kind=leave id=38719 removed=true
   t=1793621181137 outbound_request op=22 params={0=639292179811840737 1=[-334.94946, -1.8768073] 2=97.85692 3=[-334.3538, -1.9590058] 4=11.0 253=22}
   t=1793621181137 kind=own_player_move x=-334.949462890625 y=-1.8768073320388794 heading=97.85691833496094 target_x=-334.3537902832031 target_y=-1.9590058326721191 speed=11.0 source=outbound_photon_operation_22_param_1
@@ -14573,6 +14608,7 @@ Detailed entity/player observations: 34863
   t=1793621183100 outbound_request op=22 params={0=639292179831250737 1=[-313.71976, -2.8212848] 2=75.423546 3=[-313.10583, -2.6616426] 4=11.0 253=22}
   t=1793621183100 kind=own_player_move x=-313.7197570800781 y=-2.821284770965576 heading=75.42354583740234 target_x=-313.1058349609375 target_y=-2.661642551422119 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621183124 kind=player_spawn id=23433 name=EDmars
+  t=1793621183124 kind=player_mounted id=23433
   t=1793621183124 event3 id=23433 raw=03015375b6d938df0899db0a97e29a53fe2fcdcc0c41887e0997313157fe p4=-4.4867376E-25 p5=-7.0317826E37
   t=1793621183124 kind=player_move id=23433 name=EDmars x=-4.4867376E-25 y=-7.0317826E37 raw_hex=03015375b6d938df0899db0a97e29a53fe2fcdcc0c41887e0997313157fe coord_source=unvalidated_event3_payload
   t=1793621183124 event3 id=20866 raw=03105e7eb6d938df089a3aa0c3a5f52f41d200002040f0bea0c344f33741 p4=-320.45782 p5=10.997472
@@ -14672,7 +14708,7 @@ Detailed entity/player observations: 34863
   t=1793621185424 outbound_request op=22 params={0=639292179854490737 1=[-294.1373, -10.350347] 2=155.30649 3=[-293.8768, -10.916886] 4=11.0 253=22}
   t=1793621185424 kind=own_player_move x=-294.1372985839844 y=-10.350346565246582 heading=155.30648803710938 target_x=-293.8768005371094 target_y=-10.916886329650879 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621185497 kind=leave id=4277 removed=true
-  t=1793621185497 kind=mob id=5754 x=-252.82681 y=11.749769 mobileType=120 enchant=0
+  t=1793621185497 kind=mob id=5754 name=MISTS_SOLO_YELLOW x=-252.82681 y=11.749769 mobileType=120 enchant=0
   t=1793621185497 kind=static_resource id=2247 x=-250.5 y=-54.5
   t=1793621185497 kind=static_resource id=2304 x=-254.5 y=-40.5
   t=1793621185497 kind=static_resource id=2312 x=-252.5 y=-43.5
@@ -14723,6 +14759,7 @@ Detailed entity/player observations: 34863
   t=1793621187286 outbound_request op=22 params={0=639292179873110737 1=[-293.56998, 0.39610505] 2=358.32553 3=[-293.58472, 0.90089524] 4=11.0 253=22}
   t=1793621187286 kind=own_player_move x=-293.5699768066406 y=0.3961050510406494 heading=358.3255310058594 target_x=-293.584716796875 target_y=0.9008952379226685 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621187325 kind=player_spawn id=23433 name=EDmars
+  t=1793621187325 kind=player_mounted id=23433
   t=1793621187325 event3 id=23433 raw=03a161fbb8d938df08053a1a97136b1e8035cccc3841a8a21a9732a7e580 p4=-4.9833315E-25 p5=-2.793476E-39
   t=1793621187325 kind=player_move id=23433 name=EDmars x=-4.9833315E-25 y=-2.793476E-39 raw_hex=03a161fbb8d938df08053a1a97136b1e8035cccc3841a8a21a9732a7e580 coord_source=unvalidated_event3_payload
   t=1793621187393 outbound_request op=22 params={0=639292179874190737 1=[-293.58453, 1.5840151] 2=359.3064 3=[-293.59235, 2.2288783] 4=11.0 253=22}
@@ -15259,7 +15296,7 @@ Detailed entity/player observations: 34863
   t=1793621192956 kind=move id=37554
   t=1793621192956 kind=leave id=3375 removed=true
   t=1793621192956 kind=leave id=4332 removed=true
-  t=1793621192956 kind=mob id=22125 x=-346.59152 y=97.98167 mobileType=120 enchant=0
+  t=1793621192956 kind=mob id=22125 name=MISTS_SOLO_YELLOW x=-346.59152 y=97.98167 mobileType=120 enchant=0
   t=1793621192956 kind=mob id=19840 x=-328.3991 y=99.54804 mobileType=2489 enchant=0
   t=1793621192956 kind=mob id=37480 x=-309.03 y=101.27 mobileType=2510 enchant=0
   t=1793621192956 kind=mob id=23572 x=-311.21954 y=97.446304 mobileType=2486 enchant=0
@@ -15365,7 +15402,7 @@ Detailed entity/player observations: 34863
   t=1793621193832 kind=move id=5225
   t=1793621193832 event3 id=23433 raw=030182dbbcd938df081a95f1fa0b51b5e7cbcccc384102faf2facd85b4e7 p4=-6.2718384E35 p5=-1.7124866E24
   t=1793621193832 kind=player_move id=23433 name=EDmars x=-6.2718384E35 y=-1.7124866E24 raw_hex=030182dbbcd938df081a95f1fa0b51b5e7cbcccc384102faf2facd85b4e7 coord_source=unvalidated_event3_payload
-  t=1793621193839 kind=resource_state id=3255 amount=2
+  t=1793621193839 kind=resource_state id=3255 enchant=0 amount=2
   t=1793621193880 outbound_request op=22 params={0=639292179939080737 1=[-311.3673, 65.486626] 2=345.81033 3=[-311.5229, 66.10192] 4=11.0 253=22}
   t=1793621193880 kind=own_player_move x=-311.3673095703125 y=65.48662567138672 heading=345.8103332519531 target_x=-311.52288818359375 target_y=66.10192108154297 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621193943 event3 id=4542 raw=03bc1beebcd938df08175685c3b63c8a420000004040535485c3b2769242 p4=-266.67258 p5=69.118576
@@ -15397,7 +15434,7 @@ Detailed entity/player observations: 34863
   t=1793621194046 kind=leave id=3521 removed=true
   t=1793621194046 kind=leave id=3470 removed=true
   t=1793621194046 kind=leave id=4277 removed=true
-  t=1793621194046 kind=mob id=5772 x=-266.6537 y=114.83005 mobileType=120 enchant=0
+  t=1793621194046 kind=mob id=5772 name=MISTS_SOLO_YELLOW x=-266.6537 y=114.83005 mobileType=120 enchant=0
   t=1793621194046 kind=static_resource id=3971 x=-354.0 y=108.0
   t=1793621194046 kind=static_resource id=1011 x=-331.0 y=109.0
   t=1793621194046 kind=static_resource id=1014 x=-307.5 y=113.5
@@ -16585,7 +16622,7 @@ Detailed entity/player observations: 34863
   t=1793621209056 kind=own_player_move x=-344.14129638671875 y=192.858642578125 heading=93.46892547607422 target_x=-343.5846252441406 target_y=192.8248748779297 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621209173 outbound_request op=22 params={0=639292180092070737 1=[-342.856, 192.79288] 2=92.186516 3=[-341.8163, 192.75319] 4=11.0 253=22}
   t=1793621209173 kind=own_player_move x=-342.8559875488281 y=192.79287719726562 heading=92.18651580810547 target_x=-341.8163146972656 target_y=192.75318908691406 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621209268 kind=mob id=22979 x=-299.5546 y=208.69495 mobileType=120 enchant=0
+  t=1793621209268 kind=mob id=22979 name=MISTS_SOLO_YELLOW x=-299.5546 y=208.69495 mobileType=120 enchant=0
   t=1793621209268 kind=mob id=4524 x=-304.06943 y=216.98726 mobileType=482 enchant=0
   t=1793621209268 kind=static_resource id=3275 x=-297.0 y=158.0
   t=1793621209268 kind=static_resource id=3716 x=-301.0 y=158.0
@@ -16614,6 +16651,7 @@ Detailed entity/player observations: 34863
   t=1793621210066 outbound_request op=22 params={0=639292180100980737 1=[-333.51685, 191.0997] 2=102.848946 3=[-332.87332, 190.9529] 4=11.0 253=22}
   t=1793621210066 kind=own_player_move x=-333.516845703125 y=191.09970092773438 heading=102.84894561767578 target_x=-332.8733215332031 target_y=190.95289611816406 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621210181 kind=player_spawn id=23433 name=EDmars
+  t=1793621210181 kind=player_mounted id=23433
   t=1793621210181 kind=static_resource id=995 x=-288.5 y=147.5
   t=1793621210181 kind=static_resource id=4098 x=-290.0 y=150.0
   t=1793621210181 kind=static_resource id=4120 x=-286.0 y=153.0
@@ -16756,6 +16794,7 @@ Detailed entity/player observations: 34863
   t=1793621212587 kind=own_player_move x=-311.71002197265625 y=201.08084106445312 heading=86.72227478027344 target_x=-311.0759582519531 target_y=201.1171417236328 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621212607 kind=leave id=4562 removed=true
   t=1793621212607 kind=player_spawn id=38622 name=LeoMich
+  t=1793621212607 kind=player_mounted id=38622
   t=1793621212607 kind=static_resource id=1131 x=-272.5 y=162.5
   t=1793621212607 kind=static_resource id=3851 x=-273.5 y=155.5
   t=1793621212607 kind=static_resource id=3909 x=-267.0 y=173.0
@@ -16780,7 +16819,7 @@ Detailed entity/player observations: 34863
   t=1793621212786 kind=player_move id=38622 name=LeoMich x=1.6173378E-17 y=-0.28771314 raw_hex=03e1801ec8d938df084f2c9523234f93bec3cccc4e419d61912350ee90be coord_source=unvalidated_event3_payload
   t=1793621212809 outbound_request op=22 params={0=639292180128410737 1=[-309.34857, 201.51982] 2=69.74905 3=[-308.31134, 201.9025] 4=11.0 253=22}
   t=1793621212809 kind=own_player_move x=-309.34857177734375 y=201.5198211669922 heading=69.7490463256836 target_x=-308.31134033203125 target_y=201.90249633789062 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621212864 kind=resource_state id=3239 amount=2
+  t=1793621212864 kind=resource_state id=3239 enchant=0 amount=2
   t=1793621212864 event3 id=38622 raw=0351382ec8d938df0813f694230d6d93bec5cccc4e41f9399023aa1a90be p4=1.6150409E-17 p5=-0.28794137
   t=1793621212864 kind=player_move id=38622 name=LeoMich x=1.6150409E-17 y=-0.28794137 raw_hex=0351382ec8d938df0813f694230d6d93bec5cccc4e41f9399023aa1a90be coord_source=unvalidated_event3_payload
   t=1793621212887 event3 id=23433 raw=03d15234c8d938df084e4099235fd59bbe15cccc3841751c9923d3c598be p4=1.6615527E-17 p5=-0.30436227
@@ -16952,6 +16991,7 @@ Detailed entity/player observations: 34863
   t=1793621214543 event3 id=23433 raw=0311d732c9d938df0881bc9d23143dabbe15cccc384198489e234b2ca8be p4=1.7101809E-17 p5=-0.33445036
   t=1793621214543 kind=player_move id=23433 name=EDmars x=1.7101809E-17 y=-0.33445036 raw_hex=0311d732c9d938df0881bc9d23143dabbe15cccc384198489e234b2ca8be coord_source=unvalidated_event3_payload
   t=1793621214543 kind=player_spawn id=38610 name=VedroBass
+  t=1793621214543 kind=player_mounted id=38610
   t=1793621214543 event3 id=38610 raw=03d13a32c9d938df08c4e26023bcbd99becb9a994141a0c793234cf190be p4=1.2191084E-17 p5=-0.30027568
   t=1793621214543 kind=player_move id=38610 name=VedroBass x=1.2191084E-17 y=-0.30027568 raw_hex=03d13a32c9d938df08c4e26023bcbd99becb9a994141a0c793234cf190be coord_source=unvalidated_event3_payload
   t=1793621214543 event3 id=4526 raw=03524038c9d938df08853f9bc3e4ff5343d400004040dbb39cc359955543 p4=-310.49625 p5=211.99957
@@ -17324,7 +17364,7 @@ Detailed entity/player observations: 34863
   t=1793621217093 kind=leave id=38622 removed=true
   t=1793621217093 kind=mob id=9390 x=-229.75067 y=247.86172 mobileType=2489 enchant=0
   t=1793621217093 kind=mob id=5119 x=-225.03 y=251.27 mobileType=2474 enchant=0
-  t=1793621217093 kind=mob id=38693 x=-225.95604 y=258.99985 mobileType=120 enchant=0
+  t=1793621217093 kind=mob id=38693 name=MISTS_SOLO_YELLOW x=-225.95604 y=258.99985 mobileType=120 enchant=0
   t=1793621217093 kind=static_resource id=634 x=-230.5 y=192.5
   t=1793621217093 kind=static_resource id=635 x=-228.5 y=188.5
   t=1793621217093 kind=static_resource id=636 x=-231.5 y=188.5
@@ -19209,6 +19249,7 @@ Detailed entity/player observations: 34863
   t=1793621234994 kind=leave id=4264 removed=true
   t=1793621234994 kind=leave id=3121 removed=true
   t=1793621234994 kind=player_spawn id=23433 name=EDmars
+  t=1793621234994 kind=player_mounted id=23433
   t=1793621234994 kind=mob id=36950 x=-178.47 y=330.56 mobileType=2474 enchant=0
   t=1793621234994 kind=mob id=36111 x=-182.05 y=325.26 mobileType=2474 enchant=0
   t=1793621234994 kind=static_resource id=106 x=-208.0 y=329.0
@@ -19442,7 +19483,7 @@ Detailed entity/player observations: 34863
   t=1793621236563 kind=move id=36111
   t=1793621236602 event3 id=23433 raw=01719255d6d938df089a5dddce828f233181cdcc0c41 p4=null p5=null
   t=1793621236602 kind=player_move id=23433 name=EDmars raw_hex=01719255d6d938df089a5dddce828f233181cdcc0c41 coord_source=unvalidated_event3_payload
-  t=1793621236602 kind=player_mounted id=23433 value=0.0
+  t=1793621236602 kind=player_mounted id=23433
   t=1793621236664 event3 id=5294 raw=0339f964d6d938df08891843c330768043176666e63f97ef42c326978043 p4=-195.09584 p5=256.92334
   t=1793621236664 kind=move id=5294 x=-195.09584 y=256.92334
   t=1793621236664 event3 id=36950 raw=0739f964d6d938df08bc2b38c34454a443930000f0405c0c3bc36bd4a043895b p4=null p5=null
@@ -19453,7 +19494,7 @@ Detailed entity/player observations: 34863
   t=1793621236664 kind=move id=36111
   t=1793621236664 event3 id=36111 raw=0f014765d6d938df08934638c3ec61a243960000f040008038c30080a243895b p4=null p5=null
   t=1793621236664 kind=move id=36111
-  t=1793621236719 kind=manual_marker activity=Ore event=tier_selected tier=T5 enchantment=E1
+  t=1793621236719 kind=manual_marker elapsed_realtime_ms=11294249 activity=Ore event=tier_selected tier=T5 enchantment=E1
   t=1793621236763 event3 id=5294 raw=03005674d6d938df08390043c3c2898043176666e63f97ef42c326978043 p4=-195.00087 p5=257.07623
   t=1793621236763 kind=move id=5294 x=-195.00087 y=257.07623
   t=1793621236763 event3 id=36950 raw=07005674d6d938df08be7438c378fba343900000f0405c0c3bc36bd4a043895b p4=null p5=null
@@ -19526,7 +19567,7 @@ Detailed entity/player observations: 34863
   t=1793621238053 kind=move id=36950
   t=1793621238053 event3 id=36111 raw=041a423cd7d938df0800803ac300c0a0437d895b p4=null p5=null
   t=1793621238053 kind=move id=36111
-  t=1793621238085 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=E1
+  t=1793621238085 kind=manual_marker elapsed_realtime_ms=11295615 activity=Ore event=target_found tier=T5 enchantment=E1
   t=1793621238182 event3 id=35341 raw=0499274bd7d938df0880bd39c3fa7e9d43f7895b p4=null p5=null
   t=1793621238182 kind=move id=35341
   t=1793621238182 event3 id=36950 raw=0599274bd7d938df085c0c3bc36bd4a043780000f040895b p4=null p5=null
@@ -19752,6 +19793,7 @@ Detailed entity/player observations: 34863
   t=1793621240780 kind=move id=36950
   t=1793621240780 event3 id=37782 raw=035a1ddad8d938df0834373ac36c9ba34324cdcc4c40d18f38c30e49a443 p4=-186.21564 p5=327.21423
   t=1793621240780 kind=move id=37782 x=-186.21564 y=327.21423
+  t=1793621240831 kind=player_mounted id=37103
   t=1793621240859 event3 id=23433 raw=0321aae0d8d938df0881d8d1ce5c9e22319b0000b04052dddece29c52331 p4=-1.76031347E9 p5=2.366412E-9
   t=1793621240859 kind=player_move id=23433 name=EDmars x=-1.76031347E9 y=2.366412E-9 raw_hex=0321aae0d8d938df0881d8d1ce5c9e22319b0000b04052dddece29c52331 coord_source=unvalidated_event3_payload
   t=1793621240859 event3 id=35341 raw=04271de9d8d938df08777238c3b26c9f432e895b p4=null p5=null
@@ -19804,7 +19846,7 @@ Detailed entity/player observations: 34863
   t=1793621241269 kind=move id=36111
   t=1793621241269 event3 id=37782 raw=0763e326d9d938df08988839c39a6aa343890000c04023743bc3625d9f43895b p4=null p5=null
   t=1793621241269 kind=move id=37782
-  t=1793621241281 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=E1
+  t=1793621241281 kind=manual_marker elapsed_realtime_ms=11298812 activity=Ore event=gathering_started tier=T5 enchantment=E1
   t=1793621241385 event3 id=23433 raw=0371fe31d9d938df083591dfce9a802331bb0000b0401e33ddce929c2331 p4=-1.87541773E9 p5=2.3792723E-9
   t=1793621241385 kind=player_move id=23433 name=EDmars x=-1.87541773E9 y=2.3792723E-9 raw_hex=0371fe31d9d938df083591dfce9a802331bb0000b0401e33ddce929c2331 coord_source=unvalidated_event3_payload
   t=1793621241385 event3 id=35341 raw=04a2c735d9d938df08777238c3b26c9f43a0895b p4=null p5=null
@@ -20211,7 +20253,7 @@ Detailed entity/player observations: 34863
   t=1793621244283 kind=move id=37782
   t=1793621244283 event3 id=38693 raw=0356e3f2dad938df086fbe64c3c0e88243f900002040ad5765c3eba28443 p4=-228.74388 p5=261.81836
   t=1793621244283 kind=move id=38693 x=-228.74388 y=261.81836
-  t=1793621244367 kind=resource_state id=2771 amount=0 removed=true
+  t=1793621244367 kind=resource_state id=2771 enchant=1 amount=0 removed=true
   t=1793621244367 kind=raw_health_energy_event code=91 params={0:37103, 1:6520094, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292180442983939, 252:91}
   t=1793621244367 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621244409 event3 id=35341 raw=04ebe601dbd938df08777238c3b26c9f43a7895b p4=null p5=null
@@ -20323,7 +20365,7 @@ Detailed entity/player observations: 34863
   t=1793621245078 kind=move id=37782
   t=1793621245078 event3 id=38693 raw=03c8b56ddbd938df08dd1565c308e58343f900002040ad5765c3eba28443 p4=-229.0854 p5=263.7893
   t=1793621245078 kind=move id=38693 x=-229.0854 y=263.7893
-  t=1793621245195 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=E1
+  t=1793621245195 kind=manual_marker elapsed_realtime_ms=11302726 activity=Ore event=gathering_completed tier=T5 enchantment=E1
   t=1793621245225 event3 id=35341 raw=040ab27cdbd938df08777238c3b26c9f43a7895b p4=null p5=null
   t=1793621245225 kind=move id=35341
   t=1793621245225 event3 id=5264 raw=030ab27cdbd938df085c5246c3036d8f439f6666e63fc28346c319538f43 p4=-198.32172 p5=286.85165
@@ -20412,8 +20454,8 @@ Detailed entity/player observations: 34863
   t=1793621245682 kind=move id=38693 x=-229.34157 y=265.26752
   t=1793621245682 event3 id=5295 raw=03adcac9dbd938df08531867c3c68192437b6666e63fa2ac66c300af9043 p4=-231.09502 p5=293.01385
   t=1793621245682 kind=move id=5295 x=-231.09502 y=293.01385
-  t=1793621245738 kind=resource_state id=2626 amount=0 removed=true
-  t=1793621245779 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=E1
+  t=1793621245738 kind=resource_state id=2626 enchant=0 amount=0 removed=true
+  t=1793621245779 kind=manual_marker elapsed_realtime_ms=11303309 activity=Ore event=node_depleted tier=T5 enchantment=E1
   t=1793621245816 event3 id=35341 raw=04c5cfd8dbd938df08777238c3b26c9f43a7895b p4=null p5=null
   t=1793621245816 kind=move id=35341
   t=1793621245816 event3 id=36111 raw=04c5cfd8dbd938df0800803ac300c0a0436f895b p4=null p5=null
@@ -20611,6 +20653,7 @@ Detailed entity/player observations: 34863
   t=1793621247301 kind=move id=5295 x=-230.76497 y=290.153
   t=1793621247357 outbound_request op=22 params={0=639292180473740737 1=[-197.0649, 305.57864] 2=36.840954 3=[-196.05647, 305.59406] 4=5.5 253=22}
   t=1793621247357 kind=own_player_move x=-197.0648956298828 y=305.5786437988281 heading=36.8409538269043 target_x=-196.0564727783203 target_y=305.59405517578125 speed=5.5 source=outbound_photon_operation_22_param_1
+  t=1793621247389 kind=player_mounted id=37103
   t=1793621247389 kind=leave id=39051 removed=true
   t=1793621247389 event3 id=35341 raw=045b2acedcd938df08777238c3b26c9f43a7895b p4=null p5=null
   t=1793621247389 kind=move id=35341
@@ -21097,7 +21140,7 @@ Detailed entity/player observations: 34863
   t=1793621253885 kind=leave id=37782 removed=true
   t=1793621253910 outbound_request op=22 params={0=639292180539460737 1=[-155.76674, 350.61035] 2=44.770355 3=[-155.33519, 351.04538] 4=11.0 253=22}
   t=1793621253910 kind=own_player_move x=-155.76673889160156 y=350.6103515625 heading=44.770355224609375 target_x=-155.33518981933594 target_y=351.0453796386719 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621253988 kind=resource_state id=39075 amount=4
+  t=1793621253988 kind=resource_state id=39075 enchant=0 amount=4
   t=1793621254037 outbound_request op=22 params={0=639292180540560737 1=[-154.91444, 351.46927] 2=44.77904 3=[-154.45142, 351.93588] 4=11.0 253=22}
   t=1793621254037 kind=own_player_move x=-154.91444396972656 y=351.4692687988281 heading=44.7790412902832 target_x=-154.451416015625 target_y=351.9358825683594 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621254125 outbound_request op=22 params={0=639292180541570737 1=[-154.13205, 352.2581] 2=44.76531 3=[-153.66951, 352.72443] 4=11.0 253=22}
@@ -21124,7 +21167,7 @@ Detailed entity/player observations: 34863
   t=1793621254342 kind=own_player_move x=-152.43563842773438 y=353.9684753417969 heading=44.76515197753906 target_x=-151.9808807373047 target_y=354.4269714355469 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621254448 outbound_request op=22 params={0=639292180544760737 1=[-151.66101, 354.74948] 2=44.764866 3=[-151.19804, 355.21625] 4=11.0 253=22}
   t=1793621254448 kind=own_player_move x=-151.6610107421875 y=354.7494812011719 heading=44.76486587524414 target_x=-151.1980438232422 target_y=355.21624755859375 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621254525 kind=resource_state id=39075 amount=3
+  t=1793621254525 kind=resource_state id=39075 enchant=0 amount=3
   t=1793621254548 outbound_request op=22 params={0=639292180545800737 1=[-150.85551, 355.5617] 2=44.75493 3=[-150.39282, 356.02838] 4=11.0 253=22}
   t=1793621254548 kind=own_player_move x=-150.8555145263672 y=355.56170654296875 heading=44.75492858886719 target_x=-150.392822265625 target_y=356.02838134765625 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621254605 event3 id=37938 raw=038b0619e1d938df08aa5533c37d3db74348cdcc4c40a9ff34c37fc1b543 p4=-179.33463 p5=366.48038
@@ -21145,7 +21188,7 @@ Detailed entity/player observations: 34863
   t=1793621254971 kind=own_player_move x=-147.5375518798828 y=358.9015197753906 heading=45.66107940673828 target_x=-147.1702423095703 target_y=359.26043701171875 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621255019 event3 id=37938 raw=03156856e1d938df08def533c395aeb64395cdcc4c40a9ff34c37fc1b543 p4=-179.96042 p5=365.36392
   t=1793621255019 kind=move id=37938 x=-179.96042 y=365.36392
-  t=1793621255055 kind=resource_state id=39075 amount=2
+  t=1793621255055 kind=resource_state id=39075 enchant=0 amount=2
   t=1793621255071 outbound_request op=22 params={0=639292180551100737 1=[-146.69122, 359.63794] 2=49.803883 3=[-146.21443, 360.0408] 4=11.0 253=22}
   t=1793621255071 kind=own_player_move x=-146.69122314453125 y=359.637939453125 heading=49.80388259887695 target_x=-146.2144317626953 target_y=360.0408020019531 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621255131 event3 id=37938 raw=0347b265e1d938df08eb1d34c3db8ab64395cdcc4c40a9ff34c37fc1b543 p4=-180.11687 p5=365.0848
@@ -21174,7 +21217,7 @@ Detailed entity/player observations: 34863
   t=1793621255504 kind=own_player_move x=-142.5170135498047 y=361.6731872558594 heading=71.4502944946289 target_x=-141.50994873046875 target_y=362.0111083984375 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621255518 event3 id=37938 raw=034411a3e1d938df0822be34c3f3fbb54395cdcc4c40a9ff34c37fc1b543 p4=-180.7427 p5=363.96835
   t=1793621255518 kind=move id=37938 x=-180.7427 y=363.96835
-  t=1793621255576 kind=resource_state id=39075 amount=1
+  t=1793621255576 kind=resource_state id=39075 enchant=0 amount=1
   t=1793621255619 outbound_request op=22 params={0=639292180556500737 1=[-141.3282, 362.07217] 2=71.44737 3=[-140.72661, 362.27408] 4=11.0 253=22}
   t=1793621255619 kind=own_player_move x=-141.3282012939453 y=362.0721740722656 heading=71.44737243652344 target_x=-140.7266082763672 target_y=362.2740783691406 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621255633 event3 id=37938 raw=03cf68b2e1d938df082fe634c339d8b54395cdcc4c40a9ff34c37fc1b543 p4=-180.89915 p5=363.68924
@@ -21189,7 +21232,7 @@ Detailed entity/player observations: 34863
   t=1793621255939 kind=own_player_move x=-137.96827697753906 y=363.25970458984375 heading=68.88763427734375 target_x=-137.32272338867188 target_y=363.50897216796875 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621256038 outbound_request op=22 params={0=639292180560780737 1=[-136.90732, 363.6873] 2=67.105125 3=[-136.27199, 363.9556] 4=11.0 253=22}
   t=1793621256038 kind=own_player_move x=-136.90731811523438 y=363.6872863769531 heading=67.1051254272461 target_x=-136.27198791503906 target_y=363.9555969238281 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621256105 kind=resource_state id=39075 amount=0 removed=true
+  t=1793621256105 kind=resource_state id=39075 enchant=0 amount=0 removed=true
   t=1793621256105 event3 id=37944 raw=033020ffe1d938df08124112c316e6b843aacdcc4c40842a10c39aa6ba43 p4=-146.25418 p5=369.79755
   t=1793621256105 kind=move id=37944 x=-146.25418 y=369.79755
   t=1793621256145 outbound_request op=22 params={0=639292180561840737 1=[-135.83333, 364.1413] 2=67.0885 3=[-135.23854, 364.39267] 4=11.0 253=22}
@@ -21251,9 +21294,9 @@ Detailed entity/player observations: 34863
   t=1793621257316 kind=move id=37944 x=-144.28836 y=373.09637
   t=1793621257444 event3 id=37944 raw=011c9dc6e2d938df08842a10c39aa6ba4316cdcc4c40 p4=null p5=null
   t=1793621257444 kind=move id=37944
-  t=1793621258152 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=E2
-  t=1793621258305 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=E3
-  t=1793621258439 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=Normal
+  t=1793621258152 kind=manual_marker elapsed_realtime_ms=11315683 activity=Ore event=enchantment_selected tier=T5 enchantment=E2
+  t=1793621258305 kind=manual_marker elapsed_realtime_ms=11315835 activity=Ore event=enchantment_selected tier=T5 enchantment=E3
+  t=1793621258439 kind=manual_marker elapsed_realtime_ms=11315970 activity=Ore event=enchantment_selected tier=T5 enchantment=Normal
   t=1793621258908 event3 id=35436 raw=03bee1a5e3d938df0834ba28c393b0b843bb9a993940c89c29c38888b843 p4=-168.72736 p5=369.3795
   t=1793621258908 kind=move id=35436 x=-168.72736 y=369.3795
   t=1793621259002 event3 id=35436 raw=03f348b5e3d938df08330029c334a4b843b29a993940c89c29c38888b843 p4=-169.00078 p5=369.28284
@@ -21264,11 +21307,11 @@ Detailed entity/player observations: 34863
   t=1793621259191 kind=move id=35436 x=-169.54762 y=369.08954
   t=1793621259289 event3 id=35436 raw=013831e3e3d938df08c89c29c38888b843b29a993940 p4=null p5=null
   t=1793621259289 kind=move id=35436
-  t=1793621260195 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
-  t=1793621261187 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793621260195 kind=manual_marker elapsed_realtime_ms=11317726 activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793621261187 kind=manual_marker elapsed_realtime_ms=11318717 activity=Ore event=target_found tier=T5 enchantment=Normal
   t=1793621262147 event3 id=37944 raw=0369a998e5d938df08842a10c39aa6ba4316cdcc4c409ae10ec38329b943 p4=-144.16608 p5=373.30157
   t=1793621262147 kind=move id=37944 x=-144.16608 y=373.30157
-  t=1793621262149 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793621262149 kind=manual_marker elapsed_realtime_ms=11319680 activity=Ore event=target_found tier=T5 enchantment=Normal
   t=1793621262262 event3 id=37944 raw=03b706a8e5d938df08100a10c3fd80ba436fcdcc4c409ae10ec38329b943 p4=-144.0393 p5=373.00772
   t=1793621262262 kind=move id=37944 x=-144.0393 y=373.00772
   t=1793621262353 event3 id=37944 raw=03576bb7e5d938df089ae90fc3615bba436fcdcc4c409ae10ec38329b943 p4=-143.9125 p5=372.7139
@@ -21287,14 +21330,14 @@ Detailed entity/player observations: 34863
   t=1793621262967 kind=move id=37944 x=-143.1517 y=370.95096
   t=1793621263061 event3 id=37944 raw=037cc422e6d938df0860060fc31d54b9436fcdcc4c409ae10ec38329b943 p4=-143.0249 p5=370.65714
   t=1793621263061 kind=move id=37944 x=-143.0249 y=370.65714
-  t=1793621263165 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793621263165 kind=manual_marker elapsed_realtime_ms=11320696 activity=Ore event=target_found tier=T5 enchantment=Normal
   t=1793621263175 event3 id=37944 raw=03690e32e6d938df08eae50ec3812eb9436fcdcc4c409ae10ec38329b943 p4=-142.8981 p5=370.3633
   t=1793621263175 kind=move id=37944 x=-142.8981 y=370.3633
   t=1793621263252 event3 id=37944 raw=01f06d41e6d938df089ae10ec38329b9436fcdcc4c40 p4=null p5=null
   t=1793621263252 kind=move id=37944
   t=1793621264531 event3 id=35436 raw=0392fa02e7d938df08c89c29c38888b843b29a993940d44329c3e4a1b843 p4=-169.61243 p5=369.06665
   t=1793621264531 kind=move id=35436 x=-169.61243 y=369.06665
-  t=1793621264543 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=Normal
+  t=1793621264543 kind=manual_marker elapsed_realtime_ms=11322074 activity=Ore event=target_found tier=T5 enchantment=Normal
   t=1793621264638 event3 id=35436 raw=03d34e12e7d938df084a5c29c3eb9ab8432b9a993940d44329c3e4a1b843 p4=-169.3605 p5=369.2103
   t=1793621264638 kind=move id=35436 x=-169.3605 y=369.2103
   t=1793621264718 event3 id=35436 raw=0166aa21e7d938df08d44329c3e4a1b8432b9a993940 p4=null p5=null
@@ -21314,13 +21357,14 @@ Detailed entity/player observations: 34863
   t=1793621265406 outbound_request op=22 params={0=639292180654230737 1=[-134.18929, 369.1383] 2=325.29376 3=[-134.18929, 369.1383] 4=11.0 253=22}
   t=1793621265406 kind=own_player_move x=-134.1892852783203 y=369.1383056640625 heading=325.29376220703125 target_x=-134.1892852783203 target_y=369.1383056640625 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621265959 outbound_request op=199 params={0=639292180659830737 1=37104 253=199}
-  t=1793621266414 kind=resource_state id=2763 amount=2
-  t=1793621266974 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621266153 kind=player_mounted id=37103
+  t=1793621266414 kind=resource_state id=2763 enchant=0 amount=2
+  t=1793621266974 kind=manual_marker elapsed_realtime_ms=11324505 activity=Ore event=gathering_started tier=T5 enchantment=Normal
   t=1793621267682 outbound_request op=22 params={0=639292180676910737 1=[-134.18929, 369.1383] 2=344.18265 3=[-134.18929, 369.1383] 4=5.5 253=22}
   t=1793621267682 kind=own_player_move x=-134.1892852783203 y=369.1383056640625 heading=344.1826477050781 target_x=-134.1892852783203 target_y=369.1383056640625 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621267887 kind=raw_health_energy_event code=91 params={0:37103, 1:6543617, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292180678219317, 252:91}
   t=1793621267887 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
-  t=1793621268864 kind=resource_state id=2743 amount=1
+  t=1793621268864 kind=resource_state id=2743 enchant=0 amount=1
   t=1793621269593 event3 id=37944 raw=03be9c07ead938df089ae10ec38329b9436fcdcc4c40985910c3616cba43 p4=-142.88126 p5=370.3243
   t=1793621269593 kind=move id=37944 x=-142.88126 y=370.3243
   t=1793621269702 event3 id=37944 raw=036fe116ead938df08d40a0fc3ea4cb943ebcdcc4c40985910c3616cba43 p4=-143.0423 p5=370.6009
@@ -21335,7 +21379,7 @@ Detailed entity/player observations: 34863
   t=1793621270056 kind=move id=35436 x=-169.26495 y=369.26477
   t=1793621270081 event3 id=37944 raw=038f3354ead938df08bcaf0fc386dab943ebcdcc4c40985910c3616cba43 p4=-143.68646 p5=371.7072
   t=1793621270081 kind=move id=37944 x=-143.68646 y=371.7072
-  t=1793621270115 kind=resource_state id=2743 amount=0 removed=true
+  t=1793621270115 kind=resource_state id=2743 enchant=0 amount=0 removed=true
   t=1793621270115 kind=raw_health_energy_event code=91 params={0:37103, 1:6545842, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292180700464706, 252:91}
   t=1793621270115 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621270185 event3 id=35436 raw=0316785dead938df0898f928c341a2b843409a993940929725c37ca6b843 p4=-168.97498 p5=369.2676
@@ -21362,7 +21406,7 @@ Detailed entity/player observations: 34863
   t=1793621270668 kind=move id=35436 x=-167.52509 y=369.2818
   t=1793621270758 event3 id=35436 raw=03377ab9ead938df08303c27c36fa4b843409a993940929725c37ca6b843 p4=-167.2351 p5=369.28464
   t=1793621270758 kind=move id=35436 x=-167.2351 y=369.28464
-  t=1793621270797 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793621270797 kind=manual_marker elapsed_realtime_ms=11328327 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
   t=1793621270867 event3 id=35436 raw=0327dcc8ead938df08f4f126c3cca4b843409a993940929725c37ca6b843 p4=-166.94513 p5=369.28748
   t=1793621270867 kind=move id=35436 x=-166.94513 y=369.28748
   t=1793621270967 event3 id=35436 raw=03012cd8ead938df08b8a726c329a5b843409a993940929725c37ca6b843 p4=-166.65515 p5=369.2903
@@ -21375,7 +21419,7 @@ Detailed entity/player observations: 34863
   t=1793621271263 kind=move id=35436 x=-165.78522 y=369.29883
   t=1793621271384 event3 id=35436 raw=01d87315ebd938df08929725c37ca6b843409a993940 p4=null p5=null
   t=1793621271384 kind=move id=35436
-  t=1793621271537 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793621271537 kind=manual_marker elapsed_realtime_ms=11329068 activity=Ore event=node_depleted tier=T5 enchantment=Normal
   t=1793621271868 outbound_request op=22 params={0=639292180718870737 1=[-134.18929, 369.1383] 2=344.18265 3=[-133.18173, 369.17545] 4=5.5 253=22}
   t=1793621271868 kind=own_player_move x=-134.1892852783203 y=369.1383056640625 heading=344.1826477050781 target_x=-133.18173217773438 target_y=369.1754455566406 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621271961 outbound_request op=22 params={0=639292180719920737 1=[-133.61371, 369.1759] 2=81.35088 3=[-131.89569, 369.43723] 4=5.5 253=22}
@@ -21396,7 +21440,7 @@ Detailed entity/player observations: 34863
   t=1793621272721 kind=own_player_move x=-130.06031799316406 y=370.93695068359375 heading=26.351829528808594 target_x=-130.06031799316406 target_y=370.93695068359375 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621272956 outbound_request op=22 params={0=639292180727410737 1=[-130.06032, 370.93695] 2=26.35183 3=[-130.06032, 370.93695] 4=5.5 253=22}
   t=1793621272956 kind=own_player_move x=-130.06031799316406 y=370.93695068359375 heading=26.351829528808594 target_x=-130.06031799316406 target_y=370.93695068359375 speed=5.5 source=outbound_photon_operation_22_param_1
-  t=1793621273431 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621273431 kind=manual_marker elapsed_realtime_ms=11330961 activity=Ore event=gathering_started tier=T5 enchantment=Normal
   t=1793621274060 outbound_request op=22 params={0=639292180740700737 1=[-130.06032, 370.93695] 2=26.351831 3=[-127.69171, 374.08163] 4=5.5 253=22}
   t=1793621274060 kind=own_player_move x=-130.06031799316406 y=370.93695068359375 heading=26.351831436157227 target_x=-127.69171142578125 target_y=374.0816345214844 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621274174 outbound_request op=22 params={0=639292180742110737 1=[-129.59377, 371.55637] 2=36.987545 3=[-127.69171, 374.08163] 4=5.5 253=22}
@@ -21417,7 +21461,7 @@ Detailed entity/player observations: 34863
   t=1793621276701 kind=move id=35436 x=-165.87502 y=369.3642
   t=1793621276794 event3 id=35436 raw=03f99851eed938df08702826c3c0b6b843c99a993940bc4928c3fcf3b843 p4=-166.15796 p5=369.42773
   t=1793621276794 kind=move id=35436 x=-166.15796 y=369.42773
-  t=1793621276864 kind=resource_state id=2717 amount=1
+  t=1793621276864 kind=resource_state id=2717 enchant=0 amount=1
   t=1793621276864 kind=raw_health_energy_event code=91 params={0:37103, 1:6552586, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292180767901432, 252:91}
   t=1793621276864 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621276907 event3 id=35436 raw=03150361eed938df08df7026c3e2beb843c99a993940bc4928c3fcf3b843 p4=-166.4409 p5=369.49127
@@ -21454,11 +21498,11 @@ Detailed entity/player observations: 34863
   t=1793621278452 kind=move id=37944 x=-142.86256 y=374.06073
   t=1793621278566 event3 id=37944 raw=01112a5eefd938df081fb90ec35916bb4324cdcc4c40 p4=null p5=null
   t=1793621278566 kind=move id=37944
-  t=1793621279221 kind=resource_state id=2717 amount=0 removed=true
+  t=1793621279221 kind=resource_state id=2717 enchant=0 amount=0 removed=true
   t=1793621279221 kind=raw_health_energy_event code=91 params={0:37103, 1:6554943, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292180791473573, 252:91}
   t=1793621279221 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
-  t=1793621280507 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
-  t=1793621281038 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793621280507 kind=manual_marker elapsed_realtime_ms=11338037 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793621281038 kind=manual_marker elapsed_realtime_ms=11338569 activity=Ore event=node_depleted tier=T5 enchantment=Normal
   t=1793621281507 outbound_request op=22 params={0=639292180815340737 1=[-128.85255, 372.54034] 2=36.98619 3=[-127.4587, 373.12814] 4=5.5 253=22}
   t=1793621281507 kind=own_player_move x=-128.85255432128906 y=372.54034423828125 heading=36.98619079589844 target_x=-127.45870208740234 target_y=373.1281433105469 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621281600 outbound_request op=22 params={0=639292180816400737 1=[-128.30356, 372.71097] 2=89.16043 3=[-126.58401, 372.73618] 4=5.5 253=22}
@@ -21481,7 +21525,7 @@ Detailed entity/player observations: 34863
   t=1793621282981 kind=move id=35436 x=-168.28802 y=369.90613
   t=1793621283056 event3 id=35436 raw=0318e30df2d938df08d77f28c391dab843a19a993940a11129c31596b843 p4=-168.49937 p5=369.70755
   t=1793621283056 kind=move id=35436 x=-168.49937 y=369.70755
-  t=1793621283104 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621283104 kind=manual_marker elapsed_realtime_ms=11340634 activity=Ore event=gathering_started tier=T5 enchantment=Normal
   t=1793621283168 event3 id=35436 raw=03ab321df2d938df08f2b528c326c1b843a19a993940a11129c31596b843 p4=-168.71072 p5=369.50897
   t=1793621283168 kind=move id=35436 x=-168.71072 y=369.50897
   t=1793621283270 event3 id=35436 raw=03bb952cf2d938df080dec28c3baa7b843a19a993940a11129c31596b843 p4=-168.92207 p5=369.31036
@@ -21516,7 +21560,7 @@ Detailed entity/player observations: 34863
   t=1793621286001 kind=move id=37944 x=-143.76851 y=371.1503
   t=1793621286091 event3 id=37944 raw=03a62adcf3d938df0880df0fc3876cb9438ecdcc4c40c43610c34beeb843 p4=-143.87305 p5=370.84787
   t=1793621286091 kind=move id=37944 x=-143.87305 y=370.84787
-  t=1793621286119 kind=resource_state id=2763 amount=1
+  t=1793621286119 kind=resource_state id=2763 enchant=0 amount=1
   t=1793621286119 kind=raw_health_energy_event code=91 params={0:37103, 1:6561852, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292180860564711, 252:91}
   t=1793621286119 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621286200 event3 id=37944 raw=038d87ebf3d938df0843fa0fc3d145b9438ecdcc4c40c43610c34beeb843 p4=-143.97758 p5=370.54544
@@ -21529,7 +21573,7 @@ Detailed entity/player observations: 34863
   t=1793621286388 kind=move id=37944 x=-144.18668 y=369.94055
   t=1793621286488 event3 id=37944 raw=018a7d19f4d938df08c43610c34beeb8438ecdcc4c40 p4=null p5=null
   t=1793621286488 kind=move id=37944
-  t=1793621288488 kind=resource_state id=2763 amount=0 removed=true
+  t=1793621288488 kind=resource_state id=2763 enchant=0 amount=0 removed=true
   t=1793621288488 kind=raw_health_energy_event code=91 params={0:37103, 1:6564212, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292180884168969, 252:91}
   t=1793621288488 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621288601 event3 id=35436 raw=03a1f958f5d938df08a11129c31596b843a19a9939407dbb27c32adbb843 p4=-169.06886 p5=369.17252
@@ -21596,7 +21640,7 @@ Detailed entity/player observations: 34863
   t=1793621293323 kind=move id=37944 x=-143.60002 y=370.0425
   t=1793621293444 event3 id=37944 raw=035d8f3df8d938df08084b0fc30411b94334cdcc4c40773c0ec3e138b943 p4=-143.29309 p5=370.13293
   t=1793621293444 kind=move id=37944 x=-143.29309 y=370.13293
-  t=1793621293472 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621293472 kind=manual_marker elapsed_realtime_ms=11351003 activity=Ore event=gathering_started tier=T5 enchantment=Normal
   t=1793621293546 event3 id=37944 raw=035cd54cf8d938df0875fc0ec3971cb94334cdcc4c40773c0ec3e138b943 p4=-142.98616 p5=370.22336
   t=1793621293546 kind=move id=37944 x=-142.98616 y=370.22336
   t=1793621293624 event3 id=37944 raw=0379305cf8d938df08e2ad0ec32a28b94334cdcc4c40773c0ec3e138b943 p4=-142.67923 p5=370.31378
@@ -21607,7 +21651,7 @@ Detailed entity/player observations: 34863
   t=1793621293845 kind=move id=37944
   t=1793621294134 outbound_request op=22 params={0=639292180941530737 1=[-123.04347, 376.0074] 2=1.2498069 3=[-123.04347, 376.0074] 4=5.5 253=22}
   t=1793621294134 kind=own_player_move x=-123.04347229003906 y=376.00738525390625 heading=1.2498068809509277 target_x=-123.04347229003906 target_y=376.00738525390625 speed=5.5 source=outbound_photon_operation_22_param_1
-  t=1793621294222 kind=resource_state id=2717 amount=1
+  t=1793621294222 kind=resource_state id=2717 enchant=0 amount=1
   t=1793621294323 event3 id=35436 raw=034843c4f8d938df087dbb27c32adbb843309a9939400af826c3de2eb843 p4=-167.73238 p5=369.71222
   t=1793621294323 kind=move id=35436 x=-167.73238 y=369.71222
   t=1793621294345 kind=raw_health_energy_event code=91 params={0:37103, 1:6570083, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292180942874303, 252:91}
@@ -21624,10 +21668,11 @@ Detailed entity/player observations: 34863
   t=1793621294816 kind=move id=35436 x=-167.01704 y=368.45108
   t=1793621294945 event3 id=35436 raw=01727120f9d938df080af826c3de2eb8436b9a993940 p4=null p5=null
   t=1793621294945 kind=move id=35436
-  t=1793621296581 kind=resource_state id=2737 amount=0 removed=true
+  t=1793621296581 kind=resource_state id=2737 enchant=0 amount=0 removed=true
   t=1793621296581 kind=raw_health_energy_event code=91 params={0:37103, 1:6572304, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292180965088766, 252:91}
   t=1793621296581 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621297429 kind=player_spawn id=23433 name=EDmars
+  t=1793621297429 kind=player_mounted id=23433
   t=1793621297429 event3 id=23433 raw=0381649afad938df0886f396898bfffd833dcccc3841542a9089c8f2fd83 p4=-3.6340195E-33 p5=-1.4928673E-36
   t=1793621297429 kind=player_move id=23433 name=EDmars x=-3.6340195E-33 y=-1.4928673E-36 raw_hex=0381649afad938df0886f396898bfffd833dcccc3841542a9089c8f2fd83 coord_source=unvalidated_event3_payload
   t=1793621297578 event3 id=23433 raw=03d1afaefad938df08b678908924ebfd833bcccc3841c9bd9389ff16fa83 p4=-3.4780255E-33 p5=-1.4923989E-36
@@ -21638,14 +21683,14 @@ Detailed entity/player observations: 34863
   t=1793621297801 kind=player_move id=23433 name=EDmars x=-4.178075E-33 y=-1.4704679E-36 raw_hex=03816dd7fad938df08ea8cad89e92ffa8339cccc3841b4c7ac89ea51fa83 coord_source=unvalidated_event3_payload
   t=1793621297923 event3 id=23433 raw=03c1afe6fad938df0844a8ac89f850fa8339cccc384136e7af89847bfa83 p4=-4.156573E-33 p5=-1.4712269E-36
   t=1793621297923 kind=player_move id=23433 name=EDmars x=-4.156573E-33 y=-1.4712269E-36 raw_hex=03c1afe6fad938df0844a8ac89f850fa8339cccc384136e7af89847bfa83 coord_source=unvalidated_event3_payload
-  t=1793621298035 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793621298035 kind=manual_marker elapsed_realtime_ms=11355566 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
   t=1793621298043 event3 id=23433 raw=0311fbfafad938df085335ae890873fa8339cccc38416561a9892697fa83 p4=-4.1939122E-33 p5=-1.4720089E-36
   t=1793621298043 kind=player_move id=23433 name=EDmars x=-4.1939122E-33 y=-1.4720089E-36 raw_hex=0311fbfafad938df085335ae890873fa8339cccc38416561a9892697fa83 coord_source=unvalidated_event3_payload
   t=1793621298181 event3 id=23433 raw=03716d0ffbd938df0887b0a989ef88fa8338cccc3841bbeca889c1aefa83 p4=-4.0851276E-33 p5=-1.4725118E-36
   t=1793621298181 kind=player_move id=23433 name=EDmars x=-4.0851276E-33 y=-1.4725118E-36 raw_hex=03716d0ffbd938df0887b0a989ef88fa8338cccc3841bbeca889c1aefa83 coord_source=unvalidated_event3_payload
   t=1793621298332 event3 id=23433 raw=03c1b823fbd938df081e32ab89f7a7fa8337cccc38418b6caa8976c1fa83 p4=-4.1213883E-33 p5=-1.4732242E-36
   t=1793621298332 kind=player_move id=23433 name=EDmars x=-4.1213883E-33 y=-1.4732242E-36 raw_hex=03c1b823fbd938df081e32ab89f7a7fa8337cccc38418b6caa8976c1fa83 coord_source=unvalidated_event3_payload
-  t=1793621298456 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793621298456 kind=manual_marker elapsed_realtime_ms=11355987 activity=Ore event=node_depleted tier=T5 enchantment=Normal
   t=1793621298467 event3 id=23433 raw=03110438fbd938df08fbafaa8972e6fa8331cccc384124d4a589d728fb83 p4=-4.1091503E-33 p5=-1.4746587E-36
   t=1793621298467 kind=player_move id=23433 name=EDmars x=-4.1091503E-33 y=-1.4746587E-36 raw_hex=03110438fbd938df08fbafaa8972e6fa8331cccc384124d4a589d728fb83 coord_source=unvalidated_event3_payload
   t=1793621298605 event3 id=23433 raw=0371764cfbd938df083119a4893f5efb8331cccc38410945a789f067fb83 p4=-3.9505254E-33 p5=-1.4774092E-36
@@ -21690,7 +21735,7 @@ Detailed entity/player observations: 34863
   t=1793621299763 kind=player_move id=23433 name=EDmars x=-4.505605E-33 y=-1.4624051E-36 raw_hex=035161fefbd938df08cf27bb89bad0f8833dcccc3841b65eba89b5c5f883 coord_source=unvalidated_event3_payload
   t=1793621299895 event3 id=23433 raw=03b1d312fcd938df08b7a8ba891ec0f8833dcccc3841d5e3b58916f5f883 p4=-4.493653E-33 p5=-1.4620238E-36
   t=1793621299895 kind=player_move id=23433 name=EDmars x=-4.493653E-33 y=-1.4620238E-36 raw_hex=03b1d312fcd938df08b7a8ba891ec0f8833dcccc3841d5e3b58916f5f883 coord_source=unvalidated_event3_payload
-  t=1793621299976 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621299976 kind=manual_marker elapsed_realtime_ms=11357507 activity=Ore event=gathering_started tier=T5 enchantment=Normal
   t=1793621300020 event3 id=23433 raw=03011f27fcd938df089130b48954f0f8833dcccc3841a86ab78951e5f883 p4=-4.3379095E-33 p5=-1.4631307E-36
   t=1793621300020 kind=player_move id=23433 name=EDmars x=-4.3379095E-33 y=-1.4631307E-36 raw_hex=03011f27fcd938df089130b48954f0f8833dcccc3841a86ab78951e5f883 coord_source=unvalidated_event3_payload
   t=1793621300137 event3 id=23433 raw=03518836fcd938df08345ab789a1e5f8833dcccc38419c93b6898c1af983 p4=-4.4140474E-33 p5=-1.462885E-36
@@ -21783,7 +21828,7 @@ Detailed entity/player observations: 34863
   t=1793621303006 kind=move id=37944 x=-145.51524 y=371.7237
   t=1793621303121 event3 id=23433 raw=03717ffafdd938df08f384244838072f1036cccc38414765294828e02f10 p4=168467.8 p5=3.4518226E-29
   t=1793621303121 kind=player_move id=23433 name=EDmars x=168467.8 y=3.4518226E-29 raw_hex=03717ffafdd938df08f384244838072f1036cccc38414765294828e02f10 coord_source=unvalidated_event3_payload
-  t=1793621303121 kind=resource_state id=2717 amount=0 removed=true
+  t=1793621303121 kind=resource_state id=2717 enchant=0 amount=0 removed=true
   t=1793621303121 kind=raw_health_energy_event code=91 params={0:37103, 1:6578829, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292181030334355, 252:91}
   t=1793621303121 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621303121 event3 id=37944 raw=032b6901fed938df0837d011c388ebb943cfcdcc4c40520812c37af6b943 p4=-145.81334 p5=371.8401
@@ -21816,7 +21861,7 @@ Detailed entity/player observations: 34863
   t=1793621304641 kind=player_move id=23433 name=EDmars x=201513.19 y=3.209821E-29 raw_hex=035191e4fed938df084cca4448dcc1221018cccc38417bb04b48ca3e2310 coord_source=unvalidated_event3_payload
   t=1793621304701 event3 id=23433 raw=03a1faf3fed938df0812b94b482f4c23101ccccc3841f0c84948b1d22310 p4=208612.28 p5=3.2204772E-29
   t=1793621304701 kind=player_move id=23433 name=EDmars x=208612.28 y=3.2204772E-29 raw_hex=03a1faf3fed938df0812b94b482f4c23101ccccc3841f0c84948b1d22310 coord_source=unvalidated_event3_payload
-  t=1793621304788 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793621304788 kind=manual_marker elapsed_realtime_ms=11362318 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
   t=1793621304877 event3 id=23433 raw=03e11e08ffd938df082b4348482bbb231020cccc38415d854f48ad4b2410 p4=205068.67 p5=3.229027E-29
   t=1793621304877 kind=player_move id=23433 name=EDmars x=205068.67 y=3.229027E-29 raw_hex=03e11e08ffd938df082b4348482bbb231020cccc38415d854f48ad4b2410 coord_source=unvalidated_event3_payload
   t=1793621304983 event3 id=23433 raw=03318817ffd938df08f9b64f48ab6624102bcccc3841c04a4c4829192410 p4=212699.89 p5=3.242239E-29
@@ -21825,7 +21870,7 @@ Detailed entity/player observations: 34863
   t=1793621305104 kind=player_move id=23433 name=EDmars x=209882.48 y=3.235501E-29 raw_hex=0381d32bffd938df089ff64c48340f24102ecccc3841d6ae72480fcc2410 coord_source=unvalidated_event3_payload
   t=1793621305210 event3 id=23433 raw=03d11e40ffd938df086c3f71484fbc24102ecccc38412cf07748f5792510 p4=247037.69 p5=3.2488365E-29
   t=1793621305210 kind=player_move id=23433 name=EDmars x=247037.69 y=3.2488365E-29 raw_hex=03d11e40ffd938df086c3f71484fbc24102ecccc38412cf07748f5792510 coord_source=unvalidated_event3_payload
-  t=1793621305212 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793621305212 kind=manual_marker elapsed_realtime_ms=11362743 activity=Ore event=node_depleted tier=T5 enchantment=Normal
   t=1793621305389 event3 id=23433 raw=03319154ffd938df08e90c7648af6725102ecccc3841893d74484a252510 p4=251955.64 p5=3.2620387E-29
   t=1793621305389 kind=player_move id=23433 name=EDmars x=251955.64 y=3.2620387E-29 raw_hex=03319154ffd938df08e90c7648af6725102ecccc3841893d74484a252510 coord_source=unvalidated_event3_payload
   t=1793621305514 outbound_request op=22 params={0=639292181055290737 1=[-125.25004, 374.98615] 2=270.45364 3=[-124.31196, 375.35635] 4=5.5 253=22}
@@ -21873,7 +21918,7 @@ Detailed entity/player observations: 34863
   t=1793621306704 kind=own_player_move x=-118.67278289794922 y=375.7606506347656 heading=85.59976196289062 target_x=-117.89713287353516 target_y=375.8203430175781 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621306716 outbound_request op=22 params={0=639292181067380737 1=[-118.67278, 375.76065] 2=85.59977 3=[-118.67278, 375.76065] 4=5.5 253=22}
   t=1793621306716 kind=own_player_move x=-118.67278289794922 y=375.7606506347656 heading=85.59976959228516 target_x=-118.67278289794922 target_y=375.7606506347656 speed=5.5 source=outbound_photon_operation_22_param_1
-  t=1793621307145 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=Normal
+  t=1793621307145 kind=manual_marker elapsed_realtime_ms=11364675 activity=Ore event=gathering_started tier=T5 enchantment=Normal
   t=1793621307721 outbound_request op=22 params={0=639292181077360737 1=[-118.67278, 375.76065] 2=53.46559 3=[-118.67278, 375.76065] 4=5.5 253=22}
   t=1793621307721 kind=own_player_move x=-118.67278289794922 y=375.7606506347656 heading=53.46559143066406 target_x=-118.67278289794922 target_y=375.7606506347656 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621307903 kind=raw_health_energy_event code=91 params={0:37103, 1:6583653, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292181078576016, 252:91}
@@ -21905,7 +21950,7 @@ Detailed entity/player observations: 34863
   t=1793621309998 kind=move id=37944 x=-142.51393 y=372.0169
   t=1793621310105 event3 id=37944 raw=03dceb2b02da38df08ae310ec33a03ba433fcdcc4c4078a20cc36808ba43 p4=-142.19406 p5=372.0252
   t=1793621310105 kind=move id=37944 x=-142.19406 y=372.0252
-  t=1793621310156 kind=resource_state id=2727 amount=1
+  t=1793621310156 kind=resource_state id=2727 enchant=0 amount=1
   t=1793621310156 kind=raw_health_energy_event code=91 params={0:37103, 1:6585887, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292181100913700, 252:91}
   t=1793621310156 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621310224 event3 id=37944 raw=03614f3b02da38df08cbdf0dc34a04ba433fcdcc4c4078a20cc36808ba43 p4=-141.87419 p5=372.0335
@@ -21920,7 +21965,7 @@ Detailed entity/player observations: 34863
   t=1793621310543 kind=move id=37944 x=-140.91458 y=372.0584
   t=1793621310664 event3 id=37944 raw=0163098102da38df0878a20cc36808ba433fcdcc4c40 p4=null p5=null
   t=1793621310664 kind=move id=37944
-  t=1793621311568 kind=resource_state id=2737 amount=0 removed=true
+  t=1793621311568 kind=resource_state id=2737 enchant=0 amount=0 removed=true
   t=1793621311753 event3 id=35436 raw=03a7fe2903da38df08f52827c3698cb843389a993940fdf128c3bba9b843 p4=-167.15999 p5=369.09695
   t=1793621311753 kind=move id=35436 x=-167.15999 y=369.09695
   t=1793621311949 event3 id=35436 raw=03ca593903da38df08977227c32291b843c59a993940fdf128c3bba9b843 p4=-167.44762 p5=369.13385
@@ -21937,11 +21982,11 @@ Detailed entity/player observations: 34863
   t=1793621312355 kind=move id=35436 x=-168.88576 y=369.3184
   t=1793621312457 event3 id=35436 raw=01bb329503da38df08fdf128c3bba9b843c59a993940 p4=null p5=null
   t=1793621312457 kind=move id=35436
-  t=1793621312530 kind=resource_state id=2727 amount=0 removed=true
+  t=1793621312530 kind=resource_state id=2727 enchant=0 amount=0 removed=true
   t=1793621312530 kind=raw_health_energy_event code=91 params={0:37103, 1:6588250, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292181124548269, 252:91}
   t=1793621312530 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
-  t=1793621313017 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=Normal
-  t=1793621313553 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=Normal
+  t=1793621313017 kind=manual_marker elapsed_realtime_ms=11370547 activity=Ore event=gathering_completed tier=T5 enchantment=Normal
+  t=1793621313553 kind=manual_marker elapsed_realtime_ms=11371083 activity=Ore event=node_depleted tier=T5 enchantment=Normal
   t=1793621314097 outbound_request op=22 params={0=639292181141150737 1=[-118.67278, 375.76065] 2=53.46559 3=[-117.80212, 377.00122] 4=5.5 253=22}
   t=1793621314097 kind=own_player_move x=-118.67278289794922 y=375.7606506347656 heading=53.46559143066406 target_x=-117.80211639404297 target_y=377.001220703125 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621314189 outbound_request op=22 params={0=639292181142300737 1=[-118.88843, 375.87067] 2=244.5361 3=[-120.45091, 375.12662] 4=5.5 253=22}
@@ -22044,6 +22089,7 @@ Detailed entity/player observations: 34863
   t=1793621317108 kind=move id=37944
   t=1793621317428 outbound_request op=22 params={0=639292181174490737 1=[-131.0917, 370.58527] 2=252.35872 3=[-131.26764, 369.59177] 4=5.5 253=22}
   t=1793621317428 kind=own_player_move x=-131.09170532226562 y=370.58526611328125 heading=252.3587188720703 target_x=-131.26763916015625 target_y=369.5917663574219 speed=5.5 source=outbound_photon_operation_22_param_1
+  t=1793621317503 kind=player_mounted id=37103
   t=1793621317503 kind=leave id=39130 removed=true
   t=1793621317518 outbound_request op=22 params={0=639292181175580737 1=[-131.01857, 370.06815] 2=121.69279 3=[-130.30959, 369.6304] 4=5.5 253=22}
   t=1793621317518 kind=own_player_move x=-131.01856994628906 y=370.0681457519531 heading=121.69278717041016 target_x=-130.30958557128906 target_y=369.6304016113281 speed=5.5 source=outbound_photon_operation_22_param_1
@@ -22169,7 +22215,7 @@ Detailed entity/player observations: 34863
   t=1793621321388 kind=own_player_move x=-90.9822769165039 y=367.52423095703125 heading=108.96049499511719 target_x=-90.37982940673828 target_y=367.3172607421875 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621321484 outbound_request op=22 params={0=639292181215290737 1=[-89.940834, 367.13754] 2=111.645706 3=[-89.361115, 366.90747] 4=11.0 253=22}
   t=1793621321484 kind=own_player_move x=-89.94083404541016 y=367.1375427246094 heading=111.64570617675781 target_x=-89.36111450195312 target_y=366.907470703125 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621321604 kind=resource_state id=2805 amount=1
+  t=1793621321604 kind=resource_state id=2805 enchant=0 amount=1
   t=1793621321608 outbound_request op=22 params={0=639292181216400737 1=[-88.825035, 366.64197] 2=115.113045 3=[-87.8931, 366.20517] 4=11.0 253=22}
   t=1793621321608 kind=own_player_move x=-88.82503509521484 y=366.6419677734375 heading=115.11304473876953 target_x=-87.89309692382812 target_y=366.2051696777344 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621321722 outbound_request op=22 params={0=639292181217570737 1=[-87.6682, 366.078] 2=116.06485 3=[-87.12749, 365.81354] 4=11.0 253=22}
@@ -22207,7 +22253,7 @@ Detailed entity/player observations: 34863
   t=1793621322498 kind=own_player_move x=-83.7113037109375 y=365.835693359375 heading=335.3310241699219 target_x=-83.9717025756836 target_y=366.40264892578125 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621322610 outbound_request op=22 params={0=639292181226440737 1=[-84.100174, 366.93237] 2=346.5438 3=[-84.24278, 367.52838] 4=11.0 253=22}
   t=1793621322610 kind=own_player_move x=-84.10017395019531 y=366.932373046875 heading=346.5437927246094 target_x=-84.24278259277344 target_y=367.52838134765625 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621322665 kind=resource_state id=2805 amount=0 removed=true
+  t=1793621322665 kind=resource_state id=2805 enchant=0 amount=0 removed=true
   t=1793621322709 outbound_request op=22 params={0=639292181227510737 1=[-84.196915, 368.102] 2=1.278819 3=[-84.1722, 369.20892] 4=11.0 253=22}
   t=1793621322709 kind=own_player_move x=-84.19691467285156 y=368.10198974609375 heading=1.278818964958191 target_x=-84.17220306396484 target_y=369.20892333984375 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621322744 event3 id=23433 raw=03e149aa09da38df08b1a876bcb7d11b35370000b0404ac549bc52a51a35 p4=-0.015054868 p5=5.8047175E-7
@@ -22479,7 +22525,7 @@ Detailed entity/player observations: 34863
   t=1793621327300 kind=move id=37580
   t=1793621327328 outbound_request op=22 params={0=639292181273690737 1=[-52.700253, 362.72968] 2=168.44638 3=[-52.57528, 362.11835] 4=11.0 253=22}
   t=1793621327328 kind=own_player_move x=-52.700252532958984 y=362.72967529296875 heading=168.44638061523438 target_x=-52.575279235839844 target_y=362.11834716796875 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621327328 kind=mob id=35014 x=-20.01118 y=317.78766 mobileType=120 enchant=0
+  t=1793621327328 kind=mob id=35014 name=MISTS_SOLO_YELLOW x=-20.01118 y=317.78766 mobileType=120 enchant=0
   t=1793621327328 kind=static_resource id=2113 x=-85.5 y=318.5
   t=1793621327328 kind=static_resource id=2085 x=-83.5 y=321.5
   t=1793621327328 kind=static_resource id=2140 x=-84.5 y=320.5
@@ -23210,7 +23256,7 @@ Detailed entity/player observations: 34863
   t=1793621336528 kind=move id=36591 x=14.094924 y=337.08615
   t=1793621336554 outbound_request op=22 params={0=639292181365820737 1=[-14.981168, 363.96384] 2=17.192589 3=[-14.042826, 364.3339] 4=11.0 253=22}
   t=1793621336554 kind=own_player_move x=-14.981167793273926 y=363.9638366699219 heading=17.192588806152344 target_x=-14.042825698852539 target_y=364.3338928222656 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621336592 kind=resource_state id=39460 amount=4
+  t=1793621336592 kind=resource_state id=39460 enchant=0 amount=4
   t=1793621336631 event3 id=36591 raw=032631fb11da38df08cec05e418e68a84397cdcc4c4069a44b415d7aa743 p4=13.922071 p5=336.81683
   t=1793621336631 kind=move id=36591 x=13.922071 y=336.81683
   t=1793621336644 outbound_request op=22 params={0=639292181366910737 1=[-13.865772, 364.4037] 2=68.476524 3=[-13.28597, 364.63235] 4=11.0 253=22}
@@ -23235,7 +23281,7 @@ Detailed entity/player observations: 34863
   t=1793621337103 kind=move id=36591 x=13.057782 y=335.47025
   t=1793621337103 event3 id=35014 raw=0301ae4712da38df0856b79ec1f0209f430e00002040660495c177c9a043 p4=-19.83952 p5=318.25732
   t=1793621337103 kind=move id=35014 x=-19.83952 y=318.25732
-  t=1793621337138 kind=resource_state id=39460 amount=3
+  t=1793621337138 kind=resource_state id=39460 enchant=0 amount=3
   t=1793621337260 event3 id=36591 raw=03080d5712da38df089a284e41b899a74397cdcc4c4069a44b415d7aa743 p4=12.8849125 p5=335.20093
   t=1793621337260 kind=move id=36591 x=12.8849125 y=335.20093
   t=1793621337260 event3 id=35014 raw=03080d5712da38df088e079ec1ff3e9f430e00002040660495c177c9a043 p4=-19.753689 p5=318.49216
@@ -23246,12 +23292,12 @@ Detailed entity/player observations: 34863
   t=1793621337334 kind=move id=35014 x=-19.667858 y=318.727
   t=1793621337437 event3 id=35014 raw=0346b67512da38df08fea79cc11d7b9f430e00002040660495c177c9a043 p4=-19.582027 p5=318.96182
   t=1793621337437 kind=move id=35014 x=-19.582027 y=318.96182
-  t=1793621337519 kind=manual_marker activity=Ore event=enchantment_selected tier=T5 enchantment=E1
+  t=1793621337519 kind=manual_marker elapsed_realtime_ms=11395050 activity=Ore event=enchantment_selected tier=T5 enchantment=E1
   t=1793621337525 event3 id=35014 raw=031a1f8512da38df0834f89bc12c999f430e00002040660495c177c9a043 p4=-19.496193 p5=319.19666
   t=1793621337525 kind=move id=35014 x=-19.496193 y=319.19666
   t=1793621337607 event3 id=35014 raw=03d9709412da38df086a489bc13bb79f430e00002040660495c177c9a043 p4=-19.410358 p5=319.4315
   t=1793621337607 kind=move id=35014 x=-19.410358 y=319.4315
-  t=1793621337674 kind=resource_state id=39460 amount=2
+  t=1793621337674 kind=resource_state id=39460 enchant=0 amount=2
   t=1793621337763 event3 id=35014 raw=03e7b8a912da38df089f989ac14ad59f430e00002040660495c177c9a043 p4=-19.324522 p5=319.66632
   t=1793621337763 kind=move id=35014 x=-19.324522 y=319.66632
   t=1793621337856 event3 id=35014 raw=0336fbb812da38df08d4e899c159f39f430e00002040660495c177c9a043 p4=-19.238686 p5=319.90115
@@ -23262,10 +23308,10 @@ Detailed entity/player observations: 34863
   t=1793621338079 kind=move id=35014 x=-19.067005 y=320.37082
   t=1793621338181 event3 id=35014 raw=03d90be712da38df086dd997c1864da0430e00002040660495c177c9a043 p4=-18.981165 p5=320.60565
   t=1793621338181 kind=move id=35014 x=-18.981165 y=320.60565
-  t=1793621338205 kind=resource_state id=39460 amount=1
+  t=1793621338205 kind=resource_state id=39460 enchant=0 amount=1
   t=1793621338264 event3 id=35014 raw=032868f612da38df089d2997c1956ba0430e00002040660495c177c9a043 p4=-18.895319 p5=320.84048
   t=1793621338264 kind=move id=35014 x=-18.895319 y=320.84048
-  t=1793621338341 kind=manual_marker activity=Ore event=target_found tier=T5 enchantment=E1
+  t=1793621338341 kind=manual_marker elapsed_realtime_ms=11395872 activity=Ore event=target_found tier=T5 enchantment=E1
   t=1793621338380 event3 id=35014 raw=0317c50513da38df08cd7996c1a489a0430e00002040660495c177c9a043 p4=-18.809473 p5=321.07532
   t=1793621338380 kind=move id=35014 x=-18.809473 y=321.07532
   t=1793621338481 event3 id=35014 raw=03fa2a1513da38df08fac995c1b3a7a0430e00002040660495c177c9a043 p4=-18.723621 p5=321.31015
@@ -23276,7 +23322,7 @@ Detailed entity/player observations: 34863
   t=1793621338663 kind=move id=35014
   t=1793621338731 outbound_request op=22 params={0=639292181387560737 1=[-13.259979, 364.7572] 2=55.016045 3=[-12.515657, 364.07538] 4=11.0 253=22}
   t=1793621338731 kind=own_player_move x=-13.259979248046875 y=364.7572021484375 heading=55.01604461669922 target_x=-12.515657424926758 target_y=364.07537841796875 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621338742 kind=resource_state id=39460 amount=0 removed=true
+  t=1793621338742 kind=resource_state id=39460 enchant=0 amount=0 removed=true
   t=1793621338835 outbound_request op=22 params={0=639292181388760737 1=[-12.242881, 363.9271] 2=118.42484 3=[-11.833832, 363.70572] 4=11.0 253=22}
   t=1793621338835 kind=own_player_move x=-12.242880821228027 y=363.9270935058594 heading=118.42484283447266 target_x=-11.833831787109375 target_y=363.7057189941406 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621338936 outbound_request op=22 params={0=639292181389790737 1=[-12.473797, 365.0359] 2=345.11932 3=[-12.639675, 365.66016] 4=11.0 253=22}
@@ -23291,21 +23337,22 @@ Detailed entity/player observations: 34863
   t=1793621339271 event3 id=23433 raw=0181c98513da38df0803df1a4f89ba32bf3b0000b040 p4=null p5=null
   t=1793621339271 kind=player_move id=23433 name=EDmars raw_hex=0181c98513da38df0803df1a4f89ba32bf3b0000b040 coord_source=unvalidated_event3_payload
   t=1793621339329 kind=leave id=37580 removed=true
+  t=1793621339432 kind=player_mounted id=37103
   t=1793621339633 outbound_request op=22 params={0=639292181396550737 1=[-12.702807, 365.75952] 2=342.30554 3=[-11.934652, 366.41248] 4=11.0 253=22}
   t=1793621339633 kind=own_player_move x=-12.702807426452637 y=365.759521484375 heading=342.3055419921875 target_x=-11.934652328491211 target_y=366.4124755859375 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621339712 outbound_request op=22 params={0=639292181397600737 1=[-12.182739, 366.22406] 2=40.059177 3=[-11.656839, 366.8495] 4=5.5 253=22}
   t=1793621339712 kind=own_player_move x=-12.1827392578125 y=366.22406005859375 heading=40.05917739868164 target_x=-11.656839370727539 target_y=366.8494873046875 speed=5.5 source=outbound_photon_operation_22_param_1
-  t=1793621339723 kind=resource_state id=39464 amount=4
+  t=1793621339723 kind=resource_state id=39464 enchant=0 amount=4
   t=1793621339834 outbound_request op=22 params={0=639292181398750737 1=[-11.939547, 366.80634] 2=19.91132 3=[-11.670989, 367.54776] 4=5.5 253=22}
   t=1793621339834 kind=own_player_move x=-11.939546585083008 y=366.80633544921875 heading=19.911319732666016 target_x=-11.670989036560059 target_y=367.5477600097656 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621339950 outbound_request op=22 params={0=639292181399940737 1=[-11.698065, 367.31332] 2=12.379764 3=[-11.564986, 368.20374] 4=5.5 253=22}
   t=1793621339950 kind=own_player_move x=-11.698064804077148 y=367.3133239746094 heading=12.37976360321045 target_x=-11.564986228942871 target_y=368.2037353515625 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621339984 outbound_request op=22 params={0=639292181400130737 1=[-11.642907, 367.3404] 2=7.7438664 3=[-11.642907, 367.3404] 4=5.5 253=22}
   t=1793621339984 kind=own_player_move x=-11.64290714263916 y=367.34039306640625 heading=7.743866443634033 target_x=-11.64290714263916 target_y=367.34039306640625 speed=5.5 source=outbound_photon_operation_22_param_1
-  t=1793621340285 kind=resource_state id=39464 amount=3
-  t=1793621340506 kind=manual_marker activity=Ore event=gathering_started tier=T5 enchantment=E1
+  t=1793621340285 kind=resource_state id=39464 enchant=0 amount=3
+  t=1793621340506 kind=manual_marker elapsed_realtime_ms=11398036 activity=Ore event=gathering_started tier=T5 enchantment=E1
   t=1793621340770 kind=leave id=37647 removed=true
-  t=1793621340827 kind=resource_state id=39464 amount=2
+  t=1793621340827 kind=resource_state id=39464 enchant=0 amount=2
   t=1793621341003 event3 id=35110 raw=03c2dc9614da38df087e3fbd415ba5a8433e9a9939403f16a741004aa943 p4=23.656002 p5=337.29184
   t=1793621341003 kind=move id=35110 x=23.656002 y=337.29184
   t=1793621341062 outbound_request op=22 params={0=639292181410880737 1=[-11.642907, 367.3404] 2=347.85696 3=[-11.642907, 367.3404] 4=5.5 253=22}
@@ -23318,7 +23365,7 @@ Detailed entity/player observations: 34863
   t=1793621341243 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
   t=1793621341299 event3 id=35110 raw=038dc8c414da38df0871efb64141d4a843d29a9939403f16a741004aa943 p4=22.866915 p5=337.65823
   t=1793621341299 kind=move id=35110 x=22.866915 y=337.65823
-  t=1793621341321 kind=resource_state id=39464 amount=1
+  t=1793621341321 kind=resource_state id=39464 enchant=0 amount=1
   t=1793621341404 event3 id=35110 raw=03ab28d414da38df08c2d4b441e3e3a843d29a9939403f16a741004aa943 p4=22.603886 p5=337.78036
   t=1793621341404 kind=move id=35110 x=22.603886 y=337.78036
   t=1793621341504 event3 id=35110 raw=036383e314da38df0813bab24185f3a843d29a9939403f16a741004aa943 p4=22.340857 p5=337.9025
@@ -23329,7 +23376,7 @@ Detailed entity/player observations: 34863
   t=1793621341704 kind=move id=35110 x=21.814802 y=338.14676
   t=1793621341820 event3 id=35110 raw=03e87f1115da38df08096aac416b22a943d29a9939403f16a741004aa943 p4=21.551775 p5=338.2689
   t=1793621341820 kind=move id=35110 x=21.551775 y=338.2689
-  t=1793621341879 kind=resource_state id=39464 amount=0 removed=true
+  t=1793621341879 kind=resource_state id=39464 enchant=0 amount=0 removed=true
   t=1793621341905 event3 id=35110 raw=03b9de2015da38df085e4faa410d32a943d29a9939403f16a741004aa943 p4=21.288754 p5=338.39102
   t=1793621341905 kind=move id=35110 x=21.288754 y=338.39102
   t=1793621341967 event3 id=23433 raw=0351ed2115da38df0803df1a4f89ba32bf3b0000b040724e114f78684cbf p4=2.59830656E9 p5=-0.6981588
@@ -23344,7 +23391,7 @@ Detailed entity/player observations: 34863
   t=1793621342257 kind=player_move id=23433 name=EDmars x=2.5709271E9 y=-0.69703394 raw_hex=0311b44f15da38df083c3d194fd17032bf140000b040724e114f78684cbf coord_source=unvalidated_event3_payload
   t=1793621342367 event3 id=23433 raw=0361ff6315da38df08f75f164f58ce4dbf140000b040724e114f78684cbf p4=2.52287155E9 p5=-0.8039298
   t=1793621342367 kind=player_move id=23433 name=EDmars x=2.52287155E9 y=-0.8039298 raw_hex=0361ff6315da38df08f75f164f58ce4dbf140000b040724e114f78684cbf coord_source=unvalidated_event3_payload
-  t=1793621342391 kind=resource_state id=2774 amount=1
+  t=1793621342391 kind=resource_state id=2774 enchant=0 amount=1
   t=1793621342509 event3 id=35014 raw=03cc4c7a15da38df08660495c177c9a0430e0000204023268cc172d89e43 p4=-18.627148 p5=321.57394
   t=1793621342509 kind=move id=35014 x=-18.627148 y=321.57394
   t=1793621342509 event3 id=23433 raw=03c1717815da38df0841fb144f661d4dbf140000b040724e114f78684cbf p4=2.49949414E9 p5=-0.80122983
@@ -23359,7 +23406,6 @@ Detailed entity/player observations: 34863
   t=1793621342707 kind=move id=35014 x=-18.489891 y=321.09317
   t=1793621342707 event3 id=23433 raw=0141f69615da38df0846d7124f989e4cbf140000b040 p4=null p5=null
   t=1793621342707 kind=player_move id=23433 name=EDmars raw_hex=0141f69615da38df0846d7124f989e4cbf140000b040 coord_source=unvalidated_event3_payload
-  t=1793621342707 kind=player_mounted id=23433 value=0.0
   t=1793621342787 event3 id=35014 raw=032e23a815da38df08bf5e93c1286da043750000204023268cc172d89e43 p4=-18.421263 p5=320.85278
   t=1793621342787 kind=move id=35014 x=-18.421263 y=320.85278
   t=1793621342889 event3 id=35014 raw=03f86bb715da38df0832d292c1634ea043750000204023268cc172d89e43 p4=-18.352634 p5=320.6124
@@ -23370,6 +23416,7 @@ Detailed entity/player observations: 34863
   t=1793621343081 kind=move id=35014 x=-18.215378 y=320.13162
   t=1793621343193 event3 id=35014 raw=039b5de515da38df088b2c91c114f29f43750000204023268cc172d89e43 p4=-18.14675 p5=319.89124
   t=1793621343193 kind=move id=35014 x=-18.14675 y=319.89124
+  t=1793621343241 kind=player_mounted id=23433
   t=1793621343241 kind=leave id=39380 removed=true
   t=1793621343241 event3 id=23433 raw=03914ae815da38df080afe776e2ffe27bd14cdcc0c41ce52776e19fe26bd p4=1.9187478E28 p5=-0.041013893
   t=1793621343241 kind=player_move id=23433 name=EDmars x=1.9187478E28 y=-0.041013893 raw_hex=03914ae815da38df080afe776e2ffe27bd14cdcc0c41ce52776e19fe26bd coord_source=unvalidated_event3_payload
@@ -23383,7 +23430,7 @@ Detailed entity/player observations: 34863
   t=1793621343487 kind=move id=35014 x=-17.940865 y=319.17007
   t=1793621343487 event3 id=23433 raw=0331e11016da38df0838f9766eb8d126bd71cdcc0c41c015746e536a59bd p4=1.910865E28 p5=-0.040727347
   t=1793621343487 kind=player_move id=23433 name=EDmars x=1.910865E28 y=-0.040727347 raw_hex=0331e11016da38df0838f9766eb8d126bd71cdcc0c41c015746e536a59bd coord_source=unvalidated_event3_payload
-  t=1793621343505 kind=resource_state id=2761 amount=0 removed=true
+  t=1793621343505 kind=resource_state id=2761 enchant=1 amount=0 removed=true
   t=1793621343505 kind=raw_health_energy_event code=91 params={0:37103, 1:6619239, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292181434438117, 252:91}
   t=1793621343505 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621343581 event3 id=35014 raw=03fb8c2216da38df0857fa8ec100779f43750000204023268cc172d89e43 p4=-17.872236 p5=318.9297
@@ -23402,9 +23449,10 @@ Detailed entity/player observations: 34863
   t=1793621343898 kind=player_move id=23433 name=EDmars raw_hex=0131084916da38df0818104f6e373958bd65cdcc0c41 coord_source=unvalidated_event3_payload
   t=1793621343950 event3 id=23433 raw=01511a5316da38df0816164e6e9c2d58bd56cdcc0c41 p4=null p5=null
   t=1793621343950 kind=player_move id=23433 name=EDmars raw_hex=01511a5316da38df0816164e6e9c2d58bd56cdcc0c41 coord_source=unvalidated_event3_payload
+  t=1793621343950 kind=player_mounted id=23433
   t=1793621344003 event3 id=35014 raw=03dacc5f16da38df082ac88cc1ecfb9e43750000204023268cc172d89e43 p4=-17.597736 p5=317.96814
   t=1793621344003 kind=move id=35014 x=-17.597736 y=317.96814
-  t=1793621344054 kind=manual_marker activity=Ore event=gathering_completed tier=T5 enchantment=E1
+  t=1793621344054 kind=manual_marker elapsed_realtime_ms=11401585 activity=Ore event=gathering_completed tier=T5 enchantment=E1
   t=1793621344108 event3 id=35014 raw=0353126f16da38df08a23b8cc127dd9e43750000204023268cc172d89e43 p4=-17.529118 p5=317.72775
   t=1793621344108 kind=move id=35014 x=-17.529118 y=317.72775
   t=1793621344197 event3 id=35014 raw=01835b7e16da38df0823268cc172d89e437500002040 p4=null p5=null
@@ -23417,11 +23465,11 @@ Detailed entity/player observations: 34863
   t=1793621344800 kind=move id=36591 x=13.2089405 y=335.37784
   t=1793621344911 event3 id=36591 raw=031bcfe916da38df088c3157415dcba74323cdcc4c4095d35941d2dda743 p4=13.449596 p5=335.58878
   t=1793621344911 kind=move id=36591 x=13.449596 y=335.58878
-  t=1793621344954 kind=resource_state id=2774 amount=0 removed=true
+  t=1793621344954 kind=resource_state id=2774 enchant=0 amount=0 removed=true
   t=1793621344977 event3 id=36591 raw=01032cf916da38df0895d35941d2dda74323cdcc4c40 p4=null p5=null
   t=1793621344977 kind=move id=36591
-  t=1793621345011 kind=manual_marker activity=Ore event=node_depleted tier=T5 enchantment=E1
-  t=1793621345045 kind=player_mounted id=23433 value=0.0
+  t=1793621345011 kind=manual_marker elapsed_realtime_ms=11402542 activity=Ore event=node_depleted tier=T5 enchantment=E1
+  t=1793621345548 kind=player_mounted id=23433
   t=1793621345548 kind=leave id=39564 removed=true
   t=1793621345751 event3 id=23433 raw=03f1106617da38df0816164e6e9c2d58bd56cdcc0c413dcc4a6e67155bbd p4=1.5945153E28 p5=-0.05277787
   t=1793621345751 kind=player_move id=23433 name=EDmars x=1.5945153E28 y=-0.05277787 raw_hex=03f1106617da38df0816164e6e9c2d58bd56cdcc0c413dcc4a6e67155bbd coord_source=unvalidated_event3_payload
@@ -23462,6 +23510,7 @@ Detailed entity/player observations: 34863
   t=1793621346763 kind=player_move id=23433 name=EDmars x=1.5773554E28 y=-0.053810306 raw_hex=0371890318da38df0850de4b6e32685cbd77cdcc0c41b91b4a6e01385fbd coord_source=unvalidated_event3_payload
   t=1793621346843 event3 id=35110 raw=03e8441518da38df083bddb1415905a9434f9a993940f242b64156e9a843 p4=22.233023 p5=338.04178
   t=1793621346843 kind=move id=35110 x=22.233023 y=338.04178
+  t=1793621346866 kind=player_mounted id=37103
   t=1793621346866 kind=leave id=39484 removed=true
   t=1793621346902 event3 id=23433 raw=03c1d41718da38df08570b4a6ea2185fbd73cdcc0c417af5486e8db45fbd p4=1.563242E28 p5=-0.05446685
   t=1793621346902 kind=player_move id=23433 name=EDmars x=1.563242E28 y=-0.05446685 raw_hex=03c1d41718da38df08570b4a6ea2185fbd73cdcc0c417af5486e8db45fbd coord_source=unvalidated_event3_payload
@@ -23526,7 +23575,7 @@ Detailed entity/player observations: 34863
   t=1793621348160 kind=own_player_move x=0.38526028394699097 y=364.88897705078125 heading=106.1548080444336 target_x=1.037009835243225 target_y=364.7001953125 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621348275 outbound_request op=22 params={0=639292181483200737 1=[1.6136572, 364.50516] 2=107.93539 3=[2.2386768, 364.30286] 4=11.0 253=22}
   t=1793621348275 kind=own_player_move x=1.6136572360992432 y=364.5051574707031 heading=107.93538665771484 target_x=2.2386767864227295 target_y=364.3028564453125 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621348348 kind=mob id=35014 x=-17.518621 y=317.69098 mobileType=120 enchant=0
+  t=1793621348348 kind=mob id=35014 name=MISTS_SOLO_YELLOW x=-17.518621 y=317.69098 mobileType=120 enchant=0
   t=1793621348348 kind=mob id=4550 x=33.808475 y=319.08707 mobileType=482 enchant=0
   t=1793621348348 kind=static_resource id=630 x=0.5 y=316.5
   t=1793621348348 kind=static_resource id=631 x=-1.5 y=319.5
@@ -23540,6 +23589,7 @@ Detailed entity/player observations: 34863
   t=1793621348402 outbound_request op=22 params={0=639292181484400737 1=[2.8616583, 364.07532] 2=109.683426 3=[4.0782423, 363.64014] 4=11.0 253=22}
   t=1793621348402 kind=own_player_move x=2.8616583347320557 y=364.0753173828125 heading=109.68342590332031 target_x=4.078242301940918 target_y=363.64013671875 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621348438 kind=player_spawn id=23433 name=EDmars
+  t=1793621348438 kind=player_mounted id=23433
   t=1793621348438 event3 id=23433 raw=03b1ef0619da38df083bbc266e331250bd49cdcc0c41c82c396e1b2850bd p4=1.2900517E28 p5=-0.050798606
   t=1793621348438 kind=player_move id=23433 name=EDmars x=1.2900517E28 y=-0.050798606 raw_hex=03b1ef0619da38df083bbc266e331250bd49cdcc0c41c82c396e1b2850bd coord_source=unvalidated_event3_payload
   t=1793621348509 outbound_request op=22 params={0=639292181485570737 1=[4.0629106, 363.61346] 2=111.371315 3=[4.664529, 363.37805] 4=11.0 253=22}
@@ -23591,6 +23641,7 @@ Detailed entity/player observations: 34863
   t=1793621349588 outbound_request op=22 params={0=639292181496370737 1=[15.013962, 359.0314] 2=118.1475 3=[15.564087, 358.7371] 4=11.0 253=22}
   t=1793621349588 kind=own_player_move x=15.013961791992188 y=359.0314025878906 heading=118.14749908447266 target_x=15.5640869140625 target_y=358.7370910644531 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621349628 kind=player_spawn id=23433 name=EDmars
+  t=1793621349628 kind=player_mounted id=23433
   t=1793621349628 event3 id=23433 raw=03a101b919da38df08701d1e6e44e050bd4acdcc0c413562116e983f53bd p4=1.2233555E28 p5=-0.050995126
   t=1793621349628 kind=player_move id=23433 name=EDmars x=1.2233555E28 y=-0.050995126 raw_hex=03a101b919da38df08701d1e6e44e050bd4acdcc0c413562116e983f53bd coord_source=unvalidated_event3_payload
   t=1793621349628 event3 id=4550 raw=011403bb19da38df08eed10342e8329f43a400004040 p4=null p5=null
@@ -23638,6 +23689,7 @@ Detailed entity/player observations: 34863
   t=1793621350535 kind=mob id=24386 x=-11.69 y=309.78 mobileType=2474 enchant=0
   t=1793621350535 kind=mob id=5010 x=28.881859 y=311.84296 mobileType=2489 enchant=0
   t=1793621350535 kind=player_spawn id=39256 name=CIUPAPI6996
+  t=1793621350535 kind=player_mounted id=39256
   t=1793621350535 kind=static_resource id=1277 x=-17.5 y=307.5
   t=1793621350535 kind=static_resource id=1279 x=-15.5 y=307.5
   t=1793621350535 kind=static_resource id=2607 x=-16.5 y=309.5
@@ -23657,6 +23709,7 @@ Detailed entity/player observations: 34863
   t=1793621350641 event3 id=35014 raw=031755541ada38df08171f95c16aac9f43e8000020406e4fa4c13813a143 p4=-18.64018 p5=319.347
   t=1793621350641 kind=move id=35014 x=-18.64018 y=319.347
   t=1793621350641 kind=player_spawn id=23433 name=EDmars
+  t=1793621350641 kind=player_mounted id=23433
   t=1793621350641 event3 id=23433 raw=0331bf511ada38df08e6dfd16d206752bd4dcccc38416216a86dd1ab52bd p4=8.1191305E27 p5=-0.05136788
   t=1793621350641 kind=player_move id=23433 name=EDmars x=8.1191305E27 y=-0.05136788 raw_hex=0331bf511ada38df08e6dfd16d206752bd4dcccc38416216a86dd1ab52bd coord_source=unvalidated_event3_payload
   t=1793621350695 outbound_request op=22 params={0=639292181507390737 1=[25.099972, 352.42224] 2=132.64778 3=[25.559488, 351.999] 4=11.0 253=22}
@@ -23682,6 +23735,7 @@ Detailed entity/player observations: 34863
   t=1793621350786 kind=static_resource id=2738 x=7.0 y=314.0
   t=1793621350786 kind=static_resource id=2744 x=22.0 y=313.0
   t=1793621350786 kind=static_resource id=2797 x=23.0 y=309.0
+  t=1793621350786 kind=player_mounted id=39256
   t=1793621350786 kind=player_spawn id=39256 name=CIUPAPI6996
   t=1793621350786 kind=mob id=5010 x=28.881859 y=311.84296 mobileType=2489 enchant=0
   t=1793621350806 outbound_request op=22 params={0=639292181508540737 1=[26.030426, 351.5652] 2=132.64743 3=[26.859993, 350.8011] 4=11.0 253=22}
@@ -23694,13 +23748,14 @@ Detailed entity/player observations: 34863
   t=1793621350841 event3 id=35014 raw=032d5c731ada38df08555d97c168e19f43e8000020406e4fa4c13813a143 p4=-18.920572 p5=319.761
   t=1793621350841 kind=move id=35014 x=-18.920572 y=319.761
   t=1793621350841 kind=player_spawn id=23433 name=EDmars
+  t=1793621350841 kind=player_mounted id=23433
   t=1793621350853 outbound_request op=22 params={0=639292181506360737 1=[24.26661, 353.18985] 2=132.64653 3=[25.137463, 352.38776] 4=11.0 253=22}
   t=1793621350853 kind=own_player_move x=24.26660919189453 y=353.1898498535156 heading=132.6465301513672 target_x=25.137462615966797 target_y=352.38775634765625 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621350897 event3 id=23433 raw=03d1557a1ada38df082586ba6dd91655bd53cccc3841c492b16dcf4e55bd p4=7.215798E27 p5=-0.052023742
   t=1793621350897 kind=player_move id=23433 name=EDmars x=7.215798E27 y=-0.052023742 raw_hex=03d1557a1ada38df082586ba6dd91655bd53cccc3841c492b16dcf4e55bd coord_source=unvalidated_event3_payload
   t=1793621350920 kind=leave id=4330 removed=true
   t=1793621350920 kind=leave id=23433 removed=true
-  t=1793621350920 kind=mob id=17974 x=73.04317 y=329.25723 mobileType=120 enchant=0
+  t=1793621350920 kind=mob id=17974 name=MISTS_SOLO_YELLOW x=73.04317 y=329.25723 mobileType=120 enchant=0
   t=1793621350920 kind=static_resource id=845 x=66.0 y=344.0
   t=1793621350920 kind=static_resource id=846 x=67.0 y=348.0
   t=1793621350920 kind=static_resource id=2903 x=70.0 y=364.0
@@ -23783,6 +23838,7 @@ Detailed entity/player observations: 34863
   t=1793621351621 event3 id=35014 raw=03a4efed1ada38df085a56a0c160b5a043e8000020406e4fa4c13813a143 p4=-20.042164 p5=321.417
   t=1793621351621 kind=move id=35014 x=-20.042164 y=321.417
   t=1793621351681 kind=player_spawn id=23433 name=EDmars
+  t=1793621351681 kind=player_mounted id=23433
   t=1793621351681 event3 id=23433 raw=03d167f41ada38df083cda756d259457bd55cccc3841d50d446d9dc357bd p4=4.7554785E27 p5=-0.052631516
   t=1793621351681 kind=player_move id=23433 name=EDmars x=4.7554785E27 y=-0.052631516 raw_hex=03d167f41ada38df083cda756d259457bd55cccc3841d50d446d9dc357bd coord_source=unvalidated_event3_payload
   t=1793621351717 outbound_request op=22 params={0=639292181517550737 1=[34.71975, 347.4107] 2=95.90068 3=[35.26353, 347.35452] 4=11.0 253=22}
@@ -23815,7 +23871,7 @@ Detailed entity/player observations: 34863
   t=1793621351974 kind=player_move id=23433 name=EDmars x=3.1515858E27 y=-0.05232601 raw_hex=0371fe1c1bda38df08e4ee226dcc5356bd54cccc384166a9306d958f56bd coord_source=unvalidated_event3_payload
   t=1793621351974 event3 id=39256 raw=03a120161bda38df087bb991eec90a46bd14d7a332413a1e81ee30ed4ebd p4=-2.254978E28 p5=-0.04835013
   t=1793621351974 kind=player_move id=39256 name=CIUPAPI6996 x=-2.254978E28 y=-0.04835013 raw_hex=03a120161bda38df087bb991eec90a46bd14d7a332413a1e81ee30ed4ebd coord_source=unvalidated_event3_payload
-  t=1793621352019 kind=resource_state id=2787 amount=2
+  t=1793621352019 kind=resource_state id=2787 enchant=0 amount=2
   t=1793621352019 kind=leave id=23433 removed=true
   t=1793621352019 kind=leave id=35014 removed=true
   t=1793621352019 kind=leave id=24386 removed=true
@@ -23894,7 +23950,7 @@ Detailed entity/player observations: 34863
   t=1793621353057 kind=own_player_move x=45.010154724121094 y=348.2273254394531 heading=44.563655853271484 target_x=45.464229583740234 target_y=348.6883544921875 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621353057 event3 id=9031 raw=072d78c41bda38df08c1d91042af5995434c0000f0406cc715420d299543b7990000 p4=null p5=null
   t=1793621353057 kind=move id=9031
-  t=1793621353115 kind=resource_state id=2603 amount=4
+  t=1793621353115 kind=resource_state id=2603 enchant=0 amount=4
   t=1793621353115 event3 id=39256 raw=03b180c81bda38df08b4307f26d95cb48e38d7a332413abf4c26b476b58e p4=8.85369E-16 p5=-4.4462835E-30
   t=1793621353115 kind=player_move id=39256 name=CIUPAPI6996 x=8.85369E-16 y=-4.4462835E-30 raw_hex=03b180c81bda38df08b4307f26d95cb48e38d7a332413abf4c26b476b58e coord_source=unvalidated_event3_payload
   t=1793621353139 event3 id=9031 raw=07acc2d31bda38df08a4b71342623d95434c0000f0406cc715420d299543b7990000 p4=null p5=null
@@ -24174,6 +24230,7 @@ Detailed entity/player observations: 34863
   t=1793621357674 event3 id=39256 raw=031138811eda38df0892143e26ea19b08e38d7a332419c640926b7ebb28e p4=6.594737E-16 p5=-4.3412304E-30
   t=1793621357674 kind=player_move id=39256 name=CIUPAPI6996 x=6.594737E-16 y=-4.3412304E-30 raw_hex=031138811eda38df0892143e26ea19b08e38d7a332419c640926b7ebb28e coord_source=unvalidated_event3_payload
   t=1793621357711 kind=player_spawn id=39351 name=Kurny
+  t=1793621357711 kind=player_mounted id=39351
   t=1793621357711 kind=player_spawn id=39366 name=dragonslayer001
   t=1793621357728 outbound_request op=22 params={0=639292181577650737 1=[74.21803, 353.26474] 2=120.3398 3=[74.77563, 352.9384] 4=11.0 253=22}
   t=1793621357728 kind=own_player_move x=74.21803283691406 y=353.2647399902344 heading=120.33979797363281 target_x=74.77562713623047 target_y=352.9383850097656 speed=11.0 source=outbound_photon_operation_22_param_1
@@ -24207,7 +24264,7 @@ Detailed entity/player observations: 34863
   t=1793621357983 kind=move id=17974 x=71.48801 y=329.78113
   t=1793621357983 event3 id=39571 raw=050f3fb41eda38df08c375d94229fca0432e0000f04058990000 p4=null p5=null
   t=1793621357983 kind=move id=39571
-  t=1793621357983 kind=resource_state id=2757 amount=2
+  t=1793621357983 kind=resource_state id=2757 enchant=0 amount=2
   t=1793621357983 event3 id=39351 raw=0341f2b41eda38df08b0b47326e19a8c8e38cdcc0c410f274126fb918d8e p4=8.455244E-16 p5=-3.4661808E-30
   t=1793621357983 kind=player_move id=39351 name=Kurny x=8.455244E-16 y=-3.4661808E-30 raw_hex=0341f2b41eda38df08b0b47326e19a8c8e38cdcc0c410f274126fb918d8e coord_source=unvalidated_event3_payload
   t=1793621357998 kind=leave id=3577 removed=true
@@ -24216,6 +24273,7 @@ Detailed entity/player observations: 34863
   t=1793621357998 kind=leave id=3453 removed=true
   t=1793621357998 kind=mob id=4500 x=121.733116 y=344.93463 mobileType=482 enchant=0
   t=1793621357998 kind=player_spawn id=36868 name=Gazgora
+  t=1793621357998 kind=player_mounted id=36868
   t=1793621357998 kind=mob id=25424 x=124.86715 y=368.8035 mobileType=573 enchant=0
   t=1793621358024 kind=static_resource id=427 x=117.0 y=322.0
   t=1793621358024 kind=static_resource id=428 x=119.0 y=318.0
@@ -24671,7 +24729,7 @@ Detailed entity/player observations: 34863
   t=1793621360504 kind=move id=20611
   t=1793621360504 event3 id=33625 raw=0738ee3520da38df08054601438dc7a7436e0000f040b5de0343fa0fa54358990000 p4=null p5=null
   t=1793621360504 kind=move id=33625
-  t=1793621360504 kind=resource_state id=3272 amount=2
+  t=1793621360504 kind=resource_state id=3272 enchant=0 amount=2
   t=1793621360551 event3 id=39366 raw=03d12d3320da38df08173b26260d298f8e2b6666344102b93b26225cb38e p4=5.76729E-16 p5=-3.5291752E-30
   t=1793621360551 kind=player_move id=39366 name=dragonslayer001 x=5.76729E-16 y=-3.5291752E-30 raw_hex=03d12d3320da38df08173b26260d298f8e2b6666344102b93b26225cb38e coord_source=unvalidated_event3_payload
   t=1793621360551 event3 id=39351 raw=03d1803a20da38df08da442226da0f8d8e4434333d41902a3426717d8d8e p4=5.629835E-16 p5=-3.477445E-30
@@ -24887,7 +24945,7 @@ Detailed entity/player observations: 34863
   t=1793621361627 kind=move id=20611
   t=1793621361627 event3 id=33625 raw=06cc8cde20da38df080c8004430080a74346ddb41043226ea64358990000 p4=null p5=null
   t=1793621361627 kind=move id=33625
-  t=1793621361627 kind=resource_state id=3256 amount=2
+  t=1793621361627 kind=resource_state id=3256 enchant=0 amount=2
   t=1793621361677 event3 id=39351 raw=031103e620da38df0894b53926d83e8d8e3c34333d418aa80826aca48e8e p4=6.4430853E-16 p5=-3.48197E-30
   t=1793621361677 kind=player_move id=39351 name=Kurny x=6.4430853E-16 y=-3.48197E-30 raw_hex=031103e620da38df0894b53926d83e8d8e3c34333d418aa80826aca48e8e coord_source=unvalidated_event3_payload
   t=1793621361677 event3 id=39366 raw=03c1cee220da38df0866613f2692f8b08e4a666634414adc1726ff4e8e8e p4=6.6398436E-16 p5=-4.3626714E-30
@@ -25159,7 +25217,7 @@ Detailed entity/player observations: 34863
   t=1793621363003 kind=move id=33625 x=131.13203 y=336.78662
   t=1793621363003 event3 id=26223 raw=038e49b521da38df08026f0c43a3f3ae432f6666e63fea5e11432611b043 p4=140.43362 p5=349.9034
   t=1793621363003 kind=move id=26223 x=140.43362 y=349.9034
-  t=1793621363026 kind=resource_state id=2595 amount=2
+  t=1793621363026 kind=resource_state id=2595 enchant=0 amount=2
   t=1793621363026 event3 id=39366 raw=03411bb121da38df086ba6400ae39c143d269a9915412877bd0bd4ef133d p4=9.2757635E-33 p5=0.03628243
   t=1793621363026 kind=player_move id=39366 name=dragonslayer001 x=9.2757635E-33 y=0.03628243 raw_hex=03411bb121da38df086ba6400ae39c143d269a9915412877bd0bd4ef133d coord_source=unvalidated_event3_payload
   t=1793621363083 outbound_request op=22 params={0=639292181630650737 1=[99.910065, 310.72165] 2=171.3533 3=[100.05002, 309.8013] 4=11.0 253=22}
@@ -25282,7 +25340,7 @@ Detailed entity/player observations: 34863
   t=1793621363625 kind=move id=4456 x=106.75515 y=267.95255
   t=1793621363625 event3 id=26223 raw=038b401122da38df08f66a0d438c2caf432f6666e63fea5e11432611b043 p4=141.41782 p5=350.34802
   t=1793621363625 kind=move id=26223 x=141.41782 y=350.34802
-  t=1793621363639 kind=resource_state id=2896 amount=0 removed=true
+  t=1793621363639 kind=resource_state id=2896 enchant=0 amount=0 removed=true
   t=1793621363661 outbound_request op=22 params={0=639292181636910737 1=[99.86663, 303.97565] 2=147.63435 3=[100.14173, 303.5416] 4=11.0 253=22}
   t=1793621363661 kind=own_player_move x=99.86663055419922 y=303.97564697265625 heading=147.6343536376953 target_x=100.14173126220703 target_y=303.5415954589844 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621363672 event3 id=39366 raw=0341521022da38df08c8114a0ad9c5163d299a9915417dafb90b7dfa123d p4=9.7292905E-33 p5=0.036809776
@@ -25343,7 +25401,7 @@ Detailed entity/player observations: 34863
   t=1793621363899 kind=move id=4456 x=105.85935 y=268.0396
   t=1793621363899 event3 id=26223 raw=03e8643f22da38df08f0e80d430149af432f6666e63fea5e11432611b043 p4=141.90991 p5=350.57034
   t=1793621363899 kind=move id=26223 x=141.90991 y=350.57034
-  t=1793621363899 kind=resource_state id=2896 amount=0 removed=true
+  t=1793621363899 kind=resource_state id=2896 enchant=0 amount=0 removed=true
   t=1793621363912 outbound_request op=22 params={0=639292181636910737 1=[99.86663, 303.97565] 2=147.63435 3=[100.14173, 303.5416] 4=11.0 253=22}
   t=1793621363912 kind=own_player_move x=99.86663055419922 y=303.97564697265625 heading=147.6343536376953 target_x=100.14173126220703 target_y=303.5415954589844 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621363968 kind=leave id=26223 removed=true
@@ -25432,8 +25490,11 @@ Detailed entity/player observations: 34863
   t=1793621364429 kind=mob id=9215 x=150.88417 y=286.0262 mobileType=571 enchant=0
   t=1793621364429 kind=mob id=11320 x=151.35367 y=304.12665 mobileType=571 enchant=0
   t=1793621364429 kind=player_spawn id=38231 name=feynera
+  t=1793621364429 kind=player_mounted id=38231
   t=1793621364435 kind=player_spawn id=39404 name=Gitex
+  t=1793621364435 kind=player_mounted id=39404
   t=1793621364435 kind=player_spawn id=39256 name=CIUPAPI6996
+  t=1793621364438 kind=player_mounted id=39256
   t=1793621364438 kind=static_resource id=4142 x=148.0 y=277.0
   t=1793621364438 kind=static_resource id=1260 x=152.5 y=294.5
   t=1793621364438 kind=static_resource id=1282 x=152.0 y=308.0
@@ -25615,7 +25676,7 @@ Detailed entity/player observations: 34863
   t=1793621365451 kind=player_move id=39351 name=Kurny x=6.344253E-32 y=0.036782138 raw_hex=03310c2423da38df08cbb4a40bdea8163d44cdcc0c41b193ad0b10c4163d coord_source=unvalidated_event3_payload
   t=1793621365485 event3 id=39366 raw=01b1d32223da38df08c1bba50b546f163d4066663441 p4=null p5=null
   t=1793621365485 kind=player_move id=39366 name=dragonslayer001 raw_hex=01b1d32223da38df08c1bba50b546f163d4066663441 coord_source=unvalidated_event3_payload
-  t=1793621365485 kind=player_mounted id=39366 value=0.0
+  t=1793621365485 kind=player_mounted id=39366
   t=1793621365485 event3 id=39366 raw=0311be2323da38df08c1bba50b546f163d400000b0401d73ab0bdd59163d p4=6.383819E-32 p5=0.036727265
   t=1793621365485 kind=player_move id=39366 name=dragonslayer001 x=6.383819E-32 y=0.036727265 raw_hex=0311be2323da38df08c1bba50b546f163d400000b0401d73ab0bdd59163d coord_source=unvalidated_event3_payload
   t=1793621365485 kind=leave id=13541 removed=true
@@ -25694,6 +25755,7 @@ Detailed entity/player observations: 34863
   t=1793621366023 event3 id=11320 raw=03179c8123da38df081718154352c29743b56666e63fa9121343a97c9743 p4=149.0941 p5=303.51813
   t=1793621366023 kind=move id=11320 x=149.0941 y=303.51813
   t=1793621366023 kind=leave id=39605 removed=true
+  t=1793621366060 kind=player_mounted id=39256
   t=1793621366060 event3 id=39351 raw=03a1e38123da38df08db13a20bc8fe163d42cdcc0c4146d8ab0ba7c3163d p4=6.2430005E-32 p5=0.036864072
   t=1793621366060 kind=player_move id=39351 name=Kurny x=6.2430005E-32 y=0.036864072 raw_hex=03a1e38123da38df08db13a20bc8fe163d42cdcc0c4146d8ab0ba7c3163d coord_source=unvalidated_event3_payload
   t=1793621366123 event3 id=39366 raw=0381068423da38df08ce64a10bcabe113df10000b040ea4da60b48cf133d p4=6.216662E-32 p5=0.03558234
@@ -25960,7 +26022,7 @@ Detailed entity/player observations: 34863
   t=1793621368420 kind=leave id=3362 removed=true
   t=1793621368420 kind=mob id=9054 x=187.34859 y=267.71487 mobileType=571 enchant=0
   t=1793621368420 kind=mob id=9220 x=186.87552 y=302.37247 mobileType=571 enchant=0
-  t=1793621368420 kind=mob id=14203 x=188.94986 y=307.49698 mobileType=120 enchant=0
+  t=1793621368420 kind=mob id=14203 name=MISTS_SOLO_YELLOW x=188.94986 y=307.49698 mobileType=120 enchant=0
   t=1793621368420 kind=static_resource id=3928 x=191.0 y=299.0
   t=1793621368420 kind=static_resource id=4219 x=194.0 y=296.0
   t=1793621368420 kind=static_resource id=1627 x=193.0 y=319.0
@@ -26026,6 +26088,7 @@ Detailed entity/player observations: 34863
   t=1793621368772 kind=move id=4456 x=106.18315 y=267.7005
   t=1793621368775 outbound_request op=22 params={0=639292181688070737 1=[151.02173, 304.47308] 2=52.61394 3=[151.47397, 304.81863] 4=11.0 253=22}
   t=1793621368775 kind=own_player_move x=151.021728515625 y=304.47308349609375 heading=52.61394119262695 target_x=151.47396850585938 target_y=304.8186340332031 speed=11.0 source=outbound_photon_operation_22_param_1
+  t=1793621368798 kind=player_mounted id=39404
   t=1793621368824 event3 id=39351 raw=0371cb2725da38df081613ac0b31d9103dc434333d414e11b80bf661103d p4=6.628071E-32 p5=0.03536338
   t=1793621368824 kind=player_move id=39351 name=Kurny x=6.628071E-32 y=0.03536338 raw_hex=0371cb2725da38df081613ac0b31d9103dc434333d414e11b80bf661103d coord_source=unvalidated_event3_payload
   t=1793621368824 event3 id=37774 raw=035d482f25da38df08725a0443bc1caa43fb9a993940684204436f82aa43 p4=132.3533 p5=340.2245
@@ -26204,6 +26267,7 @@ Detailed entity/player observations: 34863
   t=1793621370136 kind=leave id=4066 removed=true
   t=1793621370136 kind=mob id=39571 x=108.5 y=322.0 mobileType=2486 enchant=0
   t=1793621370136 kind=player_spawn id=36868 name=Gazgora
+  t=1793621370172 kind=player_mounted id=36868
   t=1793621370172 kind=static_resource id=1373 x=108.5 y=285.5
   t=1793621370172 kind=static_resource id=1375 x=106.5 y=291.5
   t=1793621370172 kind=static_resource id=3840 x=105.5 y=293.5
@@ -26221,6 +26285,7 @@ Detailed entity/player observations: 34863
   t=1793621370264 kind=move id=8824 x=122.81454 y=292.24207
   t=1793621370264 event3 id=26223 raw=0319320626da38df085aae10439e2bb043cc6666e63fbd280e43628cb043 p4=144.68106 p5=352.34076
   t=1793621370264 kind=move id=26223 x=144.68106 y=352.34076
+  t=1793621370277 kind=player_mounted id=39351
   t=1793621370288 outbound_request op=22 params={0=639292181703170737 1=[155.02727, 319.49042] 2=8.461024 3=[155.17407, 320.47723] 4=11.0 253=22}
   t=1793621370288 kind=own_player_move x=155.0272674560547 y=319.49041748046875 heading=8.461024284362793 target_x=155.174072265625 target_y=320.47723388671875 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621370364 event3 id=8824 raw=01df521526da38df08a887f54206329243f36666e63f p4=null p5=null
@@ -27224,6 +27289,7 @@ Detailed entity/player observations: 34863
   t=1793621386268 event3 id=9109 raw=01bd66932fda38df081abd484363188543576666e63f p4=null p5=null
   t=1793621386268 kind=move id=9109
   t=1793621386292 kind=player_spawn id=39625 name=Fidellstrick
+  t=1793621386292 kind=player_mounted id=39625
   t=1793621386292 event3 id=39625 raw=03d1d78d2fda38df0847be3da6b06c8516ddcccc38417c2906a6e1929216 p4=-6.583042E-16 p5=2.15559E-25
   t=1793621386292 kind=player_move id=39625 name=Fidellstrick x=-6.583042E-16 y=2.15559E-25 raw_hex=03d1d78d2fda38df0847be3da6b06c8516ddcccc38417c2906a6e1929216 coord_source=unvalidated_event3_payload
   t=1793621386355 event3 id=4453 raw=0305b5a22fda38df08d3348d43dc8184433b00004040e96f8d43b8888443 p4=282.4127 p5=265.01453
@@ -27465,7 +27531,7 @@ Detailed entity/player observations: 34863
   t=1793621390971 kind=own_player_move x=293.57379150390625 y=205.23304748535156 heading=94.7181625366211 target_x=294.21746826171875 target_y=205.17991638183594 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621391035 outbound_request op=22 params={0=639292181910780737 1=[297.07104, 204.94441] 2=94.71769 3=[297.7476, 204.88858] 4=11.0 253=22}
   t=1793621391035 kind=own_player_move x=297.071044921875 y=204.9444122314453 heading=94.71768951416016 target_x=297.7475891113281 target_y=204.88858032226562 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621391111 kind=mob id=16941 x=341.2782 y=184.19173 mobileType=120 enchant=0
+  t=1793621391111 kind=mob id=16941 name=MISTS_SOLO_YELLOW x=341.2782 y=184.19173 mobileType=120 enchant=0
   t=1793621391111 kind=static_resource id=1485 x=340.5 y=169.5
   t=1793621391111 kind=static_resource id=1486 x=339.5 y=171.5
   t=1793621391111 kind=static_resource id=577 x=344.5 y=195.5
@@ -27560,7 +27626,7 @@ Detailed entity/player observations: 34863
   t=1793621393247 kind=move id=6900 x=322.2037 y=160.28444
   t=1793621393247 event3 id=17286 raw=035c47bc33da38df08cf6da043d7be7243946666e63fb554a04316607243 p4=320.85788 p5=242.74547
   t=1793621393247 kind=move id=17286 x=320.85788 y=242.74547
-  t=1793621393291 kind=manual_marker activity=Ore event=tier_selected tier=T6 enchantment=E1
+  t=1793621393291 kind=manual_marker elapsed_realtime_ms=11450822 activity=Ore event=tier_selected tier=T6 enchantment=E1
   t=1793621393329 event3 id=5251 raw=03648dc733da38df08e9cda543c2672a433e9a993940bedba44306e22a43 p4=331.60867 p5=170.4053
   t=1793621393329 kind=move id=5251 x=331.60867 y=170.4053
   t=1793621393329 event3 id=6900 raw=0154b4c733da38df080e19a1432f4320438e9a993940 p4=null p5=null
@@ -27569,28 +27635,28 @@ Detailed entity/player observations: 34863
   t=1793621393341 kind=move id=17286 x=320.77362 y=242.58641
   t=1793621393433 event3 id=5251 raw=03ddd8d633da38df08eba9a543ee792a43ca9a993940bedba44306e22a43 p4=331.32748 p5=170.47629
   t=1793621393433 kind=move id=5251 x=331.32748 y=170.47629
-  t=1793621393433 kind=manual_marker activity=Ore event=tier_selected tier=T7 enchantment=E1
+  t=1793621393433 kind=manual_marker elapsed_realtime_ms=11450964 activity=Ore event=tier_selected tier=T7 enchantment=E1
   t=1793621393446 event3 id=17286 raw=0390eada33da38df083c58a043676d7243946666e63fb554a04316607243 p4=320.68933 p5=242.42735
   t=1793621393446 kind=move id=17286 x=320.68933 y=242.42735
   t=1793621393542 event3 id=5251 raw=031d2be633da38df08ed85a5431a8c2a43ca9a993940bedba44306e22a43 p4=331.0463 p5=170.54727
   t=1793621393542 kind=move id=5251 x=331.0463 y=170.54727
   t=1793621393564 event3 id=17286 raw=017745ea33da38df08b554a04316607243946666e63f p4=null p5=null
   t=1793621393564 kind=move id=17286
-  t=1793621393580 kind=manual_marker activity=Ore event=tier_selected tier=T8 enchantment=E1
+  t=1793621393580 kind=manual_marker elapsed_realtime_ms=11451111 activity=Ore event=tier_selected tier=T8 enchantment=E1
   t=1793621393632 event3 id=5251 raw=03bf7bf533da38df08ef61a543469e2a43ca9a993940bedba44306e22a43 p4=330.7651 p5=170.61826
   t=1793621393632 kind=move id=5251 x=330.7651 y=170.61826
   t=1793621393729 event3 id=5251 raw=03e1c30434da38df08f13da54372b02a43ca9a993940bedba44306e22a43 p4=330.48392 p5=170.68924
   t=1793621393729 kind=move id=5251 x=330.48392 y=170.68924
-  t=1793621393747 kind=manual_marker activity=Ore event=tier_selected tier=T2 enchantment=E1
+  t=1793621393747 kind=manual_marker elapsed_realtime_ms=11451278 activity=Ore event=tier_selected tier=T2 enchantment=E1
   t=1793621393818 event3 id=5251 raw=03c90e1434da38df08f319a5439ec22a43ca9a993940bedba44306e22a43 p4=330.20273 p5=170.76022
   t=1793621393818 kind=move id=5251 x=330.20273 y=170.76022
   t=1793621393943 event3 id=5251 raw=0332682334da38df08f5f5a443cad42a43ca9a993940bedba44306e22a43 p4=329.92154 p5=170.8312
   t=1793621393943 kind=move id=5251 x=329.92154 y=170.8312
   t=1793621394032 event3 id=5251 raw=0158b73234da38df08bedba44306e22a43ca9a993940 p4=null p5=null
   t=1793621394032 kind=move id=5251
-  t=1793621394344 kind=manual_marker activity=Ore event=tier_selected tier=T3 enchantment=E1
-  t=1793621394584 kind=manual_marker activity=Ore event=tier_selected tier=T4 enchantment=E1
-  t=1793621395320 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E2
+  t=1793621394344 kind=manual_marker elapsed_realtime_ms=11451875 activity=Ore event=tier_selected tier=T3 enchantment=E1
+  t=1793621394584 kind=manual_marker elapsed_realtime_ms=11452114 activity=Ore event=tier_selected tier=T4 enchantment=E1
+  t=1793621395320 kind=manual_marker elapsed_realtime_ms=11452851 activity=Ore event=enchantment_selected tier=T4 enchantment=E2
   t=1793621395606 kind=mob id=4539 x=344.85208 y=177.88135 mobileType=482 enchant=0
   t=1793621395606 event3 id=4539 raw=03eaf82135da38df08116dac43a0e13143cf000040402f3cac4351063243 p4=344.85208 p5=177.88135
   t=1793621395606 kind=move id=4539 x=344.85208 y=177.88135
@@ -27598,20 +27664,20 @@ Detailed entity/player observations: 34863
   t=1793621395700 kind=move id=4539 x=344.5712 y=177.98677
   t=1793621395795 event3 id=4539 raw=01b68d4035da38df082f3cac4351063243cf00004040 p4=null p5=null
   t=1793621395795 kind=move id=4539
-  t=1793621395799 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E3
+  t=1793621395799 kind=manual_marker elapsed_realtime_ms=11453330 activity=Ore event=enchantment_selected tier=T4 enchantment=E3
   t=1793621396041 event3 id=4985 raw=03fca16635da38df08b38aa543775d3f43e09a99394049caa643c9873f43 p4=331.0836 p5=191.3651
   t=1793621396041 kind=move id=4985 x=331.0836 y=191.3651
   t=1793621396133 event3 id=4985 raw=033a087635da38df08beafa5435f623f433d9a99394049caa643c9873f43 p4=331.373 p5=191.38426
   t=1793621396133 kind=move id=4985 x=331.373 y=191.38426
-  t=1793621396170 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
+  t=1793621396170 kind=manual_marker elapsed_realtime_ms=11453701 activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
   t=1793621396273 event3 id=4985 raw=03244e8535da38df08c9d4a54347673f433d9a99394049caa643c9873f43 p4=331.66238 p5=191.40343
   t=1793621396273 kind=move id=4985 x=331.66238 y=191.40343
-  t=1793621396295 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E1
+  t=1793621396295 kind=manual_marker elapsed_realtime_ms=11453826 activity=Ore event=enchantment_selected tier=T4 enchantment=E1
   t=1793621396347 event3 id=4985 raw=03f2b09435da38df08d4f9a5432f6c3f433d9a99394049caa643c9873f43 p4=331.95178 p5=191.42259
   t=1793621396347 kind=move id=4985 x=331.95178 y=191.42259
   t=1793621396445 event3 id=4985 raw=03740ba435da38df08df1ea64316713f433d9a99394049caa643c9873f43 p4=332.24118 p5=191.44174
   t=1793621396445 kind=move id=4985 x=332.24118 y=191.44174
-  t=1793621396453 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E2
+  t=1793621396453 kind=manual_marker elapsed_realtime_ms=11453984 activity=Ore event=enchantment_selected tier=T4 enchantment=E2
   t=1793621396569 event3 id=4985 raw=034f54b335da38df08ea43a643fe753f433d9a99394049caa643c9873f43 p4=332.53058 p5=191.4609
   t=1793621396569 kind=move id=4985 x=332.53058 y=191.4609
   t=1793621396660 event3 id=4985 raw=0340afc235da38df08f568a643e67a3f433d9a99394049caa643c9873f43 p4=332.81998 p5=191.48007
@@ -27648,7 +27714,7 @@ Detailed entity/player observations: 34863
   t=1793621397856 kind=move id=17286 x=319.80453 y=242.10121
   t=1793621397897 event3 id=16941 raw=03a7f78036da38df0859f5aa43fc1d37436a000020403db2ab4340a23443 p4=341.91678 p5=183.11713
   t=1793621397897 kind=move id=16941 x=341.91678 y=183.11713
-  t=1793621397952 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=E2
+  t=1793621397952 kind=manual_marker elapsed_realtime_ms=11455483 activity=Ore event=target_found tier=T4 enchantment=E2
   t=1793621397988 event3 id=17286 raw=0320808c36da38df0809d19f43e00b7243b36666e63fc6da9e43626e7143 p4=319.6331 p5=242.04639
   t=1793621397988 kind=move id=17286 x=319.6331 y=242.04639
   t=1793621397988 event3 id=16941 raw=03ba4f9036da38df08b205ab43f7e636436a000020403db2ab4340a23443 p4=342.0445 p5=182.9022
@@ -27700,6 +27766,7 @@ Detailed entity/player observations: 34863
   t=1793621398981 kind=move id=17286 x=317.9186 y=241.49815
   t=1793621398994 event3 id=16941 raw=03538f2937da38df082ca9ab43c5c034436a000020403db2ab4340a23443 p4=343.32166 p5=180.753
   t=1793621398994 kind=move id=16941 x=343.32166 y=180.753
+  t=1793621399027 kind=player_mounted id=37103
   t=1793621399062 event3 id=17286 raw=0369303537da38df08a3df9e437e717143b36666e63fc6da9e43626e7143 p4=317.74716 p5=241.44333
   t=1793621399062 kind=move id=17286 x=317.74716 y=241.44333
   t=1793621399117 event3 id=16941 raw=01ebd53837da38df083db2ab4340a234436a00002040 p4=null p5=null
@@ -27737,7 +27804,7 @@ Detailed entity/player observations: 34863
   t=1793621399882 kind=move id=5251 x=330.29657 y=169.24237
   t=1793621399974 event3 id=5251 raw=013df6bc37da38df08a029a54352292943729a993940 p4=null p5=null
   t=1793621399974 kind=move id=5251
-  t=1793621400269 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=E2
+  t=1793621400269 kind=manual_marker elapsed_realtime_ms=11457799 activity=Ore event=gathering_started tier=T4 enchantment=E2
   t=1793621400396 kind=raw_health_energy_event code=8 params={0:16941, 1:6676142, 3:1.0, 4:7, 5:16941, 6:818, 252:8}
   t=1793621400396 kind=energy id=16941 secondary_value=1.0
   t=1793621401191 outbound_request op=22 params={0=639292182012120737 1=[305.34442, 209.65903] 2=50.99348 3=[305.34442, 209.65903] 4=5.5 253=22}
@@ -27748,7 +27815,7 @@ Detailed entity/player observations: 34863
   t=1793621402269 kind=move id=4985 x=333.58035 y=191.53041
   t=1793621402282 event3 id=4985 raw=039ba41d39da38df0832a5a643bb8a3f43c29a993940701ba643ac953f43 p4=333.2906 p5=191.54192
   t=1793621402282 kind=move id=4985 x=333.2906 y=191.54192
-  t=1793621402340 kind=resource_state id=3266 amount=1
+  t=1793621402340 kind=resource_state id=3266 enchant=2 amount=1
   t=1793621402340 kind=raw_health_energy_event code=91 params={0:37103, 1:6678065, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292182022693197, 252:91}
   t=1793621402340 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621402391 event3 id=4985 raw=03cbee2c39da38df081b80a643ad8d3f43c29a993940701ba643ac953f43 p4=333.00082 p5=191.55342
@@ -27761,7 +27828,7 @@ Detailed entity/player observations: 34863
   t=1793621402605 kind=move id=4985 x=332.4213 y=191.57643
   t=1793621402684 event3 id=4985 raw=011acd5a39da38df08701ba643ac953f43c29a993940 p4=null p5=null
   t=1793621402684 kind=move id=4985
-  t=1793621403406 kind=resource_state id=3266 amount=0 removed=true
+  t=1793621403406 kind=resource_state id=3266 enchant=2 amount=0 removed=true
   t=1793621403406 kind=raw_health_energy_event code=91 params={0:37103, 1:6679129, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292182033335118, 252:91}
   t=1793621403406 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621403545 event3 id=4539 raw=03cc45dd39da38df082f3cac4351063243cf00004040c3acae430f5d3243 p4=344.47018 p5=178.02467
@@ -27776,7 +27843,7 @@ Detailed entity/player observations: 34863
   t=1793621403937 kind=move id=4539 x=345.66733 y=178.1078
   t=1793621404056 event3 id=4539 raw=03eb072a3ada38df08bafbac43eb2032433d00004040c3acae430f5d3243 p4=345.9666 p5=178.12859
   t=1793621404056 kind=move id=4539 x=345.9666 y=178.12859
-  t=1793621404124 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=E2
+  t=1793621404124 kind=manual_marker elapsed_realtime_ms=11461654 activity=Ore event=gathering_completed tier=T4 enchantment=E2
   t=1793621404154 event3 id=4539 raw=039053393ada38df080922ad433d2632433d00004040c3acae430f5d3243 p4=346.2659 p5=178.14937
   t=1793621404154 kind=move id=4539 x=346.2659 y=178.14937
   t=1793621404234 event3 id=4539 raw=03f6b6483ada38df085848ad438f2b32433d00004040c3acae430f5d3243 p4=346.5652 p5=178.17015
@@ -27789,7 +27856,7 @@ Detailed entity/player observations: 34863
   t=1793621404553 kind=move id=4539 x=347.46304 y=178.2325
   t=1793621404623 event3 id=4539 raw=03a905863ada38df0894e1ad43d74032433d00004040c3acae430f5d3243 p4=347.76233 p5=178.25328
   t=1793621404623 kind=move id=4539 x=347.76233 y=178.25328
-  t=1793621404658 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=E2
+  t=1793621404658 kind=manual_marker elapsed_realtime_ms=11462189 activity=Ore event=node_depleted tier=T4 enchantment=E2
   t=1793621404765 event3 id=4539 raw=033164953ada38df08e307ae43294632433d00004040c3acae430f5d3243 p4=348.0616 p5=178.27406
   t=1793621404765 kind=move id=4539 x=348.0616 y=178.27406
   t=1793621404836 event3 id=4539 raw=035ab9a43ada38df08322eae437b4b32433d00004040c3acae430f5d3243 p4=348.3609 p5=178.29485
@@ -27831,6 +27898,7 @@ Detailed entity/player observations: 34863
   t=1793621406008 kind=own_player_move x=305.34442138671875 y=209.65902709960938 heading=50.99347686767578 target_x=306.3518981933594 target_y=209.6022491455078 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621406021 event3 id=17286 raw=0317bb573bda38df08e2159f430bb671432a6666e63ff6fe9f439ed07243 p4=318.17096 p5=241.7111
   t=1793621406021 kind=move id=17286 x=318.17096 y=241.7111
+  t=1793621406021 kind=player_mounted id=37103
   t=1793621406021 kind=leave id=39776 removed=true
   t=1793621406102 outbound_request op=22 params={0=639292182061430737 1=[305.9373, 209.63548] 2=84.640114 3=[306.77795, 209.71436] 4=5.5 253=22}
   t=1793621406102 kind=own_player_move x=305.9372863769531 y=209.63548278808594 heading=84.6401138305664 target_x=306.7779541015625 target_y=209.71435546875 speed=5.5 source=outbound_photon_operation_22_param_1
@@ -27912,7 +27980,7 @@ Detailed entity/player observations: 34863
   t=1793621407865 kind=leave id=3705 removed=true
   t=1793621407865 kind=mob id=4453 x=283.95016 y=267.94815 mobileType=482 enchant=0
   t=1793621407865 kind=mob id=39163 x=305.7877 y=270.19043 mobileType=2492 enchant=0
-  t=1793621407865 kind=mob id=16792 x=331.21103 y=268.05157 mobileType=120 enchant=0
+  t=1793621407865 kind=mob id=16792 name=MISTS_SOLO_YELLOW x=331.21103 y=268.05157 mobileType=120 enchant=0
   t=1793621407865 kind=static_resource id=278 x=281.5 y=269.5
   t=1793621407865 kind=static_resource id=279 x=278.5 y=271.5
   t=1793621407865 kind=static_resource id=280 x=282.5 y=272.5
@@ -28050,12 +28118,12 @@ Detailed entity/player observations: 34863
   t=1793621409869 kind=own_player_move x=314.2894592285156 y=240.75973510742188 heading=341.4031982421875 target_x=314.1496276855469 target_y=241.3421173095703 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621409987 outbound_request op=22 params={0=639292182100300737 1=[313.7651, 241.94562] 2=341.6466 3=[313.5684, 242.53865] 4=11.0 253=22}
   t=1793621409987 kind=own_player_move x=313.7651062011719 y=241.94561767578125 heading=341.6466064453125 target_x=313.5683898925781 target_y=242.5386505126953 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621409988 kind=resource_state id=3176 amount=3
+  t=1793621409988 kind=resource_state id=3176 enchant=0 amount=3
   t=1793621410104 outbound_request op=22 params={0=639292182101450737 1=[314.29324, 242.96149] 2=57.622887 3=[314.82968, 243.3016] 4=11.0 253=22}
   t=1793621410104 kind=own_player_move x=314.2932434082031 y=242.96148681640625 heading=57.622886657714844 target_x=314.8296813964844 target_y=243.30160522460938 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621410236 outbound_request op=22 params={0=639292182102750737 1=[315.62228, 243.48804] 2=70.76385 3=[316.03546, 243.63222] 4=11.0 253=22}
   t=1793621410236 kind=own_player_move x=315.6222839355469 y=243.488037109375 heading=70.76384735107422 target_x=316.03546142578125 target_y=243.63221740722656 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621410320 kind=resource_state id=3176 amount=3
+  t=1793621410320 kind=resource_state id=3176 enchant=0 amount=3
   t=1793621410347 outbound_request op=22 params={0=639292182103890737 1=[316.84735, 243.75453] 2=80.17541 3=[317.98117, 243.95088] 4=11.0 253=22}
   t=1793621410347 kind=own_player_move x=316.84735107421875 y=243.75453186035156 heading=80.17540740966797 target_x=317.9811706542969 target_y=243.9508819580078 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621410371 outbound_request op=22 params={0=639292182100300737 1=[313.7651, 241.94562] 2=341.6466 3=[313.5684, 242.53865] 4=11.0 253=22}
@@ -28162,7 +28230,7 @@ Detailed entity/player observations: 34863
   t=1793621411552 kind=move id=26581
   t=1793621411577 event3 id=17286 raw=038099a83eda38df082a4da0431e327343296666e63f30caa1431f0d7543 p4=320.60284 p5=243.19577
   t=1793621411577 kind=move id=17286 x=320.60284 y=243.19577
-  t=1793621411628 kind=resource_state id=2635 amount=2
+  t=1793621411628 kind=resource_state id=2635 enchant=0 amount=2
   t=1793621411628 event3 id=4452 raw=035035b23eda38df08b5d88e4388e98d437a00004040e1da8e431adb8d43 p4=285.69302 p5=283.82446
   t=1793621411628 kind=move id=4452 x=285.69302 y=283.82446
   t=1793621411628 event3 id=26581 raw=051b83b23eda38df080af7a04385ab7743530000f040ef900000 p4=null p5=null
@@ -28816,12 +28884,12 @@ Detailed entity/player observations: 34863
   t=1793621419683 kind=move id=38422 x=346.1929 y=298.45505
   t=1793621419706 event3 id=4471 raw=03f52c8243da38df0883589c430d8d9443f40000404041579c430f919443 p4=312.6915 p5=297.10196
   t=1793621419706 kind=move id=4471 x=312.6915 y=297.10196
-  t=1793621419711 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E3
+  t=1793621419711 kind=manual_marker elapsed_realtime_ms=11477242 activity=Ore event=enchantment_selected tier=T4 enchantment=E3
   t=1793621419764 event3 id=38422 raw=032a848c43da38df089d2dad43e44395432e6666e63f4d9dad4362779543 p4=346.35635 p5=298.5304
   t=1793621419764 kind=move id=38422 x=346.35635 y=298.5304
   t=1793621419833 event3 id=4471 raw=01797d9143da38df0841579c430f919443f400004040 p4=null p5=null
   t=1793621419833 kind=move id=4471
-  t=1793621419851 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
+  t=1793621419851 kind=manual_marker elapsed_realtime_ms=11477382 activity=Ore event=enchantment_selected tier=T4 enchantment=Normal
   t=1793621419891 event3 id=38422 raw=03ebd89b43da38df088942ad43894d95432e6666e63f4d9dad4362779543 p4=346.5198 p5=298.60574
   t=1793621419891 kind=move id=38422 x=346.5198 y=298.60574
   t=1793621419975 event3 id=38422 raw=03b235ab43da38df087557ad432f5795432e6666e63f4d9dad4362779543 p4=346.68326 p5=298.68112
@@ -28832,7 +28900,7 @@ Detailed entity/player observations: 34863
   t=1793621420188 kind=move id=38422 x=347.01016 y=298.83182
   t=1793621420297 event3 id=38422 raw=034c36d943da38df083996ad431f7495432e6666e63f4d9dad4362779543 p4=347.1736 p5=298.9072
   t=1793621420297 kind=move id=38422 x=347.1736 y=298.9072
-  t=1793621420307 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E1
+  t=1793621420307 kind=manual_marker elapsed_realtime_ms=11477838 activity=Ore event=enchantment_selected tier=T4 enchantment=E1
   t=1793621420381 event3 id=38422 raw=01ee94e843da38df084d9dad43627795432e6666e63f p4=null p5=null
   t=1793621420381 kind=move id=38422
   t=1793621420419 event3 id=39163 raw=03805fed43da38df08a7d19843be8e8643869a993940d2cf98435b358743 p4=305.6379 p5=269.11517
@@ -28847,7 +28915,7 @@ Detailed entity/player observations: 34863
   t=1793621420817 kind=move id=39163 x=305.62515 y=270.2752
   t=1793621420913 event3 id=39163 raw=018c233a44da38df08d2cf98435b358743009a993940 p4=null p5=null
   t=1793621420913 kind=move id=39163
-  t=1793621421495 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=E1
+  t=1793621421495 kind=manual_marker elapsed_realtime_ms=11479026 activity=Ore event=target_found tier=T4 enchantment=E1
   t=1793621421587 event3 id=29189 raw=03cce7a044da38df0824f4b7434d418c43e06666e63f56cbb843846e8b43 p4=367.90735 p5=280.51016
   t=1793621421587 kind=move id=29189 x=367.90735 y=280.51016
   t=1793621421709 event3 id=29189 raw=039442b044da38df089a04b8432e318c43606666e63f56cbb843846e8b43 p4=368.03595 p5=280.38422
@@ -28919,6 +28987,7 @@ Detailed entity/player observations: 34863
   t=1793621423114 kind=move id=16792 x=328.86224 y=270.9479
   t=1793621423114 event3 id=4470 raw=038a978645da38df08947e9e43cd979d43220000404061939f43658e9e43 p4=316.9889 p5=315.18594
   t=1793621423114 kind=move id=4470 x=316.9889 y=315.18594
+  t=1793621423114 kind=player_mounted id=37103
   t=1793621423221 event3 id=16792 raw=0325e79545da38df08bb5ea443695d874395000020409fdba34347738643 p4=328.74008 p5=270.72977
   t=1793621423221 kind=move id=16792 x=328.74008 y=270.72977
   t=1793621423221 event3 id=4470 raw=0325e79545da38df08419b9e4359b19d43220000404061939f43658e9e43 p4=317.21292 p5=315.38553
@@ -28939,7 +29008,7 @@ Detailed entity/player observations: 34863
   t=1793621423500 kind=move id=16792 x=328.37363 y=270.07535
   t=1793621423500 event3 id=4470 raw=03d7b6c345da38df0848f19e43fdfd9d43220000404061939f43658e9e43 p4=317.885 p5=315.98428
   t=1793621423500 kind=move id=4470 x=317.885 y=315.98428
-  t=1793621423512 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=E1
+  t=1793621423512 kind=manual_marker elapsed_realtime_ms=11481043 activity=Ore event=gathering_started tier=T4 enchantment=E1
   t=1793621423623 event3 id=16792 raw=03b115d345da38df083020a443b9ed864395000020409fdba34347738643 p4=328.25146 p5=269.8572
   t=1793621423623 kind=move id=16792 x=328.25146 y=269.8572
   t=1793621423623 event3 id=4470 raw=03b115d345da38df08f50d9f4389179e43220000404061939f43658e9e43 p4=318.10904 p5=316.18387
@@ -29006,7 +29075,7 @@ Detailed entity/player observations: 34863
   t=1793621425305 kind=move id=28881 x=356.39502 y=302.86633
   t=1793621425425 event3 id=28881 raw=033603e746da38df080b35b243fc5797437c6666e63ff94eb243b8689643 p4=356.4144 p5=302.68738
   t=1793621425425 kind=move id=28881 x=356.4144 y=302.68738
-  t=1793621425460 kind=resource_state id=3252 amount=2
+  t=1793621425460 kind=resource_state id=3252 enchant=1 amount=2
   t=1793621425460 kind=raw_health_energy_event code=91 params={0:37103, 1:6701185, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292182253893979, 252:91}
   t=1793621425460 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621425525 event3 id=28881 raw=03e351f646da38df088637b243144197437c6666e63ff94eb243b8689643 p4=356.43378 p5=302.50842
@@ -29023,7 +29092,7 @@ Detailed entity/player observations: 34863
   t=1793621425929 kind=move id=28881 x=356.51135 y=301.7926
   t=1793621426018 event3 id=28881 raw=0321374347da38df08f043b2438cce96437c6666e63ff94eb243b8689643 p4=356.53076 p5=301.61365
   t=1793621426018 kind=move id=28881 x=356.53076 y=301.61365
-  t=1793621426044 kind=resource_state id=3196 amount=2
+  t=1793621426044 kind=resource_state id=3196 enchant=0 amount=2
   t=1793621426126 event3 id=28881 raw=0352935247da38df086b46b243a4b796437c6666e63ff94eb243b8689643 p4=356.55014 p5=301.4347
   t=1793621426126 kind=move id=28881 x=356.55014 y=301.4347
   t=1793621426225 event3 id=29189 raw=039bf86147da38df0856cbb843846e8b43606666e63f306bb743f59c8d43 p4=369.58856 p5=278.8634
@@ -29038,7 +29107,7 @@ Detailed entity/player observations: 34863
   t=1793621426418 kind=move id=29189 x=369.39655 y=279.1679
   t=1793621426418 event3 id=28881 raw=0356b68047da38df08de4db243ec7296437c6666e63ff94eb243b8689643 p4=356.60834 p5=300.89783
   t=1793621426418 kind=move id=28881 x=356.60834 y=300.89783
-  t=1793621426511 kind=resource_state id=3252 amount=1
+  t=1793621426511 kind=resource_state id=3252 enchant=1 amount=1
   t=1793621426511 kind=raw_health_energy_event code=91 params={0:37103, 1:6702247, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292182264519747, 252:91}
   t=1793621426511 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621426511 event3 id=29189 raw=03ef109047da38df0878a6b843fba88b43e96666e63f306bb743f59c8d43 p4=369.30054 p5=279.32016
@@ -29107,7 +29176,7 @@ Detailed entity/player observations: 34863
   t=1793621427564 kind=move id=17286 x=322.5779 y=244.6201
   t=1793621427564 event3 id=32668 raw=0376f72f48da38df08d42cbe43b66b8443aecdcc4c402dc0bb43c3498343 p4=380.35022 p5=264.8415
   t=1793621427564 kind=move id=32668 x=380.35022 y=264.8415
-  t=1793621427577 kind=resource_state id=3252 amount=0 removed=true
+  t=1793621427577 kind=resource_state id=3252 enchant=1 amount=0 removed=true
   t=1793621427577 kind=raw_health_energy_event code=91 params={0:37103, 1:6703322, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292182275264735, 252:91}
   t=1793621427577 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621427636 event3 id=38224 raw=0309b43848da38df08a9afc343c0105e4365cdcc4c40fbb2c443667c5b43 p4=391.37234 p5=222.06543
@@ -29217,7 +29286,7 @@ Detailed entity/player observations: 34863
   t=1793621428865 kind=move id=17286 x=320.9791 y=242.91139
   t=1793621428865 event3 id=32668 raw=031a98f748da38df085b4abc43528a8343aecdcc4c402dc0bb43c3498343 p4=376.5809 p5=263.08063
   t=1793621428865 kind=move id=32668 x=376.5809 y=263.08063
-  t=1793621428933 kind=resource_state id=2776 amount=1
+  t=1793621428933 kind=resource_state id=2776 enchant=0 amount=1
   t=1793621428933 event3 id=29189 raw=038a1c0049da38df08887fb743b37c8d43e96666e63f306bb743f59c8d43 p4=366.99634 p5=282.9742
   t=1793621428933 kind=move id=29189 x=366.99634 y=282.9742
   t=1793621428963 event3 id=39163 raw=0133e20649da38df08d34a98430ff18643a09a993940 p4=null p5=null
@@ -29244,6 +29313,7 @@ Detailed entity/player observations: 34863
   t=1793621429287 kind=move id=32668
   t=1793621429323 event3 id=4470 raw=036ab13d49da38df0861939f43658e9e4322000040402d609d43ea8d9b43 p4=319.1514 p5=317.11246
   t=1793621429323 kind=move id=4470 x=319.1514 y=317.11246
+  t=1793621429350 kind=player_mounted id=37103
   t=1793621429350 kind=leave id=39886 removed=true
   t=1793621429353 event3 id=17286 raw=0350284449da38df08a02ea043104172439f6666e63fb02ba043c93a7243 p4=320.36426 p5=242.25415
   t=1793621429353 kind=move id=17286 x=320.36426 y=242.25415
@@ -29255,7 +29325,7 @@ Detailed entity/player observations: 34863
   t=1793621429537 kind=move id=28881 x=356.61697 y=300.8181
   t=1793621429537 event3 id=4470 raw=03ad425c49da38df08fb659f4373509e439a000040402d609d43ea8d9b43 p4=318.79672 p5=316.6285
   t=1793621429537 kind=move id=4470 x=318.79672 y=316.6285
-  t=1793621429607 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=E1
+  t=1793621429607 kind=manual_marker elapsed_realtime_ms=11487138 activity=Ore event=gathering_completed tier=T4 enchantment=E1
   t=1793621429646 event3 id=28881 raw=03b19b6b49da38df083b3bb24399749643d66666e63f96beb1439ebf9643 p4=356.46274 p5=300.91092
   t=1793621429646 kind=move id=28881 x=356.46274 y=300.91092
   t=1793621429646 event3 id=4470 raw=03b19b6b49da38df08484f9f437a319e439a000040402d609d43ea8d9b43 p4=318.6194 p5=316.38654
@@ -29276,7 +29346,7 @@ Detailed entity/player observations: 34863
   t=1793621430043 kind=move id=28881 x=355.8458 y=301.28223
   t=1793621430043 event3 id=4470 raw=0369e8a849da38df087cf49e4396b59d439a000040402d609d43ea8d9b43 p4=317.91003 p5=315.41864
   t=1793621430043 kind=move id=4470 x=317.91003 y=315.41864
-  t=1793621430117 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=E1
+  t=1793621430117 kind=manual_marker elapsed_realtime_ms=11487648 activity=Ore event=node_depleted tier=T4 enchantment=E1
   t=1793621430135 event3 id=28881 raw=03e547b849da38df0886d8b14302b09643d66666e63f96beb1439ebf9643 p4=355.6916 p5=301.37506
   t=1793621430135 kind=move id=28881 x=355.6916 y=301.37506
   t=1793621430135 event3 id=4470 raw=03e547b849da38df08c9dd9e439d969d439a000040402d609d43ea8d9b43 p4=317.7327 p5=315.17667
@@ -29664,12 +29734,12 @@ Detailed entity/player observations: 34863
   t=1793621437703 kind=move id=28881 x=354.80756 y=301.72968
   t=1793621437739 outbound_request op=22 params={0=639292182377700737 1=[364.93988, 297.88025] 2=123.01136 3=[365.8682, 297.27713] 4=11.0 253=22}
   t=1793621437739 kind=own_player_move x=364.93988037109375 y=297.8802490234375 heading=123.01136016845703 target_x=365.8681945800781 target_y=297.2771301269531 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621437762 kind=resource_state id=3150 amount=1
+  t=1793621437762 kind=resource_state id=3150 enchant=0 amount=1
   t=1793621437823 event3 id=29189 raw=03c6254a4eda38df086080b6430ce38c43a56666e63fa047b6431db68c43 p4=365.00293 p5=281.7738
   t=1793621437823 kind=move id=29189 x=365.00293 y=281.7738
   t=1793621437823 event3 id=28881 raw=03c6254a4eda38df089051b143d8e49643cd6666e63f2be6af43f3609743 p4=354.6372 p5=301.78784
   t=1793621437823 kind=move id=28881 x=354.6372 y=301.78784
-  t=1793621437823 kind=resource_state id=4232 amount=0 removed=true
+  t=1793621437823 kind=resource_state id=4232 enchant=0 amount=0 removed=true
   t=1793621437850 outbound_request op=22 params={0=639292182378860737 1=[365.9798, 297.14163] 2=127.63451 3=[366.49127, 296.74725] 4=11.0 253=22}
   t=1793621437850 kind=own_player_move x=365.97979736328125 y=297.1416320800781 heading=127.63450622558594 target_x=366.49127197265625 target_y=296.74725341796875 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621437904 event3 id=38422 raw=034b4d594eda38df085ef0ac43b7109443856666e63f512dac43355b9443 p4=345.87787 p5=296.13058
@@ -29906,7 +29976,7 @@ Detailed entity/player observations: 34863
   t=1793621441484 kind=move id=27299 x=347.5942 y=325.77042
   t=1793621441591 event3 id=27299 raw=03c8d98950da38df081fdead43eaf0a243256666e63f9b91ae43067fa343 p4=347.73532 p5=325.88214
   t=1793621441591 kind=move id=27299 x=347.73532 y=325.88214
-  t=1793621441629 kind=manual_marker activity=Wood event=activity_selected tier=T4 enchantment=E1
+  t=1793621441629 kind=manual_marker elapsed_realtime_ms=11499159 activity=Wood event=activity_selected tier=T4 enchantment=E1
   t=1793621441689 event3 id=27299 raw=0360209950da38df082ff0ad4337ffa243256666e63f9b91ae43067fa343 p4=347.87643 p5=325.99387
   t=1793621441689 kind=move id=27299 x=347.87643 y=325.99387
   t=1793621441689 event3 id=29189 raw=03948e9b50da38df08a047b6431db68c43a56666e63f6c89b743083d8d43 p4=364.55957 p5=281.42276
@@ -29935,7 +30005,7 @@ Detailed entity/player observations: 34863
   t=1793621442285 kind=move id=27299 x=348.7231 y=326.6642
   t=1793621442285 event3 id=29189 raw=03f47ff750da38df081fc7b64392eb8c43306666e63f6c89b743083d8d43 p4=365.55563 p5=281.8404
   t=1793621442285 kind=move id=29189 x=365.55563 y=281.8404
-  t=1793621442393 kind=manual_marker activity=Ore event=activity_selected tier=T4 enchantment=E1
+  t=1793621442393 kind=manual_marker elapsed_realtime_ms=11499923 activity=Ore event=activity_selected tier=T4 enchantment=E1
   t=1793621442395 event3 id=27299 raw=03eba40451da38df089f6eae435363a343256666e63f9b91ae43067fa343 p4=348.86423 p5=326.77597
   t=1793621442395 kind=move id=27299 x=348.86423 y=326.77597
   t=1793621442395 event3 id=29189 raw=03e6d90651da38df085fdcb6437bf48c43306666e63f6c89b743083d8d43 p4=365.72165 p5=281.91
@@ -29948,7 +30018,7 @@ Detailed entity/player observations: 34863
   t=1793621442577 kind=move id=27299
   t=1793621442577 event3 id=29189 raw=03a18a2551da38df08df06b7434c068d43306666e63f6c89b743083d8d43 p4=366.05368 p5=282.0492
   t=1793621442577 kind=move id=29189 x=366.05368 y=282.0492
-  t=1793621442608 kind=manual_marker activity=Other event=activity_selected tier=T4 enchantment=E1
+  t=1793621442608 kind=manual_marker elapsed_realtime_ms=11500138 activity=Other event=activity_selected tier=T4 enchantment=E1
   t=1793621442706 event3 id=29189 raw=0347e93451da38df081f1cb743350f8d43306666e63f6c89b743083d8d43 p4=366.2197 p5=282.1188
   t=1793621442706 kind=move id=29189 x=366.2197 y=282.1188
   t=1793621442783 event3 id=29189 raw=03e33a4451da38df085f31b7431e188d43306666e63f6c89b743083d8d43 p4=366.3857 p5=282.18842
@@ -29973,7 +30043,7 @@ Detailed entity/player observations: 34863
   t=1793621443699 kind=move id=38422 x=343.83365 y=296.56818
   t=1793621443806 event3 id=38422 raw=0338c6db51da38df0881d4ab4391429443b56666e63f129baa43a1eb9343 p4=343.6602 p5=296.52005
   t=1793621443806 kind=move id=38422 x=343.6602 y=296.52005
-  t=1793621443807 kind=manual_marker activity=Travel event=activity_selected tier=T4 enchantment=E1
+  t=1793621443807 kind=manual_marker elapsed_realtime_ms=11501338 activity=Travel event=activity_selected tier=T4 enchantment=E1
   t=1793621443897 event3 id=38422 raw=03ce25eb51da38df084dbeab43693c9443b56666e63f129baa43a1eb9343 p4=343.48672 p5=296.47195
   t=1793621443897 kind=move id=38422 x=343.48672 y=296.47195
   t=1793621443989 event3 id=38422 raw=03f97afa51da38df0819a8ab4340369443b56666e63f129baa43a1eb9343 p4=343.31326 p5=296.42383
@@ -29984,7 +30054,7 @@ Detailed entity/player observations: 34863
   t=1793621444202 kind=move id=38422 x=342.96634 y=296.3276
   t=1793621444304 event3 id=38422 raw=0324932852da38df087d65ab43c6239443b56666e63f129baa43a1eb9343 p4=342.79288 p5=296.27948
   t=1793621444304 kind=move id=38422 x=342.79288 y=296.27948
-  t=1793621444382 kind=manual_marker activity=PvP event=activity_selected tier=T4 enchantment=E1
+  t=1793621444382 kind=manual_marker elapsed_realtime_ms=11501913 activity=PvP event=activity_selected tier=T4 enchantment=E1
   t=1793621444413 event3 id=38422 raw=0326d83752da38df08494fab439e1d9443b56666e63f129baa43a1eb9343 p4=342.61942 p5=296.23138
   t=1793621444413 kind=move id=38422 x=342.61942 y=296.23138
   t=1793621444413 event3 id=28881 raw=03831f3a52da38df082be6af43f3609743cd6666e63fdeb4b043d9e09643 p4=351.7982 p5=302.75742
@@ -30013,7 +30083,7 @@ Detailed entity/player observations: 34863
   t=1793621445001 kind=move id=38422 x=341.57864 y=295.9427
   t=1793621445001 event3 id=28881 raw=03e2379652da38df08ab5bb04321189743576666e63fdeb4b043d9e09643 p4=352.71616 p5=302.1885
   t=1793621445001 kind=move id=28881 x=352.71616 y=302.1885
-  t=1793621445024 kind=manual_marker activity=Mobs event=activity_selected tier=T4 enchantment=E1
+  t=1793621445024 kind=manual_marker elapsed_realtime_ms=11502555 activity=Mobs event=activity_selected tier=T4 enchantment=E1
   t=1793621445105 event3 id=38422 raw=032b49a352da38df08ddb3aa4382f29343b56666e63f129baa43a1eb9343 p4=341.40518 p5=295.8946
   t=1793621445105 kind=move id=38422 x=341.40518 y=295.8946
   t=1793621445105 event3 id=28881 raw=038a90a552da38df08406fb043fe0b9743576666e63fdeb4b043d9e09643 p4=352.86914 p5=302.0937
@@ -30030,7 +30100,7 @@ Detailed entity/player observations: 34863
   t=1793621445421 kind=move id=28881 x=353.32812 y=301.80923
   t=1793621445523 event3 id=28881 raw=014fe4e252da38df08deb4b043d9e09643576666e63f p4=null p5=null
   t=1793621445523 kind=move id=28881
-  t=1793621445743 kind=manual_marker activity=Hide event=activity_selected tier=T4 enchantment=E1
+  t=1793621445743 kind=manual_marker elapsed_realtime_ms=11503274 activity=Hide event=activity_selected tier=T4 enchantment=E1
   t=1793621445898 event3 id=38226 raw=03fddd1d53da38df08a000bc435317734362cdcc4c405cd8bb438f567343 p4=376.00488 p5=243.09111
   t=1793621445898 kind=move id=38226 x=376.00488 y=243.09111
   t=1793621445999 event3 id=32668 raw=03e56d2a53da38df08b5bbbc435227844323cdcc4c40b540be43b1398343 p4=377.46646 p5=264.3072
@@ -30045,7 +30115,7 @@ Detailed entity/player observations: 34863
   t=1793621446216 kind=move id=32668 x=378.01254 y=263.97363
   t=1793621446291 event3 id=32668 raw=03417c5853da38df088e24bd4347e7834356cdcc4c40b540be43b1398343 p4=378.28558 p5=263.80685
   t=1793621446291 kind=move id=32668 x=378.28558 y=263.80685
-  t=1793621446367 kind=manual_marker activity=Fiber event=activity_selected tier=T4 enchantment=E1
+  t=1793621446367 kind=manual_marker elapsed_realtime_ms=11503898 activity=Fiber event=activity_selected tier=T4 enchantment=E1
   t=1793621446389 event3 id=32668 raw=03bbdd6753da38df088147bd43eed1834356cdcc4c40b540be43b1398343 p4=378.55862 p5=263.64008
   t=1793621446389 kind=move id=32668 x=378.55862 y=263.64008
   t=1793621446507 event3 id=32668 raw=037f237753da38df08746abd4395bc834356cdcc4c40b540be43b1398343 p4=378.83167 p5=263.4733
@@ -30058,14 +30128,14 @@ Detailed entity/player observations: 34863
   t=1793621446799 kind=move id=32668 x=379.6508 y=262.9729
   t=1793621446899 event3 id=32668 raw=035d7cb453da38df0840f6bd432e67834356cdcc4c40b540be43b1398343 p4=379.92383 p5=262.8061
   t=1793621446899 kind=move id=32668 x=379.92383 y=262.8061
-  t=1793621446933 kind=manual_marker activity=Stone event=activity_selected tier=T4 enchantment=E1
+  t=1793621446933 kind=manual_marker elapsed_realtime_ms=11504464 activity=Stone event=activity_selected tier=T4 enchantment=E1
   t=1793621446981 event3 id=32668 raw=03c4ccc353da38df083319be43d451834356cdcc4c40b540be43b1398343 p4=380.19687 p5=262.63928
   t=1793621446981 kind=move id=32668 x=380.19687 y=262.63928
   t=1793621447082 event3 id=32668 raw=03532ed353da38df08263cbe437a3c834356cdcc4c40b540be43b1398343 p4=380.4699 p5=262.47247
   t=1793621447082 kind=move id=32668 x=380.4699 y=262.47247
   t=1793621447210 event3 id=32668 raw=01dd86e253da38df08b540be43b139834356cdcc4c40 p4=null p5=null
   t=1793621447210 kind=move id=32668
-  t=1793621447597 kind=manual_marker activity=Wood event=activity_selected tier=T4 enchantment=E1
+  t=1793621447597 kind=manual_marker elapsed_realtime_ms=11505128 activity=Wood event=activity_selected tier=T4 enchantment=E1
   t=1793621448422 event3 id=32043 raw=0383bc9c54da38df0830aca0430cfba1437d9a993940282e9f43eb9ea243 p4=321.3452 p5=323.9613
   t=1793621448422 kind=move id=32043 x=321.3452 y=323.9613
   t=1793621448505 event3 id=32043 raw=03dc22ac54da38df08148aa043ae09a243d19a993940282e9f43eb9ea243 p4=321.07874 p5=324.07562
@@ -30080,7 +30150,7 @@ Detailed entity/player observations: 34863
   t=1793621448724 kind=move id=32043 x=320.54578 y=324.30426
   t=1793621448724 event3 id=16792 raw=03a56bce54da38df08164ea543f2ce8643d700002040170ea54399f78643 p4=330.61005 p5=269.61676
   t=1793621448724 kind=move id=16792 x=330.61005 y=269.61676
-  t=1793621448778 kind=manual_marker activity=Ore event=activity_selected tier=T4 enchantment=E1
+  t=1793621448778 kind=manual_marker elapsed_realtime_ms=11506309 activity=Ore event=activity_selected tier=T4 enchantment=E1
   t=1793621448821 event3 id=32043 raw=03d126da54da38df08c023a0439435a243d19a993940282e9f43eb9ea243 p4=320.2793 p5=324.41858
   t=1793621448821 kind=move id=32043 x=320.2793 y=324.41858
   t=1793621448825 event3 id=16792 raw=0335ccdd54da38df081333a5431be08643d700002040170ea54399f78643 p4=330.39902 p5=269.75082
@@ -30105,7 +30175,7 @@ Detailed entity/player observations: 34863
   t=1793621449304 kind=move id=32043 x=318.94684 y=324.9901
   t=1793621449329 event3 id=29189 raw=031fa82a55da38df08ca5db743d64b8d43cd6666e63ff8f7b643646e8d43 p4=366.73273 p5=282.59247
   t=1793621449329 kind=move id=29189 x=366.73273 y=282.59247
-  t=1793621449420 kind=manual_marker activity=Other event=activity_selected tier=T4 enchantment=E1
+  t=1793621449420 kind=manual_marker elapsed_realtime_ms=11506951 activity=Other event=activity_selected tier=T4 enchantment=E1
   t=1793621449427 kind=leave id=32043 removed=true
   t=1793621449461 event3 id=29189 raw=0304013a55da38df08f947b7433e538d43cd6666e63ff8f7b643646e8d43 p4=366.5623 p5=282.65033
   t=1793621449461 kind=move id=29189 x=366.5623 y=282.65033
@@ -30117,7 +30187,7 @@ Detailed entity/player observations: 34863
   t=1793621449745 kind=move id=29189 x=366.05096 y=282.82385
   t=1793621449846 event3 id=29189 raw=0159547755da38df08f8f7b643646e8d43cd6666e63f p4=null p5=null
   t=1793621449846 kind=move id=29189
-  t=1793621450145 kind=manual_marker activity=Travel event=activity_selected tier=T4 enchantment=E1
+  t=1793621450145 kind=manual_marker elapsed_realtime_ms=11507676 activity=Travel event=activity_selected tier=T4 enchantment=E1
   t=1793621450431 event3 id=38226 raw=0378f8cf55da38df085cd8bb438f567343dbcdcc4c40b641bb4365327543 p4=375.6903 p5=243.33812
   t=1793621450431 kind=move id=38226 x=375.6903 y=243.33812
   t=1793621450546 event3 id=38226 raw=030058df55da38df0872c2bb43c69b7343e9cdcc4c40b641bb4365327543 p4=375.5191 p5=243.60849
@@ -30126,7 +30196,7 @@ Detailed entity/player observations: 34863
   t=1793621450627 kind=move id=38226 x=375.3479 y=243.87886
   t=1793621450721 event3 id=38226 raw=0330e2fd55da38df089f96bb4333267443e9cdcc4c40b641bb4365327543 p4=375.17673 p5=244.14922
   t=1793621450721 kind=move id=38226 x=375.17673 y=244.14922
-  t=1793621450785 kind=manual_marker activity=PvP event=activity_selected tier=T4 enchantment=E1
+  t=1793621450785 kind=manual_marker elapsed_realtime_ms=11508315 activity=PvP event=activity_selected tier=T4 enchantment=E1
   t=1793621450826 event3 id=38226 raw=03b53b0d56da38df08b580bb436a6b7443e9cdcc4c40b641bb4365327543 p4=375.00552 p5=244.41959
   t=1793621450826 kind=move id=38226 x=375.00552 y=244.41959
   t=1793621450963 event3 id=38226 raw=038be91e56da38df08cb6abb43a1b07443e9cdcc4c40b641bb4365327543 p4=374.83432 p5=244.68996
@@ -30137,7 +30207,7 @@ Detailed entity/player observations: 34863
   t=1793621451129 kind=move id=38226
   t=1793621451325 event3 id=32668 raw=0370f55656da38df08b540be43b139834356cdcc4c40ababbc43ad5c8343 p4=380.50552 p5=262.4507
   t=1793621451325 kind=move id=32668 x=380.50552 y=262.4507
-  t=1793621451415 kind=manual_marker activity=Mobs event=activity_selected tier=T4 enchantment=E1
+  t=1793621451415 kind=manual_marker elapsed_realtime_ms=11508945 activity=Mobs event=activity_selected tier=T4 enchantment=E1
   t=1793621451420 event3 id=32668 raw=03613f6656da38df08e517be43373d8343c4cdcc4c40ababbc43ad5c8343 p4=380.18668 p5=262.47824
   t=1793621451420 kind=move id=32668 x=380.18668 y=262.47824
   t=1793621451518 event3 id=32668 raw=03c5997556da38df0815efbd43bd408343c4cdcc4c40ababbc43ad5c8343 p4=379.86783 p5=262.50577
@@ -30234,7 +30304,7 @@ Detailed entity/player observations: 34863
   t=1793621454843 kind=move id=38422 x=344.73447 y=295.10153
   t=1793621454857 event3 id=28881 raw=03f20d7658da38df08ee9bb043d5689743f96666e63f6880b043f4fe9743 p4=353.2182 p5=302.819
   t=1793621454857 kind=move id=28881 x=353.2182 y=302.819
-  t=1793621454932 kind=manual_marker activity=Mobs event=enchantment_selected tier=T4 enchantment=E2
+  t=1793621454932 kind=manual_marker elapsed_realtime_ms=11512463 activity=Mobs event=enchantment_selected tier=T4 enchantment=E2
   t=1793621454958 event3 id=38422 raw=0304328458da38df089074ac4344889343486666e63f1c77ac43bb879343 p4=344.91064 p5=295.06458
   t=1793621454958 kind=move id=38422 x=344.91064 y=295.06458
   t=1793621454958 event3 id=28881 raw=03ff578558da38df08c697b0437f7f9743f96666e63f6880b043f4fe9743 p4=353.18573 p5=302.99606
@@ -30243,7 +30313,7 @@ Detailed entity/player observations: 34863
   t=1793621455069 kind=move id=38422
   t=1793621455069 event3 id=28881 raw=03b7bf9458da38df089e93b04329969743f96666e63f6880b043f4fe9743 p4=353.15326 p5=303.17313
   t=1793621455069 kind=move id=28881 x=353.15326 y=303.17313
-  t=1793621455111 kind=manual_marker activity=Mobs event=enchantment_selected tier=T4 enchantment=E3
+  t=1793621455111 kind=manual_marker elapsed_realtime_ms=11512642 activity=Mobs event=enchantment_selected tier=T4 enchantment=E3
   t=1793621455170 event3 id=28881 raw=034709a458da38df08768fb043d3ac9743f96666e63f6880b043f4fe9743 p4=353.1208 p5=303.3502
   t=1793621455170 kind=move id=28881 x=353.1208 y=303.3502
   t=1793621455276 event3 id=28881 raw=03934db358da38df084f8bb0437dc39743f96666e63f6880b043f4fe9743 p4=353.08835 p5=303.52725
@@ -30252,7 +30322,7 @@ Detailed entity/player observations: 34863
   t=1793621455376 kind=move id=28881 x=353.05588 y=303.7043
   t=1793621455481 event3 id=28881 raw=034cf8d158da38df08ff82b043d1f09743f96666e63f6880b043f4fe9743 p4=353.0234 p5=303.88138
   t=1793621455481 kind=move id=28881 x=353.0234 y=303.88138
-  t=1793621455509 kind=manual_marker activity=Mobs event=enchantment_selected tier=T4 enchantment=Normal
+  t=1793621455509 kind=manual_marker elapsed_realtime_ms=11513040 activity=Mobs event=enchantment_selected tier=T4 enchantment=Normal
   t=1793621455575 event3 id=28881 raw=011dcde158da38df086880b043f4fe9743f96666e63f p4=null p5=null
   t=1793621455575 kind=move id=28881
   t=1793621455875 event3 id=29189 raw=03d3c20f59da38df08f8f7b643646e8d43cd6666e63f514bb743cb118c43 p4=365.93726 p5=282.86243
@@ -30339,10 +30409,11 @@ Detailed entity/player observations: 34863
   t=1793621458584 kind=move id=16792 x=330.07004 y=268.18478
   t=1793621458681 event3 id=16792 raw=03a50abd5ada38df083b08a543a9f785438100002040c307a54326e38543 p4=330.0643 p5=267.93484
   t=1793621458681 kind=move id=16792 x=330.0643 y=267.93484
-  t=1793621458722 kind=manual_marker activity=Mobs event=target_found tier=T4 enchantment=Normal
+  t=1793621458722 kind=manual_marker elapsed_realtime_ms=11516253 activity=Mobs event=target_found tier=T4 enchantment=Normal
   t=1793621458773 event3 id=16792 raw=01ac65cc5ada38df08c307a54326e385438100002040 p4=null p5=null
   t=1793621458773 kind=move id=16792
   t=1793621460075 outbound_request op=199 params={0=639292182600920737 1=37104 253=199}
+  t=1793621460286 kind=player_mounted id=37103
   t=1793621460512 event3 id=38226 raw=0354fdd15bda38df08b641bb4365327543e9cdcc4c401a73bc43836e7143 p4=374.51337 p5=245.19685
   t=1793621460512 kind=move id=38226 x=374.51337 y=245.19685
   t=1793621460614 event3 id=38226 raw=03965be15bda38df08a357bb4332ed744369cdcc4c401a73bc43836e7143 p4=374.68466 p5=244.92654
@@ -30427,14 +30498,14 @@ Detailed entity/player observations: 34863
   t=1793621462773 outbound_request op=24 params={0=639292182627980737 1=2 2=0 4=3779 6=[366.5884, 280.139] 8=2 253=24}
   t=1793621462824 event3 id=29189 raw=050a00335dda38df08514bb743cb118c434c0000a040ef900000 p4=null p5=null
   t=1793621462824 kind=move id=29189
-  t=1793621462902 kind=resource_state id=3196 amount=2
+  t=1793621462902 kind=resource_state id=3196 enchant=0 amount=2
   t=1793621462902 kind=raw_health_energy_event code=6 params={0:37103, 1:6738506, 2:-50.0, 3:2810.0, 4:1, 5:0, 6:29189, 7:-1, 252:6}
   t=1793621462902 kind=health id=37103 source_entity_id=29189 value=-50.0 secondary_value=2810.0
   t=1793621462987 kind=raw_health_energy_event code=8 params={0:37103, 1:6738711, 2:-18.0, 3:265.0, 4:7, 5:37103, 6:3779, 252:8}
   t=1793621462987 kind=energy id=37103 value=-18.0 secondary_value=265.0
   t=1793621463074 kind=raw_health_energy_event code=6 params={0:29189, 1:6738756, 2:-76.0, 3:899.0, 4:1, 5:5, 6:37103, 7:3781, 252:6}
   t=1793621463074 kind=health id=29189 source_entity_id=37103 value=-76.0 secondary_value=899.0
-  t=1793621463222 kind=resource_state id=3252 amount=1
+  t=1793621463222 kind=resource_state id=3252 enchant=1 amount=1
   t=1793621463285 kind=raw_health_energy_event code=6 params={0:29189, 1:6738968, 2:-76.0, 3:823.0, 4:1, 5:5, 6:37103, 7:3781, 252:6}
   t=1793621463285 kind=health id=29189 source_entity_id=37103 value=-76.0 secondary_value=823.0
   t=1793621463677 kind=leave id=40263 removed=true
@@ -30736,7 +30807,7 @@ Detailed entity/player observations: 34863
   t=1793621470257 kind=move id=38226 x=377.92673 y=244.12238
   t=1793621470257 event3 id=16792 raw=03e406a361da38df0886b2a54390898643b1000020407993a4437f178643 p4=331.3947 p5=269.0747
   t=1793621470257 kind=move id=16792 x=331.3947 y=269.0747
-  t=1793621470263 kind=manual_marker activity=Mobs event=mob_killed tier=T4 enchantment=Normal
+  t=1793621470263 kind=manual_marker elapsed_realtime_ms=11527794 activity=Mobs event=mob_killed tier=T4 enchantment=Normal
   t=1793621470327 event3 id=32668 raw=035bd8ac61da38df08821fbe43691b84431bcdcc4c403f52be43451e8343 p4=380.24615 p5=264.21414
   t=1793621470327 kind=move id=32668 x=380.24615 y=264.21414
   t=1793621470382 event3 id=38422 raw=03d73eb261da38df08b72cad436bb295430b6666e63fbe3ead4324f29543 p4=346.34933 p5=299.3939
@@ -30810,7 +30881,7 @@ Detailed entity/player observations: 34863
   t=1793621472863 outbound_request op=22 params={0=639292182728920737 1=[368.42584, 279.96542] 2=238.61166 3=[368.42584, 279.96542] 4=5.5 253=22}
   t=1793621472863 kind=own_player_move x=368.42584228515625 y=279.9654235839844 heading=238.61166381835938 target_x=368.42584228515625 target_y=279.9654235839844 speed=5.5 source=outbound_photon_operation_22_param_1
   t=1793621473280 kind=leave id=29189 removed=true
-  t=1793621473705 kind=manual_marker activity=PvP event=activity_selected tier=T4 enchantment=Normal
+  t=1793621473705 kind=manual_marker elapsed_realtime_ms=11531236 activity=PvP event=activity_selected tier=T4 enchantment=Normal
   t=1793621474211 event3 id=27299 raw=03736cfa63da38df08c032ae43bb88a3432a6666e63f3be5ad437ed9a443 p4=348.39648 p5=327.0682
   t=1793621474211 kind=move id=27299 x=348.39648 y=327.0682
   t=1793621474211 event3 id=28881 raw=035693fa63da38df08e074b043036a9943ff6666e63fd943b243c16d9643 p4=352.9131 p5=306.82822
@@ -30823,7 +30894,7 @@ Detailed entity/player observations: 34863
   t=1793621474389 kind=move id=27299 x=348.31573 y=327.41904
   t=1793621474389 event3 id=28881 raw=03c72a1964da38df08c08cb043994299436a6666e63fd943b243c16d9643 p4=353.0996 p5=306.5203
   t=1793621474389 kind=move id=28881 x=353.0996 y=306.5203
-  t=1793621474408 kind=manual_marker activity=Travel event=activity_selected tier=T4 enchantment=Normal
+  t=1793621474408 kind=manual_marker elapsed_realtime_ms=11531939 activity=Travel event=activity_selected tier=T4 enchantment=Normal
   t=1793621474504 event3 id=27299 raw=03cc702864da38df083f23ae4317cca343f76666e63f3be5ad437ed9a443 p4=348.27536 p5=327.59445
   t=1793621474504 kind=move id=27299 x=348.27536 y=327.59445
   t=1793621474504 event3 id=28881 raw=03cc702864da38df08b098b043e42e99436a6666e63fd943b243c16d9643 p4=353.19287 p5=306.36633
@@ -30848,7 +30919,7 @@ Detailed entity/player observations: 34863
   t=1793621475009 kind=move id=27299 x=348.0735 y=328.47153
   t=1793621475009 event3 id=28881 raw=03492b7564da38df0860d4b0435bcc98436a6666e63fd943b243c16d9643 p4=353.65918 p5=305.59653
   t=1793621475009 kind=move id=28881 x=353.65918 y=305.59653
-  t=1793621475015 kind=manual_marker activity=Other event=activity_selected tier=T4 enchantment=Normal
+  t=1793621475015 kind=manual_marker elapsed_realtime_ms=11532546 activity=Other event=activity_selected tier=T4 enchantment=Normal
   t=1793621475263 event3 id=27299 raw=03d7698464da38df083d04ae43cf52a443f76666e63f3be5ad437ed9a443 p4=348.0331 p5=328.64694
   t=1793621475263 kind=move id=27299 x=348.0331 y=328.64694
   t=1793621475263 event3 id=28881 raw=03bb908464da38df0850e0b043a6b898436a6666e63fd943b243c16d9643 p4=353.75244 p5=305.44257
@@ -30865,7 +30936,7 @@ Detailed entity/player observations: 34863
   t=1793621475408 kind=move id=27299 x=347.912 y=329.1732
   t=1793621475408 event3 id=28881 raw=03c881b264da38df082004b143877d98436a6666e63fd943b243c16d9643 p4=354.03223 p5=304.98068
   t=1793621475408 kind=move id=28881 x=354.03223 y=304.98068
-  t=1793621475464 kind=resource_state id=3150 amount=1
+  t=1793621475464 kind=resource_state id=3150 enchant=0 amount=1
   t=1793621475487 event3 id=27299 raw=0360bac164da38df0890efad439faca443f76666e63f3be5ad437ed9a443 p4=347.87158 p5=329.3486
   t=1793621475487 kind=move id=27299 x=347.87158 y=329.3486
   t=1793621475487 event3 id=28881 raw=033ee1c164da38df081010b143d26998436a6666e63fd943b243c16d9643 p4=354.1255 p5=304.82672
@@ -30874,7 +30945,7 @@ Detailed entity/player observations: 34863
   t=1793621475620 kind=move id=27299 x=347.8312 y=329.52402
   t=1793621475620 event3 id=28881 raw=030025d164da38df08001cb1431d5698436a6666e63fd943b243c16d9643 p4=354.21875 p5=304.67276
   t=1793621475620 kind=move id=28881 x=354.21875 y=304.67276
-  t=1793621475666 kind=manual_marker activity=Ore event=activity_selected tier=T4 enchantment=Normal
+  t=1793621475666 kind=manual_marker elapsed_realtime_ms=11533197 activity=Ore event=activity_selected tier=T4 enchantment=Normal
   t=1793621475705 event3 id=27299 raw=018f60e064da38df083be5ad437ed9a443f76666e63f p4=null p5=null
   t=1793621475705 kind=move id=27299
   t=1793621475705 event3 id=28881 raw=037487e064da38df08f027b143684298436a6666e63fd943b243c16d9643 p4=354.312 p5=304.5188
@@ -30983,7 +31054,7 @@ Detailed entity/player observations: 34863
   t=1793621478205 kind=move id=38422 x=344.5628 y=297.06677
   t=1793621478205 event3 id=38226 raw=031de76066da38df084059bc43c6b57343a2cdcc4c4071e2bb43b1db7243 p4=376.69727 p5=243.71005
   t=1793621478205 kind=move id=38226 x=376.69727 y=243.71005
-  t=1793621478267 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=Normal
+  t=1793621478267 kind=manual_marker elapsed_realtime_ms=11535798 activity=Ore event=target_found tier=T4 enchantment=Normal
   t=1793621478342 event3 id=38422 raw=0346497066da38df080e3bac4384759443986666e63f2c7aab43d85a9343 p4=344.46136 p5=296.9181
   t=1793621478342 kind=move id=38422 x=344.46136 y=296.9181
   t=1793621478342 event3 id=38226 raw=0346497066da38df08133bbc43637e7343a2cdcc4c4071e2bb43b1db7243 p4=376.46152 p5=243.4937
@@ -31008,7 +31079,7 @@ Detailed entity/player observations: 34863
   t=1793621478922 kind=move id=38422 x=343.85266 y=296.026
   t=1793621479024 event3 id=38422 raw=03588cdb66da38df0827e0ab434cf09343986666e63f2c7aab43d85a9343 p4=343.7512 p5=295.87732
   t=1793621479024 kind=move id=38422 x=343.7512 y=295.87732
-  t=1793621479087 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=Normal
+  t=1793621479087 kind=manual_marker elapsed_realtime_ms=11536617 activity=Ore event=gathering_started tier=T4 enchantment=Normal
   t=1793621479114 event3 id=38422 raw=03e0d9ea66da38df082bd3ab4344dd9343986666e63f2c7aab43d85a9343 p4=343.64975 p5=295.72864
   t=1793621479114 kind=move id=38422 x=343.64975 y=295.72864
   t=1793621479224 event3 id=38422 raw=03e83efa66da38df082ec6ab433cca9343986666e63f2c7aab43d85a9343 p4=343.54828 p5=295.57996
@@ -31053,7 +31124,7 @@ Detailed entity/player observations: 34863
   t=1793621480432 kind=move id=27299 x=347.86502 y=328.62177
   t=1793621480432 event3 id=16792 raw=03a647b267da38df0838d4a44399d0854362000020400795a54377fd8443 p4=329.65796 p5=267.62967
   t=1793621480432 kind=move id=16792 x=329.65796 y=267.62967
-  t=1793621480432 kind=resource_state id=40288 amount=2
+  t=1793621480432 kind=resource_state id=40288 enchant=0 amount=2
   t=1793621480432 kind=raw_health_energy_event code=91 params={0:37103, 1:6756181, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292182803857173, 252:91}
   t=1793621480432 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621480544 event3 id=27299 raw=01e876c167da38df0836f0ad43f339a4437d6666e63f p4=null p5=null
@@ -31076,26 +31147,27 @@ Detailed entity/player observations: 34863
   t=1793621480947 kind=move id=16792 x=330.501 y=266.7065
   t=1793621481016 event3 id=32668 raw=0112480868da38df08e347be432bd2824386cdcc4c40 p4=null p5=null
   t=1793621481016 kind=move id=32668
-  t=1793621481016 kind=resource_state id=2778 amount=2
+  t=1793621481016 kind=resource_state id=2778 enchant=0 amount=2
   t=1793621481016 event3 id=16792 raw=03f5550e68da38df08b655a543cd42854362000020400795a54377fd8443 p4=330.66962 p5=266.52188
   t=1793621481016 kind=move id=16792 x=330.66962 y=266.52188
   t=1793621481120 event3 id=16792 raw=03a9a31d68da38df084b6ba5432b2b854362000020400795a54377fd8443 p4=330.83823 p5=266.33725
   t=1793621481120 kind=move id=16792 x=330.83823 y=266.33725
   t=1793621481238 event3 id=16792 raw=03e5092d68da38df08e080a5438913854362000020400795a54377fd8443 p4=331.00684 p5=266.15262
   t=1793621481238 kind=move id=16792 x=331.00684 y=266.15262
-  t=1793621481238 kind=resource_state id=40288 amount=1
+  t=1793621481238 kind=resource_state id=40288 enchant=0 amount=1
   t=1793621481238 kind=raw_health_energy_event code=91 params={0:37103, 1:6756979, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292182811837335, 252:91}
   t=1793621481238 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621481345 event3 id=16792 raw=01c0503c68da38df080795a54377fd84436200002040 p4=null p5=null
   t=1793621481345 kind=move id=16792
   t=1793621481381 kind=raw_health_energy_event code=91 params={0:37103, 1:6757104, 2:2555.0, 3:2555.0, 5:71.56845, 6:639292182813085369, 252:91}
   t=1793621481381 kind=health_regeneration id=37103 value=2555.0 secondary_value=2555.0
-  t=1793621482062 kind=resource_state id=40288 amount=0 removed=true
+  t=1793621482062 kind=resource_state id=40288 enchant=0 amount=0 removed=true
   t=1793621482062 kind=raw_health_energy_event code=91 params={0:37103, 1:6757789, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292182819933905, 252:91}
   t=1793621482062 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
-  t=1793621483189 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=Normal
-  t=1793621483619 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=Normal
+  t=1793621483189 kind=manual_marker elapsed_realtime_ms=11540720 activity=Ore event=gathering_completed tier=T4 enchantment=Normal
+  t=1793621483619 kind=manual_marker elapsed_realtime_ms=11541150 activity=Ore event=node_depleted tier=T4 enchantment=Normal
   t=1793621484132 outbound_request op=199 params={0=639292182841560737 1=37104 2=true 3=true 253=199}
+  t=1793621484827 kind=player_mounted id=37103
   t=1793621484827 kind=leave id=40258 removed=true
   t=1793621484893 outbound_request op=22 params={0=639292182849280737 1=[368.42584, 279.96542] 2=278.86694 3=[369.42975, 280.06226] 4=5.5 253=22}
   t=1793621484893 kind=own_player_move x=368.42584228515625 y=279.9654235839844 heading=278.866943359375 target_x=369.42974853515625 target_y=280.062255859375 speed=5.5 source=outbound_photon_operation_22_param_1
@@ -31368,7 +31440,7 @@ Detailed entity/player observations: 34863
   t=1793621488667 kind=move id=38226 x=375.76907 y=242.85817
   t=1793621488667 event3 id=28881 raw=0372279c6cda38df088583b143cc129743dd6666e63fc69fb04334d69743 p4=355.0275 p5=302.14685
   t=1793621488667 kind=move id=28881 x=355.0275 y=302.14685
-  t=1793621488669 kind=manual_marker activity=Ore event=enchantment_selected tier=T4 enchantment=E1
+  t=1793621488669 kind=manual_marker elapsed_realtime_ms=11546200 activity=Ore event=enchantment_selected tier=T4 enchantment=E1
   t=1793621488737 event3 id=17286 raw=03d169a56cda38df08bfb9a04342777343ca6666e63fc71e9f430d4a7443 p4=321.45114 p5=243.46585
   t=1793621488737 kind=move id=17286 x=321.45114 y=243.46585
   t=1793621488781 event3 id=38226 raw=03aa1dab6cda38df088ee3bb43942d734301cdcc4c40c7e9bb43c2f77443 p4=375.77777 p5=243.17804
@@ -31429,7 +31501,7 @@ Detailed entity/player observations: 34863
   t=1793621489579 kind=move id=16792 x=331.81332 y=266.74094
   t=1793621489579 event3 id=28881 raw=03c9da256dda38df0824e6b043d5999743dd6666e63fc69fb04334d69743 p4=353.79797 p5=303.2018
   t=1793621489579 kind=move id=28881 x=353.79797 y=303.2018
-  t=1793621489610 kind=manual_marker activity=Ore event=target_found tier=T4 enchantment=E1
+  t=1793621489610 kind=manual_marker elapsed_realtime_ms=11547141 activity=Ore event=target_found tier=T4 enchantment=E1
   t=1793621489641 event3 id=17286 raw=031e6c2f6dda38df08e6f09f4347de7343ca6666e63fc71e9f430d4a7443 p4=319.88202 p5=243.86827
   t=1793621489641 kind=move id=17286 x=319.88202 y=243.86827
   t=1793621489699 event3 id=16792 raw=03b140376dda38df08e0fca5432f7785431d00002040d752a743fd078743 p4=331.9756 p5=266.93112
@@ -31517,6 +31589,7 @@ Detailed entity/player observations: 34863
   t=1793621491600 kind=move id=4470 x=316.9487 y=313.56763
   t=1793621491700 event3 id=4470 raw=0376446a6eda38df0814539e4388ca9c43c200004040449b9b438cec9c43 p4=316.64905 p5=313.58228
   t=1793621491700 kind=move id=4470 x=316.64905 y=313.58228
+  t=1793621491703 kind=player_mounted id=37103
   t=1793621491753 outbound_request op=22 params={0=639292182917550737 1=[350.463, 265.908] 2=292.05157 3=[351.74402, 266.71304] 4=11.0 253=22}
   t=1793621491753 kind=own_player_move x=350.4630126953125 y=265.9079895019531 heading=292.05157470703125 target_x=351.7440185546875 target_y=266.7130432128906 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621491828 event3 id=4470 raw=039f8d796eda38df08b92c9e4368cc9c43c200004040449b9b438cec9c43 p4=316.3494 p5=313.59692
@@ -31543,7 +31616,7 @@ Detailed entity/player observations: 34863
   t=1793621492312 kind=move id=38224 x=393.60742 y=223.5887
   t=1793621492312 event3 id=4470 raw=03e438c66eda38df08f26c9d43c8d59c43c200004040449b9b438cec9c43 p4=314.85114 p5=313.67017
   t=1793621492312 kind=move id=4470 x=314.85114 y=313.67017
-  t=1793621492330 kind=manual_marker activity=Ore event=gathering_started tier=T4 enchantment=E1
+  t=1793621492330 kind=manual_marker elapsed_realtime_ms=11549861 activity=Ore event=gathering_started tier=T4 enchantment=E1
   t=1793621492347 event3 id=32668 raw=03aa71cd6eda38df083a86bd43d4948543f5cdcc4c403c97be4358998443 p4=379.04865 p5=267.16272
   t=1793621492347 kind=move id=32668 x=379.04865 y=267.16272
   t=1793621492397 event3 id=38224 raw=03b03ad56eda38df08eac3c4432f475f438acdcc4c40b7a0c443ab2a5e43 p4=393.53058 p5=223.27806
@@ -31600,7 +31673,7 @@ Detailed entity/player observations: 34863
   t=1793621493328 kind=move id=4470 x=311.8546 y=313.81665
   t=1793621493362 event3 id=32668 raw=0114a6666fda38df083c97be43589984435ecdcc4c40 p4=null p5=null
   t=1793621493362 kind=move id=32668
-  t=1793621493362 kind=resource_state id=3150 amount=1
+  t=1793621493362 kind=resource_state id=3150 enchant=0 amount=1
   t=1793621493424 event3 id=38226 raw=03f847706fda38df08f997bb438e007543c2cdcc4c40779dba43821b7543 p4=375.1873 p5=245.00217
   t=1793621493424 kind=move id=38226 x=375.1873 y=245.00217
   t=1793621493424 event3 id=4470 raw=03e16e706fda38df0809c79b4368ea9c43c200004040449b9b438cec9c43 p4=311.55496 p5=313.8313
@@ -31659,7 +31732,7 @@ Detailed entity/player observations: 34863
   t=1793621494561 kind=move id=39163 x=303.85275 y=269.91208
   t=1793621494561 event3 id=17286 raw=03649f1e70da38df0875789f436cb973435c6666e63f9c2ea043ab937243 p4=318.94107 p5=243.7243
   t=1793621494561 kind=move id=17286 x=318.94107 y=243.7243
-  t=1793621494639 kind=resource_state id=3252 amount=0 removed=true
+  t=1793621494639 kind=resource_state id=3252 enchant=1 amount=0 removed=true
   t=1793621494639 kind=raw_health_energy_event code=91 params={0:37103, 1:6770382, 2:2860.0, 3:2860.0, 5:74.97647, 6:639292182945867612, 252:91}
   t=1793621494639 kind=health_regeneration id=37103 value=2860.0 secondary_value=2860.0
   t=1793621494666 event3 id=39163 raw=030efa2d70da38df0850c8974334f08643bb9a993940c6c49743c5ef8643 p4=303.56494 p5=269.8766
@@ -31718,7 +31791,7 @@ Detailed entity/player observations: 34863
   t=1793621496464 kind=move id=4471
   t=1793621496642 event3 id=28881 raw=0389f95a71da38df08c69fb04334d69743dd6666e63f9551b243852b9943 p4=353.24823 p5=303.67346
   t=1793621496642 kind=move id=28881 x=353.24823 y=303.67346
-  t=1793621496676 kind=manual_marker activity=Ore event=gathering_completed tier=T4 enchantment=E1
+  t=1793621496676 kind=manual_marker elapsed_realtime_ms=11554206 activity=Ore event=gathering_completed tier=T4 enchantment=E1
   t=1793621496740 event3 id=28881 raw=030f546a71da38df08e1b1b04373e49743256666e63f9551b243852b9943 p4=353.38968 p5=303.78476
   t=1793621496740 kind=move id=28881 x=353.38968 y=303.78476
   t=1793621496831 event3 id=28881 raw=03669e7971da38df08fcc3b043b2f29743256666e63f9551b243852b9943 p4=353.53113 p5=303.89606
@@ -31741,8 +31814,8 @@ Detailed entity/player observations: 34863
   t=1793621497334 kind=move id=38226 x=373.5501 y=245.09862
   t=1793621497334 event3 id=28881 raw=03db63c671da38df08841eb143ed399843256666e63f9551b243852b9943 p4=354.2384 p5=304.45255
   t=1793621497334 kind=move id=28881 x=354.2384 y=304.45255
-  t=1793621497381 kind=resource_state id=3196 amount=2
-  t=1793621497391 kind=manual_marker activity=Ore event=node_depleted tier=T4 enchantment=E1
+  t=1793621497381 kind=resource_state id=3196 enchant=0 amount=2
+  t=1793621497391 kind=manual_marker elapsed_realtime_ms=11554922 activity=Ore event=node_depleted tier=T4 enchantment=E1
   t=1793621497435 event3 id=38422 raw=03f891d571da38df089abaac43542a9443256666e63f4a1aad4340739443 p4=345.45782 p5=296.3307
   t=1793621497435 kind=move id=38422 x=345.45782 y=296.3307
   t=1793621497435 event3 id=38226 raw=03f891d571da38df085defba43fc16754341cdcc4c40259abc4367ff7443 p4=373.87003 p5=245.08978
@@ -31842,6 +31915,7 @@ Detailed entity/player observations: 34863
   t=1793621498965 kind=move id=28881 x=356.50177 y=306.2333
   t=1793621499044 event3 id=28881 raw=0138ebca72da38df089551b243852b9943256666e63f p4=null p5=null
   t=1793621499044 kind=move id=28881
+  t=1793621499206 kind=player_mounted id=37103
   t=1793621499206 kind=leave id=40500 removed=true
   t=1793621499275 outbound_request op=22 params={0=639292182992950737 1=[350.96585, 266.1773] 2=212.71277 3=[351.96512, 266.03955] 4=5.5 253=22}
   t=1793621499275 kind=own_player_move x=350.9658508300781 y=266.17730712890625 heading=212.7127685546875 target_x=351.9651184082031 target_y=266.03955078125 speed=5.5 source=outbound_photon_operation_22_param_1
@@ -32249,12 +32323,12 @@ Detailed entity/player observations: 34863
   t=1793621509581 kind=move id=17286 x=320.12277 y=245.4526
   t=1793621509581 event3 id=4471 raw=0331e61079da38df088f9b9d43aa16954348000040403b199e4388fe9443 p4=315.2153 p5=298.17706
   t=1793621509581 kind=move id=4471 x=315.2153 y=298.17706
-  t=1793621509661 kind=resource_state id=3252 amount=0 removed=true
+  t=1793621509661 kind=resource_state id=3252 enchant=1 amount=0 removed=true
   t=1793621509661 event3 id=17286 raw=03e83f2079da38df084309a0431aa07543f46666e63f87ec9f43ff647643 p4=320.07236 p5=245.6254
   t=1793621509661 kind=move id=17286 x=320.07236 y=245.6254
   t=1793621509661 event3 id=4471 raw=03e83f2079da38df0845c19d436c0f954348000040403b199e4388fe9443 p4=315.50992 p5=298.12048
   t=1793621509661 kind=move id=4471 x=315.50992 y=298.12048
-  t=1793621509751 kind=manual_marker activity=Other event=activity_selected tier=T4 enchantment=E1
+  t=1793621509751 kind=manual_marker elapsed_realtime_ms=11567282 activity=Other event=activity_selected tier=T4 enchantment=E1
   t=1793621509776 event3 id=17286 raw=03e08f2f79da38df08ce02a04356cc7543f46666e63f87ec9f43ff647643 p4=320.0219 p5=245.79819
   t=1793621509776 kind=move id=17286 x=320.0219 y=245.79819
   t=1793621509776 event3 id=4471 raw=03e08f2f79da38df08fbe69d432e08954348000040403b199e4388fe9443 p4=315.80453 p5=298.0639
@@ -32277,7 +32351,7 @@ Detailed entity/player observations: 34863
   t=1793621510070 kind=move id=17286 x=319.87064 y=246.31656
   t=1793621510154 event3 id=16792 raw=032dc76879da38df08ee4ea543d0d388438b0000204043dda443993c8743 p4=330.61664 p5=273.6548
   t=1793621510154 kind=move id=16792 x=330.61664 y=273.6548
-  t=1793621510154 kind=resource_state id=2793 amount=1
+  t=1793621510154 kind=resource_state id=2793 enchant=0 amount=1
   t=1793621510154 event3 id=17286 raw=014fe46c79da38df0887ec9f43ff647643f46666e63f p4=null p5=null
   t=1793621510154 kind=move id=17286
   t=1793621510267 event3 id=16792 raw=037a247879da38df085446a543feb488438b0000204043dda443993c8743 p4=330.54944 p5=273.414
@@ -32359,7 +32433,7 @@ Detailed entity/player observations: 34863
   t=1793621512184 kind=move id=4489 x=370.06564 y=216.27502
   t=1793621512293 event3 id=4489 raw=03ce51b07ada38df0819e4b843662d5843b200004040d4e3b64388cc5643 p4=369.782 p5=216.17734
   t=1793621512293 kind=move id=4489 x=369.782 y=216.17734
-  t=1793621512336 kind=manual_marker activity=Travel event=activity_selected tier=T4 enchantment=E1
+  t=1793621512336 kind=manual_marker elapsed_realtime_ms=11569867 activity=Travel event=activity_selected tier=T4 enchantment=E1
   t=1793621512406 event3 id=4489 raw=03bc98bf7ada38df08cbbfb84364145843b200004040d4e3b64388cc5643 p4=369.49838 p5=216.07965
   t=1793621512406 kind=move id=4489 x=369.49838 y=216.07965
   t=1793621512497 event3 id=4489 raw=037fecce7ada38df087d9bb84362fb5743b200004040d4e3b64388cc5643 p4=369.21475 p5=215.98196
@@ -32368,7 +32442,7 @@ Detailed entity/player observations: 34863
   t=1793621512580 kind=move id=4489 x=368.93112 y=215.88428
   t=1793621512697 event3 id=4489 raw=033272ed7ada38df08e152b8435ec95743b200004040d4e3b64388cc5643 p4=368.6475 p5=215.78659
   t=1793621512697 kind=move id=4489 x=368.6475 y=215.78659
-  t=1793621512745 kind=resource_state id=4232 amount=0 removed=true
+  t=1793621512745 kind=resource_state id=4232 enchant=0 amount=0 removed=true
   t=1793621512803 event3 id=4489 raw=0323d6fc7ada38df08932eb8435cb05743b200004040d4e3b64388cc5643 p4=368.36386 p5=215.6889
   t=1793621512803 kind=move id=4489 x=368.36386 y=215.6889
   t=1793621512848 event3 id=38224 raw=038523047bda38df08c52ec44395db6143e9cdcc4c4043ffc443c39a5e43 p4=392.3654 p5=225.85774
@@ -32543,6 +32617,7 @@ Detailed entity/player observations: 34863
   t=1793621515227 outbound_request op=22 params={0=639292183152610737 1=[363.1112, 252.6844] 2=207.28522 3=[362.82928, 252.13782] 4=11.0 253=22}
   t=1793621515227 kind=own_player_move x=363.1112060546875 y=252.6844024658203 heading=207.28521728515625 target_x=362.82928466796875 target_y=252.1378173828125 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621515275 kind=player_spawn id=40581 name=hitacik
+  t=1793621515275 kind=player_mounted id=40581
   t=1793621515275 event3 id=40581 raw=0341166f7cda38df0844faecb500c7d0f81185eb214140e0eeb54b63d8f8 p4=-1.7656207E-6 p5=-3.387606E34
   t=1793621515275 kind=player_move id=40581 name=hitacik x=-1.7656207E-6 y=-3.387606E34 raw_hex=0341166f7cda38df0844faecb500c7d0f81185eb214140e0eeb54b63d8f8 coord_source=unvalidated_event3_payload
   t=1793621515275 event3 id=28881 raw=031515797cda38df08a567b243ffb29643e26666e63febb2b143697d9743 p4=356.80972 p5=301.3984
@@ -32666,7 +32741,7 @@ Detailed entity/player observations: 34863
   t=1793621517011 kind=move id=32668 x=377.00623 y=261.25446
   t=1793621517036 event3 id=40581 raw=03b1447a7dda38df0809d3ebb59bd2d8f83485eb2141478ce2b507f4e4f8 p4=-1.7570284E-6 p5=-3.518149E34
   t=1793621517036 kind=player_move id=40581 name=hitacik x=-1.7570284E-6 y=-3.518149E34 raw_hex=03b1447a7dda38df0809d3ebb59bd2d8f83485eb2141478ce2b507f4e4f8 coord_source=unvalidated_event3_payload
-  t=1793621517079 kind=manual_marker activity=Travel event=tier_selected tier=T5 enchantment=E1
+  t=1793621517079 kind=manual_marker elapsed_realtime_ms=11574610 activity=Travel event=tier_selected tier=T5 enchantment=E1
   t=1793621517119 event3 id=32668 raw=03d28e907dda38df081f66bc437c8182439dcdcc4c40fb13bc43bb218243 p4=376.79782 p5=261.0116
   t=1793621517119 kind=move id=32668 x=376.79782 y=261.0116
   t=1793621517167 event3 id=40581 raw=03011f8c7dda38df08bf67ebb5dc42d8f82e85eb214142a0e2b5239ee2f8 p4=-1.7539058E-6 p5=-3.509038E34
@@ -32681,7 +32756,7 @@ Detailed entity/player observations: 34863
   t=1793621517367 kind=player_move id=40581 name=hitacik x=-1.7009505E-6 y=-3.7482854E34 raw_hex=03913bad7dda38df08374ce4b58401e7f82385eb2141e474e1b56c64eef8 coord_source=unvalidated_event3_payload
   t=1793621517422 event3 id=32668 raw=03d57fbe7dda38df081e16bc43382482439dcdcc4c40fb13bc43bb218243 p4=376.1728 p5=260.28296
   t=1793621517422 kind=move id=32668 x=376.1728 y=260.28296
-  t=1793621517458 kind=manual_marker activity=Travel event=tier_selected tier=T6 enchantment=E1
+  t=1793621517458 kind=manual_marker elapsed_realtime_ms=11574989 activity=Travel event=tier_selected tier=T6 enchantment=E1
   t=1793621517467 event3 id=40581 raw=03d1eebe7dda38df08c5b0e5b52550e6f82085eb2141a279e1b5bc8eecf8 p4=-1.7113276E-6 p5=-3.7370431E34
   t=1793621517467 kind=player_move id=40581 name=hitacik x=-1.7113276E-6 y=-3.7370431E34 raw_hex=03d1eebe7dda38df08c5b0e5b52550e6f82085eb2141a279e1b5bc8eecf8 coord_source=unvalidated_event3_payload
   t=1793621517515 event3 id=32668 raw=0114d0cd7dda38df08fb13bc43bb2182439dcdcc4c40 p4=null p5=null
@@ -32690,7 +32765,7 @@ Detailed entity/player observations: 34863
   t=1793621517583 kind=player_move id=40581 name=hitacik x=-1.706499E-6 y=-3.7245115E34 raw_hex=031131ce7dda38df08dc0ae5b56e8ae5f81f85eb2141b1cae2b5eae9ebf8 coord_source=unvalidated_event3_payload
   t=1793621517617 event3 id=38224 raw=0318f5da7dda38df0843ffc443c39a5e436dcdcc4c40dde2c343d89a6243 p4=393.99423 p5=222.60454
   t=1793621517617 kind=move id=38224 x=393.99423 y=222.60454
-  t=1793621517658 kind=manual_marker activity=Travel event=tier_selected tier=T7 enchantment=E1
+  t=1793621517658 kind=manual_marker elapsed_realtime_ms=11575189 activity=Travel event=tier_selected tier=T7 enchantment=E1
   t=1793621517705 event3 id=40581 raw=03610be07dda38df08777ce5b5c2ece4f82085eb2141303ee2b5901bebf8 p4=-1.7098054E-6 p5=-3.7145178E34
   t=1793621517705 kind=player_move id=40581 name=hitacik x=-1.7098054E-6 y=-3.7145178E34 raw_hex=03610be07dda38df08777ce5b5c2ece4f82085eb2141303ee2b5901bebf8 coord_source=unvalidated_event3_payload
   t=1793621517705 event3 id=38224 raw=031b43ea7dda38df0860ebc4435fe25e43ebcdcc4c40dde2c343d89a6243 p4=393.83887 p5=222.88426
@@ -32713,7 +32788,7 @@ Detailed entity/player observations: 34863
   t=1793621518142 kind=player_move id=40581 name=hitacik x=-1.7211247E-6 y=-3.6549276E34 raw_hex=0391dc247eda38df086501e7b59740e1f81a85eb2141ab93e3b57d2ee8f8 coord_source=unvalidated_event3_payload
   t=1793621518205 event3 id=38224 raw=03e6f0367eda38df08f187c4436b486043ebcdcc4c40dde2c343d89a6243 p4=393.06204 p5=224.28288
   t=1793621518205 kind=move id=38224 x=393.06204 y=224.28288
-  t=1793621518231 kind=manual_marker activity=Travel event=tier_selected tier=T8 enchantment=E1
+  t=1793621518231 kind=manual_marker elapsed_realtime_ms=11575761 activity=Travel event=tier_selected tier=T8 enchantment=E1
   t=1793621518264 event3 id=40581 raw=03d18f367eda38df086c53e7b50dbbe0f81585eb21417f30e2b593b2f6f8 p4=-1.723512E-6 p5=-3.6464636E34
   t=1793621518264 kind=player_move id=40581 name=hitacik x=-1.723512E-6 y=-3.6464636E34 raw_hex=03d18f367eda38df086c53e7b50dbbe0f81585eb21417f30e2b593b2f6f8 coord_source=unvalidated_event3_payload
   t=1793621518308 event3 id=38224 raw=038439467eda38df080e74c44307906043ebcdcc4c40dde2c343d89a6243 p4=392.90668 p5=224.5626
@@ -32766,7 +32841,7 @@ Detailed entity/player observations: 34863
   t=1793621519936 kind=energy id=16792 secondary_value=1.0
   t=1793621519936 event3 id=40581 raw=0321ac377fda38df08767ce6b5b6a9f0f8ed85eb2141cb56e4b5b0d707f8 p4=-1.7172558E-6 p5=-3.9049794E34
   t=1793621519936 kind=player_move id=40581 name=hitacik x=-1.7172558E-6 y=-3.9049794E34 raw_hex=0321ac377fda38df08767ce6b5b6a9f0f8ed85eb2141cb56e4b5b0d707f8 coord_source=unvalidated_event3_payload
-  t=1793621520043 kind=manual_marker activity=Travel event=activity_event tier=T8 enchantment=E1
+  t=1793621520043 kind=manual_marker elapsed_realtime_ms=11577574 activity=Travel event=activity_event tier=T8 enchantment=E1
   t=1793621520084 event3 id=40581 raw=037186497fda38df088c33e6b584b9fff8ed85eb21414b14e4b5815e07f8 p4=-1.7151337E-6 p5=-4.14937E34
   t=1793621520084 kind=player_move id=40581 name=hitacik x=-1.7151337E-6 y=-4.14937E34 raw_hex=037186497fda38df088c33e6b584b9fff8ed85eb21414b14e4b5815e07f8 coord_source=unvalidated_event3_payload
   t=1793621520186 event3 id=40581 raw=03b1395b7fda38df082ef1e6b53f4efef8ed85eb21413fcbe4b57ee506f8 p4=-1.7206528E-6 p5=-4.126345E34
@@ -32825,7 +32900,7 @@ Detailed entity/player observations: 34863
   t=1793621521259 kind=move id=4489 x=366.96533 y=214.98627
   t=1793621521318 event3 id=40581 raw=03a1da0a80da38df080be2e4b56be905f8ed85eb21419258e9b5f79700f8 p4=-1.7053111E-6 p5=-1.0864215E34
   t=1793621521318 kind=player_move id=40581 name=hitacik x=-1.7053111E-6 y=-1.0864215E34 raw_hex=03a1da0a80da38df080be2e4b56be905f8ed85eb21419258e9b5f79700f8 coord_source=unvalidated_event3_payload
-  t=1793621521356 kind=manual_marker activity=Travel event=tier_selected tier=T2 enchantment=E1
+  t=1793621521356 kind=manual_marker elapsed_realtime_ms=11578887 activity=Travel event=tier_selected tier=T2 enchantment=E1
   t=1793621521365 event3 id=9877 raw=032a551780da38df08695fbf438e53564382000040408652bf4384cf5343 p4=382.7454 p5=214.32639
   t=1793621521365 kind=move id=9877 x=382.7454 y=214.32639
   t=1793621521365 event3 id=16792 raw=032a551780da38df0851a7a443095f8743d7000020407049a3435d3e8843 p4=329.30716 p5=270.74246
@@ -32872,7 +32947,7 @@ Detailed entity/player observations: 34863
   t=1793621521944 kind=move id=16792 x=328.25354 y=271.41504
   t=1793621521944 event3 id=4489 raw=03b5c06e80da38df082a5fb8436a4457433a000040400255b9431c925743 p4=368.74347 p5=215.26724
   t=1793621521944 kind=move id=4489 x=368.74347 y=215.26724
-  t=1793621521964 kind=manual_marker activity=Travel event=tier_selected tier=T3 enchantment=E1
+  t=1793621521964 kind=manual_marker elapsed_realtime_ms=11579495 activity=Travel event=tier_selected tier=T3 enchantment=E1
   t=1793621521981 event3 id=40581 raw=0361c87080da38df08ba71eab590f802f8ee85eb2141b2fbe8b5db460df8 p4=-1.7467457E-6 p5=-1.0625626E34
   t=1793621521981 kind=player_move id=40581 name=hitacik x=-1.7467457E-6 y=-1.0625626E34 raw_hex=0361c87080da38df08ba71eab590f802f8ee85eb2141b2fbe8b5db460df8 coord_source=unvalidated_event3_payload
   t=1793621522028 event3 id=9877 raw=0329fa7d80da38df083356bf432687544382000040408652bf4384cf5343 p4=382.67343 p5=212.52792
@@ -32913,7 +32988,7 @@ Detailed entity/player observations: 34863
   t=1793621522430 kind=move id=4489 x=370.22525 y=215.50139
   t=1793621522455 event3 id=40581 raw=03910ab880da38df08eb68e9b55c9800f8ed85eb2141dfedefb5d2fa0bf8 p4=-1.7390388E-6 p5=-1.0432878E34
   t=1793621522455 kind=player_move id=40581 name=hitacik x=-1.7390388E-6 y=-1.0432878E34 raw_hex=03910ab880da38df08eb68e9b55c9800f8ed85eb2141dfedefb5d2fa0bf8 coord_source=unvalidated_event3_payload
-  t=1793621522489 kind=manual_marker activity=Travel event=tier_selected tier=T4 enchantment=E1
+  t=1793621522489 kind=manual_marker elapsed_realtime_ms=11580020 activity=Travel event=tier_selected tier=T4 enchantment=E1
   t=1793621522547 event3 id=16792 raw=03edc8ca80da38df089e7ea3436c1c8843d7000020407049a3435d3e8843 p4=326.9892 p5=272.22205
   t=1793621522547 kind=move id=16792 x=326.9892 y=272.22205
   t=1793621522547 event3 id=4489 raw=03edc8ca80da38df08c442b943588c57433a000040400255b9431c925743 p4=370.5216 p5=215.54822
@@ -32936,7 +33011,7 @@ Detailed entity/player observations: 34863
   t=1793621523034 kind=player_move id=40581 name=hitacik x=2.75304608E8 y=5.0686866E30 raw_hex=0351c31181da38df088546834d3de77f72ef85eb21417455854dce6a7b72 coord_source=unvalidated_event3_payload
   t=1793621523179 event3 id=40581 raw=03a19d2381da38df086683834d3e6a7f72f085eb21413f5e854de81d7b72 p4=2.75803328E8 p5=5.0590155E30
   t=1793621523179 kind=player_move id=40581 name=hitacik x=2.75803328E8 y=5.0590155E30 raw_hex=03a19d2381da38df086683834d3e6a7f72f085eb21413f5e854de81d7b72 coord_source=unvalidated_event3_payload
-  t=1793621523238 kind=manual_marker activity=PvP event=activity_selected tier=T4 enchantment=E1
+  t=1793621523238 kind=manual_marker elapsed_realtime_ms=11580768 activity=PvP event=activity_selected tier=T4 enchantment=E1
   t=1793621523328 event3 id=40581 raw=0311a83a81da38df0816c1834d53a37e72f485eb21413b32854d70f77a72 p4=2.76308672E8 p5=5.043625E30
   t=1793621523328 kind=player_move id=40581 name=hitacik x=2.76308672E8 y=5.043625E30 raw_hex=0311a83a81da38df0816c1834d53a37e72f485eb21413b32854d70f77a72 coord_source=unvalidated_event3_payload
   t=1793621523350 event3 id=38226 raw=0367354581da38df08eebebb430b2f75431fcdcc4c40ddcfbb43257d7343 p4=375.49164 p5=245.18376
@@ -32971,7 +33046,7 @@ Detailed entity/player observations: 34863
   t=1793621523826 kind=move id=38226 x=375.61615 y=243.58853
   t=1793621523826 event3 id=17286 raw=03ba149281da38df08deb39f4354957343776666e63f54f89f43be197143 p4=319.4052 p5=243.58331
   t=1793621523826 kind=move id=17286 x=319.4052 y=243.58331
-  t=1793621523848 kind=manual_marker activity=Mobs event=activity_selected tier=T4 enchantment=E1
+  t=1793621523848 kind=manual_marker elapsed_realtime_ms=11581379 activity=Mobs event=activity_selected tier=T4 enchantment=E1
   t=1793621523906 event3 id=40581 raw=03819d9381da38df084153844d4ec57b720485eb21410e0e844d43026472 p4=2.7750608E8 p5=4.986833E30
   t=1793621523906 kind=player_move id=40581 name=hitacik x=2.7750608E8 y=4.986833E30 raw_hex=03819d9381da38df084153844d4ec57b720485eb21410e0e844d43026472 coord_source=unvalidated_event3_payload
   t=1793621523944 event3 id=38422 raw=039d12a181da38df08c8cbab43eb159543876666e63fe285ab4385899343 p4=343.59204 p5=298.17123
@@ -33048,15 +33123,15 @@ Detailed entity/player observations: 34863
   t=1793621524939 kind=move id=38422 x=343.2795 y=296.39847
   t=1793621524939 event3 id=17286 raw=0318b73a82da38df083ce99f43d0a57143776666e63f54f89f43be197143 p4=319.82214 p5=241.6477
   t=1793621524939 kind=move id=17286 x=319.82214 y=241.6477
-  t=1793621524939 kind=resource_state id=3150 amount=1
-  t=1793621524993 kind=manual_marker activity=Hide event=activity_selected tier=T4 enchantment=E1
+  t=1793621524939 kind=resource_state id=3150 enchant=0 amount=1
+  t=1793621524993 kind=manual_marker elapsed_realtime_ms=11582523 activity=Hide event=activity_selected tier=T4 enchantment=E1
   t=1793621525044 event3 id=38422 raw=0344cb4982da38df08c69fab43501c9443876666e63fe285ab4385899343 p4=343.24823 p5=296.2212
   t=1793621525044 kind=move id=38422 x=343.24823 y=296.2212
   t=1793621525044 event3 id=17286 raw=030c194a82da38df0817ee9f43c4787143776666e63f54f89f43be197143 p4=319.86008 p5=241.47174
   t=1793621525044 kind=move id=17286 x=319.86008 y=241.47174
   t=1793621525044 event3 id=40581 raw=0371cd4082da38df08d76a844d11da6672f185eb21410c42854db4cb6372 p4=2.77699296E8 p5=4.5724914E30
   t=1793621525044 kind=player_move id=40581 name=hitacik x=2.77699296E8 y=4.5724914E30 raw_hex=0371cd4082da38df08d76a844d11da6672f185eb21410c42854db4cb6372 coord_source=unvalidated_event3_payload
-  t=1793621525122 kind=resource_state id=2806 amount=0 removed=true
+  t=1793621525122 kind=resource_state id=2806 enchant=0 amount=0 removed=true
   t=1793621525168 event3 id=38422 raw=034e2a5982da38df08c69bab439f059443876666e63fe285ab4385899343 p4=343.21698 p5=296.0439
   t=1793621525168 kind=move id=38422 x=343.21698 y=296.0439
   t=1793621525168 event3 id=17286 raw=0316785982da38df08f1f29f43b84b7143776666e63f54f89f43be197143 p4=319.89798 p5=241.29578
@@ -33096,7 +33171,7 @@ Detailed entity/player observations: 34863
   t=1793621525757 kind=move id=4471 x=314.50595 y=299.17212
   t=1793621525863 event3 id=4471 raw=0378cdc482da38df0837219d4324809543a700004040611e9c4388cc9443 p4=314.2595 p5=299.0011
   t=1793621525863 kind=move id=4471 x=314.2595 y=299.0011
-  t=1793621525924 kind=manual_marker activity=Fiber event=activity_selected tier=T4 enchantment=E1
+  t=1793621525924 kind=manual_marker elapsed_realtime_ms=11583454 activity=Fiber event=activity_selected tier=T4 enchantment=E1
   t=1793621525950 event3 id=4471 raw=03cf2bd482da38df08ab019d43406a9543a700004040611e9c4388cc9443 p4=314.01303 p5=298.83008
   t=1793621525950 kind=move id=4471 x=314.01303 y=298.83008
   t=1793621526044 event3 id=4471 raw=030676e382da38df081fe29c435c549543a700004040611e9c4388cc9443 p4=313.76657 p5=298.65906
@@ -33119,14 +33194,14 @@ Detailed entity/player observations: 34863
   t=1793621526748 kind=move id=4471
   t=1793621526748 event3 id=4489 raw=03cbb24e83da38df08a42eb9432e955743c2000040401fa8b54367dd5743 p4=370.36438 p5=215.58273
   t=1793621526748 kind=move id=4489 x=370.36438 y=215.58273
-  t=1793621526822 kind=manual_marker activity=Stone event=activity_selected tier=T4 enchantment=E1
+  t=1793621526822 kind=manual_marker elapsed_realtime_ms=11584353 activity=Stone event=activity_selected tier=T4 enchantment=E1
   t=1793621526847 event3 id=4489 raw=03f2f65d83da38df084608b94340985743c2000040401fa8b54367dd5743 p4=370.06464 p5=215.59473
   t=1793621526847 kind=move id=4489 x=370.06464 y=215.59473
   t=1793621526949 event3 id=4489 raw=03d8486d83da38df08e8e1b843529b5743c2000040401fa8b54367dd5743 p4=369.7649 p5=215.60672
   t=1793621526949 kind=move id=4489 x=369.7649 y=215.60672
   t=1793621527061 event3 id=4489 raw=03baa67c83da38df088abbb843649e5743c2000040401fa8b54367dd5743 p4=369.46515 p5=215.61871
   t=1793621527061 kind=move id=4489 x=369.46515 y=215.61871
-  t=1793621527159 kind=manual_marker activity=Wood event=activity_selected tier=T4 enchantment=E1
+  t=1793621527159 kind=manual_marker elapsed_realtime_ms=11584690 activity=Wood event=activity_selected tier=T4 enchantment=E1
   t=1793621527161 event3 id=4489 raw=035a078c83da38df082c95b84376a15743c2000040401fa8b54367dd5743 p4=369.1654 p5=215.6307
   t=1793621527161 kind=move id=4489 x=369.1654 y=215.6307
   t=1793621527255 event3 id=38224 raw=0307159b83da38df08dde2c343d89a6243ebcdcc4c409f45c6439d9e5d43 p4=391.77237 p5=226.60486
@@ -33145,7 +33220,7 @@ Detailed entity/player observations: 34863
   t=1793621527556 kind=move id=38224 x=392.43622 y=225.9113
   t=1793621527556 event3 id=4489 raw=03ca7bc983da38df08b4fbb743bead5743c2000040401fa8b54367dd5743 p4=367.96643 p5=215.67868
   t=1793621527556 kind=move id=4489 x=367.96643 y=215.67868
-  t=1793621527562 kind=manual_marker activity=Ore event=activity_selected tier=T4 enchantment=E1
+  t=1793621527562 kind=manual_marker elapsed_realtime_ms=11585093 activity=Ore event=activity_selected tier=T4 enchantment=E1
   t=1793621527666 event3 id=38224 raw=03978fd883da38df082954c4431cae614361cdcc4c409f45c6439d9e5d43 p4=392.6575 p5=225.68011
   t=1793621527666 kind=move id=38224 x=392.6575 y=225.68011
   t=1793621527666 event3 id=4489 raw=0365ddd883da38df0856d5b743d0b05743c2000040401fa8b54367dd5743 p4=367.6667 p5=215.69067
@@ -33172,7 +33247,7 @@ Detailed entity/player observations: 34863
   t=1793621528156 kind=move id=16792 x=326.57373 y=272.4872
   t=1793621528156 event3 id=4489 raw=03a47d2584da38df088015b7432ac05743c2000040401fa8b54367dd5743 p4=366.16797 p5=215.75064
   t=1793621528156 kind=move id=4489 x=366.16797 y=215.75064
-  t=1793621528235 kind=manual_marker activity=Other event=activity_selected tier=T4 enchantment=E1
+  t=1793621528235 kind=manual_marker elapsed_realtime_ms=11585766 activity=Other event=activity_selected tier=T4 enchantment=E1
   t=1793621528268 event3 id=38224 raw=03ca8e3484da38df081bfec443014b604361cdcc4c409f45c6439d9e5d43 p4=393.9852 p5=224.29298
   t=1793621528268 kind=move id=38224 x=393.9852 y=224.29298
   t=1793621528268 event3 id=16792 raw=0394dc3484da38df089150a3432c1f88437700002040e7b1a34348758643 p4=326.62943 p5=272.24353
@@ -33279,7 +33354,7 @@ Detailed entity/player observations: 34863
   t=1793621529863 kind=move id=9877 x=383.7177 y=214.61212
   t=1793621529961 event3 id=9877 raw=016ea03985da38df08c5e6bf43a3d556430f00004040 p4=null p5=null
   t=1793621529961 kind=move id=9877
-  t=1793621530229 kind=manual_marker activity=Travel event=activity_selected tier=T4 enchantment=E1
+  t=1793621530229 kind=manual_marker elapsed_realtime_ms=11587760 activity=Travel event=activity_selected tier=T4 enchantment=E1
   t=1793621531490 event3 id=38226 raw=03eb5e1f86da38df08ddcfbb43257d73437dcdcc4c402072bb43f23d7543 p4=375.62393 p5=243.48885
   t=1793621531490 kind=move id=38226 x=375.62393 y=243.48885
   t=1793621531583 event3 id=38226 raw=03c6be2e86da38df0813c0bb43bcc87343f0cdcc4c402072bb43f23d7543 p4=375.50058 p5=243.78412
@@ -33294,8 +33369,8 @@ Detailed entity/player observations: 34863
   t=1793621531989 kind=move id=38226 x=375.0072 y=244.9652
   t=1793621532086 event3 id=38226 raw=01f32e7b86da38df082072bb43f23d7543f0cdcc4c40 p4=null p5=null
   t=1793621532086 kind=move id=38226
-  t=1793621532147 kind=manual_marker activity=Travel event=activity_start tier=T4 enchantment=E1
-  t=1793621532237 kind=resource_state id=3196 amount=2
+  t=1793621532147 kind=manual_marker elapsed_realtime_ms=11589678 activity=Travel event=activity_start tier=T4 enchantment=E1
+  t=1793621532237 kind=resource_state id=3196 enchant=0 amount=2
   t=1793621532679 outbound_request op=22 params={0=639292183326840737 1=[355.639, 248.69725] 2=263.65616 3=[355.87872, 249.67787] 4=11.0 253=22}
   t=1793621532679 kind=own_player_move x=355.6390075683594 y=248.69725036621094 heading=263.6561584472656 target_x=355.87872314453125 target_y=249.67787170410156 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621532779 outbound_request op=22 params={0=639292183328120737 1=[355.8697, 249.79506] 2=323.839 3=[355.37723, 250.38875] 4=11.0 253=22}
@@ -33564,7 +33639,7 @@ Detailed entity/player observations: 34863
   t=1793621535838 kind=static_resource id=721 x=329.5 y=303.5
   t=1793621535838 kind=static_resource id=722 x=331.5 y=300.5
   t=1793621535838 kind=static_resource id=3712 x=350.0 y=302.0
-  t=1793621535838 kind=resource_state id=2776 amount=1
+  t=1793621535838 kind=resource_state id=2776 enchant=0 amount=1
   t=1793621535848 outbound_request op=22 params={0=639292183358840737 1=[333.65433, 257.4704] 2=2.4424348 3=[333.68097, 258.09583] 4=11.0 253=22}
   t=1793621535848 kind=own_player_move x=333.6543273925781 y=257.47039794921875 heading=2.442434787750244 target_x=333.68096923828125 target_y=258.0958251953125 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621535907 event3 id=38422 raw=034721c288da38df089f41ac43e07294431c6666e63f37deac4381359543 p4=344.51266 p5=296.89746
@@ -33770,7 +33845,7 @@ Detailed entity/player observations: 34863
   t=1793621538140 kind=move id=4471 x=314.41254 y=295.8248
   t=1793621538165 outbound_request op=22 params={0=639292183382080737 1=[331.69263, 280.72418] 2=274.32913 3=[331.05872, 280.77216] 4=11.0 253=22}
   t=1793621538165 kind=own_player_move x=331.692626953125 y=280.72418212890625 heading=274.3291320800781 target_x=331.0587158203125 target_y=280.77215576171875 speed=11.0 source=outbound_photon_operation_22_param_1
-  t=1793621538241 kind=resource_state id=3252 amount=0 removed=true
+  t=1793621538241 kind=resource_state id=3252 enchant=1 amount=0 removed=true
   t=1793621538241 event3 id=4471 raw=03d6ad288ada38df081b189d4310d09343a200004040245b9b4385449243 p4=314.18832 p5=295.6255
   t=1793621538241 kind=move id=4471 x=314.18832 y=295.6255
   t=1793621538271 outbound_request op=22 params={0=639292183383100737 1=[330.57385, 280.80887] 2=274.32968 3=[329.96277, 280.85516] 4=11.0 253=22}
@@ -33893,6 +33968,7 @@ Detailed entity/player observations: 34863
   t=1793621540527 event3 id=4453 raw=03924a838bda38df08e8ca8d43a73d85436c0000404011a38e43a9ad8343 p4=283.5852 p5=266.48166
   t=1793621540527 kind=move id=4453 x=283.5852 y=266.48166
   t=1793621540527 kind=player_spawn id=40814 name=raxes
+  t=1793621540527 kind=player_mounted id=40814
   t=1793621540527 event3 id=40814 raw=0323fb7b8bda38df0881950a3f81ba9c886700004641406b073f4a3fa088 p4=0.54134375 p5=-9.432755E-34
   t=1793621540527 kind=player_move id=40814 name=raxes x=0.54134375 y=-9.432755E-34 raw_hex=0323fb7b8bda38df0881950a3f81ba9c886700004641406b073f4a3fa088 coord_source=unvalidated_event3_payload
   t=1793621540556 event3 id=4470 raw=03385e898bda38df083bff9d4302649c43540000404066239f4308c59b43 p4=315.994 p5=312.7813
@@ -33998,6 +34074,7 @@ Detailed entity/player observations: 34863
   t=1793621541656 event3 id=4453 raw=0332dd2b8cda38df08be938e4304ca83436c0000404011a38e43a9ad8343 p4=285.15424 p5=263.57825
   t=1793621541656 kind=move id=4453 x=285.15424 y=263.57825
   t=1793621541656 kind=player_spawn id=40520 name=LebeauJeu
+  t=1793621541656 kind=player_mounted id=40520
   t=1793621541656 event3 id=40520 raw=03912b2c8cda38df0855af0c3f2588998872d7a3324180990f3fb8c29b88 p4=0.54955035 p5=-9.24036E-34
   t=1793621541656 kind=player_move id=40520 name=LebeauJeu x=0.54955035 y=-9.24036E-34 raw_hex=03912b2c8cda38df0855af0c3f2588998872d7a3324180990f3fb8c29b88 coord_source=unvalidated_event3_payload
   t=1793621541702 event3 id=40814 raw=03c3d82a8cda38df08c644013f911ba288630000464132e0033f5e17a788 p4=0.50495565 p5=-9.756501E-34
@@ -34025,6 +34102,7 @@ Detailed entity/player observations: 34863
   t=1793621541922 event3 id=38422 raw=03afcc598cda38df084de1ac43ac1e95437b6666e63f3dfeac43a5489443 p4=345.76016 p5=298.23962
   t=1793621541922 kind=move id=38422 x=345.76016 y=298.23962
   t=1793621541922 kind=player_spawn id=40520 name=LebeauJeu
+  t=1793621541922 kind=player_mounted id=40520
   t=1793621541924 outbound_request op=22 params={0=639292183419630737 1=[304.9953, 296.82156] 2=3.4370964 3=[305.03415, 297.4684] 4=11.0 253=22}
   t=1793621541924 kind=own_player_move x=304.99530029296875 y=296.8215637207031 heading=3.437096357345581 target_x=305.0341491699219 target_y=297.4684143066406 speed=11.0 source=outbound_photon_operation_22_param_1
   t=1793621541975 outbound_request op=22 params={0=639292183416290737 1=[304.775, 293.1542] 2=3.437096 3=[304.81183, 293.7681] 4=11.0 253=22}
@@ -34541,7 +34619,7 @@ Detailed entity/player observations: 34863
   t=1793621547291 kind=move id=22867
   t=1793621547291 event3 id=4471 raw=0346918d8fda38df0848459c43d7ce94430e0000404080e29c4383839643 p4=312.54126 p5=297.61594
   t=1793621547291 kind=move id=4471 x=312.54126 y=297.61594
-  t=1793621547304 kind=manual_marker activity=Travel event=activity_end tier=T4 enchantment=E1
+  t=1793621547304 kind=manual_marker elapsed_realtime_ms=11604835 activity=Travel event=activity_end tier=T4 enchantment=E1
   t=1793621547339 event3 id=40520 raw=01213e908fda38df0836620f3213f783549ad7a33241 p4=null p5=null
   t=1793621547339 kind=player_move id=40520 name=LebeauJeu raw_hex=01213e908fda38df0836620f3213f783549ad7a33241 coord_source=unvalidated_event3_payload
   t=1793621547387 event3 id=4493 raw=03abcd988fda38df08b09f61436ef89243ee00004040f6ee5f4352c39443 p4=225.62378 p5=293.94086
@@ -34875,7 +34953,7 @@ Detailed entity/player observations: 34863
   t=1793621553581 kind=move id=5254 x=205.44551 y=307.55698
   t=1793621553698 event3 id=5254 raw=012bdd5c93da38df086c534d43c5af9943989a993940 p4=null p5=null
   t=1793621553698 kind=move id=5254
-  t=1793621554375 kind=manual_marker activity=Travel event=overlay_collapsed tier=T4 enchantment=E1
+  t=1793621554375 kind=manual_marker elapsed_realtime_ms=11611906 activity=Travel event=overlay_collapsed tier=T4 enchantment=E1
   t=1793621555006 event3 id=40520 raw=0301b91294da38df08be71632b0c032b3f9ad7a33241292f612bda8d2e3f p4=8.080445E-13 p5=0.66801524
   t=1793621555006 kind=player_move id=40520 name=LebeauJeu x=8.080445E-13 y=0.66801524 raw_hex=0301b91294da38df08be71632b0c032b3f9ad7a33241292f612bda8d2e3f coord_source=unvalidated_event3_payload
   t=1793621555019 event3 id=40520 raw=0371702294da38df08ffcd602bbb852c3f8fd7a3324190e7612b929d2f3f p4=7.9866663E-13 p5=0.67391557
@@ -35170,4 +35248,4 @@ Detailed entity/player observations: 34863
   t=1793621565559 kind=move id=4492 x=224.40494 y=311.55734
   t=1793621565658 event3 id=4492 raw=03d0527e9ada38df084b9c60434de39b431f00004040309a6143316a9c43 p4=224.61052 p5=311.7758
   t=1793621565658 kind=move id=4492 x=224.61052 y=311.7758
-  t=1793621565750 kind=manual_marker activity=Capture event=capture_stopping
+  t=1793621565750 kind=manual_marker elapsed_realtime_ms=11623281 activity=Capture event=capture_stopping

@@ -1,11 +1,11 @@
 # Offline replay baseline comparison
 
-Unique PCAPs analyzed: 34
+Unique PCAPs analyzed: 35
 Byte-identical duplicates skipped: 1
 Analysis errors: 0
 Baseline: existing baseline; unchanged
 - DUPLICATE_SKIPPED: 1
-- NEW_CAPTURE_REVIEW: 13
+- NEW_CAPTURE_REVIEW: 14
 - OUTPUT_CHANGED_REVIEW_REQUIRED: 21
 
 Captures requiring review:
@@ -21,6 +21,7 @@ Captures requiring review:
 - Albion2.zip::red ore ench 1 mined , mount dismount 3 times accidentally before mine.pcap: OUTPUT_CHANGED_REVIEW_REQUIRED
 - Albion2.zip::red,ore lvl2.pcap: OUTPUT_CHANGED_REVIEW_REQUIRED
 - Albion2.zip::went from yellow 5 region to fort sterling, and then to bank and inspectoed a few of my items and equipmentz.pcap: OUTPUT_CHANGED_REVIEW_REQUIRED
+- AlbionRadar11.zip::albion-1794058383031.pcap: NEW_CAPTURE_REVIEW
 - AlbionRadar2.zip::albion-1793699111286.pcap: NEW_CAPTURE_REVIEW
 - AlbionRadar2.zip::albion-1793699145258.pcap: NEW_CAPTURE_REVIEW
 - AlbionRadar2.zip::albion-1793699283778.pcap: NEW_CAPTURE_REVIEW

@@ -61,7 +61,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "a53285c04f01c28f2180c167daa1b8535a353a879ae04b2bb623fb2fd7766ad4",
   "ip_packets": 1622,
-  "fingerprint": "46ca216ad6781470bdd7f6ad145c17d75602d94062e46debc49b2594d116bef6",
+  "fingerprint": "a8d99b09dda05101c1f3cba9097190829a8f943cbcc77f63631bc3fd0a0ae713",
   "malformed_protocol18_messages": 0,
   "operation_requests": {
     "22": 25,
@@ -75,11 +75,13 @@
   "entity_kinds": {
     "harvestable": 1,
     "own_player_move": 25,
+    "player_mounted": 2,
     "leave": 9,
     "resource_state": 10,
     "health": 31,
     "health_regeneration": 12,
-    "energy": 10
+    "energy": 10,
+    "target_request": 14
   },
   "source_name": "gholem dismount kill mine mount.pcap",
   "operation_responses": {

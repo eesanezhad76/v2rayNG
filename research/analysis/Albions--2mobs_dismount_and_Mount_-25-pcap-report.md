@@ -68,8 +68,10 @@ Mapped entity observations:
   mob: 8
   move: 93
   own_player_move: 121
+  player_mounted: 3
   resource_state: 1
   static_resource: 27
+  target_request: 9
 Typed Photon event observations:
   living_entity: 8
   resource: 3
@@ -97,7 +99,7 @@ Limitation: Packet duplicates are counted, not assumed to be packet loss; retran
 Limitation: A long timestamp gap is a continuity warning, not proof that packets were dropped.
 Limitation: Native tap drops were not supplied; no tap-drop penalty was applied.
 
-Detailed entity/player observations: 1140
+Detailed entity/player observations: 1143
   t=1793399513326 event3 id=587958 raw=01dce14899d536df0813b9b5c3d42561432600004040 p4=null p5=null
   t=1793399513946 event3 id=600258 raw=037afaa599d536df0877d5bfc3394a80434dcdcc4c403b5dc0c3e14e7f43 p4=-383.6677 p5=256.57986
   t=1793399514024 event3 id=600258 raw=03ff4cb599d536df08b4efbfc3c32a80439ccdcc4c403b5dc0c3e14e7f43 p4=-383.87268 p5=256.33408
@@ -107,6 +109,8 @@ Detailed entity/player observations: 1140
   t=1793399514419 event3 id=600258 raw=038d95f299d536df08a558c0c3de597f439ccdcc4c403b5dc0c3e14e7f43 p4=-384.69254 p5=255.35104
   t=1793399514559 event3 id=600258 raw=01acef019ad536df083b5dc0c3e14e7f439ccdcc4c40 p4=null p5=null
   t=1793399514827 outbound_request op=199 params={0=639289963152952643 1=593017 253=199}
+  t=1793399515048 kind=player_mounted id=593016
+  t=1793399515328 kind=player_mounted id=593016
   t=1793399515767 event3 id=272989 raw=0340dfb99ad536df085b1cb1c3a4ef93435300004040504db4c308a59343 p4=-354.22153 p5=295.8722
   t=1793399515862 event3 id=272989 raw=037b32c99ad536df089842b1c326ec9343bc00004040504db4c308a59343 p4=-354.52026 p5=295.8449
   t=1793399515970 event3 id=272989 raw=03ef74d89ad536df08d568b1c3a8e89343bc00004040504db4c308a59343 p4=-354.819 p5=295.81763
@@ -400,7 +404,7 @@ Detailed entity/player observations: 1140
   t=1793399522366 kind=leave id=264750 removed=true
   t=1793399522366 kind=leave id=1753 removed=true
   t=1793399522366 kind=leave id=1881 removed=true
-  t=1793399522366 kind=mob id=574136 x=-356.5515 y=319.82285 mobileType=120 enchant=0
+  t=1793399522366 kind=mob id=574136 name=MISTS_SOLO_YELLOW x=-356.5515 y=319.82285 mobileType=120 enchant=0
   t=1793399522366 kind=mob id=573383 x=-343.2622 y=320.64755 mobileType=2486 enchant=0
   t=1793399522366 kind=static_resource id=247 x=-393.5 y=324.5
   t=1793399522366 kind=static_resource id=2495 x=-378.0 y=317.0
@@ -418,7 +422,7 @@ Detailed entity/player observations: 1140
   t=1793399522622 kind=static_resource id=247 x=-393.5 y=324.5
   t=1793399522622 kind=static_resource id=2495 x=-378.0 y=317.0
   t=1793399522622 kind=mob id=573383 x=-343.2622 y=320.64755 mobileType=2486 enchant=0
-  t=1793399522622 kind=mob id=574136 x=-356.5515 y=319.82285 mobileType=120 enchant=0
+  t=1793399522622 kind=mob id=574136 name=MISTS_SOLO_YELLOW x=-356.5515 y=319.82285 mobileType=120 enchant=0
   t=1793399522622 kind=leave id=1881 removed=true
   t=1793399522622 kind=leave id=1753 removed=true
   t=1793399522622 kind=leave id=264750 removed=true
@@ -1140,7 +1144,7 @@ Detailed entity/player observations: 1140
   t=1793399546261 kind=move id=587958 x=-365.3836 y=226.34796
   t=1793399546376 event3 id=587958 raw=035dd1fbacd536df0860a7b6c3c80e62437600004040ad15b6c3ddb55d43 p4=-365.30762 p5=226.05774
   t=1793399546376 kind=move id=587958 x=-365.30762 y=226.05774
-  t=1793399546436 kind=resource_state id=2519 amount=1
+  t=1793399546436 kind=resource_state id=2519 enchant=1 amount=1
   t=1793399546516 event3 id=587958 raw=03ff150badd536df08a69db6c37cc461437600004040ad15b6c3ddb55d43 p4=-365.23163 p5=225.76752
   t=1793399546516 kind=move id=587958 x=-365.23163 y=225.76752
   t=1793399546631 event3 id=587958 raw=03f3731aadd536df08ec93b6c3307a61437600004040ad15b6c3ddb55d43 p4=-365.15564 p5=225.4773
@@ -1237,4 +1241,5 @@ Detailed entity/player observations: 1140
   t=1793399552643 event3 id=600258 raw=03326ea8b0d536df08c32bc1c387247d4387cdcc4c409a34c1c346c57c43 p4=-386.3419 p5=253.14268
   t=1793399552643 event3 id=600258 raw=031db7b7b0d536df083d33c1c3fdd37c4387cdcc4c409a34c1c346c57c43 p4=-386.4003 p5=252.82808
   t=1793399552764 event3 id=600258 raw=011220c7b0d536df089a34c1c346c57c4387cdcc4c40 p4=null p5=null
+  t=1793399553232 kind=player_mounted id=593016
   t=1793399553232 kind=leave id=600880 removed=true

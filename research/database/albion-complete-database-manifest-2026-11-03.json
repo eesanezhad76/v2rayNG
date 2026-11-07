@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-06T16:31:42.706017+00:00",
+  "generated_at_utc": "2026-11-07T14:41:09.558221+00:00",
   "branch": "albion-pattern-mining",
   "source_archives": [
     {
@@ -31,6 +31,17 @@
       "members": 5,
       "pcaps": 0,
       "jsonl": 4,
+      "knowledge_entity_records": 0,
+      "knowledge_protocol_events": 0,
+      "knowledge_autonomous_patterns": 0
+    },
+    {
+      "archive": "AlbionRadar11.zip",
+      "bytes": 18578727,
+      "sha256": "59319bac63b6703f24b3bf621ae5dd5da78282d162ff2b737db9842c3252a164",
+      "members": 4,
+      "pcaps": 1,
+      "jsonl": 1,
       "knowledge_entity_records": 0,
       "knowledge_protocol_events": 0,
       "knowledge_autonomous_patterns": 0
@@ -126,7 +137,7 @@
     {
       "archive": "archiveNew-extracted.zip",
       "bytes": 797747472,
-      "sha256": "6f195837f73fe64f40a47e2a6ad1cd241b10d8283317a0a5a2ff6ce6af9c6bf7",
+      "sha256": "24db1d3f49548874116a549d807c14c9e77922e32ab965c07dcd4ac6591c1d1b",
       "members": 9,
       "pcaps": 4,
       "jsonl": 4,
@@ -158,29 +169,30 @@
     }
   ],
   "intake": {
-    "zip_archives": 14,
-    "pcap_members": 35,
-    "unique_pcap_sha256": 34,
+    "zip_archives": 15,
+    "pcap_members": 36,
+    "unique_pcap_sha256": 35,
     "byte_identical_duplicate_pcaps": 1,
     "pcap_analyzer_errors": 0,
-    "jsonl_members": 20,
-    "normalized_observations": 761082,
-    "own_player_move_observations": 81881
+    "jsonl_members": 21,
+    "normalized_observations": 806306,
+    "own_player_move_observations": 85843
   },
   "resource_nodes": {
-    "event40_file_scoped_records": 652,
+    "event40_file_scoped_records": 725,
     "by_family_number": {
-      "14": 79,
+      "14": 86,
       "20": 9,
-      "27": 175,
+      "27": 192,
       "28": 2,
-      "29": 229,
+      "29": 259,
       "32": 1,
-      "7": 157
+      "7": 176
     },
     "by_archive": {
       "Albion اااستسمنسمنش.zip": 4,
       "Albion2.zip": 15,
+      "AlbionRadar11.zip": 73,
       "AlbionRadar2.zip": 19,
       "AlbionRadar5.zip": 30,
       "AlbionRadar6json.zip": 93,
@@ -189,10 +201,10 @@
       "Albionsskkakaks111.zip": 51,
       "archiveNew-extracted.zip": 329
     },
-    "state_ids": 629,
-    "state_only_ids_without_event40_location": 468,
-    "state_exact_event40_joins": 161,
-    "event46_update_observations": 1523,
+    "state_ids": 709,
+    "state_only_ids_without_event40_location": 534,
+    "state_exact_event40_joins": 175,
+    "event46_update_observations": 1803,
     "state_join_key": "archive+pcap+region_id+entity_id",
     "known_ore_family": 29,
     "known_ore_mobile_types_by_tier": {
@@ -268,14 +280,15 @@
     }
   },
   "static_resource_observations": {
-    "event39_records": 47108,
+    "event39_records": 49551,
     "warning": "Event 39 observations are untyped static-resource candidates; do not equate them to confirmed Event 40 nodes without exact identity evidence."
   },
   "mobile_entities": {
-    "event123_lifecycle_records": 4172,
+    "event123_lifecycle_records": 4373,
     "by_archive": {
       "Albion اااستسمنسمنش.zip": 10,
       "Albion2.zip": 52,
+      "AlbionRadar11.zip": 201,
       "AlbionRadar2.zip": 245,
       "AlbionRadar5.zip": 243,
       "AlbionRadar6json.zip": 850,
@@ -284,18 +297,27 @@
       "Albionsskkakaks111.zip": 247,
       "archiveNew-extracted.zip": 1829
     },
-    "distinct_mobile_type_ids": 116,
+    "distinct_mobile_type_ids": 124,
     "dictionary_mapped_type_ids": 116,
-    "unmapped_mobile_type_ids": [],
+    "unmapped_mobile_type_ids": [
+      "1378",
+      "1396",
+      "1468",
+      "1486",
+      "1558",
+      "1576",
+      "1594",
+      "1648"
+    ],
     "warning": "Event 123 living/mobile records; not every record is independently proven to be a hostile mob."
   },
   "combat": {
-    "operation23_attack_target_tracks": 37,
+    "operation23_attack_target_tracks": 38,
     "attack_target_position_samples": 3007,
     "interpretations": {
       "attack_target_with_plausible_mode3_movement_kill_not_proven": 1,
       "health_at_or_below_5_then_leave_after_attack_strong_defeat_candidate": 5,
-      "health_updates_then_leave_after_attack_defeat_likely_not_confirmed": 31
+      "health_updates_then_leave_after_attack_defeat_likely_not_confirmed": 32
     },
     "marker_correlations": 13,
     "correlations_by_activity_confidence": {
@@ -360,10 +382,10 @@
     "warning": "Operation 23 provides exact selected target IDs; marker-to-target links remain confidence-ranked. Candidate mob names are not proven species identities; Leave is not proof of death."
   },
   "manual_markers": {
-    "total": 369,
+    "total": 394,
     "by_activity_event": {
-      "Capture|capture_started": 15,
-      "Capture|capture_stopping": 12,
+      "Capture|capture_started": 16,
+      "Capture|capture_stopping": 13,
       "Fiber|activity_selected": 2,
       "Hide|activity_selected": 2,
       "Mobs|activity_selected": 3,
@@ -382,6 +404,18 @@
       "Ore|tier_selected": 28,
       "Other|activity_selected": 5,
       "PvP|activity_selected": 4,
+      "RadarDiagnostic|force_scan_started": 4,
+      "RadarDiagnostic|radar_test_completed": 1,
+      "RadarDiagnostic|radar_test_dismount_end": 1,
+      "RadarDiagnostic|radar_test_dismount_start": 1,
+      "RadarDiagnostic|radar_test_down_end": 2,
+      "RadarDiagnostic|radar_test_down_start": 2,
+      "RadarDiagnostic|radar_test_mount_end": 1,
+      "RadarDiagnostic|radar_test_mount_start": 1,
+      "RadarDiagnostic|radar_test_started": 2,
+      "RadarDiagnostic|radar_test_up_end": 2,
+      "RadarDiagnostic|radar_test_up_start": 2,
+      "RadarDiagnostic|region_scan_started": 4,
       "Stone|activity_selected": 2,
       "Travel|activity_end": 1,
       "Travel|activity_event": 1,
@@ -393,7 +427,9 @@
       "Troll|target_found": 12,
       "Wood|activity_selected": 3
     },
-    "completed_lifecycle_samples": 109
+    "completed_lifecycle_event_rows": 109,
+    "completed_lifecycle_samples": 109,
+    "completed_lifecycle_metric_note": "Raw gathering_completed + node_depleted event rows; not matched lifecycle sample pairs."
   },
   "knowledge_bundles": {
     "imported_bundles": 4,
@@ -425,11 +461,11 @@
     "warning": "Troll-labeled signatures are learned patterns, not counts of individual Troll mobs or kills."
   },
   "spatial_alignment": {
-    "captures_checked": 54,
-    "plausible_same_local_coordinate_space": 18,
+    "captures_checked": 59,
+    "plausible_same_local_coordinate_space": 20,
     "status_counts": {
-      "NOT_VERIFIED": 36,
-      "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE": 18
+      "NOT_VERIFIED": 39,
+      "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE": 20
     },
     "capture_details": [
       {
@@ -726,6 +762,121 @@
         "temporal_tolerance_ms": 5000,
         "median_nearest_player_distance_at_node_observation": null,
         "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed."
+      },
+      {
+        "archive": "AlbionRadar11.zip",
+        "pcap": "albion-1794058383031.pcap",
+        "region_id": null,
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_same_region_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 12,
+        "player_position_samples": 0,
+        "typed_resource_nodes": 4,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed."
+      },
+      {
+        "archive": "AlbionRadar11.zip",
+        "pcap": "albion-1794058383031.pcap",
+        "region_id": "4000",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_same_region_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 201,
+        "player_position_samples": 34,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed."
+      },
+      {
+        "archive": "AlbionRadar11.zip",
+        "pcap": "albion-1794058383031.pcap",
+        "region_id": "4002",
+        "status": "NOT_VERIFIED",
+        "evidence_grade": "same_capture_same_region_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 43,
+        "player_position_samples": 15,
+        "typed_resource_nodes": 0,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": null,
+        "resource_bounds": null,
+        "bounding_boxes_overlap": false,
+        "temporal_player_node_pairs": 0,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": null,
+        "p90_nearest_player_distance_at_node_observation": null,
+        "warning": "Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed."
+      },
+      {
+        "archive": "AlbionRadar11.zip",
+        "pcap": "albion-1794058383031.pcap",
+        "region_id": "4207",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_same_region_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 24096,
+        "player_position_samples": 1280,
+        "typed_resource_nodes": 12,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": 81.1037368774414,
+          "max_x": 349.3396301269531,
+          "min_y": -7.246560573577881,
+          "max_y": 109.56275939941406
+        },
+        "resource_bounds": {
+          "min_x": 144.121,
+          "max_x": 233.0,
+          "min_y": -17.0,
+          "max_y": 130.0
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 10,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 49.322,
+        "p90_nearest_player_distance_at_node_observation": 50.993,
+        "warning": "Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed."
+      },
+      {
+        "archive": "AlbionRadar11.zip",
+        "pcap": "albion-1794058383031.pcap",
+        "region_id": "4219",
+        "status": "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE",
+        "evidence_grade": "same_capture_same_region_time_aligned_spatial_heuristic_only",
+        "replay_observation_rows": 20872,
+        "player_position_samples": 2633,
+        "typed_resource_nodes": 57,
+        "resource_entity_ids_with_coordinate_conflicts": [],
+        "player_bounds": {
+          "min_x": -243.79286193847656,
+          "max_x": 321.98492431640625,
+          "min_y": -57.310359954833984,
+          "max_y": 216.29600524902344
+        },
+        "resource_bounds": {
+          "min_x": -262.0,
+          "max_x": 326.5,
+          "min_y": -88.5,
+          "max_y": 260.0
+        },
+        "bounding_boxes_overlap": true,
+        "temporal_player_node_pairs": 57,
+        "temporal_tolerance_ms": 5000,
+        "median_nearest_player_distance_at_node_observation": 48.828,
+        "p90_nearest_player_distance_at_node_observation": 59.618,
         "warning": "Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed."
       },
       {
@@ -1643,7 +1794,7 @@
     "warning": "This does not establish current zone identity or a global map transform."
   },
   "zone_evidence": {
-    "region_transition_records": 33,
+    "region_transition_records": 42,
     "captured_region_ids": [
       "4000",
       "4001",
@@ -1668,10 +1819,10 @@
     },
     "troll_main_curated_disagreement_count": 1,
     "spatial_status_counts": {
-      "NOT_VERIFIED": 36,
-      "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE": 18
+      "NOT_VERIFIED": 39,
+      "PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE": 20
     },
-    "region_transition_records": 33,
+    "region_transition_records": 42,
     "captured_region_ids": [
       "4000",
       "4001",
@@ -1684,47 +1835,47 @@
       "4219"
     ],
     "event46_counts": {
-      "state_ids": 629,
-      "exact_event40_joins": 161,
-      "state_only": 468,
-      "updates": 1523,
+      "state_ids": 709,
+      "exact_event40_joins": 175,
+      "state_only": 534,
+      "updates": 1803,
       "join_key": "archive+pcap+region_id+entity_id"
     },
     "attack_target_position_samples": 3007,
-    "manual_marker_records": 369,
-    "manual_completed_lifecycle_samples": 109,
+    "manual_marker_records": 394,
+    "manual_completed_lifecycle_event_rows": 109,
     "external_source_license_note": "Game-derived world map/zone payloads remain reference-only; no unlicensed data was copied."
   },
   "tables": [
     {
       "path": "research/database/2026-11-02-all-inbox-observations.jsonl",
-      "bytes": 146401898,
-      "sha256": "f2b13bebd4292355e9460d1bf6cb353e8f06392aeed4e49b097d2e2163d01883"
+      "bytes": 155317139,
+      "sha256": "7cdbaa7f4189f94f519cbac9a927ded60f075269243fb835e6d3817288a206a4"
     },
     {
       "path": "research/database/2026-11-02-pcap-harvestable-nodes.csv",
-      "bytes": 133692,
-      "sha256": "8553d7b7221630ca1a1a0b0a21f14ca6d5827ac8c56c5d4756288a1163f66bec"
+      "bytes": 147704,
+      "sha256": "c64e0bef9be9a63b0311f65496a54ed4186976fd7c4fa7a42cc270a4994bfb6a"
     },
     {
       "path": "research/database/2026-11-02-pcap-mob-lifecycle.csv",
-      "bytes": 991398,
-      "sha256": "0f30ad463031b6c6325e74bd17cd004e9bd1374ce4a6a3f661a2b245fcb539c9"
+      "bytes": 1038329,
+      "sha256": "2da3456ffdc66bd18082e2b7760c367e68602344a1594fb024a02ce791f6d7ee"
     },
     {
       "path": "research/database/2026-11-02-pcap-static-resources.csv",
-      "bytes": 4624611,
-      "sha256": "09daa2cae93c303e2575ae0c3bced8c1fb9e614ee6b3c55a608ac9f479d4f239"
+      "bytes": 4852155,
+      "sha256": "d26497e20f9aaa707e7a3a3061e198aff3ec1b988b7714d38e8e4a99369dd593"
     },
     {
       "path": "research/database/2026-11-02-pcap-attack-target-tracks.csv",
-      "bytes": 15953,
-      "sha256": "3ccd0f77d7267564380bf3f404af7810ed6016f3de01637c9fd0a1e729b7fa55"
+      "bytes": 16247,
+      "sha256": "51f24d15285804f33d840eaea9bbbb95fab16c295badaf608956784ee6066e3a"
     },
     {
       "path": "research/analysis/2026-11-02-overlay-manual-markers.csv",
-      "bytes": 39456,
-      "sha256": "9820332fa69824b76e72368117020f80890e5ced4a75ef4a016b8daa90332b17"
+      "bytes": 42363,
+      "sha256": "a821292d17d35b373c9c18dc9c2a9509c5aff2a7adccd4869022004dbcfef8fc"
     },
     {
       "path": "research/analysis/2026-11-02-overlay-mob-attack-correlation.csv",
@@ -1738,23 +1889,23 @@
     },
     {
       "path": "research/analysis/2026-11-02-spatial-alignment.json",
-      "bytes": 54580,
-      "sha256": "d2988f894123abc3e6bd400b32200cacb6e48ca098c827ff31c31452568a633f"
+      "bytes": 59604,
+      "sha256": "f9190561f299c01351d4c9ea2f20875657a698192f4bc840b5da294f61f754a1"
     },
     {
       "path": "research/database/2026-11-02-pcap-resource-state-timelines.csv",
-      "bytes": 94882,
-      "sha256": "1f58396bce987209d06dc0091f54f037eef5c53ece769678f76c11cd1a8975b2"
+      "bytes": 107899,
+      "sha256": "c30e8e3aca413398a404dae0c9c8bacbfb6c2e6c81720bae02afd4bd2472802d"
     },
     {
       "path": "research/database/2026-11-02-pcap-health-energy-events.csv",
-      "bytes": 1055455,
-      "sha256": "bc1509e7b7a42b3f88c5853a901bf80d0a62e58a5136eab4f7664f97d4a38276"
+      "bytes": 1137385,
+      "sha256": "02d389006e75d51bae1c6b5fb87976c48750b23dfa8fecfd08bb504e56963cfa"
     },
     {
       "path": "research/database/2026-11-02-region-transition-evidence.csv",
-      "bytes": 43536,
-      "sha256": "8edc803a52123c17a8c1cf25e08683706fbe7f869c2b771f8f852f6eff3c935c"
+      "bytes": 53811,
+      "sha256": "58bc7ea6c37454a696370e82ac1254cf91a46c70284292bd5d2f40b0cf1f0a76"
     },
     {
       "path": "research/database/albion-mobile-type-crosswalk-2026-11-03.csv",

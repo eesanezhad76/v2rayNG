@@ -61,7 +61,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "76dd84c42af7f41138a5d6f31dd3e7c9f346eb2096ed46ddac9d918be8a0e776",
   "ip_packets": 6533,
-  "fingerprint": "17900328ceec3896864ae3d36f174f1a74b53d05acd5fc3059863346df90e15e",
+  "fingerprint": "4af13cd1bc4a54bd6ff75be7f95d5d7c661aa215812644c3740d88bf4e9ad8b1",
   "malformed_protocol18_messages": 0,
   "operation_requests": {
     "22": 121,
@@ -77,12 +77,14 @@
     "own_player_move": 121,
     "mob": 8,
     "move": 93,
+    "player_mounted": 3,
     "leave": 47,
     "static_resource": 27,
     "resource_state": 1,
     "health": 43,
     "health_regeneration": 2,
-    "energy": 13
+    "energy": 13,
+    "target_request": 9
   },
   "source_name": "2mobs dismount and Mount .pcap",
   "operation_responses": {"22": 1}

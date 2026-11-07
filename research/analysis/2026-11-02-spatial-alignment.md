@@ -172,6 +172,66 @@ A plausible result supports local coordinate alignment only inside one confirmed
 - Node IDs with coordinate conflicts: 0
 - Warning: Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed.
 
+## AlbionRadar11.zip / albion-1794058383031.pcap / region unresolved
+
+- Region ID: unresolved
+- Status: NOT_VERIFIED
+- Player position samples: 0
+- Typed Event-40 resource nodes: 4
+- Bounding boxes overlap: False
+- Median nearest-node distance: None
+- P90 nearest-node distance: None
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed.
+
+## AlbionRadar11.zip / albion-1794058383031.pcap / region 4000
+
+- Region ID: 4000
+- Status: NOT_VERIFIED
+- Player position samples: 34
+- Typed Event-40 resource nodes: 0
+- Bounding boxes overlap: False
+- Median nearest-node distance: None
+- P90 nearest-node distance: None
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed.
+
+## AlbionRadar11.zip / albion-1794058383031.pcap / region 4002
+
+- Region ID: 4002
+- Status: NOT_VERIFIED
+- Player position samples: 15
+- Typed Event-40 resource nodes: 0
+- Bounding boxes overlap: False
+- Median nearest-node distance: None
+- P90 nearest-node distance: None
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed.
+
+## AlbionRadar11.zip / albion-1794058383031.pcap / region 4207
+
+- Region ID: 4207
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
+- Player position samples: 1280
+- Typed Event-40 resource nodes: 12
+- Bounding boxes overlap: True
+- Median nearest-node distance: 49.322
+- P90 nearest-node distance: 50.993
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed.
+
+## AlbionRadar11.zip / albion-1794058383031.pcap / region 4219
+
+- Region ID: 4219
+- Status: PLAUSIBLE_SAME_LOCAL_COORDINATE_SPACE
+- Player position samples: 2633
+- Typed Event-40 resource nodes: 57
+- Bounding boxes overlap: True
+- Median nearest-node distance: 48.828
+- P90 nearest-node distance: 59.618
+- Node IDs with coordinate conflicts: 0
+- Warning: Candidate evidence only. Coordinates are compared only within the same archive, PCAP, and confirmed region; no cross-region or cross-capture joins are allowed.
+
 ## AlbionRadar2.zip / albion-1793699111286.pcap / region unresolved
 
 - Region ID: unresolved

@@ -54,7 +54,7 @@
   "encrypted_photon_packets": 0,
   "source_sha256": "4fcafc2b13d33587559d75497f332f3b97b528c5e1c2de78c0de68ed4dbf7669",
   "ip_packets": 1578,
-  "fingerprint": "e13fd58cdfeb60a0ded5334c294451817620a71011049670cffc17876bb2ef68",
+  "fingerprint": "f3041e82f6e52aa15c53318dea66a68f82799495a9a40f7117d2fac9887f773f",
   "malformed_protocol18_messages": 0,
   "operation_requests": {
     "199": 2,
@@ -63,6 +63,7 @@
   "albion_udp_packets": 1011,
   "entity_kinds": {
     "harvestable": 1,
+    "player_mounted": 2,
     "leave": 13,
     "resource_state": 1,
     "health": 66,
