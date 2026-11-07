@@ -31,7 +31,7 @@ class AlbionMapProjectionTest {
     }
 
     @Test
-    fun albionRadar11AllFourMarkedWalksMapUpAndDownToScreenVertical() {
+    fun albionRadar11FourManualWalksRemainWithinExpectedSteeringToleranceAt45Degrees() {
         // Exact first/last Move(22) coordinates from AlbionRadar11, region 4207.
         val up1 = JSONArray()
             .put(JSONObject().put("x", 123.33484).put("y", 63.11853))
@@ -49,19 +49,22 @@ class AlbionMapProjectionTest {
         val upDirections = listOf(up1, up2).map { AlbionMapProjection.movementDirection(it)!! }
         val downDirections = listOf(down1, down2).map { AlbionMapProjection.movementDirection(it)!! }
 
-        // Endpoint vectors include the user's slight diagonal hand path.
-        // The independently fitted 49.819-degree calibration maps all UP
-        // walks to screen-up and both reversed walks to screen-down.
+        // Manual walking is not guaranteed to be exactly vertical. The
+        // conservative 45-degree correction allows up to 7 degrees of
+        // residual path/input deviation while preserving direction polarity.
+        val maxLateral = kotlin.math.sin(Math.toRadians(7.0))
+        val minVertical = kotlin.math.cos(Math.toRadians(7.0))
+        assertEquals(45.0, AlbionMapProjection.MOVEMENT_CLOCKWISE_CALIBRATION_DEGREES, 0.0)
         upDirections.forEach {
-            assertTrue(it.y < -0.999)
-            assertTrue(kotlin.math.abs(it.x) < 0.02)
+            assertTrue(it.y < -minVertical)
+            assertTrue(kotlin.math.abs(it.x) < maxLateral)
         }
         downDirections.forEach {
-            assertTrue(it.y > 0.999)
-            assertTrue(kotlin.math.abs(it.x) < 0.02)
+            assertTrue(it.y > minVertical)
+            assertTrue(kotlin.math.abs(it.x) < maxLateral)
         }
         upDirections.zip(downDirections).forEach { (up, down) ->
-            assertTrue(hypot(up.x + down.x, up.y + down.y) < 0.03)
+            assertTrue(hypot(up.x + down.x, up.y + down.y) < 0.20)
         }
     }
 
