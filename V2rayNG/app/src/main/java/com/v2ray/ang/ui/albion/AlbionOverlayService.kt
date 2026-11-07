@@ -68,6 +68,7 @@ class AlbionOverlayService : Service() {
     private var catalogCaptures = JSONArray()
     private var catalogIndex = 0
     private var mobileTypeDictionary = JSONObject()
+    private var regionNameIndex = JSONObject()
     private var researchKnowledge: com.v2ray.ang.albion.AlbionResearchKnowledgeIndex.Snapshot? = null
     private var historicalKnowledge: com.v2ray.ang.albion.AlbionHistoricalKnowledgeIndex.Snapshot? = null
     private var catalogNodeCount = 0
@@ -588,6 +589,11 @@ class AlbionOverlayService : Service() {
         } catch (_: Exception) { mobileTypeDictionary = JSONObject() }
 
         try {
+            regionNameIndex = assets.open("albion-region-name-index.json")
+                .bufferedReader().use { JSONObject(it.readText()).optJSONObject("regions") ?: JSONObject() }
+        } catch (_: Exception) { regionNameIndex = JSONObject() }
+
+        try {
             val index = assets.open("albion-research-catalog-index.json").bufferedReader().use { JSONObject(it.readText()) }
             catalogCaptures = index.optJSONArray("captures") ?: JSONArray()
             if (catalogCaptures.length() > 0) {
@@ -672,13 +678,18 @@ class AlbionOverlayService : Service() {
         catalogInfo.visibility = View.VISIBLE
     }
 
-    private fun formatRegionLabel(regionId: String): String = when {
-        regionId.startsWith("@MISTS@", ignoreCase = true) ->
-            "MISTS • " + regionId.substringAfter("@MISTS@").replace('_', ' ')
-        regionId.startsWith("MAP_", ignoreCase = true) ->
-            regionId.removePrefix("MAP_").replace('_', ' ')
-        regionId.toLongOrNull() != null -> "ZONE $regionId"
-        else -> regionId.replace('_', ' ')
+    private fun formatRegionLabel(regionId: String): String {
+        regionNameIndex.optString(regionId).takeIf { it.isNotBlank() }?.let { return it }
+        val numericAlias = regionId.toLongOrNull()?.toString()
+        if (numericAlias != null) regionNameIndex.optString(numericAlias).takeIf { it.isNotBlank() }?.let { return it }
+        return when {
+            regionId.startsWith("@MISTS@", ignoreCase = true) ->
+                "MISTS • " + regionId.substringAfter("@MISTS@").replace('_', ' ')
+            regionId.startsWith("MAP_", ignoreCase = true) ->
+                regionId.removePrefix("MAP_").replace('_', ' ')
+            regionId.toLongOrNull() != null -> "ZONE $regionId"
+            else -> regionId.replace('_', ' ')
+        }
     }
 
     private fun togglePreviousRegion() {

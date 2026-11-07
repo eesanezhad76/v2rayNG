@@ -20,3 +20,9 @@ No new network calls, active probes, packet polling, or background scan loops. T
 ## Follow-up validation
 
 - Updated projection unit tests to assert the existing capture-calibrated map rotation (49.819°) and independent movement transform (45°). The previous cardinal-axis expectations predated those calibrated transforms and caused the pre-change baseline CI run to fail.
+
+
+## Region-name lookup
+
+- Added `albion-region-name-index.json`, a compact index-to-name table generated from the public `ao-data/ao-bin-dumps/formatted/world.json` game-data snapshot (tree `0483dd97f1581dfaf02eed42f25f5ea2a3cb75e5`). Only numeric map indexes and their display names are included; no world coordinates or inferred resource locations are imported.
+- Region names are loaded once when the overlay initializes. Unknown MAP_/Mists IDs retain their readable identifier fallback.
