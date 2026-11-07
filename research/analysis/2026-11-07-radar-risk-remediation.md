@@ -21,8 +21,12 @@
   - Touchable bounds are recalculated from the actual side-panel and drag-handle descendant geometry, including the current scale transform.
   - Invalid live snapshots are reported explicitly as stale while retaining the last good frame.
 - `AlbionRadarSnapshotParserTest.kt`
-  - Added regression tests for unknown/known tier filtering, eligible MARK targets, superseded/dead mobs, and dead-mob navigation exclusion.
+  - Added regression tests for unknown/known/invalid tier filtering, active-region isolation, eligible MARK targets, superseded/dead mobs, and dead-mob navigation exclusion.
+- `.github/workflows/build.yml`
+  - Added this isolated remediation branch to the same validation path as `albion-pattern-mining`: debug APK build, unit tests, APK verification, offline PCAP/Python audits, and Android 15 emulator installation. Existing branches' conditions were retained.
 
 ## Verification
 - Source files were fetched again from the repair branch after writes.
-- Unit tests and Android build have not yet been confirmed; CI/device verification is required before calling this game-ready.
+- GitHub Actions Build APK run #995 was triggered for source SHA `6a44369eb18c396bbc7299afde1322b72a8b3b2e`; it is still running at the time of this update.
+- The run includes `testPlaystoreDebugUnitTest`, `assemblePlaystoreDebug`, APK signature/hash verification, offline audits, and Android 15 emulator installation.
+- Real-device overlay/touch behavior on Poco F5 remains unverified.
