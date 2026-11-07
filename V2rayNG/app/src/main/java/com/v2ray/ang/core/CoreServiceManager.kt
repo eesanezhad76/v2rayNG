@@ -398,6 +398,8 @@ object CoreServiceManager {
     fun getAlbionPreviousRegionJson(): String =
         albionCaptureWorker?.previousRegionJson() ?: "[]"
 
+    fun getAlbionCurrentRegionId(): String? = albionCaptureWorker?.currentRegionId()
+
     /** Starts a user-triggered 60-second scan of entities observed in the current region. */
     fun startAlbionRegionScan(): String? = albionCaptureWorker?.beginRegionScan()
 

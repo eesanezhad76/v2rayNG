@@ -561,6 +561,9 @@ class AlbionLiveKnowledgeStore(
     }
 
     @Synchronized
+    fun currentRegionId(): String? = activeRegionId
+
+    @Synchronized
     fun snapshotText(): String {
         val recent = records.values
             .filter { it.optLong("session_started_ms", Long.MIN_VALUE) == sessionStartedMs &&
