@@ -208,13 +208,14 @@ Treat this file as mandatory project continuity context. Do not restart analysis
 - Next: investigate the one unresolved Troll candidate disagreement; obtain a licensed zone/world map dataset and validate a global coordinate transform; leave unknown IDs unresolved until direct evidence appears.
 
 
-## 12. Movement-arrow correction — 2026-11-07
-- Current active branch before this correction was `albion-pattern-mining`; a concurrent commit clarified that 49.819° aligns the marked UI-UP input axis and is not an independently verified cardinal-north calibration. Preserve that caveat.
-- The 49.819° clockwise calibration is retained; do not substitute the earlier 45° assumption.
-- `AlbionMapProjection.movementDirection` now calls a separately named `movementToScreen` transform rather than `worldToScreen`. Both presently use the same measured coefficient, but future map/node projection edits cannot silently rotate the movement arrow.
-- Regression tests use exact first/last Move(22) coordinates for UP1, DOWN1, UP2 and DOWN2 in AlbionRadar11 region 4207.
-- Mount/Dismount manual marker windows are state-transition evidence only. They contain zero Move(22) samples; do not interpret them as stationary, turn or direction samples.
-- Nearby Event 210 `player_mounted` observations have runtime IDs 90376/93378, but replay did not infer a local-player entity ID. Do not apply those IDs as local-player mount state or filter local movement history by them.
-- Runtime arrow direction remains based only on outbound own-player Operation 22 position history. The manual Mount/Dismount marker intervals are excluded from calibration, not injected as movement samples.
-- Detailed correction: `research/analysis/2026-11-07-movement-arrow-final-correction.md`.
-- CI, APK and Poco F5 visual validation remain pending; never claim success until verified.
+## 12. Movement-arrow correction — 2026-11-07 (revised)
+
+- The four manual UI-UP/DOWN paths are not guaranteed to be exactly vertical. The operator may introduce small steering corrections and path curvature; the earlier 0.513-degree sample SD does not include this systematic manual-path error.
+- The prior 49.819-degree value is retained only as the numerical mean implied by the four manually marked paths. It is not treated as a precise ground-truth calibration.
+- For the **movement arrow only**, the runtime correction is now conservatively rounded to **45.0 degrees clockwise**. The map/world projection remains independently calibrated at 49.819 degrees; do not couple the two transforms.
+- The movement regression test now allows up to 7 degrees of residual manual-path deviation and verifies UP/DOWN polarity and approximate opposition. This tolerance is an engineering acceptance band, not a statistical confidence interval.
+- `AlbionMapProjection.movementDirection` continues to use outbound own-player Operation 22 positional history only. Mount/Dismount markers are state-transition evidence and are never synthetic positions, turns, or stop vectors.
+- The three-second stale-history guard and minimum displacement threshold remain unchanged.
+- The 45-degree value is a provisional screen-space correction for the tested input/device context. It does not establish absolute game north or guarantee identical joystick bias on every device.
+- CI, APK artifact/signature verification, emulator launch and physical Poco F5 visual validation must be checked separately. Do not claim build success until the corresponding workflow completes and artifacts are verified.
+- Detailed empirical evidence and manual-path uncertainty: research/analysis/2026-11-07-movement-arrow-final-correction.md and the additive uncertainty note in the external research repository.
