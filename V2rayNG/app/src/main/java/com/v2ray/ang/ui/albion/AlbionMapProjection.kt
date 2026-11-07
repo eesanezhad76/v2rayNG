@@ -16,8 +16,10 @@ import kotlin.math.sin
  * assuming a 45-degree correction.
  *
  * Rotating screen-space offsets clockwise by 49.819 degrees aligns the
- * measured user-UP axis with screen-up. Nodes, trails and movement arrows
- * all use this same transform.
+ * measured marked UI-UP axis with screen-up. This is an input-axis
+ * calibration, not an independently verified cardinal-north calibration:
+ * PCAP alone cannot separate systematic joystick/touch bias from map bias.
+ * Nodes, trails and movement arrows all use this same transform.
  */
 internal object AlbionMapProjection {
     data class Point(val x: Double, val y: Double)

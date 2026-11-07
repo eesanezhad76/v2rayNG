@@ -61,3 +61,33 @@ There are no Move(22) position samples inside either Mount or Dismount marker in
 Replay quality is **FAIR**: 22,894 valid Photon packets, 12 malformed Photon packets, 5 malformed Protocol18 messages, 6 timestamp regressions, 102 gaps over one second, and a maximum gap of 12,049 ms. The marked movement intervals contain enough Move(22) samples to estimate their net directions, but the second UP interval has local direction outliers; its first-to-last displacement agrees with the first UP run and is used only as a whole-interval axis estimate.
 
 No app source or runtime transform was changed in this analysis commit. The report records the measured candidate correction and its systematic-bias limitation; a production rotation should be applied only after deciding that the user's marked UP input is an acceptable screen-vertical reference or obtaining an independent visual/cardinal reference.
+
+
+## Regression-based refinement and UI-input error
+
+The first-to-last displacement table above is retained for traceability. A second calculation fits X(t) and Y(t) independently across all samples in each marker interval, which reduces sensitivity to the user's non-vertical and locally irregular touch/joystick path.
+
+| Segment | Samples | OLS bearing | Median perpendicular residual | P90 perpendicular residual |
+|---|---:|---:|---:|---:|
+| UP 1 | 50 | 139.072° | 1.595u | 3.633u |
+| DOWN 1 | 79 | 320.011° | 3.260u | 7.246u |
+| UP 2 | 82 | 139.954° | 5.046u | 15.090u |
+| DOWN 2 | 66 | 320.238° | 2.393u | 5.325u |
+
+After reversing DOWN bearings by 180°, the four fitted UP-axis bearings have a mean of **139.819°** and sample standard deviation **0.513°** (range 1.166°). The resulting candidate clockwise screen correction is **49.819°**, about 4.819° away from the earlier 45° assumption. This is the measured UI-input axis estimate; the 0.513° spread describes repeatability between these four windows, not systematic thumb/joystick bias.
+
+The UP 2 window has a larger P90 path residual (15.090 game units) than the other windows, but its fitted bearing remains within 0.9° of UP 1. It is included with that lower straightness noted rather than discarded.
+
+### Mounted-state observations around the app markers
+
+The PCAP report also records these `player_mounted` observations near the manual test markers:
+- 1794059658875, runtime id 90376 (before the Mount marker)
+- 1794059662839, runtime id 90376 (inside the Mount marker interval)
+- 1794059669109, runtime id 93378 (immediately before the Dismount marker interval)
+- 1794059673069, runtime id 90376 (immediately after the Dismount marker interval)
+
+These are preserved as separate mounted-state observations. The replay has no inferred local-player entity ID, so the runtime IDs are not asserted to be the local player. There are no Move(22) coordinate samples inside either Mount or Dismount marker interval.
+
+### Interpretation boundary
+
+The projection change deliberately aligns the user's **marked UI-UP input axis** with screen-up. It does not prove that this axis is true game-world north: a systematic bias in the manual joystick/touch input cannot be distinguished from a map-orientation offset using these PCAP coordinates alone. An independent visual/cardinal reference would be required to claim absolute north.
