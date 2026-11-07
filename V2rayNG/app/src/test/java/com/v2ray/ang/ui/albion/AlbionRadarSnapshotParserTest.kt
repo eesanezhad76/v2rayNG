@@ -2,6 +2,7 @@ package com.v2ray.ang.ui.albion
 
 import org.json.JSONObject
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
@@ -174,5 +175,40 @@ class AlbionRadarSnapshotParserTest {
         assertTrue(label.contains("T5"))
         assertTrue(!label.contains("E1") && !label.contains("E2") && !label.contains("E3"), label)
     }
+ 
+    @Test fun unknownTierMetadataDoesNotHideEntitiesButKnownTiersRemainExact() {
+        assertTrue(AlbionSpatialIntelligence.passesTierFilter(-1, setOf(5)))
+        assertTrue(AlbionSpatialIntelligence.passesTierFilter(0, setOf(5)))
+        assertTrue(AlbionSpatialIntelligence.passesTierFilter(5, setOf(5)))
+        assertFalse(AlbionSpatialIntelligence.passesTierFilter(4, setOf(5)))
+        assertFalse(AlbionSpatialIntelligence.passesTierFilter(1, setOf(5)))
+        assertTrue(AlbionSpatialIntelligence.passesTierFilter(1, emptySet()))
+    }
 
+    @Test fun radarMarkEligibilityIncludesIdentityBackedTrollsAndHarvestableMobsOnly() {
+        val troll = JSONObject().put("last_kind", "mob").put("name", "Forest Troll")
+        assertTrue(AlbionSpatialIntelligence.isEligibleForRadarMark(troll))
+
+        val harvestableOreElemental = JSONObject()
+            .put("last_kind", "mob").put("mobile_type_id", 574).put("tier", 5)
+            .put("research_catalog_harvestable", true)
+        assertTrue(AlbionSpatialIntelligence.isEligibleForRadarMark(harvestableOreElemental))
+
+        val unclassifiedMob = JSONObject().put("last_kind", "mob").put("mobile_type_id", 482)
+        assertFalse(AlbionSpatialIntelligence.isEligibleForRadarMark(unclassifiedMob))
+
+        val supersededMob = JSONObject().put("last_kind", "mob").put("name", "Forest Troll")
+            .put("superseded_by_harvestable_entity_id", "entity-real-42")
+        assertFalse(AlbionSpatialIntelligence.isEligibleForRadarMark(supersededMob))
+
+        val deadTroll = JSONObject().put("last_kind", "mob").put("name", "Forest Troll")
+            .put("mob_state", "dead")
+        assertFalse(AlbionSpatialIntelligence.isEligibleForRadarMark(deadTroll))
+    }
+
+    @Test fun deadMobsCannotRemainNavigationTargets() {
+        val dead = JSONObject().put("last_kind", "mob").put("mobile_type_id", 574)
+            .put("tier", 5).put("research_catalog_harvestable", true).put("mob_dead", true)
+        assertFalse(AlbionSpatialIntelligence.isNavigableResource(dead))
+    }
 }
