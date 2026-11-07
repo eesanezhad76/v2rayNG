@@ -11,6 +11,8 @@ import kotlin.math.roundToInt
 
 /** Transparent resource radar using a north-up, east-right world-coordinate projection. */
 class AlbionMiniRadarView(context: Context) : View(context) {
+    private data class TemporaryMark(val x: Double, val y: Double, val regionId: String, val expiresAtMs: Long)
+    private val temporaryMarks = ArrayList<TemporaryMark>()
     private var entities: List<JSONObject> = emptyList()
     private var catalogEntities: List<JSONObject> = emptyList()
     private var enabledFilters: Set<String> = DEFAULT_FILTERS
@@ -61,6 +63,44 @@ class AlbionMiniRadarView(context: Context) : View(context) {
         filterCacheDirty = true
         invalidate()
         return catalogEntities.size
+    }
+
+    /** Mark currently discovered, useful resource positions for a short revisit window. */
+    fun markCurrentResources(selectedFilters: Set<String>, ttlMs: Long): Int {
+        if (ttlMs <= 0L) return 0
+        val player = entities.asSequence()
+            .filter { it.optString("last_kind") == "own_player_move" && validPoint(it) }
+            .maxByOrNull { it.optLong("last_seen_ms") }
+        val regionId = player?.optString("region_id").orEmpty()
+        if (regionId.isBlank()) return 0
+        val oldFilters = enabledFilters
+        enabledFilters = selectedFilters.toSet()
+        val now = android.os.SystemClock.elapsedRealtime()
+        val candidates = try {
+            entities.filter { item ->
+                item.optString("last_kind") in RESOURCE_KINDS &&
+                    item.optString("region_id") == regionId &&
+                    validPoint(item) && !isUnavailableResource(item) &&
+                    passesFilters(item) && AlbionSpatialIntelligence.isNavigableResource(item)
+            }
+        } finally {
+            enabledFilters = oldFilters
+        }
+        var added = 0
+        candidates.forEach { item ->
+            val x = item.optDouble("x")
+            val y = item.optDouble("y")
+            val exists = temporaryMarks.any {
+                it.regionId == regionId && hypot(it.x - x, it.y - y) <= 1.5
+            }
+            if (!exists) {
+                temporaryMarks.add(TemporaryMark(x, y, regionId, now + ttlMs))
+                added++
+            }
+        }
+        while (temporaryMarks.size > 500) temporaryMarks.removeAt(0)
+        invalidate()
+        return added
     }
 
     fun setPreviousRegionSnapshot(json: String, enabled: Boolean) {
@@ -403,6 +443,44 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                     canvas.drawCircle(x, y, 7f * density, paint)
                 }
             }
+            // Temporary sweep marks are small triangles. They disappear when a real,
+            // typed node is observed at the same position; the real node keeps its enchant color.
+            val markNow = android.os.SystemClock.elapsedRealtime()
+            temporaryMarks.removeAll { it.expiresAtMs <= markNow }
+            temporaryMarks.filter { it.regionId == currentRegionId }.forEach { mark ->
+                val actualNodeAppeared = resources.any { node ->
+                    val dxNode = node.optDouble("x") - mark.x
+                    val dyNode = node.optDouble("y") - mark.y
+                    hypot(dxNode, dyNode) <= 2.5 &&
+                        (node.optString("last_kind") in setOf("harvestable", "resource_state") ||
+                            (node.optInt("tier", -1) in 2..8 && node.optInt("family", -1) >= 0 &&
+                                node.optString("evidence_grade") != "candidate"))
+                }
+                if (!actualNodeAppeared) {
+                    val dx = mark.x - px
+                    val dy = mark.y - py
+                    val distance = hypot(dx, dy)
+                    val factor = if (distance > displayRange) displayRange / distance else 1.0
+                    val (rx, ry) = rotateOffset(dx * factor, dy * factor)
+                    val mx = cx + (rx / displayRange * radius).toFloat()
+                    val my = cy + (ry / displayRange * radius).toFloat()
+                    val size = 3.6f * density
+                    val triangle = android.graphics.Path().apply {
+                        moveTo(mx, my - size)
+                        lineTo(mx - size * 0.86f, my + size * 0.65f)
+                        lineTo(mx + size * 0.86f, my + size * 0.65f)
+                        close()
+                    }
+                    paint.style = Paint.Style.FILL
+                    paint.color = 0xFFFFD166.toInt()
+                    canvas.drawPath(triangle, paint)
+                    paint.style = Paint.Style.STROKE
+                    paint.strokeWidth = 0.8f * density
+                    paint.color = 0xFF302414.toInt()
+                    canvas.drawPath(triangle, paint)
+                }
+            }
+
             // Previous visit nodes are shown only on demand as grey, non-actionable hints.
             if (showPreviousRegion) {
                 previousRegionEntities.forEach { archived ->

@@ -7,6 +7,8 @@ import android.app.Service
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.PixelFormat
+import android.graphics.Region
+import android.view.ViewTreeObserver
 import android.graphics.Typeface
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
@@ -48,6 +50,10 @@ class AlbionOverlayService : Service() {
     private lateinit var filterPanel: LinearLayout
     private lateinit var filterScroll: ScrollView
     private lateinit var filterButton: Button
+    private lateinit var markButton: Button
+    private var filterPanelMode = "FILTER"
+    private var markFilters = AlbionMiniRadarView.DEFAULT_FILTERS.toMutableSet()
+    private var markTtlMs = 10L * 60L * 1000L
     private lateinit var catalogButton: Button
     private lateinit var previousRegionButton: Button
     private var showingPreviousRegion = false
@@ -380,7 +386,16 @@ class AlbionOverlayService : Service() {
             typeface = Typeface.DEFAULT_BOLD; gravity = Gravity.CENTER
             includeFontPadding = false
         }
-        side.addView(dragTitle, LinearLayout.LayoutParams(-1, dp(17)))
+        dragTitle.background = GradientDrawable().apply {
+            shape = GradientDrawable.OVAL
+            setColor(0xFFE53935.toInt())
+            setStroke(dp(1), 0xFFFF8A80.toInt())
+        }
+        dragTitle.contentDescription = "Drag radar"
+        side.addView(dragTitle, LinearLayout.LayoutParams(dp(28), dp(28)).apply {
+            gravity = Gravity.CENTER_HORIZONTAL
+            bottomMargin = dp(2)
+        })
         catalogButton = compactButton("SAVED") {
             catalogOverviewMode = !catalogOverviewMode
             radarView.setCatalogOverviewMode(catalogOverviewMode)
@@ -393,7 +408,9 @@ class AlbionOverlayService : Service() {
         nextCatalogButton = compactButton("${catalogIndex + 1}/${catalogCaptures.length().coerceAtLeast(1)}") { showNextCatalog() }
         side.addView(nextCatalogButton, LinearLayout.LayoutParams(-1, dp(21)).apply { bottomMargin = dp(2) })
         filterButton = compactButton("FILTER") { toggleFilters() }
-        side.addView(filterButton, LinearLayout.LayoutParams(-1, dp(21)).apply { bottomMargin = dp(2) })
+        side.addView(filterButton, LinearLayout.LayoutParams(-1, dp(25)).apply { bottomMargin = dp(2) })
+        markButton = compactButton("MARK") { toggleMarkMenu() }
+        side.addView(markButton, LinearLayout.LayoutParams(-1, dp(25)).apply { bottomMargin = dp(2) })
         side.addView(compactButton("×") { removeRadarWindow() }, LinearLayout.LayoutParams(-1, dp(21)).apply { bottomMargin = dp(2) })
         catalogInfo = label("")
         catalogInfo.maxLines = 2
@@ -432,6 +449,16 @@ class AlbionOverlayService : Service() {
         }
         radarParams = params
         wm.addView(root, params)
+        // The radar is visually transparent and must not block game controls beneath it.
+        // Keep only the side controls and the red drag handle inside the touchable region.
+        root.viewTreeObserver.addOnComputeInternalInsetsListener { insets ->
+            val touchRegion = Region().apply {
+                set(dp(176), 0, dp(236), root.height.coerceAtLeast(dp(28)))
+                op(0, 0, dp(28), dp(28), Region.Op.UNION)
+            }
+            insets.setTouchableInsets(ViewTreeObserver.InternalInsetsInfo.TOUCHABLE_INSETS_REGION)
+            insets.touchableRegion.set(touchRegion)
+        }
         refreshScaledWindowBounds(content, root, params, 236)
         attachDrag(dragTitle, root, params)
         attachResize(grip, content, root, params, "radar_scale", 236)
@@ -513,6 +540,7 @@ class AlbionOverlayService : Service() {
     }
 
     private fun renderFilters() {
+        filterPanelMode = "FILTER"
         filterPanel.removeAllViews()
         filterPanel.addView(label("1 • RESOURCE / TARGET TYPE"))
         filterOptions.take(10).forEach { (key, label) ->
@@ -561,13 +589,93 @@ class AlbionOverlayService : Service() {
     }
 
     private fun toggleFilters() {
-        filterScroll.visibility = if (filterScroll.visibility == View.VISIBLE) View.GONE else View.VISIBLE
-        filterButton.text = if (filterScroll.visibility == View.VISIBLE) "HIDE" else "FILTER"
+        if (filterScroll.visibility == View.VISIBLE && filterPanelMode == "FILTER") {
+            filterScroll.visibility = View.GONE
+            filterButton.text = "FILTER"
+        } else {
+            filterPanelMode = "FILTER"
+            renderFilters()
+            filterScroll.visibility = View.VISIBLE
+            filterButton.text = "HIDE"
+            markButton.text = "MARK"
+        }
         radarParams?.let { params ->
             val content = radarContent
             val root = radarRoot
             if (content != null && root != null) refreshScaledWindowBounds(content, root, params, 236)
         }
+    }
+
+    private fun toggleMarkMenu() {
+        if (filterScroll.visibility == View.VISIBLE && filterPanelMode == "MARK") {
+            filterScroll.visibility = View.GONE
+            markButton.text = "MARK"
+        } else {
+            filterPanelMode = "MARK"
+            renderMarkFilters()
+            filterScroll.visibility = View.VISIBLE
+            markButton.text = "MARK*"
+            filterButton.text = "FILTER"
+        }
+        radarParams?.let { params ->
+            val content = radarContent
+            val root = radarRoot
+            if (content != null && root != null) refreshScaledWindowBounds(content, root, params, 236)
+        }
+    }
+
+    private fun renderMarkFilters() {
+        filterPanel.removeAllViews()
+        filterPanel.addView(label("MARK • RESOURCE / TARGET TYPE"))
+        filterOptions.take(10).forEach { (key, textLabel) ->
+            val check = CheckBox(this).apply {
+                text = textLabel; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
+                buttonTintList = ColorStateList.valueOf(0xFFFF8A80.toInt())
+                isChecked = key in markFilters; minHeight = dp(24); includeFontPadding = false
+                setOnCheckedChangeListener { _, checked ->
+                    if (checked) markFilters.add(key) else markFilters.remove(key)
+                }
+            }
+            filterPanel.addView(check, LinearLayout.LayoutParams(-1, dp(24)))
+        }
+        filterPanel.addView(label("TIER (NONE = ALL)"))
+        filterOptions.drop(10).take(7).forEach { (key, textLabel) ->
+            val check = CheckBox(this).apply {
+                text = textLabel; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
+                buttonTintList = ColorStateList.valueOf(0xFFFF8A80.toInt())
+                isChecked = key in markFilters; minHeight = dp(24); includeFontPadding = false
+                setOnCheckedChangeListener { _, checked ->
+                    if (checked) markFilters.add(key) else markFilters.remove(key)
+                }
+            }
+            filterPanel.addView(check, LinearLayout.LayoutParams(-1, dp(24)))
+        }
+        filterPanel.addView(label("ENCHANTMENT (NONE = ALL)"))
+        filterOptions.drop(17).forEach { (key, textLabel) ->
+            val check = CheckBox(this).apply {
+                text = textLabel; textSize = 9f; setTextColor(0xFFE3EDF5.toInt())
+                buttonTintList = ColorStateList.valueOf(0xFFFF8A80.toInt())
+                isChecked = key in markFilters; minHeight = dp(24); includeFontPadding = false
+                setOnCheckedChangeListener { _, checked ->
+                    if (checked) markFilters.add(key) else markFilters.remove(key)
+                }
+            }
+            filterPanel.addView(check, LinearLayout.LayoutParams(-1, dp(24)))
+        }
+        filterPanel.addView(label("MARK LIFETIME"))
+        val ttlRow = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        listOf(5L, 10L, 15L, 30L).forEach { minutes ->
+            ttlRow.addView(button("${minutes}m", markTtlMs == minutes * 60_000L) {
+                markTtlMs = minutes * 60_000L
+                renderMarkFilters()
+            }, LinearLayout.LayoutParams(0, dp(28), 1f).apply { rightMargin = dp(2) })
+        }
+        filterPanel.addView(ttlRow)
+        filterPanel.addView(button("MARK VISIBLE RESOURCES") {
+            val count = radarView.markCurrentResources(markFilters, markTtlMs)
+            Toast.makeText(this, if (count > 0) "Marked $count resource locations." else
+                "No matching useful resource locations in this region.", Toast.LENGTH_SHORT).show()
+        }, LinearLayout.LayoutParams(-1, dp(30)).apply { topMargin = dp(3) })
     }
 
     private fun loadStaticCatalog() {
