@@ -30,7 +30,7 @@ internal object AlbionMapProjection {
 
     // Independently calibrated movement transform. Do not replace these
     // values with the map constant or route movement through worldToScreen.
-    private const val MOVEMENT_CLOCKWISE_CALIBRATION_DEGREES = 49.819
+    internal const val MOVEMENT_CLOCKWISE_CALIBRATION_DEGREES = 45.0
     private val movementCalibrationRadians = Math.toRadians(MOVEMENT_CLOCKWISE_CALIBRATION_DEGREES)
     private val movementCalibrationCos = cos(movementCalibrationRadians)
     private val movementCalibrationSin = sin(movementCalibrationRadians)
