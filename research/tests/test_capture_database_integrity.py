@@ -83,7 +83,7 @@ class CaptureDatabaseIntegrityTests(unittest.TestCase):
         self.assertEqual(len(markers), manifest["manual_markers"]["total"])
         self.assertEqual(
             sum(r["event"] in {"gathering_completed", "node_depleted"} for r in markers),
-            manifest["manual_markers"]["completed_lifecycle_event_rows"],
+            manifest["manual_markers"]["completed_lifecycle_samples"],
         )
         mobile_ids = {r["mobile_type_id"] for r in mobs if r["mobile_type_id"] not in {"", "-1"}}
         self.assertEqual(len(mobile_ids), manifest["mobile_entities"]["distinct_mobile_type_ids"])
