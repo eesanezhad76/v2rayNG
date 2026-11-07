@@ -266,7 +266,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
             .mapNotNull { it.removePrefix("tier_").toIntOrNull() }.toSet()
         val markerTier = item.optInt("marker_tier", -1)
         val effectiveTier = if (markerTier >= 0) markerTier else item.optInt("tier", -1)
-        // Exact filtering excludes unknown metadata from a selected Tier/Enchantment subset.
+        // Known tiers obey the exact subset; unknown tier metadata remains visible to avoid false negatives.
         if (!AlbionSpatialIntelligence.passesTierFilter(effectiveTier, tierFilters)) return false
         val enchantFilters = enabledFilters.filter { it.startsWith("enchant_") }
             .mapNotNull { it.removePrefix("enchant_").toIntOrNull() }.filter { it in 0..3 }.toSet()
@@ -529,7 +529,7 @@ class AlbionMiniRadarView(context: Context) : View(context) {
                 }
             }
 
-            // Show only identity-backed Troll markers and database-confirmed Ore Elementals.
+            // Render only the mob categories enabled by the user; only eligible living targets navigate.
             visibleMobs.forEach { mob ->
                 val dx = mob.optDouble("x") - px
                 val dy = mob.optDouble("y") - py
