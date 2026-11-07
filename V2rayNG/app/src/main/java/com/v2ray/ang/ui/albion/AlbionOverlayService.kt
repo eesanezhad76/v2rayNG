@@ -49,6 +49,11 @@ class AlbionOverlayService : Service() {
     private lateinit var filterScroll: ScrollView
     private lateinit var filterButton: Button
     private lateinit var catalogButton: Button
+    private lateinit var previousRegionButton: Button
+    private var showingPreviousRegion = false
+    @Volatile private var activeRegionDisplay = "REGION • WAITING FOR JOIN"
+    private var lastRegionDisplaySnapshotJson: String? = null
+    private var lastRegionIdForUi: String? = null
     private lateinit var nextCatalogButton: Button
     private lateinit var catalogInfo: TextView
     private var catalogOverviewMode = false
@@ -117,6 +122,29 @@ class AlbionOverlayService : Service() {
                     // Keep historical nodes in SAVED overview only; LIVE uses live-session
                     // observations exclusively until a verified shared coordinate frame exists.
                     if (::radarView.isInitialized) acceptedCount = radarView.setLiveSnapshot(live)
+                    if (live != lastRegionDisplaySnapshotJson) {
+                        lastRegionDisplaySnapshotJson = live
+                        val liveRows = JSONArray(live)
+                        val playerRow = (0 until liveRows.length()).mapNotNull { liveRows.optJSONObject(it) }
+                            .filter { it.optString("last_kind") == "own_player_move" }
+                            .maxByOrNull { it.optLong("last_seen_ms") }
+                        val regionId = playerRow?.optString("region_id")?.takeIf { it.isNotBlank() }
+                        if (regionId != lastRegionIdForUi) {
+                            lastRegionIdForUi = regionId
+                            activeRegionDisplay = regionId?.let { "REGION • " + formatRegionLabel(it) } ?: "REGION • WAITING FOR JOIN"
+                            refreshHandler.post {
+                                if (showingPreviousRegion) {
+                                    showingPreviousRegion = false
+                                    if (::radarView.isInitialized) radarView.setPreviousRegionSnapshot("[]", false)
+                                    if (::previousRegionButton.isInitialized) previousRegionButton.text = "PREV"
+                                }
+                                if (!catalogOverviewMode && ::catalogInfo.isInitialized) {
+                                    catalogInfo.text = activeRegionDisplay
+                                    catalogInfo.visibility = View.VISIBLE
+                                }
+                            }
+                        }
+                    }
                     statusText = CoreServiceManager.getAlbionLiveKnowledgeSnapshot()
                         .replace('\n', ' ').replace('\r', ' ')
                 } catch (error: Exception) {
@@ -367,6 +395,8 @@ class AlbionOverlayService : Service() {
             updateCatalogInfo()
         }
         side.addView(catalogButton, LinearLayout.LayoutParams(-1, dp(21)).apply { bottomMargin = dp(2) })
+        previousRegionButton = compactButton("PREV") { togglePreviousRegion() }
+        side.addView(previousRegionButton, LinearLayout.LayoutParams(-1, dp(21)).apply { bottomMargin = dp(2) })
         nextCatalogButton = compactButton("${catalogIndex + 1}/${catalogCaptures.length().coerceAtLeast(1)}") { showNextCatalog() }
         side.addView(nextCatalogButton, LinearLayout.LayoutParams(-1, dp(21)).apply { bottomMargin = dp(2) })
         filterButton = compactButton("FILTER") { toggleFilters() }
@@ -635,12 +665,45 @@ class AlbionOverlayService : Service() {
     private fun updateCatalogInfo() {
         if (!::catalogInfo.isInitialized) return
         val capture = catalogCaptures.optJSONObject(catalogIndex)
-        catalogInfo.text = if (capture != null) {
-            "ZONE UNVERIFIED • ${capture.optString("archive")} / ${capture.optString("pcap")}"
-        } else "Saved capture coordinates are local to their source session"
-        catalogInfo.visibility = if (catalogOverviewMode) View.VISIBLE else View.GONE
+        catalogInfo.text = if (catalogOverviewMode) {
+            if (capture != null) "ZONE UNVERIFIED • " + capture.optString("archive") + " / " + capture.optString("pcap")
+            else "Saved capture coordinates are local to their source session"
+        } else activeRegionDisplay
+        catalogInfo.visibility = View.VISIBLE
     }
 
+    private fun formatRegionLabel(regionId: String): String = when {
+        regionId.startsWith("@MISTS@", ignoreCase = true) ->
+            "MISTS • " + regionId.substringAfter("@MISTS@").replace('_', ' ')
+        regionId.startsWith("MAP_", ignoreCase = true) ->
+            regionId.removePrefix("MAP_").replace('_', ' ')
+        regionId.toLongOrNull() != null -> "ZONE $regionId"
+        else -> regionId.replace('_', ' ')
+    }
+
+    private fun togglePreviousRegion() {
+        if (showingPreviousRegion) {
+            showingPreviousRegion = false
+            radarView.setPreviousRegionSnapshot("[]", false)
+            previousRegionButton.text = "PREV"
+            return
+        }
+        // Build the archived snapshot only on explicit request, never in the refresh loop.
+        snapshotHandler.post {
+            val previous = CoreServiceManager.getAlbionPreviousRegionJson()
+            refreshHandler.post {
+                val count = runCatching { JSONArray(previous).length() }.getOrDefault(0)
+                if (count == 0) {
+                    Toast.makeText(this, "No previous visit saved for this region.", Toast.LENGTH_SHORT).show()
+                } else {
+                    showingPreviousRegion = true
+                    radarView.setPreviousRegionSnapshot(previous, true)
+                    previousRegionButton.text = "LIVE"
+                    Toast.makeText(this, "Showing $count previous-visit hints (not live availability).", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
     private fun mergeCatalogAndLive(liveJson: String): String {
         val merged = JSONArray()
         val live = try { JSONArray(liveJson) } catch (_: Exception) { JSONArray() }

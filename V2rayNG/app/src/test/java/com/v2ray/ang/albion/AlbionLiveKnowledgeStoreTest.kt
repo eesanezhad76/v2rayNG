@@ -744,4 +744,38 @@ class AlbionLiveKnowledgeStoreTest {
         assertTrue(minedMob.optString("mob_state") == "mined", minedMob.toString())
     }
 
+    @Test fun returningToARegionStartsFreshLiveVisitAndRetainsPriorVisitOnDemand() {
+        val store = AlbionLiveKnowledgeStore(context(), 90_000L)
+        store.observe(90_100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 2, regionId = "4209"
+        )))
+        store.observe(90_200L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 11L,
+            typeId = 574, typeNumber = 29, tier = 5, enchant = 2, size = 0, x = 10f, y = 20f
+        )))
+        store.observe(91_000L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 2, regionId = "4210"
+        )))
+        store.observe(91_100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 22L,
+            typeId = 574, typeNumber = 29, tier = 5, enchant = 1, size = 3, x = 30f, y = 40f
+        )))
+        store.observe(92_000L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "region_change", eventCode = 2, regionId = "4209"
+        )))
+        store.observe(92_100L, listOf(AlbionEntityEventMapper.Observation(
+            kind = "harvestable", eventCode = 40, entityId = 11L,
+            typeId = 574, typeNumber = 29, tier = 5, enchant = 2, size = 4, x = 90f, y = 80f
+        )))
+        val live = org.json.JSONArray(store.snapshotJson())
+        assertEquals(1, live.length())
+        assertEquals(90.0, live.getJSONObject(0).optDouble("x"))
+        assertEquals(4, live.getJSONObject(0).optInt("amount"))
+        val previous = org.json.JSONArray(store.previousRegionSnapshotJson())
+        assertEquals(1, previous.length())
+        assertEquals(10.0, previous.getJSONObject(0).optDouble("x"))
+        assertTrue(previous.getJSONObject(0).optBoolean("archived_visit"))
+    }
+
+
 }
