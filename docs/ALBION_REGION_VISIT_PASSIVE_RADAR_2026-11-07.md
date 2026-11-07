@@ -15,3 +15,8 @@ Implementation commits: region identity isolation, previous-visit display, passi
 ## Performance and data-integrity
 
 No new network calls, active probes, packet polling, or background scan loops. The top-three ranking is passive O(n) work on the already-filtered snapshot. Archived nodes are explicitly stale hints, not live availability. Numeric region IDs display as `ZONE <id>`; MAP_/Mists IDs are prettified. This is not yet a verified numeric-ID-to-human-zone-name dictionary.
+
+
+## Follow-up validation
+
+- Updated projection unit tests to assert the existing capture-calibrated map rotation (49.819°) and independent movement transform (45°). The previous cardinal-axis expectations predated those calibrated transforms and caused the pre-change baseline CI run to fail.
