@@ -1,6 +1,6 @@
 # ZIP forensic inventory: archiveNew-extracted.zip
 
-- ZIP SHA-256: 24db1d3f49548874116a549d807c14c9e77922e32ab965c07dcd4ac6591c1d1b
+- ZIP SHA-256: 7e39e3fea84c4adc971acd12fa1ed557640ae04e854d78ad743ea514f8ed2f49
 
 ## Members
 - albion-1793779572842.pcap (62321764 bytes; SHA-256 ae456ec7e442cf9c87f5248f89ffb179108a59adc5cc3289541241e9656c43ec)

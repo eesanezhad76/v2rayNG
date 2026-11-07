@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-07T14:41:09.558221+00:00",
+  "generated_at_utc": "2026-11-07T19:08:21.456020+00:00",
   "branch": "albion-pattern-mining",
   "source_archives": [
     {
@@ -137,7 +137,7 @@
     {
       "archive": "archiveNew-extracted.zip",
       "bytes": 797747472,
-      "sha256": "24db1d3f49548874116a549d807c14c9e77922e32ab965c07dcd4ac6591c1d1b",
+      "sha256": "7e39e3fea84c4adc971acd12fa1ed557640ae04e854d78ad743ea514f8ed2f49",
       "members": 9,
       "pcaps": 4,
       "jsonl": 4,
@@ -218,7 +218,7 @@
           "mobile_type_id": "570",
           "display_name": "Critter Ore Mountain Green",
           "unique_name": "T3_MOB_CRITTER_ORE_MOUNTAIN_GREEN",
-          "pcap_lifecycle_records": 34,
+          "pcap_lifecycle_records": 43,
           "event40_node_records": 0
         },
         {
@@ -234,14 +234,14 @@
           "mobile_type_id": "572",
           "display_name": "Critter Ore Mountain Green",
           "unique_name": "T4_MOB_CRITTER_ORE_MOUNTAIN_GREEN",
-          "pcap_lifecycle_records": 42,
+          "pcap_lifecycle_records": 44,
           "event40_node_records": 0
         },
         {
           "mobile_type_id": "573",
           "display_name": "Ore Elemental",
           "unique_name": "T4_MOB_CRITTER_ORE_MOUNTAIN_RED",
-          "pcap_lifecycle_records": 210,
+          "pcap_lifecycle_records": 223,
           "event40_node_records": 0
         }
       ],
@@ -250,7 +250,7 @@
           "mobile_type_id": "574",
           "display_name": "Ore Elemental",
           "unique_name": "T5_MOB_CRITTER_ORE_MOUNTAIN_RED",
-          "pcap_lifecycle_records": 122,
+          "pcap_lifecycle_records": 125,
           "event40_node_records": 0
         }
       ],
@@ -298,17 +298,8 @@
       "archiveNew-extracted.zip": 1829
     },
     "distinct_mobile_type_ids": 124,
-    "dictionary_mapped_type_ids": 116,
-    "unmapped_mobile_type_ids": [
-      "1378",
-      "1396",
-      "1468",
-      "1486",
-      "1558",
-      "1576",
-      "1594",
-      "1648"
-    ],
+    "dictionary_mapped_type_ids": 124,
+    "unmapped_mobile_type_ids": [],
     "warning": "Event 123 living/mobile records; not every record is independently proven to be a hostile mob."
   },
   "combat": {
@@ -1909,13 +1900,13 @@
     },
     {
       "path": "research/database/albion-mobile-type-crosswalk-2026-11-03.csv",
-      "bytes": 14786,
-      "sha256": "9120ec13c6fd745831b85b51af35440b05bed4de9c8243209265cc71ab770edb"
+      "bytes": 16013,
+      "sha256": "37c64862933e321eaa4c019312966543c43b879f4336b8ef55d090946cbdbb15"
     },
     {
       "path": "research/database/albion-resource-node-catalog-2026-11-03.csv",
-      "bytes": 209322,
-      "sha256": "4ae7f075c94650fb2d4688470697a3966b44da056be835456700352b20d65de5"
+      "bytes": 232260,
+      "sha256": "42ea015a5511482db6a840f7ab3cacbd28bfa0dc2972022a63ef1c1f5d627e3b"
     },
     {
       "path": "research/database/albion-knowledge-bundle-import.json",

@@ -20,7 +20,7 @@ Consolidated index for all original ZIP archives. Raw ZIPs remain unchanged in r
 - User-confirmed T5.3 exception: entity 2788, family 27, coordinates (-379, -24); this does not classify all family-27 nodes.
 
 ## Mobs and Troll marker cycles
-- Event 123 living/mobile lifecycle records: **4,373**; distinct Mobile TypeIDs: **124**; dictionary mapped: **116/124**
+- Event 123 living/mobile lifecycle records: **4,373**; distinct Mobile TypeIDs: **124**; dictionary mapped: **124/124**
 - Operation 23 attack-target tracks: **38**; Event 3 target-position samples: **3007**
 - Manual marker records: **394**; completed lifecycle event rows (gathering_completed + node_depleted): **109**
 - Aggregate marker-target rows: **13**; by activity/confidence: Mobs|LOW: 1, Troll|HIGH: 7, Troll|LOW: 1, Troll|MEDIUM: 4
