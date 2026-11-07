@@ -1,17 +1,40 @@
 package com.v2ray.ang.ui.albion
 
 import org.json.JSONArray
+import kotlin.math.cos
 import kotlin.math.hypot
+import kotlin.math.sin
 
 /**
- * Shared world-to-screen transform for the mini radar and full map.
- * World coordinates map directly to a north-up screen: +X is right/east
- * and +Y is up/north. Movement direction uses the same transform as nodes.
+ * Shared calibrated world-to-screen transform for the mini radar and full map.
+ *
+ * AlbionRadar11 user-marked UP/DOWN trials in region 4207 produced four
+ * time-regression path bearings of 139.072, 140.011 (DOWN reversed),
+ * 139.954 and 140.238 degrees in world XY. Their mean is 139.819 degrees,
+ * or 49.819 degrees left of world north. The UP control was not traversed
+ * perfectly vertically, so inverse DOWN trials are included rather than
+ * assuming a 45-degree correction.
+ *
+ * Rotating screen-space offsets clockwise by 49.819 degrees aligns the
+ * measured user-UP axis with screen-up. Nodes, trails and movement arrows
+ * all use this same transform.
  */
 internal object AlbionMapProjection {
     data class Point(val x: Double, val y: Double)
 
-    fun worldToScreen(dx: Double, dy: Double): Point = Point(dx, -dy)
+    internal const val CLOCKWISE_CALIBRATION_DEGREES = 49.819
+    private val calibrationRadians = Math.toRadians(CLOCKWISE_CALIBRATION_DEGREES)
+    private val calibrationCos = cos(calibrationRadians)
+    private val calibrationSin = sin(calibrationRadians)
+
+    fun worldToScreen(dx: Double, dy: Double): Point {
+        val screenX = dx
+        val screenY = -dy
+        return Point(
+            screenX * calibrationCos - screenY * calibrationSin,
+            screenX * calibrationSin + screenY * calibrationCos
+        )
+    }
 
     fun movementDirection(
         history: JSONArray?,
