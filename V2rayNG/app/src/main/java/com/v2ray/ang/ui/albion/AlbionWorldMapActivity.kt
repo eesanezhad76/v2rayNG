@@ -20,6 +20,48 @@ class AlbionWorldMapActivity : Activity() {
     private val dataThread = android.os.HandlerThread("AlbionWorldMapData").apply { start() }
     private val dataHandler = Handler(dataThread.looper)
     private val refreshInFlight = java.util.concurrent.atomic.AtomicBoolean(false)
+    @Volatile private var regionNameIndex: org.json.JSONObject? = null
+
+    @Synchronized
+    private fun regionNameForId(regionId: String): String? {
+        val regions = regionNameIndex ?: runCatching {
+            val root = org.json.JSONObject(
+                assets.open("albion-region-name-index.json").bufferedReader().use { it.readText() }
+            )
+            root.optJSONObject("regions")
+        }.getOrNull()?.also { regionNameIndex = it } ?: return null
+        return regions.optString(regionId).takeIf { it.isNotBlank() && it != "null" }
+    }
+
+    private fun openFullZoneMap() {
+        val regionId = CoreServiceManager.getAlbionCurrentRegionId()
+            ?.trim()?.takeIf { it.isNotEmpty() }
+        if (regionId == null) {
+            android.widget.Toast.makeText(
+                this,
+                "No confirmed zone ID yet. Start capture and wait for the Join response.",
+                android.widget.Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+        val zoneName = regionNameForId(regionId)
+        if (zoneName == null) {
+            android.widget.Toast.makeText(
+                this,
+                "Zone $regionId is not in the bundled name index.",
+                android.widget.Toast.LENGTH_LONG
+            ).show()
+            return
+        }
+        val url = "https://albiononline.th.gl/maps/${android.net.Uri.encode(zoneName)}"
+        runCatching {
+            startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(url)))
+        }.onFailure {
+            android.widget.Toast.makeText(
+                this, "Could not open the external zone map.", android.widget.Toast.LENGTH_LONG
+            ).show()
+        }
+    }
     @Volatile private var showingSavedCatalog = false
     @Volatile private var fitNextLiveSnapshot = false
     private val refresh = object : Runnable {
@@ -39,7 +81,13 @@ class AlbionWorldMapActivity : Activity() {
                     mapView.fitToRegion()
                     fitNextLiveSnapshot = false
                 }
-                val statusText = if (!valid) "Invalid live knowledge snapshot"
+                val regionPrefix = if (showingSavedCatalog) "" else {
+                    CoreServiceManager.getAlbionCurrentRegionId()?.trim()
+                        ?.takeIf { it.isNotEmpty() }
+                        ?.let { id -> regionNameForId(id)?.let { "ZONE $id • $it • " } ?: "ZONE $id • " }
+                        .orEmpty()
+                }
+                val statusText = regionPrefix + if (!valid) "Invalid live knowledge snapshot"
                     else if (showingSavedCatalog) "SAVED CAPTURE • zone identity is not decoded • " + mapView.statusText()
                     else if (showingRegionScan) "REGION SCAN • " + (if (System.currentTimeMillis() < regionScanStartedAtMs + 60_000L) "collecting observations" else "finished and saved") + " • " + mapView.statusText()
                     else mapView.statusText()
@@ -119,6 +167,12 @@ class AlbionWorldMapActivity : Activity() {
         root.addView(mapActions, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         ))
+        root.addView(android.widget.Button(this).apply {
+            text = "OPEN FULL ZONE MAP • TH.GL"
+            setOnClickListener { openFullZoneMap() }
+        }, LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply { topMargin = 6 })
         regionScanButton = android.widget.Button(this).apply {
             text = "SCAN THIS REGION (60s)"
             setOnClickListener {
